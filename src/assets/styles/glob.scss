@@ -1,0 +1,127 @@
+/***** Variables *****/
+$xxs: 320px;
+$xs: 575px;
+$sm: 767px;
+$md: 991px;
+$lg: 1199px;
+$xl: 1440px;
+$xxl: 1920px;
+
+$colorDarkShade100: #1f2041;
+$colorDarkShade75: rgba(31, 32, 65, 0.75);
+$colorDarkShade50: rgba(31, 32, 65, 0.5);
+$colorDarkShade25: rgba(31, 32, 65, 0.25);
+$colorDarkShade15: rgba(31, 32, 65, 0.15);
+$colorDarkShade5: rgba(31, 32, 65, 0.05);
+$colorPurple: #bc9cff;
+$colorPurpleOpaque: rgba(188, 156, 255, 0.5);
+$colorBlue: #8ba4f9;
+$colorBlueOpaque: rgba(139, 164, 249, 0.5);
+$colorGreen: #6fcf97;
+$colorWhite: #ffffff;
+$colorLightBlue: #66d2ea;
+$gradientPurple: linear-gradient($colorPurple 0%, $colorBlue 100%);
+$gradientGreen: linear-gradient($colorGreen 0%, $colorLightBlue 100%);
+
+/***** Mixins *****/
+
+@mixin font-h1() {
+	font-family: "Montserrat", Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 29px;
+	color: $colorDarkShade100;
+}
+
+@mixin font-h2() {
+	font-family: "Montserrat", Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 19px;
+	line-height: 23px;
+	color: $colorDarkShade100;
+}
+
+@mixin font-h3() {
+	font-family: "Montserrat", Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	line-height: 15px;
+	color: $colorDarkShade100;
+	text-transform: uppercase;
+}
+
+@mixin font-body() {
+	font-family: "Montserrat", Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 24px;
+	color: $colorDarkShade75;
+}
+
+@mixin media-breakpoint-up($width) {
+	@media (min-width: $width + 1) {
+		@content;
+	}
+}
+
+@mixin media-breakpoint-down($width) {
+	@media (max-width: $width) {
+		@content;
+	}
+}
+
+@mixin media-breakpoint-between($min-width, $max-width) {
+	@media (min-width: $min-width + 1) and (max-width: $max-width) {
+		@content;
+	}
+}
+
+/***** Tag styles *****/
+html {
+	height: 100%; /* растягиваем страницу на весь экран */
+	width: 100%; /* растягиваем страницу на весь экран */
+	font-size: 16px;
+}
+body {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+	min-height: 100%; /* растягиваем тело сайта на весь экран */
+	width: 100%; /* растягиваем тело сайта на весь экран */
+	background: rgb(255, 255, 255);
+	min-width: 319px;
+}
+fieldset {
+	padding: 0;
+	margin: 0;
+	border: none;
+}
+
+button {
+	background: none;
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+img {
+	height: auto;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+p {
+	margin: 0;
+}
