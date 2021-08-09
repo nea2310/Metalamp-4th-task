@@ -1,10 +1,90 @@
 
 import './testslider.scss';
+
+//type CallbackFunction = (...args: any[]) => void;
+
+type ControlPosUpdated = (arg1: HTMLElement, arg2: number) => void;
+type ProgressBarUpdated = (arg1: string, arg2: string, arg3: IConf) => void;
+type ControlValueUpdated = (arg1: HTMLElement, arg2: string) => void;
+
+interface IConf {
+	bar: boolean
+	from: number
+	max: number
+	min: number
+	range: boolean
+	scale: boolean
+	step: number
+	target: string
+	tip: boolean
+	to: number
+	vertical: boolean
+}
+interface test {
+	cnt: string;
+	isMax: boolean;
+	isMin: boolean;
+	maxCnt: string;
+	minCnt: string;
+	text: string;
+	type: string;
+}
+
+interface IControlData {
+	currentControl: HTMLElement;
+	secondControl: HTMLElement;
+	currentControlFlag: boolean;
+}
+
+
 class sliderModel {
+	conf: IConf;
+	slider: HTMLElement;
+	leftControl: HTMLElement;
+	rightControl: HTMLElement;
+	scale: HTMLElement;
+	scaleWidth: number;
+	scaleHeight: number;
+	shift: number;
+	length: number;
+	minRangeVal: number;
+	maxRangeVal: number;
+	leftControlStartVal: number;
+	rightControlStartVal: number;
+	leftControlStartPos: number;
+	rightControlStartPos: number;
+	progressBarStartPos: number;
+	progressBarStartWidth: number;
+	stepLength: number;
+	text: number;
+	marksArr: { 'pos': number, 'text': number }[];
+	currentControl: HTMLElement;
+	secondControl: HTMLElement;
+	parentElement: HTMLElement;
+	currentControlFlag: boolean;
+	newPos: number;
+	changeMode: boolean;
+	switchToSingleMode: boolean;
+	switchToDoubleMode: boolean;
+	switchToVerticalMode: boolean;
+	switchToHorizontalMode: boolean;
+	pos: number;
+	edge: number;
+	secondControlPos: number;
+	parentPos: number;
+	newValue: string;
+	selectedWidth: string;
+	selectedPos: string;
+	сontrolPosUpdated: (arg1: HTMLElement, arg2: number) => void;
+	progressBarUpdated: (arg1: string, arg2: string, arg3: IConf) => void;
+	сontrolValueUpdated: (arg1: HTMLElement, arg2: string) => void;
+
+
+
 
 	/*Инициализация. Получаем элемент ползунка, определяем расположение ползунков и прогресс-бара в момент создания слайдера */
 
-	init(conf) {
+	init(conf: IConf): void {
 		this.conf = conf;
 
 		this.slider = document.querySelector(conf.target);
@@ -17,10 +97,12 @@ class sliderModel {
 
 		if (this.conf.vertical == true) {
 			this.shift = (this.leftControl.offsetHeight) / 2;
-			this.length = parseFloat(this.scaleHeight);
+			//this.length = parseFloat(this.scaleHeight);
+			this.length = this.scaleHeight;
 		} else {
 			this.shift = (this.leftControl.offsetWidth) / 2;
-			this.length = parseFloat(this.scaleWidth);
+			//this.length = parseFloat(this.scaleWidth);
+			this.length = this.scaleWidth;
 		}
 
 
@@ -31,10 +113,13 @@ class sliderModel {
 		this.leftControlStartVal = conf.from;
 		this.rightControlStartVal = conf.to;
 
+		console.log(this.leftControlStartVal);
+
 		this.leftControlStartPos =
-			this.computeControlPosFromVal(this.leftControlStartVal);// начальное положение левого ползунка на шкале
+			this.computeControlPosFromVal(this.leftControlStartVal, true, null);// начальное положение левого ползунка на шкале
 		this.rightControlStartPos =
-			this.computeControlPosFromVal(this.rightControlStartVal);// начальное положение правого ползунка на шкале
+			this.computeControlPosFromVal(this.rightControlStartVal, true, null);// начальное положение правого ползунка на шкале
+
 
 		if (this.conf.vertical == true) {
 			if (this.conf.range == true) {
@@ -61,14 +146,16 @@ class sliderModel {
 	}
 
 	//Получаем и сохраняем в объекте модели данные о перемещаемом ползунке (при перетягивании ползунка или клике по шкале)
-	getControlData(controlData) {
+	getControlData(controlData: IControlData) {
+		console.log(controlData);
+
 		this.currentControl = controlData.currentControl; // ползунок, за который тянут
 		this.secondControl = controlData.secondControl; // второй ползунок
 		this.parentElement = this.currentControl.parentElement;
 		this.currentControlFlag = controlData.currentControlFlag;
 	}
 
-	computeScaleMarks(conf) {
+	computeScaleMarks(conf: IConf): { 'pos': number, 'text': number }[] {
 		/*
 		расчет делений шкалы:
 		(conf.max - conf.min) - кол-во единичных интервалов
@@ -82,7 +169,8 @@ class sliderModel {
 		while (this.length >= this.stepLength) {
 			let pos;
 			if (conf.vertical == true) {
-				pos = parseFloat(this.scaleHeight) *
+				//	pos = parseFloat(this.scaleHeight) *
+				pos = this.scaleHeight *
 					(this.text - conf.min) / (conf.max - conf.min);
 			} else {
 				pos = (this.text - conf.min) *
@@ -97,21 +185,22 @@ class sliderModel {
 	}
 
 	//Рассчитываем положение ползунка на основании значения, введенного в панели конфигурирования или в объекте конфигурации
-	computeControlPosFromVal(val, isInitialRendering = true, control) {
+	computeControlPosFromVal(val: number, isInitialRendering: boolean = true, control: HTMLElement): number {
 
+		console.log(control);
 
-		if (parseInt(val) != this.minRangeVal) {
+		if (val != this.minRangeVal) {
 			if (this.conf.vertical) {
 				this.newPos = (this.scaleHeight *
-					((parseInt(val) - this.minRangeVal)) /
+					(val - this.minRangeVal) /
 					(this.maxRangeVal - this.minRangeVal)) - this.shift;
 
 
 
 			} else {
-				this.newPos = ((parseInt(val) - this.minRangeVal) *
+				this.newPos = (val - this.minRangeVal) *
 					this.scaleWidth /
-					(this.maxRangeVal - this.minRangeVal)) - this.shift;
+					(this.maxRangeVal - this.minRangeVal) - this.shift;
 			}
 		}
 		else {
@@ -156,14 +245,17 @@ class sliderModel {
 
 
 	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале
-	computeControlPosFromEvent(e) {
+	computeControlPosFromEvent(e: MouseEvent): void {
 		/*Определяем положение мыши в зависимости от устройства*/
 		/*На мобильных устройствах может фиксироваться несколько точек касания, поэтому используется массив targetTouches*/
 		/*Мы будем брать только первое зафиксированое касание по экрану targetTouches[0]*/
 
+		const target = e.target as HTMLInputElement;
+
+
 		if (e.type == 'change') {//если переключили чекбокс на панели конфигурации (например смена режима Double -> Single)
 			this.changeMode = true;
-			if (e.target.classList.contains('rs__rangeModeToggle')) { //меняется режим double->single или наоборот
+			if (target.classList.contains('rs__rangeModeToggle')) { //меняется режим double->single или наоборот
 				if (this.rightControl.classList.contains('hidden')) {
 					this.switchToSingleMode = true;
 					this.switchToDoubleMode = false;
@@ -175,7 +267,7 @@ class sliderModel {
 
 			}
 
-			if (e.target.classList.contains('rs__verticalModeToggle')) { //меняется режим vertical->horizontal или наоборот
+			if (target.classList.contains('rs__verticalModeToggle')) { //меняется режим vertical->horizontal или наоборот
 			}
 		}
 
@@ -260,14 +352,14 @@ class sliderModel {
 	computeProgressBar() {
 		if (!this.changeMode) { //Если это не переключение режима
 			if (this.conf.vertical == true) {//вертикальный слайдер
-				this.secondControlPos = this.secondControl.style.bottom;
+				this.secondControlPos = parseInt(this.secondControl.style.bottom);
 			} else {// горизонтальный слайдер
-				this.secondControlPos = this.secondControl.style.left;
+				this.secondControlPos = parseInt(this.secondControl.style.left);
 			}
 			//режим Double
 			if (!this.rightControl.classList.contains('hidden')) {
 				this.selectedWidth =
-					Math.abs(parseFloat(this.secondControlPos) -
+					Math.abs(this.secondControlPos -
 						this.newPos) + "px";
 				if (!this.currentControlFlag) { //перемещатся левый ползунок
 					this.selectedPos = this.newPos + this.shift * 2 + "px";
@@ -279,12 +371,12 @@ class sliderModel {
 			} else {
 				if (this.conf.vertical == true) {
 					console.log(this.selectedPos);
-					this.selectedPos = 0;
+					this.selectedPos = '0px';
 					this.selectedWidth = this.leftControl.style.bottom;
 				}
 
 				else {
-					this.selectedPos = 0;
+					this.selectedPos = '0px';
 					this.selectedWidth = this.newPos + "px";
 				}
 			}
@@ -293,14 +385,14 @@ class sliderModel {
 		else if (this.changeMode) {// если это переключение режима
 			if (this.conf.vertical == true) {// вертикальный слайдер
 				if (this.switchToSingleMode) {//переключение в Single режим
-					this.selectedPos = 0;
+					this.selectedPos = '0';
 					this.selectedWidth =
-						parseInt(this.leftControl.style.bottom);
+						this.leftControl.style.bottom;
 				}
 				else if (this.switchToDoubleMode) {//переключение в Double режим
 					this.selectedPos = this.leftControl.style.bottom;
 					this.selectedWidth =
-						(parseInt(this.rightControl.style.bottom) -
+						String(parseInt(this.rightControl.style.bottom) -
 							parseInt(this.leftControl.style.bottom));
 				}
 				else if (this.switchToVerticalMode) {//переключение в вертикальный режим
@@ -309,11 +401,11 @@ class sliderModel {
 				}
 			} else {// горизонтальный слайдер
 				if (this.switchToSingleMode) {//переключение в Single режим
-					this.selectedPos = 0;
+					this.selectedPos = '0';
 					this.selectedWidth = this.leftControl.style.left;
 				}
 				else if (this.switchToDoubleMode) {//переключение в Double режим
-					this.selectedPos = parseFloat(this.leftControl.style.left);
+					this.selectedPos = String(parseFloat(this.leftControl.style.left));
 					this.selectedWidth =
 						parseFloat(this.rightControl.style.left) -
 						parseFloat(this.leftControl.style.left) + 'px';
@@ -330,16 +422,16 @@ class sliderModel {
 
 
 	//Вызываем для обновления положения ползунка (обращение к контроллеру)
-	bindControlPosUpdated(callback) {
+	bindControlPosUpdated(callback: ControlPosUpdated) {
 		this.сontrolPosUpdated = callback;
 	}
 
 	//Вызываем для обновления положения прогресс-бара (обращение к контроллеру)
-	bindprogressBarUpdated(callback) {
+	bindprogressBarUpdated(callback: ProgressBarUpdated) {
 		this.progressBarUpdated = callback;
 	}
 	//Вызываем для обновления значения ползунка (обращение к контроллеру)
-	bindСontrolValueUpdated(callback) {
+	bindСontrolValueUpdated(callback: ControlValueUpdated) {
 		this.сontrolValueUpdated = callback;
 	}
 }
