@@ -1,26 +1,39 @@
 
+import { ModuleBody } from 'typescript';
 import './testslider.scss';
 
-//type CallbackFunction = (...args: any[]) => void;
+//type CBNoArgs  = (...args: any[]) => void;
+type CBNoArgs = () => void;
+type CBControlElements = (arg1: IControlElements) => void;
+type CBMouseEvent = (arg1: MouseEvent) => void;
+type CBPointerEvent = (arg1: PointerEvent) => void;
+type CBEvent = (arg1: Event) => void;
+type CBStringEvent = (arg1: string, arg2: Event) => void;
+type CBStringPointerEvent = (arg1: string, arg2: PointerEvent) => void;
+//type CBChangeEvent = (arg1: ChangeEvent) => void;
+type CBInputEvent = (arg1: InputEvent) => void;
+type CBStringInputEvent = (arg1: string, arg2: InputEvent) => void;
+
+
 
 type ControlPosUpdated = (arg1: HTMLElement, arg2: number) => void;
 type ProgressBarUpdated = (arg1: string, arg2: string, arg3: IConf) => void;
 type ControlValueUpdated = (arg1: HTMLElement, arg2: string) => void;
 
 interface IConf {
-	bar: boolean
-	from: number
-	max: number
-	min: number
-	range: boolean
-	scale: boolean
-	step: number
-	target: string
-	tip: boolean
-	to: number
-	vertical: boolean
+	bar?: boolean
+	from?: number
+	max?: number
+	min?: number
+	range?: boolean
+	scale?: boolean
+	step?: number
+	target?: string
+	tip?: boolean
+	to?: number
+	vertical?: boolean
 }
-interface test {
+interface IControlData {
 	cnt: string;
 	isMax: boolean;
 	isMin: boolean;
@@ -30,10 +43,16 @@ interface test {
 	type: string;
 }
 
-interface IControlData {
-	currentControl: HTMLElement;
-	secondControl: HTMLElement;
-	currentControlFlag: boolean;
+interface IControlElements {
+	currentControl?: HTMLElement;
+	secondControl?: HTMLElement;
+	currentControlFlag?: boolean;
+}
+
+
+interface IScaleMarks {
+	pos: number;
+	text: number;
 }
 
 
@@ -118,7 +137,8 @@ class sliderModel {
 		this.leftControlStartPos =
 			this.computeControlPosFromVal(this.leftControlStartVal, true, null);// начальное положение левого ползунка на шкале
 		this.rightControlStartPos =
-			this.computeControlPosFromVal(this.rightControlStartVal, true, null);// начальное положение правого ползунка на шкале
+			this.computeControlPosFromVal(this.rightControlStartVal,
+				true, null);// начальное положение правого ползунка на шкале
 
 
 		if (this.conf.vertical == true) {
@@ -146,7 +166,7 @@ class sliderModel {
 	}
 
 	//Получаем и сохраняем в объекте модели данные о перемещаемом ползунке (при перетягивании ползунка или клике по шкале)
-	getControlData(controlData: IControlData) {
+	getControlData(controlData: IControlElements) {
 		console.log(controlData);
 
 		this.currentControl = controlData.currentControl; // ползунок, за который тянут
@@ -185,7 +205,8 @@ class sliderModel {
 	}
 
 	//Рассчитываем положение ползунка на основании значения, введенного в панели конфигурирования или в объекте конфигурации
-	computeControlPosFromVal(val: number, isInitialRendering: boolean = true, control: HTMLElement): number {
+	computeControlPosFromVal(val: number,
+		isInitialRendering: boolean = true, control: HTMLElement): number {
 
 		console.log(control);
 
@@ -244,13 +265,15 @@ class sliderModel {
 
 
 
+
 	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале
 	computeControlPosFromEvent(e: MouseEvent): void {
 		/*Определяем положение мыши в зависимости от устройства*/
 		/*На мобильных устройствах может фиксироваться несколько точек касания, поэтому используется массив targetTouches*/
 		/*Мы будем брать только первое зафиксированое касание по экрану targetTouches[0]*/
 
-		const target = e.target as HTMLInputElement;
+		const target = e.target as HTMLElement;
+		//	const touch = e.touches
 
 
 		if (e.type == 'change') {//если переключили чекбокс на панели конфигурации (например смена режима Double -> Single)
@@ -280,8 +303,9 @@ class sliderModel {
 			this.switchToHorizontalMode = false;
 
 			if (this.conf.vertical) {
-				e.touches === undefined ? this.pos = e.clientY : this.pos =
-					e.targetTouches[0].clientY;
+				// e.touches === undefined ? this.pos = e.clientY : this.pos =
+				// 	e.targetTouches[0].clientY;
+				this.pos = e.clientY;
 				this.edge = this.parentElement.offsetHeight;
 				this.secondControlPos =
 					this.secondControl.getBoundingClientRect().top;
@@ -291,8 +315,9 @@ class sliderModel {
 
 				this.newPos = this.parentPos - this.pos - this.shift;
 			} else {
-				e.touches === undefined ? this.pos = e.clientX :
-					this.pos = e.targetTouches[0].clientX;
+				// e.touches === undefined ? this.pos = e.clientX :
+				// 	this.pos = e.targetTouches[0].clientX;
+				this.pos = e.clientX;
 				this.edge = this.parentElement.offsetWidth;
 				this.secondControlPos =
 					this.secondControl.getBoundingClientRect().left;
@@ -352,7 +377,8 @@ class sliderModel {
 	computeProgressBar() {
 		if (!this.changeMode) { //Если это не переключение режима
 			if (this.conf.vertical == true) {//вертикальный слайдер
-				this.secondControlPos = parseInt(this.secondControl.style.bottom);
+				this.secondControlPos =
+					parseInt(this.secondControl.style.bottom);
 			} else {// горизонтальный слайдер
 				this.secondControlPos = parseInt(this.secondControl.style.left);
 			}
@@ -405,7 +431,8 @@ class sliderModel {
 					this.selectedWidth = this.leftControl.style.left;
 				}
 				else if (this.switchToDoubleMode) {//переключение в Double режим
-					this.selectedPos = String(parseFloat(this.leftControl.style.left));
+					this.selectedPos =
+						String(parseFloat(this.leftControl.style.left));
 					this.selectedWidth =
 						parseFloat(this.rightControl.style.left) -
 						parseFloat(this.leftControl.style.left) + 'px';
@@ -437,28 +464,31 @@ class sliderModel {
 }
 
 class sliderView {
-	constructor(root) {
+
+	slider: HTMLElement;
+
+	constructor(root: string) {
 		/*Находим корневой элемент*/
 		this.slider = document.querySelector(root);
 	}
 
 
 	//Вешаем обработчик события отпускания мыши
-	bindMouseUp(mouseUpHandler) {
+	bindMouseUp(mouseUpHandler: CBNoArgs) {
 		this.slider.addEventListener('mouseup', () => {
 			mouseUpHandler();
 		});
 	}
 
 	//Вешаем обработчик события завершения ресайза
-	bindWindowResize(handler) {
+	bindWindowResize(handler: CBNoArgs) {
 
 		window.addEventListener("resize", () => { //Подключаем событие изменения размеров окна
 			windowResizeStart(); //Вызываем функцию Обработки окна
 			return false;
 		});
 
-		let resizeTimeoutId; //Таймер задержки исполнения
+		let resizeTimeoutId: ReturnType<typeof setTimeout>; //Таймер задержки исполнения
 
 		function windowResizeStart() {
 			clearTimeout(resizeTimeoutId); //удаляем все предыдущие события "Дребезга контактов"
@@ -480,16 +510,30 @@ class sliderView {
 
 class sliderViewScale extends sliderView {
 
-	constructor(root) {
+	scale: HTMLElement;
+	scaleWidth: number;
+	scaleHeight: number;
+	progressBar: HTMLElement;
+	leftControl: HTMLElement;
+	rightControl: HTMLElement;
+	leftControlDist: number;
+	rightControlDist: number;
+	markList: HTMLElement[];
+
+	//markList: NodeList;
+
+
+
+	constructor(root: string) {
 		super(root);
 	}
 
 	// Инициализация
-	init(conf) {
+	init(conf: IConf) {
 		this.renderScale(conf);// шкала
 	}
 	//создаем шкалу
-	renderScale(conf) {
+	renderScale(conf: IConf) {
 		this.scale = document.createElement('div');
 		this.scale.className = 'rs__slider';
 		this.slider.append(this.scale);
@@ -519,11 +563,15 @@ class sliderViewScale extends sliderView {
 
 	//Вешаем обработчик клика по шкале
 
-	bindClickOnScale(firstEventHandler, secondEventHandler) {
+	bindClickOnScale(firstEventHandler: CBControlElements,
+		secondEventHandler: CBMouseEvent) {
 
 		this.slider.addEventListener('click', (e) => {
-			if (e.target.classList.contains('rs__slider') ||
-				e.target.classList.contains('rs__progressBar')) {
+
+			const target = e.target as HTMLElement;
+
+			if (target.classList.contains('rs__slider') ||
+				target.classList.contains('rs__progressBar')) {
 				this.leftControl =
 					this.slider.querySelector('.rs__control-min');
 				this.rightControl =
@@ -547,7 +595,7 @@ class sliderViewScale extends sliderView {
 						getBoundingClientRect().bottom - e.clientY);
 				}
 
-				let controlData = {};
+				let controlData: IControlElements = {};
 				if (this.rightControl.classList.contains('hidden')) {
 					controlData.currentControl = this.leftControl;
 					controlData.secondControl = this.rightControl;
@@ -575,7 +623,7 @@ class sliderViewScale extends sliderView {
 	}
 
 	/*красим Progress Bar (вызывается из контроллера)*/
-	updateProgressBar(pos, length, conf) {
+	updateProgressBar(pos: string, length: string, conf: IConf) {
 		if (!conf.vertical) {
 			this.progressBar.style.left = pos;
 			this.progressBar.style.width = length;
@@ -585,9 +633,8 @@ class sliderViewScale extends sliderView {
 		}
 	}
 
-
-
-	updateScaleMarks(scaleMarks, conf) {
+	updateScaleMarks(scaleMarks: { 'pos': number, 'text': number }[],
+		conf: IConf) {
 		if (this.markList) {
 			for (let elem of this.markList) {
 				elem.remove();
@@ -595,26 +642,28 @@ class sliderViewScale extends sliderView {
 		}
 		for (let node of scaleMarks) {
 			let elem = document.createElement('div');
-			elem.innerText = node.text;
+			elem.innerText = String(node.text);
 			elem.classList.add('rs__mark');
 			if (conf.vertical == true) {
 				elem.classList.add('vertical');
-				elem.style.bottom = node.pos;
+				elem.style.bottom = String(node.pos);
 			} else {
 				elem.classList.add('horizontal');
-				elem.style.left = node.pos;
+				elem.style.left = String(node.pos);
 			}
 			if (!conf.scale) {
 				elem.classList.add('hidden');
 			}
 			this.scale.appendChild(elem);
 		}
-		this.markList = this.scale.querySelectorAll('.rs__mark');
+		//this.markList = [...this.scale.querySelectorAll('.rs__mark')];
+		this.markList =
+			[...this.scale.querySelectorAll<HTMLElement>('.rs__mark')];
 	}
 
 
 
-	updateScaleMode(isScale) {
+	updateScaleMode(isScale: boolean) {
 		if (isScale) {
 			for (let elem of this.markList) {
 				elem.classList.remove('hidden');
@@ -625,30 +674,38 @@ class sliderViewScale extends sliderView {
 			}
 		}
 	}
-	updateBarMode(isBar) {
+	updateBarMode(isBar: boolean) {
 		isBar ? this.progressBar.classList.remove('hidden') :
 			this.progressBar.classList.add('hidden');
 	}
 }
 
 class sliderViewDoubleControl extends sliderView {
-	constructor(root) {
+	conf: IConf;
+
+	leftControl: HTMLElement;
+	rightControl: HTMLElement;
+	leftTip: HTMLInputElement;
+	rightTip: HTMLInputElement;
+	scale: Element;
+
+	constructor(root: string) {
 		super(root);
 	}
 	// Инициализация
-	init(conf) {
+	init(conf: IConf) {
 		this.conf = conf;
 		this.renderLeftControl();
 		this.renderRightControl();
 	}
 	/*Создаем ползунок минимального значения*/
 	renderLeftControl() {
-		this.scale = this.slider.firstChild;
+		this.scale = this.slider.firstElementChild;
 		this.leftControl = document.createElement('div');
 		this.leftTip = document.createElement('input');
 		this.leftControl.className = 'rs__control rs__control-min';
 		this.leftTip.className = 'rs__tip rs__tip-min';
-		this.leftTip.value = this.conf.from;
+		this.leftTip.value = String(this.conf.from);
 		this.scale.append(this.leftControl);
 		this.leftControl.append(this.leftTip);
 
@@ -678,7 +735,7 @@ class sliderViewDoubleControl extends sliderView {
 
 		this.rightControl.className = 'rs__control rs__control-max';
 		this.rightTip.className = 'rs__tip rs__tip-max';
-		this.rightTip.value = this.conf.to;
+		this.rightTip.value = String(this.conf.to);
 
 
 
@@ -703,14 +760,19 @@ class sliderViewDoubleControl extends sliderView {
 
 	}
 
+
+
+
 	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
-	bindMoveControl(firstEventHandler, secondEventHandler) {
+	bindMoveControl(firstEventHandler: CBControlElements,
+		secondEventHandler: CBMouseEvent) {
 
 		this.slider.addEventListener('mousedown', (e) => {
-			if (e.target.classList.contains('rs__control')) {
-				let controlData = {};
+			const target = e.target as HTMLElement;
+			if (target.classList.contains('rs__control')) {
+				let controlData: IControlElements = {};
 				//определяем ползунок, за который тянут
-				controlData.currentControl = e.target;
+				controlData.currentControl = target;
 
 				//определяем второй ползунок
 				controlData.currentControl == this.leftControl ?
@@ -725,14 +787,14 @@ class sliderViewDoubleControl extends sliderView {
 
 				document.addEventListener('mousemove', secondEventHandler);// навешивание обработчика перемещения ползунка
 				//	document.addEventListener('mouseup', this.handleMouseUp);
-				document.addEventListener('touchmove', secondEventHandler);// навешивание обработчика перемещения ползунка
+				//document.addEventListener('touchmove', secondEventHandler);// навешивание обработчика перемещения ползунка
 				//	document.addEventListener('touchend', this.handleMouseUp);
 			}
 		});
 	}
 
 	//Обновляем позицию ползунка (вызывается через контроллер)
-	updateControlPos(elem, newPos) {
+	updateControlPos(elem: HTMLElement, newPos: number) {
 
 		if (newPos) {
 			if (!this.conf.vertical) {
@@ -747,16 +809,16 @@ class sliderViewDoubleControl extends sliderView {
 
 	//Обновляем значение tip
 
-	updateTipVal(val, isFrom) {
+	updateTipVal(val: string, isFrom: boolean) {
 		isFrom ? this.leftTip.value = val : this.rightTip.value = val;
 	}
 
-	updateVerticalMode(isVertical) {
+	updateVerticalMode(isVertical: boolean) {
 		isVertical ? console.log('VERTICALMODE') :
 			console.log('HORIZONTALMODE');
 	}
 
-	updateRangeMode(isDouble) {
+	updateRangeMode(isDouble: boolean) {
 		if (isDouble) {
 			this.rightControl.classList.remove('hidden');
 			if (this.conf.tip) {
@@ -768,7 +830,7 @@ class sliderViewDoubleControl extends sliderView {
 		}
 	}
 
-	updateTipMode(isTip) {
+	updateTipMode(isTip: boolean) {
 		if (isTip) {
 			this.rightTip.classList.remove('hidden');
 			this.leftTip.classList.remove('hidden');
@@ -781,10 +843,51 @@ class sliderViewDoubleControl extends sliderView {
 
 
 class sliderViewPanel extends sliderView {
-	constructor(root) {
+	conf: IConf;
+	panelWrapper: HTMLElement;
+	panelTop: HTMLElement;
+	panelBottom: HTMLElement;
+	minLabel: HTMLElement;
+	minInput: HTMLInputElement;
+	maxLabel: HTMLElement;
+	maxInput: HTMLInputElement;
+	stepLabel: HTMLElement;
+	stepInput: HTMLInputElement;
+	fromLabel: HTMLElement;
+	fromInput: HTMLInputElement;
+	toLabel: HTMLElement;
+	toInput: HTMLInputElement;
+	isVerticalToggle: HTMLElement;
+	isVerticalToggleInput: HTMLInputElement;
+	isVerticalToggleSpan: HTMLElement;
+	isVerticalToggleLabel: HTMLElement;
+	leftControlStartVal: number;
+	rightControlStartVal: number;
+	isRangeToggle: HTMLElement;
+	isRangeToggleInput: HTMLInputElement;
+	isRangeToggleSpan: HTMLElement;
+	isRangeToggleLabel: HTMLElement;
+	isScaleToggle: HTMLElement;
+	isScaleToggleInput: HTMLInputElement;
+	isScaleToggleSpan: HTMLElement;
+	isScaleToggleLabel: HTMLElement;
+	isBarToggle: HTMLElement;
+	isBarToggleInput: HTMLInputElement;
+	isBarToggleLabel: HTMLElement;
+	isBarToggleSpan: HTMLElement;
+	isTipToggle: HTMLElement;
+	isTipToggleInput: HTMLInputElement;
+	isTipToggleSpan: HTMLElement;
+	isTipToggleLabel: HTMLElement;
+
+
+
+
+
+	constructor(root: string) {
 		super(root);
 	}
-	init(conf) {
+	init(conf: IConf) {
 		this.conf = conf;
 		this.renderPanelWrapper();
 		this.renderMinInput();
@@ -818,7 +921,7 @@ class sliderViewPanel extends sliderView {
 		this.minLabel = document.createElement('label');
 		this.minLabel.innerText = 'min';
 		this.minInput = document.createElement('input');
-		this.minInput.value = this.conf.min;
+		this.minInput.value = String(this.conf.min);
 		this.minInput.className = 'rs__input rs__input-min';
 		this.minLabel.append(this.minInput);
 		this.panelTop.append(this.minLabel);
@@ -829,7 +932,7 @@ class sliderViewPanel extends sliderView {
 		this.maxLabel = document.createElement('label');
 		this.maxLabel.innerText = 'max';
 		this.maxInput = document.createElement('input');
-		this.maxInput.value = this.conf.max;
+		this.maxInput.value = String(this.conf.max);
 		this.maxInput.className = 'rs__input rs__input-max';
 		this.maxLabel.append(this.maxInput);
 		this.panelTop.append(this.maxLabel);
@@ -840,7 +943,7 @@ class sliderViewPanel extends sliderView {
 		this.stepLabel = document.createElement('label');
 		this.stepLabel.innerText = 'step';
 		this.stepInput = document.createElement('input');
-		this.stepInput.value = this.conf.step;
+		this.stepInput.value = String(this.conf.step);
 		this.stepInput.className = 'rs__input rs__input-step';
 		this.stepLabel.append(this.stepInput);
 		this.panelTop.append(this.stepLabel);
@@ -852,7 +955,7 @@ class sliderViewPanel extends sliderView {
 		this.fromLabel = document.createElement('label');
 		this.fromLabel.innerText = 'from';
 		this.fromInput = document.createElement('input');
-		this.fromInput.value = this.conf.from;
+		this.fromInput.value = String(this.conf.from);
 		this.fromInput.className = 'rs__input rs__input-from';
 		this.fromLabel.append(this.fromInput);
 		this.leftControlStartVal = this.conf.from;
@@ -863,7 +966,7 @@ class sliderViewPanel extends sliderView {
 		this.toLabel = document.createElement('label');
 		this.toLabel.innerText = 'to';
 		this.toInput = document.createElement('input');
-		this.toInput.value = this.conf.to;
+		this.toInput.value = String(this.conf.to);
 		this.toInput.className = 'rs__input rs__input-to';
 		this.toLabel.append(this.toInput);
 		this.rightControlStartVal = this.conf.to;
@@ -879,7 +982,7 @@ class sliderViewPanel extends sliderView {
 		this.isVerticalToggleInput.type = 'checkbox';
 
 		if (this.conf.vertical == true) {
-			this.isVerticalToggleInput.checked = 'checked';
+			this.isVerticalToggleInput.checked = true;
 		} else {
 			this.isVerticalToggleInput.removeAttribute('checked');
 		}
@@ -897,7 +1000,7 @@ class sliderViewPanel extends sliderView {
 
 
 		if (this.conf.vertical == true) {
-			this.isVerticalToggleInput.checked = 'checked';
+			this.isVerticalToggleInput.checked = true;
 		} else {
 			this.isVerticalToggleInput.removeAttribute('checked');
 		}
@@ -913,7 +1016,7 @@ class sliderViewPanel extends sliderView {
 
 
 		if (this.conf.range == true) {
-			this.isRangeToggleInput.checked = 'checked';
+			this.isRangeToggleInput.checked = true;
 		} else {
 			this.isRangeToggleInput.removeAttribute('checked');
 		}
@@ -941,7 +1044,7 @@ class sliderViewPanel extends sliderView {
 		this.isScaleToggleInput.type = 'checkbox';
 
 		if (this.conf.scale == true) {
-			this.isScaleToggleInput.checked = 'checked';
+			this.isScaleToggleInput.checked = true;
 		} else {
 			this.isScaleToggleInput.removeAttribute('checked');
 		}
@@ -972,7 +1075,7 @@ class sliderViewPanel extends sliderView {
 		this.isBarToggleInput.type = 'checkbox';
 
 		if (this.conf.bar == true) {
-			this.isBarToggleInput.checked = 'checked';
+			this.isBarToggleInput.checked = true;
 		} else {
 			this.isBarToggleInput.removeAttribute('checked');
 		}
@@ -1001,7 +1104,7 @@ class sliderViewPanel extends sliderView {
 		this.isTipToggleInput.type = 'checkbox';
 
 		if (this.conf.tip == true) {
-			this.isTipToggleInput.checked = 'checked';
+			this.isTipToggleInput.checked = true;
 		} else {
 			this.isTipToggleInput.removeAttribute('checked');
 		}
@@ -1022,7 +1125,7 @@ class sliderViewPanel extends sliderView {
 
 
 	//ввод значения MIN/MAX
-	bindMinMaxChange(eventHandler) {
+	bindMinMaxChange(eventHandler: CBStringEvent) {
 		this.minInput.addEventListener('input', (e) => {
 			eventHandler(this.minInput.value, e);
 		});
@@ -1033,7 +1136,7 @@ class sliderViewPanel extends sliderView {
 	}
 
 	//ввод значения STEP
-	bindStepChange(eventHandler) {
+	bindStepChange(eventHandler: CBStringEvent) {
 		this.stepInput.addEventListener('input', (e) => {
 			eventHandler(this.stepInput.value, e);
 		});
@@ -1041,7 +1144,7 @@ class sliderViewPanel extends sliderView {
 
 
 	//ввод значения FROM/TO
-	bindFromToChange(eventHandler) {
+	bindFromToChange(eventHandler: CBStringEvent) {
 		this.fromInput.addEventListener('input', (e) => {
 			eventHandler(this.fromInput.value, e);
 		});
@@ -1055,7 +1158,8 @@ class sliderViewPanel extends sliderView {
 
 
 	//щелчок по чекбоксу VERTICAL
-	bindCheckIsVerticalControl(checkedEventHandler, notCheckedEventHandler) {
+	bindCheckIsVerticalControl(checkedEventHandler: CBEvent,
+		notCheckedEventHandler: CBEvent) {
 
 		this.isVerticalToggleInput.addEventListener('change', (e) => {
 			this.isVerticalToggleInput.checked ?
@@ -1064,8 +1168,8 @@ class sliderViewPanel extends sliderView {
 	}
 
 	//Эмуляция события ввода в инпут
-	createEvent(input) {
-		input.value = this.conf.min;
+	createEvent(input: HTMLInputElement) {
+		input.value = String(this.conf.min);
 		let event = new Event('input', {
 			bubbles: true,
 			cancelable: true,
@@ -1075,9 +1179,10 @@ class sliderViewPanel extends sliderView {
 
 
 	//щелчок по чекбоксу RANGE
-	bindCheckIsRangeControl(checkedEventHandler, notCheckedEventHandler) {
+	bindCheckIsRangeControl(checkedEventHandler: CBMouseEvent,
+		notCheckedEventHandler: CBMouseEvent) {
 
-		this.isRangeToggleInput.addEventListener('change', (e) => {
+		this.isRangeToggleInput.addEventListener('click', (e) => {
 
 
 			if (this.isRangeToggleInput.checked) {
@@ -1098,7 +1203,8 @@ class sliderViewPanel extends sliderView {
 
 
 	//щелчок по чекбоксу SCALE
-	bindCheckIsScaleControl(checkedEventHandler, notCheckedEventHandler) {
+	bindCheckIsScaleControl(checkedEventHandler: CBEvent,
+		notCheckedEventHandler: CBEvent) {
 
 		this.isScaleToggleInput.addEventListener('change', (e) => {
 			if (this.isScaleToggleInput.checked) {
@@ -1113,7 +1219,8 @@ class sliderViewPanel extends sliderView {
 
 
 	//щелчок по чекбоксу BAR
-	bindCheckIsBarControl(checkedEventHandler, notCheckedEventHandler) {
+	bindCheckIsBarControl(checkedEventHandler: CBEvent,
+		notCheckedEventHandler: CBEvent) {
 		this.isBarToggleInput.addEventListener('change', (e) => {
 			if (this.isBarToggleInput.checked) {
 				checkedEventHandler(e);
@@ -1127,7 +1234,8 @@ class sliderViewPanel extends sliderView {
 
 
 	//щелчок по чекбоксу TIP
-	bindCheckIsTipControl(checkedEventHandler, notCheckedEventHandler) {
+	bindCheckIsTipControl(checkedEventHandler: CBEvent,
+		notCheckedEventHandler: CBEvent) {
 		this.isTipToggleInput.addEventListener('change', (e) => {
 			if (this.isTipToggleInput.checked) {
 				checkedEventHandler(e);
@@ -1140,7 +1248,7 @@ class sliderViewPanel extends sliderView {
 
 
 	//Обновление значений инпутов FROM и TO при перемещении ползунков
-	updateFromTo(elem, newValue) {
+	updateFromTo(elem: HTMLElement, newValue: string) {
 		elem.classList.contains('rs__control-min') ?
 			this.fromInput.value = newValue : this.toInput.value = newValue;
 	}
@@ -1148,15 +1256,26 @@ class sliderViewPanel extends sliderView {
 
 
 class sliderController {
-	constructor(conf, root, view, viewScale,
-		viewDoubleControl, viewPanel, model) {
+	model: sliderModel;
+	view: sliderView;
+	viewScale: sliderViewScale;
+	viewDoubleControl: sliderViewDoubleControl;
+	viewPanel: sliderViewPanel;
+	conf: IConf;
+	defaultConf: IConf;
+	customConf: IConf;
+
+	constructor(conf: IConf, root: string,
+		view: sliderView, viewScale: sliderViewScale,
+		viewDoubleControl: sliderViewDoubleControl,
+		viewPanel: sliderViewPanel, model: sliderModel) {
 		this.model = model;
 		this.view = view;
 		this.viewScale = viewScale;
 		this.viewDoubleControl = viewDoubleControl;
 		this.viewPanel = viewPanel;
 		this.prepareConfiguration();
-		this.render(this.conf);
+		this.render();
 		this.init();
 
 
@@ -1206,10 +1325,10 @@ class sliderController {
 			this.model.rightControlStartPos); //передаем во view начальное положение левого ползунка
 
 
-		this.handleOnprogressBarUpdated(this.model.progressBarStartPos,
-			this.model.progressBarStartWidth, this.conf); // передаем во view начальное положение прогресс-бара
+		this.handleOnprogressBarUpdated(String(this.model.progressBarStartPos),
+			String(this.model.progressBarStartWidth), this.conf); // передаем во view начальное положение прогресс-бара
 
-		this.handleOnScaleMarksUpdated(this.model.marksArr, this.conf); // передаем во view начальное положение делений шкалы
+		this.handleOnScaleMarksUpdated(this.model.marksArr); // передаем во view начальное положение делений шкалы
 
 
 
@@ -1251,29 +1370,31 @@ class sliderController {
 	}
 
 	//вызываем метод GetControlData в модели
-	handleGetControlData = (controlData) => {
+	handleGetControlData = (controlData: IControlElements) => {
 		this.model.getControlData(controlData);
 	}
 
 
 	// вызываем метод computeControlPosFromEvent в модели
-	handlecomputeControlPosFromEvent = (e) => {
+	handlecomputeControlPosFromEvent = (e: MouseEvent) => {
 		this.model.computeControlPosFromEvent(e);
 	}
 
 
 	//вызываем метод updateСurrentControl в view
-	handleOnprogressBarUpdated = (selectedPos, selectedWidth, conf) => {
+	handleOnprogressBarUpdated = (selectedPos: string,
+		selectedWidth: string, conf: IConf) => {
 		this.viewScale.updateProgressBar(selectedPos, selectedWidth, conf);
 	}
 
 
-	handleOnScaleMarksUpdated = (scaleMarks) => {
-		this.viewScale.updateScaleMarks(scaleMarks, this.conf);
-	}
+	handleOnScaleMarksUpdated =
+		(scaleMarks: { 'pos': number, 'text': number }[]) => {
+			this.viewScale.updateScaleMarks(scaleMarks, this.conf);
+		}
 
 	//вызываем метод updateСurrentControl в view
-	handleOnControlPosUpdated = (elem, newPos) => {
+	handleOnControlPosUpdated = (elem: HTMLElement, newPos: number) => {
 		this.viewDoubleControl.updateControlPos(elem, newPos);
 	}
 
@@ -1291,14 +1412,14 @@ class sliderController {
 	}
 
 
-	handleIsRangeChecked = (e) => {
+	handleIsRangeChecked = (e: MouseEvent) => {
 		this.conf.range = true;
 		this.viewDoubleControl.updateRangeMode(true);
 		this.model.computeControlPosFromEvent(e);
 
 	}
 
-	handleIsRangeNotChecked = (e) => {
+	handleIsRangeNotChecked = (e: MouseEvent) => {
 		this.conf.range = false;
 		this.viewDoubleControl.updateRangeMode(false);
 		this.model.computeControlPosFromEvent(e);
@@ -1338,18 +1459,19 @@ class sliderController {
 		this.viewDoubleControl.updateTipMode(false);
 	}
 
-	handleFromToChanged = (val, e) => {
+	handleFromToChanged = (val: string, e: Event) => {
+		const target = e.target as HTMLElement;
 
-		if (e.target.classList.contains('rs__input-from')) {
+		if (target.classList.contains('rs__input-from')) {
 			console.log('FROM');
 			this.conf.from = parseInt(val);
-			this.model.computeControlPosFromVal(val,
+			this.model.computeControlPosFromVal(parseInt(val),
 				false, this.viewDoubleControl.leftControl);
 			this.viewDoubleControl.updateTipVal(val, true);
 		} else {
 			console.log('TO');
 			this.conf.to = parseInt(val);
-			this.model.computeControlPosFromVal(val,
+			this.model.computeControlPosFromVal(parseInt(val),
 				false, this.viewDoubleControl.rightControl);
 			this.viewDoubleControl.updateTipVal(val, false);
 		}
@@ -1357,7 +1479,7 @@ class sliderController {
 
 
 	//вызываем метод updateСurrentControl в view
-	handleOnСontrolValueUpdated = (elem, newValue) => {
+	handleOnСontrolValueUpdated = (elem: HTMLElement, newValue: string) => {
 		elem.classList.contains('rs__control-min') ?
 			this.conf.from = parseInt(newValue) :
 			this.conf.to = parseInt(newValue);
@@ -1367,18 +1489,19 @@ class sliderController {
 			this.viewDoubleControl.updateTipVal(newValue, false);
 	}
 
-	handleMinMaxChanged = (val, e) => {
+	handleMinMaxChanged = (val: string, e: Event) => {
+		const target = e.target as HTMLElement;
 
-		if (e.target.classList.contains('rs__input-min')) {
+		if (target.classList.contains('rs__input-min')) {
 
 			this.conf.min = parseInt(val);
-			this.model.computeControlPosFromVal(val, false,
+			this.model.computeControlPosFromVal(parseInt(val), false,
 				this.viewDoubleControl.leftControl);
 			this.viewDoubleControl.updateTipVal(val, true);
-		} else if (e.target.classList.contains('rs__input-max')) {
+		} else if (target.classList.contains('rs__input-max')) {
 
 			this.conf.max = parseInt(val);
-			this.model.computeControlPosFromVal(val, false,
+			this.model.computeControlPosFromVal(parseInt(val), false,
 				this.viewDoubleControl.rightControl);
 			this.viewDoubleControl.updateTipVal(val, false);
 		}
@@ -1386,7 +1509,7 @@ class sliderController {
 		this.handleWindowReRendering();
 	}
 
-	handleStepChanged = (val) => {
+	handleStepChanged = (val: string) => {
 		this.conf.step = parseInt(val);
 		//	console.log(this.conf);
 		this.model.computeScaleMarks(this.conf);
@@ -1400,8 +1523,8 @@ class sliderController {
 		document.removeEventListener('mousemove',
 			this.handlecomputeControlPosFromEvent);
 		//	document.removeEventListener('mouseup', this.handleMouseUp);
-		document.removeEventListener('touchmove',
-			this.handlecomputeControlPosFromEvent);
+		// document.removeEventListener('touchmove',
+		// 	this.handlecomputeControlPosFromEvent);
 		//	document.removeEventListener('touchend', this.handleMouseUp);
 	}
 
@@ -1421,6 +1544,7 @@ let conf = {
 	from: 2,
 	to: 7,
 	step: 1,
+	vertical: false
 };
 
 new sliderController(conf, root,
