@@ -188,14 +188,15 @@ class sliderController {
 	}
 
 
-	handleIsRangeChecked = (e: MouseEvent) => {
+	handleIsRangeChecked = (e: Event) => {
 		this.conf.range = true;
 		this.viewDoubleControl.updateRangeMode(true);
 		this.model.computeControlPosFromEvent(e);
 
 	}
 
-	handleIsRangeNotChecked = (e: MouseEvent) => {
+	handleIsRangeNotChecked = (e: Event) => {
+		console.log(e);
 		this.conf.range = false;
 		this.viewDoubleControl.updateRangeMode(false);
 		this.model.computeControlPosFromEvent(e);

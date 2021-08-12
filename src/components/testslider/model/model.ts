@@ -151,19 +151,14 @@ class sliderModel {
 				//	pos = parseFloat(this.scaleHeight) *
 				pos = parseFloat((this.scaleHeight *
 					(this.text - conf.min) / (conf.max - conf.min)).toFixed(1));
-
-
 			} else {
 				pos = parseFloat(((this.text - conf.min) *
 					this.scaleWidth / (conf.max - conf.min)).toFixed(1));
-				console.log(pos);
 			}
 			this.marksArr.push({ 'pos': pos, 'text': this.text });
 			this.length = this.length - this.stepLength;
 			this.text = parseFloat((this.text + conf.step).toFixed(1));
 		}
-		console.log(this.marksArr);
-
 		return this.marksArr;
 
 	}
@@ -229,7 +224,7 @@ class sliderModel {
 
 
 	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале
-	computeControlPosFromEvent(e: MouseEvent): void {
+	computeControlPosFromEvent(e: MouseEvent | Event): void {
 		/*Определяем положение мыши в зависимости от устройства*/
 		/*На мобильных устройствах может фиксироваться несколько точек касания, поэтому используется массив targetTouches*/
 		/*Мы будем брать только первое зафиксированое касание по экрану targetTouches[0]*/
@@ -238,7 +233,7 @@ class sliderModel {
 		//	const touch = e.touches
 
 
-		if (e.type == 'change') {//если переключили чекбокс на панели конфигурации (например смена режима Double -> Single)
+		if (e instanceof Event && e.type == 'change') {//если переключили чекбокс на панели конфигурации (например смена режима Double -> Single)
 			this.changeMode = true;
 			if (target.classList.contains('rs__rangeModeToggle')) { //меняется режим double->single или наоборот
 				if (this.rightControl.classList.contains('hidden')) {
@@ -256,8 +251,8 @@ class sliderModel {
 			}
 		}
 
-		else if (e.type == 'click' || e.type == 'mousemove') {//если потянули ползунок или кликнули по шкале
-
+		else if (e instanceof MouseEvent &&
+			(e.type == 'click' || e.type == 'mousemove')) {//если потянули ползунок или кликнули по шкале
 			this.changeMode = false;
 			this.switchToSingleMode = false;
 			this.switchToDoubleMode = false;
@@ -285,6 +280,12 @@ class sliderModel {
 					this.secondControl.getBoundingClientRect().left;
 				this.parentPos =
 					this.parentElement.getBoundingClientRect().left;
+
+				console.log('this.secondControlPos: ');
+				console.log(this.secondControlPos);
+				console.log('this.parentPos: ');
+				console.log(this.parentPos);
+
 
 				this.newPos = this.pos - this.parentPos - this.shift;
 			}
@@ -342,18 +343,29 @@ class sliderModel {
 				this.secondControlPos =
 					parseInt(this.secondControl.style.bottom);
 			} else {// горизонтальный слайдер
-				this.secondControlPos = parseInt(this.secondControl.style.left);
+				//	this.secondControlPos = parseInt(this.secondControl.style.left);
+
 			}
 			//режим Double
 			if (!this.rightControl.classList.contains('hidden')) {
+
+
 				this.selectedWidth =
 					Math.abs(this.secondControlPos -
 						this.newPos) + "px";
 				if (!this.currentControlFlag) { //перемещатся левый ползунок
 					this.selectedPos = this.newPos + this.shift * 2 + "px";
 				} else {//перемещатся правый ползунок
+
 					this.selectedPos =
 						this.secondControlPos - this.parentPos + "px";
+
+					console.log('this.secondControlPos: ');
+					console.log(this.secondControlPos);
+					console.log('this.parentPos: ');
+					console.log(this.parentPos);
+					console.log('this.selectedPos: ');
+					console.log(this.selectedPos);
 				}
 				//Режим Single
 			} else {

@@ -358,10 +358,10 @@ class sliderViewPanel extends sliderView {
 
 
 	//щелчок по чекбоксу RANGE
-	bindCheckIsRangeControl(checkedEventHandler: CBMouseEvent,
-		notCheckedEventHandler: CBMouseEvent) {
+	bindCheckIsRangeControl(checkedEventHandler: CBEvent,
+		notCheckedEventHandler: CBEvent) {
 
-		this.isRangeToggleInput.addEventListener('click', (e) => {
+		this.isRangeToggleInput.addEventListener('change', (e) => {
 
 
 			if (this.isRangeToggleInput.checked) {
