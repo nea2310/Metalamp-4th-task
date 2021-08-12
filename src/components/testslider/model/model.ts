@@ -95,8 +95,6 @@ class sliderModel {
 		this.leftControlStartVal = conf.from;
 		this.rightControlStartVal = conf.to;
 
-		console.log(this.leftControlStartVal);
-
 		this.leftControlStartPos =
 			this.computeControlPosFromVal(this.leftControlStartVal, true, null);// начальное положение левого ползунка на шкале
 		this.rightControlStartPos =
@@ -130,8 +128,6 @@ class sliderModel {
 
 	//Получаем и сохраняем в объекте модели данные о перемещаемом ползунке (при перетягивании ползунка или клике по шкале)
 	getControlData(controlData: IControlElements) {
-		console.log(controlData);
-
 		this.currentControl = controlData.currentControl; // ползунок, за который тянут
 		this.secondControl = controlData.secondControl; // второй ползунок
 		this.parentElement = this.currentControl.parentElement;
@@ -153,16 +149,21 @@ class sliderModel {
 			let pos;
 			if (conf.vertical == true) {
 				//	pos = parseFloat(this.scaleHeight) *
-				pos = this.scaleHeight *
-					(this.text - conf.min) / (conf.max - conf.min);
+				pos = parseFloat((this.scaleHeight *
+					(this.text - conf.min) / (conf.max - conf.min)).toFixed(1));
+
+
 			} else {
-				pos = (this.text - conf.min) *
-					this.scaleWidth / (conf.max - conf.min);
+				pos = parseFloat(((this.text - conf.min) *
+					this.scaleWidth / (conf.max - conf.min)).toFixed(1));
+				console.log(pos);
 			}
 			this.marksArr.push({ 'pos': pos, 'text': this.text });
 			this.length = this.length - this.stepLength;
-			this.text = this.text + conf.step;
+			this.text = parseFloat((this.text + conf.step).toFixed(1));
 		}
+		console.log(this.marksArr);
+
 		return this.marksArr;
 
 	}
@@ -170,8 +171,6 @@ class sliderModel {
 	//Рассчитываем положение ползунка на основании значения, введенного в панели конфигурирования или в объекте конфигурации
 	computeControlPosFromVal(val: number,
 		isInitialRendering: boolean = true, control: HTMLElement): number {
-
-		console.log(control);
 
 		if (val != this.minRangeVal) {
 			if (this.conf.vertical) {
