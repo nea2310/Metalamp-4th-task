@@ -14,7 +14,7 @@ import { sliderController } from './controller/controller';
 let root = '.rs__wrapper';
 
 let conf = {
-	min: 1,
+	min: -10,
 	max: 10,
 	from: 2,
 	to: 7,

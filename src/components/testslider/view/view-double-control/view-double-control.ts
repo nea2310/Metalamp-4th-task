@@ -29,6 +29,7 @@ class sliderViewDoubleControl extends sliderView {
 	leftTip: HTMLInputElement;
 	rightTip: HTMLInputElement;
 	scale: Element;
+	test: HTMLElement;
 
 	constructor(root: string) {
 		super(root);
@@ -49,6 +50,10 @@ class sliderViewDoubleControl extends sliderView {
 		this.leftTip.value = String(this.conf.from);
 		this.scale.append(this.leftControl);
 		this.leftControl.append(this.leftTip);
+
+		this.test = document.createElement('div');
+		this.test.className = 'test';
+		this.leftControl.append(this.test);
 
 		if (this.conf.tip == false) { // no tip mode
 			this.leftTip.classList.add('hidden');
@@ -105,15 +110,46 @@ class sliderViewDoubleControl extends sliderView {
 
 
 	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
-	bindMoveControl(firstEventHandler: CBControlElements,
-		secondEventHandler: CBMouseEvent) {
+	bindMoveControl(getControlData: CBControlElements,
+		computeControlPos: CBMouseEvent, removeListeners: CBMouseEvent) {
 
 		this.slider.addEventListener('mousedown', (e) => {
+			e.preventDefault();
 			const target = e.target as HTMLElement;
 			if (target.classList.contains('rs__control')) {
 				let controlData: IControlElements = {};
 				//определяем ползунок, за который тянут
 				controlData.currentControl = target;
+				console.log(target);
+
+				//определяем расстояние между левым краем ползунка и точкой захвата
+				console.log(target);
+				console.log(e.clientY);
+				console.log(target.getBoundingClientRect().top);
+
+
+				if (this.conf.vertical) {
+					if (e.clientY <= target.getBoundingClientRect().top) {
+						console.log('ВЫШЕ');
+
+						controlData.shift =
+							target.getBoundingClientRect().top - e.clientY;
+						console.log(controlData.shift);
+					} else {
+						console.log('НИЖЕ');
+						controlData.shift = e.clientY -
+							target.getBoundingClientRect().top;
+						console.log(controlData.shift);
+					}
+				}
+
+				this.conf.vertical ?
+					controlData.shift = e.clientY -
+					target.getBoundingClientRect().top :
+					controlData.shift = e.clientX -
+					target.getBoundingClientRect().left;
+				//	console.log(controlData.shift);
+
 
 				//определяем второй ползунок
 				controlData.currentControl == this.leftControl ?
@@ -124,10 +160,10 @@ class sliderViewDoubleControl extends sliderView {
 				controlData.currentControl == this.leftControl ?
 					controlData.currentControlFlag = false :
 					controlData.currentControlFlag = true;
-				firstEventHandler(controlData);// вызов хендлера обработки события
+				getControlData(controlData);// вызов хендлера передачи данных в модель о перемещаемом ползунке 
 
-				document.addEventListener('mousemove', secondEventHandler);// навешивание обработчика перемещения ползунка
-				//	document.addEventListener('mouseup', this.handleMouseUp);
+				document.addEventListener('mousemove', computeControlPos);// навешивание обработчика перемещения ползунка
+				document.addEventListener('mouseup', removeListeners);// навешивание обработчика отпускания кнопки
 				//document.addEventListener('touchmove', secondEventHandler);// навешивание обработчика перемещения ползунка
 				//	document.addEventListener('touchend', this.handleMouseUp);
 			}
@@ -139,10 +175,10 @@ class sliderViewDoubleControl extends sliderView {
 
 		if (newPos) {
 			if (!this.conf.vertical) {
-				elem.style.left = newPos + 'px';
+				elem.style.left = newPos + '%';
 			}
 			if (this.conf.vertical) {
-				elem.style.bottom = newPos + 'px';
+				elem.style.bottom = newPos + '%';
 			}
 		}
 	}

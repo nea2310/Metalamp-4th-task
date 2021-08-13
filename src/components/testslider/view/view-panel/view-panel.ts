@@ -58,6 +58,7 @@ class sliderViewPanel extends sliderView {
 	isTipToggleInput: HTMLInputElement;
 	isTipToggleSpan: HTMLElement;
 	isTipToggleLabel: HTMLElement;
+	wrapper: HTMLElement;
 
 
 
@@ -86,7 +87,8 @@ class sliderViewPanel extends sliderView {
 	renderPanelWrapper() {
 		this.panelWrapper = document.createElement('div');
 		this.panelWrapper.className = 'rs__panelWrapper';
-		this.slider.append(this.panelWrapper);
+		this.wrapper = this.slider.parentElement;
+		this.wrapper.append(this.panelWrapper);
 		this.panelTop = document.createElement('div');
 		this.panelTop.className = 'rs__panel rs__panel-top';
 		this.panelWrapper.append(this.panelTop);

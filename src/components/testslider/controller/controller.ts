@@ -110,7 +110,9 @@ class sliderController {
 
 
 		this.viewDoubleControl.bindMoveControl(this.handleGetControlData,
-			this.handlecomputeControlPosFromEvent);// вешаем обработчики handleGetControlData и handlecomputeControlPosFromEvent для обработки в view события захвата и перетаскивания ползунка
+			this.handlecomputeControlPosFromEvent,
+			this.handleRemoveEventListeners
+		);// вешаем обработчики handleGetControlData и handlecomputeControlPosFromEvent для обработки в view события захвата и перетаскивания ползунка
 		this.viewScale.bindClickOnScale(this.handleGetControlData,
 			this.handlecomputeControlPosFromEvent);// вешаем обработчики handleGetControlData и handlecomputeControlPosFromEvent для обработки в view события клика по шкале
 
@@ -154,6 +156,13 @@ class sliderController {
 	// вызываем метод computeControlPosFromEvent в модели
 	handlecomputeControlPosFromEvent = (e: MouseEvent) => {
 		this.model.computeControlPosFromEvent(e);
+	}
+	//отвязка слушателей
+	handleRemoveEventListeners = () => {
+		document.removeEventListener('mousemove',
+			this.handlecomputeControlPosFromEvent);
+		document.removeEventListener('mouseup',
+			this.handleRemoveEventListeners);
 	}
 
 

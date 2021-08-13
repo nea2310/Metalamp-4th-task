@@ -42,6 +42,7 @@ interface IControlElements {
 	currentControl?: HTMLElement;
 	secondControl?: HTMLElement;
 	currentControlFlag?: boolean;
+	shift?: number;
 }
 
 
