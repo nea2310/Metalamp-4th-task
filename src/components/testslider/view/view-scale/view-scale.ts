@@ -153,6 +153,7 @@ class sliderViewScale extends sliderView {
 		}
 	}
 
+	//создаем шкалу
 	updateScaleMarks(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 		conf: IConf) {
 		if (this.markList) {
@@ -192,60 +193,56 @@ class sliderViewScale extends sliderView {
 
 		this.markList =
 			[...this.scale.querySelectorAll<HTMLElement>('.rs__mark')];
-		console.log(this.markList);
 		this.checkScaleMarksWidth(this.markList);
 	}
 
 
-
+	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
 	checkScaleMarksWidth(markList: HTMLElement[]) {
-
-		//проходим циклом по элементам шагов
-		for (let i = 0; i < markList.length; i++) {
-			if (i < markList.length - 1) {
-				let metricsCurrent = markList[i].firstElementChild.
-					getBoundingClientRect();
-				let metricsNext = markList[i + 1].firstElementChild.
-					getBoundingClientRect();
-				//если right подписи шага заходит за left подписи следующего шага
-				if (metricsCurrent.left + metricsCurrent.width >
-					metricsNext.left) {
-					//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
-					for (let i = 1; i < markList.length; i += 2) {
-						markList[i].firstElementChild.
-							classList.add('hidden');
-						markList[i].
-							classList.add('no-label');
-					}
-					this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
-						[...this.scale.
-							querySelectorAll<HTMLElement>
-							('.rs__mark:not(.no-label)')];
-					// запускаем функцию проверки заново
-					this.checkScaleMarksWidth(this.markList);
-					this.lastLabelRemoved = true;
-				} else {
-					//this.addLastLabel(this.lastLabelRemoved);
-					continue;
-				}
+		let totalWidth = 0;
+		//вычисляем общую ширину подписей к шагам
+		for (let node of markList) {
+			totalWidth += node.firstElementChild.
+				getBoundingClientRect().width;
+		}
+		//если общая ширина подписей к шагам больше ширины шкалы
+		if (totalWidth > this.scale.offsetWidth) {
+			//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
+			for (let i = 1; i < markList.length; i += 2) {
+				markList[i].firstElementChild.
+					classList.add('hidden');
+				markList[i].
+					classList.add('no-label');
 			}
+			this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
+				[...this.scale.
+					querySelectorAll<HTMLElement>
+					('.rs__mark:not(.no-label)')];
+			// запускаем функцию проверки заново
+			this.lastLabelRemoved = true;
+			this.checkScaleMarksWidth(this.markList);
+
+		} else {
+			//возвращаем подпись последнему шагу
+			this.addLastLabel(this.lastLabelRemoved);
+			return;
 		}
 
-		console.log('!!!!!!');
-
-
-		//this.addLastLabel(this.lastLabelRemoved);
 	}
 
-
+	//возвращаем подпись у последненего шага и удаляем у предпоследнего подписанного
 	addLastLabel(isRemoved: boolean) {
 		if (isRemoved) {
-			let lastMark = this.scale.querySelector('.rs__mark:last-child');
-			console.log(lastMark);
-			let lastMarkLabeled = this.scale.
+			let markLabeledList = this.scale.
 				querySelectorAll('.rs__mark:not(.no-label)');
-			let test = lastMarkLabeled[lastMarkLabeled.length - 1];
-			console.log(test);
+			let lastMarkLabeled = markLabeledList[markLabeledList.length - 1];
+			let lastMark = this.scale.querySelector('.rs__mark:last-child');
+
+			lastMarkLabeled.classList.add('no-label');
+			lastMarkLabeled.firstElementChild.classList.add('hidden');
+
+			lastMark.classList.remove('no-label');
+			lastMark.firstElementChild.classList.remove('hidden');
 		}
 
 	}
