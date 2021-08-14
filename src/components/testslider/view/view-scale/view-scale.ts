@@ -16,7 +16,8 @@ import {
 	ProgressBarUpdated,
 	ControlValueUpdated,
 	IConf,
-	IControlElements
+	IControlElements,
+	IScaleLabels
 } from './../../interface';
 
 
@@ -24,6 +25,7 @@ import {
 class sliderViewScale extends sliderView {
 
 	scale: HTMLElement;
+	elem: HTMLElement;
 	scaleWidth: number;
 	scaleHeight: number;
 	progressBar: HTMLElement;
@@ -33,6 +35,9 @@ class sliderViewScale extends sliderView {
 	rightControlDist: number;
 	markList: HTMLElement[];
 	conf: IConf;
+	grid: HTMLElement;
+	checkNext: boolean;
+	lastLabelRemoved: boolean;
 
 	//markList: NodeList;
 
@@ -148,7 +153,7 @@ class sliderViewScale extends sliderView {
 		}
 	}
 
-	updateScaleMarks(scaleMarks: { 'pos': number, 'text': number }[],
+	updateScaleMarks(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 		conf: IConf) {
 		if (this.markList) {
 			for (let elem of this.markList) {
@@ -157,26 +162,93 @@ class sliderViewScale extends sliderView {
 		}
 		for (let node of scaleMarks) {
 			let elem = document.createElement('div');
-			elem.innerText = String(node.text);
 			elem.classList.add('rs__mark');
+			let label = document.createElement('div');
+			label.innerText = String(node.val);
+			label.classList.add('rs__label');
+			elem.appendChild(label);
+
+
 			if (conf.vertical == true) {
 				elem.classList.add('vertical');
-				elem.style.bottom = String(node.pos);
+				label.classList.add('vertical');
+				elem.style.bottom = String(node.pos) + '%';
 			} else {
 				elem.classList.add('horizontal');
-				elem.style.left = String(node.pos);
+				label.classList.add('horizontal');
+				elem.style.left = String(node.pos) + '%';
 			}
 			if (!conf.scale) {
 				elem.classList.add('hidden');
 			}
 			this.scale.appendChild(elem);
+
+			if (conf.vertical == true) {
+				label.style.top = label.offsetHeight / 2 * (-1) + 'px';
+			} else {
+				label.style.left = label.offsetWidth / 2 * (-1) + 'px';
+			}
 		}
-		//this.markList = [...this.scale.querySelectorAll('.rs__mark')];
+
 		this.markList =
 			[...this.scale.querySelectorAll<HTMLElement>('.rs__mark')];
+		console.log(this.markList);
+		this.checkScaleMarksWidth(this.markList);
 	}
 
 
+
+	checkScaleMarksWidth(markList: HTMLElement[]) {
+
+		//проходим циклом по элементам шагов
+		for (let i = 0; i < markList.length; i++) {
+			if (i < markList.length - 1) {
+				let metricsCurrent = markList[i].firstElementChild.
+					getBoundingClientRect();
+				let metricsNext = markList[i + 1].firstElementChild.
+					getBoundingClientRect();
+				//если right подписи шага заходит за left подписи следующего шага
+				if (metricsCurrent.left + metricsCurrent.width >
+					metricsNext.left) {
+					//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
+					for (let i = 1; i < markList.length; i += 2) {
+						markList[i].firstElementChild.
+							classList.add('hidden');
+						markList[i].
+							classList.add('no-label');
+					}
+					this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
+						[...this.scale.
+							querySelectorAll<HTMLElement>
+							('.rs__mark:not(.no-label)')];
+					// запускаем функцию проверки заново
+					this.checkScaleMarksWidth(this.markList);
+					this.lastLabelRemoved = true;
+				} else {
+					//this.addLastLabel(this.lastLabelRemoved);
+					continue;
+				}
+			}
+		}
+
+		console.log('!!!!!!');
+
+
+		//this.addLastLabel(this.lastLabelRemoved);
+	}
+
+
+	addLastLabel(isRemoved: boolean) {
+		if (isRemoved) {
+			let lastMark = this.scale.querySelector('.rs__mark:last-child');
+			console.log(lastMark);
+			let lastMarkLabeled = this.scale.
+				querySelectorAll('.rs__mark:not(.no-label)');
+			let test = lastMarkLabeled[lastMarkLabeled.length - 1];
+			console.log(test);
+		}
+
+	}
 
 	updateScaleMode(isScale: boolean) {
 		if (isScale) {

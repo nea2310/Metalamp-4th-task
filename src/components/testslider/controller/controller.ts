@@ -79,7 +79,7 @@ class sliderController {
 		// }
 
 
-		this.conf.step = (this.conf.max - this.conf.min) / 5;
+		//	this.conf.step = (this.conf.max - this.conf.min) / 5;
 
 	}
 
@@ -89,6 +89,8 @@ class sliderController {
 		this.viewDoubleControl.init(this.conf);
 		this.viewPanel.init(this.conf);
 		this.model.init(this.conf);
+		//	console.log(this.conf);
+
 	}
 
 
@@ -138,8 +140,8 @@ class sliderController {
 
 
 
-		this.view.bindMouseUp(this.handleMouseUp);//вешаем обработчик handleMouseUp для обработки в view события отпускания кнопки (завершение перетаскивания ползунка)
-		this.view.bindWindowResize(this.handleWindowReRendering);
+		//this.view.bindMouseUp(this.handleMouseUp);//вешаем обработчик handleMouseUp для обработки в view события отпускания кнопки (завершение перетаскивания ползунка)
+		//this.view.bindWindowResize(this.handleWindowReRendering);
 
 		this.model.bindControlPosUpdated(this.handleOnControlPosUpdated);//Вызываем для обновления положения ползунка (обращение к view)
 		this.model.bindprogressBarUpdated(this.handleOnprogressBarUpdated);//Вызываем для обновления положения ползунка (обращение к view)
@@ -174,7 +176,7 @@ class sliderController {
 
 
 	handleOnScaleMarksUpdated =
-		(scaleMarks: { 'pos': number, 'text': number }[]) => {
+		(scaleMarks: { 'pos'?: number, 'val'?: number }[]) => {
 			this.viewScale.updateScaleMarks(scaleMarks, this.conf);
 		}
 

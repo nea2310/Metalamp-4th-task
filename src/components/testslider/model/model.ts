@@ -15,7 +15,8 @@ import {
 	ProgressBarUpdated,
 	ControlValueUpdated,
 	IConf,
-	IControlElements
+	IControlElements,
+	IObj
 } from './../interface';
 
 
@@ -39,7 +40,7 @@ class sliderModel {
 	progressBarStartWidth: number;
 	stepLength: number;
 	text: number;
-	marksArr: { 'pos': number, 'text': number }[];
+	marksArr: { 'pos'?: number, 'val'?: number }[];
 	currentControl: HTMLElement;
 	secondControl: HTMLElement;
 	parentElement: HTMLElement;
@@ -68,7 +69,6 @@ class sliderModel {
 
 	init(conf: IConf): void {
 		this.conf = conf;
-
 		this.slider = document.querySelector(conf.target);
 		this.leftControl = this.slider.querySelector('.rs__control-min');
 		this.rightControl = this.slider.querySelector('.rs__control-max');
@@ -134,35 +134,39 @@ class sliderModel {
 		this.currentControlFlag = controlData.currentControlFlag;
 		this.shift = controlData.shift;
 	}
+	//находим value и позиции left шагов, если задана ширина шага (step) или кол-во интервалов, на которое делится шкала (intervals)
+	computeScaleMarks(conf: IConf): { 'val'?: number, 'pos'?: number }[] {
+		let stepAmount;
+		if (this.conf.step) {//если задана ширина (кол-во единиц) шага (step)
+			stepAmount = (conf.max - conf.min) / conf.step; // находим кол-во шагов
+		}
 
-	computeScaleMarks(conf: IConf): { 'pos': number, 'text': number }[] {
-		/*
-		расчет делений шкалы:
-		(conf.max - conf.min) - кол-во единичных интервалов
-		this.length / (conf.max - conf.min);//ширина единичного интервала; 
-		(this.length / (conf.max - conf.min)) * conf.step;// ширина шага (шаг может быть равен одному или нескольким единичным интервалам)
-		*/
-		//	console.log(conf);
-		this.stepLength = (this.length / (conf.max - conf.min)) * conf.step;
-		this.text = conf.min + conf.step;
-		this.marksArr = [];
-		while (this.length >= this.stepLength) {
-			let pos;
-			if (conf.vertical == true) {
-				//	pos = parseFloat(this.scaleHeight) *
-				pos = parseFloat((this.scaleHeight *
-					(this.text - conf.min) / (conf.max - conf.min)).toFixed(1));
-			} else {
-				pos = parseFloat(((this.text - conf.min) *
-					this.scaleWidth / (conf.max - conf.min)).toFixed(1));
+		else if (this.conf.intervals) {//если задано кол-во интервалов шкалы
+			conf.step = (conf.max - conf.min) / conf.intervals;// находим ширину (кол-во единиц) в шаге
+			stepAmount = conf.intervals; // находим кол-во шагов
+		}
+
+		this.marksArr = [{ val: conf.min, pos: 0 }]; //первое деление всегда стоит на позиции left = 0% и его значение равно conf.min
+		let val = conf.min;
+		for (let i = 0; i < stepAmount; i++) {
+			let obj: IObj = {};
+			val += conf.step;
+			if (val <= conf.max) {
+				let pos = ((val - conf.min) * 100) /
+					(conf.max - conf.min);
+
+				obj.val = val;
+				obj.pos = pos;
+				this.marksArr.push(obj);
 			}
-			this.marksArr.push({ 'pos': pos, 'text': this.text });
-			this.length = this.length - this.stepLength;
-			this.text = parseFloat((this.text + conf.step).toFixed(1));
+		}
+		if (this.marksArr[this.marksArr.length - 1].val < conf.max) { // если длина шкалы не кратна длине шага
+			this.marksArr.push({ val: conf.max, pos: 100 });//последнее деление ставим на позицию left = 100% и его значение равно conf.max
 		}
 		return this.marksArr;
-
 	}
+
+
 
 	//Рассчитываем положение ползунка на основании значения, введенного в панели конфигурирования или в объекте конфигурации
 	computeControlPosFromVal(val: number,
@@ -170,19 +174,11 @@ class sliderModel {
 
 		if (val != this.minRangeVal) {
 			if (this.conf.vertical) {
-				// this.newPos = (this.scaleHeight *
-				// 	(val - this.minRangeVal) /
-				// 	(this.maxRangeVal - this.minRangeVal)) - this.shift;
 				this.newPos = ((val - this.minRangeVal) * 100) /
 					(this.maxRangeVal - this.minRangeVal);
 
 
 			} else {
-				// this.newPos = (val - this.minRangeVal) *
-				// 	this.scaleWidth /
-				// 	(this.maxRangeVal - this.minRangeVal) - this.shift;
-
-
 				this.newPos = ((val - this.minRangeVal) * 100) /
 					(this.maxRangeVal - this.minRangeVal);
 			}

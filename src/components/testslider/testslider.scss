@@ -176,20 +176,38 @@
 	position: absolute;
 }
 
+.rs__mark.no-label {
+	//margin-top: -1px;
+	//height: 2.5px;
+	background-color: grey;
+}
+
 .rs__mark.vertical {
 	margin-left: 15px;
 	height: 2px;
 	width: 5px;
-	background-color: #000;
+	//	background-color: #000;
 }
 
 .rs__mark.horizontal {
 	margin-top: 15px;
-	height: 5px;
+	//height: 5px;
 	width: 2px;
-	background-color: #000;
+	//background-color: #000;
+}
+.rs__label.horizontal {
+	position: absolute;
+	top: 10px;
+	border: 1px solid red;
+	//left: -10px;
 }
 
+.rs__label.vertical {
+	position: absolute;
+	left: 10px;
+	border: 1px solid blue;
+	//left: -10px;
+}
 .rs__tip {
 	width: 50px;
 	height: 25px;
@@ -198,6 +216,15 @@
 
 	background: #bc9cff;
 	z-index: 1;
+	&-max {
+		right: 40%;
+		top: -28px;
+	}
+
+	&-min {
+		left: -40%;
+		top: -28px;
+	}
 }
 
 .rs__tip.vertical {
@@ -206,6 +233,4 @@
 }
 
 .rs__tip.horizontal {
-	left: -40%;
-	top: -28px;
 }

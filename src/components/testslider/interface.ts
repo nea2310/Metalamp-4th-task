@@ -27,6 +27,7 @@ interface IConf {
 	tip?: boolean
 	to?: number
 	vertical?: boolean
+	intervals?: number
 }
 interface IControlData {
 	cnt: string;
@@ -51,6 +52,18 @@ interface IScaleMarks {
 	text: number;
 }
 
+
+interface IObj {
+	val?: number;
+	pos?: number;
+}
+
+interface IScaleLabels {
+	elem?: HTMLElement;
+	elemLeft?: number;
+	elemRight?: number;
+}
+
 export {
 	CBNoArgs,
 	CBControlElements,
@@ -65,5 +78,7 @@ export {
 	ProgressBarUpdated,
 	ControlValueUpdated,
 	IConf,
-	IControlElements
+	IControlElements,
+	IObj,
+	IScaleLabels
 };
