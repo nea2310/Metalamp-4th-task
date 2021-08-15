@@ -349,14 +349,14 @@ class sliderViewPanel extends sliderView {
 	}
 
 	//Эмуляция события ввода в инпут
-	createEvent(input: HTMLInputElement) {
-		input.value = String(this.conf.min);
-		let event = new Event('input', {
-			bubbles: true,
-			cancelable: true,
-		});
-		this.fromInput.dispatchEvent(event);
-	}
+	// createEvent(input: HTMLInputElement) {
+	// 	input.value = String(this.conf.min);
+	// 	let event = new Event('input', {
+	// 		bubbles: true,
+	// 		cancelable: true,
+	// 	});
+	// 	this.fromInput.dispatchEvent(event);
+	// }
 
 
 	//щелчок по чекбоксу RANGE
@@ -364,14 +364,11 @@ class sliderViewPanel extends sliderView {
 		notCheckedEventHandler: CBEvent) {
 
 		this.isRangeToggleInput.addEventListener('change', (e) => {
-
-
 			if (this.isRangeToggleInput.checked) {
-
-				if (parseInt(this.fromInput.value) >=
-					parseInt(this.toInput.value)) {
-					this.createEvent(this.fromInput);
-				}
+				// if (parseInt(this.fromInput.value) >=
+				// 	parseInt(this.toInput.value)) {
+				// 	this.createEvent(this.fromInput);
+				// }
 				checkedEventHandler(e);
 			}
 			else {

@@ -156,10 +156,10 @@ class sliderViewDoubleControl extends sliderView {
 		isFrom ? this.tipMin.value = val : this.tipMax.value = val;
 	}
 
-	updateVerticalMode(isVertical: boolean) {
-		isVertical ? console.log('VERTICALMODE') :
-			console.log('HORIZONTALMODE');
-	}
+	// updateVerticalMode(isVertical: boolean) {
+	// 	isVertical ? console.log('VERTICALMODE') :
+	// 		console.log('HORIZONTALMODE');
+	// }
 
 	updateRangeMode(isDouble: boolean) {
 		if (isDouble) {

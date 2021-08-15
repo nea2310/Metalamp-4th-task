@@ -62,7 +62,7 @@ class sliderView {
 	// Удаление слайдера
 	deleteSlider() {
 		this.slider.firstChild.remove();
-		this.slider.lastChild.remove();
+		this.slider.nextElementSibling.remove();
 	}
 }
 

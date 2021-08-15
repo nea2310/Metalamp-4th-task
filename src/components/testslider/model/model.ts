@@ -1,16 +1,4 @@
-
-import { ModuleBody } from 'typescript';
-
 import {
-	CBNoArgs,
-	CBControlElements,
-	CBMouseEvent,
-	CBPointerEvent,
-	CBEvent,
-	CBStringEvent,
-	CBStringPointerEvent,
-	CBInputEvent,
-	CBStringInputEvent,
 	ControlPosUpdated,
 	ProgressBarUpdated,
 	ControlValueUpdated,
@@ -25,15 +13,9 @@ class sliderModel {
 	slider: HTMLElement;
 	controlMin: HTMLElement;
 	controlMax: HTMLElement;
-	// scale: HTMLElement;
-	// scaleWidth: number;
-	// scaleHeight: number;
 	shift: number;
-	//length: number;
 	minRangeVal: number;
 	maxRangeVal: number;
-	// controlMinStartVal: number;
-	// controlMaxStartVal: number;
 	controlMinStartPos: number;
 	controlMaxStartPos: number;
 	progressBarStartPos: number;
@@ -122,19 +104,19 @@ class sliderModel {
 
 	//находим value и позиции left шагов, если задана ширина шага (step) или кол-во интервалов, на которое делится шкала (intervals)
 	computeGrid(conf: IConf): { 'val'?: number, 'pos'?: number }[] {
-		let stepAmount;
+		let intervals = 0;
 		if (this.conf.step) {//если задана ширина (кол-во единиц) шага (step)
-			stepAmount = (conf.max - conf.min) / conf.step; // находим кол-во шагов
+			intervals = (conf.max - conf.min) / conf.step; // находим кол-во шагов
 		}
 
 		else if (this.conf.intervals) {//если задано кол-во интервалов шкалы
 			conf.step = (conf.max - conf.min) / conf.intervals;// находим ширину (кол-во единиц) в шаге
-			stepAmount = conf.intervals; // находим кол-во шагов
+			intervals = conf.intervals; // находим кол-во шагов
 		}
 
 		this.marksArr = [{ val: conf.min, pos: 0 }]; //первое деление всегда стоит на позиции left = 0% и его значение равно conf.min
 		let val = conf.min;
-		for (let i = 0; i < stepAmount; i++) {
+		for (let i = 0; i < intervals; i++) {
 			let obj: IObj = {};
 			val += conf.step;
 			if (val <= conf.max) {
@@ -160,6 +142,8 @@ class sliderModel {
 		/*Мы будем брать только первое зафиксированое касание по экрану targetTouches[0]*/
 
 		if (e instanceof Event && e.type == 'change') {//если переключили чекбокс на панели конфигурации (например смена режима Double -> Single)
+
+
 		}
 
 		else if (e instanceof MouseEvent &&
@@ -239,22 +223,21 @@ class sliderModel {
 		if (type == 'initialRendering') {
 
 			if (!this.controlMax.classList.contains('hidden')) {//режим Double
+				this.selectedPos = this.controlMinStartPos + '%';
 				this.selectedWidth = this.controlMaxStartPos -
 					this.controlMinStartPos + '%';
-				this.selectedPos = this.controlMinStartPos + '%';
 			} else {//режим Single
 				this.selectedPos = '0%';
-				if (this.conf.vertical == true) { //вертикальный режим
-					this.selectedWidth = this.controlMin.style.bottom;
-				} else {
-					this.selectedWidth = this.controlMin.style.left;
-				}
+				this.selectedWidth = this.controlMinStartPos + '%';
+
 			}
 		}
 
 
 		if (type == 'handleMovement') { //Если произошло перемещение ползунка
 			if (this.conf.vertical == true) {//вертикальный слайдер
+				console.log(this.controlMax);
+
 				//режим Double
 				if (!this.controlMax.classList.contains('hidden')) {
 					this.selectedWidth =
@@ -286,47 +269,6 @@ class sliderModel {
 				} else {
 					this.selectedPos = '0%';
 					this.selectedWidth = this.controlMin.style.left;
-				}
-			}
-		}
-
-
-
-
-
-		//Если это переключение режима
-		else if (this.changeMode) {// если это переключение режима
-			if (this.conf.vertical == true) {// вертикальный слайдер
-				if (this.switchToSingleMode) {//переключение в Single режим
-					this.selectedPos = '0';
-					this.selectedWidth =
-						this.controlMin.style.bottom;
-				}
-				else if (this.switchToDoubleMode) {//переключение в Double режим
-					this.selectedPos = this.controlMin.style.bottom;
-					this.selectedWidth =
-						String(parseInt(this.controlMax.style.bottom) -
-							parseInt(this.controlMin.style.bottom));
-				}
-				else if (this.switchToVerticalMode) {//переключение в вертикальный режим
-				}
-				else if (this.switchToHorizontalMode) {//переключение в горизонтальный режим
-				}
-			} else {// горизонтальный слайдер
-				if (this.switchToSingleMode) {//переключение в Single режим
-					this.selectedPos = '0';
-					this.selectedWidth = this.controlMin.style.left;
-				}
-				else if (this.switchToDoubleMode) {//переключение в Double режим
-					this.selectedPos =
-						String(parseFloat(this.controlMin.style.left));
-					this.selectedWidth =
-						parseFloat(this.controlMax.style.left) -
-						parseFloat(this.controlMin.style.left) + 'px';
-				}
-				else if (this.switchToVerticalMode) {//переключение в вертикальный режим
-				}
-				else if (this.switchToHorizontalMode) {//переключение в горизонтальный режим
 				}
 			}
 		}

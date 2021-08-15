@@ -190,29 +190,28 @@ class sliderController {
 
 	handleIsVerticalChecked = () => {
 		this.conf.vertical = true;
-		this.viewDoubleControl.updateVerticalMode(true);
+		//this.viewDoubleControl.updateVerticalMode(true);
 		this.handleWindowReRendering();
 	}
 
 	handleIsVerticalNotChecked = () => {
 		this.conf.vertical = false;
-		this.viewDoubleControl.updateVerticalMode(false);
+		//this.viewDoubleControl.updateVerticalMode(false);
 		this.handleWindowReRendering();
 	}
 
 
-	handleIsRangeChecked = (e: Event) => {
+	handleIsRangeChecked = () => {
 		this.conf.range = true;
 		this.viewDoubleControl.updateRangeMode(true);
-		this.model.computeControlPosFromEvent(e);
+		this.model.computeProgressBar('handleMovement');
 
 	}
 
-	handleIsRangeNotChecked = (e: Event) => {
-		console.log(e);
+	handleIsRangeNotChecked = () => {
 		this.conf.range = false;
 		this.viewDoubleControl.updateRangeMode(false);
-		this.model.computeControlPosFromEvent(e);
+		this.model.computeProgressBar('handleMovement');
 	}
 
 
