@@ -25,17 +25,17 @@ class sliderModel {
 	slider: HTMLElement;
 	controlMin: HTMLElement;
 	controlMax: HTMLElement;
-	scale: HTMLElement;
-	scaleWidth: number;
-	scaleHeight: number;
+	// scale: HTMLElement;
+	// scaleWidth: number;
+	// scaleHeight: number;
 	shift: number;
-	length: number;
+	//length: number;
 	minRangeVal: number;
 	maxRangeVal: number;
-	leftControlStartVal: number;
-	rightControlStartVal: number;
-	leftControlStartPos: number;
-	rightControlStartPos: number;
+	// controlMinStartVal: number;
+	// controlMaxStartVal: number;
+	controlMinStartPos: number;
+	controlMaxStartPos: number;
 	progressBarStartPos: number;
 	progressBarStartWidth: number;
 	stepLength: number;
@@ -60,7 +60,7 @@ class sliderModel {
 	selectedPos: string;
 	moovingControl: string;
 	сontrolPosUpdated: (arg1: HTMLElement, arg2: number) => void;
-	progressBarUpdated: (arg1: string, arg2: string, arg3: IConf) => void;
+	progressBarUpdated: (arg1: string, arg2: string, arg3: boolean) => void;
 	сontrolValueUpdated: (arg1: HTMLElement, arg2: string) => void;
 
 
@@ -74,55 +74,33 @@ class sliderModel {
 		this.controlMin = this.slider.querySelector('.rs__control-min');
 		this.controlMax = this.slider.querySelector('.rs__control-max');
 
-		this.scale = this.slider.querySelector('.rs__slider');
-		this.scaleWidth = this.scale.offsetWidth;
-		this.scaleHeight = this.scale.offsetHeight; //!
+		// this.scale = this.slider.querySelector('.rs__slider');
+		// this.scaleWidth = this.scale.offsetWidth;
+		// this.scaleHeight = this.scale.offsetHeight; //!
 
-		if (this.conf.vertical == true) {
-			this.shift = (this.controlMin.offsetHeight) / 2;
-			this.length = this.scaleHeight;
-		} else {
-			this.shift = (this.controlMin.offsetWidth) / 2;
-			this.length = this.scaleWidth;
-		}
+		// if (this.conf.vertical == true) {
+		// 	this.shift = (this.controlMin.offsetHeight) / 2;
+		// 	this.length = this.scaleHeight;
+		// } else {
+		// 	this.shift = (this.controlMin.offsetWidth) / 2;
+		// 	this.length = this.scaleWidth;
+		// }
 
 
 
 		this.minRangeVal = conf.min;//минимальное значение диапазон
 		this.maxRangeVal = conf.max;//максимальное значение диапазона
 
-		this.leftControlStartVal = conf.from;
-		this.rightControlStartVal = conf.to;
+		// this.controlMinStartVal = conf.from;
+		// this.controlMaxStartVal = conf.to;
 
-		this.leftControlStartPos =
-			this.computeControlPosFromVal(this.leftControlStartVal, true, null);// начальное положение левого ползунка на шкале
-		this.rightControlStartPos =
-			this.computeControlPosFromVal(this.rightControlStartVal,
-				true, null);// начальное положение правого ползунка на шкале
+		this.controlMinStartPos =
+			this.computeControlPosFromVal(conf.from, true, null);// начальное положение левого ползунка на шкале
+		this.controlMaxStartPos =
+			this.computeControlPosFromVal(conf.to, true, null);// начальное положение правого ползунка на шкале
 
-
-		if (this.conf.vertical == true) {
-			if (this.conf.range == true) {
-				this.progressBarStartPos = this.leftControlStartPos; // начальная позиция прогресс-бара
-				this.progressBarStartWidth =
-					this.rightControlStartPos - this.leftControlStartPos; // начальная ширина прогресс-бара
-			} else {
-				this.progressBarStartPos = 0; // начальная позиция прогресс-бара
-				this.progressBarStartWidth = this.leftControlStartPos; // начальная ширина прогресс-бара
-			}
-		} else {
-			if (this.conf.range == true) {
-				this.progressBarStartPos = this.leftControlStartPos; // начальная позиция прогресс-бара
-				this.progressBarStartWidth =
-					this.rightControlStartPos - this.leftControlStartPos; // начальная ширина прогресс-бара
-			} else {
-				this.progressBarStartPos = 0; // начальная позиция прогресс-бара
-				this.progressBarStartWidth = this.leftControlStartPos; // начальная ширина прогресс-бара
-			}
-		}
-
+		this.computeProgressBar('initialRendering');
 		this.computeGrid(this.conf);
-
 	}
 
 	//Получаем и сохраняем в объекте модели данные о перемещаемом ползунке (при перетягивании ползунка или клике по шкале)
@@ -217,7 +195,7 @@ class sliderModel {
 				secondControl: this.secondControl,
 				currentControlFlag: this.currentControlFlag
 			});
-			this.computeProgressBar();
+			//	this.computeProgressBar('handleMovement');
 		}
 
 	}
@@ -306,54 +284,70 @@ class sliderModel {
 				this.minRangeVal) * this.newPos) / 100).toFixed(0);
 			this.сontrolValueUpdated(this.currentControl, this.newValue); //Вызываем для обновления панели view
 		}
-		this.computeProgressBar();
+		this.computeProgressBar('handleMovement');
 	}
 
 	/*Рассчитываем ширину и позицию left (top) прогресс-бара*/
-	computeProgressBar() {
-		if (!this.changeMode) { //Если это не переключение режима
-			if (this.conf.vertical == true) {//вертикальный слайдер
-				this.secondControlPos =
-					parseInt(this.secondControl.style.bottom);
-			} else {// горизонтальный слайдер
-				//	this.secondControlPos = parseInt(this.secondControl.style.left);
+	computeProgressBar(type: string) {
 
-			}
-			//режим Double
-			if (!this.controlMax.classList.contains('hidden')) {
+		if (type == 'initialRendering') {
 
-
-				this.selectedWidth =
-					Math.abs(this.secondControlPos -
-						this.newPos) + "px";
-				if (!this.currentControlFlag) { //перемещатся левый ползунок
-					this.selectedPos = this.newPos + this.shift * 2 + "px";
-				} else {//перемещатся правый ползунок
-
-					this.selectedPos =
-						this.secondControlPos - this.parentPos + "px";
-
-					// console.log('this.secondControlPos: ');
-					// console.log(this.secondControlPos);
-					// console.log('this.parentPos: ');
-					// console.log(this.parentPos);
-					// console.log('this.selectedPos: ');
-					// console.log(this.selectedPos);
-				}
-				//Режим Single
-			} else {
-				if (this.conf.vertical == true) {
-					console.log(this.selectedPos);
-					this.selectedPos = '0px';
+			if (!this.controlMax.classList.contains('hidden')) {//режим Double
+				this.selectedWidth = this.controlMaxStartPos -
+					this.controlMinStartPos + '%';
+				this.selectedPos = this.controlMinStartPos + '%';
+			} else {//режим Single
+				this.selectedPos = '0%';
+				if (this.conf.vertical == true) { //вертикальный режим
 					this.selectedWidth = this.controlMin.style.bottom;
-				}
-
-				else {
-					this.selectedPos = '0px';
-					this.selectedWidth = this.newPos + "px";
+				} else {
+					this.selectedWidth = this.controlMin.style.left;
 				}
 			}
 		}
+
+
+		if (type == 'handleMovement') { //Если произошло перемещение ползунка
+			if (this.conf.vertical == true) {//вертикальный слайдер
+				//режим Double
+				if (!this.controlMax.classList.contains('hidden')) {
+					this.selectedWidth =
+						this.controlMin.getBoundingClientRect().bottom -
+						this.controlMax.getBoundingClientRect().bottom + 'px';
+
+					if (this.moovingControl == 'min') { //перемещатся нижний ползунок
+						this.selectedPos = this.newPos + '%';
+					} else {//перемещатся верхний ползунок
+						this.selectedPos = this.controlMin.style.bottom;
+					}
+					//Режим Single
+				} else {
+					this.selectedPos = '0%';
+					this.selectedWidth = this.controlMin.style.bottom;
+				}
+			} else {//горизонтальный слайдер
+				//режим Double
+				if (!this.controlMax.classList.contains('hidden')) {
+					this.selectedWidth =
+						this.controlMax.getBoundingClientRect().left -
+						this.controlMin.getBoundingClientRect().left + 'px';
+					if (this.moovingControl == 'min') { //перемещатся левый ползунок
+						this.selectedPos = this.newPos + '%';
+					} else {//перемещатся правый ползунок
+						this.selectedPos = this.controlMin.style.left;
+					}
+					//Режим Single
+				} else {
+					this.selectedPos = '0%';
+					this.selectedWidth = this.controlMin.style.left;
+				}
+			}
+		}
+
+
+
+
+
 		//Если это переключение режима
 		else if (this.changeMode) {// если это переключение режима
 			if (this.conf.vertical == true) {// вертикальный слайдер
@@ -390,8 +384,10 @@ class sliderModel {
 				}
 			}
 		}
-		this.progressBarUpdated(this.selectedPos,
-			this.selectedWidth, this.conf); //Вызываем для обновления прогресс бара в view
+		if (type != 'initialRendering') {
+			this.progressBarUpdated(this.selectedPos,
+				this.selectedWidth, this.conf.vertical); //Вызываем для обновления прогресс бара в view
+		}
 	}
 
 

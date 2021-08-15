@@ -12,7 +12,7 @@ type CBStringInputEvent = (arg1: string, arg2: InputEvent) => void;
 
 
 type ControlPosUpdated = (arg1: HTMLElement, arg2: number) => void;
-type ProgressBarUpdated = (arg1: string, arg2: string, arg3: IConf) => void;
+type ProgressBarUpdated = (arg1: string, arg2: string, arg3: boolean) => void;
 type ControlValueUpdated = (arg1: HTMLElement, arg2: string) => void;
 
 interface IConf {

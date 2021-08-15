@@ -97,13 +97,13 @@ class sliderController {
 	init() {
 
 		this.handleOnControlPosUpdated(this.viewDoubleControl.controlMin,
-			this.model.leftControlStartPos);//передаем во view начальное положение левого ползунка
+			this.model.controlMinStartPos);//передаем во view начальное положение левого ползунка
 		this.handleOnControlPosUpdated(this.viewDoubleControl.controlMax,
-			this.model.rightControlStartPos); //передаем во view начальное положение правого ползунка
+			this.model.controlMaxStartPos); //передаем во view начальное положение правого ползунка
 
 
-		this.handleOnprogressBarUpdated(String(this.model.progressBarStartPos),
-			String(this.model.progressBarStartWidth), this.conf); // передаем во view начальное положение прогресс-бара
+		this.handleOnprogressBarUpdated(String(this.model.selectedPos),
+			String(this.model.selectedWidth), this.conf.vertical); // передаем во view начальное положение прогресс-бара
 
 		this.handleOnScaleMarksUpdated(this.model.marksArr); // передаем во view начальное положение делений шкалы
 
@@ -169,8 +169,11 @@ class sliderController {
 
 	//вызываем метод updateСurrentControl в view
 	handleOnprogressBarUpdated = (selectedPos: string,
-		selectedWidth: string, conf: IConf) => {
-		this.viewScale.updateProgressBar(selectedPos, selectedWidth, conf);
+		selectedWidth: string, isVertical: boolean) => {
+		console.log(selectedPos);
+
+		this.viewScale.
+			updateProgressBar(selectedPos, selectedWidth, isVertical);
 	}
 
 

@@ -143,8 +143,8 @@ class sliderViewScale extends sliderView {
 	}
 
 	/*красим Progress Bar (вызывается из контроллера)*/
-	updateProgressBar(pos: string, length: string, conf: IConf) {
-		if (!conf.vertical) {
+	updateProgressBar(pos: string, length: string, isVertical: boolean) {
+		if (!isVertical) {
 			this.progressBar.style.left = pos;
 			this.progressBar.style.width = length;
 		} else {
