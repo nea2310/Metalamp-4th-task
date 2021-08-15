@@ -96,9 +96,9 @@ class sliderController {
 
 	init() {
 
-		this.handleOnControlPosUpdated(this.viewDoubleControl.leftControl,
+		this.handleOnControlPosUpdated(this.viewDoubleControl.controlMin,
 			this.model.leftControlStartPos);//передаем во view начальное положение левого ползунка
-		this.handleOnControlPosUpdated(this.viewDoubleControl.rightControl,
+		this.handleOnControlPosUpdated(this.viewDoubleControl.controlMax,
 			this.model.rightControlStartPos); //передаем во view начальное положение правого ползунка
 
 
@@ -253,13 +253,13 @@ class sliderController {
 			console.log('FROM');
 			this.conf.from = parseInt(val);
 			this.model.computeControlPosFromVal(parseInt(val),
-				false, this.viewDoubleControl.leftControl);
+				false, this.viewDoubleControl.controlMin);
 			this.viewDoubleControl.updateTipVal(val, true);
 		} else {
 			console.log('TO');
 			this.conf.to = parseInt(val);
 			this.model.computeControlPosFromVal(parseInt(val),
-				false, this.viewDoubleControl.rightControl);
+				false, this.viewDoubleControl.controlMax);
 			this.viewDoubleControl.updateTipVal(val, false);
 		}
 	}
@@ -283,13 +283,13 @@ class sliderController {
 
 			this.conf.min = parseInt(val);
 			this.model.computeControlPosFromVal(parseInt(val), false,
-				this.viewDoubleControl.leftControl);
+				this.viewDoubleControl.controlMin);
 			this.viewDoubleControl.updateTipVal(val, true);
 		} else if (target.classList.contains('rs__input-max')) {
 
 			this.conf.max = parseInt(val);
 			this.model.computeControlPosFromVal(parseInt(val), false,
-				this.viewDoubleControl.rightControl);
+				this.viewDoubleControl.controlMax);
 			this.viewDoubleControl.updateTipVal(val, false);
 		}
 
@@ -299,7 +299,7 @@ class sliderController {
 	handleStepChanged = (val: string) => {
 		this.conf.step = parseInt(val);
 		//	console.log(this.conf);
-		this.model.computeScaleMarks(this.conf);
+		this.model.computeGrid(this.conf);
 		this.handleOnScaleMarksUpdated(this.model.marksArr);
 	}
 

@@ -29,10 +29,10 @@ class sliderViewScale extends sliderView {
 	scaleWidth: number;
 	scaleHeight: number;
 	progressBar: HTMLElement;
-	leftControl: HTMLElement;
-	rightControl: HTMLElement;
-	leftControlDist: number;
-	rightControlDist: number;
+	controlMin: HTMLElement;
+	controlMax: HTMLElement;
+	controlMinDist: number;
+	controlMaxDist: number;
 	markList: HTMLElement[];
 	conf: IConf;
 	grid: HTMLElement;
@@ -83,8 +83,8 @@ class sliderViewScale extends sliderView {
 
 	//Вешаем обработчик клика по шкале
 
-	bindClickOnScale(firstEventHandler: CBControlElements,
-		secondEventHandler: CBMouseEvent) {
+	bindClickOnScale(getControlData: CBControlElements,
+		computeControlPos: CBMouseEvent) {
 
 		this.slider.addEventListener('click', (e) => {
 
@@ -92,51 +92,51 @@ class sliderViewScale extends sliderView {
 
 			if (target.classList.contains('rs__slider') ||
 				target.classList.contains('rs__progressBar')) {
-				this.leftControl =
+				this.controlMin =
 					this.slider.querySelector('.rs__control-min');
-				this.rightControl =
+				this.controlMax =
 					this.slider.querySelector('.rs__control-max');
-
+				//определяем расстояние от места клика до каждого из бегунков
 				if (!this.conf.vertical) {
 					console.log('horizontal');
-					this.leftControlDist =
-						Math.abs(this.leftControl.getBoundingClientRect().left -
+					this.controlMinDist =
+						Math.abs(this.controlMin.getBoundingClientRect().left -
 							e.clientX);
-					this.rightControlDist =
-						Math.abs(this.rightControl.
+					this.controlMaxDist =
+						Math.abs(this.controlMax.
 							getBoundingClientRect().left -
 							e.clientX);
 				} else {
 					console.log('vertical');
-					this.leftControlDist =
-						Math.abs(this.leftControl.getBoundingClientRect().
+					this.controlMinDist =
+						Math.abs(this.controlMin.getBoundingClientRect().
 							bottom - e.clientY);
-					this.rightControlDist = Math.abs(this.rightControl.
+					this.controlMaxDist = Math.abs(this.controlMax.
 						getBoundingClientRect().bottom - e.clientY);
 				}
 
 				let controlData: IControlElements = {};
-				if (this.rightControl.classList.contains('hidden')) {
-					controlData.currentControl = this.leftControl;
-					controlData.secondControl = this.rightControl;
+				if (this.controlMax.classList.contains('hidden')) {
+					controlData.currentControl = this.controlMin;
+					controlData.secondControl = this.controlMax;
 					controlData.currentControlFlag = false;
 				}
 
 				else {//определяем ползунок, находящийся ближе к позиции клика
-					this.leftControlDist <= this.rightControlDist ?
-						controlData.currentControl = this.leftControl :
-						controlData.currentControl = this.rightControl;
+					this.controlMinDist <= this.controlMaxDist ?
+						controlData.currentControl = this.controlMin :
+						controlData.currentControl = this.controlMax;
 					//определяем второй ползунок
-					controlData.currentControl == this.leftControl ?
-						controlData.secondControl = this.rightControl :
-						controlData.secondControl = this.leftControl;
+					controlData.currentControl == this.controlMin ?
+						controlData.secondControl = this.controlMax :
+						controlData.secondControl = this.controlMin;
 					// Устанавливаем флаг, какой из ползунков (левый или правый/ верхний или нижний) ближе к позиции клика
-					controlData.currentControl == this.leftControl ?
+					controlData.currentControl == this.controlMin ?
 						controlData.currentControlFlag = false :
 						controlData.currentControlFlag = true;
 				}
-				firstEventHandler(controlData);// вызов хендлера обработки события
-				secondEventHandler(e);
+				getControlData(controlData);// вызов хендлера обработки события
+				computeControlPos(e);
 
 			}
 		});

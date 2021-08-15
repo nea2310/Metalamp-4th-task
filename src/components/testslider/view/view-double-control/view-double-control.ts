@@ -24,10 +24,10 @@ import {
 class sliderViewDoubleControl extends sliderView {
 	conf: IConf;
 
-	leftControl: HTMLElement;
-	rightControl: HTMLElement;
-	leftTip: HTMLInputElement;
-	rightTip: HTMLInputElement;
+	controlMin: HTMLElement;
+	controlMax: HTMLElement;
+	tipMin: HTMLInputElement;
+	tipMax: HTMLInputElement;
 	scale: Element;
 	test: HTMLElement;
 
@@ -43,65 +43,65 @@ class sliderViewDoubleControl extends sliderView {
 	/*Создаем ползунок минимального значения*/
 	renderLeftControl() {
 		this.scale = this.slider.firstElementChild;
-		this.leftControl = document.createElement('div');
-		this.leftTip = document.createElement('input');
-		this.leftControl.className = 'rs__control rs__control-min';
-		this.leftTip.className = 'rs__tip rs__tip-min';
-		this.leftTip.value = String(this.conf.from);
-		this.scale.append(this.leftControl);
-		this.leftControl.append(this.leftTip);
+		this.controlMin = document.createElement('div');
+		this.tipMin = document.createElement('input');
+		this.controlMin.className = 'rs__control rs__control-min';
+		this.tipMin.className = 'rs__tip rs__tip-min';
+		this.tipMin.value = String(this.conf.from);
+		this.scale.append(this.controlMin);
+		this.controlMin.append(this.tipMin);
 
 		this.test = document.createElement('div');
 		this.test.className = 'test';
-		this.leftControl.append(this.test);
+		this.controlMin.append(this.test);
 
 		if (this.conf.tip == false) { // no tip mode
-			this.leftTip.classList.add('hidden');
+			this.tipMin.classList.add('hidden');
 		}
 
 		if (this.conf.vertical == true) { // vertical mode
-			this.leftControl.classList.add('vertical');
-			this.leftTip.classList.add('vertical');
+			this.controlMin.classList.add('vertical');
+			this.tipMin.classList.add('vertical');
 		} else {//horizontal mode
-			this.leftControl.classList.add('horizontal');
-			this.leftTip.classList.add('horizontal');
+			this.controlMin.classList.add('horizontal');
+			this.tipMin.classList.add('horizontal');
 		}
 
 
 	}
 	/*Создаем ползунок максимального значения*/
 	renderRightControl() {
-		this.rightControl = document.createElement('div');
-		this.rightControl.className = 'rs__control rs__control-max';
-		this.scale.append(this.rightControl);
+		this.controlMax = document.createElement('div');
+		this.controlMax.className = 'rs__control rs__control-max';
+		this.scale.append(this.controlMax);
 
 
-		this.rightTip = document.createElement('input');
+		this.tipMax = document.createElement('input');
 
 
-		this.rightControl.className = 'rs__control rs__control-max';
-		this.rightTip.className = 'rs__tip rs__tip-max';
-		this.rightTip.value = String(this.conf.to);
+		this.controlMax.className = 'rs__control rs__control-max';
+		this.tipMax.className = 'rs__tip rs__tip-max';
+		this.tipMax.value = String(this.conf.to);
 
 
 
-		this.rightControl.append(this.rightTip);
+		this.controlMax.append(this.tipMax);
 
 		if (this.conf.range == false) {// single mode
-			this.rightControl.classList.add('hidden');
-			this.rightTip.classList.add('hidden');
+			this.controlMax.classList.add('hidden');
+			this.tipMax.classList.add('hidden');
 		}
 
 		if (this.conf.tip == false) {// no tip mode
-			this.rightTip.classList.add('hidden');
+			this.tipMax.classList.add('hidden');
 		}
 
 		if (this.conf.vertical == true) { // vertical mode
-			this.rightControl.classList.add('vertical');
-			this.rightTip.classList.add('vertical');
+			this.controlMax.classList.add('vertical');
+			this.tipMax.classList.add('vertical');
 		} else {//horizontal mode
-			this.rightControl.classList.add('horizontal');
-			this.rightTip.classList.add('horizontal');
+			this.controlMax.classList.add('horizontal');
+			this.tipMax.classList.add('horizontal');
 		}
 
 	}
@@ -120,12 +120,12 @@ class sliderViewDoubleControl extends sliderView {
 				let controlData: IControlElements = {};
 				//определяем ползунок, за который тянут
 				controlData.currentControl = target;
-				console.log(target);
+				//	console.log(target);
 
 				//определяем расстояние между левым краем ползунка и точкой захвата
-				console.log(target);
-				console.log(e.clientY);
-				console.log(target.getBoundingClientRect().top);
+				// console.log(target);
+				// console.log(e.clientY);
+				// console.log(target.getBoundingClientRect().top);
 
 
 				if (this.conf.vertical) {
@@ -152,14 +152,14 @@ class sliderViewDoubleControl extends sliderView {
 
 
 				//определяем второй ползунок
-				controlData.currentControl == this.leftControl ?
-					controlData.secondControl = this.rightControl :
-					controlData.secondControl = this.leftControl;
+				controlData.currentControl == this.controlMin ?
+					controlData.secondControl = this.controlMax :
+					controlData.secondControl = this.controlMin;
 
 				// Устанавливаем флаг, какой из ползунков (левый или правый) перемещается
-				controlData.currentControl == this.leftControl ?
-					controlData.currentControlFlag = false :
-					controlData.currentControlFlag = true;
+				controlData.currentControl == this.controlMin ?
+					controlData.moovingControl = 'min' :
+					controlData.moovingControl = 'max';
 				getControlData(controlData);// вызов хендлера передачи данных в модель о перемещаемом ползунке 
 
 				document.addEventListener('mousemove', computeControlPos);// навешивание обработчика перемещения ползунка
@@ -187,7 +187,7 @@ class sliderViewDoubleControl extends sliderView {
 	//Обновляем значение tip
 
 	updateTipVal(val: string, isFrom: boolean) {
-		isFrom ? this.leftTip.value = val : this.rightTip.value = val;
+		isFrom ? this.tipMin.value = val : this.tipMax.value = val;
 	}
 
 	updateVerticalMode(isVertical: boolean) {
@@ -197,23 +197,23 @@ class sliderViewDoubleControl extends sliderView {
 
 	updateRangeMode(isDouble: boolean) {
 		if (isDouble) {
-			this.rightControl.classList.remove('hidden');
+			this.controlMax.classList.remove('hidden');
 			if (this.conf.tip) {
-				this.rightTip.classList.remove('hidden');
+				this.tipMax.classList.remove('hidden');
 			}
 		} else {
-			this.rightControl.classList.add('hidden');
-			this.rightTip.classList.add('hidden');
+			this.controlMax.classList.add('hidden');
+			this.tipMax.classList.add('hidden');
 		}
 	}
 
 	updateTipMode(isTip: boolean) {
 		if (isTip) {
-			this.rightTip.classList.remove('hidden');
-			this.leftTip.classList.remove('hidden');
+			this.tipMax.classList.remove('hidden');
+			this.tipMin.classList.remove('hidden');
 		} else {
-			this.rightTip.classList.add('hidden');
-			this.leftTip.classList.add('hidden');
+			this.tipMax.classList.add('hidden');
+			this.tipMin.classList.add('hidden');
 		}
 	}
 }

@@ -17,9 +17,9 @@ let root = '.rs__wrapper';
 
 let conf = {
 	min: 500,
-	max: 5000,
+	max: 1000,
 	from: 500,
-	to: 5000,
+	to: 1000,
 	step: 100,
 	//intervals: 8,
 	vertical: false

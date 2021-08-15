@@ -97,33 +97,35 @@ class sliderViewGrid extends sliderView {
 
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
 	checkGridWidth(markList: HTMLElement[]) {
-		let totalWidth = 0;
-		//вычисляем общую ширину подписей к шагам
-		for (let node of markList) {
-			totalWidth += node.firstElementChild.
-				getBoundingClientRect().width;
-		}
-		//если общая ширина подписей к шагам больше ширины шкалы
-		if (totalWidth > this.scale.offsetWidth) {
-			//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
-			for (let i = 1; i < markList.length; i += 2) {
-				markList[i].firstElementChild.
-					classList.add('hidden');
-				markList[i].
-					classList.add('no-label');
+		if (!this.conf.vertical) {
+			let totalWidth = 0;
+			//вычисляем общую ширину подписей к шагам
+			for (let node of markList) {
+				totalWidth += node.firstElementChild.
+					getBoundingClientRect().width;
 			}
-			this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
-				[...this.scale.
-					querySelectorAll<HTMLElement>
-					('.rs__mark:not(.no-label)')];
-			// запускаем функцию проверки заново
-			this.lastLabelRemoved = true;
-			this.checkGridWidth(this.markList);
+			//если общая ширина подписей к шагам больше ширины шкалы
+			if (totalWidth > this.scale.offsetWidth) {
+				//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
+				for (let i = 1; i < markList.length; i += 2) {
+					markList[i].firstElementChild.
+						classList.add('hidden');
+					markList[i].
+						classList.add('no-label');
+				}
+				this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
+					[...this.scale.
+						querySelectorAll<HTMLElement>
+						('.rs__mark:not(.no-label)')];
+				// запускаем функцию проверки заново
+				this.lastLabelRemoved = true;
+				this.checkGridWidth(this.markList);
 
-		} else {
-			//возвращаем подпись последнему шагу
-			this.addLastLabel(this.lastLabelRemoved);
-			return;
+			} else {
+				//возвращаем подпись последнему шагу
+				this.addLastLabel(this.lastLabelRemoved);
+				return;
+			}
 		}
 
 	}

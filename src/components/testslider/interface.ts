@@ -44,6 +44,7 @@ interface IControlElements {
 	secondControl?: HTMLElement;
 	currentControlFlag?: boolean;
 	shift?: number;
+	moovingControl?: string;
 }
 
 
