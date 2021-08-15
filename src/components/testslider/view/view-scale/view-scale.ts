@@ -26,8 +26,6 @@ class sliderViewScale extends sliderView {
 
 	scale: HTMLElement;
 	elem: HTMLElement;
-	scaleWidth: number;
-	scaleHeight: number;
 	progressBar: HTMLElement;
 	controlMin: HTMLElement;
 	controlMax: HTMLElement;
@@ -38,10 +36,6 @@ class sliderViewScale extends sliderView {
 	grid: HTMLElement;
 	checkNext: boolean;
 	lastLabelRemoved: boolean;
-
-	//markList: NodeList;
-
-
 
 	constructor(root: string) {
 		super(root);
@@ -57,9 +51,6 @@ class sliderViewScale extends sliderView {
 		this.scale = document.createElement('div');
 		this.scale.className = 'rs__slider';
 		this.slider.append(this.scale);
-		this.scaleWidth = this.scale.offsetWidth;
-		this.scaleHeight = this.scale.offsetHeight;
-
 		//создаем progress bar
 		this.progressBar = document.createElement('div');
 		this.progressBar.className = 'rs__progressBar';
@@ -116,24 +107,15 @@ class sliderViewScale extends sliderView {
 				}
 
 				let controlData: IControlElements = {};
-				if (this.controlMax.classList.contains('hidden')) {
-					controlData.currentControl = this.controlMin;
-					controlData.secondControl = this.controlMax;
-					controlData.currentControlFlag = false;
+				//определяем ползунок, находящийся ближе к позиции клика
+				if (this.controlMax.classList.contains('hidden')) {//Single mode
+					controlData.currentControlElem = this.controlMin;
 				}
 
-				else {//определяем ползунок, находящийся ближе к позиции клика
+				else {//Double mode
 					this.controlMinDist <= this.controlMaxDist ?
-						controlData.currentControl = this.controlMin :
-						controlData.currentControl = this.controlMax;
-					//определяем второй ползунок
-					controlData.currentControl == this.controlMin ?
-						controlData.secondControl = this.controlMax :
-						controlData.secondControl = this.controlMin;
-					// Устанавливаем флаг, какой из ползунков (левый или правый/ верхний или нижний) ближе к позиции клика
-					controlData.currentControl == this.controlMin ?
-						controlData.currentControlFlag = false :
-						controlData.currentControlFlag = true;
+						controlData.currentControlElem = this.controlMin :
+						controlData.currentControlElem = this.controlMax;
 				}
 				getControlData(controlData);// вызов хендлера обработки события
 				computeControlPos(e);

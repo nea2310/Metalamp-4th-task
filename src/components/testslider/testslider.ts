@@ -23,6 +23,7 @@ let conf = {
 	step: 100,
 	//intervals: 8,
 	vertical: false
+	//vertical: true
 };
 
 new sliderController(conf, root,

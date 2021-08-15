@@ -119,47 +119,13 @@ class sliderViewDoubleControl extends sliderView {
 			if (target.classList.contains('rs__control')) {
 				let controlData: IControlElements = {};
 				//определяем ползунок, за который тянут
-				controlData.currentControl = target;
-				//	console.log(target);
-
-				//определяем расстояние между левым краем ползунка и точкой захвата
-				// console.log(target);
-				// console.log(e.clientY);
-				// console.log(target.getBoundingClientRect().top);
-
-
-				if (this.conf.vertical) {
-					if (e.clientY <= target.getBoundingClientRect().top) {
-						console.log('ВЫШЕ');
-
-						controlData.shift =
-							target.getBoundingClientRect().top - e.clientY;
-						console.log(controlData.shift);
-					} else {
-						console.log('НИЖЕ');
-						controlData.shift = e.clientY -
-							target.getBoundingClientRect().top;
-						console.log(controlData.shift);
-					}
+				controlData.currentControlElem = target;
+				//определяем расстояние между позицией клика и левым краем ползунка
+				if (!this.conf.vertical) {
+					controlData.shift = e.clientX -
+						target.getBoundingClientRect().left;
 				}
 
-				this.conf.vertical ?
-					controlData.shift = e.clientY -
-					target.getBoundingClientRect().top :
-					controlData.shift = e.clientX -
-					target.getBoundingClientRect().left;
-				//	console.log(controlData.shift);
-
-
-				//определяем второй ползунок
-				controlData.currentControl == this.controlMin ?
-					controlData.secondControl = this.controlMax :
-					controlData.secondControl = this.controlMin;
-
-				// Устанавливаем флаг, какой из ползунков (левый или правый) перемещается
-				controlData.currentControl == this.controlMin ?
-					controlData.moovingControl = 'min' :
-					controlData.moovingControl = 'max';
 				getControlData(controlData);// вызов хендлера передачи данных в модель о перемещаемом ползунке 
 
 				document.addEventListener('mousemove', computeControlPos);// навешивание обработчика перемещения ползунка

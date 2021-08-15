@@ -40,9 +40,9 @@ interface IControlData {
 }
 
 interface IControlElements {
-	currentControl?: HTMLElement;
-	secondControl?: HTMLElement;
-	currentControlFlag?: boolean;
+	currentControlElem?: HTMLElement;
+	// secondControl?: HTMLElement;
+	// currentControlFlag?: boolean;
 	shift?: number;
 	moovingControl?: string;
 }
