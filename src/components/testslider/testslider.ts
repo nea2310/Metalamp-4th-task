@@ -7,6 +7,8 @@ import { sliderViewScale } from './view/view-scale/view-scale';
 import { sliderViewPanel } from './view/view-panel/view-panel';
 import { sliderViewDoubleControl } from
 	'./view/view-double-control/view-double-control';
+import { sliderViewGrid } from
+	'./view/view-grid/view-grid';
 import { sliderController } from './controller/controller';
 
 
@@ -28,6 +30,7 @@ new sliderController(conf, root,
 	new sliderViewScale(root),
 	new sliderViewDoubleControl(root),
 	new sliderViewPanel(root),
+	new sliderViewGrid(root),
 	new sliderModel(),
 );
 

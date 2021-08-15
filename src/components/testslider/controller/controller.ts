@@ -6,6 +6,8 @@ import { sliderViewScale } from './../view/view-scale/view-scale';
 import { sliderViewPanel } from './../view/view-panel/view-panel';
 import { sliderViewDoubleControl } from
 	'./../view/view-double-control/view-double-control';
+import { sliderViewGrid } from './../view/view-grid/view-grid';
+
 
 
 import {
@@ -34,6 +36,7 @@ class sliderController {
 	viewScale: sliderViewScale;
 	viewDoubleControl: sliderViewDoubleControl;
 	viewPanel: sliderViewPanel;
+	viewGrid: sliderViewGrid;
 	conf: IConf;
 	root: string;
 	defaultConf: IConf;
@@ -42,12 +45,15 @@ class sliderController {
 	constructor(conf: IConf, root: string,
 		view: sliderView, viewScale: sliderViewScale,
 		viewDoubleControl: sliderViewDoubleControl,
-		viewPanel: sliderViewPanel, model: sliderModel) {
+		viewPanel: sliderViewPanel, viewGrid: sliderViewGrid,
+		model: sliderModel) {
 		this.model = model;
 		this.view = view;
 		this.viewScale = viewScale;
 		this.viewDoubleControl = viewDoubleControl;
 		this.viewPanel = viewPanel;
+		this.viewGrid = viewGrid;
+
 		this.conf = conf;
 		this.root = root;
 		this.prepareConfiguration();
@@ -74,12 +80,6 @@ class sliderController {
 		this.customConf.target = this.root;//это нужно для модели
 		this.conf = Object.assign(this.defaultConf, this.customConf);
 
-		// if (!this.conf.hasOwnProperty('step')) {
-		// 	this.conf.step = (this.conf.max - this.conf.min) / 5;
-		// }
-
-
-		//	this.conf.step = (this.conf.max - this.conf.min) / 5;
 
 	}
 
@@ -88,9 +88,8 @@ class sliderController {
 		this.viewScale.init(this.conf);
 		this.viewDoubleControl.init(this.conf);
 		this.viewPanel.init(this.conf);
+		this.viewGrid.init(this.conf);
 		this.model.init(this.conf);
-		//	console.log(this.conf);
-
 	}
 
 
@@ -177,7 +176,7 @@ class sliderController {
 
 	handleOnScaleMarksUpdated =
 		(scaleMarks: { 'pos'?: number, 'val'?: number }[]) => {
-			this.viewScale.updateScaleMarks(scaleMarks, this.conf);
+			this.viewGrid.createGrid(scaleMarks, this.conf);
 		}
 
 	//вызываем метод updateСurrentControl в view
