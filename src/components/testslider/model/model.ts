@@ -140,7 +140,7 @@ class sliderModel {
 		/*Определяем положение мыши в зависимости от устройства*/
 		/*На мобильных устройствах может фиксироваться несколько точек касания, поэтому используется массив targetTouches*/
 		/*Мы будем брать только первое зафиксированое касание по экрану targetTouches[0]*/
-		let isMinMax = false;
+		let isStop = false;
 		if (e instanceof Event && e.type == 'change') {//если переключили чекбокс на панели конфигурации (например смена режима Double -> Single)
 
 
@@ -172,12 +172,12 @@ class sliderModel {
 			//запрещаем ползункам выходить за границы слайдера
 
 			if (this.newPos < 0) {
-				isMinMax = true;
+				isStop = true;
 				this.computeControlValue('min');
 				return;
 			}
 			if (this.newPos > 100) {
-				isMinMax = true;
+				isStop = true;
 				this.computeControlValue('max');
 				return;
 			}
@@ -186,14 +186,18 @@ class sliderModel {
 			if (!this.controlMax.classList.contains('hidden')) {
 				if (this.conf.vertical) {
 					if (this.moovingControl == 'min') {//двигается нижний ползунок
-						if (this.newPos >
+						if (this.newPos >=
 							parseFloat(this.controlMax.style.bottom)) {
+							isStop = true;
+							this.computeControlValue('meetMax');
 							return;
 						}
 					}
 					if (this.moovingControl == 'max') {//двигается верхний ползунок
-						if (this.newPos <
+						if (this.newPos <=
 							parseFloat(this.controlMin.style.bottom)) {
+							isStop = true;
+							this.computeControlValue('meetMin');
 							return;
 						}
 					}
@@ -201,12 +205,16 @@ class sliderModel {
 					if (this.moovingControl == 'min') {//двигается левый ползунок
 						if (this.newPos >
 							parseFloat(this.controlMax.style.left)) {
+							isStop = true;
+							this.computeControlValue('meetMax');
 							return;
 						}
 					}
 					if (this.moovingControl == 'max') {//двигается правый ползунок
 						if (this.newPos <
 							parseFloat(this.controlMin.style.left)) {
+							isStop = true;
+							this.computeControlValue('meetMin');
 							return;
 						}
 					}
@@ -214,8 +222,8 @@ class sliderModel {
 			}
 			this.сontrolPosUpdated(this.currentControlElem, this.newPos); //Вызываем для обновления положения ползунка в view
 		}
-		if (!isMinMax)
-			this.computeControlValue('middle');
+		if (!isStop)
+			this.computeControlValue('normal');
 
 
 
@@ -226,17 +234,23 @@ class sliderModel {
 
 	/*Рассчитываем новое значение ползунка*/
 
-	computeControlValue(minMax: string) {
+	computeControlValue(stopType: string) {
 		if (!this.changeMode) {
-			if (minMax == 'middle') {
+			if (stopType == 'normal') {
 				this.newValue = (this.minRangeVal + ((this.maxRangeVal -
 					this.minRangeVal) * this.newPos) / 100).toFixed(0);
 				this.computeProgressBar('handleMovement'); // рассчитываем прогресс-бар
 
-			} else if (minMax == 'min') {
+			} else if (stopType == 'min') {
 				this.newValue = String(this.minRangeVal);
-			} else if (minMax == 'max') {
+			} else if (stopType == 'max') {
 				this.newValue = String(this.maxRangeVal);
+			}
+			else if (stopType == 'meetMax') {
+				this.newValue = String(this.conf.to);
+			}
+			else if (stopType == 'meetMin') {
+				this.newValue = String(this.conf.from);
 			}
 
 			this.сontrolValueUpdated(this.currentControlElem, this.newValue); //Вызываем для обновления панели view
@@ -263,7 +277,7 @@ class sliderModel {
 
 		if (type == 'handleMovement') { //Если произошло перемещение ползунка
 			if (this.conf.vertical == true) {//вертикальный слайдер
-				console.log(this.controlMax);
+				//console.log(this.controlMax);
 
 				//режим Double
 				if (!this.controlMax.classList.contains('hidden')) {
