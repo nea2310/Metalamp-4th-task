@@ -107,14 +107,21 @@ class sliderModel {
 	//находим value и позиции left шагов, если задана ширина шага (step) или кол-во интервалов, на которое делится шкала (intervals)
 	computeGrid(conf: IConf): { 'val'?: number, 'pos'?: number }[] {
 		let intervals = 0;
-		if (this.conf.step) {//если задана ширина (кол-во единиц) шага (step)
+		if (this.conf.step && !this.conf.intervals) {//если задана ширина (кол-во единиц) шага (step)
+			console.log('STEP');
+
 			intervals = (conf.max - conf.min) / conf.step; // находим кол-во шагов
 		}
 
-		else if (this.conf.intervals) {//если задано кол-во интервалов шкалы
+		if (this.conf.intervals) {//если задано кол-во интервалов шкалы
+			console.log('INTERVALS');
 			conf.step = (conf.max - conf.min) / conf.intervals;// находим ширину (кол-во единиц) в шаге
 			intervals = conf.intervals; // находим кол-во шагов
 		}
+		console.log(conf.step);
+		console.log(conf.intervals);
+
+
 
 		this.marksArr = [{ val: conf.min, pos: 0 }]; //первое деление всегда стоит на позиции left = 0% и его значение равно conf.min
 		let val = conf.min;

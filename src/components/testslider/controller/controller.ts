@@ -76,9 +76,16 @@ class sliderController {
 			tip: true
 		};
 
+
+		console.log(this.defaultConf);
+		console.log(this.customConf);
+		console.log(this.conf);
+
 		this.customConf = this.conf;
 		this.customConf.target = this.root;//это нужно для модели
 		this.conf = Object.assign(this.defaultConf, this.customConf);
+
+
 
 
 	}
@@ -323,6 +330,7 @@ class sliderController {
 
 	handleWindowReRendering = () => {
 		this.view.deleteSlider();
+		this.prepareConfiguration();
 		this.render();
 		this.init();
 	};
