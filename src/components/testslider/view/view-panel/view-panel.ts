@@ -59,6 +59,7 @@ class sliderViewPanel extends sliderView {
 	isTipToggleSpan: HTMLElement;
 	isTipToggleLabel: HTMLElement;
 	wrapper: HTMLElement;
+	test: HTMLInputElement;
 
 
 
@@ -80,6 +81,14 @@ class sliderViewPanel extends sliderView {
 		this.renderIsScaleToggle();
 		this.renderIsBarToggle();
 		this.renderIsTipToggle();
+
+
+		this.test = this.renderInput(
+			'min', String(this.conf.min), 'rs__input rs__input-TEST');
+		console.log(this.test);
+		this.panelTop.append(this.test);
+
+
 	}
 
 
@@ -96,6 +105,19 @@ class sliderViewPanel extends sliderView {
 		this.panelBottom.className = 'rs__panel rs__panel-bottom';
 		this.panelWrapper.append(this.panelBottom);
 	}
+
+	renderInput(
+		innerText: string, value: string, className: string) {
+		let label = document.createElement('label');
+		label.innerText = innerText;
+		let elem = document.createElement('input');
+		elem.value = value;
+		elem.className = className;
+		label.append(elem);
+		return elem;
+		//		this.panelTop.append(label);
+	}
+
 
 
 	renderMinInput() {
