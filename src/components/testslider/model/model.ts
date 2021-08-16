@@ -88,6 +88,8 @@ class sliderModel {
 					(this.maxRangeVal - this.minRangeVal);
 			}
 		}
+
+
 		else {
 			this.newPos = 0.00001; // начальное положение ползунка на шкале, если min=from и/ или max=to
 		}
@@ -222,21 +224,19 @@ class sliderModel {
 			}
 			this.сontrolPosUpdated(this.currentControlElem, this.newPos); //Вызываем для обновления положения ползунка в view
 		}
+
 		if (!isStop)
 			this.computeControlValue('normal');
-
-
-
-
-
-
 	}
 
 	/*Рассчитываем новое значение ползунка*/
 
 	computeControlValue(stopType: string) {
+
 		if (!this.changeMode) {
 			if (stopType == 'normal') {
+
+
 				this.newValue = (this.minRangeVal + ((this.maxRangeVal -
 					this.minRangeVal) * this.newPos) / 100).toFixed(0);
 				this.computeProgressBar('handleMovement'); // рассчитываем прогресс-бар
@@ -256,6 +256,37 @@ class sliderModel {
 			this.сontrolValueUpdated(this.currentControlElem, this.newValue); //Вызываем для обновления панели view
 		}
 
+	}
+	/*Если во время single режима меньший ползунок зашел за позицию большего (т.е. from стало больше to) - 
+	при возвращении в double режим поменять ползунки местами */
+	adjustControlPos() {
+		let temp = this.conf.from;
+		this.conf.from = this.conf.to;
+		this.conf.to = temp;
+		//Установить меньший ползунок на позицию min
+		this.computeControlPosFromVal(this.conf.from, false, this.controlMin);
+		//Установить больший ползунок на позицию max
+		this.computeControlPosFromVal(this.conf.to, false, this.controlMax);
+
+		let arr = [];
+		arr.push(this.computeControlPosFromVal(this.conf.from,
+			true, this.controlMin));
+		arr.push(this.computeControlPosFromVal(this.conf.to,
+			true, this.controlMax));
+
+		//Посчитать value меньшего ползунка
+		this.newPos = Math.min.apply(null, arr);
+		this.currentControlElem = this.controlMin;
+		this.computeControlValue('normal');
+
+		//Посчитать value большего ползунка
+		this.newPos = Math.max.apply(null, arr);
+		this.currentControlElem = this.controlMax;
+		this.computeControlValue('normal');
+
+		// Посчитать прогресс-бар
+		this.moovingControl = 'max';
+		this.computeProgressBar('handleMovement');
 	}
 
 	/*Рассчитываем ширину и позицию left (top) прогресс-бара*/
@@ -277,7 +308,6 @@ class sliderModel {
 
 		if (type == 'handleMovement') { //Если произошло перемещение ползунка
 			if (this.conf.vertical == true) {//вертикальный слайдер
-				//console.log(this.controlMax);
 
 				//режим Double
 				if (!this.controlMax.classList.contains('hidden')) {
@@ -301,6 +331,7 @@ class sliderModel {
 					this.selectedWidth =
 						this.controlMax.getBoundingClientRect().left -
 						this.controlMin.getBoundingClientRect().left + 'px';
+
 					if (this.moovingControl == 'min') { //перемещатся левый ползунок
 						this.selectedPos = this.newPos + '%';
 					} else {//перемещатся правый ползунок

@@ -167,17 +167,21 @@ class sliderViewDoubleControl extends sliderView {
 
 	updateRangeMode(isDouble: boolean) {
 		if (isDouble) {
+			//	console.log(this);
+
 			this.controlMax.classList.remove('hidden');
 			if (this.conf.tip) {
 				this.tipMax.classList.remove('hidden');
 			}
 		} else {
+			//	console.log(this);
 			this.controlMax.classList.add('hidden');
 			this.tipMax.classList.add('hidden');
 		}
 	}
 
 	updateTipMode(isTip: boolean) {
+
 		if (isTip) {
 			this.tipMax.classList.remove('hidden');
 			this.tipMin.classList.remove('hidden');

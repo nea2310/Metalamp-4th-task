@@ -122,7 +122,7 @@ class sliderController {
 		this.viewPanel.bindCheckIsVerticalControl(this.handleIsVerticalChecked,
 			this.handleIsVerticalNotChecked);
 		this.viewPanel.bindCheckIsRangeControl(this.handleIsRangeChecked,
-			this.handleIsRangeNotChecked);
+			this.handleIsRangeNotChecked, this.handleAdjustControlPos);
 		this.viewPanel.bindCheckIsScaleControl(this.handleIsScaleChecked,
 			this.handleIsScaleNotChecked);
 		this.viewPanel.bindCheckIsBarControl(this.handleIsBarChecked,
@@ -214,6 +214,9 @@ class sliderController {
 		this.model.computeProgressBar('handleMovement');
 	}
 
+	handleAdjustControlPos = () => {
+		this.model.adjustControlPos();
+	}
 
 	handleIsScaleChecked = () => {
 		this.conf.scale = true;
