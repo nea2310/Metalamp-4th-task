@@ -170,7 +170,7 @@ class sliderController {
 	//вызываем метод updateСurrentControl в view
 	handleOnprogressBarUpdated = (selectedPos: string,
 		selectedWidth: string, isVertical: boolean) => {
-		console.log(selectedPos);
+		//	console.log(selectedPos);
 
 		this.viewScale.
 			updateProgressBar(selectedPos, selectedWidth, isVertical);

@@ -120,6 +120,10 @@ class sliderViewDoubleControl extends sliderView {
 				let controlData: IControlElements = {};
 				//определяем ползунок, за который тянут
 				controlData.currentControlElem = target;
+				target.classList.contains('rs__control-min') ?
+					controlData.moovingControl = 'min' :
+					controlData.moovingControl = 'max';
+
 				//определяем расстояние между позицией клика и левым краем ползунка
 				if (!this.conf.vertical) {
 					controlData.shift = e.clientX -
