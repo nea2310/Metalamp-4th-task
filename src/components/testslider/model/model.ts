@@ -231,6 +231,8 @@ class sliderModel {
 			if (minMax == 'middle') {
 				this.newValue = (this.minRangeVal + ((this.maxRangeVal -
 					this.minRangeVal) * this.newPos) / 100).toFixed(0);
+				this.computeProgressBar('handleMovement'); // рассчитываем прогресс-бар
+
 			} else if (minMax == 'min') {
 				this.newValue = String(this.minRangeVal);
 			} else if (minMax == 'max') {
@@ -239,7 +241,7 @@ class sliderModel {
 
 			this.сontrolValueUpdated(this.currentControlElem, this.newValue); //Вызываем для обновления панели view
 		}
-		this.computeProgressBar('handleMovement'); // рассчитываем прогресс-бар
+
 	}
 
 	/*Рассчитываем ширину и позицию left (top) прогресс-бара*/
