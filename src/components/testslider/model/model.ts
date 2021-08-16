@@ -108,13 +108,10 @@ class sliderModel {
 	computeGrid(conf: IConf): { 'val'?: number, 'pos'?: number }[] {
 		let intervals = 0;
 		if (this.conf.step && !this.conf.intervals) {//если задана ширина (кол-во единиц) шага (step)
-			console.log('STEP');
-
 			intervals = (conf.max - conf.min) / conf.step; // находим кол-во шагов
 		}
 
 		if (this.conf.intervals) {//если задано кол-во интервалов шкалы
-			console.log('INTERVALS');
 			conf.step = (conf.max - conf.min) / conf.intervals;// находим ширину (кол-во единиц) в шаге
 			intervals = conf.intervals; // находим кол-во шагов
 		}
