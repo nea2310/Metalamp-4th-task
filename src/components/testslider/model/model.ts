@@ -140,7 +140,7 @@ class sliderModel {
 		/*Определяем положение мыши в зависимости от устройства*/
 		/*На мобильных устройствах может фиксироваться несколько точек касания, поэтому используется массив targetTouches*/
 		/*Мы будем брать только первое зафиксированое касание по экрану targetTouches[0]*/
-
+		let isMinMax = false;
 		if (e instanceof Event && e.type == 'change') {//если переключили чекбокс на панели конфигурации (например смена режима Double -> Single)
 
 
@@ -167,12 +167,23 @@ class sliderModel {
 						this.slider.getBoundingClientRect().left) * 100 /
 						(this.slider.offsetWidth)) - shift;
 			}
+
+
 			//запрещаем ползункам выходить за границы слайдера
-			if (this.newPos < -0.3 || this.newPos > 100.3) return;
+
+			if (this.newPos < 0) {
+				isMinMax = true;
+				this.computeControlValue('min');
+				return;
+			}
+			if (this.newPos > 100) {
+				isMinMax = true;
+				this.computeControlValue('max');
+				return;
+			}
 
 			/*запрещаем ползункам перепрыгивать друг через друга, если это не single режим*/
 			if (!this.controlMax.classList.contains('hidden')) {
-
 				if (this.conf.vertical) {
 					if (this.moovingControl == 'min') {//двигается нижний ползунок
 						if (this.newPos >
@@ -203,15 +214,29 @@ class sliderModel {
 			}
 			this.сontrolPosUpdated(this.currentControlElem, this.newPos); //Вызываем для обновления положения ползунка в view
 		}
-		this.computeControlValue();
+		if (!isMinMax)
+			this.computeControlValue('middle');
+
+
+
+
+
+
 	}
 
 	/*Рассчитываем новое значение ползунка*/
 
-	computeControlValue() {
+	computeControlValue(minMax: string) {
 		if (!this.changeMode) {
-			this.newValue = (this.minRangeVal + ((this.maxRangeVal -
-				this.minRangeVal) * this.newPos) / 100).toFixed(0);
+			if (minMax == 'middle') {
+				this.newValue = (this.minRangeVal + ((this.maxRangeVal -
+					this.minRangeVal) * this.newPos) / 100).toFixed(0);
+			} else if (minMax == 'min') {
+				this.newValue = String(this.minRangeVal);
+			} else if (minMax == 'max') {
+				this.newValue = String(this.maxRangeVal);
+			}
+
 			this.сontrolValueUpdated(this.currentControlElem, this.newValue); //Вызываем для обновления панели view
 		}
 		this.computeProgressBar('handleMovement'); // рассчитываем прогресс-бар
