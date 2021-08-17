@@ -141,6 +141,7 @@ class sliderController {
 
 		this.viewPanel.bindMinMaxChange(this.handleMinMaxChanged);
 		this.viewPanel.bindStepChange(this.handleStepChanged);
+		this.viewPanel.bindIntervalChange(this.handleIntervalChanged);
 		this.viewPanel.bindFromToChange(this.handleFromToChanged);
 
 
@@ -310,6 +311,14 @@ class sliderController {
 
 	handleStepChanged = (val: string) => {
 		this.conf.step = parseInt(val);
+		//	console.log(this.conf);
+		this.model.computeGrid(this.conf);
+		this.handleOnScaleMarksUpdated(this.model.marksArr);
+	}
+
+
+	handleIntervalChanged = (val: string) => {
+		this.conf.intervals = parseInt(val);
 		//	console.log(this.conf);
 		this.model.computeGrid(this.conf);
 		this.handleOnScaleMarksUpdated(this.model.marksArr);

@@ -31,6 +31,7 @@ class sliderViewPanel extends sliderView {
 	maxInput: HTMLInputElement;
 	stepLabel: HTMLElement;
 	stepInput: HTMLInputElement;
+	intervalInput: HTMLInputElement;
 	fromLabel: HTMLElement;
 	fromInput: HTMLInputElement;
 	toLabel: HTMLElement;
@@ -83,6 +84,7 @@ class sliderViewPanel extends sliderView {
 
 		this.intervalLabel = this.renderInput('interval', this.conf.intervals,
 			'rs__input-interval');
+		this.intervalInput = this.intervalLabel.querySelector('input');
 		this.panelTop.append(this.intervalLabel);
 
 		this.stepLabel = this.renderInput('step', this.conf.step,
@@ -102,8 +104,6 @@ class sliderViewPanel extends sliderView {
 		this.isRangeToggleInput =
 			this.isRangeToggle.querySelector('input');
 		this.panelBottom.append(this.isRangeToggle);
-
-
 
 		this.isScaleToggle = this.renderToggle(this.conf.scale,
 			'scale', 'rs__scaleModeToggle');
@@ -197,6 +197,13 @@ class sliderViewPanel extends sliderView {
 		});
 	}
 
+
+	//ввод значения INTERVAL
+	bindIntervalChange(eventHandler: CBStringEvent) {
+		this.intervalInput.addEventListener('input', (e) => {
+			eventHandler(this.intervalInput.value, e);
+		});
+	}
 
 	//ввод значения FROM/TO
 	bindFromToChange(eventHandler: CBStringEvent) {
