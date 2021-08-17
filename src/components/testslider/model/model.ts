@@ -4,7 +4,8 @@ import {
 	ControlValueUpdated,
 	IConf,
 	IControlElements,
-	IObj
+	IObj,
+	StepValueUpdated
 } from './../interface';
 
 
@@ -44,6 +45,8 @@ class sliderModel {
 	сontrolPosUpdated: (arg1: HTMLElement, arg2: number) => void;
 	progressBarUpdated: (arg1: string, arg2: string, arg3: boolean) => void;
 	сontrolValueUpdated: (arg1: HTMLElement, arg2: string) => void;
+	stepValueUpdated: (arg1: string) => void;
+	intervalValueUpdated: (arg1: string) => void;
 
 
 
@@ -65,7 +68,7 @@ class sliderModel {
 			this.computeControlPosFromVal(conf.to, true, null);// начальное положение правого ползунка на шкале
 
 		this.computeProgressBar('initialRendering');
-		this.computeGrid(this.conf);
+		this.computeGrid(this.conf, null);
 	}
 
 	//Получаем и сохраняем в объекте модели данные о перемещаемом ползунке (при перетягивании ползунка или клике по шкале)
@@ -105,26 +108,38 @@ class sliderModel {
 
 
 	//находим value и позиции left шагов, если задана ширина шага (step) или кол-во интервалов, на которое делится шкала (intervals)
-	computeGrid(conf: IConf): { 'val'?: number, 'pos'?: number }[] {
+	computeGrid(conf: IConf,
+		type: string | null): { 'val'?: number, 'pos'?: number }[] {
+		console.log(conf);
 		let intervals = 0;
-		if (this.conf.step && !this.conf.intervals) {//если задана ширина (кол-во единиц) шага (step)
+		let step = 0;
+		if (this.conf.step || type == 'steps') {//если задана ширина (кол-во единиц) шага (step)
+			console.log('STEPS');
 			intervals = (conf.max - conf.min) / conf.step; // находим кол-во шагов
+			step = conf.step;
+			if (typeof (type) == 'string') {
+				let arg = intervals % 1 === 0 ? String(intervals) :
+					String(Math.trunc(intervals + 1));
+				this.stepValueUpdated(arg); // обновить значение интервала в панели конфигурации
+			}
 		}
 
-		if (this.conf.intervals) {//если задано кол-во интервалов шкалы
-			conf.step = (conf.max - conf.min) / conf.intervals;// находим ширину (кол-во единиц) в шаге
+		if (this.conf.intervals || type == 'intervals') {//если задано кол-во интервалов шкалы
+			console.log('INTERVALS');
 			intervals = conf.intervals; // находим кол-во шагов
+			step = (conf.max - conf.min) / conf.intervals;// находим ширину (кол-во единиц) в шаге
+			if (typeof (type) == 'string') {
+				let arg = step % 1 === 0 ? String(step) :
+					String(step.toFixed(2));
+				this.intervalValueUpdated(arg); // обновить значение шага в панели конфигурации
+			}
 		}
-		console.log(conf.step);
-		console.log(conf.intervals);
-
-
 
 		this.marksArr = [{ val: conf.min, pos: 0 }]; //первое деление всегда стоит на позиции left = 0% и его значение равно conf.min
 		let val = conf.min;
 		for (let i = 0; i < intervals; i++) {
 			let obj: IObj = {};
-			val += conf.step;
+			val += step;
 			if (val <= conf.max) {
 				let pos = ((val - conf.min) * 100) /
 					(conf.max - conf.min);
@@ -367,6 +382,14 @@ class sliderModel {
 	//Вызываем для обновления значения ползунка (обращение к контроллеру)
 	bindСontrolValueUpdated(callback: ControlValueUpdated) {
 		this.сontrolValueUpdated = callback;
+	}
+
+	bindStepValueUpdated(callback: StepValueUpdated) {
+		this.stepValueUpdated = callback;
+	}
+
+	bindIntervalValueUpdated(callback: StepValueUpdated) {
+		this.intervalValueUpdated = callback;
 	}
 }
 

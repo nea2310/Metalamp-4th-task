@@ -54,11 +54,14 @@ class sliderViewGrid extends sliderView {
 	//создаем деления
 	createGrid(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 		conf: IConf) {
-		if (this.markList) {
-			for (let elem of this.markList) {
+
+		let steps = this.slider.querySelectorAll('.rs__mark');
+		if (steps.length) {
+			for (let elem of steps) {
 				elem.remove();
 			}
 		}
+
 		for (let node of scaleMarks) {
 			let elem = document.createElement('div');
 			elem.classList.add('rs__mark');
@@ -97,6 +100,7 @@ class sliderViewGrid extends sliderView {
 
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
 	checkGridWidth(markList: HTMLElement[]) {
+
 		if (!this.conf.vertical) {
 			let totalWidth = 0;
 			//вычисляем общую ширину подписей к шагам

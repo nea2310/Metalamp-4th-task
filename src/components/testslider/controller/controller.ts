@@ -76,11 +76,6 @@ class sliderController {
 			tip: true
 		};
 
-
-		console.log(this.defaultConf);
-		console.log(this.customConf);
-		console.log(this.conf);
-
 		this.customConf = this.conf;
 		this.customConf.target = this.root;//это нужно для модели
 		this.conf = Object.assign(this.defaultConf, this.customConf);
@@ -154,6 +149,10 @@ class sliderController {
 		this.model.bindprogressBarUpdated(this.handleOnprogressBarUpdated);//Вызываем для обновления положения ползунка (обращение к view)
 		this.model.bindСontrolValueUpdated(this.handleOnСontrolValueUpdated);//Вызываем для обновления панели (обращение к view)
 
+		this.model.bindStepValueUpdated(this.handleOnStepValueUpdated);//Вызываем для обновления инпута INTERVAL в панели (обращение к view)
+		this.model.bindIntervalValueUpdated(this.handleOnIntervalValueUpdated);//Вызываем для обновления инпута INTERVAL в панели (обращение к view)
+
+
 	}
 
 	//вызываем метод GetControlData в модели
@@ -178,8 +177,6 @@ class sliderController {
 	//вызываем метод updateСurrentControl в view
 	handleOnprogressBarUpdated = (selectedPos: string,
 		selectedWidth: string, isVertical: boolean) => {
-		//	console.log(selectedPos);
-
 		this.viewScale.
 			updateProgressBar(selectedPos, selectedWidth, isVertical);
 	}
@@ -263,13 +260,11 @@ class sliderController {
 		const target = e.target as HTMLElement;
 
 		if (target.classList.contains('rs__input-from')) {
-			console.log('FROM');
 			this.conf.from = parseInt(val);
 			this.model.computeControlPosFromVal(parseInt(val),
 				false, this.viewDoubleControl.controlMin);
 			this.viewDoubleControl.updateTipVal(val, true);
 		} else {
-			console.log('TO');
 			this.conf.to = parseInt(val);
 			this.model.computeControlPosFromVal(parseInt(val),
 				false, this.viewDoubleControl.controlMax);
@@ -287,6 +282,17 @@ class sliderController {
 		elem.classList.contains('rs__control-min') ?
 			this.viewDoubleControl.updateTipVal(newValue, true) :
 			this.viewDoubleControl.updateTipVal(newValue, false);
+	}
+
+	//вызываем метод updateInterval в view
+	handleOnStepValueUpdated = (newValue: string) => {
+		this.viewPanel.updateInterval(newValue);
+	}
+
+
+	//вызываем метод updateStep в view
+	handleOnIntervalValueUpdated = (newValue: string) => {
+		this.viewPanel.updateStep(newValue);
 	}
 
 	handleMinMaxChanged = (val: string, e: Event) => {
@@ -311,16 +317,16 @@ class sliderController {
 
 	handleStepChanged = (val: string) => {
 		this.conf.step = parseInt(val);
-		//	console.log(this.conf);
-		this.model.computeGrid(this.conf);
+		delete this.conf.intervals;
+		this.model.computeGrid(this.conf, 'steps');
 		this.handleOnScaleMarksUpdated(this.model.marksArr);
 	}
 
 
 	handleIntervalChanged = (val: string) => {
 		this.conf.intervals = parseInt(val);
-		//	console.log(this.conf);
-		this.model.computeGrid(this.conf);
+		delete this.conf.step;
+		this.model.computeGrid(this.conf, 'intervals');
 		this.handleOnScaleMarksUpdated(this.model.marksArr);
 	}
 

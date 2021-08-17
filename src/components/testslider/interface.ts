@@ -14,6 +14,7 @@ type CBStringInputEvent = (arg1: string, arg2: InputEvent) => void;
 type ControlPosUpdated = (arg1: HTMLElement, arg2: number) => void;
 type ProgressBarUpdated = (arg1: string, arg2: string, arg3: boolean) => void;
 type ControlValueUpdated = (arg1: HTMLElement, arg2: string) => void;
+type StepValueUpdated = (arg1: string) => void;
 
 interface IConf {
 	bar?: boolean
@@ -78,6 +79,7 @@ export {
 	ControlPosUpdated,
 	ProgressBarUpdated,
 	ControlValueUpdated,
+	StepValueUpdated,
 	IConf,
 	IControlElements,
 	IObj,

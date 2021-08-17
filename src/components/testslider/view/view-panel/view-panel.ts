@@ -123,12 +123,7 @@ class sliderViewPanel extends sliderView {
 		this.isTipToggleInput =
 			this.isTipToggle.querySelector('input');
 		this.panelBottom.append(this.isTipToggle);
-
-		/***************************************************/
-
 	}
-
-
 
 	renderPanelWrapper() {
 		let panelWrapper = document.createElement('div');
@@ -148,7 +143,7 @@ class sliderViewPanel extends sliderView {
 		let label = document.createElement('label');
 		label.innerText = name;
 		let input = document.createElement('input');
-		input.value = String(value);
+		input.value = value ? String(value) : '';
 		input.className = 'rs__input';
 		input.classList.add(className);
 		label.append(input);
@@ -210,21 +205,15 @@ class sliderViewPanel extends sliderView {
 		this.fromInput.addEventListener('input', (e) => {
 			eventHandler(this.fromInput.value, e);
 		});
-
 		this.toInput.addEventListener('input', (e) => {
 			eventHandler(this.toInput.value, e);
 		});
 	}
 
 
-
-
 	//щелчок по чекбоксу VERTICAL
 	bindCheckIsVerticalControl(checkedEventHandler: CBEvent,
 		notCheckedEventHandler: CBEvent) {
-		console.log(this.isVerticalToggleInput);
-
-
 		this.isVerticalToggleInput.addEventListener('change', (e) => {
 			this.isVerticalToggleInput.checked ?
 				checkedEventHandler(e) : notCheckedEventHandler(e);
@@ -262,8 +251,6 @@ class sliderViewPanel extends sliderView {
 	}
 
 
-
-
 	//щелчок по чекбоксу SCALE
 	bindCheckIsScaleControl(checkedEventHandler: CBEvent,
 		notCheckedEventHandler: CBEvent) {
@@ -278,8 +265,6 @@ class sliderViewPanel extends sliderView {
 		});
 	}
 
-
-
 	//щелчок по чекбоксу BAR
 	bindCheckIsBarControl(checkedEventHandler: CBEvent,
 		notCheckedEventHandler: CBEvent) {
@@ -292,8 +277,6 @@ class sliderViewPanel extends sliderView {
 			}
 		});
 	}
-
-
 
 	//щелчок по чекбоксу TIP
 	bindCheckIsTipControl(checkedEventHandler: CBEvent,
@@ -308,14 +291,22 @@ class sliderViewPanel extends sliderView {
 		});
 	}
 
-
 	//Обновление значений инпутов FROM и TO при перемещении ползунков
 	updateFromTo(elem: HTMLElement, newValue: string) {
 		elem.classList.contains('rs__control-min') ?
 			this.fromInput.value = newValue : this.toInput.value = newValue;
 	}
-}
 
+	//Обновление значений инпута INTERVAL при изменении значения в инпуте STEP
+	updateInterval(newValue: string) {
+		this.intervalInput.value = newValue;
+	}
+
+	//Обновление значений инпута STEP при изменении значения в инпуте INTERVAL
+	updateStep(newValue: string) {
+		this.stepInput.value = newValue;
+	}
+}
 
 export { sliderViewPanel };
 
