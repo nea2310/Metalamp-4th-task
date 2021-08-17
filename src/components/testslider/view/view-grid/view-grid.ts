@@ -38,6 +38,7 @@ class sliderViewGrid extends sliderView {
 	grid: HTMLElement;
 	checkNext: boolean;
 	lastLabelRemoved: boolean;
+	scaleMarks: { 'pos'?: number, 'val'?: number }[];
 
 
 	constructor(root: string) {
@@ -55,7 +56,7 @@ class sliderViewGrid extends sliderView {
 	//создаем деления
 	createGrid(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 		conf: IConf) {
-
+		this.scaleMarks = scaleMarks;
 		let steps = this.slider.querySelectorAll('.rs__mark');
 		if (steps.length) {
 			for (let elem of steps) {
@@ -183,8 +184,17 @@ class sliderViewGrid extends sliderView {
 
 				let totalWidth = this.slider.offsetWidth; // ----------------------------------- получаем ширину после ресайза
 				if (totalWidth != this.startWidth) { // -------------------------------------------------- если до и после отличаеться 
-					console.log('RESIZE');
-					this.checkGridWidth(this.markList);
+					if (totalWidth < this.startWidth) {
+						// console.log(totalWidth);
+						// console.log(this.startWidth);
+
+						console.log('RESIZE');
+						this.checkGridWidth(this.markList);
+					}
+					if (totalWidth > this.startWidth) {
+						//	console.log(this);
+						this.createGrid(this.scaleMarks, this.conf);
+					}
 					this.startWidth = totalWidth;//-------------------------------------------------------- запоминаем новую ширину враппера до ресайза
 				}
 			}
@@ -198,7 +208,6 @@ class sliderViewGrid extends sliderView {
 			}
 		});
 	}
-
 }
 
 
