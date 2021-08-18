@@ -32,7 +32,7 @@ class sliderViewControl extends sliderView {
 	/*Создаем ползунок минимального значения*/
 	renderLeftControl() {
 		this.scale = this.slider.firstElementChild;
-		this.controlMin = document.createElement('div');
+		this.controlMin = document.createElement('button');
 		this.tipMin = document.createElement('input');
 		this.controlMin.className = 'rs__control rs__control-min';
 		this.tipMin.className = 'rs__tip rs__tip-min';
@@ -60,7 +60,7 @@ class sliderViewControl extends sliderView {
 	}
 	/*Создаем ползунок максимального значения*/
 	renderRightControl() {
-		this.controlMax = document.createElement('div');
+		this.controlMax = document.createElement('button');
 		this.controlMax.className = 'rs__control rs__control-max';
 		this.scale.append(this.controlMax);
 

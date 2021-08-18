@@ -102,7 +102,7 @@ class sliderController {
 		this.handleOnScaleMarksUpdated(this.model.marksArr); // передаем во view начальное положение делений шкалы
 
 		this.handleIntervalCalc(this.model.stepValue);// передаем во view значение шага, если указан интервал
-		// this.handleStepCalc(this.model.intervalValue);// передаем во view значение интервала, если указан шаг
+		this.handleStepCalc(this.model.intervalValue);// передаем во view значение интервала, если указан шаг
 
 
 		this.viewControl.bindMoveControl(this.handleGetControlData,
