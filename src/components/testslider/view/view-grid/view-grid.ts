@@ -96,12 +96,12 @@ class sliderViewGrid extends sliderView {
 
 		this.markList =
 			[...this.scale.querySelectorAll<HTMLElement>('.rs__mark')];
-		this.checkGridWidth(this.markList);
+		this.checkGridLength(this.markList);
 	}
 
 
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
-	checkGridWidth(markList: HTMLElement[]) {
+	checkGridLength(markList: HTMLElement[]) {
 
 		if (!this.conf.vertical) {
 			let totalWidth = 0;
@@ -125,7 +125,37 @@ class sliderViewGrid extends sliderView {
 						('.rs__mark:not(.no-label)')];
 				// запускаем функцию проверки заново
 				this.lastLabelRemoved = true;
-				this.checkGridWidth(this.markList);
+				this.checkGridLength(this.markList);
+
+			} else {
+				//возвращаем подпись последнему шагу
+				this.addLastLabel(this.lastLabelRemoved);
+				return;
+			}
+		} else {
+			let totalHeight = 0;
+			//вычисляем общую высоту подписей к шагам
+			for (let node of markList) {
+				totalHeight += node.firstElementChild.
+					getBoundingClientRect().height;
+			}
+
+			//если общая высота подписей к шагам больше высоты шкалы
+			if (totalHeight > this.scale.offsetHeight) {
+				//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
+				for (let i = 1; i < markList.length; i += 2) {
+					markList[i].firstElementChild.
+						classList.add('hidden');
+					markList[i].
+						classList.add('no-label');
+				}
+				this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
+					[...this.scale.
+						querySelectorAll<HTMLElement>
+						('.rs__mark:not(.no-label)')];
+				// запускаем функцию проверки заново
+				this.lastLabelRemoved = true;
+				this.checkGridLength(this.markList);
 
 			} else {
 				//возвращаем подпись последнему шагу
@@ -189,7 +219,7 @@ class sliderViewGrid extends sliderView {
 						// console.log(this.startWidth);
 
 						console.log('RESIZE');
-						this.checkGridWidth(this.markList);
+						this.checkGridLength(this.markList);
 					}
 					if (totalWidth > this.startWidth) {
 						//	console.log(this);
