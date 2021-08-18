@@ -102,6 +102,7 @@ class sliderViewGrid extends sliderView {
 
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
 	checkGridLength(markList: HTMLElement[]) {
+
 		let hideLabels = (markList: HTMLElement[]) => {
 			//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
 			for (let i = 1; i < markList.length; i += 2) {
