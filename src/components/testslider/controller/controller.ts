@@ -7,6 +7,7 @@ import { sliderViewPanel } from './../view/view-panel/view-panel';
 import { sliderViewDoubleControl } from
 	'./../view/view-double-control/view-double-control';
 import { sliderViewGrid } from './../view/view-grid/view-grid';
+import { sliderViewBar } from './../view/view-bar/view-bar';
 
 
 
@@ -37,6 +38,7 @@ class sliderController {
 	viewDoubleControl: sliderViewDoubleControl;
 	viewPanel: sliderViewPanel;
 	viewGrid: sliderViewGrid;
+	viewBar: sliderViewBar;
 	conf: IConf;
 	root: string;
 	defaultConf: IConf;
@@ -46,6 +48,7 @@ class sliderController {
 		view: sliderView, viewScale: sliderViewScale,
 		viewDoubleControl: sliderViewDoubleControl,
 		viewPanel: sliderViewPanel, viewGrid: sliderViewGrid,
+		viewBar: sliderViewBar,
 		model: sliderModel) {
 		this.model = model;
 		this.view = view;
@@ -53,6 +56,7 @@ class sliderController {
 		this.viewDoubleControl = viewDoubleControl;
 		this.viewPanel = viewPanel;
 		this.viewGrid = viewGrid;
+		this.viewBar = viewBar;
 
 		this.conf = conf;
 		this.root = root;
@@ -91,6 +95,7 @@ class sliderController {
 		this.viewDoubleControl.init(this.conf);
 		this.viewPanel.init(this.conf);
 		this.viewGrid.init(this.conf);
+		//	this.viewBar.init(this.conf);
 		this.model.init(this.conf);
 	}
 

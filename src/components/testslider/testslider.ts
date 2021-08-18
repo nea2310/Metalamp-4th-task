@@ -9,7 +9,9 @@ import { sliderViewDoubleControl } from
 	'./view/view-double-control/view-double-control';
 import { sliderViewGrid } from
 	'./view/view-grid/view-grid';
+import { sliderViewBar } from './view/view-bar/view-bar';
 import { sliderController } from './controller/controller';
+
 
 
 
@@ -32,6 +34,7 @@ new sliderController(conf, root,
 	new sliderViewDoubleControl(root),
 	new sliderViewPanel(root),
 	new sliderViewGrid(root),
+	new sliderViewBar(root),
 	new sliderModel(),
 );
 
