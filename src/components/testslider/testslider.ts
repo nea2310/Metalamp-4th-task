@@ -21,8 +21,8 @@ let conf = {
 	max: 100,
 	from: 50,
 	to: 70,
-	//step: 12,
-	intervals: 26,
+	step: 90,
+	//intervals: 26,
 	//vertical: true,
 	//range: false
 };
