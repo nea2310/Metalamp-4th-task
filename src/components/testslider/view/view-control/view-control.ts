@@ -1,19 +1,8 @@
 
-import { ModuleBody } from 'typescript';
 import { sliderView } from './../../view/view';
 import {
-	CBNoArgs,
 	CBControlElements,
 	CBMouseEvent,
-	CBPointerEvent,
-	CBEvent,
-	CBStringEvent,
-	CBStringPointerEvent,
-	CBInputEvent,
-	CBStringInputEvent,
-	ControlPosUpdated,
-	ProgressBarUpdated,
-	ControlValueUpdated,
 	IConf,
 	IControlElements
 } from './../../interface';
@@ -21,7 +10,7 @@ import {
 
 
 
-class sliderViewDoubleControl extends sliderView {
+class sliderViewControl extends sliderView {
 	conf: IConf;
 
 	controlMin: HTMLElement;
@@ -194,5 +183,5 @@ class sliderViewDoubleControl extends sliderView {
 
 
 
-export { sliderViewDoubleControl };
+export { sliderViewControl };
 

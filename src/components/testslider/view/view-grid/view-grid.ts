@@ -1,23 +1,7 @@
-
-import { ModuleBody } from 'typescript';
 import { sliderView } from './../../view/view';
 
 import {
-	CBNoArgs,
-	CBControlElements,
-	CBMouseEvent,
-	CBPointerEvent,
-	CBEvent,
-	CBStringEvent,
-	CBStringPointerEvent,
-	CBInputEvent,
-	CBStringInputEvent,
-	ControlPosUpdated,
-	ProgressBarUpdated,
-	ControlValueUpdated,
 	IConf,
-	IControlElements,
-	IScaleLabels
 } from './../../interface';
 
 

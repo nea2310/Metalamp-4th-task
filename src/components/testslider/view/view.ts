@@ -1,25 +1,4 @@
 
-import { ModuleBody } from 'typescript';
-
-import {
-	CBNoArgs,
-	CBControlElements,
-	CBMouseEvent,
-	CBPointerEvent,
-	CBEvent,
-	CBStringEvent,
-	CBStringPointerEvent,
-	CBInputEvent,
-	CBStringInputEvent,
-	ControlPosUpdated,
-	ProgressBarUpdated,
-	ControlValueUpdated,
-	IConf,
-	IControlElements
-} from './../interface';
-
-
-
 
 class sliderView {
 	totalWidth: number;

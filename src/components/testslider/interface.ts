@@ -1,4 +1,3 @@
-//type CBNoArgs  = (...args: any[]) => void;
 type CBNoArgs = () => void;
 type CBControlElements = (arg1: IControlElements) => void;
 type CBMouseEvent = (arg1: MouseEvent) => void;
@@ -30,15 +29,7 @@ interface IConf {
 	vertical?: boolean
 	intervals?: number
 }
-interface IControlData {
-	cnt: string;
-	isMax: boolean;
-	isMin: boolean;
-	maxCnt: string;
-	minCnt: string;
-	text: string;
-	type: string;
-}
+
 
 interface IControlElements {
 	currentControlElem?: HTMLElement;
@@ -46,12 +37,6 @@ interface IControlElements {
 	// currentControlFlag?: boolean;
 	shift?: number;
 	moovingControl?: string;
-}
-
-
-interface IScaleMarks {
-	pos: number;
-	text: number;
 }
 
 

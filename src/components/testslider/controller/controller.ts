@@ -1,29 +1,15 @@
-
-import { ModuleBody } from 'typescript';
 import { sliderModel } from './../model/model';
 import { sliderView } from './../view/view';
 import { sliderViewScale } from './../view/view-scale/view-scale';
 import { sliderViewPanel } from './../view/view-panel/view-panel';
-import { sliderViewDoubleControl } from
-	'./../view/view-double-control/view-double-control';
+import { sliderViewControl } from
+	'./../view/view-control/view-control';
 import { sliderViewGrid } from './../view/view-grid/view-grid';
 import { sliderViewBar } from './../view/view-bar/view-bar';
 
 
 
 import {
-	CBNoArgs,
-	CBControlElements,
-	CBMouseEvent,
-	CBPointerEvent,
-	CBEvent,
-	CBStringEvent,
-	CBStringPointerEvent,
-	CBInputEvent,
-	CBStringInputEvent,
-	ControlPosUpdated,
-	ProgressBarUpdated,
-	ControlValueUpdated,
 	IConf,
 	IControlElements
 } from './../interface';
@@ -35,7 +21,7 @@ class sliderController {
 	model: sliderModel;
 	view: sliderView;
 	viewScale: sliderViewScale;
-	viewDoubleControl: sliderViewDoubleControl;
+	viewControl: sliderViewControl;
 	viewPanel: sliderViewPanel;
 	viewGrid: sliderViewGrid;
 	viewBar: sliderViewBar;
@@ -46,14 +32,14 @@ class sliderController {
 
 	constructor(conf: IConf, root: string,
 		view: sliderView, viewScale: sliderViewScale,
-		viewDoubleControl: sliderViewDoubleControl,
+		viewControl: sliderViewControl,
 		viewPanel: sliderViewPanel, viewGrid: sliderViewGrid,
 		viewBar: sliderViewBar,
 		model: sliderModel) {
 		this.model = model;
 		this.view = view;
 		this.viewScale = viewScale;
-		this.viewDoubleControl = viewDoubleControl;
+		this.viewControl = viewControl;
 		this.viewPanel = viewPanel;
 		this.viewGrid = viewGrid;
 		this.viewBar = viewBar;
@@ -94,7 +80,7 @@ class sliderController {
 
 		this.viewScale.init(this.conf);
 		this.viewBar.init(this.conf);
-		this.viewDoubleControl.init(this.conf);
+		this.viewControl.init(this.conf);
 		this.viewPanel.init(this.conf);
 		this.viewGrid.init(this.conf);
 
@@ -105,9 +91,9 @@ class sliderController {
 
 	init() {
 
-		this.handleOnControlPosUpdated(this.viewDoubleControl.controlMin,
+		this.handleOnControlPosUpdated(this.viewControl.controlMin,
 			this.model.controlMinStartPos);//передаем во view начальное положение левого ползунка
-		this.handleOnControlPosUpdated(this.viewDoubleControl.controlMax,
+		this.handleOnControlPosUpdated(this.viewControl.controlMax,
 			this.model.controlMaxStartPos); //передаем во view начальное положение правого ползунка
 
 
@@ -119,7 +105,7 @@ class sliderController {
 		// this.handleStepCalc(this.model.intervalValue);// передаем во view значение интервала, если указан шаг
 
 
-		this.viewDoubleControl.bindMoveControl(this.handleGetControlData,
+		this.viewControl.bindMoveControl(this.handleGetControlData,
 			this.handlecomputeControlPosFromEvent,
 			this.handleRemoveEventListeners
 		);// вешаем обработчики handleGetControlData и handlecomputeControlPosFromEvent для обработки в view события захвата и перетаскивания ползунка
@@ -196,7 +182,7 @@ class sliderController {
 
 	//вызываем метод updateСurrentControl в view
 	handleOnControlPosUpdated = (elem: HTMLElement, newPos: number) => {
-		this.viewDoubleControl.updateControlPos(elem, newPos);
+		this.viewControl.updateControlPos(elem, newPos);
 	}
 
 
@@ -214,27 +200,27 @@ class sliderController {
 
 	handleIsVerticalChecked = () => {
 		this.conf.vertical = true;
-		//this.viewDoubleControl.updateVerticalMode(true);
+		//this.viewControl.updateVerticalMode(true);
 		this.handleWindowReRendering();
 	}
 
 	handleIsVerticalNotChecked = () => {
 		this.conf.vertical = false;
-		//this.viewDoubleControl.updateVerticalMode(false);
+		//this.viewControl.updateVerticalMode(false);
 		this.handleWindowReRendering();
 	}
 
 
 	handleIsRangeChecked = () => {
 		this.conf.range = true;
-		this.viewDoubleControl.updateRangeMode(true);
+		this.viewControl.updateRangeMode(true);
 		this.model.computeProgressBar('handleMovement');
 
 	}
 
 	handleIsRangeNotChecked = () => {
 		this.conf.range = false;
-		this.viewDoubleControl.updateRangeMode(false);
+		this.viewControl.updateRangeMode(false);
 		this.model.computeProgressBar('handleMovement');
 	}
 
@@ -266,13 +252,13 @@ class sliderController {
 
 	handleIsTipChecked = () => {
 		this.conf.tip = true;
-		this.viewDoubleControl.updateTipMode(true);
+		this.viewControl.updateTipMode(true);
 	}
 
 	handleIsTipNotChecked = () => {
 
 		this.conf.tip = false;
-		this.viewDoubleControl.updateTipMode(false);
+		this.viewControl.updateTipMode(false);
 	}
 
 	handleFromToChanged = (val: string, e: Event) => {
@@ -281,13 +267,13 @@ class sliderController {
 		if (target.classList.contains('rs__input-from')) {
 			this.conf.from = parseInt(val);
 			this.model.computeControlPosFromVal(parseInt(val),
-				false, this.viewDoubleControl.controlMin);
-			this.viewDoubleControl.updateTipVal(val, true);
+				false, this.viewControl.controlMin);
+			this.viewControl.updateTipVal(val, true);
 		} else {
 			this.conf.to = parseInt(val);
 			this.model.computeControlPosFromVal(parseInt(val),
-				false, this.viewDoubleControl.controlMax);
-			this.viewDoubleControl.updateTipVal(val, false);
+				false, this.viewControl.controlMax);
+			this.viewControl.updateTipVal(val, false);
 		}
 	}
 
@@ -299,8 +285,8 @@ class sliderController {
 			this.conf.to = parseInt(newValue);
 		this.viewPanel.updateFromTo(elem, newValue);
 		elem.classList.contains('rs__control-min') ?
-			this.viewDoubleControl.updateTipVal(newValue, true) :
-			this.viewDoubleControl.updateTipVal(newValue, false);
+			this.viewControl.updateTipVal(newValue, true) :
+			this.viewControl.updateTipVal(newValue, false);
 	}
 
 	//вызываем метод updateInterval в view
@@ -321,14 +307,14 @@ class sliderController {
 
 			this.conf.min = parseInt(val);
 			this.model.computeControlPosFromVal(parseInt(val), false,
-				this.viewDoubleControl.controlMin);
-			this.viewDoubleControl.updateTipVal(val, true);
+				this.viewControl.controlMin);
+			this.viewControl.updateTipVal(val, true);
 		} else if (target.classList.contains('rs__input-max')) {
 
 			this.conf.max = parseInt(val);
 			this.model.computeControlPosFromVal(parseInt(val), false,
-				this.viewDoubleControl.controlMax);
-			this.viewDoubleControl.updateTipVal(val, false);
+				this.viewControl.controlMax);
+			this.viewControl.updateTipVal(val, false);
 		}
 
 		this.handleWindowReRendering();

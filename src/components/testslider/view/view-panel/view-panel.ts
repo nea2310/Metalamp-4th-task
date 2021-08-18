@@ -1,22 +1,11 @@
 
-import { ModuleBody } from 'typescript';
 import { sliderView } from './../../view/view';
 
 import {
 	CBNoArgs,
-	CBControlElements,
-	CBMouseEvent,
-	CBPointerEvent,
 	CBEvent,
 	CBStringEvent,
-	CBStringPointerEvent,
-	CBInputEvent,
-	CBStringInputEvent,
-	ControlPosUpdated,
-	ProgressBarUpdated,
-	ControlValueUpdated,
 	IConf,
-	IControlElements
 } from './../../interface';
 
 
@@ -219,16 +208,6 @@ class sliderViewPanel extends sliderView {
 				checkedEventHandler(e) : notCheckedEventHandler(e);
 		});
 	}
-
-	//Эмуляция события ввода в инпут
-	// createEvent(input: HTMLInputElement) {
-	// 	input.value = String(this.conf.min);
-	// 	let event = new Event('input', {
-	// 		bubbles: true,
-	// 		cancelable: true,
-	// 	});
-	// 	this.fromInput.dispatchEvent(event);
-	// }
 
 
 	//щелчок по чекбоксу RANGE
