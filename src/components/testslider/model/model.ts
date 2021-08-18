@@ -320,19 +320,16 @@ class sliderModel {
 			} else {//режим Single
 				this.selectedPos = '0%';
 				this.selectedWidth = this.controlMinStartPos + '%';
-
 			}
 		}
-
-
 		if (type == 'handleMovement') { //Если произошло перемещение ползунка
 			if (this.conf.vertical == true) {//вертикальный слайдер
 
 				//режим Double
 				if (!this.controlMax.classList.contains('hidden')) {
 					this.selectedWidth =
-						this.controlMin.getBoundingClientRect().bottom -
-						this.controlMax.getBoundingClientRect().bottom + 'px';
+						parseFloat(this.controlMax.style.bottom) -
+						parseFloat(this.controlMin.style.bottom) + '%';
 
 					if (this.moovingControl == 'min') { //перемещатся нижний ползунок
 						this.selectedPos = this.newPos + '%';
@@ -348,9 +345,8 @@ class sliderModel {
 				//режим Double
 				if (!this.controlMax.classList.contains('hidden')) {
 					this.selectedWidth =
-						this.controlMax.getBoundingClientRect().left -
-						this.controlMin.getBoundingClientRect().left + 'px';
-
+						parseFloat(this.controlMax.style.left) -
+						parseFloat(this.controlMin.style.left) + '%';
 					if (this.moovingControl == 'min') { //перемещатся левый ползунок
 						this.selectedPos = this.newPos + '%';
 					} else {//перемещатся правый ползунок
