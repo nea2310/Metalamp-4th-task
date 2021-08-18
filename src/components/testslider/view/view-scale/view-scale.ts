@@ -95,37 +95,20 @@ class sliderViewScale extends sliderView {
 		});
 	}
 
-	/*красим Progress Bar (вызывается из контроллера)*/
-	updateProgressBar(pos: string, length: string, isVertical: boolean) {
-		if (!isVertical) {
-			this.progressBar.style.left = pos;
-			this.progressBar.style.width = length;
-
-			console.log(this.progressBar.style.left);
-			console.log(this.progressBar.style.width);
-
-
-		} else {
-			this.progressBar.style.bottom = pos;
-			this.progressBar.style.height = length;
-		}
-	}
 
 	updateScaleMode(isScale: boolean) {
+		let stepMarks = this.slider.querySelectorAll('.rs__mark');
 		if (isScale) {
-			for (let elem of this.markList) {
+			for (let elem of stepMarks) {
 				elem.classList.remove('hidden');
 			}
 		} else {
-			for (let elem of this.markList) {
+			for (let elem of stepMarks) {
 				elem.classList.add('hidden');
 			}
 		}
 	}
-	updateBarMode(isBar: boolean) {
-		isBar ? this.progressBar.classList.remove('hidden') :
-			this.progressBar.classList.add('hidden');
-	}
+
 }
 
 
