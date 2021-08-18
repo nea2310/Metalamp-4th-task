@@ -144,7 +144,7 @@ class sliderModel {
 				let pos = ((val - conf.min) * 100) /
 					(conf.max - conf.min);
 
-				obj.val = val;
+				obj.val = parseFloat(val.toFixed(2));
 				obj.pos = pos;
 				this.marksArr.push(obj);
 			}
