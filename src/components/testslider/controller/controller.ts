@@ -106,10 +106,10 @@ class sliderController {
 
 		this.handleOnprogressBarUpdated(String(this.model.selectedPos),
 			String(this.model.selectedWidth), this.conf.vertical); // передаем во view начальное положение прогресс-бара
-
 		this.handleOnScaleMarksUpdated(this.model.marksArr); // передаем во view начальное положение делений шкалы
 
-
+		this.handleIntervalCalc(this.model.stepValue);// передаем во view значение шага, если указан интервал
+		// this.handleStepCalc(this.model.intervalValue);// передаем во view значение интервала, если указан шаг
 
 
 		this.viewDoubleControl.bindMoveControl(this.handleGetControlData,
@@ -191,6 +191,18 @@ class sliderController {
 	handleOnControlPosUpdated = (elem: HTMLElement, newPos: number) => {
 		this.viewDoubleControl.updateControlPos(elem, newPos);
 	}
+
+
+	handleIntervalCalc =
+		(step: string) => {
+			this.viewPanel.updateStep(step);
+		}
+
+
+	handleStepCalc =
+		(interval: string) => {
+			this.viewPanel.updateInterval(interval);
+		}
 
 
 	handleIsVerticalChecked = () => {

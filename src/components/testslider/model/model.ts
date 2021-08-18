@@ -47,6 +47,8 @@ class sliderModel {
 	сontrolValueUpdated: (arg1: HTMLElement, arg2: string) => void;
 	stepValueUpdated: (arg1: string) => void;
 	intervalValueUpdated: (arg1: string) => void;
+	stepValue: string;
+	intervalValue: string;
 
 
 
@@ -96,7 +98,6 @@ class sliderModel {
 		else {
 			this.newPos = 0.00001; // начальное положение ползунка на шкале, если min=from и/ или max=to
 		}
-
 		if (isInitialRendering) {
 			return this.newPos;
 		}
@@ -109,18 +110,23 @@ class sliderModel {
 
 	//находим value и позиции left шагов, если задана ширина шага (step) или кол-во интервалов, на которое делится шкала (intervals)
 	computeGrid(conf: IConf,
-		type: string | null): { 'val'?: number, 'pos'?: number }[] {
-		console.log(conf);
+		type: string | null): { 'val'?: number, 'pos'?: number }[] | string {
 		let intervals = 0;
 		let step = 0;
+		let arg = '';
 		if (this.conf.step || type == 'steps') {//если задана ширина (кол-во единиц) шага (step)
 			console.log('STEPS');
 			intervals = (conf.max - conf.min) / conf.step; // находим кол-во шагов
 			step = conf.step;
+			arg = intervals % 1 === 0 ? String(intervals) :
+				String(Math.trunc(intervals + 1));
 			if (typeof (type) == 'string') {
-				let arg = intervals % 1 === 0 ? String(intervals) :
-					String(Math.trunc(intervals + 1));
+
 				this.stepValueUpdated(arg); // обновить значение интервала в панели конфигурации
+			}
+			else {
+				this.intervalValue = arg;
+				this.stepValue = String(conf.step);
 			}
 		}
 
@@ -128,10 +134,14 @@ class sliderModel {
 			console.log('INTERVALS');
 			intervals = conf.intervals; // находим кол-во шагов
 			step = (conf.max - conf.min) / conf.intervals;// находим ширину (кол-во единиц) в шаге
+			let arg = step % 1 === 0 ? String(step) :
+				String(step.toFixed(2));
 			if (typeof (type) == 'string') {
-				let arg = step % 1 === 0 ? String(step) :
-					String(step.toFixed(2));
 				this.intervalValueUpdated(arg); // обновить значение шага в панели конфигурации
+			}
+			else {
+				this.intervalValue = String(conf.intervals);
+				this.stepValue = arg;
 			}
 		}
 
@@ -163,8 +173,6 @@ class sliderModel {
 		/*Мы будем брать только первое зафиксированое касание по экрану targetTouches[0]*/
 		let isStop = false;
 		if (e instanceof Event && e.type == 'change') {//если переключили чекбокс на панели конфигурации (например смена режима Double -> Single)
-
-
 		}
 
 		else if (e instanceof MouseEvent &&
@@ -189,9 +197,7 @@ class sliderModel {
 						(this.slider.offsetWidth)) - shift;
 			}
 
-
 			//запрещаем ползункам выходить за границы слайдера
-
 			if (this.newPos < 0) {
 				isStop = true;
 				this.computeControlValue('min');
@@ -253,13 +259,9 @@ class sliderModel {
 	computeControlValue(stopType: string,
 		pos: number = this.newPos,
 		elem: HTMLElement = this.currentControlElem) {
-		// console.log(this.newPos);
-		// console.log(this.currentControlElem);
-
 
 		if (!this.changeMode) {
 			if (stopType == 'normal') {
-
 
 				this.newValue = (this.minRangeVal + ((this.maxRangeVal -
 					this.minRangeVal) * pos) / 100).toFixed(0);
