@@ -4,7 +4,8 @@ import {
 	CBControlElements,
 	CBMouseEvent,
 	IConf,
-	IControlElements
+	IControlElements,
+	CBPointerEvent
 } from './../../interface';
 
 
@@ -100,7 +101,7 @@ class sliderViewControl extends sliderView {
 
 	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
 	bindMoveControl(getControlData: CBControlElements,
-		computeControlPos: CBMouseEvent, removeListeners: CBMouseEvent) {
+		computeControlPos: CBPointerEvent, removeListeners: CBPointerEvent) {
 
 		this.slider.addEventListener('mousedown', (e) => {
 			e.preventDefault();
@@ -121,8 +122,8 @@ class sliderViewControl extends sliderView {
 
 				getControlData(controlData);// вызов хендлера передачи данных в модель о перемещаемом ползунке 
 
-				document.addEventListener('mousemove', computeControlPos);// навешивание обработчика перемещения ползунка
-				document.addEventListener('mouseup', removeListeners);// навешивание обработчика отпускания кнопки
+				document.addEventListener('pointermove', computeControlPos);// навешивание обработчика перемещения ползунка
+				document.addEventListener('pointerup', removeListeners);// навешивание обработчика отпускания кнопки
 				//document.addEventListener('touchmove', secondEventHandler);// навешивание обработчика перемещения ползунка
 				//	document.addEventListener('touchend', this.handleMouseUp);
 			}

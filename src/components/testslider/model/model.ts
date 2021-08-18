@@ -167,16 +167,12 @@ class sliderModel {
 
 
 	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале
-	computeControlPosFromEvent(e: MouseEvent | Event): void {
+	computeControlPosFromEvent(e: PointerEvent): void {
 		/*Определяем положение мыши в зависимости от устройства*/
 		/*На мобильных устройствах может фиксироваться несколько точек касания, поэтому используется массив targetTouches*/
 		/*Мы будем брать только первое зафиксированое касание по экрану targetTouches[0]*/
 		let isStop = false;
-		if (e instanceof Event && e.type == 'change') {//если переключили чекбокс на панели конфигурации (например смена режима Double -> Single)
-		}
-
-		else if (e instanceof MouseEvent &&
-			(e.type == 'click' || e.type == 'mousemove')) {//если потянули ползунок или кликнули по шкале
+		if (e.type == 'click' || e.type == 'pointermove') {//если потянули ползунок или кликнули по шкале
 
 			if (this.conf.vertical) {
 				this.newPos = 100 -
@@ -186,7 +182,7 @@ class sliderModel {
 
 			} else {
 				let shift = 0;
-				if (e.type == 'mousemove') {
+				if (e.type == 'pointermove') {
 					shift = (this.shift * 100)
 						/ (this.slider.offsetWidth);
 				}

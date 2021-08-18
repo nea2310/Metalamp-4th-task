@@ -155,14 +155,14 @@ class sliderController {
 
 
 	// вызываем метод computeControlPosFromEvent в модели
-	handlecomputeControlPosFromEvent = (e: MouseEvent) => {
+	handlecomputeControlPosFromEvent = (e: PointerEvent) => {
 		this.model.computeControlPosFromEvent(e);
 	}
 	//отвязка слушателей
 	handleRemoveEventListeners = () => {
-		document.removeEventListener('mousemove',
+		document.removeEventListener('pointermove',
 			this.handlecomputeControlPosFromEvent);
-		document.removeEventListener('mouseup',
+		document.removeEventListener('pointerup',
 			this.handleRemoveEventListeners);
 	}
 
@@ -339,7 +339,7 @@ class sliderController {
 
 	// снимаем обработчики, повешенные на событие перемещения мыши
 	handleMouseUp = () => {
-		document.removeEventListener('mousemove',
+		document.removeEventListener('pointermove',
 			this.handlecomputeControlPosFromEvent);
 		//	document.removeEventListener('mouseup', this.handleMouseUp);
 		// document.removeEventListener('touchmove',

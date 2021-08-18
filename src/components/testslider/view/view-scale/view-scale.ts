@@ -4,6 +4,7 @@ import { sliderView } from './../../view/view';
 import {
 	CBControlElements,
 	CBMouseEvent,
+	CBPointerEvent,
 	IConf,
 	IControlElements,
 } from './../../interface';
@@ -46,9 +47,9 @@ class sliderViewScale extends sliderView {
 	//Вешаем обработчик клика по шкале
 
 	bindClickOnScale(getControlData: CBControlElements,
-		computeControlPos: CBMouseEvent) {
+		computeControlPos: CBPointerEvent) {
 
-		this.slider.addEventListener('click', (e) => {
+		this.slider.addEventListener('pointerdown', (e) => {
 
 			const target = e.target as HTMLElement;
 
