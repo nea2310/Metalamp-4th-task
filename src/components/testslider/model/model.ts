@@ -250,14 +250,19 @@ class sliderModel {
 
 	/*Рассчитываем новое значение ползунка*/
 
-	computeControlValue(stopType: string) {
+	computeControlValue(stopType: string,
+		pos: number = this.newPos,
+		elem: HTMLElement = this.currentControlElem) {
+		// console.log(this.newPos);
+		// console.log(this.currentControlElem);
+
 
 		if (!this.changeMode) {
 			if (stopType == 'normal') {
 
 
 				this.newValue = (this.minRangeVal + ((this.maxRangeVal -
-					this.minRangeVal) * this.newPos) / 100).toFixed(0);
+					this.minRangeVal) * pos) / 100).toFixed(0);
 				this.computeProgressBar('handleMovement'); // рассчитываем прогресс-бар
 
 			} else if (stopType == 'min') {
@@ -272,7 +277,7 @@ class sliderModel {
 				this.newValue = String(this.conf.from);
 			}
 
-			this.сontrolValueUpdated(this.currentControlElem, this.newValue); //Вызываем для обновления панели view
+			this.сontrolValueUpdated(elem, this.newValue); //Вызываем для обновления панели view
 		}
 
 	}
@@ -294,14 +299,14 @@ class sliderModel {
 			true, this.controlMax));
 
 		//Посчитать value меньшего ползунка
-		this.newPos = Math.min.apply(null, arr);
-		this.currentControlElem = this.controlMin;
-		this.computeControlValue('normal');
+		this.computeControlValue('normal',
+			Math.min.apply(null, arr),
+			this.controlMin);
 
 		//Посчитать value большего ползунка
-		this.newPos = Math.max.apply(null, arr);
-		this.currentControlElem = this.controlMax;
-		this.computeControlValue('normal');
+		this.computeControlValue('normal',
+			Math.max.apply(null, arr),
+			this.controlMax);
 
 		// Посчитать прогресс-бар
 		this.moovingControl = 'max';
