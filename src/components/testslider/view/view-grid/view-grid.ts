@@ -158,17 +158,28 @@ class sliderViewGrid extends sliderView {
 
 	//возвращаем подпись у последненего шага и удаляем у предпоследнего подписанного
 	addLastLabel(isRemoved: boolean) {
-		if (isRemoved) {
-			let markLabeledList = this.scale.
-				querySelectorAll('.rs__mark:not(.no-label)');
-			let lastMarkLabeled = markLabeledList[markLabeledList.length - 1];
-			let lastMark = this.scale.querySelector('.rs__mark:last-child');
+		let markLabeledList = this.scale.
+			querySelectorAll('.rs__mark:not(.no-label)');
+		let lastMarkLabeled = markLabeledList[markLabeledList.length - 1];
+		let lastMark = this.scale.querySelector('.rs__mark:last-child');
+		//console.log(markLabeledList);
 
+		if (isRemoved) {
 			lastMarkLabeled.classList.add('no-label');
 			lastMarkLabeled.firstElementChild.classList.add('hidden');
-
 			lastMark.classList.remove('no-label');
 			lastMark.firstElementChild.classList.remove('hidden');
+		}
+		let lastLabel = lastMark.firstElementChild;
+		let beforeLastLabel =
+			markLabeledList[markLabeledList.length - 2].firstElementChild;
+		let right = beforeLastLabel.getBoundingClientRect().right;
+		let left = lastLabel.getBoundingClientRect().left;
+
+		if (right > left) {
+			markLabeledList[markLabeledList.length - 2].
+				classList.add('no-label');
+			beforeLastLabel.classList.add('hidden');
 		}
 	}
 
