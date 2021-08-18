@@ -102,8 +102,24 @@ class sliderViewGrid extends sliderView {
 
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
 	checkGridLength(markList: HTMLElement[]) {
+		let hideLabels = (markList: HTMLElement[]) => {
+			//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
+			for (let i = 1; i < markList.length; i += 2) {
+				markList[i].firstElementChild.
+					classList.add('hidden');
+				markList[i].
+					classList.add('no-label');
+			}
+			this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
+				[...this.scale.
+					querySelectorAll<HTMLElement>
+					('.rs__mark:not(.no-label)')];
+			// запускаем функцию проверки заново
+			this.lastLabelRemoved = true;
+			this.checkGridLength(this.markList);
+		};
 
-		if (!this.conf.vertical) {
+		if (!this.conf.vertical) { //Горизонтальный слайдер
 			let totalWidth = 0;
 			//вычисляем общую ширину подписей к шагам
 			for (let node of markList) {
@@ -112,53 +128,26 @@ class sliderViewGrid extends sliderView {
 			}
 			//если общая ширина подписей к шагам больше ширины шкалы
 			if (totalWidth > this.scale.offsetWidth) {
-				//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
-				for (let i = 1; i < markList.length; i += 2) {
-					markList[i].firstElementChild.
-						classList.add('hidden');
-					markList[i].
-						classList.add('no-label');
-				}
-				this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
-					[...this.scale.
-						querySelectorAll<HTMLElement>
-						('.rs__mark:not(.no-label)')];
-				// запускаем функцию проверки заново
-				this.lastLabelRemoved = true;
-				this.checkGridLength(this.markList);
-
+				//Скрываем подписи
+				hideLabels(markList);
 			} else {
-				//возвращаем подпись последнему шагу
+				//возвращаем подпись последнему шагу и выходим из рекурсии
 				this.addLastLabel(this.lastLabelRemoved);
 				return;
 			}
-		} else {
+		} else {//Вертикальный слайдер
 			let totalHeight = 0;
 			//вычисляем общую высоту подписей к шагам
 			for (let node of markList) {
 				totalHeight += node.firstElementChild.
 					getBoundingClientRect().height;
 			}
-
 			//если общая высота подписей к шагам больше высоты шкалы
 			if (totalHeight > this.scale.offsetHeight) {
-				//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
-				for (let i = 1; i < markList.length; i += 2) {
-					markList[i].firstElementChild.
-						classList.add('hidden');
-					markList[i].
-						classList.add('no-label');
-				}
-				this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
-					[...this.scale.
-						querySelectorAll<HTMLElement>
-						('.rs__mark:not(.no-label)')];
-				// запускаем функцию проверки заново
-				this.lastLabelRemoved = true;
-				this.checkGridLength(this.markList);
-
+				//Скрываем подписи
+				hideLabels(markList);
 			} else {
-				//возвращаем подпись последнему шагу
+				//возвращаем подпись последнему шагу и выходим из рекурсии
 				this.addLastLabel(this.lastLabelRemoved);
 				return;
 			}
