@@ -91,11 +91,13 @@ class sliderController {
 
 
 	render = () => {
+
 		this.viewScale.init(this.conf);
+		this.viewBar.init(this.conf);
 		this.viewDoubleControl.init(this.conf);
 		this.viewPanel.init(this.conf);
 		this.viewGrid.init(this.conf);
-		//	this.viewBar.init(this.conf);
+
 		this.model.init(this.conf);
 	}
 
@@ -182,7 +184,7 @@ class sliderController {
 	//вызываем метод updateСurrentControl в view
 	handleOnprogressBarUpdated = (selectedPos: string,
 		selectedWidth: string, isVertical: boolean) => {
-		this.viewScale.
+		this.viewBar.
 			updateProgressBar(selectedPos, selectedWidth, isVertical);
 	}
 
@@ -252,12 +254,12 @@ class sliderController {
 
 	handleIsBarChecked = () => {
 		this.conf.bar = true;
-		this.viewScale.updateBarMode(true);
+		this.viewBar.updateBarMode(true);
 	}
 
 	handleIsBarNotChecked = () => {
 		this.conf.bar = false;
-		this.viewScale.updateBarMode(false);
+		this.viewBar.updateBarMode(false);
 	}
 
 

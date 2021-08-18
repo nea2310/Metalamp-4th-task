@@ -75,6 +75,8 @@ class sliderViewBar extends sliderView {
 		if (!isVertical) {
 			this.progressBar.style.left = pos;
 			this.progressBar.style.width = length;
+			console.log(this.progressBar.style.left);
+			console.log(this.progressBar.style.width);
 		} else {
 			this.progressBar.style.bottom = pos;
 			this.progressBar.style.height = length;

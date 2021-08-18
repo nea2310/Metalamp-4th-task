@@ -44,31 +44,14 @@ class sliderViewScale extends sliderView {
 	// Инициализация
 	init(conf: IConf) {
 		this.conf = conf;
-		this.renderScale(conf);// шкала
+		this.renderScale();// шкала
 	}
 	//создаем шкалу
-	renderScale(conf: IConf) {
+	renderScale() {
 		this.scale = document.createElement('div');
 		this.scale.className = 'rs__slider';
+
 		this.slider.append(this.scale);
-		//создаем progress bar
-		this.progressBar = document.createElement('div');
-		this.progressBar.className = 'rs__progressBar';
-		this.scale.append(this.progressBar);
-		if (!conf.bar) {
-			this.progressBar.classList.add('hidden');
-		}
-
-
-		if (conf.vertical) {
-			this.slider.classList.add('vertical');
-			this.scale.classList.add('vertical');
-			this.progressBar.classList.add('vertical');
-		} else {
-			this.slider.classList.remove('vertical');
-			this.scale.classList.remove('vertical');
-			this.progressBar.classList.remove('vertical');
-		}
 	}
 
 
@@ -129,6 +112,11 @@ class sliderViewScale extends sliderView {
 		if (!isVertical) {
 			this.progressBar.style.left = pos;
 			this.progressBar.style.width = length;
+
+			console.log(this.progressBar.style.left);
+			console.log(this.progressBar.style.width);
+
+
 		} else {
 			this.progressBar.style.bottom = pos;
 			this.progressBar.style.height = length;
