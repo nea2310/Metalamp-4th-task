@@ -103,7 +103,7 @@ class sliderViewControl extends sliderView {
 	bindMoveControl(getControlData: CBControlElements,
 		computeControlPos: CBPointerEvent, removeListeners: CBPointerEvent) {
 
-		this.slider.addEventListener('mousedown', (e) => {
+		this.slider.addEventListener('pointerdown', (e) => {
 			e.preventDefault();
 			const target = e.target as HTMLElement;
 			if (target.classList.contains('rs__control')) {
