@@ -17,49 +17,71 @@
 	display: flex;
 }
 
+.rs__wrapper.vertical {
+	height: 100%;
+	padding: 24px 30px 30px 80px;
+}
+
 .rs__slider {
+	border-radius: 3px;
 	width: 100%;
 	position: relative;
-	height: 6px;
-	background: #a4a4a4;
+	height: 8px;
+	background: #c5c0c0;
 	display: flex;
+}
+
+.rs__slider.vertical {
+	height: 100%;
+	width: 8px;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .rs__progressBar {
 	position: absolute;
-	background: var(--background-range, #000);
+	background: #98d4a7;
 
 	width: 95%;
 	border: none;
-	height: 6px;
+	height: 8px;
 	left: 15px;
+}
+
+.rs__progressBar.vertical {
+	position: absolute;
+	width: 8px;
+	border: none;
+	left: 0px;
 }
 
 .rs__control {
 	width: 1px;
 	height: 25px;
 	position: absolute;
-	background: #bc9cff;
-	border-radius: 50%;
+	// background: #bc9cff;
+	// border-radius: 50%;
 	z-index: 1;
 	cursor: pointer;
 
 	&::after {
+		background: #98d4a7;
 		position: absolute;
-		top: 0;
+		top: 3px;
 		left: -12.5px;
 		content: "";
 		width: 25px;
 		height: 25px;
+		border-radius: 50%;
 		//border: 1px solid red;
 	}
 
-	&-min::after {
-		border: 1px solid blue;
-	}
-	&-max::after {
-		border: 1px solid red;
-	}
+	// &-min::after {
+	// 	border: 1px solid blue;
+	// }
+	// &-max::after {
+	// 	border: 1px solid red;
+	// }
 
 	&.vertical {
 		width: 25px;
@@ -67,13 +89,21 @@
 		&::after {
 			position: absolute;
 			top: -13px;
-			left: 0;
+			left: 1px;
 			content: "";
 			width: 25px;
 			height: 25px;
 			//		border: 1px solid blue;
 		}
 	}
+}
+
+.rs__control.vertical {
+	left: -9.5px;
+}
+
+.rs__control.horizontal {
+	top: -12.5px;
 }
 
 .hidden {
@@ -107,33 +137,6 @@
 	width: 50px;
 }
 
-.rs__slider.vertical {
-	height: 100%;
-	width: 6px;
-	flex-direction: column;
-	justify-content: center;
-}
-
-.rs__control.vertical {
-	left: -9.5px;
-}
-
-.rs__control.horizontal {
-	top: -12.5px;
-}
-
-.rs__wrapper.vertical {
-	height: 100%;
-	padding: 24px 30px 30px 80px;
-}
-
-.rs__progressBar.vertical {
-	position: absolute;
-	width: 6px;
-	border: none;
-	left: 0px;
-}
-
 .rs__mark {
 	height: 5px;
 	background-color: #000;
@@ -155,6 +158,12 @@
 
 	width: 2px;
 }
+
+.rs__label {
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+	color: #626066;
+	font-size: 12px;
+}
 .rs__label.horizontal {
 	position: absolute;
 	top: 10px;
@@ -169,28 +178,98 @@
 	//	border: 1px solid blue;
 }
 .rs__tip {
+	text-align: center;
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+	color: #626066;
 	width: 50px;
 	height: 25px;
 	position: absolute;
-	border-radius: 10px;
+	border-radius: 5px;
+	border: none;
 
-	background: #bc9cff;
+	background: #98d4a7;
 	z-index: 1;
-	&-max {
-		right: 40%;
+	&-max.rs__tip.horizontal {
+		right: -25px;
 		top: -28px;
 	}
 
-	&-min {
-		left: -40%;
+	&-min.rs__tip.horizontal {
+		left: -25px;
 		top: -28px;
 	}
+
+	// &-max.rs__tip.vertical {
+	// 	left: -55px;
+	// 	top: -12.5px;
+	// }
+
+	// &-min.rs__tip.vertical {
+	// 	left: -55px;
+	// 	top: 0;
+	// }
 }
 
 .rs__tip.vertical {
 	left: -55px;
-	top: 0;
+	top: -12.5px;
 }
 
 .rs__tip.horizontal {
+}
+
+.togglemark__wrapper {
+	cursor: pointer;
+	display: flex;
+}
+
+.checkbox__wrapper {
+	display: flex;
+	position: relative;
+}
+
+.checkbox {
+	position: absolute;
+	left: 7px;
+	top: 9px;
+	width: 25px;
+	height: 1px;
+	outline-offset: 12px;
+
+	& + .checkmark {
+		border: 1px solid grey;
+		background-image: url("~comp/testslider/view/view-panel/img/rectangle-border.svg");
+		//	background-color: hotpink;
+		background-position-y: 50%;
+		background-position-x: 13%;
+		background-repeat: no-repeat;
+		//	background-size: 10px;
+	}
+
+	&:checked + .checkmark {
+		border: 1px solid $colorPurple;
+		background-image: url("~comp/testslider/view/view-panel/img/rectangle.svg");
+		//	background-image: linear-gradient(grey 0%, green 100%);
+		//	background-color: green;
+		background-size: 10px;
+		background-position-x: 87%;
+	}
+}
+
+.checkmark {
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	border: 1px solid grey;
+	width: 38px;
+	height: 18px;
+	border-radius: 22px;
+}
+
+.name {
+	cursor: pointer;
+	//@include font-body;
+	line-height: 19px;
+	padding-left: 10px;
+	text-transform: none;
 }

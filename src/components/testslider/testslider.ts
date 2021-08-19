@@ -23,7 +23,7 @@ let conf = {
 	to: 70,
 	step: 10,
 	//intervals: 26,
-	//vertical: true,
+	vertical: true,
 	//range: false
 };
 

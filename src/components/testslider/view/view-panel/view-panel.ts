@@ -142,18 +142,19 @@ class sliderViewPanel extends sliderView {
 
 	renderToggle(name: boolean, value: string, className: string) {
 		let label = document.createElement('label');
-		label.className = 'togglemark__wrapper';
+		label.className = 'checkbox__wrapper';
 		let input = document.createElement('input');
 		input.type = 'checkbox';
 
 		if (name == true) {
 			input.checked = true;
 		}
-		input.className = className;
+		input.className = 'checkbox';
+		input.classList.add(className);
 		let span = document.createElement('span');
-		span.className = 'togglemark';
-		let innerLabel = document.createElement('label');
-		innerLabel.className = 'togglemark__label';
+		span.className = 'checkmark';
+		let innerLabel = document.createElement('p');
+		innerLabel.className = 'name';
 		innerLabel.innerText = value;
 
 		label.append(input);
