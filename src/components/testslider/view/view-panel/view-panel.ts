@@ -130,6 +130,7 @@ class sliderViewPanel extends sliderView {
 	renderInput(
 		name: string, value: number, className: string) {
 		let label = document.createElement('label');
+		label.className = 'input__wrapper';
 		label.innerText = name;
 		let input = document.createElement('input');
 		input.value = value ? String(value) : '';

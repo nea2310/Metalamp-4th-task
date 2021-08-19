@@ -61,8 +61,10 @@
 	position: absolute;
 	// background: #bc9cff;
 	// border-radius: 50%;
-	z-index: 1;
+	z-index: 30;
 	cursor: pointer;
+
+	outline-offset: 12px;
 
 	&::after {
 		background: #98d4a7;
@@ -86,6 +88,7 @@
 	&.vertical {
 		width: 25px;
 		height: 1px;
+
 		&::after {
 			position: absolute;
 			top: -13px;
@@ -135,6 +138,14 @@
 .rs__input {
 	//	border: 1px solid red;
 	width: 50px;
+	color: $colorDarkShade75;
+	border-radius: 5px;
+	border-width: 1px;
+	border-color: $colorDarkShade75;
+	:focus {
+		outline: none;
+		border-width: 2px;
+	}
 }
 
 .rs__mark {
@@ -191,12 +202,12 @@
 	z-index: 1;
 	&-max.rs__tip.horizontal {
 		right: -25px;
-		top: -28px;
+		top: -40px;
 	}
 
 	&-min.rs__tip.horizontal {
 		left: -25px;
-		top: -28px;
+		top: -40px;
 	}
 
 	// &-max.rs__tip.vertical {
@@ -211,7 +222,7 @@
 }
 
 .rs__tip.vertical {
-	left: -55px;
+	left: -65px;
 	top: -12.5px;
 }
 
@@ -239,18 +250,15 @@
 	& + .checkmark {
 		border: 1px solid grey;
 		background-image: url("~comp/testslider/view/view-panel/img/rectangle-border.svg");
-		//	background-color: hotpink;
 		background-position-y: 50%;
 		background-position-x: 13%;
 		background-repeat: no-repeat;
-		//	background-size: 10px;
 	}
 
 	&:checked + .checkmark {
-		border: 1px solid $colorPurple;
+		border: 1px solid $colorDarkShade75;
 		background-image: url("~comp/testslider/view/view-panel/img/rectangle.svg");
-		//	background-image: linear-gradient(grey 0%, green 100%);
-		//	background-color: green;
+
 		background-size: 10px;
 		background-position-x: 87%;
 	}
@@ -268,8 +276,13 @@
 
 .name {
 	cursor: pointer;
-	//@include font-body;
 	line-height: 19px;
 	padding-left: 10px;
 	text-transform: none;
+}
+
+.input__wrapper,
+.checkbox__wrapper {
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+	color: #626066;
 }
