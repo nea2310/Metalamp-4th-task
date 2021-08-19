@@ -172,7 +172,7 @@ class sliderModel {
 		/*На мобильных устройствах может фиксироваться несколько точек касания, поэтому используется массив targetTouches*/
 		/*Мы будем брать только первое зафиксированое касание по экрану targetTouches[0]*/
 		let isStop = false;
-		if (e.type == 'click' || e.type == 'pointermove') {//если потянули ползунок или кликнули по шкале
+		if (e.type == 'pointerdown' || e.type == 'pointermove') {//если потянули ползунок или кликнули по шкале
 
 			if (this.conf.vertical) {
 				this.newPos = 100 -
