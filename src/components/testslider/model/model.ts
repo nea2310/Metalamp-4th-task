@@ -194,6 +194,26 @@ class sliderModel {
 						this.slider.getBoundingClientRect().left) * 100 /
 						(this.slider.offsetWidth)) - shift;
 			}
+			// если ползунок должен вставать на позицию ближайшего к нему деления шкалы
+			if (this.conf.sticky && this.conf.scale) {
+				/*Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления от значения this.newPos 
+				до тех пор, пока результат текущей итерации не станет больше результата предыдущей (это значит, что мы нашли деление,
+					ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления*/
+				for (let i = 0; i < this.marksArr.length; i++) {
+					let a = 0;
+					if (i < this.marksArr.length - 1) {
+						a = this.marksArr[i + 1].pos;
+					}
+					if (Math.abs(this.newPos - this.marksArr[i].pos) <
+						Math.abs(this.newPos - a)) {
+						this.newPos = this.marksArr[i].pos;
+						break;
+					}
+				}
+			}
+
+
+
 
 			//запрещаем ползункам выходить за границы слайдера
 			if (this.newPos < 0) {
@@ -251,7 +271,7 @@ class sliderModel {
 		if (!isStop)
 			this.computeControlValue('normal');
 
-		console.log(this);
+		//console.log(this);
 	}
 
 	/*Рассчитываем новое значение ползунка*/

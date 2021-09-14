@@ -19,11 +19,12 @@ let root = '.rs__wrapper';
 let conf = {
 	min: 50,
 	max: 100,
-	from: 50,
+	from: 60,
 	to: 70,
 	step: 10,
+	sticky: true,
 	//intervals: 26,
-	vertical: true,
+	//vertical: true,
 	//range: false
 };
 

@@ -28,6 +28,7 @@ interface IConf {
 	to?: number
 	vertical?: boolean
 	intervals?: number
+	sticky?: boolean
 }
 
 

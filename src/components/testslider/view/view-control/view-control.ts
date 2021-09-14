@@ -132,14 +132,11 @@ class sliderViewControl extends sliderView {
 
 	//Обновляем позицию ползунка (вызывается через контроллер)
 	updateControlPos(elem: HTMLElement, newPos: number) {
-
-		if (newPos) {
-			if (!this.conf.vertical) {
-				elem.style.left = newPos + '%';
-			}
-			if (this.conf.vertical) {
-				elem.style.bottom = newPos + '%';
-			}
+		if (!this.conf.vertical) {
+			elem.style.left = newPos + '%';
+		}
+		if (this.conf.vertical) {
+			elem.style.bottom = newPos + '%';
 		}
 	}
 
@@ -150,21 +147,15 @@ class sliderViewControl extends sliderView {
 		isFrom ? this.tipMin.value = val : this.tipMax.value = val;
 	}
 
-	// updateVerticalMode(isVertical: boolean) {
-	// 	isVertical ? console.log('VERTICALMODE') :
-	// 		console.log('HORIZONTALMODE');
-	// }
+
 
 	updateRangeMode(isDouble: boolean) {
 		if (isDouble) {
-			//	console.log(this);
-
 			this.controlMax.classList.remove('hidden');
 			if (this.conf.tip) {
 				this.tipMax.classList.remove('hidden');
 			}
 		} else {
-			//	console.log(this);
 			this.controlMax.classList.add('hidden');
 			this.tipMax.classList.add('hidden');
 		}
