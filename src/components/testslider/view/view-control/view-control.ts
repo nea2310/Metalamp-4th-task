@@ -5,7 +5,8 @@ import {
 	CBMouseEvent,
 	IConf,
 	IControlElements,
-	CBPointerEvent
+	CBPointerEvent,
+	CBKeyboardEvent
 } from './../../interface';
 
 
@@ -126,6 +127,36 @@ class sliderViewControl extends sliderView {
 				document.addEventListener('pointerup', removeListeners);// навешивание обработчика отпускания кнопки
 				//document.addEventListener('touchmove', secondEventHandler);// навешивание обработчика перемещения ползунка
 				//	document.addEventListener('touchend', this.handleMouseUp);
+			}
+		});
+	}
+
+	// Вешаем обработчик нажатия стрелок на сфокусированном ползунке
+
+	bindFocusedControl(getControlData: CBControlElements,
+		computeControlPos: CBKeyboardEvent) {
+
+
+
+		this.slider.addEventListener('keydown', (e) => {
+			//	e.preventDefault();
+			if (e.code == 'ArrowLeft' || e.code == 'ArrowDown' ||
+				e.code == 'ArrowRight' || e.code == 'ArrowUp') {
+				//	e.preventDefault();
+				const target = e.target as HTMLElement;
+				if (target.classList.contains('rs__control')) {
+					let controlData: IControlElements = {};
+					//определяем ползунок, на который нажимают
+					controlData.currentControlElem = target;
+					target.classList.contains('rs__control-min') ?
+						controlData.moovingControl = 'min' :
+						controlData.moovingControl = 'max';
+					controlData.key = e.code;
+					controlData.repeat = e.repeat;
+					//	console.log(e.constructor.name);
+					getControlData(controlData);// вызов хендлера передачи данных в модель о перемещаемом ползунке 
+					computeControlPos(e);
+				}
 			}
 		});
 	}

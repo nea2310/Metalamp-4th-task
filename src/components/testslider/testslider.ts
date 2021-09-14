@@ -17,12 +17,12 @@ import { sliderController } from './controller/controller';
 let root = '.rs__wrapper';
 
 let conf = {
-	min: 50,
-	max: 100,
-	from: 60,
-	to: 70,
-	step: 10,
-	sticky: true,
+	min: 0,
+	max: 100000,
+	from: 10000,
+	to: 70000,
+	step: 10000,
+	//	sticky: true,
 	//intervals: 26,
 	//vertical: true,
 	//range: false

@@ -7,6 +7,7 @@ type CBStringEvent = (arg1: string, arg2: Event) => void;
 type CBStringPointerEvent = (arg1: string, arg2: PointerEvent) => void;
 type CBInputEvent = (arg1: InputEvent) => void;
 type CBStringInputEvent = (arg1: string, arg2: InputEvent) => void;
+type CBKeyboardEvent = (arg1: KeyboardEvent) => void;
 
 
 
@@ -38,6 +39,8 @@ interface IControlElements {
 	// currentControlFlag?: boolean;
 	shift?: number;
 	moovingControl?: string;
+	key?: string;
+	repeat?: boolean;
 }
 
 
@@ -62,6 +65,7 @@ export {
 	CBStringPointerEvent,
 	CBInputEvent,
 	CBStringInputEvent,
+	CBKeyboardEvent,
 	ControlPosUpdated,
 	ProgressBarUpdated,
 	ControlValueUpdated,

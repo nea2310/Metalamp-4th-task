@@ -49,6 +49,8 @@ class sliderModel {
 	intervalValueUpdated: (arg1: string) => void;
 	stepValue: string;
 	intervalValue: string;
+	key: string;
+	repeat: boolean;
 
 
 
@@ -78,11 +80,15 @@ class sliderModel {
 		this.currentControlElem = controlData.currentControlElem; // ползунок, за который тянут
 		this.moovingControl = controlData.moovingControl;
 		this.shift = controlData.shift;
+		this.key = controlData.key;
+		this.repeat = controlData.repeat;
 	}
 
 	//Рассчитываем положение ползунка на основании значения, введенного в панели конфигурирования или в объекте конфигурации
 	computeControlPosFromVal(val: number,
 		isInitialRendering: boolean = true, control: HTMLElement): number {
+		console.log(val);
+
 
 		if (val != this.minRangeVal) {
 			if (this.conf.vertical) {
@@ -166,15 +172,16 @@ class sliderModel {
 	}
 
 
-	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале
-	computeControlPosFromEvent(e: PointerEvent): void {
+	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале или перемещения сфокусированного ползунка стрелкой 
+	computeControlPosFromEvent(e: PointerEvent | KeyboardEvent): void {
+
+		console.log(e);
 
 
-		/*Определяем положение мыши в зависимости от устройства*/
-		/*На мобильных устройствах может фиксироваться несколько точек касания, поэтому используется массив targetTouches*/
-		/*Мы будем брать только первое зафиксированое касание по экрану targetTouches[0]*/
 		let isStop = false;
-		if (e.type == 'pointerdown' || e.type == 'pointermove') {//если потянули ползунок или кликнули по шкале
+
+		if (e instanceof PointerEvent &&
+			(e.type == 'pointerdown' || e.type == 'pointermove')) {//если потянули ползунок или кликнули по шкале
 
 			if (this.conf.vertical) {
 				this.newPos = 100 -
@@ -194,79 +201,139 @@ class sliderModel {
 						this.slider.getBoundingClientRect().left) * 100 /
 						(this.slider.offsetWidth)) - shift;
 			}
-			// если ползунок должен вставать на позицию ближайшего к нему деления шкалы
-			if (this.conf.sticky && this.conf.scale) {
-				/*Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления от значения this.newPos 
-				до тех пор, пока результат текущей итерации не станет больше результата предыдущей (это значит, что мы нашли деление,
-					ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления*/
-				for (let i = 0; i < this.marksArr.length; i++) {
-					let a = 0;
-					if (i < this.marksArr.length - 1) {
-						a = this.marksArr[i + 1].pos;
-					}
-					if (Math.abs(this.newPos - this.marksArr[i].pos) <
-						Math.abs(this.newPos - a)) {
-						this.newPos = this.marksArr[i].pos;
-						break;
-					}
-				}
-			}
+		}
 
+		if (e instanceof KeyboardEvent && e.type == 'keydown') {//если нажали стрелку на сфокусированном ползунке
 
+			console.log(this.moovingControl);
 
+			if (!this.repeat) { // одиночное нажатие
 
-			//запрещаем ползункам выходить за границы слайдера
-			if (this.newPos < 0) {
-				isStop = true;
-				this.computeControlValue('min');
-				return;
-			}
-			if (this.newPos > 100) {
-				isStop = true;
-				this.computeControlValue('max');
-				return;
-			}
-
-			/*запрещаем ползункам перепрыгивать друг через друга, если это не single режим*/
-			if (!this.controlMax.classList.contains('hidden')) {
-				if (this.conf.vertical) {
-					if (this.moovingControl == 'min') {//двигается нижний ползунок
-						if (this.newPos >=
-							parseFloat(this.controlMax.style.bottom)) {
-							isStop = true;
-							this.computeControlValue('meetMax');
-							return;
+				if (this.moovingControl == 'min') {
+					if (this.key == 'ArrowRight' || this.key == 'ArrowUp') {
+						if (!this.controlMax.classList.contains('hidden')) { // режим Double
+							if (this.conf.from < this.conf.to) {
+								this.computeControlPosFromVal(
+									this.conf.from + 1, false, this.controlMin);
+							}
+						} else {// режим Single
+							if (this.conf.from < this.conf.max) {
+								this.computeControlPosFromVal(
+									this.conf.from + 1, false, this.controlMin);
+							}
 						}
-					}
-					if (this.moovingControl == 'max') {//двигается верхний ползунок
-						if (this.newPos <=
-							parseFloat(this.controlMin.style.bottom)) {
-							isStop = true;
-							this.computeControlValue('meetMin');
-							return;
+					} else {
+
+						if (this.conf.from > this.conf.min) {
+							this.computeControlPosFromVal(this.conf.from - 1,
+								false, this.controlMin);
 						}
 					}
 				} else {
-					if (this.moovingControl == 'min') {//двигается левый ползунок
-						if (this.newPos >
-							parseFloat(this.controlMax.style.left)) {
-							isStop = true;
-							this.computeControlValue('meetMax');
-							return;
+					if (this.key == 'ArrowRight' || this.key == 'ArrowUp') {
+						if (this.conf.to < this.conf.max) {
+							this.computeControlPosFromVal(this.conf.to + 1,
+								false, this.controlMax);
 						}
-					}
-					if (this.moovingControl == 'max') {//двигается правый ползунок
-						if (this.newPos <
-							parseFloat(this.controlMin.style.left)) {
-							isStop = true;
-							this.computeControlValue('meetMin');
-							return;
+					} else {
+						if (this.conf.to > this.conf.from) {
+							this.computeControlPosFromVal(this.conf.to - 1,
+								false, this.controlMax);
 						}
 					}
 				}
+				console.log(this.newPos);
+
+
 			}
-			this.сontrolPosUpdated(this.currentControlElem, this.newPos); //Вызываем для обновления положения ползунка в view
+
+			//	this.newPos = 0;
+
+			// this.currentControlElem = controlData.currentControlElem; // ползунок, за который тянут
+			// this.moovingControl = controlData.moovingControl;
+			// this.shift = controlData.shift;
+			// this.key = controlData.key;
+			// this.repeat = controlData.repeat;
+
+
 		}
+
+
+		// если ползунок должен вставать на позицию ближайшего к нему деления шкалы
+		if (this.conf.sticky && this.conf.scale) {
+			/*Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления от значения this.newPos 
+			до тех пор, пока результат текущей итерации не станет больше результата предыдущей (это значит, что мы нашли деление,
+				ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления*/
+			for (let i = 0; i < this.marksArr.length; i++) {
+				let a = 0;
+				if (i < this.marksArr.length - 1) {
+					a = this.marksArr[i + 1].pos;
+				}
+				if (Math.abs(this.newPos - this.marksArr[i].pos) <
+					Math.abs(this.newPos - a)) {
+					this.newPos = this.marksArr[i].pos;
+					break;
+				}
+			}
+		}
+
+
+
+
+		//запрещаем ползункам выходить за границы слайдера
+		if (this.newPos < 0) {
+			isStop = true;
+			this.computeControlValue('min');
+			return;
+		}
+		if (this.newPos > 100) {
+			isStop = true;
+			this.computeControlValue('max');
+			return;
+		}
+
+		/*запрещаем ползункам перепрыгивать друг через друга, если это не single режим*/
+		if (!this.controlMax.classList.contains('hidden')) {
+			if (this.conf.vertical) {
+				if (this.moovingControl == 'min') {//двигается нижний ползунок
+					if (this.newPos >=
+						parseFloat(this.controlMax.style.bottom)) {
+						isStop = true;
+						this.computeControlValue('meetMax');
+						return;
+					}
+				}
+				if (this.moovingControl == 'max') {//двигается верхний ползунок
+					if (this.newPos <=
+						parseFloat(this.controlMin.style.bottom)) {
+						isStop = true;
+						this.computeControlValue('meetMin');
+						return;
+					}
+				}
+			} else {
+				if (this.moovingControl == 'min') {//двигается левый ползунок
+					if (this.newPos >
+						parseFloat(this.controlMax.style.left)) {
+						isStop = true;
+						this.computeControlValue('meetMax');
+						return;
+					}
+				}
+				if (this.moovingControl == 'max') {//двигается правый ползунок
+					if (this.newPos <
+						parseFloat(this.controlMin.style.left)) {
+						isStop = true;
+						this.computeControlValue('meetMin');
+						return;
+					}
+				}
+			}
+		}
+		this.сontrolPosUpdated(this.currentControlElem, this.newPos); //Вызываем для обновления положения ползунка в view
+		//	}
+
+
 
 		if (!isStop)
 			this.computeControlValue('normal');
@@ -279,6 +346,8 @@ class sliderModel {
 	computeControlValue(stopType: string,
 		pos: number = this.newPos,
 		elem: HTMLElement = this.currentControlElem) {
+		console.log(stopType);
+
 
 		if (!this.changeMode) {
 			if (stopType == 'normal') {
