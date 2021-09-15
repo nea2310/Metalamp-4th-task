@@ -112,7 +112,7 @@ class sliderController {
 
 
 		this.viewControl.bindFocusedControl(this.handleGetControlData,
-			this.handlecomputeControlPosFromEvent); // вешаем обработчики handleGetControlData и handlecomputeControlPosFromEvent для обработки в view события нажатия стрелки на ползунке в фокусе
+			this.handleNewPosKeyboardEvnt); // вешаем обработчики handleGetControlData и handleNewPosKeyboardEvnt для обработки в view события нажатия стрелки на ползунке в фокусе
 
 		this.viewScale.bindClickOnScale(this.handleGetControlData,
 			this.handlecomputeControlPosFromEvent);// вешаем обработчики handleGetControlData и handlecomputeControlPosFromEvent для обработки в view события клика по шкале
@@ -160,8 +160,14 @@ class sliderController {
 
 
 	// вызываем метод computeControlPosFromEvent в модели
-	handlecomputeControlPosFromEvent = (e: PointerEvent | KeyboardEvent) => {
+	handlecomputeControlPosFromEvent = (e: PointerEvent) => {
 		this.model.computeControlPosFromEvent(e);
+	}
+
+
+	// вызываем метод computeNewPosKeyEvnt в модели
+	handleNewPosKeyboardEvnt = (e: KeyboardEvent) => {
+		this.model.computePosFromKeyboardEvent(e);
 	}
 	//отвязка слушателей
 	handleRemoveEventListeners = () => {

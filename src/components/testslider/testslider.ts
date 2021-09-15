@@ -17,11 +17,11 @@ import { sliderController } from './controller/controller';
 let root = '.rs__wrapper';
 
 let conf = {
-	min: 0,
+	min: -100000,
 	max: 100000,
-	from: 20000,
+	from: 0,
 	to: 70000,
-	step: 500,
+	step: 10000,
 	shiftOnKeyDown: 1,
 	shiftOnKeyHold: 5,
 	sticky: true,
