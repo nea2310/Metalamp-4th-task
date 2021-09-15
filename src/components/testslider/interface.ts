@@ -30,6 +30,8 @@ interface IConf {
 	vertical?: boolean
 	intervals?: number
 	sticky?: boolean
+	shiftOnKeyDown?: number
+	shiftOnKeyHold?: number
 }
 
 

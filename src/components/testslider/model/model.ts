@@ -207,45 +207,76 @@ class sliderModel {
 
 			console.log(this.moovingControl);
 
-			if (!this.repeat) { // одиночное нажатие
+			//	if (!this.repeat) { // одиночное нажатие
+			console.log(this.conf);
 
-				if (this.moovingControl == 'min') {
-					if (this.key == 'ArrowRight' || this.key == 'ArrowUp') {
-						if (!this.controlMax.classList.contains('hidden')) { // режим Double
-							if (this.conf.from < this.conf.to) {
+
+			if (this.moovingControl == 'min') {// Ползунок min
+				if (this.key == 'ArrowRight' || this.key == 'ArrowUp') {//Увеличение значения
+					if (!this.controlMax.classList.contains('hidden')) { // режим Double
+						if (this.conf.from < this.conf.to) {
+							this.repeat ?
 								this.computeControlPosFromVal(
-									this.conf.from + 1, false, this.controlMin);
-							}
-						} else {// режим Single
-							if (this.conf.from < this.conf.max) {
+									this.conf.from +
+									this.conf.shiftOnKeyHold,
+									false, this.controlMin) :
 								this.computeControlPosFromVal(
-									this.conf.from + 1, false, this.controlMin);
-							}
+									this.conf.from +
+									this.conf.shiftOnKeyDown,
+									false, this.controlMin);
 						}
-					} else {
-
-						if (this.conf.from > this.conf.min) {
-							this.computeControlPosFromVal(this.conf.from - 1,
-								false, this.controlMin);
+					} else {// режим Single
+						if (this.conf.from < this.conf.max) {
+							this.repeat ?
+								this.computeControlPosFromVal(
+									this.conf.from +
+									this.conf.shiftOnKeyHold,
+									false, this.controlMin) :
+								this.computeControlPosFromVal(
+									this.conf.from +
+									this.conf.shiftOnKeyDown,
+									false, this.controlMin);
 						}
 					}
-				} else {
-					if (this.key == 'ArrowRight' || this.key == 'ArrowUp') {
-						if (this.conf.to < this.conf.max) {
-							this.computeControlPosFromVal(this.conf.to + 1,
-								false, this.controlMax);
-						}
-					} else {
-						if (this.conf.to > this.conf.from) {
-							this.computeControlPosFromVal(this.conf.to - 1,
-								false, this.controlMax);
-						}
+				} else {// Уменьшение значения
+
+					if (this.conf.from > this.conf.min) {
+						this.repeat ?
+							this.computeControlPosFromVal(
+								this.conf.from - this.conf.shiftOnKeyHold,
+								false, this.controlMin) :
+							this.computeControlPosFromVal(
+								this.conf.from - this.conf.shiftOnKeyDown,
+								false, this.controlMin);
 					}
 				}
-				console.log(this.newPos);
-
-
+			} else {// Ползунок max
+				if (this.key == 'ArrowRight' || this.key == 'ArrowUp') {//Увеличение значения
+					if (this.conf.to < this.conf.max) {
+						this.repeat ?
+							this.computeControlPosFromVal(
+								this.conf.to + this.conf.shiftOnKeyHold,
+								false, this.controlMax) :
+							this.computeControlPosFromVal(
+								this.conf.to + this.conf.shiftOnKeyDown,
+								false, this.controlMax);
+					}
+				} else {// Уменьшение значения
+					if (this.conf.to > this.conf.from) {
+						this.repeat ?
+							this.computeControlPosFromVal(
+								this.conf.to - this.conf.shiftOnKeyHold,
+								false, this.controlMax) :
+							this.computeControlPosFromVal(
+								this.conf.to - this.conf.shiftOnKeyDown,
+								false, this.controlMax);
+					}
+				}
 			}
+			console.log(this.newPos);
+
+
+			//	}
 
 			//	this.newPos = 0;
 

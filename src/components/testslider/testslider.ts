@@ -22,7 +22,9 @@ let conf = {
 	from: 10000,
 	to: 70000,
 	step: 10000,
-	//	sticky: true,
+	shiftOnKeyDown: 1,
+	shiftOnKeyHold: 100,
+	sticky: true,
 	//intervals: 26,
 	//vertical: true,
 	//range: false
