@@ -202,6 +202,10 @@ class sliderViewControl extends sliderView {
 			this.tipMin.classList.add('hidden');
 		}
 	}
+
+	// updateStickyMode(isSticky: boolean){
+
+	// }
 }
 
 

@@ -129,6 +129,8 @@ class sliderController {
 			this.handleIsBarNotChecked);
 		this.viewPanel.bindCheckIsTipControl(this.handleIsTipChecked,
 			this.handleIsTipNotChecked);
+		this.viewPanel.bindCheckIsStickyControl(this.handleIsStickyChecked,
+			this.handleIsStickyNotChecked);
 
 
 
@@ -136,7 +138,10 @@ class sliderController {
 		this.viewPanel.bindStepChange(this.handleStepChanged);
 		this.viewPanel.bindIntervalChange(this.handleIntervalChanged);
 		this.viewPanel.bindFromToChange(this.handleFromToChanged);
-
+		this.viewPanel.
+			bindShiftOnKeyDownChange(this.handleShiftOnKeyDownChange);
+		this.viewPanel.
+			bindShiftOnKeyHoldChange(this.handleShiftOnKeyHoldChange);
 
 
 
@@ -267,10 +272,21 @@ class sliderController {
 	}
 
 	handleIsTipNotChecked = () => {
-
 		this.conf.tip = false;
 		this.viewControl.updateTipMode(false);
 	}
+
+	handleIsStickyChecked = () => {
+		this.conf.sticky = true;
+		//	this.viewControl.updateStickyMode(true);
+	}
+
+	handleIsStickyNotChecked = () => {
+		this.conf.sticky = false;
+		//this.viewControl.updateStickyMode(false);
+	}
+
+
 
 	handleFromToChanged = (val: string, e: Event) => {
 		const target = e.target as HTMLElement;
@@ -346,6 +362,13 @@ class sliderController {
 		this.handleOnScaleMarksUpdated(this.model.marksArr);
 	}
 
+	handleShiftOnKeyDownChange = (val: string) => {
+		this.conf.shiftOnKeyDown = parseInt(val);
+	}
+
+	handleShiftOnKeyHoldChange = (val: string) => {
+		this.conf.shiftOnKeyHold = parseInt(val);
+	}
 
 
 	// снимаем обработчики, повешенные на событие перемещения мыши

@@ -27,6 +27,11 @@ class sliderViewPanel extends sliderView {
 	toInput: HTMLInputElement;
 	isVerticalToggle: HTMLElement;
 	isVerticalToggleInput: HTMLInputElement;
+	shiftOnKeyDownLabel: HTMLElement;
+	shiftOnKeyDownInput: HTMLInputElement;
+	shiftOnKeyHoldLabel: HTMLElement;
+	shiftOnKeyHoldInput: HTMLInputElement;
+
 
 	isRangeToggle: HTMLElement;
 	isRangeToggleInput: HTMLInputElement;
@@ -40,6 +45,11 @@ class sliderViewPanel extends sliderView {
 
 	isTipToggle: HTMLElement;
 	isTipToggleInput: HTMLInputElement;
+
+
+	isStickyToggle: HTMLElement;
+	isStickyToggleInput: HTMLInputElement;
+
 	intervalLabel: HTMLLabelElement;
 
 
@@ -81,6 +91,20 @@ class sliderViewPanel extends sliderView {
 		this.panelTop.append(this.stepLabel);
 		this.stepInput = this.stepLabel.querySelector('input');
 
+		this.shiftOnKeyDownLabel = this.renderInput('shiftOnKeyDown',
+			this.conf.shiftOnKeyDown,
+			'rs__input-shiftOnKeyDown');
+		this.panelTop.append(this.shiftOnKeyDownLabel);
+		this.shiftOnKeyDownInput =
+			this.shiftOnKeyDownLabel.querySelector('input');
+
+		this.shiftOnKeyHoldLabel = this.renderInput('shiftOnKeyHold',
+			this.conf.shiftOnKeyHold,
+			'rs__input-shiftOnKeyHold');
+		this.panelTop.append(this.shiftOnKeyHoldLabel);
+		this.shiftOnKeyHoldInput =
+			this.shiftOnKeyHoldLabel.querySelector('input');
+
 		//Создать чекбоксы
 		this.isVerticalToggle = this.renderToggle(this.conf.vertical,
 			'vertical', 'rs__verticalModeToggle');
@@ -112,6 +136,12 @@ class sliderViewPanel extends sliderView {
 		this.isTipToggleInput =
 			this.isTipToggle.querySelector('input');
 		this.panelBottom.append(this.isTipToggle);
+
+		this.isStickyToggle = this.renderToggle(this.conf.sticky,
+			'sticky', 'rs__stickyModeToggle');
+		this.isStickyToggleInput =
+			this.isStickyToggle.querySelector('input');
+		this.panelBottom.append(this.isStickyToggle);
 	}
 
 	renderPanelWrapper() {
@@ -133,7 +163,7 @@ class sliderViewPanel extends sliderView {
 		label.className = 'input__wrapper';
 		label.innerText = name;
 		let input = document.createElement('input');
-		input.value = value ? String(value) : '';
+		input.value = String(value);
 		input.className = 'rs__input';
 		input.classList.add(className);
 		label.append(input);
@@ -201,6 +231,20 @@ class sliderViewPanel extends sliderView {
 		});
 	}
 
+	//ввод значения SHIFTONKEYDOWN
+	bindShiftOnKeyDownChange(eventHandler: CBStringEvent) {
+		this.shiftOnKeyDownInput.addEventListener('input', (e) => {
+			eventHandler(this.shiftOnKeyDownInput.value, e);
+		});
+	}
+
+	//ввод значения SHIFTONKEYHOLD
+	bindShiftOnKeyHoldChange(eventHandler: CBStringEvent) {
+		this.shiftOnKeyHoldInput.addEventListener('input', (e) => {
+			eventHandler(this.shiftOnKeyHoldInput.value, e);
+		});
+	}
+
 
 	//щелчок по чекбоксу VERTICAL
 	bindCheckIsVerticalControl(checkedEventHandler: CBEvent,
@@ -264,6 +308,20 @@ class sliderViewPanel extends sliderView {
 		notCheckedEventHandler: CBEvent) {
 		this.isTipToggleInput.addEventListener('change', (e) => {
 			if (this.isTipToggleInput.checked) {
+				checkedEventHandler(e);
+			}
+			else {
+				notCheckedEventHandler(e);
+			}
+		});
+	}
+
+
+	//щелчок по чекбоксу STICKY
+	bindCheckIsStickyControl(checkedEventHandler: CBEvent,
+		notCheckedEventHandler: CBEvent) {
+		this.isStickyToggleInput.addEventListener('change', (e) => {
+			if (this.isStickyToggleInput.checked) {
 				checkedEventHandler(e);
 			}
 			else {
