@@ -11,13 +11,15 @@ import { sliderViewBar } from './../view/view-bar/view-bar';
 
 import {
 	IConf,
-	IControlElements
+	IControlElements,
+	$Idata
 } from './../interface';
+import { Observer } from '../observer/observer';
 
 
 
 
-class sliderController {
+class sliderController extends Observer {
 	model: sliderModel;
 	view: sliderView;
 	viewScale: sliderViewScale;
@@ -36,6 +38,7 @@ class sliderController {
 		viewPanel: sliderViewPanel, viewGrid: sliderViewGrid,
 		viewBar: sliderViewBar,
 		model: sliderModel) {
+		super();
 		this.model = model;
 		this.view = view;
 		this.viewScale = viewScale;
@@ -49,9 +52,50 @@ class sliderController {
 		this.prepareConfiguration();
 		this.render();
 		this.init();
+		this.$createListeners();//срабатывает после инициализации модели
+		this.$init();
 
 
 	}
+
+
+	$createListeners() {
+		this.model.subscribe(this.$handleFromPosition);
+		this.model.subscribe(this.$handleToPosition);
+		this.model.subscribe(this.$handleGrid);
+	}
+
+	$init() {
+		this.$handleFromPosition('FromPosition', this.model.$data);
+		this.$handleToPosition('ToPosition', this.model.$data);
+		this.$handleGrid('Grid', this.model.$data);
+	}
+
+
+	$handleFromPosition = (key: string, data: $Idata) => {
+		if (key !== 'FromPosition') return;
+		else {
+			this.handleOnControlPosUpdated(this.viewControl.controlMin,
+				data.$fromPos);//передаем во view начальное положение левого ползунка
+		}
+	}
+
+
+	$handleToPosition = (key: string, data: $Idata) => {
+		if (key !== 'ToPosition') return;
+		else {
+			this.handleOnControlPosUpdated(this.viewControl.controlMax,
+				data.$toPos);//передаем во view начальное положение левого ползунка
+		}
+	}
+
+	$handleGrid = (key: string, data: $Idata) => {
+		if (key !== 'Grid') return;
+		else {
+			//
+		}
+	}
+
 
 	prepareConfiguration() {
 		this.defaultConf = {
@@ -91,10 +135,10 @@ class sliderController {
 
 	init() {
 
-		this.handleOnControlPosUpdated(this.viewControl.controlMin,
-			this.model.controlMinStartPos);//передаем во view начальное положение левого ползунка
-		this.handleOnControlPosUpdated(this.viewControl.controlMax,
-			this.model.controlMaxStartPos); //передаем во view начальное положение правого ползунка
+		// this.handleOnControlPosUpdated(this.viewControl.controlMin,
+		// 	this.model.controlMinStartPos);//передаем во view начальное положение левого ползунка
+		// this.handleOnControlPosUpdated(this.viewControl.controlMax,
+		// 	this.model.controlMaxStartPos); //передаем во view начальное положение правого ползунка
 
 
 		this.handleOnprogressBarUpdated(String(this.model.selectedPos),

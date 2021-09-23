@@ -37,7 +37,7 @@ new sliderController(conf, root,
 	new sliderViewPanel(root),
 	new sliderViewGrid(root),
 	new sliderViewBar(root),
-	new sliderModel(),
+	new sliderModel(conf),
 );
 
 

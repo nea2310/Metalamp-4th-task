@@ -17,21 +17,24 @@ type ControlValueUpdated = (arg1: HTMLElement, arg2: string) => void;
 type StepValueUpdated = (arg1: string) => void;
 
 interface IConf {
-	bar?: boolean
-	from?: number
-	max?: number
 	min?: number
+	max?: number
+	from?: number
+	to?: number
 	range?: boolean
+	bar?: boolean
+	tip?: boolean
 	scale?: boolean
 	step?: number
-	target?: string
-	tip?: boolean
-	to?: number
-	vertical?: boolean
 	intervals?: number
 	sticky?: boolean
 	shiftOnKeyDown?: number
 	shiftOnKeyHold?: number
+	target?: string
+	vertical?: boolean
+
+
+
 }
 
 
@@ -56,6 +59,19 @@ interface IScaleLabels {
 	elemLeft?: number;
 	elemRight?: number;
 }
+interface $Imethods {
+	$calcFromPosition: boolean,
+	$calcToPosition: boolean,
+	$calcGrid: boolean
+}
+
+interface $Idata {
+	$fromPos?: number
+	$toPos?: number
+	$marksArr?: { 'pos'?: number, 'val'?: number }[];
+	$intervalValue?: string
+	$stepValue?: string
+}
 
 export {
 	CBNoArgs,
@@ -75,5 +91,7 @@ export {
 	IConf,
 	IControlElements,
 	IObj,
-	IScaleLabels
+	IScaleLabels,
+	$Imethods,
+	$Idata
 };

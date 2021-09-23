@@ -5,11 +5,14 @@ import {
 	IConf,
 	IControlElements,
 	IObj,
-	StepValueUpdated
+	StepValueUpdated,
+	$Imethods,
+	$Idata
 } from './../interface';
+import { Observer } from '../observer/observer';
 
 
-class sliderModel {
+class sliderModel extends Observer {
 	conf: IConf;
 	slider: HTMLElement;
 	controlMin: HTMLElement;
@@ -51,7 +54,205 @@ class sliderModel {
 	intervalValue: string;
 	key: string;
 	repeat: boolean;
+	defaultConf: IConf;
 
+	$conf: IConf;
+	$methods: $Imethods;
+
+	$data: $Idata;
+	// $fromPos: number
+	// $toPos: number
+	// $marksArr: { 'pos'?: number, 'val'?: number }[];
+	// $intervalValue: string
+	// $stepValue: string
+
+	constructor(conf: IConf) {
+		super();
+		this.$conf = {
+
+			min: 1,
+			max: 10,
+			from: 3,
+			to: 7,
+			range: true,
+			bar: true,
+			tip: true,
+			scale: true,
+			step: 1,
+			sticky: true,
+			shiftOnKeyDown: 1,
+			shiftOnKeyHold: 2,
+			//			target: string
+			vertical: false
+		};
+
+		this.$data = {};
+		this.$methods = {
+			$calcFromPosition: false,
+			$calcToPosition: false,
+			$calcGrid: false,
+		};
+		this.$updateConf(conf);
+	}
+
+	// обновим конфигурацию
+	$updateConf(newConf: IConf) {
+		let conf = {};
+		conf = Object.assign(conf, this.$conf, newConf);
+		//проверим корректность полученных параметров конфигурации
+		let checkResult = this.$checkConf(conf);
+		if (checkResult) {
+			//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
+			this.$findChangedConf(this.$conf, conf);
+			this.$conf = conf;
+			//запустим методы, для которых есть изменившиеся параметры
+			let key: keyof $Imethods;
+			for (key in this.$methods) {
+				if (this.$methods[key]) {
+					let method = `this.${key}(this.$conf)`;
+					eval(method);
+				}
+			}
+		}
+	}
+
+	$checkConf(newConf: IConf) {
+		if (newConf.range) { // режим Double
+			if (newConf.min > newConf.from ||
+				newConf.from >= newConf.to ||
+				newConf.to >= newConf.max) return false;
+		} else {
+			if (newConf.min > newConf.from ||
+				newConf.from >= newConf.max)
+				return false;
+		}
+		return true;
+	}
+
+	$findChangedConf(conf: IConf, newConf: IConf) {
+		console.log(this.$methods);
+		let key: keyof IConf;
+		for (key in newConf) {
+			if (newConf[key] === conf[key]) {
+				continue;
+			} else {
+				switch (key) {
+					// case 'min':
+					// 	this.$methods.calcMinMax = true;
+					// 	break;
+					// case 'max':
+					// 	this.$methods.calcMinMax = true;
+					// 	break;
+					case 'from':
+						this.$methods.$calcFromPosition = true;
+						this.$methods.$calcGrid = true;
+						break;
+					case 'to':
+						this.$methods.$calcToPosition = true;
+						this.$methods.$calcGrid = true;
+						break;
+					case 'step':
+						this.$methods.$calcGrid = true;
+						break;
+					case 'intervals':
+						this.$methods.$calcGrid = true;
+						break;
+				}
+			}
+		}
+		return this.$methods;
+	}
+
+	$calcFromPosition(conf: IConf) {
+		console.log(conf);
+
+		if (conf.from != conf.min) {
+			if (this.$conf.vertical) {
+				this.$data.$fromPos = ((conf.from - conf.min) * 100) /
+					(conf.max - conf.min);
+			} else {
+				this.$data.$fromPos = ((conf.from - conf.min) * 100) /
+					(conf.max - conf.min);
+			}
+		}
+		else {
+			this.$data.$fromPos = 0.00001; // начальное положение ползунка на шкале, если min=from 
+		}
+		//	console.log(this);
+		this.fire('FromPosition', this.$data);
+	}
+
+	$calcToPosition(conf: IConf) {
+		if (this.$conf.vertical) {
+			this.$data.$toPos = ((conf.to - conf.min) * 100) /
+				(conf.max - conf.min);
+		} else {
+			this.$data.$toPos = ((conf.to - conf.min) * 100) /
+				(conf.max - conf.min);
+		}
+		//	console.log(this);
+		this.fire('ToPosition', this.$data);
+	}
+
+
+
+	$calcGrid(conf: IConf,
+		type: string | null) {
+		let intervals = 0;
+		let step = 0;
+		let arg = '';
+		if (conf.step || type == 'steps') {//если задана ширина (кол-во единиц) шага (step)
+			console.log('STEPS');
+			intervals = (conf.max - conf.min) / conf.step; // находим кол-во шагов
+			step = conf.step;
+			arg = intervals % 1 === 0 ? String(intervals) :
+				String(Math.trunc(intervals + 1));
+			if (typeof (type) == 'string') {
+
+				//	this.stepValueUpdated(arg); // обновить значение интервала в панели конфигурации
+			}
+			else {
+				this.$data.$intervalValue = arg;
+				this.$data.$stepValue = String(conf.step);
+			}
+		}
+
+		if (conf.intervals || type == 'intervals') {//если задано кол-во интервалов шкалы
+			console.log('INTERVALS');
+			intervals = conf.intervals; // находим кол-во шагов
+			step = (conf.max - conf.min) / conf.intervals;// находим ширину (кол-во единиц) в шаге
+			let arg = step % 1 === 0 ? String(step) :
+				String(step.toFixed(2));
+			if (typeof (type) == 'string') {
+				//	this.intervalValueUpdated(arg); // обновить значение шага в панели конфигурации
+			}
+			else {
+				this.$data.$intervalValue = String(conf.intervals);
+				this.$data.$stepValue = arg;
+			}
+		}
+
+		this.$data.$marksArr = [{ val: conf.min, pos: 0 }]; //первое деление всегда стоит на позиции left = 0% и его значение равно conf.min
+		let val = conf.min;
+		for (let i = 0; i < intervals; i++) {
+			let obj: IObj = {};
+			val += step;
+			if (val <= conf.max) {
+				let pos = ((val - conf.min) * 100) /
+					(conf.max - conf.min);
+
+				obj.val = parseFloat(val.toFixed(2));
+				obj.pos = pos;
+				this.$data.$marksArr.push(obj);
+			}
+		}
+		if (this.$data.$marksArr[this.$data.$marksArr.length - 1].val <
+			conf.max) { // если длина шкалы не кратна длине шага
+			this.$data.$marksArr.push({ val: conf.max, pos: 100 });//последнее деление ставим на позицию left = 100% и его значение равно conf.max
+		}
+		console.log(this);
+		this.fire('Grid', this.$data);
+	}
 
 
 
@@ -114,6 +315,8 @@ class sliderModel {
 	//находим value и позиции left шагов, если задана ширина шага (step) или кол-во интервалов, на которое делится шкала (intervals)
 	computeGrid(conf: IConf,
 		type: string | null): { 'val'?: number, 'pos'?: number }[] | string {
+		console.log(type);
+
 		let intervals = 0;
 		let step = 0;
 		let arg = '';
