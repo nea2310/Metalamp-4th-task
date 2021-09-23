@@ -1,6 +1,4 @@
 
-import { sliderView } from './../../view/view';
-
 import {
 	CBNoArgs,
 	CBEvent,
@@ -10,7 +8,8 @@ import {
 
 
 
-class sliderViewPanel extends sliderView {
+class sliderViewPanel {
+	slider: HTMLElement;
 	conf: IConf;
 	panelTop: HTMLElement;
 	panelBottom: HTMLElement;
@@ -57,7 +56,7 @@ class sliderViewPanel extends sliderView {
 
 
 	constructor(root: string) {
-		super(root);
+		this.slider = document.querySelector(root);
 	}
 	init(conf: IConf) {
 		this.conf = conf;

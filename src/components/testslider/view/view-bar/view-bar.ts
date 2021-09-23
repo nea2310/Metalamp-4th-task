@@ -1,13 +1,11 @@
-import { sliderView } from './../../view/view';
-
 import {
 	IConf,
 } from './../../interface';
 
 
 
-class sliderViewBar extends sliderView {
-
+class sliderViewBar {
+	slider: HTMLElement;
 	scale: HTMLElement;
 	elem: HTMLElement;
 	progressBar: HTMLElement;
@@ -22,7 +20,7 @@ class sliderViewBar extends sliderView {
 	lastLabelRemoved: boolean;
 
 	constructor(root: string) {
-		super(root);
+		this.slider = document.querySelector(root);
 	}
 
 	// Инициализация

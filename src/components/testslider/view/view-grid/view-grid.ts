@@ -1,13 +1,12 @@
-import { sliderView } from './../../view/view';
-
 import {
 	IConf,
 } from './../../interface';
 
 
 
-class sliderViewGrid extends sliderView {
-
+class sliderViewGrid {
+	slider: HTMLElement;
+	startWidth: number;
 	scale: HTMLElement;
 	elem: HTMLElement;
 	scaleWidth: number;
@@ -26,7 +25,7 @@ class sliderViewGrid extends sliderView {
 
 
 	constructor(root: string) {
-		super(root);
+		this.slider = document.querySelector(root);
 	}
 
 	// Инициализация

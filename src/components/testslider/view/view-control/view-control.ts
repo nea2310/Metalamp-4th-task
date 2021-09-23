@@ -1,5 +1,4 @@
 
-import { sliderView } from './../../view/view';
 import {
 	CBControlElements,
 	CBMouseEvent,
@@ -12,9 +11,9 @@ import {
 
 
 
-class sliderViewControl extends sliderView {
+class sliderViewControl {
 	conf: IConf;
-
+	slider: HTMLElement;
 	controlMin: HTMLElement;
 	controlMax: HTMLElement;
 	tipMin: HTMLInputElement;
@@ -23,7 +22,7 @@ class sliderViewControl extends sliderView {
 	test: HTMLElement;
 
 	constructor(root: string) {
-		super(root);
+		this.slider = document.querySelector(root);
 	}
 	// Инициализация
 	init(conf: IConf) {

@@ -1,6 +1,4 @@
 
-import { sliderView } from './../../view/view';
-
 import {
 	CBControlElements,
 	CBMouseEvent,
@@ -11,8 +9,9 @@ import {
 
 
 
-class sliderViewScale extends sliderView {
+class sliderViewScale {
 
+	slider: HTMLElement;
 	scale: HTMLElement;
 	elem: HTMLElement;
 	progressBar: HTMLElement;
@@ -27,7 +26,7 @@ class sliderViewScale extends sliderView {
 	lastLabelRemoved: boolean;
 
 	constructor(root: string) {
-		super(root);
+		this.slider = document.querySelector(root);
 	}
 
 	// Инициализация
