@@ -46,6 +46,13 @@ interface IControlElements {
 	moovingControl?: string;
 	key?: string;
 	repeat?: boolean;
+	type?: string,
+	clientY?: number,
+	clientX?: number,
+	top?: number,
+	left?: number,
+	width?: number,
+	height?: number
 }
 
 
@@ -63,6 +70,8 @@ interface $Imethods {
 	$calcFromPosition: boolean,
 	$calcToPosition: boolean,
 	$calcGrid: boolean
+	$calcBar: boolean
+	$calcScale: boolean
 }
 
 interface $Idata {
@@ -71,6 +80,12 @@ interface $Idata {
 	$marksArr?: { 'pos'?: number, 'val'?: number }[];
 	$intervalValue?: string
 	$stepValue?: string
+	$gridType?: string
+	$barWidth?: number
+	$barPos?: number
+	//	$newPos?: number
+	$fromVal?: string
+	$toVal?: string
 }
 
 export {

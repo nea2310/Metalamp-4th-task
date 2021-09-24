@@ -41,9 +41,9 @@ class sliderViewControl {
 		this.scale.append(this.controlMin);
 		this.controlMin.append(this.tipMin);
 
-		this.test = document.createElement('div');
-		this.test.className = 'test';
-		this.controlMin.append(this.test);
+		// this.test = document.createElement('div');
+		// this.test.className = 'test';
+		// this.controlMin.append(this.test);
 
 		if (this.conf.tip == false) { // no tip mode
 			this.tipMin.classList.add('hidden');
@@ -109,7 +109,7 @@ class sliderViewControl {
 			if (target.classList.contains('rs__control')) {
 				let controlData: IControlElements = {};
 				//определяем ползунок, за который тянут
-				controlData.currentControlElem = target;
+				//	controlData.currentControlElem = target;
 				target.classList.contains('rs__control-min') ?
 					controlData.moovingControl = 'min' :
 					controlData.moovingControl = 'max';
@@ -119,6 +119,13 @@ class sliderViewControl {
 					controlData.shift = e.clientX -
 						target.getBoundingClientRect().left;
 				}
+
+				let scale = this.controlMin.parentElement;
+
+				controlData.top = scale.getBoundingClientRect().top;
+				controlData.left = scale.getBoundingClientRect().left;
+				controlData.width = scale.offsetWidth;
+				controlData.height = scale.offsetHeight;
 
 				getControlData(controlData);// вызов хендлера передачи данных в модель о перемещаемом ползунке 
 

@@ -31,6 +31,7 @@ class sliderController extends Observer {
 	root: string;
 	defaultConf: IConf;
 	customConf: IConf;
+	controlData: IControlElements;
 
 	constructor(conf: IConf, root: string,
 		view: sliderView, viewScale: sliderViewScale,
@@ -62,21 +63,29 @@ class sliderController extends Observer {
 	$createListeners() {
 		this.model.subscribe(this.$handleFromPosition);
 		this.model.subscribe(this.$handleToPosition);
+		this.model.subscribe(this.$handleFromValue);
+		this.model.subscribe(this.$handleToValue);
+		this.model.subscribe(this.$handleBar);
+		this.model.subscribe(this.$handleScale);
 		this.model.subscribe(this.$handleGrid);
+
 	}
 
 	$init() {
 		this.$handleFromPosition('FromPosition', this.model.$data);
 		this.$handleToPosition('ToPosition', this.model.$data);
-		this.$handleGrid('Grid', this.model.$data);
+		this.$handleBar('Bar', this.model.$data, this.model.$conf);
+		this.$handleScale('Grid', this.model.$data);
+		this.$handleGrid('Grid', this.model.$data); // это нужно только для внесения значения в панель
+
 	}
 
 
 	$handleFromPosition = (key: string, data: $Idata) => {
 		if (key !== 'FromPosition') return;
 		else {
-			this.handleOnControlPosUpdated(this.viewControl.controlMin,
-				data.$fromPos);//передаем во view начальное положение левого ползунка
+			this.viewControl.updateControlPos(this.viewControl.controlMin,
+				data.$fromPos);
 		}
 	}
 
@@ -84,18 +93,97 @@ class sliderController extends Observer {
 	$handleToPosition = (key: string, data: $Idata) => {
 		if (key !== 'ToPosition') return;
 		else {
-			this.handleOnControlPosUpdated(this.viewControl.controlMax,
-				data.$toPos);//передаем во view начальное положение левого ползунка
+			this.viewControl.updateControlPos(this.viewControl.controlMax,
+				data.$toPos);
+		}
+	}
+
+
+	$handleFromValue = (key: string, data: $Idata) => {
+		if (key !== 'FromValue') return;
+		else {
+			this.viewPanel.updateFromTo('from', data.$fromVal);
+			this.viewControl.updateTipVal(data.$fromVal, true);
+		}
+	}
+
+
+	$handleToValue = (key: string, data: $Idata) => {
+		if (key !== 'ToValue') return;
+		else {
+			this.viewPanel.updateFromTo('to', data.$toVal);
+			this.viewControl.updateTipVal(data.$toVal, false);
+		}
+	}
+
+
+
+
+	$handleScale = (key: string, data: $Idata) => {
+		if (key !== 'Grid') return;
+		else {
+			this.viewGrid.createGrid(data.$marksArr, this.conf);
+		}
+	}
+
+	$handleBar = (key: string, data: $Idata, conf: IConf) => {
+		if (key !== 'Bar') return;
+		else {
+			//
+			this.viewBar.
+				$updateBar(data.$barPos, data.$barWidth, conf.vertical);
 		}
 	}
 
 	$handleGrid = (key: string, data: $Idata) => {
 		if (key !== 'Grid') return;
 		else {
-			//
+			if (data.$gridType === 'steps') {
+				this.viewPanel.updateInterval(data.$intervalValue);
+			}
+			if (data.$gridType === 'intervals') {
+				this.viewPanel.updateInterval(data.$stepValue);
+			}
+
 		}
 	}
 
+
+	//вызываем метод updateСurrentControl в view
+	handleOnСontrolValueUpdated = (elem: HTMLElement, newValue: string) => {
+		// elem.classList.contains('rs__control-min') ?
+		// 	this.conf.from = parseInt(newValue) :
+		// 	this.conf.to = parseInt(newValue);
+		// this.viewPanel.updateFromTo(elem, newValue);
+		// elem.classList.contains('rs__control-min') ?
+		// 	this.viewControl.updateTipVal(newValue, true) :
+		// 	this.viewControl.updateTipVal(newValue, false);
+	}
+
+
+
+	//вызываем метод updateСurrentControl в view
+	handleOnprogressBarUpdated = (selectedPos: string,
+		selectedWidth: string, isVertical: boolean) => {
+		this.viewBar.
+			updateProgressBar(selectedPos, selectedWidth, isVertical);
+	}
+
+	handleIntervalCalc =
+		(step: string) => {
+			this.viewPanel.updateStep(step);
+		}
+
+
+	handleStepCalc =
+		(interval: string) => {
+			this.viewPanel.updateInterval(interval);
+		}
+
+	handleOnScaleMarksUpdated =
+		(scaleMarks: { 'pos'?: number, 'val'?: number }[]) => {
+			this.viewGrid.createGrid(scaleMarks, this.conf);
+		}
 
 	prepareConfiguration() {
 		this.defaultConf = {
@@ -141,12 +229,12 @@ class sliderController extends Observer {
 		// 	this.model.controlMaxStartPos); //передаем во view начальное положение правого ползунка
 
 
-		this.handleOnprogressBarUpdated(String(this.model.selectedPos),
-			String(this.model.selectedWidth), this.conf.vertical); // передаем во view начальное положение прогресс-бара
-		this.handleOnScaleMarksUpdated(this.model.marksArr); // передаем во view начальное положение делений шкалы
+		// this.handleOnprogressBarUpdated(String(this.model.selectedPos),
+		// 	String(this.model.selectedWidth), this.conf.vertical); // передаем во view начальное положение прогресс-бара
+		//	this.handleOnScaleMarksUpdated(this.model.marksArr); // передаем во view начальное положение делений шкалы
 
-		this.handleIntervalCalc(this.model.stepValue);// передаем во view значение шага, если указан интервал
-		this.handleStepCalc(this.model.intervalValue);// передаем во view значение интервала, если указан шаг
+		// this.handleIntervalCalc(this.model.stepValue);// передаем во view значение шага, если указан интервал
+		// this.handleStepCalc(this.model.intervalValue);// передаем во view значение интервала, если указан шаг
 
 
 		this.viewControl.bindMoveControl(this.handleGetControlData,
@@ -204,13 +292,27 @@ class sliderController extends Observer {
 
 	//вызываем метод GetControlData в модели
 	handleGetControlData = (controlData: IControlElements) => {
-		this.model.getControlData(controlData);
+
+		this.controlData = controlData;
+		//	this.model.getControlData(controlData);
+
+
 	}
 
 
 	// вызываем метод computeControlPosFromEvent в модели
 	handlecomputeControlPosFromEvent = (e: PointerEvent) => {
-		this.model.computeControlPosFromEvent(e);
+		//	this.model.computeControlPosFromEvent(e);
+		this.model.$calcPos(
+			e.type,
+			e.clientY,
+			e.clientX,
+			this.controlData.top,
+			this.controlData.left,
+			this.controlData.width,
+			this.controlData.height,
+			this.controlData.shift,
+			this.controlData.moovingControl);
 	}
 
 
@@ -227,18 +329,10 @@ class sliderController extends Observer {
 	}
 
 
-	//вызываем метод updateСurrentControl в view
-	handleOnprogressBarUpdated = (selectedPos: string,
-		selectedWidth: string, isVertical: boolean) => {
-		this.viewBar.
-			updateProgressBar(selectedPos, selectedWidth, isVertical);
-	}
 
 
-	handleOnScaleMarksUpdated =
-		(scaleMarks: { 'pos'?: number, 'val'?: number }[]) => {
-			this.viewGrid.createGrid(scaleMarks, this.conf);
-		}
+
+
 
 	//вызываем метод updateСurrentControl в view
 	handleOnControlPosUpdated = (elem: HTMLElement, newPos: number) => {
@@ -246,16 +340,16 @@ class sliderController extends Observer {
 	}
 
 
-	handleIntervalCalc =
-		(step: string) => {
-			this.viewPanel.updateStep(step);
-		}
+	// handleIntervalCalc =
+	// 	(step: string) => {
+	// 		this.viewPanel.updateStep(step);
+	// 	}
 
 
-	handleStepCalc =
-		(interval: string) => {
-			this.viewPanel.updateInterval(interval);
-		}
+	// handleStepCalc =
+	// 	(interval: string) => {
+	// 		this.viewPanel.updateInterval(interval);
+	// 	}
 
 
 	handleIsVerticalChecked = () => {
@@ -349,16 +443,16 @@ class sliderController extends Observer {
 	}
 
 
-	//вызываем метод updateСurrentControl в view
-	handleOnСontrolValueUpdated = (elem: HTMLElement, newValue: string) => {
-		elem.classList.contains('rs__control-min') ?
-			this.conf.from = parseInt(newValue) :
-			this.conf.to = parseInt(newValue);
-		this.viewPanel.updateFromTo(elem, newValue);
-		elem.classList.contains('rs__control-min') ?
-			this.viewControl.updateTipVal(newValue, true) :
-			this.viewControl.updateTipVal(newValue, false);
-	}
+	// //вызываем метод updateСurrentControl в view
+	// handleOnСontrolValueUpdated = (elem: HTMLElement, newValue: string) => {
+	// 	elem.classList.contains('rs__control-min') ?
+	// 		this.conf.from = parseInt(newValue) :
+	// 		this.conf.to = parseInt(newValue);
+	// 	this.viewPanel.updateFromTo(elem, newValue);
+	// 	elem.classList.contains('rs__control-min') ?
+	// 		this.viewControl.updateTipVal(newValue, true) :
+	// 		this.viewControl.updateTipVal(newValue, false);
+	// }
 
 	//вызываем метод updateInterval в view
 	handleOnStepValueUpdated = (newValue: string) => {

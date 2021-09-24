@@ -80,14 +80,27 @@ class sliderViewScale {
 				let controlData: IControlElements = {};
 				//определяем ползунок, находящийся ближе к позиции клика
 				if (this.controlMax.classList.contains('hidden')) {//Single mode
-					controlData.currentControlElem = this.controlMin;
+					//	controlData.currentControlElem = this.controlMin;
+					controlData.moovingControl = 'min';
 				}
 
 				else {//Double mode
+					// this.controlMinDist <= this.controlMaxDist ?
+					// 	controlData.currentControlElem = this.controlMin :
+					// 	controlData.currentControlElem = this.controlMax;
+
 					this.controlMinDist <= this.controlMaxDist ?
-						controlData.currentControlElem = this.controlMin :
-						controlData.currentControlElem = this.controlMax;
+						controlData.moovingControl = 'min' :
+						controlData.moovingControl = 'max';
 				}
+				//		console.log(this.slider);
+
+				let scale = this.controlMin.parentElement;
+				controlData.top = scale.getBoundingClientRect().top;
+				controlData.left = scale.getBoundingClientRect().left;
+				controlData.width = scale.offsetWidth;
+				controlData.height = scale.offsetHeight;
+
 				getControlData(controlData);// вызов хендлера обработки события
 				computeControlPos(e);
 

@@ -1,6 +1,6 @@
 
 import {
-	$Idata,
+	$Idata, IConf
 } from './../interface';
 
 
@@ -19,10 +19,10 @@ class Observer {
 		this.observers = this.observers.filter(obs => obs !== observer);
 	}
 
-	fire(key: string, conf: $Idata) {
+	fire(key: string, data: $Idata, conf: IConf = {}) {
 
 		for (let item of this.observers)
-			item(key, conf);
+			item(key, data, conf);
 	}
 }
 

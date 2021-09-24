@@ -330,8 +330,8 @@ class sliderViewPanel {
 	}
 
 	//Обновление значений инпутов FROM и TO при перемещении ползунков
-	updateFromTo(elem: HTMLElement, newValue: string) {
-		elem.classList.contains('rs__control-min') ?
+	updateFromTo(elem: string, newValue: string) {
+		elem == 'from' ?
 			this.fromInput.value = newValue : this.toInput.value = newValue;
 	}
 
