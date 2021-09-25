@@ -111,6 +111,7 @@ class sliderModel extends Observer {
 				}
 			}
 		}
+		console.log(this);
 	}
 
 	$checkConf(newConf: IConf) {
@@ -177,7 +178,7 @@ class sliderModel extends Observer {
 		}
 		//	console.log(this);
 		this.fire('FromPosition', this.$data);
-		console.log(this);
+		//	console.log(this);
 
 	}
 
@@ -302,7 +303,7 @@ class sliderModel extends Observer {
 
 		// если ползунок должен вставать на позицию ближайшего к нему деления шкалы
 		if (this.$conf.sticky) {
-			/*Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления от значения newPos 
+			/*Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из значения newPos 
 			до тех пор, пока результат текущей итерации не станет больше результата предыдущей (это значит, что мы нашли деление,
 				ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления*/
 			for (let i = 0; i < this.$data.$marksArr.length; i++) {
@@ -364,34 +365,30 @@ class sliderModel extends Observer {
 
 
 	$calcPosKey(key: string, repeat: boolean, moovingControl: string) {
-		let newVal = 0;
+		let newVal;
+		let item;
+		let newPos;
+		// let newPos = 0;
+		// let item = { val: 0, pos: 0 };
+
 		//	if (e.type == 'keydown') {//если нажали стрелку на сфокусированном ползунке
 		if (!this.$conf.sticky) {	// если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
 			if (moovingControl == 'min') {// Ползунок min
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
-					if (this.$conf.range) { // режим Double
-						if (this.$conf.from < this.$conf.to) {
-							newVal = repeat ?
-								this.$conf.from +
-								this.$conf.shiftOnKeyHold :
-								this.$conf.from +
-								this.$conf.shiftOnKeyDown;
-							this.$conf.from = newVal;
-							this.$calcFromPosition();
 
-
-						}
-					} else {// режим Single
-						if (this.$conf.from < this.$conf.max) {
-							newVal = repeat ?
-								this.$conf.from +
-								this.$conf.shiftOnKeyHold :
-								this.$conf.from +
-								this.$conf.shiftOnKeyDown;
-							this.$conf.from = newVal;
-							this.$calcFromPosition();
-						}
+					if (this.$conf.range && this.$conf.from < this.$conf.to ||
+						!this.$conf.range && this.$conf.from < this.$conf.max) {
+						newVal = repeat ?
+							this.$conf.from +
+							this.$conf.shiftOnKeyHold :
+							this.$conf.from +
+							this.$conf.shiftOnKeyDown;
+						this.$conf.from = newVal;
+						this.$calcFromPosition();
 					}
+
+
+
 				} else {// Уменьшение значения
 					if (this.$conf.from > this.$conf.min) {
 						newVal = repeat ?
@@ -439,28 +436,59 @@ class sliderModel extends Observer {
 
 		// если ползунок должен вставать на позицию ближайшего к нему деления шкалы
 		else {
+
+
+			console.log(this);
+
 			if (moovingControl == 'min') {// ползунок min
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
-					for (let i = 0; i < this.$data.$marksArr.length; i++) {
-						if (this.$data.$marksArr[i].val -
-							this.$conf.from > 0) {
-							repeat ?
-								newVal = this.$data.$marksArr[i +
-									this.$conf.shiftOnKeyHold - 1].val :
-								newVal = this.$data.$marksArr[i +
-									this.$conf.shiftOnKeyDown - 1].val;
-							break;
-						}
+
+
+
+					let index = this.$data.$marksArr.
+						findIndex(item => item.val == this.$conf.from);
+					console.log(index);
+
+					if (repeat) {
+						item = this.$data.$marksArr[index +
+							this.$conf.shiftOnKeyHold];
+					} else {
+						item = this.$data.$marksArr[index +
+							this.$conf.shiftOnKeyDown];
 					}
+
+					newVal = item.val;
+					newPos = item.pos;
+					console.log(newVal);
+					console.log(newPos);
+
+					// console.log(this.$conf.from);
+					// console.log(this.$data.$fromPos);
+					// console.log(this.$data.$marksArr);
+
+
+					// for (let i = 0; i < this.$data.$marksArr.length; i++) {
+					// 	if (this.$data.$marksArr[i].val -
+					// 		this.$conf.from > 0) {
+					// 		repeat ?
+					// 			newVal = this.$data.$marksArr[i +
+					// 				this.$conf.shiftOnKeyHold - 1].val :
+					// 			newVal = this.$data.$marksArr[i +
+					// 				this.$conf.shiftOnKeyDown - 1].val;
+					// 		break;
+					// 	}
+					// }
 					if (newVal > this.$conf.from &&
-						(!this.controlMax.classList.
-							contains('hidden') && newVal <= this.$conf.to
-							|| this.controlMax.classList.
-								contains('hidden') && newVal <=
-							this.$conf.max))
+						(this.$conf.range && newVal <= this.$conf.to
+							|| !this.$conf.range && newVal <=
+							this.$conf.max)) {
 
 						this.$conf.from = newVal;
-					this.$calcFromPosition();
+						this.$data.$fromPos = item.pos;
+						this.$data.$fromVal = String(newVal);
+						this.fire('FromPosition', this.$data);
+						this.fire('FromValue', this.$data);
+					}
 
 				} else {//Уменьшение значения
 					for (let i = this.$data.$marksArr.length - 1;
@@ -472,7 +500,6 @@ class sliderModel extends Observer {
 								newVal = this.$data.$marksArr[i -
 									this.$conf.shiftOnKeyDown + 1].val;
 							break;
-							//}
 						}
 					}
 					if (newVal < this.$conf.from &&
