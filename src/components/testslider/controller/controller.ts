@@ -216,7 +216,7 @@ class sliderController extends Observer {
 		this.viewPanel.init(this.conf);
 		this.viewGrid.init(this.conf);
 
-		this.model.init(this.conf);
+		//this.model.init(this.conf);
 	}
 
 
@@ -280,12 +280,12 @@ class sliderController extends Observer {
 		//this.view.bindMouseUp(this.handleMouseUp);//вешаем обработчик handleMouseUp для обработки в view события отпускания кнопки (завершение перетаскивания ползунка)
 		//this.view.bindWindowResize(this.handleWindowReRendering);
 
-		this.model.bindControlPosUpdated(this.handleOnControlPosUpdated);//Вызываем для обновления положения ползунка (обращение к view)
-		this.model.bindprogressBarUpdated(this.handleOnprogressBarUpdated);//Вызываем для обновления положения ползунка (обращение к view)
-		this.model.bindСontrolValueUpdated(this.handleOnСontrolValueUpdated);//Вызываем для обновления панели (обращение к view)
+		// this.model.bindControlPosUpdated(this.handleOnControlPosUpdated);//Вызываем для обновления положения ползунка (обращение к view)
+		// this.model.bindprogressBarUpdated(this.handleOnprogressBarUpdated);//Вызываем для обновления положения ползунка (обращение к view)
+		// this.model.bindСontrolValueUpdated(this.handleOnСontrolValueUpdated);//Вызываем для обновления панели (обращение к view)
 
-		this.model.bindStepValueUpdated(this.handleOnStepValueUpdated);//Вызываем для обновления инпута INTERVAL в панели (обращение к view)
-		this.model.bindIntervalValueUpdated(this.handleOnIntervalValueUpdated);//Вызываем для обновления инпута INTERVAL в панели (обращение к view)
+		// this.model.bindStepValueUpdated(this.handleOnStepValueUpdated);//Вызываем для обновления инпута INTERVAL в панели (обращение к view)
+		// this.model.bindIntervalValueUpdated(this.handleOnIntervalValueUpdated);//Вызываем для обновления инпута INTERVAL в панели (обращение к view)
 
 
 	}
@@ -318,7 +318,13 @@ class sliderController extends Observer {
 
 	// вызываем метод computeNewPosKeyEvnt в модели
 	handleNewPosKeyboardEvnt = (e: KeyboardEvent) => {
-		this.model.computePosFromKeyboardEvent(e);
+		//	this.model.computePosFromKeyboardEvent(e);
+
+
+		this.model.$calcPosKey(
+			e.key,
+			e.repeat,
+			this.controlData.moovingControl);
 	}
 	//отвязка слушателей
 	handleRemoveEventListeners = () => {
@@ -368,14 +374,14 @@ class sliderController extends Observer {
 	handleIsRangeChecked = () => {
 		this.conf.range = true;
 		this.viewControl.updateRangeMode(true);
-		this.model.computeProgressBar('handleMovement');
+		//	this.model.computeProgressBar('handleMovement');
 
 	}
 
 	handleIsRangeNotChecked = () => {
 		this.conf.range = false;
 		this.viewControl.updateRangeMode(false);
-		this.model.computeProgressBar('handleMovement');
+		//this.model.computeProgressBar('handleMovement');
 	}
 
 	handleAdjustControlPos = () => {
@@ -431,13 +437,13 @@ class sliderController extends Observer {
 
 		if (target.classList.contains('rs__input-from')) {
 			this.conf.from = parseInt(val);
-			this.model.computeControlPosFromVal(parseInt(val),
-				false, this.viewControl.controlMin);
+			// this.model.computeControlPosFromVal(parseInt(val),
+			// 	false, this.viewControl.controlMin);
 			this.viewControl.updateTipVal(val, true);
 		} else {
 			this.conf.to = parseInt(val);
-			this.model.computeControlPosFromVal(parseInt(val),
-				false, this.viewControl.controlMax);
+			// this.model.computeControlPosFromVal(parseInt(val),
+			// 	false, this.viewControl.controlMax);
 			this.viewControl.updateTipVal(val, false);
 		}
 	}
@@ -471,14 +477,14 @@ class sliderController extends Observer {
 		if (target.classList.contains('rs__input-min')) {
 
 			this.conf.min = parseInt(val);
-			this.model.computeControlPosFromVal(parseInt(val), false,
-				this.viewControl.controlMin);
+			// this.model.computeControlPosFromVal(parseInt(val), false,
+			// 	this.viewControl.controlMin);
 			this.viewControl.updateTipVal(val, true);
 		} else if (target.classList.contains('rs__input-max')) {
 
 			this.conf.max = parseInt(val);
-			this.model.computeControlPosFromVal(parseInt(val), false,
-				this.viewControl.controlMax);
+			// this.model.computeControlPosFromVal(parseInt(val), false,
+			// 	this.viewControl.controlMax);
 			this.viewControl.updateTipVal(val, false);
 		}
 
@@ -488,7 +494,7 @@ class sliderController extends Observer {
 	handleStepChanged = (val: string) => {
 		this.conf.step = parseInt(val);
 		delete this.conf.intervals;
-		this.model.computeGrid(this.conf, 'steps');
+		//	this.model.computeGrid(this.conf, 'steps');
 		this.handleOnScaleMarksUpdated(this.model.marksArr);
 	}
 
@@ -496,7 +502,7 @@ class sliderController extends Observer {
 	handleIntervalChanged = (val: string) => {
 		this.conf.intervals = parseInt(val);
 		delete this.conf.step;
-		this.model.computeGrid(this.conf, 'intervals');
+		//	this.model.computeGrid(this.conf, 'intervals');
 		this.handleOnScaleMarksUpdated(this.model.marksArr);
 	}
 

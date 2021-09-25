@@ -68,6 +68,8 @@ class sliderViewBar {
 
 	/*красим Progress Bar (вызывается из контроллера)*/
 	$updateBar(pos: number, length: number, isVertical: boolean) {
+		console.log(isVertical);
+
 		if (!isVertical) {
 			this.progressBar.style.left = pos + '%';
 			this.progressBar.style.width = length + '%';
