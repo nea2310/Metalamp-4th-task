@@ -24,7 +24,7 @@ let conf = {
 	step: 10,
 	shiftOnKeyDown: 1,
 	shiftOnKeyHold: 2,
-	//sticky: false,
+	sticky: false,
 	//intervals: 26,
 	//vertical: true,
 	//range: false

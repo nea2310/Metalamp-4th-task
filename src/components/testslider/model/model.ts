@@ -365,12 +365,45 @@ class sliderModel extends Observer {
 
 
 	$calcPosKey(key: string, repeat: boolean, moovingControl: string) {
+		let changeFrom = (item: IObj) => {
+			this.$conf.from = item.val;
+			this.$data.$fromPos = item.pos;
+			this.$data.$fromVal = String(item.val);
+			this.fire('FromPosition', this.$data);
+			this.fire('FromValue', this.$data);
+		};
+
+		let changeTo = (item: IObj) => {
+			this.$conf.to = item.val;
+			this.$data.$toPos = item.pos;
+			this.$data.$toVal = String(item.val);
+			this.fire('ToPosition', this.$data);
+			this.fire('ToValue', this.$data);
+		};
+
+		let incr = (index: number) => {
+			if (repeat) {
+				return this.$data.$marksArr[index +
+					this.$conf.shiftOnKeyHold];
+			} else {
+				return this.$data.$marksArr[index +
+					this.$conf.shiftOnKeyDown];
+			}
+		};
+
+		let decr = (index: number) => {
+			if (repeat) {
+				return this.$data.$marksArr[index -
+					this.$conf.shiftOnKeyHold];
+			} else {
+				return this.$data.$marksArr[index -
+					this.$conf.shiftOnKeyDown];
+			}
+		};
+
+
 		let newVal;
 		let item;
-		let newPos;
-		// let newPos = 0;
-		// let item = { val: 0, pos: 0 };
-
 		//	if (e.type == 'keydown') {//если нажали стрелку на сфокусированном ползунке
 		if (!this.$conf.sticky) {	// если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
 			if (moovingControl == 'min') {// Ползунок min
@@ -383,12 +416,7 @@ class sliderModel extends Observer {
 							this.$conf.shiftOnKeyHold :
 							this.$conf.from +
 							this.$conf.shiftOnKeyDown;
-						this.$conf.from = newVal;
-						this.$calcFromPosition();
 					}
-
-
-
 				} else {// Уменьшение значения
 					if (this.$conf.from > this.$conf.min) {
 						newVal = repeat ?
@@ -396,13 +424,12 @@ class sliderModel extends Observer {
 							this.$conf.shiftOnKeyHold :
 							this.$conf.from -
 							this.$conf.shiftOnKeyDown;
-						this.$conf.from = newVal;
-						this.$calcFromPosition();
 					}
 				}
 
 				this.$data.$fromVal = String(newVal);
 				this.$conf.from = newVal;
+				this.$calcFromPosition();
 				this.fire('FromValue', this.$data);
 
 			} else {// Ползунок max
@@ -414,8 +441,6 @@ class sliderModel extends Observer {
 							this.$conf.shiftOnKeyHold :
 							this.$conf.to +
 							this.$conf.shiftOnKeyDown;
-						this.$conf.to = newVal;
-						this.$calcToPosition();
 					}
 				} else {// Уменьшение значения
 					if (this.$conf.to > this.$conf.from) {
@@ -424,147 +449,51 @@ class sliderModel extends Observer {
 							this.$conf.shiftOnKeyHold :
 							this.$conf.to -
 							this.$conf.shiftOnKeyDown;
-						this.$conf.to = newVal;
-						this.$calcToPosition();
 					}
 				}
 				this.$data.$toVal = String(newVal);
 				this.$conf.to = newVal;
+				this.$calcToPosition();
 				this.fire('ToValue', this.$data);
 			}
 		}
 
 		// если ползунок должен вставать на позицию ближайшего к нему деления шкалы
 		else {
-
-
-			//		console.log(this);
-
 			if (moovingControl == 'min') {// ползунок min
+				let index = this.$data.$marksArr.
+					findIndex(item => item.val == this.$conf.from);
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
-
-					let index = this.$data.$marksArr.
-						findIndex(item => item.val == this.$conf.from);
-					console.log(index);
-
-					if (repeat) {
-						item = this.$data.$marksArr[index +
-							this.$conf.shiftOnKeyHold];
-					} else {
-						item = this.$data.$marksArr[index +
-							this.$conf.shiftOnKeyDown];
-					}
-
+					item = incr(index);
 					if (item.val > this.$conf.from &&
 						(this.$conf.range && item.val <= this.$conf.to
 							|| !this.$conf.range && item.val <=
 							this.$conf.max)) {
-						this.$conf.from = item.val;
-						this.$data.$fromPos = item.pos;
-						this.$data.$fromVal = String(item.val);
-						this.fire('FromPosition', this.$data);
-						this.fire('FromValue', this.$data);
+						changeFrom(item);
 					}
-
 				} else {//Уменьшение значения
-
-					let index = this.$data.$marksArr.
-						findIndex(item => item.val == this.$conf.from);
-					console.log(index);
-
-					if (repeat) {
-						item = this.$data.$marksArr[index -
-							this.$conf.shiftOnKeyHold];
-					} else {
-						item = this.$data.$marksArr[index -
-							this.$conf.shiftOnKeyDown];
-					}
-
-
+					item = decr(index);
 					if (item.val < this.$conf.to) {
-						this.$conf.from = item.val;
-						this.$data.$fromPos = item.pos;
-						this.$data.$fromVal = String(item.val);
-						this.fire('FromPosition', this.$data);
-						this.fire('FromValue', this.$data);
+						changeFrom(item);
 					}
 				}
 
 			} else {// ползунок max
+				let index = this.$data.$marksArr.
+					findIndex(item => item.val == this.$conf.to);
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
-					console.log(this.$conf.to);
-
-					let index = this.$data.$marksArr.
-						findIndex(item => item.val == this.$conf.to);
-					console.log(index);
-
-					if (repeat) {
-						item = this.$data.$marksArr[index +
-							this.$conf.shiftOnKeyHold];
-					} else {
-						item = this.$data.$marksArr[index +
-							this.$conf.shiftOnKeyDown];
-					}
-
-
+					item = incr(index);
 					if (item && item.val > this.$conf.to &&
 						this.$conf.to < this.$conf.max) {
-
-
-
-						this.$conf.to = item.val;
-						this.$data.$toPos = item.pos;
-						this.$data.$toVal = String(item.val);
-						this.fire('ToPosition', this.$data);
-						this.fire('ToValue', this.$data);
-
-
-						// this.$conf.to = newVal;
-						// this.$calcToPosition();
+						changeTo(item);
 					}
 				} else {//Уменьшение значения
-
-
-					// for (let i = this.$data.$marksArr.length - 1;
-					// 	i > 0; i--) {
-					// 	if (this.$conf.to > this.$data.$marksArr[i].val) {
-					// 		//	if (this.$conf.to > this.$conf.from) {
-					// 		repeat ?
-					// 			newVal = this.$data.$marksArr[i -
-					// 				this.$conf.shiftOnKeyHold + 1].val :
-					// 			newVal = this.$data.$marksArr[i -
-					// 				this.$conf.shiftOnKeyDown + 1].val;
-					// 		break;
-					// 	}
-					// }
-
-
-					let index = this.$data.$marksArr.
-						findIndex(item => item.val == this.$conf.to);
-					console.log(index);
-
-					if (repeat) {
-						item = this.$data.$marksArr[index -
-							this.$conf.shiftOnKeyHold];
-					} else {
-						item = this.$data.$marksArr[index -
-							this.$conf.shiftOnKeyDown];
-					}
-
+					item = decr(index);
 					if (item.val >= this.$conf.from &&
 						this.$conf.to > this.$conf.from) {
-
-
-						this.$conf.to = item.val;
-						this.$data.$toPos = item.pos;
-						this.$data.$toVal = String(item.val);
-						this.fire('ToPosition', this.$data);
-						this.fire('ToValue', this.$data);
+						changeTo(item);
 					}
 				}
-				// this.$data.$toVal = String(newVal);
-				// this.$conf.to = newVal;
-				// this.fire('ToValue', this.$data);
 			}
 		}
 	}
