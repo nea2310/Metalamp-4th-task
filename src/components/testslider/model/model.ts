@@ -438,12 +438,10 @@ class sliderModel extends Observer {
 		else {
 
 
-			console.log(this);
+			//		console.log(this);
 
 			if (moovingControl == 'min') {// ползунок min
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
-
-
 
 					let index = this.$data.$marksArr.
 						findIndex(item => item.val == this.$conf.from);
@@ -457,101 +455,116 @@ class sliderModel extends Observer {
 							this.$conf.shiftOnKeyDown];
 					}
 
-					newVal = item.val;
-					newPos = item.pos;
-					console.log(newVal);
-					console.log(newPos);
-
-					// console.log(this.$conf.from);
-					// console.log(this.$data.$fromPos);
-					// console.log(this.$data.$marksArr);
-
-
-					// for (let i = 0; i < this.$data.$marksArr.length; i++) {
-					// 	if (this.$data.$marksArr[i].val -
-					// 		this.$conf.from > 0) {
-					// 		repeat ?
-					// 			newVal = this.$data.$marksArr[i +
-					// 				this.$conf.shiftOnKeyHold - 1].val :
-					// 			newVal = this.$data.$marksArr[i +
-					// 				this.$conf.shiftOnKeyDown - 1].val;
-					// 		break;
-					// 	}
-					// }
-					if (newVal > this.$conf.from &&
-						(this.$conf.range && newVal <= this.$conf.to
-							|| !this.$conf.range && newVal <=
+					if (item.val > this.$conf.from &&
+						(this.$conf.range && item.val <= this.$conf.to
+							|| !this.$conf.range && item.val <=
 							this.$conf.max)) {
-
-						this.$conf.from = newVal;
+						this.$conf.from = item.val;
 						this.$data.$fromPos = item.pos;
-						this.$data.$fromVal = String(newVal);
+						this.$data.$fromVal = String(item.val);
 						this.fire('FromPosition', this.$data);
 						this.fire('FromValue', this.$data);
 					}
 
 				} else {//Уменьшение значения
-					for (let i = this.$data.$marksArr.length - 1;
-						i >= 0; i--) {
-						if (this.$conf.from > this.$data.$marksArr[i].val) {
-							repeat ?
-								newVal = this.$data.$marksArr[i -
-									this.$conf.shiftOnKeyHold + 1].val :
-								newVal = this.$data.$marksArr[i -
-									this.$conf.shiftOnKeyDown + 1].val;
-							break;
-						}
+
+					let index = this.$data.$marksArr.
+						findIndex(item => item.val == this.$conf.from);
+					console.log(index);
+
+					if (repeat) {
+						item = this.$data.$marksArr[index -
+							this.$conf.shiftOnKeyHold];
+					} else {
+						item = this.$data.$marksArr[index -
+							this.$conf.shiftOnKeyDown];
 					}
-					if (newVal < this.$conf.from &&
-						this.$conf.from > this.$conf.min) {
-						this.$conf.from = newVal;
-						this.$calcFromPosition();
+
+
+					if (item.val < this.$conf.to) {
+						this.$conf.from = item.val;
+						this.$data.$fromPos = item.pos;
+						this.$data.$fromVal = String(item.val);
+						this.fire('FromPosition', this.$data);
+						this.fire('FromValue', this.$data);
 					}
 				}
-				this.$data.$fromVal = String(newVal);
-				this.$conf.from = newVal;
-				this.fire('FromValue', this.$data);
 
 			} else {// ползунок max
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
-					for (let i = 0; i < this.$data.$marksArr.length; i++) {
-						if (this.$data.$marksArr[i].val -
-							this.$conf.to > 0) {
-							repeat ?
-								newVal = this.$data.$marksArr[i +
-									this.$conf.shiftOnKeyHold - 1].val :
-								newVal = this.$data.$marksArr[i +
-									this.$conf.shiftOnKeyDown - 1].val;
-							break;
-						}
+					console.log(this.$conf.to);
+
+					let index = this.$data.$marksArr.
+						findIndex(item => item.val == this.$conf.to);
+					console.log(index);
+
+					if (repeat) {
+						item = this.$data.$marksArr[index +
+							this.$conf.shiftOnKeyHold];
+					} else {
+						item = this.$data.$marksArr[index +
+							this.$conf.shiftOnKeyDown];
 					}
-					if (newVal > this.$conf.to &&
+
+
+					if (item && item.val > this.$conf.to &&
 						this.$conf.to < this.$conf.max) {
-						this.$conf.to = newVal;
-						this.$calcToPosition();
+
+
+
+						this.$conf.to = item.val;
+						this.$data.$toPos = item.pos;
+						this.$data.$toVal = String(item.val);
+						this.fire('ToPosition', this.$data);
+						this.fire('ToValue', this.$data);
+
+
+						// this.$conf.to = newVal;
+						// this.$calcToPosition();
 					}
 				} else {//Уменьшение значения
-					for (let i = this.$data.$marksArr.length - 1;
-						i > 0; i--) {
-						if (this.$conf.to > this.$data.$marksArr[i].val) {
-							//	if (this.$conf.to > this.$conf.from) {
-							repeat ?
-								newVal = this.$data.$marksArr[i -
-									this.$conf.shiftOnKeyHold + 1].val :
-								newVal = this.$data.$marksArr[i -
-									this.$conf.shiftOnKeyDown + 1].val;
-							break;
-						}
+
+
+					// for (let i = this.$data.$marksArr.length - 1;
+					// 	i > 0; i--) {
+					// 	if (this.$conf.to > this.$data.$marksArr[i].val) {
+					// 		//	if (this.$conf.to > this.$conf.from) {
+					// 		repeat ?
+					// 			newVal = this.$data.$marksArr[i -
+					// 				this.$conf.shiftOnKeyHold + 1].val :
+					// 			newVal = this.$data.$marksArr[i -
+					// 				this.$conf.shiftOnKeyDown + 1].val;
+					// 		break;
+					// 	}
+					// }
+
+
+					let index = this.$data.$marksArr.
+						findIndex(item => item.val == this.$conf.to);
+					console.log(index);
+
+					if (repeat) {
+						item = this.$data.$marksArr[index -
+							this.$conf.shiftOnKeyHold];
+					} else {
+						item = this.$data.$marksArr[index -
+							this.$conf.shiftOnKeyDown];
 					}
-					if (newVal >= this.$conf.from &&
+
+					if (item.val >= this.$conf.from &&
 						this.$conf.to > this.$conf.from) {
-						this.$conf.to = newVal;
-						this.$calcToPosition();
+
+
+						this.$conf.to = item.val;
+						this.$data.$toPos = item.pos;
+						this.$data.$toVal = String(item.val);
+						this.fire('ToPosition', this.$data);
+						this.fire('ToValue', this.$data);
 					}
 				}
-				this.$data.$toVal = String(newVal);
-				this.$conf.to = newVal;
-				this.fire('ToValue', this.$data);
+				// this.$data.$toVal = String(newVal);
+				// this.$conf.to = newVal;
+				// this.fire('ToValue', this.$data);
 			}
 		}
 	}
