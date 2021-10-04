@@ -21,7 +21,7 @@ let conf = {
 	max: 100,
 	from: 0,
 	to: 70,
-	step: 10,
+	step: 1,
 	shiftOnKeyDown: 1,
 	shiftOnKeyHold: 2,
 	sticky: false,

@@ -55,16 +55,16 @@ class sliderViewBar {
 
 
 	/*красим Progress Bar (вызывается из контроллера)*/
-	updateProgressBar(pos: string, length: string, isVertical: boolean) {
+	// updateProgressBar(pos: string, length: string, isVertical: boolean) {
 
-		if (!isVertical) {
-			this.progressBar.style.left = pos;
-			this.progressBar.style.width = length;
-		} else {
-			this.progressBar.style.bottom = pos;
-			this.progressBar.style.height = length;
-		}
-	}
+	// 	if (!isVertical) {
+	// 		this.progressBar.style.left = pos;
+	// 		this.progressBar.style.width = length;
+	// 	} else {
+	// 		this.progressBar.style.bottom = pos;
+	// 		this.progressBar.style.height = length;
+	// 	}
+	// }
 
 	/*красим Progress Bar (вызывается из контроллера)*/
 	$updateBar(pos: number, length: number, isVertical: boolean) {

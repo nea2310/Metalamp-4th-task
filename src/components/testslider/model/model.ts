@@ -160,14 +160,14 @@ class sliderModel extends Observer {
 		}
 		return this.$methods;
 	}
-
+	// рассчитать позицию From (%) на основании значений from, min и max
 	$calcFromPosition() {
 		if (this.$conf.from != this.$conf.min) {
 			if (this.$conf.vertical) {
 				this.$data.$fromPos = ((this.$conf.from -
 					this.$conf.min) * 100) /
 					(this.$conf.max - this.$conf.min);
-			} else {
+			} else { // ???
 				this.$data.$fromPos = ((this.$conf.from -
 					this.$conf.min) * 100) /
 					(this.$conf.max - this.$conf.min);
@@ -181,12 +181,12 @@ class sliderModel extends Observer {
 		//	console.log(this);
 
 	}
-
+	// рассчитать позицию To (%) на основании значений to, min и max
 	$calcToPosition() {
 		if (this.$conf.vertical) {
 			this.$data.$toPos = ((this.$conf.to - this.$conf.min) * 100) /
 				(this.$conf.max - this.$conf.min);
-		} else {
+		} else { // ????
 			this.$data.$toPos = ((this.$conf.to - this.$conf.min) * 100) /
 				(this.$conf.max - this.$conf.min);
 		}
@@ -210,7 +210,7 @@ class sliderModel extends Observer {
 	}
 
 
-
+	// рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
 	$calcGrid(type: string | null) {
 		let intervals = 0;
 		let step = 0;
@@ -289,7 +289,7 @@ class sliderModel extends Observer {
 		let newPos = 0;
 		if (this.$conf.vertical) {
 			newPos = 100 -
-				((clientY - top) * 100 / height);
+				((clientY - top) * 100 / height);  ///????
 
 		} else {
 			let shift = 0;
@@ -301,7 +301,8 @@ class sliderModel extends Observer {
 				((clientX - left) * 100 / width) - shift;
 		}
 
-		// если ползунок должен вставать на позицию ближайшего к нему деления шкалы
+		/* если ползунок должен вставать на позицию ближайшего к нему деления шкалы - скорректировать значение newPos (переместить ползунок 
+		к ближайшему делению шкалы) */
 		if (this.$conf.sticky) {
 			/*Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из значения newPos 
 			до тех пор, пока результат текущей итерации не станет больше результата предыдущей (это значит, что мы нашли деление,
@@ -360,11 +361,14 @@ class sliderModel extends Observer {
 		}
 		if (!isStop)
 			this.$calcVal('normal', newPos, moovingControl);
+
+		this.$calcBar();
 	}
 
 
 
 	$calcPosKey(key: string, repeat: boolean, moovingControl: string) {
+		// поменять позицию и значение FROM
 		let changeFrom = (item: IObj) => {
 			this.$conf.from = item.val;
 			this.$data.$fromPos = item.pos;
@@ -372,7 +376,7 @@ class sliderModel extends Observer {
 			this.fire('FromPosition', this.$data);
 			this.fire('FromValue', this.$data);
 		};
-
+		// поменять позицию и значение TO
 		let changeTo = (item: IObj) => {
 			this.$conf.to = item.val;
 			this.$data.$toPos = item.pos;
@@ -380,7 +384,7 @@ class sliderModel extends Observer {
 			this.fire('ToPosition', this.$data);
 			this.fire('ToValue', this.$data);
 		};
-
+		// движение в большую сторону
 		let incr = (index: number) => {
 			if (repeat) {
 				return this.$data.$marksArr[index +
@@ -390,7 +394,7 @@ class sliderModel extends Observer {
 					this.$conf.shiftOnKeyDown];
 			}
 		};
-
+		// движение в меньшую сторону
 		let decr = (index: number) => {
 			if (repeat) {
 				return this.$data.$marksArr[index -
@@ -404,7 +408,6 @@ class sliderModel extends Observer {
 
 		let newVal;
 		let item;
-		//	if (e.type == 'keydown') {//если нажали стрелку на сфокусированном ползунке
 		if (!this.$conf.sticky) {	// если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
 			if (moovingControl == 'min') {// Ползунок min
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
@@ -496,9 +499,10 @@ class sliderModel extends Observer {
 				}
 			}
 		}
+		this.$calcBar();
 	}
 
-	/*Рассчитываем новое значение ползунка*/
+	/*Рассчитываем новое значение ползунка на основании min, max и позиции (%)*/
 
 	$calcVal(stopType: string,
 		pos: number,
@@ -508,8 +512,6 @@ class sliderModel extends Observer {
 			if (stopType == 'normal') {
 				newVal = (this.$conf.min + ((this.$conf.max -
 					this.$conf.min) * pos) / 100).toFixed(0);
-				//				this.computeProgressBar('handleMovement'); // рассчитываем прогресс-бар
-				this.$calcBar();
 
 			} else if (stopType == 'min') {
 				newVal = String(this.$conf.min);
@@ -522,8 +524,6 @@ class sliderModel extends Observer {
 			else if (stopType == 'meetMin') {
 				newVal = String(this.conf.from);
 			}
-			//	console.log(moovingControl);
-
 			if (moovingControl == 'min') {
 				this.$data.$fromVal = newVal;
 				this.$conf.from = parseFloat(newVal);
@@ -535,6 +535,7 @@ class sliderModel extends Observer {
 			}
 		}
 		console.log(this);
+
 	}
 
 	/*Если во время single режима меньший ползунок зашел за позицию большего (т.е. from стало больше to) - 

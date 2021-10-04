@@ -163,11 +163,11 @@ class sliderController extends Observer {
 
 
 	//вызываем метод updateСurrentControl в view
-	handleOnprogressBarUpdated = (selectedPos: string,
-		selectedWidth: string, isVertical: boolean) => {
-		this.viewBar.
-			updateProgressBar(selectedPos, selectedWidth, isVertical);
-	}
+	// handleOnprogressBarUpdated = (selectedPos: string,
+	// 	selectedWidth: string, isVertical: boolean) => {
+	// 	this.viewBar.
+	// 		updateProgressBar(selectedPos, selectedWidth, isVertical);
+	// }
 
 	handleIntervalCalc =
 		(step: string) => {
@@ -237,12 +237,6 @@ class sliderController extends Observer {
 		// this.handleStepCalc(this.model.intervalValue);// передаем во view значение интервала, если указан шаг
 
 
-		this.viewControl.bindMoveControl(this.handleGetControlData,
-			this.handlecomputeControlPosFromEvent,
-			this.handleRemoveEventListeners
-		);// вешаем обработчики handleGetControlData и handlecomputeControlPosFromEvent для обработки в view события захвата и перетаскивания ползунка
-
-
 		this.viewControl.bindFocusedControl(this.handleGetControlData,
 			this.handleNewPosKeyboardEvnt); // вешаем обработчики handleGetControlData и handleNewPosKeyboardEvnt для обработки в view события нажатия стрелки на ползунке в фокусе
 
@@ -288,17 +282,26 @@ class sliderController extends Observer {
 		// this.model.bindIntervalValueUpdated(this.handleOnIntervalValueUpdated);//Вызываем для обновления инпута INTERVAL в панели (обращение к view)
 
 
+
+
+
+		this.viewControl.bindMoveControl(this.handleGetControlData,
+			this.handlecomputeControlPosFromEvent,
+			this.handleRemoveEventListeners
+		);// вешаем обработчики handleGetControlData и handlecomputeControlPosFromEvent для обработки в view события захвата и перетаскивания ползунка
+
+
+
 	}
+
+
+
 
 	//вызываем метод GetControlData в модели
 	handleGetControlData = (controlData: IControlElements) => {
-
 		this.controlData = controlData;
 		//	this.model.getControlData(controlData);
-
-
 	}
-
 
 	// вызываем метод computeControlPosFromEvent в модели
 	handlecomputeControlPosFromEvent = (e: PointerEvent) => {
@@ -315,6 +318,19 @@ class sliderController extends Observer {
 			this.controlData.moovingControl);
 	}
 
+	//отвязка слушателей
+	handleRemoveEventListeners = () => {
+		document.removeEventListener('pointermove',
+			this.handlecomputeControlPosFromEvent);
+		document.removeEventListener('pointerup',
+			this.handleRemoveEventListeners);
+	}
+
+
+
+
+
+
 
 	// вызываем метод computeNewPosKeyEvnt в модели
 	handleNewPosKeyboardEvnt = (e: KeyboardEvent) => {
@@ -326,13 +342,7 @@ class sliderController extends Observer {
 			e.repeat,
 			this.controlData.moovingControl);
 	}
-	//отвязка слушателей
-	handleRemoveEventListeners = () => {
-		document.removeEventListener('pointermove',
-			this.handlecomputeControlPosFromEvent);
-		document.removeEventListener('pointerup',
-			this.handleRemoveEventListeners);
-	}
+
 
 
 

@@ -166,7 +166,7 @@ class sliderViewGrid {
 		}
 	}
 
-	getResizeWrap() {
+	getResizeWrap() { // ??????
 		let sleep = 200; // --------- задержка в миллесекундах
 		let rtime = 0;  // ---------- для хранения отрезка времени
 		let timeout = false; // ----- флаг для запрета лишний раз вызывать функцию resizeend
