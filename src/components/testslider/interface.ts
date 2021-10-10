@@ -86,6 +86,19 @@ interface $Idata {
 	//	$newPos?: number
 	$fromVal?: string
 	$toVal?: string
+	$thumb?: $Ithumb
+}
+
+interface $Ithumb {
+	$type?: string,
+	$clientY?: number,
+	$clientX?: number,
+	$top?: number,
+	$left?: number,
+	$width?: number,
+	$height?: number,
+	$shiftBase?: number,
+	$moovingControl?: string
 }
 
 export {

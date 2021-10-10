@@ -78,7 +78,7 @@ class sliderModel extends Observer {
 			shiftOnKeyDown: 1,
 			shiftOnKeyHold: 2,
 			//			target: string
-			vertical: false
+			vertical: false,
 		};
 
 		this.$data = {};
@@ -111,7 +111,7 @@ class sliderModel extends Observer {
 				}
 			}
 		}
-		console.log(this);
+		//	console.log(this);
 	}
 
 	$checkConf(newConf: IConf) {
@@ -519,10 +519,10 @@ class sliderModel extends Observer {
 				newVal = String(this.$conf.max);
 			}
 			else if (stopType == 'meetMax') {
-				newVal = String(this.conf.to);
+				newVal = String(this.$conf.to);
 			}
 			else if (stopType == 'meetMin') {
-				newVal = String(this.conf.from);
+				newVal = String(this.$conf.from);
 			}
 			if (moovingControl == 'min') {
 				this.$data.$fromVal = newVal;
@@ -534,7 +534,7 @@ class sliderModel extends Observer {
 				this.fire('ToValue', this.$data);
 			}
 		}
-		console.log(this);
+		//console.log(this);
 
 	}
 

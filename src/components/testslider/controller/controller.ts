@@ -33,20 +33,21 @@ class sliderController extends Observer {
 	customConf: IConf;
 	controlData: IControlElements;
 
-	constructor(conf: IConf, root: string,
-		view: sliderView, viewScale: sliderViewScale,
-		viewControl: sliderViewControl,
-		viewPanel: sliderViewPanel, viewGrid: sliderViewGrid,
-		viewBar: sliderViewBar,
+	constructor(root: string, conf: IConf,
+		view: sliderView,
+		// viewScale: sliderViewScale,
+		// viewControl: sliderViewControl,
+		// viewPanel: sliderViewPanel, viewGrid: sliderViewGrid,
+		// viewBar: sliderViewBar,
 		model: sliderModel) {
 		super();
 		this.model = model;
 		this.view = view;
-		this.viewScale = viewScale;
-		this.viewControl = viewControl;
-		this.viewPanel = viewPanel;
-		this.viewGrid = viewGrid;
-		this.viewBar = viewBar;
+		// this.viewScale = viewScale;
+		// this.viewControl = viewControl;
+		// this.viewPanel = viewPanel;
+		// this.viewGrid = viewGrid;
+		// this.viewBar = viewBar;
 
 		this.conf = conf;
 		this.root = root;
@@ -68,14 +69,17 @@ class sliderController extends Observer {
 		this.model.subscribe(this.$handleBar);
 		this.model.subscribe(this.$handleScale);
 		this.model.subscribe(this.$handleGrid);
+		this.view.subscribe(this.$handleMoveEvent);
+
 
 	}
 
 	$init() {
+		this.view.$init(this.model.$conf); //закидываем конфиг из модели в view
 		this.$handleFromPosition('FromPosition', this.model.$data);
 		this.$handleToPosition('ToPosition', this.model.$data);
 		this.$handleBar('Bar', this.model.$data, this.model.$conf);
-		this.$handleScale('Grid', this.model.$data);
+		this.$handleScale('Grid', this.model.$data, this.model.$conf);
 		this.$handleGrid('Grid', this.model.$data); // это нужно только для внесения значения в панель
 
 	}
@@ -84,8 +88,7 @@ class sliderController extends Observer {
 	$handleFromPosition = (key: string, data: $Idata) => {
 		if (key !== 'FromPosition') return;
 		else {
-			this.viewControl.updateControlPos(this.viewControl.controlMin,
-				data.$fromPos);
+			this.view.$handleFromPosition(key, data);
 		}
 	}
 
@@ -93,8 +96,7 @@ class sliderController extends Observer {
 	$handleToPosition = (key: string, data: $Idata) => {
 		if (key !== 'ToPosition') return;
 		else {
-			this.viewControl.updateControlPos(this.viewControl.controlMax,
-				data.$toPos);
+			this.view.$handleToPosition(key, data);
 		}
 	}
 
@@ -102,8 +104,7 @@ class sliderController extends Observer {
 	$handleFromValue = (key: string, data: $Idata) => {
 		if (key !== 'FromValue') return;
 		else {
-			this.viewPanel.updateFromTo('from', data.$fromVal);
-			this.viewControl.updateTipVal(data.$fromVal, true);
+			this.view.$handleFromValue(key, data);
 		}
 	}
 
@@ -111,39 +112,48 @@ class sliderController extends Observer {
 	$handleToValue = (key: string, data: $Idata) => {
 		if (key !== 'ToValue') return;
 		else {
-			this.viewPanel.updateFromTo('to', data.$toVal);
-			this.viewControl.updateTipVal(data.$toVal, false);
+			this.view.$handleToValue(key, data);
 		}
 	}
 
 
 
 
-	$handleScale = (key: string, data: $Idata) => {
+	$handleScale = (key: string, data: $Idata, conf: IConf) => {
 		if (key !== 'Grid') return;
 		else {
-			this.viewGrid.createGrid(data.$marksArr, this.conf);
+			this.view.$handleScale(key, data, conf);
 		}
 	}
 
 	$handleBar = (key: string, data: $Idata, conf: IConf) => {
 		if (key !== 'Bar') return;
 		else {
-			//
-			this.viewBar.
-				$updateBar(data.$barPos, data.$barWidth, conf.vertical);
+			this.view.$handleBar(key, data, conf);
 		}
 	}
 
 	$handleGrid = (key: string, data: $Idata) => {
 		if (key !== 'Grid') return;
 		else {
-			if (data.$gridType === 'steps') {
-				this.viewPanel.updateInterval(data.$intervalValue);
-			}
-			if (data.$gridType === 'intervals') {
-				this.viewPanel.updateInterval(data.$stepValue);
-			}
+			this.view.$handleGrid(key, data);
+		}
+	}
+
+
+	$handleMoveEvent = (key: string, data: $Idata) => {
+		if (key !== 'MoveEvent') return;
+		else {
+			this.model.$calcPos(
+				data.$thumb.$type,
+				data.$thumb.$clientY,
+				data.$thumb.$clientX,
+				data.$thumb.$top,
+				data.$thumb.$left,
+				data.$thumb.$width,
+				data.$thumb.$height,
+				data.$thumb.$shiftBase,
+				data.$thumb.$moovingControl);
 
 		}
 	}
@@ -210,11 +220,11 @@ class sliderController extends Observer {
 
 	render = () => {
 
-		this.viewScale.init(this.conf);
-		this.viewBar.init(this.conf);
-		this.viewControl.init(this.conf);
-		this.viewPanel.init(this.conf);
-		this.viewGrid.init(this.conf);
+		//this.viewScale.init(this.conf);
+		//this.viewBar.init(this.conf);
+		//	this.viewControl.init(this.conf);
+		//this.viewPanel.init(this.conf);
+		//this.viewGrid.init(this.conf);
 
 		//this.model.init(this.conf);
 	}
@@ -237,37 +247,37 @@ class sliderController extends Observer {
 		// this.handleStepCalc(this.model.intervalValue);// передаем во view значение интервала, если указан шаг
 
 
-		this.viewControl.bindFocusedControl(this.handleGetControlData,
-			this.handleNewPosKeyboardEvnt); // вешаем обработчики handleGetControlData и handleNewPosKeyboardEvnt для обработки в view события нажатия стрелки на ползунке в фокусе
+		// this.viewControl.bindFocusedControl(this.handleGetControlData,
+		// 	this.handleNewPosKeyboardEvnt); // вешаем обработчики handleGetControlData и handleNewPosKeyboardEvnt для обработки в view события нажатия стрелки на ползунке в фокусе
 
-		this.viewScale.bindClickOnScale(this.handleGetControlData,
-			this.handlecomputeControlPosFromEvent);// вешаем обработчики handleGetControlData и handlecomputeControlPosFromEvent для обработки в view события клика по шкале
-
-
-
-		this.viewPanel.bindCheckIsVerticalControl(this.handleIsVerticalChecked,
-			this.handleIsVerticalNotChecked);
-		this.viewPanel.bindCheckIsRangeControl(this.handleIsRangeChecked,
-			this.handleIsRangeNotChecked, this.handleAdjustControlPos);
-		this.viewPanel.bindCheckIsScaleControl(this.handleIsScaleChecked,
-			this.handleIsScaleNotChecked);
-		this.viewPanel.bindCheckIsBarControl(this.handleIsBarChecked,
-			this.handleIsBarNotChecked);
-		this.viewPanel.bindCheckIsTipControl(this.handleIsTipChecked,
-			this.handleIsTipNotChecked);
-		this.viewPanel.bindCheckIsStickyControl(this.handleIsStickyChecked,
-			this.handleIsStickyNotChecked);
+		// this.viewScale.bindClickOnScale(this.handleGetControlData,
+		// 	this.handlecomputeControlPosFromEvent);// вешаем обработчики handleGetControlData и handlecomputeControlPosFromEvent для обработки в view события клика по шкале
 
 
 
-		this.viewPanel.bindMinMaxChange(this.handleMinMaxChanged);
-		this.viewPanel.bindStepChange(this.handleStepChanged);
-		this.viewPanel.bindIntervalChange(this.handleIntervalChanged);
-		this.viewPanel.bindFromToChange(this.handleFromToChanged);
-		this.viewPanel.
-			bindShiftOnKeyDownChange(this.handleShiftOnKeyDownChange);
-		this.viewPanel.
-			bindShiftOnKeyHoldChange(this.handleShiftOnKeyHoldChange);
+		// this.viewPanel.bindCheckIsVerticalControl(this.handleIsVerticalChecked,
+		// 	this.handleIsVerticalNotChecked);
+		// this.viewPanel.bindCheckIsRangeControl(this.handleIsRangeChecked,
+		// 	this.handleIsRangeNotChecked, this.handleAdjustControlPos);
+		// this.viewPanel.bindCheckIsScaleControl(this.handleIsScaleChecked,
+		// 	this.handleIsScaleNotChecked);
+		// this.viewPanel.bindCheckIsBarControl(this.handleIsBarChecked,
+		// 	this.handleIsBarNotChecked);
+		// this.viewPanel.bindCheckIsTipControl(this.handleIsTipChecked,
+		// 	this.handleIsTipNotChecked);
+		// this.viewPanel.bindCheckIsStickyControl(this.handleIsStickyChecked,
+		// 	this.handleIsStickyNotChecked);
+
+
+
+		// this.viewPanel.bindMinMaxChange(this.handleMinMaxChanged);
+		// this.viewPanel.bindStepChange(this.handleStepChanged);
+		// this.viewPanel.bindIntervalChange(this.handleIntervalChanged);
+		// this.viewPanel.bindFromToChange(this.handleFromToChanged);
+		// this.viewPanel.
+		// 	bindShiftOnKeyDownChange(this.handleShiftOnKeyDownChange);
+		// this.viewPanel.
+		// 	bindShiftOnKeyHoldChange(this.handleShiftOnKeyHoldChange);
 
 
 
@@ -285,10 +295,10 @@ class sliderController extends Observer {
 
 
 
-		this.viewControl.bindMoveControl(this.handleGetControlData,
-			this.handlecomputeControlPosFromEvent,
-			this.handleRemoveEventListeners
-		);// вешаем обработчики handleGetControlData и handlecomputeControlPosFromEvent для обработки в view события захвата и перетаскивания ползунка
+		// this.viewControl.bindMoveControl(this.handleGetControlData,
+		// 	this.handlecomputeControlPosFromEvent,
+		// 	this.handleRemoveEventListeners
+		// );// вешаем обработчики handleGetControlData и handlecomputeControlPosFromEvent для обработки в view события захвата и перетаскивания ползунка
 
 
 

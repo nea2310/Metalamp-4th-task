@@ -30,13 +30,13 @@ let conf = {
 	//range: false
 };
 
-new sliderController(conf, root,
-	new sliderView(root),
-	new sliderViewScale(root),
-	new sliderViewControl(root),
-	new sliderViewPanel(root),
-	new sliderViewGrid(root),
-	new sliderViewBar(root),
+new sliderController(root, conf,
+	new sliderView(root, conf),
+	// new sliderViewScale(root, conf),
+	// new sliderViewControl(root, conf),
+	// new sliderViewPanel(root, conf),
+	// new sliderViewGrid(root, conf),
+	// new sliderViewBar(root, conf),
 	new sliderModel(conf),
 );
 

@@ -19,8 +19,9 @@ class sliderViewBar {
 	checkNext: boolean;
 	lastLabelRemoved: boolean;
 
-	constructor(root: string) {
+	constructor(root: string, conf: IConf) {
 		this.slider = document.querySelector(root);
+		this.init(conf);
 	}
 
 	// Инициализация
@@ -36,6 +37,8 @@ class sliderViewBar {
 		this.progressBar.className = 'rs__progressBar';
 		this.scale.append(this.progressBar);
 		if (!conf.bar) {
+
+
 			this.progressBar.classList.add('hidden');
 		}
 
@@ -68,12 +71,15 @@ class sliderViewBar {
 
 	/*красим Progress Bar (вызывается из контроллера)*/
 	$updateBar(pos: number, length: number, isVertical: boolean) {
-		console.log(isVertical);
+		//		console.log(isVertical);
 
 		if (!isVertical) {
+			//		console.log(this.progressBar);
 			this.progressBar.style.left = pos + '%';
 			this.progressBar.style.width = length + '%';
 		} else {
+
+
 			this.progressBar.style.bottom = pos + '%';
 			this.progressBar.style.height = length + '%';
 		}

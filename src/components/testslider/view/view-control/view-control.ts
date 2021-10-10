@@ -5,13 +5,16 @@ import {
 	IConf,
 	IControlElements,
 	CBPointerEvent,
-	CBKeyboardEvent
+	CBKeyboardEvent,
+	$Idata
 } from './../../interface';
 
+import { Observer } from '../../observer/observer';
 
 
 
-class sliderViewControl {
+
+class sliderViewControl extends Observer {
 	conf: IConf;
 	slider: HTMLElement;
 	controlMin: HTMLElement;
@@ -19,16 +22,24 @@ class sliderViewControl {
 	tipMin: HTMLInputElement;
 	tipMax: HTMLInputElement;
 	scale: Element;
-	test: HTMLElement;
+	$data: $Idata;
 
-	constructor(root: string) {
+	constructor(root: string, conf: IConf) {
+		super();
 		this.slider = document.querySelector(root);
+		this.$data = {};
+		this.$data.$thumb = {};
+		this.init(conf);
+		this.dragThumb();
+
 	}
 	// Инициализация
 	init(conf: IConf) {
 		this.conf = conf;
 		this.renderLeftControl();
 		this.renderRightControl();
+
+
 	}
 	/*Создаем ползунок минимального значения*/
 	renderLeftControl() {
@@ -38,6 +49,8 @@ class sliderViewControl {
 		this.controlMin.className = 'rs__control rs__control-min';
 		this.tipMin.className = 'rs__tip rs__tip-min';
 		this.tipMin.value = String(this.conf.from);
+		//	console.log(this.scale);
+
 		this.scale.append(this.controlMin);
 		this.controlMin.append(this.tipMin);
 
@@ -99,43 +112,98 @@ class sliderViewControl {
 
 
 
+	// // Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
+	// bindMoveControl(getControlData: CBControlElements,
+	// 	computeControlPos: CBPointerEvent, removeListeners: CBPointerEvent) {
+
+	// 	this.slider.addEventListener('pointerdown', (e) => {
+	// 		e.preventDefault();
+	// 		const target = e.target as HTMLElement;
+	// 		if (target.classList.contains('rs__control')) {
+	// 			let controlData: IControlElements = {};
+	// 			//определяем ползунок, за который тянут
+	// 			//	controlData.currentControlElem = target;
+	// 			target.classList.contains('rs__control-min') ?
+	// 				controlData.moovingControl = 'min' :
+	// 				controlData.moovingControl = 'max';
+
+	// 			//определяем расстояние между позицией клика и левым краем ползунка
+	// 			if (!this.conf.vertical) {
+	// 				controlData.shift = e.clientX -
+	// 					target.getBoundingClientRect().left;
+	// 			}
+
+	// 			let scale = this.controlMin.parentElement;
+
+	// 			controlData.top = scale.getBoundingClientRect().top;
+	// 			controlData.left = scale.getBoundingClientRect().left;
+	// 			controlData.width = scale.offsetWidth;
+	// 			controlData.height = scale.offsetHeight;
+
+	// 			getControlData(controlData);// вызов хендлера передачи данных в модель о перемещаемом ползунке 
+
+	// 			document.addEventListener('pointermove', computeControlPos);// навешивание обработчика перемещения ползунка
+	// 			document.addEventListener('pointerup', removeListeners);// навешивание обработчика отпускания кнопки
+	// 			//document.addEventListener('touchmove', secondEventHandler);// навешивание обработчика перемещения ползунка
+	// 			//	document.addEventListener('touchend', this.handleMouseUp);
+	// 		}
+	// 	});
+	// }
+
+
+
+
 	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
-	bindMoveControl(getControlData: CBControlElements,
-		computeControlPos: CBPointerEvent, removeListeners: CBPointerEvent) {
 
-		this.slider.addEventListener('pointerdown', (e) => {
+	dragThumb() {
+		let pointerDownHandler = (e: PointerEvent) => {
 			e.preventDefault();
-			const target = e.target as HTMLElement;
-			if (target.classList.contains('rs__control')) {
-				let controlData: IControlElements = {};
+			const thumb = e.target as HTMLElement;
+			if (thumb.classList.contains('rs__control')) {
 				//определяем ползунок, за который тянут
-				//	controlData.currentControlElem = target;
-				target.classList.contains('rs__control-min') ?
-					controlData.moovingControl = 'min' :
-					controlData.moovingControl = 'max';
-
+				thumb.classList.contains('rs__control-min') ?
+					this.$data.$thumb.$moovingControl = 'min' :
+					this.$data.$thumb.$moovingControl = 'max';
 				//определяем расстояние между позицией клика и левым краем ползунка
 				if (!this.conf.vertical) {
-					controlData.shift = e.clientX -
-						target.getBoundingClientRect().left;
+					this.$data.$thumb.$shiftBase = e.clientX -
+						thumb.getBoundingClientRect().left;
 				}
+				let scale = thumb.parentElement;
+				this.$data.$thumb.$top = scale.getBoundingClientRect().top;
+				this.$data.$thumb.$left = scale.getBoundingClientRect().left;
+				this.$data.$thumb.$width = scale.offsetWidth;
+				this.$data.$thumb.$height = scale.offsetHeight;
 
-				let scale = this.controlMin.parentElement;
+				let pointerMoveHandler = (e: PointerEvent) => {
+					this.$data.$thumb.$type = e.type;
+					this.$data.$thumb.$clientX = e.clientX;
+					this.$data.$thumb.$clientY = e.clientY;
+					this.fire('MoveEvent', this.$data);
+				};
 
-				controlData.top = scale.getBoundingClientRect().top;
-				controlData.left = scale.getBoundingClientRect().left;
-				controlData.width = scale.offsetWidth;
-				controlData.height = scale.offsetHeight;
+				let pointerUpHandler = () => {
+					thumb.
+						removeEventListener('pointermove', pointerMoveHandler);
+					thumb.
+						removeEventListener('pointerup', pointerUpHandler);
+				};
 
-				getControlData(controlData);// вызов хендлера передачи данных в модель о перемещаемом ползунке 
-
-				document.addEventListener('pointermove', computeControlPos);// навешивание обработчика перемещения ползунка
-				document.addEventListener('pointerup', removeListeners);// навешивание обработчика отпускания кнопки
-				//document.addEventListener('touchmove', secondEventHandler);// навешивание обработчика перемещения ползунка
-				//	document.addEventListener('touchend', this.handleMouseUp);
+				thumb.setPointerCapture(e.pointerId);
+				thumb.addEventListener('pointermove', pointerMoveHandler);
+				thumb.addEventListener('pointerup', pointerUpHandler);
 			}
-		});
+		};
+
+		this.slider.addEventListener('pointerdown', pointerDownHandler);
+		this.slider.addEventListener('dragstart', () => false);
+		this.slider.addEventListener('selectstart', () => false);
+
+
 	}
+
+
+
 
 	// Вешаем обработчик нажатия стрелок на сфокусированном ползунке
 
@@ -145,6 +213,7 @@ class sliderViewControl {
 
 
 		this.slider.addEventListener('keydown', (e) => {
+
 			//	e.preventDefault();
 			if (e.code == 'ArrowLeft' || e.code == 'ArrowDown' ||
 				e.code == 'ArrowRight' || e.code == 'ArrowUp') {
@@ -162,6 +231,7 @@ class sliderViewControl {
 					//	console.log(e.constructor.name);
 					getControlData(controlData);// вызов хендлера передачи данных в модель о перемещаемом ползунке 
 					computeControlPos(e);
+
 				}
 			}
 		});

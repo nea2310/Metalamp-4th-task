@@ -25,8 +25,9 @@ class sliderViewScale {
 	checkNext: boolean;
 	lastLabelRemoved: boolean;
 
-	constructor(root: string) {
+	constructor(root: string, conf: IConf) {
 		this.slider = document.querySelector(root);
+		this.init(conf);
 	}
 
 	// Инициализация

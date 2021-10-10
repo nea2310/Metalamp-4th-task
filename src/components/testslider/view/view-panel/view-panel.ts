@@ -55,8 +55,9 @@ class sliderViewPanel {
 
 
 
-	constructor(root: string) {
+	constructor(root: string, conf: IConf) {
 		this.slider = document.querySelector(root);
+		this.init(conf);
 	}
 	init(conf: IConf) {
 		this.conf = conf;

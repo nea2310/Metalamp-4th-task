@@ -24,8 +24,9 @@ class sliderViewGrid {
 	scaleMarks: { 'pos'?: number, 'val'?: number }[];
 
 
-	constructor(root: string) {
+	constructor(root: string, conf: IConf) {
 		this.slider = document.querySelector(root);
+		this.init(conf);
 	}
 
 	// Инициализация
