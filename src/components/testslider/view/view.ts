@@ -55,6 +55,8 @@ class sliderView extends Observer {
 		//	console.log(this.viewControl);
 
 		this.viewControl.subscribe(this.$handleMoveEvent);
+		this.viewControl.subscribe(this.$handleKeydownEvent);
+
 	}
 
 
@@ -110,15 +112,20 @@ class sliderView extends Observer {
 
 
 	$handleMoveEvent = (key: string, data: $Idata) => {
-		console.log('FIRE');
-
 		if (key !== 'MoveEvent') return;
 		else {
-
 			this.fire('MoveEvent', data);
-
 		}
 	}
+
+	$handleKeydownEvent = (key: string, data: $Idata) => {
+		if (key !== 'KeydownEvent') return;
+		else {
+			this.fire('KeydownEvent', data);
+		}
+	}
+
+
 
 	// Удаление слайдера
 	deleteSlider() {

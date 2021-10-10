@@ -411,15 +411,24 @@ class sliderModel extends Observer {
 		if (!this.$conf.sticky) {	// если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
 			if (moovingControl == 'min') {// Ползунок min
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
-
-					if (this.$conf.range && this.$conf.from < this.$conf.to ||
+					if (this.$conf.range && this.$conf.from <
+						this.$conf.to ||
 						!this.$conf.range && this.$conf.from < this.$conf.max) {
+
 						newVal = repeat ?
 							this.$conf.from +
 							this.$conf.shiftOnKeyHold :
 							this.$conf.from +
 							this.$conf.shiftOnKeyDown;
-					}
+
+						if (this.$conf.range && newVal > this.$conf.to) {
+							newVal = this.$conf.to;
+						}
+						if (!this.$conf.range && newVal > this.$conf.max) {
+							newVal = this.$conf.max;
+						}
+
+					} else return;
 				} else {// Уменьшение значения
 					if (this.$conf.from > this.$conf.min) {
 						newVal = repeat ?
@@ -427,7 +436,14 @@ class sliderModel extends Observer {
 							this.$conf.shiftOnKeyHold :
 							this.$conf.from -
 							this.$conf.shiftOnKeyDown;
-					}
+
+
+						if (newVal < this.$conf.min) {
+							newVal = this.$conf.min;
+						}
+
+
+					} else return;
 				}
 
 				this.$data.$fromVal = String(newVal);
@@ -444,7 +460,10 @@ class sliderModel extends Observer {
 							this.$conf.shiftOnKeyHold :
 							this.$conf.to +
 							this.$conf.shiftOnKeyDown;
-					}
+						if (newVal > this.$conf.max) {
+							newVal = this.$conf.max;
+						}
+					} else return;
 				} else {// Уменьшение значения
 					if (this.$conf.to > this.$conf.from) {
 						newVal = repeat ?
@@ -452,7 +471,10 @@ class sliderModel extends Observer {
 							this.$conf.shiftOnKeyHold :
 							this.$conf.to -
 							this.$conf.shiftOnKeyDown;
-					}
+						if (newVal < this.$conf.from) {
+							newVal = this.$conf.from;
+						}
+					} else return;
 				}
 				this.$data.$toVal = String(newVal);
 				this.$conf.to = newVal;
@@ -507,6 +529,8 @@ class sliderModel extends Observer {
 	$calcVal(stopType: string,
 		pos: number,
 		moovingControl: string) {
+
+
 		if (!this.changeMode) {
 			let newVal = '';
 			if (stopType == 'normal') {

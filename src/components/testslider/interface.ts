@@ -98,7 +98,9 @@ interface $Ithumb {
 	$width?: number,
 	$height?: number,
 	$shiftBase?: number,
-	$moovingControl?: string
+	$moovingControl?: string,
+	$key?: string,
+	$repeat?: boolean
 }
 
 export {

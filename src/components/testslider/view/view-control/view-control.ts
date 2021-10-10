@@ -31,6 +31,7 @@ class sliderViewControl extends Observer {
 		this.$data.$thumb = {};
 		this.init(conf);
 		this.dragThumb();
+		this.pressThumb();
 
 	}
 	// Инициализация
@@ -111,48 +112,6 @@ class sliderViewControl extends Observer {
 
 
 
-
-	// // Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
-	// bindMoveControl(getControlData: CBControlElements,
-	// 	computeControlPos: CBPointerEvent, removeListeners: CBPointerEvent) {
-
-	// 	this.slider.addEventListener('pointerdown', (e) => {
-	// 		e.preventDefault();
-	// 		const target = e.target as HTMLElement;
-	// 		if (target.classList.contains('rs__control')) {
-	// 			let controlData: IControlElements = {};
-	// 			//определяем ползунок, за который тянут
-	// 			//	controlData.currentControlElem = target;
-	// 			target.classList.contains('rs__control-min') ?
-	// 				controlData.moovingControl = 'min' :
-	// 				controlData.moovingControl = 'max';
-
-	// 			//определяем расстояние между позицией клика и левым краем ползунка
-	// 			if (!this.conf.vertical) {
-	// 				controlData.shift = e.clientX -
-	// 					target.getBoundingClientRect().left;
-	// 			}
-
-	// 			let scale = this.controlMin.parentElement;
-
-	// 			controlData.top = scale.getBoundingClientRect().top;
-	// 			controlData.left = scale.getBoundingClientRect().left;
-	// 			controlData.width = scale.offsetWidth;
-	// 			controlData.height = scale.offsetHeight;
-
-	// 			getControlData(controlData);// вызов хендлера передачи данных в модель о перемещаемом ползунке 
-
-	// 			document.addEventListener('pointermove', computeControlPos);// навешивание обработчика перемещения ползунка
-	// 			document.addEventListener('pointerup', removeListeners);// навешивание обработчика отпускания кнопки
-	// 			//document.addEventListener('touchmove', secondEventHandler);// навешивание обработчика перемещения ползунка
-	// 			//	document.addEventListener('touchend', this.handleMouseUp);
-	// 		}
-	// 	});
-	// }
-
-
-
-
 	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
 
 	dragThumb() {
@@ -198,44 +157,32 @@ class sliderViewControl extends Observer {
 		this.slider.addEventListener('pointerdown', pointerDownHandler);
 		this.slider.addEventListener('dragstart', () => false);
 		this.slider.addEventListener('selectstart', () => false);
-
-
 	}
-
-
-
 
 	// Вешаем обработчик нажатия стрелок на сфокусированном ползунке
-
-	bindFocusedControl(getControlData: CBControlElements,
-		computeControlPos: CBKeyboardEvent) {
-
-
-
-		this.slider.addEventListener('keydown', (e) => {
-
-			//	e.preventDefault();
+	pressThumb() {
+		let pointerDownHandler = (e: KeyboardEvent) => {
 			if (e.code == 'ArrowLeft' || e.code == 'ArrowDown' ||
 				e.code == 'ArrowRight' || e.code == 'ArrowUp') {
-				//	e.preventDefault();
-				const target = e.target as HTMLElement;
-				if (target.classList.contains('rs__control')) {
-					let controlData: IControlElements = {};
+				e.preventDefault();
+				const thumb = e.target as HTMLElement;
+				if (thumb.classList.contains('rs__control')) {
 					//определяем ползунок, на который нажимают
-					controlData.currentControlElem = target;
-					target.classList.contains('rs__control-min') ?
-						controlData.moovingControl = 'min' :
-						controlData.moovingControl = 'max';
-					controlData.key = e.code;
-					controlData.repeat = e.repeat;
-					//	console.log(e.constructor.name);
-					getControlData(controlData);// вызов хендлера передачи данных в модель о перемещаемом ползунке 
-					computeControlPos(e);
-
+					thumb.classList.contains('rs__control-min') ?
+						this.$data.$thumb.$moovingControl = 'min' :
+						this.$data.$thumb.$moovingControl = 'max';
+					this.$data.$thumb.$key = e.code;
+					this.$data.$thumb.$repeat = e.repeat;
+					this.fire('KeydownEvent', this.$data);
 				}
 			}
-		});
+		};
+		this.slider.addEventListener('keydown', pointerDownHandler);
+
 	}
+
+
+
 
 	//Обновляем позицию ползунка (вызывается через контроллер)
 	updateControlPos(elem: HTMLElement, newPos: number) {
