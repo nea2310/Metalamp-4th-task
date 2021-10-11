@@ -269,5 +269,5 @@ class sliderController extends Observer {
 	// };
 }
 
-export { sliderController };
+export { sliderModel, sliderView, sliderController };
 
