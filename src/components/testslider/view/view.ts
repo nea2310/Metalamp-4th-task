@@ -17,7 +17,7 @@ class sliderView extends Observer {
 	viewBar: sliderViewBar;
 
 	slider: HTMLElement;
-	scale: HTMLElement;
+	track: HTMLElement;
 	conf: IConf;
 	root: string;
 
@@ -26,9 +26,9 @@ class sliderView extends Observer {
 		this.root = root;
 		/*Находим корневой элемент*/
 		this.slider = document.querySelector(root);
-		this.scale = document.createElement('div');
-		this.scale.className = 'rs__slider';
-		this.slider.append(this.scale);
+		this.track = document.createElement('div');
+		this.track.className = 'rs__track';
+		this.slider.append(this.track);
 
 	}
 	$init(conf: IConf) {

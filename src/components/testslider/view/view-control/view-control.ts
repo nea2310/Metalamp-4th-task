@@ -1,13 +1,9 @@
-
 import {
 	IConf,
 	$Idata
 } from './../../interface';
 
 import { Observer } from '../../observer/observer';
-
-
-
 
 class sliderViewControl extends Observer {
 	conf: IConf;
@@ -16,93 +12,75 @@ class sliderViewControl extends Observer {
 	controlMax: HTMLElement;
 	tipMin: HTMLInputElement;
 	tipMax: HTMLInputElement;
-	scale: HTMLInputElement;
+	track: HTMLInputElement;
 	$data: $Idata;
 
 	constructor(root: string, conf: IConf) {
 		super();
 		this.slider = document.querySelector(root);
+		this.track = this.slider.querySelector('.rs__track');
 		this.$data = {};
 		this.$data.$thumb = {};
 		this.init(conf);
 		this.dragControl();
 		this.pressControl();
-		this.clickScale();
-
+		this.clickTrack();
 	}
+
 	// Инициализация
 	init(conf: IConf) {
 		this.conf = conf;
 		this.renderLeftControl();
 		this.renderRightControl();
-
-
 	}
+
+	renderControl(
+		controlClassName: string, tipClassName: string, value: number,
+		isTip: boolean, isVertical: boolean) {
+		let control = document.createElement('button');
+		control.className = 'rs__control';
+		control.classList.add(controlClassName);
+		let tip = document.createElement('input');
+		tip.className = 'rs__tip';
+		tip.classList.add(tipClassName);
+		tip.value = String(value);
+
+		if (!isTip) { // no tip mode
+			tip.classList.add('hidden');
+		}
+		if (isVertical) { // vertical mode
+			control.classList.add('vertical');
+			tip.classList.add('vertical');
+		} else {//horizontal mode
+			control.classList.add('horizontal');
+			tip.classList.add('horizontal');
+		}
+
+		control.append(tip);
+		return control;
+	}
+
+
 	/*Создаем ползунок минимального значения*/
 	renderLeftControl() {
-		this.scale = this.slider.querySelector('.rs__slider');
-		this.controlMin = document.createElement('button');
-		this.tipMin = document.createElement('input');
-		this.controlMin.className = 'rs__control rs__control-min';
-		this.tipMin.className = 'rs__tip rs__tip-min';
-		this.tipMin.value = String(this.conf.from);
-
-		this.scale.append(this.controlMin);
-		this.controlMin.append(this.tipMin);
-
-
-
-		if (this.conf.tip == false) { // no tip mode
-			this.tipMin.classList.add('hidden');
-		}
-
-		if (this.conf.vertical == true) { // vertical mode
-			this.controlMin.classList.add('vertical');
-			this.tipMin.classList.add('vertical');
-		} else {//horizontal mode
-			this.controlMin.classList.add('horizontal');
-			this.tipMin.classList.add('horizontal');
-		}
-
-
+		this.controlMin = this.renderControl(
+			'rs__control-min', 'rs__tip-min', this.conf.from,
+			this.conf.tip, this.conf.vertical);
+		this.tipMin = this.controlMin.querySelector('.rs__tip');
+		this.track.append(this.controlMin);
 	}
+
 	/*Создаем ползунок максимального значения*/
 	renderRightControl() {
-		this.controlMax = document.createElement('button');
-		this.controlMax.className = 'rs__control rs__control-max';
-		this.scale.append(this.controlMax);
-		this.tipMax = document.createElement('input');
-		this.controlMax.className = 'rs__control rs__control-max';
-		this.tipMax.className = 'rs__tip rs__tip-max';
-		this.tipMax.value = String(this.conf.to);
-
-
-
-		this.controlMax.append(this.tipMax);
-
-		if (this.conf.range == false) {// single mode
-			this.controlMax.classList.add('hidden');
-			this.tipMax.classList.add('hidden');
-		}
-
-		if (this.conf.tip == false) {// no tip mode
-			this.tipMax.classList.add('hidden');
-		}
-
-		if (this.conf.vertical == true) { // vertical mode
-			this.controlMax.classList.add('vertical');
-			this.tipMax.classList.add('vertical');
-		} else {//horizontal mode
-			this.controlMax.classList.add('horizontal');
-			this.tipMax.classList.add('horizontal');
-		}
-
+		this.controlMax = this.renderControl(
+			'rs__control-max', 'rs__tip-max', this.conf.to,
+			this.conf.tip, this.conf.vertical);
+		this.tipMax = this.controlMax.querySelector('.rs__tip');
+		this.track.append(this.controlMax);
 	}
-
 
 
 	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
-
 	dragControl() {
 		let pointerDownHandler = (e: PointerEvent) => {
 			e.preventDefault();
@@ -148,6 +126,7 @@ class sliderViewControl extends Observer {
 		this.slider.addEventListener('selectstart', () => false);
 	}
 
+
 	// Вешаем обработчик нажатия стрелок на сфокусированном ползунке
 	pressControl() {
 		let pointerDownHandler = (e: KeyboardEvent) => {
@@ -170,14 +149,12 @@ class sliderViewControl extends Observer {
 
 	}
 
-	clickScale() {
-
+	clickTrack() {
 		let pointerDownHandler = (e: PointerEvent) => {
-
 			e.preventDefault();
 			const target = e.target as HTMLElement;
 
-			if (target.classList.contains('rs__slider') ||
+			if (target.classList.contains('rs__track') ||
 				target.classList.contains('rs__progressBar') ||
 				target.classList.contains('rs__label') ||
 				target.classList.contains('rs__mark') ||
@@ -204,18 +181,14 @@ class sliderViewControl extends Observer {
 						getBoundingClientRect().bottom - e.clientY);
 				}
 
-
-
-				this.$data.$thumb.$top = this.scale.getBoundingClientRect().top;
+				this.$data.$thumb.$top = this.track.getBoundingClientRect().top;
 				this.$data.$thumb.$left =
-					this.scale.getBoundingClientRect().left;
-				this.$data.$thumb.$width = this.scale.offsetWidth;
-				this.$data.$thumb.$height = this.scale.offsetHeight;
+					this.track.getBoundingClientRect().left;
+				this.$data.$thumb.$width = this.track.offsetWidth;
+				this.$data.$thumb.$height = this.track.offsetHeight;
 				this.$data.$thumb.$type = e.type;
 				this.$data.$thumb.$clientX = e.clientX;
 				this.$data.$thumb.$clientY = e.clientY;
-
-
 
 				//определяем ползунок, находящийся ближе к позиции клика
 				if (this.controlMax.classList.contains('hidden')) {//Single mode
@@ -227,14 +200,11 @@ class sliderViewControl extends Observer {
 						this.$data.$thumb.$moovingControl = 'min' :
 						this.$data.$thumb.$moovingControl = 'max';
 				}
-				console.log(this.$data);
-
 				this.fire('MoveEvent', this.$data);
 			}
 		};
 		this.slider.addEventListener('pointerdown', pointerDownHandler);
 	}
-
 
 
 	//Обновляем позицию ползунка (вызывается через контроллер)
@@ -249,11 +219,9 @@ class sliderViewControl extends Observer {
 
 
 	//Обновляем значение tip
-
 	updateTipVal(val: string, isFrom: boolean) {
 		isFrom ? this.tipMin.value = val : this.tipMax.value = val;
 	}
-
 
 
 	updateRangeMode(isDouble: boolean) {
@@ -268,8 +236,8 @@ class sliderViewControl extends Observer {
 		}
 	}
 
-	updateTipMode(isTip: boolean) {
 
+	updateTipMode(isTip: boolean) {
 		if (isTip) {
 			this.tipMax.classList.remove('hidden');
 			this.tipMin.classList.remove('hidden');
@@ -278,8 +246,6 @@ class sliderViewControl extends Observer {
 			this.tipMin.classList.add('hidden');
 		}
 	}
-
-
 }
 
 

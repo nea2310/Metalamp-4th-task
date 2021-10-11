@@ -6,7 +6,7 @@ import {
 
 class sliderViewBar {
 	slider: HTMLElement;
-	scale: HTMLElement;
+	track: HTMLElement;
 	elem: HTMLElement;
 	progressBar: HTMLElement;
 	controlMin: HTMLElement;
@@ -29,57 +29,34 @@ class sliderViewBar {
 		this.conf = conf;
 		this.renderBar(conf);// шкала
 	}
-	//создаем шкалу
+	//создаем бар
 	renderBar(conf: IConf) {
-		this.scale = this.slider.querySelector('.rs__slider');
-		//создаем progress bar
+		this.track = this.slider.querySelector('.rs__track');
 		this.progressBar = document.createElement('div');
 		this.progressBar.className = 'rs__progressBar';
-		this.scale.append(this.progressBar);
+		this.track.append(this.progressBar);
 		if (!conf.bar) {
-
-
 			this.progressBar.classList.add('hidden');
 		}
 
-
 		if (conf.vertical) {
 			this.slider.classList.add('vertical');
-			this.scale.classList.add('vertical');
+			this.track.classList.add('vertical');
 			this.progressBar.classList.add('vertical');
 		} else {
 			this.slider.classList.remove('vertical');
-			this.scale.classList.remove('vertical');
+			this.track.classList.remove('vertical');
 			this.progressBar.classList.remove('vertical');
 		}
 	}
 
 
-
-
-	/*красим Progress Bar (вызывается из контроллера)*/
-	// updateProgressBar(pos: string, length: string, isVertical: boolean) {
-
-	// 	if (!isVertical) {
-	// 		this.progressBar.style.left = pos;
-	// 		this.progressBar.style.width = length;
-	// 	} else {
-	// 		this.progressBar.style.bottom = pos;
-	// 		this.progressBar.style.height = length;
-	// 	}
-	// }
-
 	/*красим Progress Bar (вызывается из контроллера)*/
 	$updateBar(pos: number, length: number, isVertical: boolean) {
-		//		console.log(isVertical);
-
 		if (!isVertical) {
-			//		console.log(this.progressBar);
 			this.progressBar.style.left = pos + '%';
 			this.progressBar.style.width = length + '%';
 		} else {
-
-
 			this.progressBar.style.bottom = pos + '%';
 			this.progressBar.style.height = length + '%';
 		}

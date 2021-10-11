@@ -7,23 +7,11 @@ import {
 class sliderViewGrid {
 	slider: HTMLElement;
 	startWidth: number;
-	scale: HTMLElement;
-	elem: HTMLElement;
-	scaleWidth: number;
-	scaleHeight: number;
-	progressBar: HTMLElement;
-	leftControl: HTMLElement;
-	rightControl: HTMLElement;
-	leftControlDist: number;
-	rightControlDist: number;
+	track: HTMLElement;
 	markList: HTMLElement[];
 	conf: IConf;
-	grid: HTMLElement;
-	checkNext: boolean;
 	lastLabelRemoved: boolean;
 	scaleMarks: { 'pos'?: number, 'val'?: number }[];
-
-
 	constructor(root: string, conf: IConf) {
 		this.slider = document.querySelector(root);
 		this.init(conf);
@@ -32,10 +20,9 @@ class sliderViewGrid {
 	// Инициализация
 	init(conf: IConf) {
 		this.conf = conf;
-		this.scale = this.slider.firstElementChild as HTMLElement;
+		this.track = this.slider.firstElementChild as HTMLElement;
 		this.getResizeWrap();
 	}
-
 
 	//создаем деления
 	createGrid(scaleMarks: { 'pos'?: number, 'val'?: number }[],
@@ -69,7 +56,7 @@ class sliderViewGrid {
 			if (!conf.scale) {
 				elem.classList.add('hidden');
 			}
-			this.scale.appendChild(elem);
+			this.track.appendChild(elem);
 
 			if (conf.vertical == true) {
 				label.style.top = label.offsetHeight / 2 * (-1) + 'px';
@@ -79,7 +66,7 @@ class sliderViewGrid {
 		}
 
 		this.markList =
-			[...this.scale.querySelectorAll<HTMLElement>('.rs__mark')];
+			[...this.track.querySelectorAll<HTMLElement>('.rs__mark')];
 		this.checkGridLength(this.markList);
 	}
 
@@ -96,7 +83,7 @@ class sliderViewGrid {
 					classList.add('no-label');
 			}
 			this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
-				[...this.scale.
+				[...this.track.
 					querySelectorAll<HTMLElement>
 					('.rs__mark:not(.no-label)')];
 			// запускаем функцию проверки заново
@@ -112,7 +99,7 @@ class sliderViewGrid {
 					getBoundingClientRect().width;
 			}
 			//если общая ширина подписей к шагам больше ширины шкалы
-			if (totalWidth > this.scale.offsetWidth) {
+			if (totalWidth > this.track.offsetWidth) {
 				//Скрываем подписи
 				hideLabels(markList);
 			} else {
@@ -128,7 +115,7 @@ class sliderViewGrid {
 					getBoundingClientRect().height;
 			}
 			//если общая высота подписей к шагам больше высоты шкалы
-			if (totalHeight > this.scale.offsetHeight) {
+			if (totalHeight > this.track.offsetHeight) {
 				//Скрываем подписи
 				hideLabels(markList);
 			} else {
@@ -142,10 +129,10 @@ class sliderViewGrid {
 
 	//возвращаем подпись у последненего шага и удаляем у предпоследнего подписанного
 	addLastLabel(isRemoved: boolean) {
-		let markLabeledList = this.scale.
+		let markLabeledList = this.track.
 			querySelectorAll('.rs__mark:not(.no-label)');
 		let lastMarkLabeled = markLabeledList[markLabeledList.length - 1];
-		let lastMark = this.scale.querySelector('.rs__mark:last-child');
+		let lastMark = this.track.querySelector('.rs__mark:last-child');
 		//console.log(markLabeledList);
 
 		if (isRemoved) {

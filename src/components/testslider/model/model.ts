@@ -8,47 +8,9 @@ import { Observer } from '../observer/observer';
 
 
 class sliderModel extends Observer {
-	conf: IConf;
-	slider: HTMLElement;
-	controlMin: HTMLElement;
-	controlMax: HTMLElement;
-	shift: number;
-	minRangeVal: number;
-	maxRangeVal: number;
-	controlMinStartPos: number;
-	controlMaxStartPos: number;
-	progressBarStartPos: number;
-	progressBarStartWidth: number;
-	stepLength: number;
-	text: number;
-	marksArr: { 'pos'?: number, 'val'?: number }[];
-	currentControlElem: HTMLElement;
-	secondControl: HTMLElement;
-	wrapper: HTMLElement;
-	currentControlFlag: boolean;
-	newPos: number;
 	changeMode: boolean;
-	switchToSingleMode: boolean;
-	switchToDoubleMode: boolean;
-	switchToVerticalMode: boolean;
-	switchToHorizontalMode: boolean;
-	pos: number;
-	edge: number;
-	secondControlPos: number;
-	parentPos: number;
-	newValue: string;
-	selectedWidth: string;
-	selectedPos: string;
-	moovingControl: string;
-	stepValue: string;
-	intervalValue: string;
-	key: string;
-	repeat: boolean;
-	defaultConf: IConf;
-
 	$conf: IConf;
 	$methods: $Imethods;
-
 	$data: $Idata;
 
 	constructor(conf: IConf) {
@@ -170,13 +132,8 @@ class sliderModel extends Observer {
 	}
 	// рассчитать позицию To (%) на основании значений to, min и max
 	$calcToPosition() {
-		if (this.$conf.vertical) {
-			this.$data.$toPos = ((this.$conf.to - this.$conf.min) * 100) /
-				(this.$conf.max - this.$conf.min);
-		} else { // ????
-			this.$data.$toPos = ((this.$conf.to - this.$conf.min) * 100) /
-				(this.$conf.max - this.$conf.min);
-		}
+		this.$data.$toPos = ((this.$conf.to - this.$conf.min) * 100) /
+			(this.$conf.max - this.$conf.min);
 		this.fire('ToPosition', this.$data);
 	}
 
