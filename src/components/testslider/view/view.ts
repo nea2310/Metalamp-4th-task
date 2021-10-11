@@ -108,12 +108,6 @@ class sliderView extends Observer {
 		}
 	}
 
-
-	// Удаление слайдера
-	deleteSlider() {
-		this.slider.firstChild.remove();
-		this.slider.nextElementSibling.remove();
-	}
 }
 
 

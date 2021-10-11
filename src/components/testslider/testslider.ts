@@ -19,7 +19,7 @@ let conf = {
 	shiftOnKeyHold: 2,
 	//sticky: false,
 	//intervals: 26,
-	vertical: true,
+	//vertical: true,
 	//range: false
 };
 
