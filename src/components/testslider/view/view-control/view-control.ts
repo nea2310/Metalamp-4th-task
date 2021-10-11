@@ -16,7 +16,7 @@ class sliderViewControl extends Observer {
 	controlMax: HTMLElement;
 	tipMin: HTMLInputElement;
 	tipMax: HTMLInputElement;
-	scale: Element;
+	scale: HTMLInputElement;
 	$data: $Idata;
 
 	constructor(root: string, conf: IConf) {
@@ -40,7 +40,7 @@ class sliderViewControl extends Observer {
 	}
 	/*Создаем ползунок минимального значения*/
 	renderLeftControl() {
-		this.scale = this.slider.firstElementChild;
+		this.scale = this.slider.querySelector('.rs__slider');
 		this.controlMin = document.createElement('button');
 		this.tipMin = document.createElement('input');
 		this.controlMin.className = 'rs__control rs__control-min';
@@ -71,11 +71,7 @@ class sliderViewControl extends Observer {
 		this.controlMax = document.createElement('button');
 		this.controlMax.className = 'rs__control rs__control-max';
 		this.scale.append(this.controlMax);
-
-
 		this.tipMax = document.createElement('input');
-
-
 		this.controlMax.className = 'rs__control rs__control-max';
 		this.tipMax.className = 'rs__tip rs__tip-max';
 		this.tipMax.value = String(this.conf.to);
@@ -209,14 +205,12 @@ class sliderViewControl extends Observer {
 				}
 
 
-				let scale = this.controlMin.parentElement;
-				console.log(scale);
-				console.log(this.scale);
 
-				this.$data.$thumb.$top = scale.getBoundingClientRect().top;
-				this.$data.$thumb.$left = scale.getBoundingClientRect().left;
-				this.$data.$thumb.$width = scale.offsetWidth;
-				this.$data.$thumb.$height = scale.offsetHeight;
+				this.$data.$thumb.$top = this.scale.getBoundingClientRect().top;
+				this.$data.$thumb.$left =
+					this.scale.getBoundingClientRect().left;
+				this.$data.$thumb.$width = this.scale.offsetWidth;
+				this.$data.$thumb.$height = this.scale.offsetHeight;
 				this.$data.$thumb.$type = e.type;
 				this.$data.$thumb.$clientX = e.clientX;
 				this.$data.$thumb.$clientY = e.clientY;
