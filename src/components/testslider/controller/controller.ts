@@ -1,19 +1,6 @@
 import { sliderModel } from './../model/model';
 import { sliderView } from './../view/view';
-import { sliderViewScale } from './../view/view-scale/view-scale';
-import { sliderViewPanel } from './../view/view-panel/view-panel';
-import { sliderViewControl } from
-	'./../view/view-control/view-control';
-import { sliderViewGrid } from './../view/view-grid/view-grid';
-import { sliderViewBar } from './../view/view-bar/view-bar';
-
-
-
-import {
-	IConf,
-	IControlElements,
-	$Idata
-} from './../interface';
+import { IConf, $Idata } from './../interface';
 import { Observer } from '../observer/observer';
 
 
@@ -22,29 +9,23 @@ import { Observer } from '../observer/observer';
 class sliderController extends Observer {
 	model: sliderModel;
 	view: sliderView;
-	viewScale: sliderViewScale;
-	viewControl: sliderViewControl;
-	viewPanel: sliderViewPanel;
-	viewGrid: sliderViewGrid;
-	viewBar: sliderViewBar;
-	conf: IConf;
-	root: string;
-	defaultConf: IConf;
-	customConf: IConf;
-	controlData: IControlElements;
 
-	constructor(root: string, conf: IConf,
-		view: sliderView,
-		model: sliderModel) {
+	constructor(model: sliderModel, view: sliderView) {
 		super();
 		this.model = model;
 		this.view = view;
-		//this.conf = conf;
-		//this.root = root;
 		this.$createListeners();//срабатывает после инициализации модели
 		this.$init();
 	}
 
+	$init() {
+		this.view.$init(this.model.$conf); //закидываем конфиг из модели в view
+		this.$handleFromPosition('FromPosition', this.model.$data);
+		this.$handleToPosition('ToPosition', this.model.$data);
+		this.$handleBar('Bar', this.model.$data, this.model.$conf);
+		this.$handleScale('Grid', this.model.$data, this.model.$conf);
+		this.$handleGrid('Grid', this.model.$data); // это нужно только для внесения значения в панель
+	}
 
 	$createListeners() {
 		this.model.subscribe(this.$handleFromPosition);
@@ -56,19 +37,7 @@ class sliderController extends Observer {
 		this.model.subscribe(this.$handleGrid);
 		this.view.subscribe(this.$handleMoveEvent);
 		this.view.subscribe(this.$handleKeydownEvent);
-
 	}
-
-	$init() {
-		this.view.$init(this.model.$conf); //закидываем конфиг из модели в view
-		this.$handleFromPosition('FromPosition', this.model.$data);
-		this.$handleToPosition('ToPosition', this.model.$data);
-		this.$handleBar('Bar', this.model.$data, this.model.$conf);
-		this.$handleScale('Grid', this.model.$data, this.model.$conf);
-		this.$handleGrid('Grid', this.model.$data); // это нужно только для внесения значения в панель
-
-	}
-
 
 	$handleFromPosition = (key: string, data: $Idata) => {
 		if (key !== 'FromPosition') return;
@@ -77,14 +46,12 @@ class sliderController extends Observer {
 		}
 	}
 
-
 	$handleToPosition = (key: string, data: $Idata) => {
 		if (key !== 'ToPosition') return;
 		else {
 			this.view.$handleToPosition(key, data);
 		}
 	}
-
 
 	$handleFromValue = (key: string, data: $Idata) => {
 		if (key !== 'FromValue') return;
@@ -93,16 +60,12 @@ class sliderController extends Observer {
 		}
 	}
 
-
 	$handleToValue = (key: string, data: $Idata) => {
 		if (key !== 'ToValue') return;
 		else {
 			this.view.$handleToValue(key, data);
 		}
 	}
-
-
-
 
 	$handleScale = (key: string, data: $Idata, conf: IConf) => {
 		if (key !== 'Grid') return;
@@ -125,7 +88,6 @@ class sliderController extends Observer {
 		}
 	}
 
-
 	$handleMoveEvent = (key: string, data: $Idata) => {
 		if (key !== 'MoveEvent') return;
 		else {
@@ -139,13 +101,10 @@ class sliderController extends Observer {
 				data.$thumb.$height,
 				data.$thumb.$shiftBase,
 				data.$thumb.$moovingControl);
-
 		}
 	}
 
-	// вызываем метод computeNewPosKeyEvnt в модели
 	$handleKeydownEvent = (key: string, data: $Idata) => {
-		//	this.model.computePosFromKeyboardEvent(e);
 		if (key !== 'KeydownEvent') return;
 		else {
 			this.model.$calcPosKey(
@@ -159,210 +118,155 @@ class sliderController extends Observer {
 
 
 
-	handleIntervalCalc =
-		(step: string) => {
-			this.viewPanel.updateStep(step);
-		}
+	// handleIntervalCalc =
+	// 	(step: string) => {
+	// 		this.viewPanel.updateStep(step);
+	// 	}
 
 
-	handleStepCalc =
-		(interval: string) => {
-			this.viewPanel.updateInterval(interval);
-		}
+	// handleStepCalc =
+	// 	(interval: string) => {
+	// 		this.viewPanel.updateInterval(interval);
+	// 	}
 
-	handleOnScaleMarksUpdated =
-		(scaleMarks: { 'pos'?: number, 'val'?: number }[]) => {
-			this.viewGrid.createGrid(scaleMarks, this.conf);
-		}
+	// handleOnScaleMarksUpdated =
+	// 	(scaleMarks: { 'pos'?: number, 'val'?: number }[]) => {
+	// 		this.viewGrid.createGrid(scaleMarks, this.conf);
+	// 	}
 
 
-	// //вызываем метод GetControlData в модели
-	// handleGetControlData = (controlData: IControlElements) => {
-	// 	this.controlData = controlData;
-	// 	//	this.model.getControlData(controlData);
+
+	// handleIsVerticalChecked = () => {
+	// 	this.conf.vertical = true;
+	// 	this.handleWindowReRendering();
 	// }
 
-	// // вызываем метод computeControlPosFromEvent в модели
-	// handlecomputeControlPosFromEvent = (e: PointerEvent) => {
-	// 	//	this.model.computeControlPosFromEvent(e);
-	// 	this.model.$calcPos(
-	// 		e.type,
-	// 		e.clientY,
-	// 		e.clientX,
-	// 		this.controlData.top,
-	// 		this.controlData.left,
-	// 		this.controlData.width,
-	// 		this.controlData.height,
-	// 		this.controlData.shift,
-	// 		this.controlData.moovingControl);
+	// handleIsVerticalNotChecked = () => {
+	// 	this.conf.vertical = false;
+	// 	this.handleWindowReRendering();
 	// }
 
 
-	// // вызываем метод computeNewPosKeyEvnt в модели
-	// handleNewPosKeyboardEvnt = (e: KeyboardEvent) => {
-	// 	//	this.model.computePosFromKeyboardEvent(e);
+	// handleIsRangeChecked = () => {
+	// 	this.conf.range = true;
+	// 	this.viewControl.updateRangeMode(true);
+	// }
 
+	// handleIsRangeNotChecked = () => {
+	// 	this.conf.range = false;
+	// 	this.viewControl.updateRangeMode(false);
+	// }
 
-	// 	this.model.$calcPosKey(
-	// 		e.key,
-	// 		e.repeat,
-	// 		this.controlData.moovingControl);
+	// handleAdjustControlPos = () => {
+	// 	this.model.adjustControlPos();
+	// }
+
+	// handleIsScaleChecked = () => {
+	// 	this.conf.scale = true;
+	// 	this.viewScale.updateScaleMode(true);
+	// }
+
+	// handleIsScaleNotChecked = () => {
+	// 	this.conf.scale = false;
+	// 	this.viewScale.updateScaleMode(false);
+	// }
+
+	// handleIsBarChecked = () => {
+	// 	this.conf.bar = true;
+	// 	this.viewBar.updateBarMode(true);
+	// }
+
+	// handleIsBarNotChecked = () => {
+	// 	this.conf.bar = false;
+	// 	this.viewBar.updateBarMode(false);
 	// }
 
 
-	// //вызываем метод updateСurrentControl в view
-	// handleOnControlPosUpdated = (elem: HTMLElement, newPos: number) => {
-	// 	this.viewControl.updateControlPos(elem, newPos);
+
+	// handleIsTipChecked = () => {
+	// 	this.conf.tip = true;
+	// 	this.viewControl.updateTipMode(true);
 	// }
 
-	handleIsVerticalChecked = () => {
-		this.conf.vertical = true;
-		//this.viewControl.updateVerticalMode(true);
-		this.handleWindowReRendering();
-	}
+	// handleIsTipNotChecked = () => {
+	// 	this.conf.tip = false;
+	// 	this.viewControl.updateTipMode(false);
+	// }
 
-	handleIsVerticalNotChecked = () => {
-		this.conf.vertical = false;
-		//this.viewControl.updateVerticalMode(false);
-		this.handleWindowReRendering();
-	}
+	// handleIsStickyChecked = () => {
+	// 	this.conf.sticky = true;
+	// }
 
-
-	handleIsRangeChecked = () => {
-		this.conf.range = true;
-		this.viewControl.updateRangeMode(true);
-		//	this.model.computeProgressBar('handleMovement');
-
-	}
-
-	handleIsRangeNotChecked = () => {
-		this.conf.range = false;
-		this.viewControl.updateRangeMode(false);
-		//this.model.computeProgressBar('handleMovement');
-	}
-
-	handleAdjustControlPos = () => {
-		this.model.adjustControlPos();
-	}
-
-	handleIsScaleChecked = () => {
-		this.conf.scale = true;
-		this.viewScale.updateScaleMode(true);
-	}
-
-	handleIsScaleNotChecked = () => {
-		this.conf.scale = false;
-		this.viewScale.updateScaleMode(false);
-	}
-
-	handleIsBarChecked = () => {
-		this.conf.bar = true;
-		this.viewBar.updateBarMode(true);
-	}
-
-	handleIsBarNotChecked = () => {
-		this.conf.bar = false;
-		this.viewBar.updateBarMode(false);
-	}
+	// handleIsStickyNotChecked = () => {
+	// 	this.conf.sticky = false;
+	// }
 
 
 
-	handleIsTipChecked = () => {
-		this.conf.tip = true;
-		this.viewControl.updateTipMode(true);
-	}
+	// handleFromToChanged = (val: string, e: Event) => {
+	// 	const target = e.target as HTMLElement;
 
-	handleIsTipNotChecked = () => {
-		this.conf.tip = false;
-		this.viewControl.updateTipMode(false);
-	}
+	// 	if (target.classList.contains('rs__input-from')) {
+	// 		this.conf.from = parseInt(val);
+	// 		this.viewControl.updateTipVal(val, true);
+	// 	} else {
+	// 		this.conf.to = parseInt(val);
+	// 			this.viewControl.updateTipVal(val, false);
+	// 	}
+	// }
 
-	handleIsStickyChecked = () => {
-		this.conf.sticky = true;
-		//	this.viewControl.updateStickyMode(true);
-	}
 
-	handleIsStickyNotChecked = () => {
-		this.conf.sticky = false;
-		//this.viewControl.updateStickyMode(false);
-	}
+	// handleOnStepValueUpdated = (newValue: string) => {
+	// 	this.viewPanel.updateInterval(newValue);
+	// }
 
 
 
-	handleFromToChanged = (val: string, e: Event) => {
-		const target = e.target as HTMLElement;
+	// handleOnIntervalValueUpdated = (newValue: string) => {
+	// 	this.viewPanel.updateStep(newValue);
+	// }
 
-		if (target.classList.contains('rs__input-from')) {
-			this.conf.from = parseInt(val);
-			// this.model.computeControlPosFromVal(parseInt(val),
-			// 	false, this.viewControl.controlMin);
-			this.viewControl.updateTipVal(val, true);
-		} else {
-			this.conf.to = parseInt(val);
-			// this.model.computeControlPosFromVal(parseInt(val),
-			// 	false, this.viewControl.controlMax);
-			this.viewControl.updateTipVal(val, false);
-		}
-	}
+	// handleMinMaxChanged = (val: string, e: Event) => {
+	// 	const target = e.target as HTMLElement;
 
-	//вызываем метод updateInterval в view
-	handleOnStepValueUpdated = (newValue: string) => {
-		this.viewPanel.updateInterval(newValue);
-	}
+	// 	if (target.classList.contains('rs__input-min')) {
 
+	// 		this.conf.min = parseInt(val);
+	// 		this.viewControl.updateTipVal(val, true);
+	// 	} else if (target.classList.contains('rs__input-max')) {
 
-	//вызываем метод updateStep в view
-	handleOnIntervalValueUpdated = (newValue: string) => {
-		this.viewPanel.updateStep(newValue);
-	}
+	// 		this.conf.max = parseInt(val);
+	// 		this.viewControl.updateTipVal(val, false);
+	// 	}
 
-	handleMinMaxChanged = (val: string, e: Event) => {
-		const target = e.target as HTMLElement;
+	// 	this.handleWindowReRendering();
+	// }
 
-		if (target.classList.contains('rs__input-min')) {
-
-			this.conf.min = parseInt(val);
-			// this.model.computeControlPosFromVal(parseInt(val), false,
-			// 	this.viewControl.controlMin);
-			this.viewControl.updateTipVal(val, true);
-		} else if (target.classList.contains('rs__input-max')) {
-
-			this.conf.max = parseInt(val);
-			// this.model.computeControlPosFromVal(parseInt(val), false,
-			// 	this.viewControl.controlMax);
-			this.viewControl.updateTipVal(val, false);
-		}
-
-		this.handleWindowReRendering();
-	}
-
-	handleStepChanged = (val: string) => {
-		this.conf.step = parseInt(val);
-		delete this.conf.intervals;
-		//	this.model.computeGrid(this.conf, 'steps');
-		this.handleOnScaleMarksUpdated(this.model.marksArr);
-	}
+	// handleStepChanged = (val: string) => {
+	// 	this.conf.step = parseInt(val);
+	// 	delete this.conf.intervals;
+	// 	this.handleOnScaleMarksUpdated(this.model.marksArr);
+	// }
 
 
-	handleIntervalChanged = (val: string) => {
-		this.conf.intervals = parseInt(val);
-		delete this.conf.step;
-		//	this.model.computeGrid(this.conf, 'intervals');
-		this.handleOnScaleMarksUpdated(this.model.marksArr);
-	}
+	// handleIntervalChanged = (val: string) => {
+	// 	this.conf.intervals = parseInt(val);
+	// 	delete this.conf.step;
+	// 	this.handleOnScaleMarksUpdated(this.model.marksArr);
+	// }
 
-	handleShiftOnKeyDownChange = (val: string) => {
-		this.conf.shiftOnKeyDown = parseInt(val);
-	}
+	// handleShiftOnKeyDownChange = (val: string) => {
+	// 	this.conf.shiftOnKeyDown = parseInt(val);
+	// }
 
-	handleShiftOnKeyHoldChange = (val: string) => {
-		this.conf.shiftOnKeyHold = parseInt(val);
-	}
+	// handleShiftOnKeyHoldChange = (val: string) => {
+	// 	this.conf.shiftOnKeyHold = parseInt(val);
+	// }
 
 
-	handleWindowReRendering = () => {
-		this.view.deleteSlider();
-	};
+	// handleWindowReRendering = () => {
+	// 	this.view.deleteSlider();
+	// };
 }
 
 export { sliderController };

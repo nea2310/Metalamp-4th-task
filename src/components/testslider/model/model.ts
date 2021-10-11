@@ -1,11 +1,6 @@
 import {
-	ControlPosUpdated,
-	ProgressBarUpdated,
-	ControlValueUpdated,
 	IConf,
-	IControlElements,
 	IObj,
-	StepValueUpdated,
 	$Imethods,
 	$Idata
 } from './../interface';
@@ -45,11 +40,6 @@ class sliderModel extends Observer {
 	selectedWidth: string;
 	selectedPos: string;
 	moovingControl: string;
-	сontrolPosUpdated: (arg1: HTMLElement, arg2: number) => void;
-	progressBarUpdated: (arg1: string, arg2: string, arg3: boolean) => void;
-	сontrolValueUpdated: (arg1: HTMLElement, arg2: string) => void;
-	stepValueUpdated: (arg1: string) => void;
-	intervalValueUpdated: (arg1: string) => void;
 	stepValue: string;
 	intervalValue: string;
 	key: string;
@@ -63,6 +53,7 @@ class sliderModel extends Observer {
 
 	constructor(conf: IConf) {
 		super();
+		//дефолтный конфиг
 		this.$conf = {
 
 			min: 1,
@@ -77,11 +68,11 @@ class sliderModel extends Observer {
 			sticky: true,
 			shiftOnKeyDown: 1,
 			shiftOnKeyHold: 2,
-			//			target: string
 			vertical: false,
 		};
 
 		this.$data = {};
+
 		this.$methods = {
 			$calcFromPosition: false,
 			$calcToPosition: false,
@@ -111,7 +102,6 @@ class sliderModel extends Observer {
 				}
 			}
 		}
-		//	console.log(this);
 	}
 
 	$checkConf(newConf: IConf) {
@@ -176,10 +166,7 @@ class sliderModel extends Observer {
 		else {
 			this.$data.$fromPos = 0.00001; // начальное положение ползунка на шкале, если min=from 
 		}
-		//	console.log(this);
 		this.fire('FromPosition', this.$data);
-		//	console.log(this);
-
 	}
 	// рассчитать позицию To (%) на основании значений to, min и max
 	$calcToPosition() {
@@ -190,7 +177,6 @@ class sliderModel extends Observer {
 			this.$data.$toPos = ((this.$conf.to - this.$conf.min) * 100) /
 				(this.$conf.max - this.$conf.min);
 		}
-		//	console.log(this);
 		this.fire('ToPosition', this.$data);
 	}
 
@@ -266,7 +252,6 @@ class sliderModel extends Observer {
 			this.$conf.max) { // если длина шкалы не кратна длине шага
 			this.$data.$marksArr.push({ val: this.$conf.max, pos: 100 });//последнее деление ставим на позицию left = 100% и его значение равно this.$conf.max
 		}
-		//	console.log(this);
 		this.fire('Grid', this.$data);
 	}
 
@@ -320,7 +305,6 @@ class sliderModel extends Observer {
 				}
 			}
 		}
-		//	}
 
 		let isStop = false;
 		//запрещаем ползункам выходить за границы слайдера
@@ -442,8 +426,6 @@ class sliderModel extends Observer {
 						if (newVal < this.$conf.min) {
 							newVal = this.$conf.min;
 						}
-
-
 					} else return;
 				}
 
@@ -559,8 +541,6 @@ class sliderModel extends Observer {
 				this.fire('ToValue', this.$data);
 			}
 		}
-		//console.log(this);
-
 	}
 
 	/*Если во время single режима меньший ползунок зашел за позицию большего (т.е. from стало больше to) - 

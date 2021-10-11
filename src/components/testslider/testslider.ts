@@ -2,13 +2,6 @@
 import './testslider.scss';
 import { sliderModel } from './model/model';
 import { sliderView } from './view/view';
-import { sliderViewScale } from './view/view-scale/view-scale';
-import { sliderViewPanel } from './view/view-panel/view-panel';
-import { sliderViewControl } from
-	'./view/view-control/view-control';
-import { sliderViewGrid } from
-	'./view/view-grid/view-grid';
-import { sliderViewBar } from './view/view-bar/view-bar';
 import { sliderController } from './controller/controller';
 
 
@@ -30,9 +23,9 @@ let conf = {
 	//range: false
 };
 
-new sliderController(root, conf,
-	new sliderView(root, conf),
+new sliderController(
 	new sliderModel(conf),
+	new sliderView(root),
 );
 
 

@@ -167,6 +167,20 @@ class sliderViewGrid {
 		}
 	}
 
+
+	switchGridMode(isScale: boolean) {
+		let stepMarks = this.slider.querySelectorAll('.rs__mark');
+		if (isScale) {
+			for (let elem of stepMarks) {
+				elem.classList.remove('hidden');
+			}
+		} else {
+			for (let elem of stepMarks) {
+				elem.classList.add('hidden');
+			}
+		}
+	}
+
 	getResizeWrap() { // ??????
 		let sleep = 200; // --------- задержка в миллесекундах
 		let rtime = 0;  // ---------- для хранения отрезка времени

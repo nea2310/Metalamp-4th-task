@@ -1,5 +1,4 @@
 
-import { sliderViewScale } from './../view/view-scale/view-scale';
 import { sliderViewPanel } from './../view/view-panel/view-panel';
 import { sliderViewControl } from
 	'./../view/view-control/view-control';
@@ -12,27 +11,24 @@ import {
 import { Observer } from '../observer/observer';
 
 class sliderView extends Observer {
-
-	viewScale: sliderViewScale;
 	viewControl: sliderViewControl;
 	viewPanel: sliderViewPanel;
 	viewGrid: sliderViewGrid;
 	viewBar: sliderViewBar;
 
-	totalWidth: number;
-
 	slider: HTMLElement;
-	startWidth: number;
+	scale: HTMLElement;
 	conf: IConf;
 	root: string;
 
-	constructor(root: string, conf: IConf) {
+	constructor(root: string) {
 		super();
 		this.root = root;
 		/*Находим корневой элемент*/
 		this.slider = document.querySelector(root);
-		this.totalWidth = 0; //-------------------------------- ширина врапера слайдера
-
+		this.scale = document.createElement('div');
+		this.scale.className = 'rs__slider';
+		this.slider.append(this.scale);
 
 	}
 	$init(conf: IConf) {
@@ -43,7 +39,6 @@ class sliderView extends Observer {
 
 
 	createSubViews() {
-		this.viewScale = new sliderViewScale(this.root, this.conf);
 		this.viewControl = new sliderViewControl(this.root, this.conf);
 		this.viewPanel = new sliderViewPanel(this.root, this.conf);
 		this.viewGrid = new sliderViewGrid(this.root, this.conf);
@@ -52,12 +47,8 @@ class sliderView extends Observer {
 	}
 
 	$createListeners() {
-		//	console.log(this.viewControl);
-
 		this.viewControl.subscribe(this.$handleMoveEvent);
 		this.viewControl.subscribe(this.$handleKeydownEvent);
-		this.viewScale.subscribe(this.$handleMoveEvent);
-
 	}
 
 
@@ -84,16 +75,11 @@ class sliderView extends Observer {
 		this.viewControl.updateTipVal(data.$toVal, false);
 	}
 
-
-
-
 	$handleScale = (key: string, data: $Idata, conf: IConf) => {
 		this.viewGrid.createGrid(data.$marksArr, conf);
 	}
 
 	$handleBar = (key: string, data: $Idata, conf: IConf) => {
-		//		console.log(conf);
-
 		this.viewBar.
 			$updateBar(data.$barPos, data.$barWidth, conf.vertical);
 	}
@@ -106,10 +92,6 @@ class sliderView extends Observer {
 			this.viewPanel.updateInterval(data.$stepValue);
 		}
 	}
-
-
-
-
 
 
 	$handleMoveEvent = (key: string, data: $Idata) => {
@@ -125,7 +107,6 @@ class sliderView extends Observer {
 			this.fire('KeydownEvent', data);
 		}
 	}
-
 
 
 	// Удаление слайдера
