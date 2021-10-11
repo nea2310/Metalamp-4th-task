@@ -56,6 +56,7 @@ class sliderView extends Observer {
 
 		this.viewControl.subscribe(this.$handleMoveEvent);
 		this.viewControl.subscribe(this.$handleKeydownEvent);
+		this.viewScale.subscribe(this.$handleMoveEvent);
 
 	}
 

@@ -39,8 +39,8 @@ class sliderController extends Observer {
 		super();
 		this.model = model;
 		this.view = view;
-		this.conf = conf;
-		this.root = root;
+		//this.conf = conf;
+		//this.root = root;
 		this.$createListeners();//срабатывает после инициализации модели
 		this.$init();
 	}
@@ -176,44 +176,44 @@ class sliderController extends Observer {
 		}
 
 
-	//вызываем метод GetControlData в модели
-	handleGetControlData = (controlData: IControlElements) => {
-		this.controlData = controlData;
-		//	this.model.getControlData(controlData);
-	}
+	// //вызываем метод GetControlData в модели
+	// handleGetControlData = (controlData: IControlElements) => {
+	// 	this.controlData = controlData;
+	// 	//	this.model.getControlData(controlData);
+	// }
 
-	// вызываем метод computeControlPosFromEvent в модели
-	handlecomputeControlPosFromEvent = (e: PointerEvent) => {
-		//	this.model.computeControlPosFromEvent(e);
-		this.model.$calcPos(
-			e.type,
-			e.clientY,
-			e.clientX,
-			this.controlData.top,
-			this.controlData.left,
-			this.controlData.width,
-			this.controlData.height,
-			this.controlData.shift,
-			this.controlData.moovingControl);
-	}
-
-
-	// вызываем метод computeNewPosKeyEvnt в модели
-	handleNewPosKeyboardEvnt = (e: KeyboardEvent) => {
-		//	this.model.computePosFromKeyboardEvent(e);
+	// // вызываем метод computeControlPosFromEvent в модели
+	// handlecomputeControlPosFromEvent = (e: PointerEvent) => {
+	// 	//	this.model.computeControlPosFromEvent(e);
+	// 	this.model.$calcPos(
+	// 		e.type,
+	// 		e.clientY,
+	// 		e.clientX,
+	// 		this.controlData.top,
+	// 		this.controlData.left,
+	// 		this.controlData.width,
+	// 		this.controlData.height,
+	// 		this.controlData.shift,
+	// 		this.controlData.moovingControl);
+	// }
 
 
-		this.model.$calcPosKey(
-			e.key,
-			e.repeat,
-			this.controlData.moovingControl);
-	}
+	// // вызываем метод computeNewPosKeyEvnt в модели
+	// handleNewPosKeyboardEvnt = (e: KeyboardEvent) => {
+	// 	//	this.model.computePosFromKeyboardEvent(e);
 
 
-	//вызываем метод updateСurrentControl в view
-	handleOnControlPosUpdated = (elem: HTMLElement, newPos: number) => {
-		this.viewControl.updateControlPos(elem, newPos);
-	}
+	// 	this.model.$calcPosKey(
+	// 		e.key,
+	// 		e.repeat,
+	// 		this.controlData.moovingControl);
+	// }
+
+
+	// //вызываем метод updateСurrentControl в view
+	// handleOnControlPosUpdated = (elem: HTMLElement, newPos: number) => {
+	// 	this.viewControl.updateControlPos(elem, newPos);
+	// }
 
 	handleIsVerticalChecked = () => {
 		this.conf.vertical = true;

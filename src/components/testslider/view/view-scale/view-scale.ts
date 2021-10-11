@@ -5,11 +5,12 @@ import {
 	CBPointerEvent,
 	IConf,
 	IControlElements,
+	$Idata
 } from './../../interface';
 
+import { Observer } from '../../observer/observer';
 
-
-class sliderViewScale {
+class sliderViewScale extends Observer {
 
 	slider: HTMLElement;
 	scale: HTMLElement;
@@ -24,10 +25,15 @@ class sliderViewScale {
 	grid: HTMLElement;
 	checkNext: boolean;
 	lastLabelRemoved: boolean;
+	$data: $Idata;
 
 	constructor(root: string, conf: IConf) {
+		super();
 		this.slider = document.querySelector(root);
 		this.init(conf);
+		this.$data = {};
+		this.$data.$thumb = {};
+		this.clickScale();
 	}
 
 	// Инициализация
@@ -43,18 +49,18 @@ class sliderViewScale {
 		this.slider.append(this.scale);
 	}
 
+	clickScale() {
 
-	//Вешаем обработчик клика по шкале
+		let pointerDownHandler = (e: PointerEvent) => {
 
-	bindClickOnScale(getControlData: CBControlElements,
-		computeControlPos: CBPointerEvent) {
-
-		this.slider.addEventListener('pointerdown', (e) => {
-
+			e.preventDefault();
 			const target = e.target as HTMLElement;
 
 			if (target.classList.contains('rs__slider') ||
-				target.classList.contains('rs__progressBar')) {
+				target.classList.contains('rs__progressBar') ||
+				target.classList.contains('rs__label') ||
+				target.classList.contains('rs__mark') ||
+				target.classList.contains('rs__wrapper')) {
 				this.controlMin =
 					this.slider.querySelector('.rs__control-min');
 				this.controlMax =
@@ -78,36 +84,37 @@ class sliderViewScale {
 						getBoundingClientRect().bottom - e.clientY);
 				}
 
-				let controlData: IControlElements = {};
+
+				let scale = this.controlMin.parentElement;
+				this.$data.$thumb.$top = scale.getBoundingClientRect().top;
+				this.$data.$thumb.$left = scale.getBoundingClientRect().left;
+				this.$data.$thumb.$width = scale.offsetWidth;
+				this.$data.$thumb.$height = scale.offsetHeight;
+				this.$data.$thumb.$type = e.type;
+				this.$data.$thumb.$clientX = e.clientX;
+				this.$data.$thumb.$clientY = e.clientY;
+
+
+
 				//определяем ползунок, находящийся ближе к позиции клика
 				if (this.controlMax.classList.contains('hidden')) {//Single mode
-					//	controlData.currentControlElem = this.controlMin;
-					controlData.moovingControl = 'min';
+					this.$data.$thumb.$moovingControl = 'min';
 				}
 
 				else {//Double mode
-					// this.controlMinDist <= this.controlMaxDist ?
-					// 	controlData.currentControlElem = this.controlMin :
-					// 	controlData.currentControlElem = this.controlMax;
-
 					this.controlMinDist <= this.controlMaxDist ?
-						controlData.moovingControl = 'min' :
-						controlData.moovingControl = 'max';
+						this.$data.$thumb.$moovingControl = 'min' :
+						this.$data.$thumb.$moovingControl = 'max';
 				}
-				//		console.log(this.slider);
+				console.log(this.$data);
 
-				let scale = this.controlMin.parentElement;
-				controlData.top = scale.getBoundingClientRect().top;
-				controlData.left = scale.getBoundingClientRect().left;
-				controlData.width = scale.offsetWidth;
-				controlData.height = scale.offsetHeight;
-
-				getControlData(controlData);// вызов хендлера обработки события
-				computeControlPos(e);
-
+				this.fire('MoveEvent', this.$data);
 			}
-		});
+		};
+		this.slider.addEventListener('pointerdown', pointerDownHandler);
 	}
+
+
 
 
 	updateScaleMode(isScale: boolean) {

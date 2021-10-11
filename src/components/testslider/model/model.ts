@@ -300,6 +300,7 @@ class sliderModel extends Observer {
 			newPos =
 				((clientX - left) * 100 / width) - shift;
 		}
+		console.log(newPos);
 
 		/* если ползунок должен вставать на позицию ближайшего к нему деления шкалы - скорректировать значение newPos (переместить ползунок 
 		к ближайшему делению шкалы) */
