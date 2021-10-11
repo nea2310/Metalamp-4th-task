@@ -4,7 +4,7 @@ import {
 	CBEvent,
 	CBStringEvent,
 	IConf,
-} from './../../interface';
+} from '../../../interface';
 
 
 
@@ -55,8 +55,8 @@ class sliderViewPanel {
 
 
 
-	constructor(root: string, conf: IConf) {
-		this.slider = document.querySelector(root);
+	constructor(root: HTMLElement, conf: IConf) {
+		this.slider = root;
 		this.init(conf);
 	}
 	init(conf: IConf) {

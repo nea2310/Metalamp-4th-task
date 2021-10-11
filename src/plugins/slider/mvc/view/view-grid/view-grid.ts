@@ -1,6 +1,6 @@
 import {
 	IConf,
-} from './../../interface';
+} from '../../../interface';
 
 
 
@@ -12,8 +12,9 @@ class sliderViewGrid {
 	conf: IConf;
 	lastLabelRemoved: boolean;
 	scaleMarks: { 'pos'?: number, 'val'?: number }[];
-	constructor(root: string, conf: IConf) {
-		this.slider = document.querySelector(root);
+
+	constructor(root: HTMLElement, conf: IConf) {
+		this.slider = root;
 		this.init(conf);
 	}
 

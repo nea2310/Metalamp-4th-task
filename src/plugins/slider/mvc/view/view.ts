@@ -6,9 +6,9 @@ import { sliderViewGrid } from './../view/view-grid/view-grid';
 import { sliderViewBar } from './../view/view-bar/view-bar';
 import {
 	$Idata, IConf
-} from './../interface';
+} from '../../interface';
 
-import { Observer } from '../observer/observer';
+import { Observer } from '../../observer';
 
 class sliderView extends Observer {
 	viewControl: sliderViewControl;
@@ -19,13 +19,12 @@ class sliderView extends Observer {
 	slider: HTMLElement;
 	track: HTMLElement;
 	conf: IConf;
-	root: string;
+	//root: string;
 
-	constructor(root: string) {
+	constructor(root: Element, i: number) {
 		super();
-		this.root = root;
 		/*Находим корневой элемент*/
-		this.slider = document.querySelector(root);
+		this.slider = root as HTMLElement;
 		this.track = document.createElement('div');
 		this.track.className = 'rs__track';
 		this.slider.append(this.track);
@@ -39,10 +38,10 @@ class sliderView extends Observer {
 
 
 	createSubViews() {
-		this.viewControl = new sliderViewControl(this.root, this.conf);
-		this.viewPanel = new sliderViewPanel(this.root, this.conf);
-		this.viewGrid = new sliderViewGrid(this.root, this.conf);
-		this.viewBar = new sliderViewBar(this.root, this.conf);
+		this.viewControl = new sliderViewControl(this.slider, this.conf);
+		this.viewPanel = new sliderViewPanel(this.slider, this.conf);
+		this.viewGrid = new sliderViewGrid(this.slider, this.conf);
+		this.viewBar = new sliderViewBar(this.slider, this.conf);
 
 	}
 

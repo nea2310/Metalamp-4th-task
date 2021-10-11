@@ -249,7 +249,7 @@
 
 	& + .checkmark {
 		border: 1px solid grey;
-		background-image: url("~comp/testslider/view/view-panel/img/rectangle-border.svg");
+		//	background-image: url("~comp/testslider/mvc/view/view-panel/img/rectangle-border.svg");
 		background-position-y: 50%;
 		background-position-x: 13%;
 		background-repeat: no-repeat;
@@ -257,7 +257,7 @@
 
 	&:checked + .checkmark {
 		border: 1px solid $colorDarkShade75;
-		background-image: url("~comp/testslider/view/view-panel/img/rectangle.svg");
+		//	background-image: url("~comp/testslider/mvc/view/view-panel/img/rectangle.svg");
 
 		background-size: 10px;
 		background-position-x: 87%;

@@ -1,6 +1,6 @@
 import {
 	IConf,
-} from './../../interface';
+} from '../../../interface';
 
 
 
@@ -19,8 +19,8 @@ class sliderViewBar {
 	checkNext: boolean;
 	lastLabelRemoved: boolean;
 
-	constructor(root: string, conf: IConf) {
-		this.slider = document.querySelector(root);
+	constructor(root: HTMLElement, conf: IConf) {
+		this.slider = root;
 		this.init(conf);
 	}
 

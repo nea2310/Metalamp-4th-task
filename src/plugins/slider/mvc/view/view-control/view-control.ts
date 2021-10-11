@@ -1,9 +1,9 @@
 import {
 	IConf,
 	$Idata
-} from './../../interface';
+} from '../../../interface';
 
-import { Observer } from '../../observer/observer';
+import { Observer } from '../../../observer';
 
 class sliderViewControl extends Observer {
 	conf: IConf;
@@ -15,9 +15,9 @@ class sliderViewControl extends Observer {
 	track: HTMLInputElement;
 	$data: $Idata;
 
-	constructor(root: string, conf: IConf) {
+	constructor(root: HTMLElement, conf: IConf) {
 		super();
-		this.slider = document.querySelector(root);
+		this.slider = root;
 		this.track = this.slider.querySelector('.rs__track');
 		this.$data = {};
 		this.$data.$thumb = {};

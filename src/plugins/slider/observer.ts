@@ -1,7 +1,7 @@
 
 import {
 	$Idata, IConf
-} from './../interface';
+} from './interface';
 
 
 class Observer {
