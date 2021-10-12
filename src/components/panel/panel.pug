@@ -1,0 +1,73 @@
+include ../input-field/input-field.pug
+include ../toggle/toggle.pug
+mixin panel(options={})
+	-
+		let elemName='panel'
+	fieldset(class = elemName)
+		legend Configuration
+		div(class = elemName + '-inputs')
+			div(class = elemName + '-input')
+				+input(
+										{width: 'narrow',
+										labelText: 'min'} 
+										)
+			div(class = elemName + '-input')
+				+input(
+										{width: 'narrow',
+										labelText: 'max'} 
+										)
+			div(class = elemName + '-input')
+				+input(
+										{width: 'narrow',
+										labelText: 'from'} 
+										)
+			div(class = elemName + '-input')
+				+input(
+										{width: 'narrow',
+										labelText: 'to'} 
+										)
+			div(class = elemName + '-input')
+				+input(
+										{width: 'narrow',
+										labelText: 'interval'} 
+										)
+			div(class = elemName + '-input')
+				+input(
+										{width: 'narrow',
+										labelText: 'step'} 
+										)
+			div(class = elemName + '-input')
+				+input(
+										{width: 'narrow',
+										labelText: 'shift On Key Down'} 
+										)
+			div(class = elemName + '-input')
+				+input(
+										{width: 'narrow',
+										labelText: 'shift On Key Hold'} 
+										)
+		div(class = elemName + '-toggles')
+			div(class = elemName + '-toggle')
+				+toggle(
+										{name: 'vertical'}
+										)
+			div(class = elemName + '-toggle')
+				+toggle(
+										{name: 'range'}
+										)
+			div(class = elemName + '-toggle')
+				+toggle(
+										{name: 'grid'}
+										)
+			div(class = elemName + '-toggle')
+				+toggle(
+										{name: 'bar'}
+										)
+			div(class = elemName + '-toggle')
+				+toggle(
+										{name: 'tip'}
+										)
+			div(class = elemName + '-toggle')
+				+toggle(
+										{name: 'sticky'}
+										)

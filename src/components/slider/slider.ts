@@ -1,3 +1,4 @@
+import './slider.scss';
 const obj = $('.rs__wrapper').Slider({
 	// min: -10,
 	// max: 100,

@@ -1,0 +1,9 @@
+include ../panel/panel.pug
+mixin slider(options={})
+	-
+		let elemName='slider'
+	div(class = elemName)
+		div(class='wrapper')
+			div(class='rs__wrapper')
+		div(class = elemName + '-panel')
+			+panel({})

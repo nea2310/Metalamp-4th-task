@@ -1,0 +1,11 @@
+mixin toggle(options={})
+	-
+		let elemName='toggle'
+	div(class = elemName)
+		label(class = elemName+'__label')
+			if options.labelText
+				p(class = elemName+'__label-text')=options.labelText
+			label(class = elemName + '__wrapper')
+				input(class = elemName + '__checkbox', type = "checkbox" name = options.name value = options.name)
+				span(class = elemName + '__checkmark')
+				p(class = elemName + '__name')=options.name
