@@ -40,27 +40,47 @@ class sliderModel extends Observer {
 			$calcToPosition: false,
 			$calcGrid: false,
 			$calcBar: false,
-			$calcScale: false
+			//$calcScale: false
 		};
-		this.$updateConf(conf);
+		this.$updateConf(conf, true);
 	}
 
+	// $joinConf(newConf: IConf) {
+	// 	let conf = {};
+	// 	conf = Object.assign(conf, this.$conf, newConf);
+	// 	let checkResult = this.$checkConf(conf);
+	// 	if (checkResult) {
+	// 		//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
+	// 		this.$findChangedConf(this.$conf, conf);
+	// 		this.$conf = conf;
+	// 	}
+	// }
 	// обновим конфигурацию
-	$updateConf(newConf: IConf) {
+	$updateConf(newConf: IConf, isInit: boolean = false) {
 		let conf = {};
 		conf = Object.assign(conf, this.$conf, newConf);
 		//проверим корректность полученных параметров конфигурации
 		let checkResult = this.$checkConf(conf);
 		if (checkResult) {
-			//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
-			this.$findChangedConf(this.$conf, conf);
+			//Если это первый запуск
+			if (isInit) {
+				this.$calcFromPosition();
+				this.$calcToPosition();
+				this.$calcGrid(null);
+				this.$calcBar();
+			} else {
+				//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
+				this.$findChangedConf(this.$conf, conf);
+			}
 			this.$conf = conf;
-			//запустим методы, для которых есть изменившиеся параметры
-			let key: keyof $Imethods;
-			for (key in this.$methods) {
-				if (this.$methods[key]) {
-					let method = `this.${key}()`;
-					eval(method);
+			if (!isInit) {
+				//запустим методы, для которых есть изменившиеся параметры
+				let key: keyof $Imethods;
+				for (key in this.$methods) {
+					if (this.$methods[key]) {
+						let method = `this.${key}()`;
+						eval(method);
+					}
 				}
 			}
 		}
@@ -110,6 +130,8 @@ class sliderModel extends Observer {
 				}
 			}
 		}
+		console.log(this.$methods);
+
 		return this.$methods;
 	}
 	// рассчитать позицию From (%) на основании значений from, min и max

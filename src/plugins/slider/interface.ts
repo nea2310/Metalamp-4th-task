@@ -71,7 +71,7 @@ interface $Imethods {
 	$calcToPosition: boolean,
 	$calcGrid: boolean
 	$calcBar: boolean
-	$calcScale: boolean
+	//$calcScale: boolean
 }
 
 interface $Idata {
