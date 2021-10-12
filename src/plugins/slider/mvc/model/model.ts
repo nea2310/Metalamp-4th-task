@@ -40,23 +40,11 @@ class sliderModel extends Observer {
 			$calcToPosition: false,
 			$calcGrid: false,
 			$calcBar: false,
-			//$calcScale: false
 		};
-		this.$updateConf(conf, true);
+		this.$calc(conf, true);
 	}
 
-	// $joinConf(newConf: IConf) {
-	// 	let conf = {};
-	// 	conf = Object.assign(conf, this.$conf, newConf);
-	// 	let checkResult = this.$checkConf(conf);
-	// 	if (checkResult) {
-	// 		//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
-	// 		this.$findChangedConf(this.$conf, conf);
-	// 		this.$conf = conf;
-	// 	}
-	// }
-	// обновим конфигурацию
-	$updateConf(newConf: IConf, isInit: boolean = false) {
+	$calc(newConf: IConf, isInit: boolean = false) {
 		let conf = {};
 		conf = Object.assign(conf, this.$conf, newConf);
 		//проверим корректность полученных параметров конфигурации
@@ -80,6 +68,7 @@ class sliderModel extends Observer {
 					if (this.$methods[key]) {
 						let method = `this.${key}()`;
 						eval(method);
+						this.$methods[key] = false;
 					}
 				}
 			}
