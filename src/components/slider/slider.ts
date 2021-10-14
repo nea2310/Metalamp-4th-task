@@ -14,6 +14,7 @@ const obj = $('.rs__wrapper').Slider({
 
 }).data('Slider'); // вернёт объект для одного элемента
 
-console.log(obj); // почему undefined?
+console.log(obj);
 obj.testAPI();
+obj.update({ from: -10, min: -20 });
 

@@ -45,11 +45,17 @@ class sliderModel extends Observer {
 	}
 
 	$calc(newConf: IConf, isInit: boolean = false) {
+		console.log('CALC');
+
 		let conf = {};
 		conf = Object.assign(conf, this.$conf, newConf);
+		console.log(conf);
+
 		//проверим корректность полученных параметров конфигурации
 		let checkResult = this.$checkConf(conf);
+		console.log(checkResult);
 		if (checkResult) {
+
 			//Если это первый запуск
 			if (isInit) {
 				this.$calcFromPosition();
@@ -62,6 +68,8 @@ class sliderModel extends Observer {
 			}
 			this.$conf = conf;
 			if (!isInit) {
+
+
 				//запустим методы, для которых есть изменившиеся параметры
 				let key: keyof $Imethods;
 				for (key in this.$methods) {
@@ -77,6 +85,11 @@ class sliderModel extends Observer {
 
 	$checkConf(newConf: IConf) {
 		if (newConf.range) { // режим Double
+			console.log('newConf.min: ' + newConf.min);
+			console.log('newConf.max: ' + newConf.max);
+			console.log('newConf.from: ' + newConf.from);
+			console.log('newConf.to: ' + newConf.to);
+
 			if (newConf.min > newConf.from ||
 				newConf.from >= newConf.to ||
 				newConf.to >= newConf.max) return false;

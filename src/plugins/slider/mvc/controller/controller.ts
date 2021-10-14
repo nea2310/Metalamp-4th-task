@@ -119,6 +119,13 @@ class sliderController extends Observer {
 
 	}
 
+	update(conf: IConf) {
+		console.log('UPDATE');
+
+		this.model.$calc(conf);
+
+	}
+
 
 
 	// handleIntervalCalc =
