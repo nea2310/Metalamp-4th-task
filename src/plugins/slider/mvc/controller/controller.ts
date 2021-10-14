@@ -114,7 +114,10 @@ class sliderController extends Observer {
 		}
 	}
 
+	testAPI() {
+		console.log('Test API');
 
+	}
 
 
 

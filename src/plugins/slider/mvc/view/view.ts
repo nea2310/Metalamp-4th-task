@@ -1,5 +1,3 @@
-
-import { sliderViewPanel } from './../view/view-panel/view-panel';
 import { sliderViewControl } from
 	'./../view/view-control/view-control';
 import { sliderViewGrid } from './../view/view-grid/view-grid';
@@ -12,7 +10,6 @@ import { Observer } from '../../observer';
 
 class sliderView extends Observer {
 	viewControl: sliderViewControl;
-	viewPanel: sliderViewPanel;
 	viewGrid: sliderViewGrid;
 	viewBar: sliderViewBar;
 
@@ -39,7 +36,6 @@ class sliderView extends Observer {
 
 	createSubViews() {
 		this.viewControl = new sliderViewControl(this.slider, this.conf);
-		this.viewPanel = new sliderViewPanel(this.slider, this.conf);
 		this.viewGrid = new sliderViewGrid(this.slider, this.conf);
 		this.viewBar = new sliderViewBar(this.slider, this.conf);
 
@@ -64,13 +60,13 @@ class sliderView extends Observer {
 
 
 	$handleFromValue = (key: string, data: $Idata) => {
-		this.viewPanel.updateFromTo('from', data.$fromVal);
+		//this.viewPanel.updateFromTo('from', data.$fromVal);
 		this.viewControl.updateTipVal(data.$fromVal, true);
 	}
 
 
 	$handleToValue = (key: string, data: $Idata) => {
-		this.viewPanel.updateFromTo('to', data.$toVal);
+		//this.viewPanel.updateFromTo('to', data.$toVal);
 		this.viewControl.updateTipVal(data.$toVal, false);
 	}
 
@@ -85,10 +81,10 @@ class sliderView extends Observer {
 
 	$handleGrid = (key: string, data: $Idata) => {
 		if (data.$gridType === 'steps') {
-			this.viewPanel.updateInterval(data.$intervalValue);
+			//this.viewPanel.updateInterval(data.$intervalValue);
 		}
 		if (data.$gridType === 'intervals') {
-			this.viewPanel.updateInterval(data.$stepValue);
+			//this.viewPanel.updateInterval(data.$stepValue);
 		}
 	}
 

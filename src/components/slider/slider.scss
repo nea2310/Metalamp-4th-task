@@ -1,3 +1,8 @@
 @import "@styles/glob.scss";
-.slider {}
-
+.slider {
+	&-panel {
+		margin: 20px;
+		width: auto;
+		display: flex;
+	}
+}

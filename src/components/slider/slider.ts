@@ -12,4 +12,8 @@ const obj = $('.rs__wrapper').Slider({
 	//vertical: true,
 	//range: false
 
-}).data('Slider1'); // вернёт объект для одного элемента
+}).data('Slider'); // вернёт объект для одного элемента
+
+console.log(obj); // почему undefined?
+obj.testAPI();
+
