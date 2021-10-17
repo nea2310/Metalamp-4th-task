@@ -4,41 +4,43 @@ import {
 	IConf,
 	$Idata
 } from './../../plugins/slider/interface';
-const panelHor = document.querySelector('.panel-horizontal');
-const panelHorObj = new Panel('.panel', panelHor);
-const sliderHorObj = $('.rs__wrapper-hor').Slider({
-	min: -10,
-	max: 100,
-	from: 0,
-	to: 70,
-	step: 2,
-	shiftOnKeyDown: 1,
-	shiftOnKeyHold: 2,
-	sticky: false,
-	//intervals: 26,
-	//vertical: true,
-	//range: false
-	onStart: (data: IConf) => {
-		//	console.log(panelHorObj);
-		panelHorObj.min.value = data.min;
-		panelHorObj.max.value = data.max;
-		panelHorObj.from.value = data.from;
-		panelHorObj.to.value = data.to;
-		panelHorObj.interval.value = data.intervals;
-		panelHorObj.step.value = data.step;
-		panelHorObj.shiftOnKeyDown.value = data.shiftOnKeyDown;
-		panelHorObj.shiftOnKeyHold.value = data.shiftOnKeyHold;
 
-		panelHorObj.vertical.checked = data.vertical;
-		panelHorObj.range.checked = data.range;
-		panelHorObj.scale.checked = data.scale;
-		panelHorObj.bar.checked = data.bar;
-		panelHorObj.tip.checked = data.tip;
-		panelHorObj.sticky.checked = data.sticky;
 
-	}
+// const panelHor = document.querySelector('.panel-horizontal');
+// const panelHorObj = new Panel('.panel', panelHor);
+// const sliderHorObj = $('.rs__wrapper-hor').Slider({
+// 	min: -10,
+// 	max: 100,
+// 	from: 0,
+// 	to: 70,
+// 	step: 2,
+// 	shiftOnKeyDown: 1,
+// 	shiftOnKeyHold: 2,
+// 	sticky: false,
+// 	//intervals: 26,
+// 	//vertical: true,
+// 	//range: false
+// 	onStart: (data: IConf) => {
+// 		//	console.log(panelHorObj);
+// 		panelHorObj.min.value = data.min;
+// 		panelHorObj.max.value = data.max;
+// 		panelHorObj.from.value = data.from;
+// 		panelHorObj.to.value = data.to;
+// 		panelHorObj.interval.value = data.intervals;
+// 		panelHorObj.step.value = data.step;
+// 		panelHorObj.shiftOnKeyDown.value = data.shiftOnKeyDown;
+// 		panelHorObj.shiftOnKeyHold.value = data.shiftOnKeyHold;
 
-}).data('Slider'); // вернёт объект для одного элемента
+// 		panelHorObj.vertical.checked = data.vertical;
+// 		panelHorObj.range.checked = data.range;
+// 		panelHorObj.scale.checked = data.scale;
+// 		panelHorObj.bar.checked = data.bar;
+// 		panelHorObj.tip.checked = data.tip;
+// 		panelHorObj.sticky.checked = data.sticky;
+
+// 	}
+
+// }).data('Slider'); // вернёт объект для одного элемента
 
 
 const panelVert = document.querySelector('.panel-vertical');
@@ -55,31 +57,74 @@ const sliderVertObj = $('.rs__wrapper-vert').Slider({
 	//intervals: 26,
 	vertical: true,
 	//range: false
-	// onStart: (data: IConf) => {
+	onStart: (data: IConf) => {
 
-	// 	panelVertObj.min.value = data.min;
-	// 	panelVertObj.max.value = data.max;
-	// 	panelVertObj.from.value = data.from;
-	// 	panelVertObj.to.value = data.to;
-	// 	panelVertObj.interval.value = data.intervals;
-	// 	panelVertObj.step.value = data.step;
-	// 	panelVertObj.shiftOnKeyDown.value = data.shiftOnKeyDown;
-	// 	panelVertObj.shiftOnKeyHold.value = data.shiftOnKeyHold;
+		panelVertObj.min.value = data.min;
+		panelVertObj.max.value = data.max;
+		panelVertObj.from.value = data.from;
+		panelVertObj.to.value = data.to;
+		panelVertObj.interval.value = data.intervals;
+		panelVertObj.step.value = data.step;
+		panelVertObj.shiftOnKeyDown.value = data.shiftOnKeyDown;
+		panelVertObj.shiftOnKeyHold.value = data.shiftOnKeyHold;
 
-	// 	panelVertObj.vertical.checked = data.vertical;
-	// 	panelVertObj.range.checked = data.range;
-	// 	panelVertObj.scale.checked = data.scale;
-	// 	panelVertObj.bar.checked = data.bar;
-	// 	panelVertObj.tip.checked = data.tip;
-	// 	panelVertObj.sticky.checked = data.sticky;
+		panelVertObj.vertical.checked = data.vertical;
+		panelVertObj.range.checked = data.range;
+		panelVertObj.scale.checked = data.scale;
+		panelVertObj.bar.checked = data.bar;
+		panelVertObj.tip.checked = data.tip;
+		panelVertObj.sticky.checked = data.sticky;
 
-	// }
+	}
 
 }).data('Slider'); // вернёт объект для одного элемента
 
 
 
-//console.log(sliderHor);
-//obj.testAPI();
-//obj.update({ from: -10, min: -20 });
+class SliderInstance {
+	panel: Panel
+	slider: any
+	constructor(panel: string, slider: string) {
+		let panelElem = document.querySelector(panel);
+		this.panel = new Panel('.panel', panelElem);
 
+		this.slider = $(slider).Slider({
+			min: -10,
+			max: 100,
+			from: 0,
+			to: 70,
+			step: 2,
+			shiftOnKeyDown: 1,
+			shiftOnKeyHold: 2,
+			sticky: false,
+			//intervals: 26,
+			//vertical: true,
+			//range: false
+			onStart: (data: IConf) => {
+				//	console.log(panelHorObj);
+				this.panel.min.value = data.min;
+				this.panel.max.value = data.max;
+				this.panel.from.value = data.from;
+				this.panel.to.value = data.to;
+				this.panel.interval.value = data.intervals;
+				this.panel.step.value = data.step;
+				this.panel.shiftOnKeyDown.value = data.shiftOnKeyDown;
+				this.panel.shiftOnKeyHold.value = data.shiftOnKeyHold;
+
+				this.panel.vertical.checked = data.vertical;
+				this.panel.range.checked = data.range;
+				this.panel.scale.checked = data.scale;
+				this.panel.bar.checked = data.bar;
+				this.panel.tip.checked = data.tip;
+				this.panel.sticky.checked = data.sticky;
+
+			}
+
+		}).data('Slider'); // вернёт объект для одного элемента
+
+		this.panel.updateMin(this.slider);
+
+	}
+}
+
+const Test = new SliderInstance('.panel-horizontal', '.rs__wrapper-hor');

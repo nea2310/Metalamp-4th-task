@@ -1,9 +1,12 @@
 import './panel.scss';
 class Panel {
-	constructor(elemName, elem) {
+
+	constructor(elemName, elem, slider) {
 		this.elemName = elemName;
 		this.elem = elem;
+		this.slider = slider;
 		this.render();
+		//	this.updateMin();
 	}
 	getElem(name) {
 		let wrapper = this.elem.querySelector(this.elemName + name);
@@ -25,6 +28,15 @@ class Panel {
 		this.bar = this.getElem('__toggle-bar');
 		this.tip = this.getElem('__toggle-tip');
 		this.sticky = this.getElem('__toggle-sticky');
+	}
+
+	updateMin(sliderObj) {
+		this.min.addEventListener('input', (e) => {
+			console.log(sliderObj);
+
+			sliderObj.update({ min: parseFloat(e.target.value) });
+			//console.log(e.target.value);
+		});
 	}
 }
 export { Panel };
