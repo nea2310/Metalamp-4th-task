@@ -55,7 +55,7 @@ class sliderModel extends Observer {
 		let checkResult = this.$checkConf(conf);
 		console.log(checkResult);
 		if (checkResult) {
-
+			this.$conf = conf;
 			//Если это первый запуск
 			if (isInit) {
 				this.$calcFromPosition();
@@ -110,24 +110,24 @@ class sliderModel extends Observer {
 			} else {
 				switch (key) {
 					case 'min':
-						this.$methods.$calcGrid = true;
+						this.$calcGrid(null);
 						break;
 					case 'max':
-						this.$methods.$calcGrid = true;
+						this.$calcGrid(null);
 						break;
 					case 'from':
-						this.$methods.$calcFromPosition = true;
-						this.$methods.$calcBar = true;
+						this.$calcFromPosition();
+						this.$calcBar();
 						break;
 					case 'to':
-						this.$methods.$calcToPosition = true;
-						this.$methods.$calcBar = true;
+						this.$calcToPosition();
+						this.$calcBar();
 						break;
 					case 'step':
-						this.$methods.$calcGrid = true;
+						this.$calcGrid(null);
 						break;
 					case 'intervals':
-						this.$methods.$calcGrid = true;
+						this.$calcGrid(null);
 						break;
 				}
 			}
