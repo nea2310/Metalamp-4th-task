@@ -39,7 +39,7 @@ class sliderModel extends Observer {
 		this.$methods = {
 			$calcFromPosition: false,
 			$calcToPosition: false,
-			$calcGrid: false,
+			$calcScale: false,
 			$calcBar: false,
 		};
 		this.onStart = conf.onStart;
@@ -63,7 +63,7 @@ class sliderModel extends Observer {
 			if (isInit) {
 				this.$calcFromPosition();
 				this.$calcToPosition();
-				this.$calcGrid(null);
+				this.$calcScale(null);
 				this.$calcBar();
 			} else {
 				//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
@@ -114,10 +114,10 @@ class sliderModel extends Observer {
 			} else {
 				switch (key) {
 					case 'min':
-						this.$calcGrid(null);
+						this.$calcScale(null);
 						break;
 					case 'max':
-						this.$calcGrid(null);
+						this.$calcScale(null);
 						break;
 					case 'from':
 						this.$calcFromPosition();
@@ -128,10 +128,10 @@ class sliderModel extends Observer {
 						this.$calcBar();
 						break;
 					case 'step':
-						this.$calcGrid(null);
+						this.$calcScale(null);
 						break;
 					case 'intervals':
-						this.$calcGrid(null);
+						this.$calcScale(null);
 						break;
 				}
 			}
@@ -182,7 +182,7 @@ class sliderModel extends Observer {
 
 
 	// рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
-	$calcGrid(type: string | null) {
+	$calcScale(type: string | null) {
 		let intervals = 0;
 		let step = 0;
 		let arg = '';
@@ -197,7 +197,7 @@ class sliderModel extends Observer {
 				//	this.stepValueUpdated(arg); // обновить значение интервала в панели конфигурации
 			}
 			else {
-				this.$data.$gridType = 'steps';
+				this.$data.$scaleType = 'steps';
 				this.$data.$intervalValue = arg;
 				this.$data.$stepValue = String(this.$conf.step);
 			}
@@ -213,7 +213,7 @@ class sliderModel extends Observer {
 				//	this.intervalValueUpdated(arg); // обновить значение шага в панели конфигурации
 			}
 			else {
-				this.$data.$gridType = 'intervals';
+				this.$data.$scaleType = 'intervals';
 				this.$data.$intervalValue = String(this.$conf.intervals);
 				this.$data.$stepValue = arg;
 			}
@@ -237,7 +237,7 @@ class sliderModel extends Observer {
 			this.$conf.max) { // если длина шкалы не кратна длине шага
 			this.$data.$marksArr.push({ val: this.$conf.max, pos: 100 });//последнее деление ставим на позицию left = 100% и его значение равно this.$conf.max
 		}
-		this.fire('Grid', this.$data);
+		this.fire('Scale', this.$data);
 	}
 
 

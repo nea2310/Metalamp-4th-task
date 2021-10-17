@@ -1,6 +1,6 @@
 import { sliderViewControl } from
 	'./../view/view-control/view-control';
-import { sliderViewGrid } from './../view/view-grid/view-grid';
+import { sliderViewScale } from './../view/view-scale/view-scale';
 import { sliderViewBar } from './../view/view-bar/view-bar';
 import {
 	$Idata, IConf
@@ -10,7 +10,7 @@ import { Observer } from '../../observer';
 
 class sliderView extends Observer {
 	viewControl: sliderViewControl;
-	viewGrid: sliderViewGrid;
+	viewScale: sliderViewScale;
 	viewBar: sliderViewBar;
 
 	slider: HTMLElement;
@@ -36,7 +36,7 @@ class sliderView extends Observer {
 
 	createSubViews() {
 		this.viewControl = new sliderViewControl(this.slider, this.conf);
-		this.viewGrid = new sliderViewGrid(this.slider, this.conf);
+		this.viewScale = new sliderViewScale(this.slider, this.conf);
 		this.viewBar = new sliderViewBar(this.slider, this.conf);
 
 	}
@@ -71,7 +71,7 @@ class sliderView extends Observer {
 	}
 
 	$handleScale = (key: string, data: $Idata, conf: IConf) => {
-		this.viewGrid.createGrid(data.$marksArr, conf);
+		this.viewScale.createScale(data.$marksArr, conf);
 	}
 
 	$handleBar = (key: string, data: $Idata, conf: IConf) => {
@@ -79,14 +79,14 @@ class sliderView extends Observer {
 			$updateBar(data.$barPos, data.$barWidth, conf.vertical);
 	}
 
-	$handleGrid = (key: string, data: $Idata) => {
-		if (data.$gridType === 'steps') {
-			//this.viewPanel.updateInterval(data.$intervalValue);
-		}
-		if (data.$gridType === 'intervals') {
-			//this.viewPanel.updateInterval(data.$stepValue);
-		}
-	}
+	// $handleScale = (key: string, data: $Idata) => {
+	// 	if (data.$scaleType === 'steps') {
+	// 		//this.viewPanel.updateInterval(data.$intervalValue);
+	// 	}
+	// 	if (data.$scaleType === 'intervals') {
+	// 		//this.viewPanel.updateInterval(data.$stepValue);
+	// 	}
+	// }
 
 
 	$handleMoveEvent = (key: string, data: $Idata) => {

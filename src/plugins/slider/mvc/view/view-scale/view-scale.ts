@@ -4,7 +4,7 @@ import {
 
 
 
-class sliderViewGrid {
+class sliderViewScale {
 	slider: HTMLElement;
 	startWidth: number;
 	track: HTMLElement;
@@ -26,7 +26,7 @@ class sliderViewGrid {
 	}
 
 	//создаем деления
-	createGrid(scaleMarks: { 'pos'?: number, 'val'?: number }[],
+	createScale(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 		conf: IConf) {
 		this.scaleMarks = scaleMarks;
 		let steps = this.slider.querySelectorAll('.rs__mark');
@@ -68,12 +68,12 @@ class sliderViewGrid {
 
 		this.markList =
 			[...this.track.querySelectorAll<HTMLElement>('.rs__mark')];
-		this.checkGridLength(this.markList);
+		this.checkScaleLength(this.markList);
 	}
 
 
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
-	checkGridLength(markList: HTMLElement[]) {
+	checkScaleLength(markList: HTMLElement[]) {
 
 		let hideLabels = (markList: HTMLElement[]) => {
 			//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
@@ -89,7 +89,7 @@ class sliderViewGrid {
 					('.rs__mark:not(.no-label)')];
 			// запускаем функцию проверки заново
 			this.lastLabelRemoved = true;
-			this.checkGridLength(this.markList);
+			this.checkScaleLength(this.markList);
 		};
 
 		if (!this.conf.vertical) { //Горизонтальный слайдер
@@ -156,7 +156,7 @@ class sliderViewGrid {
 	}
 
 
-	switchGridMode(isScale: boolean) {
+	switchScaleMode(isScale: boolean) {
 		let stepMarks = this.slider.querySelectorAll('.rs__mark');
 		if (isScale) {
 			for (let elem of stepMarks) {
@@ -206,11 +206,11 @@ class sliderViewGrid {
 						// console.log(this.startWidth);
 
 						console.log('RESIZE');
-						this.checkGridLength(this.markList);
+						this.checkScaleLength(this.markList);
 					}
 					if (totalWidth > this.startWidth) {
 						//	console.log(this);
-						this.createGrid(this.scaleMarks, this.conf);
+						this.createScale(this.scaleMarks, this.conf);
 					}
 					this.startWidth = totalWidth;//-------------------------------------------------------- запоминаем новую ширину враппера до ресайза
 				}
@@ -228,5 +228,5 @@ class sliderViewGrid {
 }
 
 
-export { sliderViewGrid };
+export { sliderViewScale };
 

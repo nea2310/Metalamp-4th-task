@@ -21,7 +21,7 @@ class Panel {
 
 		this.vertical = this.getElem('__toggle-vertical');
 		this.range = this.getElem('__toggle-range');
-		this.grid = this.getElem('__toggle-grid');
+		this.scale = this.getElem('__toggle-scale');
 		this.bar = this.getElem('__toggle-bar');
 		this.tip = this.getElem('__toggle-tip');
 		this.sticky = this.getElem('__toggle-sticky');

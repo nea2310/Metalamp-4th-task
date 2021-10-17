@@ -70,7 +70,7 @@ interface IScaleLabels {
 interface $Imethods {
 	$calcFromPosition: boolean,
 	$calcToPosition: boolean,
-	$calcGrid: boolean
+	$calcScale: boolean
 	$calcBar: boolean
 	//$calcScale: boolean
 }
@@ -81,7 +81,7 @@ interface $Idata {
 	$marksArr?: { 'pos'?: number, 'val'?: number }[];
 	$intervalValue?: string
 	$stepValue?: string
-	$gridType?: string
+	$scaleType?: string
 	$barWidth?: number
 	$barPos?: number
 	//	$newPos?: number

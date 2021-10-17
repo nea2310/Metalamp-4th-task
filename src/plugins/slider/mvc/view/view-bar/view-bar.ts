@@ -15,7 +15,7 @@ class sliderViewBar {
 	controlMaxDist: number;
 	markList: HTMLElement[];
 	conf: IConf;
-	grid: HTMLElement;
+	scale: HTMLElement;
 	checkNext: boolean;
 	lastLabelRemoved: boolean;
 

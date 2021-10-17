@@ -23,8 +23,8 @@ class sliderController extends Observer {
 		this.$handleFromPosition('FromPosition', this.model.$data);
 		this.$handleToPosition('ToPosition', this.model.$data);
 		this.$handleBar('Bar', this.model.$data, this.model.$conf);
-		this.$handleScale('Grid', this.model.$data, this.model.$conf);
-		this.$handleGrid('Grid', this.model.$data); // это нужно только для внесения значения в панель
+		this.$handleScale('Scale', this.model.$data, this.model.$conf);
+		//	this.$handleScale('Scale', this.model.$data); // это нужно только для внесения значения в панель
 	}
 
 	$createListeners() {
@@ -34,7 +34,7 @@ class sliderController extends Observer {
 		this.model.subscribe(this.$handleToValue);
 		this.model.subscribe(this.$handleBar);
 		this.model.subscribe(this.$handleScale);
-		this.model.subscribe(this.$handleGrid);
+		this.model.subscribe(this.$handleScale);
 		this.view.subscribe(this.$handleMoveEvent);
 		this.view.subscribe(this.$handleKeydownEvent);
 	}
@@ -68,7 +68,7 @@ class sliderController extends Observer {
 	}
 
 	$handleScale = (key: string, data: $Idata, conf: IConf) => {
-		if (key !== 'Grid') return;
+		if (key !== 'Scale') return;
 		else {
 			this.view.$handleScale(key, data, conf);
 		}
@@ -81,12 +81,12 @@ class sliderController extends Observer {
 		}
 	}
 
-	$handleGrid = (key: string, data: $Idata) => {
-		if (key !== 'Grid') return;
-		else {
-			this.view.$handleGrid(key, data);
-		}
-	}
+	// $handleScale = (key: string, data: $Idata) => {
+	// 	if (key !== 'Scale') return;
+	// 	else {
+	// 		this.view.$handleScale(key, data);
+	// 	}
+	// }
 
 	$handleMoveEvent = (key: string, data: $Idata) => {
 		if (key !== 'MoveEvent') return;
@@ -141,7 +141,7 @@ class sliderController extends Observer {
 
 	// handleOnScaleMarksUpdated =
 	// 	(scaleMarks: { 'pos'?: number, 'val'?: number }[]) => {
-	// 		this.viewGrid.createGrid(scaleMarks, this.conf);
+	// 		this.viewScale.createScale(scaleMarks, this.conf);
 	// 	}
 
 

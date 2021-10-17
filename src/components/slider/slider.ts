@@ -31,7 +31,7 @@ const sliderHorObj = $('.rs__wrapper-hor').Slider({
 
 		panelHorObj.vertical.checked = data.vertical;
 		panelHorObj.range.checked = data.range;
-		panelHorObj.grid.checked = data.scale;
+		panelHorObj.scale.checked = data.scale;
 		panelHorObj.bar.checked = data.bar;
 		panelHorObj.tip.checked = data.tip;
 		panelHorObj.sticky.checked = data.sticky;
