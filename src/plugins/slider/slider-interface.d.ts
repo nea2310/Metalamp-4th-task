@@ -14,6 +14,7 @@ interface SliderOptions {
 	shiftOnKeyHold?: number
 	target?: string
 	vertical?: boolean
+	onStart?: Function
 }
 
 interface SliderFunction {

@@ -12,6 +12,7 @@ class sliderModel extends Observer {
 	$conf: IConf;
 	$methods: $Imethods;
 	$data: $Idata;
+	onStart?: Function;
 
 	constructor(conf: IConf) {
 		super();
@@ -41,7 +42,9 @@ class sliderModel extends Observer {
 			$calcGrid: false,
 			$calcBar: false,
 		};
+		this.onStart = conf.onStart;
 		this.$calc(conf, true);
+
 	}
 
 	$calc(newConf: IConf, isInit: boolean = false) {
@@ -81,6 +84,7 @@ class sliderModel extends Observer {
 				}
 			}
 		}
+		this.onStart(this.$conf);
 	}
 
 	$checkConf(newConf: IConf) {

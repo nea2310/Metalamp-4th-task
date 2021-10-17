@@ -32,6 +32,7 @@ interface IConf {
 	shiftOnKeyHold?: number
 	target?: string
 	vertical?: boolean
+	onStart?: Function;
 
 
 

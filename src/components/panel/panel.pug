@@ -3,71 +3,72 @@ include ../toggle/toggle.pug
 mixin panel(options={})
 	-
 		let elemName='panel'
-	fieldset(class = elemName)
+		let elemNameMod=elemName + '-' + options.mod
+	fieldset(class = elemName + ' ' + elemNameMod)
 		legend Configuration
-		div(class = elemName + '-inputs')
-			div(class = elemName + '-input')
+		div(class = elemName + '__inputs')
+			div(class = elemName + '__input' + ' ' + elemName + '__input-min')
 				+input(
 										{width: 'narrow',
 										labelText: 'min'} 
 										)
-			div(class = elemName + '-input')
+			div(class = elemName + '__input' + ' ' + elemName + '__input-max')
 				+input(
 										{width: 'narrow',
 										labelText: 'max'} 
 										)
-			div(class = elemName + '-input')
+			div(class = elemName + '__input' + ' ' + elemName + '__input-from')
 				+input(
 										{width: 'narrow',
 										labelText: 'from'} 
 										)
-			div(class = elemName + '-input')
+			div(class = elemName + '__input' + ' ' + elemName + '__input-to')
 				+input(
 										{width: 'narrow',
 										labelText: 'to'} 
 										)
-			div(class = elemName + '-input')
+			div(class = elemName + '__input' + ' ' + elemName + '__input-interval')
 				+input(
 										{width: 'narrow',
 										labelText: 'interval'} 
 										)
-			div(class = elemName + '-input')
+			div(class = elemName + '__input' + ' ' + elemName + '__input-step')
 				+input(
 										{width: 'narrow',
 										labelText: 'step'} 
 										)
-			div(class = elemName + '-input')
+			div(class = elemName + '__input' + ' ' + elemName + '__input-shiftOnKeyDown')
 				+input(
 										{width: 'narrow',
 										labelText: 'shift On Key Down'} 
 										)
-			div(class = elemName + '-input')
+			div(class = elemName + '__input' + ' ' + elemName + '__input-shiftOnKeyHold')
 				+input(
 										{width: 'narrow',
 										labelText: 'shift On Key Hold'} 
 										)
-		div(class = elemName + '-toggles')
-			div(class = elemName + '-toggle')
+		div(class = elemName + '__toggles')
+			div(class = elemName + '__toggle' + ' ' + elemName + '__toggle-vertical')
 				+toggle(
 										{name: 'vertical'}
 										)
-			div(class = elemName + '-toggle')
+			div(class = elemName + '__toggle' + ' ' + elemName + '__toggle-range')
 				+toggle(
 										{name: 'range'}
 										)
-			div(class = elemName + '-toggle')
+			div(class = elemName + '__toggle' + ' ' + elemName + '__toggle-grid')
 				+toggle(
 										{name: 'grid'}
 										)
-			div(class = elemName + '-toggle')
+			div(class = elemName + '__toggle' + ' ' + elemName + '__toggle-bar')
 				+toggle(
 										{name: 'bar'}
 										)
-			div(class = elemName + '-toggle')
+			div(class = elemName + '__toggle' + ' ' + elemName + '__toggle-tip')
 				+toggle(
 										{name: 'tip'}
 										)
-			div(class = elemName + '-toggle')
+			div(class = elemName + '__toggle' + ' ' + elemName + '__toggle-sticky')
 				+toggle(
 										{name: 'sticky'}
 										)
