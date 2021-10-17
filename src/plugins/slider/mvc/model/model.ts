@@ -32,6 +32,9 @@ class sliderModel extends Observer {
 			shiftOnKeyDown: 1,
 			shiftOnKeyHold: 2,
 			vertical: false,
+			onStart: () => true,
+			onChange: () => true,
+			onUpdate: () => true,
 		};
 
 		this.$data = {};
@@ -42,12 +45,27 @@ class sliderModel extends Observer {
 			$calcScale: false,
 			$calcBar: false,
 		};
-		this.onStart = conf.onStart;
-		this.$calc(conf, true);
+		//	this.onStart = conf.onStart;
+		this.$start(conf);
 
 	}
 
-	$calc(newConf: IConf, isInit: boolean = false) {
+	$start(newConf: IConf) {
+		let conf = {};
+		conf = Object.assign(conf, this.$conf, newConf);
+		//проверим корректность полученных параметров конфигурации
+		if (this.$checkConf(conf)) {
+			this.$conf = conf;
+			this.onStart = this.$conf.onStart;
+			this.$calcFromPosition();
+			this.$calcToPosition();
+			this.$calcScale(null);
+			this.$calcBar();
+			this.onStart(this.$conf);
+		}
+	}
+
+	$update(newConf: IConf, isInit: boolean = false) {
 		console.log('CALC');
 
 		let conf = {};
@@ -56,9 +74,11 @@ class sliderModel extends Observer {
 
 		//проверим корректность полученных параметров конфигурации
 		let checkResult = this.$checkConf(conf);
-		console.log(checkResult);
+		//	console.log(checkResult);
 		if (checkResult) {
 			this.$conf = conf;
+
+			this.onStart = this.$conf.onStart;
 			//Если это первый запуск
 			if (isInit) {
 				this.$calcFromPosition();
@@ -84,6 +104,8 @@ class sliderModel extends Observer {
 				}
 			}
 		}
+		console.log(this);
+
 		this.onStart(this.$conf);
 	}
 

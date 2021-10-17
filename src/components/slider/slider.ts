@@ -55,18 +55,25 @@ const sliderVertObj = $('.rs__wrapper-vert').Slider({
 	//intervals: 26,
 	vertical: true,
 	//range: false
-	onStart: (data: IConf) => {
+	// onStart: (data: IConf) => {
 
-		panelVertObj.min.value = data.min;
-		panelVertObj.max.value = data.max;
-		panelVertObj.from.value = data.from;
-		panelVertObj.to.value = data.to;
-		panelVertObj.interval.value = data.intervals;
-		panelVertObj.step.value = data.step;
-		panelVertObj.shiftOnKeyDown.value = data.shiftOnKeyDown;
-		panelVertObj.shiftOnKeyHold.value = data.shiftOnKeyHold;
+	// 	panelVertObj.min.value = data.min;
+	// 	panelVertObj.max.value = data.max;
+	// 	panelVertObj.from.value = data.from;
+	// 	panelVertObj.to.value = data.to;
+	// 	panelVertObj.interval.value = data.intervals;
+	// 	panelVertObj.step.value = data.step;
+	// 	panelVertObj.shiftOnKeyDown.value = data.shiftOnKeyDown;
+	// 	panelVertObj.shiftOnKeyHold.value = data.shiftOnKeyHold;
 
-	}
+	// 	panelVertObj.vertical.checked = data.vertical;
+	// 	panelVertObj.range.checked = data.range;
+	// 	panelVertObj.scale.checked = data.scale;
+	// 	panelVertObj.bar.checked = data.bar;
+	// 	panelVertObj.tip.checked = data.tip;
+	// 	panelVertObj.sticky.checked = data.sticky;
+
+	// }
 
 }).data('Slider'); // вернёт объект для одного элемента
 

@@ -114,15 +114,15 @@ class sliderController extends Observer {
 		}
 	}
 
-	testAPI() {
-		console.log('Test API');
+	// testAPI() {
+	// 	console.log('Test API');
 
-	}
+	// }
 
 	update(conf: IConf) {
 		console.log('UPDATE');
 
-		this.model.$calc(conf);
+		this.model.$update(conf);
 
 	}
 
