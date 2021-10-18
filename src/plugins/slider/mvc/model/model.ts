@@ -172,12 +172,14 @@ class sliderModel extends Observer {
 		else {
 			this.$data.$fromPos = 0.00001; // начальное положение ползунка на шкале, если min=from 
 		}
+		this.$calcVal('normal', this.$data.$fromPos, 'min');
 		this.fire('FromPosition', this.$data);
 	}
 	// рассчитать позицию To (%) на основании значений to, min и max
 	$calcToPosition() {
 		this.$data.$toPos = ((this.$conf.to - this.$conf.min) * 100) /
 			(this.$conf.max - this.$conf.min);
+		this.$calcVal('normal', this.$data.$toPos, 'max');
 		this.fire('ToPosition', this.$data);
 	}
 
