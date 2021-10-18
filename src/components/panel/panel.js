@@ -32,11 +32,29 @@ class Panel {
 
 	updateMin(sliderObj) {
 		this.min.addEventListener('input', (e) => {
-
-
 			sliderObj.update({ min: parseFloat(e.target.value) });
-			//console.log(e.target.value);
 		});
 	}
+
+	updateMax(sliderObj) {
+		this.max.addEventListener('input', (e) => {
+			sliderObj.update({ max: parseFloat(e.target.value) });
+		});
+	}
+
+	updateFrom(sliderObj) {
+		this.from.addEventListener('input', (e) => {
+			sliderObj.update({ from: parseFloat(e.target.value) });
+		});
+	}
+
+	updateTo(sliderObj) {
+		this.to.addEventListener('input', (e) => {
+			sliderObj.update({ to: parseFloat(e.target.value) });
+		});
+	}
+
+
+
 }
 export { Panel };

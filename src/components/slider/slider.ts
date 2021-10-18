@@ -123,6 +123,9 @@ class SliderInstance {
 		}).data('Slider'); // вернёт объект для одного элемента
 
 		this.panel.updateMin(this.slider);
+		this.panel.updateMax(this.slider);
+		this.panel.updateFrom(this.slider);
+		this.panel.updateTo(this.slider);
 
 	}
 }
