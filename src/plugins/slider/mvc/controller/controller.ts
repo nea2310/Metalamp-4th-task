@@ -24,7 +24,7 @@ class sliderController extends Observer {
 		this.$handleToPosition('ToPosition', this.model.$data);
 		this.$handleBar('Bar', this.model.$data, this.model.$conf);
 		this.$handleScale('Scale', this.model.$data, this.model.$conf);
-		//	this.$handleScale('Scale', this.model.$data); // это нужно только для внесения значения в панель
+
 	}
 
 	$createListeners() {
@@ -33,7 +33,6 @@ class sliderController extends Observer {
 		this.model.subscribe(this.$handleFromValue);
 		this.model.subscribe(this.$handleToValue);
 		this.model.subscribe(this.$handleBar);
-		this.model.subscribe(this.$handleScale);
 		this.model.subscribe(this.$handleScale);
 		this.view.subscribe(this.$handleMoveEvent);
 		this.view.subscribe(this.$handleKeydownEvent);
@@ -70,6 +69,9 @@ class sliderController extends Observer {
 	$handleScale = (key: string, data: $Idata, conf: IConf) => {
 		if (key !== 'Scale') return;
 		else {
+			console.log('SCALE');
+			console.log(conf);
+
 			this.view.$handleScale(key, data, conf);
 		}
 	}

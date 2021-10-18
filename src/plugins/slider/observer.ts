@@ -20,8 +20,9 @@ class Observer {
 	}
 
 	fire(key: string, data: $Idata, conf: IConf = {}) {
-		for (let item of this.observers)
+		for (let item of this.observers) {
 			item(key, data, conf);
+		}
 	}
 }
 

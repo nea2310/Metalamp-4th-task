@@ -28,6 +28,8 @@ class sliderViewScale {
 	//создаем деления
 	createScale(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 		conf: IConf) {
+		//	console.log(conf);
+
 		this.scaleMarks = scaleMarks;
 		let steps = this.slider.querySelectorAll('.rs__mark');
 		if (steps.length) {
@@ -68,6 +70,8 @@ class sliderViewScale {
 
 		this.markList =
 			[...this.track.querySelectorAll<HTMLElement>('.rs__mark')];
+		//	console.log(this.markList);
+
 		this.checkScaleLength(this.markList);
 	}
 

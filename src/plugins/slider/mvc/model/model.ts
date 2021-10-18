@@ -65,56 +65,37 @@ class sliderModel extends Observer {
 		}
 	}
 
-	$update(newConf: IConf, isInit: boolean = false) {
-		console.log('CALC');
+	$update(newConf: IConf) {
+		//console.log('CALC');
 
 		let conf = {};
 		conf = Object.assign(conf, this.$conf, newConf);
-		console.log(conf);
-
 		//проверим корректность полученных параметров конфигурации
 		let checkResult = this.$checkConf(conf);
-		//	console.log(checkResult);
+		console.log(checkResult);
 		if (checkResult) {
+
+			//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
+			this.$findChangedConf(this.$conf, conf);
 			this.$conf = conf;
-
-			this.onStart = this.$conf.onStart;
-			//Если это первый запуск
-			if (isInit) {
-				this.$calcFromPosition();
-				this.$calcToPosition();
-				this.$calcScale(null);
-				this.$calcBar();
-			} else {
-				//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
-				this.$findChangedConf(this.$conf, conf);
-			}
-			this.$conf = conf;
-			if (!isInit) {
-
-
-				//запустим методы, для которых есть изменившиеся параметры
-				let key: keyof $Imethods;
-				for (key in this.$methods) {
-					if (this.$methods[key]) {
-						let method = `this.${key}()`;
-						eval(method);
-						this.$methods[key] = false;
-					}
+			//запустим методы, для которых есть изменившиеся параметры
+			let key: keyof $Imethods;
+			for (key in this.$methods) {
+				if (this.$methods[key]) {
+					let method = `this.${key}()`;
+					eval(method);
+					//this.$methods[key] = false;
 				}
 			}
 		}
-		console.log(this);
-
-		this.onStart(this.$conf);
 	}
 
 	$checkConf(newConf: IConf) {
 		if (newConf.range) { // режим Double
-			console.log('newConf.min: ' + newConf.min);
-			console.log('newConf.max: ' + newConf.max);
-			console.log('newConf.from: ' + newConf.from);
-			console.log('newConf.to: ' + newConf.to);
+			// console.log('newConf.min: ' + newConf.min);
+			// console.log('newConf.max: ' + newConf.max);
+			// console.log('newConf.from: ' + newConf.from);
+			// console.log('newConf.to: ' + newConf.to);
 
 			if (newConf.min > newConf.from ||
 				newConf.from >= newConf.to ||
@@ -128,7 +109,8 @@ class sliderModel extends Observer {
 	}
 
 	$findChangedConf(conf: IConf, newConf: IConf) {
-		//	console.log(this.$methods);
+		// console.log(conf);
+		// console.log(newConf);
 		let key: keyof IConf;
 		for (key in newConf) {
 			if (newConf[key] === conf[key]) {
@@ -136,29 +118,41 @@ class sliderModel extends Observer {
 			} else {
 				switch (key) {
 					case 'min':
-						this.$calcScale(null);
+						//	console.log('MIN');
+
+						this.$methods.$calcScale = true;
+						this.$methods.$calcFromPosition = true;
+						this.$methods.$calcBar = true;
 						break;
 					case 'max':
-						this.$calcScale(null);
+						this.$methods.$calcScale = true;
+						this.$methods.$calcToPosition = true;
+						this.$methods.$calcBar = true;
 						break;
 					case 'from':
-						this.$calcFromPosition();
-						this.$calcBar();
+						this.$methods.$calcFromPosition = true;
+						this.$methods.$calcBar = true;
+						// this.$calcFromPosition();
+						// this.$calcBar();
 						break;
 					case 'to':
-						this.$calcToPosition();
-						this.$calcBar();
+						this.$methods.$calcToPosition = true;
+						this.$methods.$calcBar = true;
+						// this.$calcToPosition();
+						// this.$calcBar();
 						break;
 					case 'step':
-						this.$calcScale(null);
+						this.$methods.$calcScale = true;
+						//this.$calcScale(null);
 						break;
 					case 'intervals':
-						this.$calcScale(null);
+						this.$methods.$calcScale = true;
+						//this.$calcScale(null);
 						break;
 				}
 			}
 		}
-		console.log(this.$methods);
+		//	console.log(this.$methods);
 
 		return this.$methods;
 	}
@@ -259,7 +253,9 @@ class sliderModel extends Observer {
 			this.$conf.max) { // если длина шкалы не кратна длине шага
 			this.$data.$marksArr.push({ val: this.$conf.max, pos: 100 });//последнее деление ставим на позицию left = 100% и его значение равно this.$conf.max
 		}
-		this.fire('Scale', this.$data);
+		//	console.log(this.$data);
+
+		this.fire('Scale', this.$data, this.$conf);
 	}
 
 

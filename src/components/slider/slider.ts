@@ -43,41 +43,41 @@ import {
 // }).data('Slider'); // вернёт объект для одного элемента
 
 
-const panelVert = document.querySelector('.panel-vertical');
-const panelVertObj = new Panel('.panel', panelVert);
-const sliderVertObj = $('.rs__wrapper-vert').Slider({
-	min: 0,
-	max: 90,
-	from: 10,
-	to: 80,
-	step: 2,
-	shiftOnKeyDown: 1,
-	shiftOnKeyHold: 2,
-	sticky: false,
-	//intervals: 26,
-	vertical: true,
-	//range: false
-	onStart: (data: IConf) => {
+// const panelVert = document.querySelector('.panel-vertical');
+// const panelVertObj = new Panel('.panel', panelVert);
+// const sliderVertObj = $('.rs__wrapper-vert').Slider({
+// 	min: 0,
+// 	max: 90,
+// 	from: 10,
+// 	to: 80,
+// 	step: 2,
+// 	shiftOnKeyDown: 1,
+// 	shiftOnKeyHold: 2,
+// 	sticky: false,
+// 	//intervals: 26,
+// 	vertical: true,
+// 	//range: false
+// 	onStart: (data: IConf) => {
 
-		panelVertObj.min.value = data.min;
-		panelVertObj.max.value = data.max;
-		panelVertObj.from.value = data.from;
-		panelVertObj.to.value = data.to;
-		panelVertObj.interval.value = data.intervals;
-		panelVertObj.step.value = data.step;
-		panelVertObj.shiftOnKeyDown.value = data.shiftOnKeyDown;
-		panelVertObj.shiftOnKeyHold.value = data.shiftOnKeyHold;
+// 		panelVertObj.min.value = data.min;
+// 		panelVertObj.max.value = data.max;
+// 		panelVertObj.from.value = data.from;
+// 		panelVertObj.to.value = data.to;
+// 		panelVertObj.interval.value = data.intervals;
+// 		panelVertObj.step.value = data.step;
+// 		panelVertObj.shiftOnKeyDown.value = data.shiftOnKeyDown;
+// 		panelVertObj.shiftOnKeyHold.value = data.shiftOnKeyHold;
 
-		panelVertObj.vertical.checked = data.vertical;
-		panelVertObj.range.checked = data.range;
-		panelVertObj.scale.checked = data.scale;
-		panelVertObj.bar.checked = data.bar;
-		panelVertObj.tip.checked = data.tip;
-		panelVertObj.sticky.checked = data.sticky;
+// 		panelVertObj.vertical.checked = data.vertical;
+// 		panelVertObj.range.checked = data.range;
+// 		panelVertObj.scale.checked = data.scale;
+// 		panelVertObj.bar.checked = data.bar;
+// 		panelVertObj.tip.checked = data.tip;
+// 		panelVertObj.sticky.checked = data.sticky;
 
-	}
+// 	}
 
-}).data('Slider'); // вернёт объект для одного элемента
+// }).data('Slider'); // вернёт объект для одного элемента
 
 
 

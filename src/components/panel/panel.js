@@ -32,7 +32,7 @@ class Panel {
 
 	updateMin(sliderObj) {
 		this.min.addEventListener('input', (e) => {
-			console.log(sliderObj);
+
 
 			sliderObj.update({ min: parseFloat(e.target.value) });
 			//console.log(e.target.value);
