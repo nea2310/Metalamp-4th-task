@@ -28,6 +28,10 @@ class Panel {
 		this.bar = this.getElem('__toggle-bar');
 		this.tip = this.getElem('__toggle-tip');
 		this.sticky = this.getElem('__toggle-sticky');
+
+		let scaleBaseWrap =
+			this.elem.querySelector(this.elemName + '__radiobuttons');
+		this.scaleBase = scaleBaseWrap.querySelectorAll('input');
 	}
 
 	updateMin(sliderObj) {
@@ -52,6 +56,27 @@ class Panel {
 		this.to.addEventListener('input', (e) => {
 			sliderObj.update({ to: parseFloat(e.target.value) });
 		});
+	}
+
+	updateShiftOnKeyDown(sliderObj) {
+		this.shiftOnKeyDown.addEventListener('input', (e) => {
+			sliderObj.update({ shiftOnKeyDown: parseFloat(e.target.value) });
+		});
+	}
+
+	updateShiftOnKeyHold(sliderObj) {
+		this.shiftOnKeyHold.addEventListener('input', (e) => {
+			sliderObj.update({ shiftOnKeyHold: parseFloat(e.target.value) });
+		});
+	}
+
+	selectScaleBase(sliderObj) {
+		for (let elem of this.scaleBase) {
+			elem.addEventListener('change', (e) => {
+				console.log(e);
+
+			});
+		}
 	}
 
 

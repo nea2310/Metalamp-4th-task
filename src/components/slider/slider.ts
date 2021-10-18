@@ -96,7 +96,7 @@ class SliderInstance {
 			step: 2,
 			shiftOnKeyDown: 1,
 			shiftOnKeyHold: 2,
-			sticky: false,
+			//sticky: false,
 			//intervals: 26,
 			//vertical: true,
 			//range: false
@@ -126,6 +126,9 @@ class SliderInstance {
 		this.panel.updateMax(this.slider);
 		this.panel.updateFrom(this.slider);
 		this.panel.updateTo(this.slider);
+		this.panel.updateShiftOnKeyDown(this.slider);
+		this.panel.updateShiftOnKeyHold(this.slider);
+		this.panel.selectScaleBase(this.slider);
 
 	}
 }

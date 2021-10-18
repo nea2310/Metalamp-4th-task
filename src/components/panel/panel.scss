@@ -242,4 +242,8 @@
 			grid-row-end: 3;
 		}
 	}
+	&__radiobutton {
+		border: 1px solid $colorDarkShade25;
+		margin: 10px 10px 10px 0;
+	}
 }

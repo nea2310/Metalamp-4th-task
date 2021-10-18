@@ -1,0 +1,12 @@
+mixin radiobuttons(options={type: '', labelText: '',})
+	-
+		let elemName='radiobuttons'
+	fieldset(class = elemName)
+		p(class = elemName + '__label ' + labelStyle)=options.labelText
+		ul(class = elemName + '__list')
+			each val, index in options.categories
+				li(class = elemName + '__cat-wrapper')
+					label(class = elemName + '__cat')
+						input(class = elemName + '__cat-checkbox', type = "radio", name = options.radioGroupName, value = val.name, checked = val.checked)
+						span(class = elemName + '__cat-radiomark')
+						p(class = elemName + '__cat-name ')=val.name

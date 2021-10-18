@@ -1,0 +1,65 @@
+@import "@styles/glob.scss";
+.radiobuttons {
+	* {
+		box-sizing: border-box;
+	}
+
+	padding-left: 0;
+	margin-left: 0;
+	user-select: none;
+	width: 220px;
+
+	&__label {
+		@include font-h3;
+		position: relative;
+	}
+
+	&__list {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&__cat {
+		display: inline-flex;
+		position: relative;
+	}
+	&__cat-text {
+		margin-left: 9px;
+	}
+
+	&__cat-checkbox {
+		position: absolute;
+		left: 7px;
+		top: 9px;
+		width: 5px;
+		height: 1px;
+		outline-offset: 12px;
+
+		&:checked + .radiobuttons__cat-radiomark {
+			border: 1px solid $colorPurple;
+			box-shadow: inset 0px 0px 0px 3.5px $colorWhite;
+			background: linear-gradient(180deg, $colorPurple 0%, #8ba4f9 100%);
+		}
+	}
+
+	&__cat-radiomark {
+		cursor: pointer;
+		display: inline-block;
+		position: relative;
+		border: 1px solid $colorDarkShade25;
+		width: 18px;
+		height: 18px;
+		border-radius: 50%;
+		content: "";
+		display: inline-block;
+		width: 18px;
+		height: 18px;
+	}
+
+	&__cat-name {
+		cursor: pointer;
+		@include font-body;
+		line-height: 19px;
+		padding-left: 10px;
+	}
+}

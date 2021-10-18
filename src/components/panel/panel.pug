@@ -1,5 +1,6 @@
 include ../input-field/input-field.pug
 include ../toggle/toggle.pug
+include ../radiobuttons/radiobuttons.pug
 mixin panel(options={})
 	-
 		let elemName='panel'
@@ -47,6 +48,13 @@ mixin panel(options={})
 										{width: 'narrow',
 										labelText: 'shift On Key Hold'} 
 										)
+		div(class = elemName + '__radiobuttons')
+			fieldset(class = elemName + '__radiobutton' + ' ' + elemName + '__radiobutton-scaleBase')
+				legend Scale Base
+				+radiobuttons({categories:
+								{cat1: {name:'Steps'}, 
+								cat2:{name:'Intervals'}},
+								radioGroupName: 'gender'})
 		div(class = elemName + '__toggles')
 			div(class = elemName + '__toggle' + ' ' + elemName + '__toggle-vertical')
 				+toggle(
