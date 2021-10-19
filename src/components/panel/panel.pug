@@ -52,8 +52,8 @@ mixin panel(options={})
 			fieldset(class = elemName + '__radiobutton' + ' ' + elemName + '__radiobutton-scaleBase')
 				legend Scale Base
 				+radiobuttons({categories:
-								{cat1: {name:'Steps'}, 
-								cat2:{name:'Intervals'}},
+								{cat1: {name:'steps'}, 
+								cat2:{name:'intervals'}},
 								radioGroupName: 'scaleBase'})
 		div(class = elemName + '__toggles')
 			div(class = elemName + '__toggle' + ' ' + elemName + '__toggle-vertical')

@@ -96,8 +96,9 @@ class SliderInstance {
 			step: 2,
 			shiftOnKeyDown: 1,
 			shiftOnKeyHold: 2,
+			scaleBase: 'steps',
 			//sticky: false,
-			//intervals: 26,
+			intervals: 10,
 			//vertical: true,
 			//range: false
 			onStart: (data: IConf) => {

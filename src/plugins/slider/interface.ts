@@ -84,7 +84,7 @@ interface $Idata {
 	$marksArr?: { 'pos'?: number, 'val'?: number }[];
 	$intervalValue?: string
 	$stepValue?: string
-	$scaleType?: string
+	$scaleBase?: string
 	$barWidth?: number
 	$barPos?: number
 	//	$newPos?: number

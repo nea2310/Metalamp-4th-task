@@ -70,7 +70,7 @@ class sliderController extends Observer {
 		if (key !== 'Scale') return;
 		else {
 			console.log('SCALE');
-			console.log(conf);
+
 
 			this.view.$handleScale(key, data, conf);
 		}

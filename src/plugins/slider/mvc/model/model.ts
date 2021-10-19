@@ -27,7 +27,7 @@ class sliderModel extends Observer {
 			bar: true,
 			tip: true,
 			scale: true,
-			step: 1,
+			//	step: 1,
 			sticky: true,
 			shiftOnKeyDown: 1,
 			shiftOnKeyHold: 2,
@@ -35,6 +35,7 @@ class sliderModel extends Observer {
 			onStart: () => true,
 			onChange: () => true,
 			onUpdate: () => true,
+			scaleBase: 'intervals'
 		};
 
 		this.$data = {};
@@ -59,7 +60,7 @@ class sliderModel extends Observer {
 			this.onStart = this.$conf.onStart;
 			this.$calcFromPosition();
 			this.$calcToPosition();
-			this.$calcScale(null);
+			this.$calcScale();
 			this.$calcBar();
 			this.onStart(this.$conf);
 		}
@@ -149,6 +150,10 @@ class sliderModel extends Observer {
 						this.$methods.$calcScale = true;
 						//this.$calcScale(null);
 						break;
+					case 'scaleBase':
+						this.$methods.$calcScale = true;
+						//this.$calcScale(null);
+						break;
 				}
 			}
 		}
@@ -200,41 +205,56 @@ class sliderModel extends Observer {
 
 
 	// рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
-	$calcScale(type: string | null) {
+	$calcScale() {
+		console.log(this.$conf);
+
 		let intervals = 0;
 		let step = 0;
 		let arg = '';
-		if (this.$conf.step || type == 'steps') {//если задана ширина (кол-во единиц) шага (step)
+		if (this.$conf.scaleBase == 'steps') {//если рассчитываем шкалу на основе кол-ва шагов
 			console.log('STEPS');
-			intervals = (this.$conf.max - this.$conf.min) / this.$conf.step; // находим кол-во шагов
-			step = this.$conf.step;
+			step = this.$conf.step; // находим длину шага
+			if (!step) { // если длина шага не указана или равна 0
+				step = (this.$conf.max - this.$conf.min) / 3; // длина шага равна 1/3 длины шкалы
+			}
+			//	console.log(step);
+
+			intervals = (this.$conf.max - this.$conf.min) / step; // находим кол-во интервалов
+			//	console.log(intervals);
+
 			arg = intervals % 1 === 0 ? String(intervals) :
 				String(Math.trunc(intervals + 1));
-			if (typeof (type) == 'string') {
+			// if (typeof (type) == 'string') {
 
-				//	this.stepValueUpdated(arg); // обновить значение интервала в панели конфигурации
-			}
-			else {
-				this.$data.$scaleType = 'steps';
-				this.$data.$intervalValue = arg;
-				this.$data.$stepValue = String(this.$conf.step);
-			}
+			// 	//	this.stepValueUpdated(arg); // обновить значение интервала в панели конфигурации
+			// }
+			//		else {
+			this.$data.$scaleBase = 'steps';
+			this.$data.$intervalValue = arg;
+			this.$data.$stepValue = String(this.$conf.step);
+			//	}
 		}
 
-		if (this.$conf.intervals || type == 'intervals') {//если задано кол-во интервалов шкалы
+		if (this.$conf.scaleBase == 'intervals') {//если рассчитываем шкалу на основе интервалов
 			console.log('INTERVALS');
-			intervals = this.$conf.intervals; // находим кол-во шагов
-			step = (this.$conf.max - this.$conf.min) / this.$conf.intervals;// находим ширину (кол-во единиц) в шаге
+			intervals = this.$conf.intervals; // находим кол-во интервалов
+			//	console.log(this.$conf.intervals);
+			if (!intervals) { //если кол-во интервалов не указано или равно 0
+				intervals = 3 // кол-во интервалов равно 3
+			}
+			//console.log(intervals);
+			step = (this.$conf.max - this.$conf.min) / intervals;// находим ширину (кол-во единиц) в шаге
+			//console.log(step);
 			let arg = step % 1 === 0 ? String(step) :
 				String(step.toFixed(2));
-			if (typeof (type) == 'string') {
-				//	this.intervalValueUpdated(arg); // обновить значение шага в панели конфигурации
-			}
-			else {
-				this.$data.$scaleType = 'intervals';
-				this.$data.$intervalValue = String(this.$conf.intervals);
-				this.$data.$stepValue = arg;
-			}
+			// if (typeof (type) == 'string') {
+			// 	//	this.intervalValueUpdated(arg); // обновить значение шага в панели конфигурации
+			// }
+			//	else {
+			this.$data.$scaleBase = 'intervals';
+			this.$data.$intervalValue = String(intervals);
+			this.$data.$stepValue = arg;
+			//	}
 		}
 
 		this.$data.$marksArr = [{ val: this.$conf.min, pos: 0 }]; //первое деление всегда стоит на позиции left = 0% и его значение равно this.$conf.min
@@ -255,7 +275,7 @@ class sliderModel extends Observer {
 			this.$conf.max) { // если длина шкалы не кратна длине шага
 			this.$data.$marksArr.push({ val: this.$conf.max, pos: 100 });//последнее деление ставим на позицию left = 100% и его значение равно this.$conf.max
 		}
-		//	console.log(this.$data);
+		console.log(this.$data);
 
 		this.fire('Scale', this.$data, this.$conf);
 	}
