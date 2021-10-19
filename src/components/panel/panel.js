@@ -110,16 +110,20 @@ class Panel {
 	updateIsVertical(sliderObj) {
 		this.vertical.addEventListener('change', (e) => {
 			sliderObj.update({ vertical: e.target.checked });
-		}
-		);
+		});
 	}
 
 	updateIsRange(sliderObj) {
 		this.range.addEventListener('change', (e) => {
 			sliderObj.update({ range: e.target.checked });
 			this.to.disabled = e.target.checked ? false : true;
-		}
-		);
+		});
+	}
+
+	updateIsSticky(sliderObj) {
+		this.sticky.addEventListener('change', (e) => {
+			sliderObj.update({ sticky: e.target.checked });
+		});
 	}
 
 

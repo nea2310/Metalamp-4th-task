@@ -93,7 +93,7 @@ class SliderInstance {
 			max: 100,
 			from: 0,
 			to: 30,
-			step: 2,
+			step: 20,
 			shiftOnKeyDown: 1,
 			shiftOnKeyHold: 2,
 			scaleBase: 'steps',
@@ -146,6 +146,8 @@ class SliderInstance {
 
 		this.panel.updateIsVertical(this.slider);
 		this.panel.updateIsRange(this.slider);
+
+		this.panel.updateIsSticky(this.slider);
 
 	}
 }
