@@ -29,7 +29,7 @@ class sliderViewScale {
 	createScale(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 		conf: IConf) {
 		//	console.log(conf);
-
+		this.conf = conf;
 		this.scaleMarks = scaleMarks;
 		let steps = this.slider.querySelectorAll('.rs__mark');
 		if (steps.length) {
@@ -97,6 +97,8 @@ class sliderViewScale {
 		};
 
 		if (!this.conf.vertical) { //Горизонтальный слайдер
+			console.log('HOR');
+
 			let totalWidth = 0;
 			//вычисляем общую ширину подписей к шагам
 			for (let node of markList) {
@@ -113,6 +115,7 @@ class sliderViewScale {
 				return;
 			}
 		} else {//Вертикальный слайдер
+			console.log('VERT');
 			let totalHeight = 0;
 			//вычисляем общую высоту подписей к шагам
 			for (let node of markList) {

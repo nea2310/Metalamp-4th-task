@@ -173,8 +173,8 @@ class sliderModel extends Observer {
 		this.fire('IsVertical', this.$data, this.$conf);
 		this.$calcFromPosition();
 		this.$calcToPosition();
-		//this.$calcScale();
 		this.$calcBar();
+		this.$calcScale();
 		//this.$start(this.$conf);
 	}
 
