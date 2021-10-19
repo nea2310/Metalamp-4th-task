@@ -77,6 +77,10 @@ class sliderViewControl extends Observer {
 			this.conf.tip, this.conf.vertical);
 		this.tipMax = this.controlMax.querySelector('.rs__tip');
 		this.track.append(this.controlMax);
+		if (!this.conf.range) { // single mode
+			this.controlMax.classList.add('hidden');
+			this.tipMax.classList.add('hidden');
+		}
 	}
 
 	$switchVertical(conf: IConf) {
@@ -102,6 +106,8 @@ class sliderViewControl extends Observer {
 			this.tipMin.classList.remove('vertical');
 		}
 	}
+
+
 
 
 	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
@@ -250,8 +256,11 @@ class sliderViewControl extends Observer {
 	}
 
 
-	updateRangeMode(isDouble: boolean) {
-		if (isDouble) {
+	$switchRange(conf: IConf) {
+		this.conf = conf;
+		console.log(this.conf.range);
+
+		if (this.conf.range) {
 			this.controlMax.classList.remove('hidden');
 			if (this.conf.tip) {
 				this.tipMax.classList.remove('hidden');

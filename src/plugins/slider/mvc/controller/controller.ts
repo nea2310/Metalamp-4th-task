@@ -35,6 +35,7 @@ class sliderController extends Observer {
 		this.model.subscribe(this.$handleBar);
 		this.model.subscribe(this.$handleScale);
 		this.model.subscribe(this.$handleIsVertical);
+		this.model.subscribe(this.$handleIsRange);
 		this.view.subscribe(this.$handleMoveEvent);
 		this.view.subscribe(this.$handleKeydownEvent);
 	}
@@ -88,6 +89,13 @@ class sliderController extends Observer {
 		if (key !== 'IsVertical') return;
 		else {
 			this.view.$handleIsVertical(key, data, conf);
+		}
+	}
+
+	$handleIsRange = (key: string, data: $Idata, conf: IConf) => {
+		if (key !== 'IsRange') return;
+		else {
+			this.view.$handleIsRange(key, data, conf);
 		}
 	}
 

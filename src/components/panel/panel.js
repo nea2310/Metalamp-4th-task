@@ -109,15 +109,17 @@ class Panel {
 
 	updateIsVertical(sliderObj) {
 		this.vertical.addEventListener('change', (e) => {
-			console.log(e.target.checked);
-
 			sliderObj.update({ vertical: e.target.checked });
 		}
-
 		);
 	}
 
-
+	updateIsRange(sliderObj) {
+		this.range.addEventListener('change', (e) => {
+			sliderObj.update({ range: e.target.checked });
+		}
+		);
+	}
 
 
 

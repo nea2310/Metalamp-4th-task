@@ -45,7 +45,8 @@ class sliderModel extends Observer {
 			$calcToPosition: false,
 			$calcScale: false,
 			$calcBar: false,
-			$reBuild: false,
+			$switchVertical: false,
+			$switchRange: false
 		};
 		//	this.onStart = conf.onStart;
 		this.$start(conf);
@@ -156,8 +157,10 @@ class sliderModel extends Observer {
 						//this.$calcScale(null);
 						break;
 					case 'vertical':
-						this.$methods.$reBuild = true;
-						//this.$calcScale(null);
+						this.$methods.$switchVertical = true;
+						break;
+					case 'range':
+						this.$methods.$switchRange = true;
 						break;
 				}
 			}
@@ -168,7 +171,7 @@ class sliderModel extends Observer {
 	}
 
 
-	$reBuild() {
+	$switchVertical() {
 		console.log(this.$conf);
 		this.fire('IsVertical', this.$data, this.$conf);
 		this.$calcFromPosition();
@@ -178,6 +181,17 @@ class sliderModel extends Observer {
 		//this.$start(this.$conf);
 	}
 
+
+
+	$switchRange() {
+		console.log(this.$conf);
+		this.fire('IsRange', this.$data, this.$conf);
+		//this.$calcFromPosition();
+		//this.$calcToPosition();
+		this.$calcBar();
+		//this.$calcScale();
+		//this.$start(this.$conf);
+	}
 	// рассчитать позицию From (%) на основании значений from, min и max
 	$calcFromPosition() {
 		if (this.$conf.from != this.$conf.min) {
