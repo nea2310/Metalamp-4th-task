@@ -35,6 +35,7 @@ interface IConf {
 	onStart?: Function
 	onChange?: Function
 	onUpdate?: Function
+	scaleBase?: string
 
 
 

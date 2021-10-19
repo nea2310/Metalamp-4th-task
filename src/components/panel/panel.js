@@ -73,7 +73,7 @@ class Panel {
 	selectScaleBase(sliderObj) {
 		for (let elem of this.scaleBase) {
 			elem.addEventListener('change', (e) => {
-				console.log(e);
+				sliderObj.update({ scaleBase: e.target.value });
 
 			});
 		}
