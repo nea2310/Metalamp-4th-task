@@ -258,7 +258,7 @@ class sliderViewControl extends Observer {
 
 	$switchRange(conf: IConf) {
 		this.conf = conf;
-		console.log(this.conf.range);
+		//	console.log(this.conf.range);
 
 		if (this.conf.range) {
 			this.controlMax.classList.remove('hidden');

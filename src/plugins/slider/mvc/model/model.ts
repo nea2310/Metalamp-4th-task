@@ -101,7 +101,6 @@ class sliderModel extends Observer {
 			// console.log('newConf.to: ' + newConf.to);
 
 			if (newConf.min > newConf.from ||
-				newConf.from >= newConf.to ||
 				newConf.to >= newConf.max) return false;
 		} else {
 			if (newConf.min > newConf.from ||
@@ -172,25 +171,29 @@ class sliderModel extends Observer {
 
 
 	$switchVertical() {
-		console.log(this.$conf);
 		this.fire('IsVertical', this.$data, this.$conf);
 		this.$calcFromPosition();
 		this.$calcToPosition();
 		this.$calcBar();
 		this.$calcScale();
-		//this.$start(this.$conf);
 	}
 
 
 
 	$switchRange() {
-		console.log(this.$conf);
 		this.fire('IsRange', this.$data, this.$conf);
-		//this.$calcFromPosition();
-		//this.$calcToPosition();
+		if (this.$conf.range) {
+			/*Если во время single режима меньший ползунок зашел за позицию большего (т.е. from стало больше to) - 
+				при возвращении в double режим поменять ползунки местами */
+			if (this.$conf.from >= this.$conf.to) {
+				let temp = this.$conf.from;
+				this.$conf.from = this.$conf.to;
+				this.$conf.to = temp;
+				this.$calcFromPosition();
+				this.$calcToPosition();
+			}
+		}
 		this.$calcBar();
-		//this.$calcScale();
-		//this.$start(this.$conf);
 	}
 	// рассчитать позицию From (%) на основании значений from, min и max
 	$calcFromPosition() {
@@ -237,8 +240,6 @@ class sliderModel extends Observer {
 
 	// рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
 	$calcScale() {
-		//console.log(this.$conf);
-
 		let intervals = 0;
 		let step = 0;
 		let arg = '';
@@ -248,44 +249,26 @@ class sliderModel extends Observer {
 			if (!step) { // если длина шага не указана или равна 0
 				step = (this.$conf.max - this.$conf.min) / 3; // длина шага равна 1/3 длины шкалы
 			}
-			//	console.log(step);
-
 			intervals = (this.$conf.max - this.$conf.min) / step; // находим кол-во интервалов
-			//	console.log(intervals);
-
 			arg = intervals % 1 === 0 ? String(intervals) :
 				String(Math.trunc(intervals + 1));
-			// if (typeof (type) == 'string') {
-
-			// 	//	this.stepValueUpdated(arg); // обновить значение интервала в панели конфигурации
-			// }
-			//		else {
 			this.$data.$scaleBase = 'steps';
 			this.$data.$intervalValue = arg;
 			this.$data.$stepValue = String(this.$conf.step);
-			//	}
 		}
 
 		if (this.$conf.scaleBase == 'intervals') {//если рассчитываем шкалу на основе интервалов
 			console.log('INTERVALS');
 			intervals = this.$conf.intervals; // находим кол-во интервалов
-			//	console.log(this.$conf.intervals);
 			if (!intervals) { //если кол-во интервалов не указано или равно 0
 				intervals = 3 // кол-во интервалов равно 3
 			}
-			//console.log(intervals);
 			step = (this.$conf.max - this.$conf.min) / intervals;// находим ширину (кол-во единиц) в шаге
-			//console.log(step);
 			let arg = step % 1 === 0 ? String(step) :
 				String(step.toFixed(2));
-			// if (typeof (type) == 'string') {
-			// 	//	this.intervalValueUpdated(arg); // обновить значение шага в панели конфигурации
-			// }
-			//	else {
 			this.$data.$scaleBase = 'intervals';
 			this.$data.$intervalValue = String(intervals);
 			this.$data.$stepValue = arg;
-			//	}
 		}
 
 		this.$data.$marksArr = [{ val: this.$conf.min, pos: 0 }]; //первое деление всегда стоит на позиции left = 0% и его значение равно this.$conf.min
@@ -306,8 +289,6 @@ class sliderModel extends Observer {
 			this.$conf.max) { // если длина шкалы не кратна длине шага
 			this.$data.$marksArr.push({ val: this.$conf.max, pos: 100 });//последнее деление ставим на позицию left = 100% и его значение равно this.$conf.max
 		}
-		//	console.log(this.$data);
-
 		this.fire('Scale', this.$data, this.$conf);
 	}
 
@@ -598,24 +579,7 @@ class sliderModel extends Observer {
 		}
 	}
 
-	/*Если во время single режима меньший ползунок зашел за позицию большего (т.е. from стало больше to) - 
-	при возвращении в double режим поменять ползунки местами */
-	adjustControlPos() {
-		//Поменять местами min и max в конфигурации
-		let temp = this.$conf.from;
-		this.$conf.from = this.$conf.to;
-		this.$conf.to = temp;
 
-		//Установить меньший ползунок на позицию min, а больший на позицию max
-		this.$calcFromPosition();
-		this.$calcToPosition();
-		//Поменять местами подписи ползунков
-		this.$data.$fromVal = String(this.$conf.from);
-		this.$data.$toVal = String(this.$conf.to);
-
-		this.fire('FromValue', this.$data);
-		this.fire('ToValue', this.$data);
-	}
 }
 
 export { sliderModel };

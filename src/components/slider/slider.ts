@@ -92,7 +92,7 @@ class SliderInstance {
 			min: -10,
 			max: 100,
 			from: 0,
-			to: 70,
+			to: 30,
 			step: 2,
 			shiftOnKeyDown: 1,
 			shiftOnKeyHold: 2,
