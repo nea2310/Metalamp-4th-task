@@ -45,6 +45,7 @@ class sliderModel extends Observer {
 			$calcToPosition: false,
 			$calcScale: false,
 			$calcBar: false,
+			$reBuild: false,
 		};
 		//	this.onStart = conf.onStart;
 		this.$start(conf);
@@ -154,6 +155,10 @@ class sliderModel extends Observer {
 						this.$methods.$calcScale = true;
 						//this.$calcScale(null);
 						break;
+					case 'vertical':
+						this.$methods.$reBuild = true;
+						//this.$calcScale(null);
+						break;
 				}
 			}
 		}
@@ -161,6 +166,18 @@ class sliderModel extends Observer {
 
 		return this.$methods;
 	}
+
+
+	$reBuild() {
+		console.log(this.$conf);
+		this.fire('IsVertical', this.$data, this.$conf);
+		this.$calcFromPosition();
+		this.$calcToPosition();
+		//this.$calcScale();
+		this.$calcBar();
+		//this.$start(this.$conf);
+	}
+
 	// рассчитать позицию From (%) на основании значений from, min и max
 	$calcFromPosition() {
 		if (this.$conf.from != this.$conf.min) {
@@ -206,7 +223,7 @@ class sliderModel extends Observer {
 
 	// рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
 	$calcScale() {
-		console.log(this.$conf);
+		//console.log(this.$conf);
 
 		let intervals = 0;
 		let step = 0;
@@ -275,7 +292,7 @@ class sliderModel extends Observer {
 			this.$conf.max) { // если длина шкалы не кратна длине шага
 			this.$data.$marksArr.push({ val: this.$conf.max, pos: 100 });//последнее деление ставим на позицию left = 100% и его значение равно this.$conf.max
 		}
-		console.log(this.$data);
+		//	console.log(this.$data);
 
 		this.fire('Scale', this.$data, this.$conf);
 	}

@@ -79,6 +79,30 @@ class sliderViewControl extends Observer {
 		this.track.append(this.controlMax);
 	}
 
+	$switchVertical(conf: IConf) {
+		this.conf = conf;
+
+		if (this.conf.vertical) { // vertical mode
+			this.controlMax.classList.add('vertical');
+			this.tipMax.classList.add('vertical');
+			this.controlMin.classList.add('vertical');
+			this.tipMin.classList.add('vertical');
+			this.controlMax.classList.remove('horizontal');
+			this.tipMax.classList.remove('horizontal');
+			this.controlMin.classList.remove('horizontal');
+			this.tipMin.classList.remove('horizontal');
+		} else {//horizontal mode
+			this.controlMax.classList.add('horizontal');
+			this.tipMax.classList.add('horizontal');
+			this.controlMin.classList.add('horizontal');
+			this.tipMin.classList.add('horizontal');
+			this.controlMax.classList.remove('vertical');
+			this.tipMax.classList.remove('vertical');
+			this.controlMin.classList.remove('vertical');
+			this.tipMin.classList.remove('vertical');
+		}
+	}
+
 
 	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
 	dragControl() {
@@ -211,9 +235,11 @@ class sliderViewControl extends Observer {
 	updateControlPos(elem: HTMLElement, newPos: number) {
 		if (!this.conf.vertical) {
 			elem.style.left = newPos + '%';
+			elem.style.bottom = '';
 		}
 		if (this.conf.vertical) {
 			elem.style.bottom = newPos + '%';
+			elem.style.left = '';
 		}
 	}
 

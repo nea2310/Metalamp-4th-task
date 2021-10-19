@@ -40,25 +40,33 @@ class sliderViewBar {
 		}
 
 		if (conf.vertical) {
-			this.slider.classList.add('vertical');
-			this.track.classList.add('vertical');
 			this.progressBar.classList.add('vertical');
 		} else {
-			this.slider.classList.remove('vertical');
-			this.track.classList.remove('vertical');
 			this.progressBar.classList.remove('vertical');
 		}
 	}
 
-
+	$switchVertical(conf: IConf) {
+		if (conf.vertical) {
+			this.progressBar.classList.add('vertical');
+		} else {
+			this.progressBar.classList.remove('vertical');
+		}
+	}
 	/*красим Progress Bar (вызывается из контроллера)*/
 	$updateBar(pos: number, length: number, isVertical: boolean) {
+		console.log(isVertical);
+
 		if (!isVertical) {
 			this.progressBar.style.left = pos + '%';
 			this.progressBar.style.width = length + '%';
+			this.progressBar.style.bottom = '';
+			this.progressBar.style.height = '';
 		} else {
 			this.progressBar.style.bottom = pos + '%';
 			this.progressBar.style.height = length + '%';
+			this.progressBar.style.left = '';
+			this.progressBar.style.width = '';
 		}
 	}
 

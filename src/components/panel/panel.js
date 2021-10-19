@@ -32,6 +32,11 @@ class Panel {
 		let scaleBaseWrap =
 			this.elem.querySelector(this.elemName + '__radiobuttons');
 		this.scaleBase = scaleBaseWrap.querySelectorAll('input');
+		this.scaleBaseSteps = scaleBaseWrap.querySelector('[value=steps]');
+		this.scaleBaseIntervals =
+			scaleBaseWrap.querySelector('[value=intervals]');
+		//console.log(this.scaleBaseSteps);
+
 	}
 
 	updateMin(sliderObj) {
@@ -58,6 +63,21 @@ class Panel {
 		});
 	}
 
+
+
+
+	updateStep(sliderObj) {
+		this.step.addEventListener('input', (e) => {
+			sliderObj.update({ step: parseFloat(e.target.value) });
+		});
+	}
+
+	updateInterval(sliderObj) {
+		this.interval.addEventListener('input', (e) => {
+			sliderObj.update({ intervals: parseFloat(e.target.value) });
+		});
+	}
+
 	updateShiftOnKeyDown(sliderObj) {
 		this.shiftOnKeyDown.addEventListener('input', (e) => {
 			sliderObj.update({ shiftOnKeyDown: parseFloat(e.target.value) });
@@ -70,14 +90,35 @@ class Panel {
 		});
 	}
 
-	selectScaleBase(sliderObj) {
-		for (let elem of this.scaleBase) {
-			elem.addEventListener('change', (e) => {
-				sliderObj.update({ scaleBase: e.target.value });
 
-			});
-		}
+	selectScaleBaseSteps(sliderObj) {
+		this.scaleBaseSteps.addEventListener('change', (e) => {
+			sliderObj.update({ scaleBase: e.target.value });
+			this.interval.disabled = true;
+			this.step.disabled = false;
+		});
 	}
+
+	selectScaleBaseIntervals(sliderObj) {
+		this.scaleBaseIntervals.addEventListener('change', (e) => {
+			sliderObj.update({ scaleBase: e.target.value });
+			this.interval.disabled = false;
+			this.step.disabled = true;
+		});
+	}
+
+	updateIsVertical(sliderObj) {
+		this.vertical.addEventListener('change', (e) => {
+			console.log(e.target.checked);
+
+			sliderObj.update({ vertical: e.target.checked });
+		}
+
+		);
+	}
+
+
+
 
 
 

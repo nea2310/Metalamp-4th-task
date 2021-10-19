@@ -11,6 +11,7 @@
 	&-narrow {
 		width: 100px;
 	}
+
 	display: flex;
 	flex-direction: column;
 
@@ -57,6 +58,9 @@
 		}
 		&:focus {
 			border-color: $colorDarkShade50;
+		}
+		&:disabled {
+			background-color: $colorDarkShade25;
 		}
 	}
 }

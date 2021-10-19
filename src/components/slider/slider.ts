@@ -99,7 +99,7 @@ class SliderInstance {
 			scaleBase: 'steps',
 			//sticky: false,
 			intervals: 10,
-			//vertical: true,
+			vertical: true,
 			//range: false
 			onStart: (data: IConf) => {
 				//	console.log(panelHorObj);
@@ -118,6 +118,13 @@ class SliderInstance {
 				this.panel.bar.checked = data.bar;
 				this.panel.tip.checked = data.tip;
 				this.panel.sticky.checked = data.sticky;
+				if (data.scaleBase == 'intervals') {
+					this.panel.scaleBaseIntervals.checked = true;
+					this.panel.step.disabled = true;
+				} else {
+					this.panel.scaleBaseSteps.checked = true;
+					this.panel.interval.disabled = true;
+				}
 
 			}
 
@@ -129,7 +136,14 @@ class SliderInstance {
 		this.panel.updateTo(this.slider);
 		this.panel.updateShiftOnKeyDown(this.slider);
 		this.panel.updateShiftOnKeyHold(this.slider);
-		this.panel.selectScaleBase(this.slider);
+
+		this.panel.updateStep(this.slider);
+		this.panel.updateInterval(this.slider);
+
+		this.panel.selectScaleBaseSteps(this.slider);
+		this.panel.selectScaleBaseIntervals(this.slider);
+
+		this.panel.updateIsVertical(this.slider);
 
 	}
 }

@@ -31,6 +31,14 @@ class sliderView extends Observer {
 		this.conf = conf;
 		this.createSubViews();
 		this.$createListeners();//срабатывает после инициализации модели
+
+		if (conf.vertical) {
+			this.slider.classList.add('vertical');
+			this.track.classList.add('vertical');
+		} else {
+			this.slider.classList.remove('vertical');
+			this.track.classList.remove('vertical');
+		}
 	}
 
 
@@ -79,14 +87,17 @@ class sliderView extends Observer {
 			$updateBar(data.$barPos, data.$barWidth, conf.vertical);
 	}
 
-	// $handleScale = (key: string, data: $Idata) => {
-	// 	if (data.$scaleType === 'steps') {
-	// 		//this.viewPanel.updateInterval(data.$intervalValue);
-	// 	}
-	// 	if (data.$scaleType === 'intervals') {
-	// 		//this.viewPanel.updateInterval(data.$stepValue);
-	// 	}
-	// }
+	$handleIsVertical = (key: string, data: $Idata, conf: IConf) => {
+		if (conf.vertical) {
+			this.slider.classList.add('vertical');
+			this.track.classList.add('vertical');
+		} else {
+			this.slider.classList.remove('vertical');
+			this.track.classList.remove('vertical');
+		}
+		this.viewBar.$switchVertical(conf);
+		this.viewControl.$switchVertical(conf);
+	}
 
 
 	$handleMoveEvent = (key: string, data: $Idata) => {
