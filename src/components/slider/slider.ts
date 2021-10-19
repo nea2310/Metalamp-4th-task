@@ -149,6 +149,8 @@ class SliderInstance {
 
 		this.panel.updateIsSticky(this.slider);
 
+		this.panel.updateIsScale(this.slider);
+
 	}
 }
 

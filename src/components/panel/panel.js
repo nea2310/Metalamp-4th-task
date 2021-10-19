@@ -127,6 +127,13 @@ class Panel {
 	}
 
 
+	updateIsScale(sliderObj) {
+		this.scale.addEventListener('change', (e) => {
+			sliderObj.update({ scale: e.target.checked });
+		});
+	}
+
+
 
 
 }

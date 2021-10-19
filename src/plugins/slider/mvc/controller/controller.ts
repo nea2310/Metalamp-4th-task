@@ -99,6 +99,14 @@ class sliderController extends Observer {
 		}
 	}
 
+	$handleScaleMode = (key: string, data: $Idata, conf: IConf) => {
+		if (key !== 'IsScale') return;
+		else {
+			this.view.$handleScaleMode(key, data, conf);
+		}
+	}
+
+
 	$handleMoveEvent = (key: string, data: $Idata) => {
 		if (key !== 'MoveEvent') return;
 		else {

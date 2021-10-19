@@ -105,6 +105,12 @@ class sliderView extends Observer {
 		this.viewControl.$switchRange(conf);
 	}
 
+	$handleScaleMode = (key: string, data: $Idata, conf: IConf) => {
+
+		//this.viewBar.$updateBar(data.$barPos, data.$barWidth, conf.vertical);
+		this.viewScale.$switchScale(conf);
+	}
+
 
 	$handleMoveEvent = (key: string, data: $Idata) => {
 		if (key !== 'MoveEvent') return;

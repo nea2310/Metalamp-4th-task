@@ -163,9 +163,10 @@ class sliderViewScale {
 	}
 
 
-	switchScaleMode(isScale: boolean) {
+	$switchScale(conf: IConf) {
+		this.conf = conf;
 		let stepMarks = this.slider.querySelectorAll('.rs__mark');
-		if (isScale) {
+		if (this.conf.scale) {
 			for (let elem of stepMarks) {
 				elem.classList.remove('hidden');
 			}
