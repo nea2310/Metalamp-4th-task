@@ -100,7 +100,7 @@ class SliderInstance {
 			//sticky: false,
 			intervals: 10,
 			vertical: true,
-			//range: false,
+			range: false,
 			onStart: (data: IConf) => {
 				//	console.log(panelHorObj);
 				this.panel.min.value = data.min;
@@ -125,6 +125,7 @@ class SliderInstance {
 					this.panel.scaleBaseSteps.checked = true;
 					this.panel.interval.disabled = true;
 				}
+				this.panel.to.disabled = data.range ? false : true;
 
 			}
 

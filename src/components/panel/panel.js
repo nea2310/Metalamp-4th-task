@@ -117,6 +117,7 @@ class Panel {
 	updateIsRange(sliderObj) {
 		this.range.addEventListener('change', (e) => {
 			sliderObj.update({ range: e.target.checked });
+			this.to.disabled = e.target.checked ? false : true;
 		}
 		);
 	}
