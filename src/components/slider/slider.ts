@@ -25,7 +25,7 @@ class SliderInstance {
 			//sticky: false,
 			intervals: 10,
 			vertical: true,
-			range: false,
+			//range: false,
 			onStart: (data: IConf) => {
 				this.panel.min.value = data.min;
 				this.panel.max.value = data.max;
@@ -57,6 +57,13 @@ class SliderInstance {
 					data.intervals ? data.intervals : this.panel.interval.value;
 				this.panel.step.value = this.panel.step.value !==
 					data.step ? data.step : this.panel.step.value;
+			},
+
+			onChange: (data: IConf) => {
+				this.panel.from.value = this.panel.from.value !==
+					data.from ? data.from : this.panel.from.value;
+				this.panel.to.value = this.panel.to.value !==
+					data.to ? data.to : this.panel.to.value;
 			}
 
 		}).data('Slider'); // вернёт объект для одного элемента

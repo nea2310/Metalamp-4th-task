@@ -16,6 +16,7 @@ interface SliderOptions {
 	vertical?: boolean
 	onStart?: Function
 	onUpdate?: Function
+	onChange?: Function
 	scaleBase?: string
 }
 

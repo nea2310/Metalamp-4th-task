@@ -6,6 +6,7 @@ class Panel {
 		this.elem = elem;
 		this.slider = slider;
 		this.render();
+
 	}
 	getElem(name) {
 		let wrapper = this.elem.querySelector(this.elemName + name);
@@ -31,10 +32,21 @@ class Panel {
 		let scaleBaseWrap =
 			this.elem.querySelector(this.elemName +
 				'__scaleSetup-radiobuttons');
-		//	this.scaleBase = scaleBaseWrap.querySelectorAll('input');
 		this.scaleBaseSteps = scaleBaseWrap.querySelector('[value=steps]');
 		this.scaleBaseIntervals =
 			scaleBaseWrap.querySelector('[value=intervals]');
+		this.inputs = this.elem.querySelectorAll('.input-field__input');
+		this.correctInputVal();
+	}
+	//Если очищают поле - вставить в него 0 (чтобы не было ошибки)
+	correctInputVal() {
+		for (let elem of this.inputs) {
+			elem.addEventListener('input', () => {
+				if (!elem.value) {
+					elem.value = '0';
+				}
+			});
+		}
 	}
 
 	updateMin(sliderObj) {
@@ -139,9 +151,5 @@ class Panel {
 			sliderObj.update({ tip: e.target.checked });
 		});
 	}
-
-
-
-
 }
 export { Panel };

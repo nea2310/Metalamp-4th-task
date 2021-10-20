@@ -14,6 +14,7 @@ class sliderModel extends Observer {
 	$data: $Idata;
 	onStart?: Function;
 	onUpdate?: Function;
+	onChange?: Function;
 
 	constructor(conf: IConf) {
 		super();
@@ -64,6 +65,7 @@ class sliderModel extends Observer {
 			this.$conf = conf;
 			this.onStart = this.$conf.onStart;
 			this.onUpdate = this.$conf.onUpdate;
+			this.onChange = this.$conf.onChange;
 			this.$calcFromPosition();
 			this.$calcToPosition();
 			this.$calcScale();
@@ -195,6 +197,7 @@ class sliderModel extends Observer {
 			}
 		}
 		this.$calcBar();
+		this.onChange(this.$conf)
 	}
 
 	$switchScale() { //??
@@ -228,6 +231,7 @@ class sliderModel extends Observer {
 		}
 		this.$calcVal('normal', this.$data.$fromPos, 'min');
 		this.fire('FromPosition', this.$data);
+
 	}
 	// рассчитать позицию To (%) на основании значений to, min и max
 	$calcToPosition() {
@@ -304,8 +308,6 @@ class sliderModel extends Observer {
 			this.$conf.max) { // если длина шкалы не кратна длине шага
 			this.$data.$marksArr.push({ val: this.$conf.max, pos: 100 });//последнее деление ставим на позицию left = 100% и его значение равно this.$conf.max
 		}
-		console.log(this.$conf);
-
 		this.fire('Scale', this.$data, this.$conf);
 	}
 
@@ -397,6 +399,9 @@ class sliderModel extends Observer {
 			this.$calcVal('normal', newPos, moovingControl);
 
 		this.$calcBar();
+		//console.log(this.$data);
+		console.log(this.$conf);
+		this.onChange(this.$conf);
 	}
 
 
