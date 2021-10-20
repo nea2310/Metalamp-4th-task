@@ -28,7 +28,6 @@ class sliderViewScale {
 	//создаем деления
 	createScale(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 		conf: IConf) {
-		//	console.log(conf);
 		this.conf = conf;
 		this.scaleMarks = scaleMarks;
 		let steps = this.slider.querySelectorAll('.rs__mark');
@@ -70,8 +69,6 @@ class sliderViewScale {
 
 		this.markList =
 			[...this.track.querySelectorAll<HTMLElement>('.rs__mark')];
-		//	console.log(this.markList);
-
 		this.checkScaleLength(this.markList);
 	}
 
@@ -97,8 +94,6 @@ class sliderViewScale {
 		};
 
 		if (!this.conf.vertical) { //Горизонтальный слайдер
-			console.log('HOR');
-
 			let totalWidth = 0;
 			//вычисляем общую ширину подписей к шагам
 			for (let node of markList) {
@@ -115,7 +110,6 @@ class sliderViewScale {
 				return;
 			}
 		} else {//Вертикальный слайдер
-			console.log('VERT');
 			let totalHeight = 0;
 			//вычисляем общую высоту подписей к шагам
 			for (let node of markList) {
@@ -141,8 +135,6 @@ class sliderViewScale {
 			querySelectorAll('.rs__mark:not(.no-label)');
 		let lastMarkLabeled = markLabeledList[markLabeledList.length - 1];
 		let lastMark = this.track.querySelector('.rs__mark:last-child');
-		//console.log(markLabeledList);
-
 		if (isRemoved) {
 			lastMarkLabeled.classList.add('no-label');
 			lastMarkLabeled.firstElementChild.classList.add('hidden');
@@ -210,14 +202,10 @@ class sliderViewScale {
 				let totalWidth = this.slider.offsetWidth; // ----------------------------------- получаем ширину после ресайза
 				if (totalWidth != this.startWidth) { // -------------------------------------------------- если до и после отличаеться 
 					if (totalWidth < this.startWidth) {
-						// console.log(totalWidth);
-						// console.log(this.startWidth);
-
 						console.log('RESIZE');
 						this.checkScaleLength(this.markList);
 					}
 					if (totalWidth > this.startWidth) {
-						//	console.log(this);
 						this.createScale(this.scaleMarks, this.conf);
 					}
 					this.startWidth = totalWidth;//-------------------------------------------------------- запоминаем новую ширину враппера до ресайза

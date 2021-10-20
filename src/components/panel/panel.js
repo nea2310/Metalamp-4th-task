@@ -6,7 +6,6 @@ class Panel {
 		this.elem = elem;
 		this.slider = slider;
 		this.render();
-		//	this.updateMin();
 	}
 	getElem(name) {
 		let wrapper = this.elem.querySelector(this.elemName + name);
@@ -35,8 +34,6 @@ class Panel {
 		this.scaleBaseSteps = scaleBaseWrap.querySelector('[value=steps]');
 		this.scaleBaseIntervals =
 			scaleBaseWrap.querySelector('[value=intervals]');
-		//console.log(this.scaleBaseSteps);
-
 	}
 
 	updateMin(sliderObj) {
@@ -62,9 +59,6 @@ class Panel {
 			sliderObj.update({ to: parseFloat(e.target.value) });
 		});
 	}
-
-
-
 
 	updateStep(sliderObj) {
 		this.step.addEventListener('input', (e) => {
@@ -130,6 +124,18 @@ class Panel {
 	updateIsScale(sliderObj) {
 		this.scale.addEventListener('change', (e) => {
 			sliderObj.update({ scale: e.target.checked });
+		});
+	}
+
+	updateIsBar(sliderObj) {
+		this.bar.addEventListener('change', (e) => {
+			sliderObj.update({ bar: e.target.checked });
+		});
+	}
+
+	updateIsTip(sliderObj) {
+		this.tip.addEventListener('change', (e) => {
+			sliderObj.update({ tip: e.target.checked });
 		});
 	}
 

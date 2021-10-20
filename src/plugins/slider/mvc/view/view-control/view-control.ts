@@ -194,7 +194,6 @@ class sliderViewControl extends Observer {
 				let controlMaxDist = 0;
 				//определяем расстояние от места клика до каждого из бегунков
 				if (!this.conf.vertical) {
-					console.log('horizontal');
 					controlMinDist =
 						Math.abs(this.controlMin.getBoundingClientRect().left -
 							e.clientX);
@@ -203,7 +202,6 @@ class sliderViewControl extends Observer {
 							getBoundingClientRect().left -
 							e.clientX);
 				} else {
-					console.log('vertical');
 					controlMinDist =
 						Math.abs(this.controlMin.getBoundingClientRect().
 							bottom - e.clientY);
@@ -258,8 +256,6 @@ class sliderViewControl extends Observer {
 
 	$switchRange(conf: IConf) {
 		this.conf = conf;
-		//	console.log(this.conf.range);
-
 		if (this.conf.range) {
 			this.controlMax.classList.remove('hidden');
 			if (this.conf.tip) {
@@ -272,8 +268,9 @@ class sliderViewControl extends Observer {
 	}
 
 
-	updateTipMode(isTip: boolean) {
-		if (isTip) {
+	$switchTip(conf: IConf) {
+		this.conf = conf;
+		if (this.conf.tip) {
 			this.tipMax.classList.remove('hidden');
 			this.tipMin.classList.remove('hidden');
 		} else {

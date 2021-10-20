@@ -36,8 +36,14 @@ class sliderController extends Observer {
 		this.model.subscribe(this.$handleScale);
 		this.model.subscribe(this.$handleIsVertical);
 		this.model.subscribe(this.$handleIsRange);
+		this.model.subscribe(this.$handleIsScale);
+		this.model.subscribe(this.$handleIsBar);
+		this.model.subscribe(this.$handleIsTip);
+
+
 		this.view.subscribe(this.$handleMoveEvent);
 		this.view.subscribe(this.$handleKeydownEvent);
+
 	}
 
 	$handleFromPosition = (key: string, data: $Idata) => {
@@ -71,9 +77,6 @@ class sliderController extends Observer {
 	$handleScale = (key: string, data: $Idata, conf: IConf) => {
 		if (key !== 'Scale') return;
 		else {
-			console.log('SCALE');
-
-
 			this.view.$handleScale(key, data, conf);
 		}
 	}
@@ -99,10 +102,26 @@ class sliderController extends Observer {
 		}
 	}
 
-	$handleScaleMode = (key: string, data: $Idata, conf: IConf) => {
+	$handleIsScale = (key: string, data: $Idata, conf: IConf) => {
 		if (key !== 'IsScale') return;
 		else {
-			this.view.$handleScaleMode(key, data, conf);
+			this.view.$handleIsScale(key, data, conf);
+		}
+	}
+
+
+	$handleIsBar = (key: string, data: $Idata, conf: IConf) => {
+		if (key !== 'IsBar') return;
+		else {
+			this.view.$handleIsBar(key, data, conf);
+		}
+	}
+
+
+	$handleIsTip = (key: string, data: $Idata, conf: IConf) => {
+		if (key !== 'IsTip') return;
+		else {
+			this.view.$handleIsTip(key, data, conf);
 		}
 	}
 
@@ -133,169 +152,9 @@ class sliderController extends Observer {
 		}
 	}
 
-	// testAPI() {
-	// 	console.log('Test API');
-
-	// }
-
 	update(conf: IConf) {
-		console.log('UPDATE');
-
 		this.model.$update(conf);
-
 	}
-
-
-
-	// handleIntervalCalc =
-	// 	(step: string) => {
-	// 		this.viewPanel.updateStep(step);
-	// 	}
-
-
-	// handleStepCalc =
-	// 	(interval: string) => {
-	// 		this.viewPanel.updateInterval(interval);
-	// 	}
-
-	// handleOnScaleMarksUpdated =
-	// 	(scaleMarks: { 'pos'?: number, 'val'?: number }[]) => {
-	// 		this.viewScale.createScale(scaleMarks, this.conf);
-	// 	}
-
-
-
-	// handleIsVerticalChecked = () => {
-	// 	this.conf.vertical = true;
-	// 	this.handleWindowReRendering();
-	// }
-
-	// handleIsVerticalNotChecked = () => {
-	// 	this.conf.vertical = false;
-	// 	this.handleWindowReRendering();
-	// }
-
-
-	// handleIsRangeChecked = () => {
-	// 	this.conf.range = true;
-	// 	this.viewControl.updateRangeMode(true);
-	// }
-
-	// handleIsRangeNotChecked = () => {
-	// 	this.conf.range = false;
-	// 	this.viewControl.updateRangeMode(false);
-	// }
-
-	// handleAdjustControlPos = () => {
-	// 	this.model.adjustControlPos();
-	// }
-
-	// handleIsScaleChecked = () => {
-	// 	this.conf.scale = true;
-	// 	this.viewScale.updateScaleMode(true);
-	// }
-
-	// handleIsScaleNotChecked = () => {
-	// 	this.conf.scale = false;
-	// 	this.viewScale.updateScaleMode(false);
-	// }
-
-	// handleIsBarChecked = () => {
-	// 	this.conf.bar = true;
-	// 	this.viewBar.updateBarMode(true);
-	// }
-
-	// handleIsBarNotChecked = () => {
-	// 	this.conf.bar = false;
-	// 	this.viewBar.updateBarMode(false);
-	// }
-
-
-
-	// handleIsTipChecked = () => {
-	// 	this.conf.tip = true;
-	// 	this.viewControl.updateTipMode(true);
-	// }
-
-	// handleIsTipNotChecked = () => {
-	// 	this.conf.tip = false;
-	// 	this.viewControl.updateTipMode(false);
-	// }
-
-	// handleIsStickyChecked = () => {
-	// 	this.conf.sticky = true;
-	// }
-
-	// handleIsStickyNotChecked = () => {
-	// 	this.conf.sticky = false;
-	// }
-
-
-
-	// handleFromToChanged = (val: string, e: Event) => {
-	// 	const target = e.target as HTMLElement;
-
-	// 	if (target.classList.contains('rs__input-from')) {
-	// 		this.conf.from = parseInt(val);
-	// 		this.viewControl.updateTipVal(val, true);
-	// 	} else {
-	// 		this.conf.to = parseInt(val);
-	// 			this.viewControl.updateTipVal(val, false);
-	// 	}
-	// }
-
-
-	// handleOnStepValueUpdated = (newValue: string) => {
-	// 	this.viewPanel.updateInterval(newValue);
-	// }
-
-
-
-	// handleOnIntervalValueUpdated = (newValue: string) => {
-	// 	this.viewPanel.updateStep(newValue);
-	// }
-
-	// handleMinMaxChanged = (val: string, e: Event) => {
-	// 	const target = e.target as HTMLElement;
-
-	// 	if (target.classList.contains('rs__input-min')) {
-
-	// 		this.conf.min = parseInt(val);
-	// 		this.viewControl.updateTipVal(val, true);
-	// 	} else if (target.classList.contains('rs__input-max')) {
-
-	// 		this.conf.max = parseInt(val);
-	// 		this.viewControl.updateTipVal(val, false);
-	// 	}
-
-	// 	this.handleWindowReRendering();
-	// }
-
-	// handleStepChanged = (val: string) => {
-	// 	this.conf.step = parseInt(val);
-	// 	delete this.conf.intervals;
-	// 	this.handleOnScaleMarksUpdated(this.model.marksArr);
-	// }
-
-
-	// handleIntervalChanged = (val: string) => {
-	// 	this.conf.intervals = parseInt(val);
-	// 	delete this.conf.step;
-	// 	this.handleOnScaleMarksUpdated(this.model.marksArr);
-	// }
-
-	// handleShiftOnKeyDownChange = (val: string) => {
-	// 	this.conf.shiftOnKeyDown = parseInt(val);
-	// }
-
-	// handleShiftOnKeyHoldChange = (val: string) => {
-	// 	this.conf.shiftOnKeyHold = parseInt(val);
-	// }
-
-
-	// handleWindowReRendering = () => {
-	// 	this.view.deleteSlider();
-	// };
 }
 
 export { sliderModel, sliderView, sliderController };

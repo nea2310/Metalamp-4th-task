@@ -55,7 +55,6 @@ class sliderViewBar {
 	}
 	/*красим Progress Bar (вызывается из контроллера)*/
 	$updateBar(pos: number, length: number, isVertical: boolean) {
-		console.log(isVertical);
 
 		if (!isVertical) {
 			this.progressBar.style.left = pos + '%';
@@ -71,8 +70,9 @@ class sliderViewBar {
 	}
 
 
-	updateBarMode(isBar: boolean) {
-		isBar ? this.progressBar.classList.remove('hidden') :
+	$switchBar(conf: IConf) {
+		this.conf = conf;
+		this.conf.bar ? this.progressBar.classList.remove('hidden') :
 			this.progressBar.classList.add('hidden');
 	}
 }

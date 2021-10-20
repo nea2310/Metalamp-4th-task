@@ -48,8 +48,9 @@ class sliderModel extends Observer {
 			$switchVertical: false,
 			$switchRange: false,
 			$switchScale: false,
+			$switchBar: false,
+			$switchTip: false,
 		};
-		//	this.onStart = conf.onStart;
 		this.$start(conf);
 
 	}
@@ -70,13 +71,10 @@ class sliderModel extends Observer {
 	}
 
 	$update(newConf: IConf) {
-		//console.log('CALC');
-
 		let conf = {};
 		conf = Object.assign(conf, this.$conf, newConf);
 		//проверим корректность полученных параметров конфигурации
 		let checkResult = this.$checkConf(conf);
-		console.log(checkResult);
 		if (checkResult) {
 
 			//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
@@ -96,11 +94,6 @@ class sliderModel extends Observer {
 
 	$checkConf(newConf: IConf) {
 		if (newConf.range) { // режим Double
-			// console.log('newConf.min: ' + newConf.min);
-			// console.log('newConf.max: ' + newConf.max);
-			// console.log('newConf.from: ' + newConf.from);
-			// console.log('newConf.to: ' + newConf.to);
-
 			if (newConf.min > newConf.from ||
 				newConf.to >= newConf.max) return false;
 		} else {
@@ -112,8 +105,6 @@ class sliderModel extends Observer {
 	}
 
 	$findChangedConf(conf: IConf, newConf: IConf) {
-		// console.log(conf);
-		// console.log(newConf);
 		let key: keyof IConf;
 		for (key in newConf) {
 			if (newConf[key] === conf[key]) {
@@ -121,8 +112,6 @@ class sliderModel extends Observer {
 			} else {
 				switch (key) {
 					case 'min':
-						//	console.log('MIN');
-
 						this.$methods.$calcScale = true;
 						this.$methods.$calcFromPosition = true;
 						this.$methods.$calcBar = true;
@@ -135,26 +124,19 @@ class sliderModel extends Observer {
 					case 'from':
 						this.$methods.$calcFromPosition = true;
 						this.$methods.$calcBar = true;
-						// this.$calcFromPosition();
-						// this.$calcBar();
 						break;
 					case 'to':
 						this.$methods.$calcToPosition = true;
 						this.$methods.$calcBar = true;
-						// this.$calcToPosition();
-						// this.$calcBar();
 						break;
 					case 'step':
 						this.$methods.$calcScale = true;
-						//this.$calcScale(null);
 						break;
 					case 'intervals':
 						this.$methods.$calcScale = true;
-						//this.$calcScale(null);
 						break;
 					case 'scaleBase':
 						this.$methods.$calcScale = true;
-						//this.$calcScale(null);
 						break;
 					case 'vertical':
 						this.$methods.$switchVertical = true;
@@ -163,15 +145,17 @@ class sliderModel extends Observer {
 						this.$methods.$switchRange = true;
 						break;
 					case 'scale':
-						console.log(newConf);
 						this.$methods.$switchScale = true;
-
+						break;
+					case 'bar':
+						this.$methods.$switchBar = true;
+						break;
+					case 'tip':
+						this.$methods.$switchTip = true;
 						break;
 				}
 			}
 		}
-		//	console.log(this.$methods);
-
 		return this.$methods;
 	}
 
@@ -202,9 +186,19 @@ class sliderModel extends Observer {
 		this.$calcBar();
 	}
 
-	$switchScale() {
+	$switchScale() { //??
 		this.fire('IsScale', this.$data, this.$conf);
 	}
+
+	$switchBar() {
+		this.fire('IsBar', this.$data, this.$conf);
+	}
+
+	$switchTip() {
+		this.fire('IsTip', this.$data, this.$conf);
+	}
+
+
 	// рассчитать позицию From (%) на основании значений from, min и max
 	$calcFromPosition() {
 		if (this.$conf.from != this.$conf.min) {
@@ -254,7 +248,6 @@ class sliderModel extends Observer {
 		let step = 0;
 		let arg = '';
 		if (this.$conf.scaleBase == 'steps') {//если рассчитываем шкалу на основе кол-ва шагов
-			console.log('STEPS');
 			step = this.$conf.step; // находим длину шага
 			if (!step) { // если длина шага не указана или равна 0
 				step = (this.$conf.max - this.$conf.min) / 3; // длина шага равна 1/3 длины шкалы
@@ -268,7 +261,6 @@ class sliderModel extends Observer {
 		}
 
 		if (this.$conf.scaleBase == 'intervals') {//если рассчитываем шкалу на основе интервалов
-			console.log('INTERVALS');
 			intervals = this.$conf.intervals; // находим кол-во интервалов
 			if (!intervals) { //если кол-во интервалов не указано или равно 0
 				intervals = 3 // кол-во интервалов равно 3
@@ -301,10 +293,6 @@ class sliderModel extends Observer {
 		}
 		this.fire('Scale', this.$data, this.$conf);
 	}
-
-
-
-
 
 
 	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале или перемещения сфокусированного ползунка стрелкой 
@@ -467,8 +455,6 @@ class sliderModel extends Observer {
 							this.$conf.shiftOnKeyHold :
 							this.$conf.from -
 							this.$conf.shiftOnKeyDown;
-
-
 						if (newVal < this.$conf.min) {
 							newVal = this.$conf.min;
 						}
