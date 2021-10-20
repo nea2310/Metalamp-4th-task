@@ -53,8 +53,16 @@ class SliderInstance {
 
 			},
 			onUpdate: (data: IConf) => {
-				this.panel.interval.value = data.intervals;
-				this.panel.step.value = data.step;
+				// let interval = this.panel.interval.value;
+				// let step = this.panel.step.value;
+				this.panel.interval.value = this.panel.interval.value !==
+					data.intervals ? data.intervals : this.panel.interval.value;
+				this.panel.step.value = this.panel.step.value !==
+					data.step ? data.step : this.panel.step.value;
+				// console.log(this.panel.interval.value);
+
+				// this.panel.interval.value = data.intervals;
+				// this.panel.step.value = data.step;
 
 			}
 
