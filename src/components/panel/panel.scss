@@ -1,251 +1,130 @@
 @import "@styles/glob.scss";
 .panel {
 	border: 1px solid $colorDarkShade25;
-	padding: 10px 0 10px 10px;
+	padding: 5px 0 0 10px;
 	@include font-body;
-	&__inputs {
-		//gap: 10px;
-		margin-bottom: 20px;
-		//	border: 1px solid blue;
-		width: auto;
-		display: grid;
-		grid-template-columns: repeat(8, 110px);
-		@include media-breakpoint-down($md) {
-			//width: 450px;
-			grid-template-columns: repeat(4, 110px);
-			grid-template-rows: repeat(2, 75px);
-		}
-		@include media-breakpoint-down($xs) {
-			//width: 225px;
-			grid-template-columns: repeat(2, 110px);
-			grid-template-rows: repeat(4, 75px);
-		}
-	}
-	&__input {
-		//	border: 1px solid red;
-	}
-	&__input:nth-child(1) {
-		grid-column-start: 1;
-		grid-column-end: 1;
-		@include media-breakpoint-down($md) {
-			grid-column-start: 1;
-			grid-column-end: 1;
-			grid-row-start: 1;
-			grid-row-end: 1;
-		}
-	}
-	&__input:nth-child(2) {
-		grid-column-start: 2;
-		grid-column-end: 2;
-		@include media-breakpoint-down($md) {
-			grid-column-start: 2;
-			grid-column-end: 2;
-			grid-row-start: 1;
-			grid-row-end: 1;
-		}
-	}
-	&__input:nth-child(3) {
-		grid-column-start: 3;
-		grid-column-end: 3;
-		@include media-breakpoint-down($md) {
-			grid-column-start: 3;
-			grid-column-end: 3;
-			grid-row-start: 1;
-			grid-row-end: 1;
-		}
-		@include media-breakpoint-down($xs) {
-			grid-column-start: 1;
-			grid-column-end: 1;
-			grid-row-start: 2;
-			grid-row-end: 2;
-		}
-	}
-	&__input:nth-child(4) {
-		grid-column-start: 4;
-		grid-column-end: 4;
-		@include media-breakpoint-down($md) {
-			grid-column-start: 4;
-			grid-column-end: 4;
-			grid-row-start: 1;
-			grid-row-end: 1;
-		}
-		@include media-breakpoint-down($xs) {
-			grid-column-start: 2;
-			grid-column-end: 2;
-			grid-row-start: 2;
-			grid-row-end: 2;
-		}
-	}
-	&__input:nth-child(5) {
-		grid-column-start: 5;
-		grid-column-end: 5;
-		@include media-breakpoint-down($md) {
-			grid-column-start: 1;
-			grid-column-end: 1;
-			grid-row-start: 2;
-			grid-row-end: 2;
-		}
-		@include media-breakpoint-down($xs) {
-			grid-column-start: 1;
-			grid-column-end: 1;
-			grid-row-start: 3;
-			grid-row-end: 3;
-		}
-	}
-	&__input:nth-child(6) {
-		grid-column-start: 6;
-		grid-column-end: 6;
-		@include media-breakpoint-down($md) {
-			grid-column-start: 2;
-			grid-column-end: 2;
-			grid-row-start: 2;
-			grid-row-end: 2;
-		}
-		@include media-breakpoint-down($xs) {
-			grid-column-start: 2;
-			grid-column-end: 2;
-			grid-row-start: 3;
-			grid-row-end: 3;
-		}
-	}
-	&__input:nth-child(7) {
-		grid-column-start: 7;
-		grid-column-end: 7;
-		@include media-breakpoint-down($md) {
-			grid-column-start: 3;
-			grid-column-end: 3;
-			grid-row-start: 2;
-			grid-row-end: 2;
-		}
-		@include media-breakpoint-down($xs) {
-			grid-column-start: 1;
-			grid-column-end: 1;
-			grid-row-start: 4;
-			grid-row-end: 4;
-		}
-	}
-	&__input:nth-child(8) {
-		// display: flex;
-		// flex-direction: column;
-		// justify-content: space-between;
-		grid-column-start: 8;
-		grid-column-end: 8;
-		@include media-breakpoint-down($md) {
-			grid-column-start: 4;
-			grid-column-end: 4;
-			grid-row-start: 2;
-			grid-row-end: 2;
-		}
-		@include media-breakpoint-down($xs) {
-			grid-column-start: 2;
-			grid-column-end: 2;
-			grid-row-start: 4;
-			grid-row-end: 4;
-		}
-	}
-	&__toggles {
-		//width: 900px;
-		display: grid;
-		grid-template-columns: repeat(6, 110px);
-		@include media-breakpoint-down($md) {
-			//width: 450px;
-			grid-template-columns: repeat(3, 110px);
-			grid-template-rows: repeat(2, 50px);
-		}
-		@include media-breakpoint-down($xs) {
-			//	width: 225px;
-			grid-template-columns: repeat(2, 110px);
-			grid-template-rows: repeat(3, 50px);
-		}
-	}
-	&__toggle:nth-child(1) {
-		grid-column-start: 1;
-		grid-column-end: 1;
-		@include media-breakpoint-down($md) {
-			grid-column-start: 1;
-			grid-column-end: 1;
-			grid-row-start: 1;
-			grid-row-end: 1;
-		}
-	}
-	&__toggle:nth-child(2) {
-		grid-column-start: 2;
-		grid-column-end: 2;
-		@include media-breakpoint-down($md) {
-			grid-column-start: 2;
-			grid-column-end: 2;
-			grid-row-start: 1;
-			grid-row-end: 1;
-		}
-	}
-	&__toggle:nth-child(3) {
-		grid-column-start: 3;
-		grid-column-end: 3;
-		@include media-breakpoint-down($md) {
-			grid-column-start: 3;
-			grid-column-end: 3;
-			grid-row-start: 1;
-			grid-row-end: 1;
-		}
-		@include media-breakpoint-down($xs) {
-			grid-column-start: 1;
-			grid-column-end: 1;
-			grid-row-start: 2;
-			grid-row-end: 2;
-		}
-	}
-	&__toggle:nth-child(4) {
-		grid-column-start: 4;
-		grid-column-end: 4;
-		@include media-breakpoint-down($md) {
-			grid-column-start: 1;
-			grid-column-end: 1;
-			grid-row-start: 2;
-			grid-row-end: 2;
-		}
-		@include media-breakpoint-down($xs) {
-			grid-column-start: 2;
-			grid-column-end: 2;
-			grid-row-start: 2;
-			grid-row-end: 2;
-		}
-	}
-	&__toggle:nth-child(5) {
-		grid-column-start: 5;
-		grid-column-end: 5;
-		@include media-breakpoint-down($md) {
-			grid-column-start: 2;
-			grid-column-end: 2;
-			grid-row-start: 2;
-			grid-row-end: 2;
-		}
-		@include media-breakpoint-down($xs) {
-			grid-column-start: 1;
-			grid-column-end: 1;
-			grid-row-start: 3;
-			grid-row-end: 3;
-		}
-	}
-	&__toggle:nth-child(6) {
-		grid-column-start: 6;
-		grid-column-end: 6;
-		@include media-breakpoint-down($md) {
-			grid-column-start: 3;
-			grid-column-end: 3;
-			grid-row-start: 2;
-			grid-row-end: 2;
-		}
-		@include media-breakpoint-down($xs) {
-			grid-column-start: 2;
-			grid-column-end: 2;
-			grid-row-start: 3;
-			grid-row-end: 3;
-		}
-	}
-	&__mainSetup,
-	&__scaleSetup,
-	&__moveSetup {
+	&__mainSetup {
+		margin: 0 10px 10px 0;
+		padding: 0 0 10px 10px;
 		border: 1px solid $colorDarkShade25;
+		display: grid;
+		grid-template-columns: repeat(4, 110px);
+		grid-template-rows: repeat(2, 50px);
+		@include media-breakpoint-down($xs) {
+			grid-template-columns: repeat(2, 110px);
+			grid-template-rows: repeat(4, 50px);
+		}
+		& > div {
+			display: flex;
+			align-items: flex-end;
+		}
+		&-min {
+			grid-column-start: 1;
+			grid-column-end: 1;
+			grid-row-start: 1;
+			grid-row-end: 1;
+		}
+		&-max {
+			grid-column-start: 2;
+			grid-column-end: 2;
+			grid-row-start: 1;
+			grid-row-end: 1;
+		}
+		&-from {
+			grid-column-start: 3;
+			grid-column-end: 3;
+			grid-row-start: 1;
+			grid-row-end: 1;
+			@include media-breakpoint-down($xs) {
+				grid-column-start: 1;
+				grid-column-end: 1;
+				grid-row-start: 2;
+				grid-row-end: 2;
+			}
+		}
+		&-to {
+			grid-column-start: 4;
+			grid-column-end: 4;
+			grid-row-start: 1;
+			grid-row-end: 1;
+			@include media-breakpoint-down($xs) {
+				grid-column-start: 2;
+				grid-column-end: 2;
+				grid-row-start: 2;
+				grid-row-end: 2;
+			}
+		}
+		&-vertical {
+			grid-column-start: 1;
+			grid-column-end: 1;
+			grid-row-start: 2;
+			grid-row-end: 2;
+			@include media-breakpoint-down($xs) {
+				grid-row-start: 3;
+				grid-row-end: 3;
+			}
+		}
+		&-range {
+			grid-column-start: 2;
+			grid-column-end: 2;
+			grid-row-start: 2;
+			grid-row-end: 2;
+			@include media-breakpoint-down($xs) {
+				grid-row-start: 3;
+				grid-row-end: 3;
+			}
+		}
+		&-bar {
+			grid-column-start: 3;
+			grid-column-end: 3;
+			grid-row-start: 2;
+			grid-row-end: 2;
+			@include media-breakpoint-down($xs) {
+				grid-column-start: 1;
+				grid-column-end: 1;
+				grid-row-start: 4;
+				grid-row-end: 4;
+			}
+		}
+		&-tip {
+			grid-column-start: 4;
+			grid-column-end: 4;
+			grid-row-start: 2;
+			grid-row-end: 2;
+			@include media-breakpoint-down($xs) {
+				grid-column-start: 2;
+				grid-column-end: 2;
+				grid-row-start: 4;
+				grid-row-end: 4;
+			}
+		}
+	}
+	&__scaleSetup {
+		padding: 10px 0 10px 10px;
 		margin: 10px 10px 10px 0;
+		border: 1px solid $colorDarkShade25;
+		&-scale {
+			margin-bottom: 20px;
+		}
+		&-radiobuttons {
+			margin-top: 5px;
+		}
+		&-IntervalStep {
+			display: flex;
+		}
+		&-step {
+			margin-right: 10px;
+		}
+	}
+	&__moveSetup {
+		padding: 10px 0 10px 10px;
+		margin: 10px 10px 10px 0;
+		border: 1px solid $colorDarkShade25;
+		display: flex;
+		& > div {
+			margin-right: 10px;
+			display: flex;
+			align-items: flex-end;
+		}
 	}
 }

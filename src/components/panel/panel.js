@@ -12,25 +12,26 @@ class Panel {
 		return wrapper.querySelector('input');
 	}
 	render() {
-		this.min = this.getElem('__input-min');
-		this.max = this.getElem('__input-max');
-		this.from = this.getElem('__input-from');
-		this.to = this.getElem('__input-to');
-		this.interval = this.getElem('__input-interval');
-		this.step = this.getElem('__input-step');
-		this.shiftOnKeyDown = this.getElem('__input-shiftOnKeyDown');
-		this.shiftOnKeyHold = this.getElem('__input-shiftOnKeyHold');
+		this.min = this.getElem('__mainSetup-min');
+		this.max = this.getElem('__mainSetup-max');
+		this.from = this.getElem('__mainSetup-from');
+		this.to = this.getElem('__mainSetup-to');
+		this.interval = this.getElem('__scaleSetup-interval');
+		this.step = this.getElem('__scaleSetup-step');
+		this.shiftOnKeyDown = this.getElem('__moveSetup-shiftOnKeyDown');
+		this.shiftOnKeyHold = this.getElem('__moveSetup-shiftOnKeyHold');
 
-		this.vertical = this.getElem('__toggle-vertical');
-		this.range = this.getElem('__toggle-range');
-		this.scale = this.getElem('__toggle-scale');
-		this.bar = this.getElem('__toggle-bar');
-		this.tip = this.getElem('__toggle-tip');
-		this.sticky = this.getElem('__toggle-sticky');
+		this.vertical = this.getElem('__mainSetup-vertical');
+		this.range = this.getElem('__mainSetup-range');
+		this.scale = this.getElem('__scaleSetup-scale');
+		this.bar = this.getElem('__mainSetup-bar');
+		this.tip = this.getElem('__mainSetup-tip');
+		this.sticky = this.getElem('__moveSetup-sticky');
 
 		let scaleBaseWrap =
-			this.elem.querySelector(this.elemName + '__radiobuttons');
-		this.scaleBase = scaleBaseWrap.querySelectorAll('input');
+			this.elem.querySelector(this.elemName +
+				'__scaleSetup-radiobuttons');
+		//	this.scaleBase = scaleBaseWrap.querySelectorAll('input');
 		this.scaleBaseSteps = scaleBaseWrap.querySelector('[value=steps]');
 		this.scaleBaseIntervals =
 			scaleBaseWrap.querySelector('[value=intervals]');

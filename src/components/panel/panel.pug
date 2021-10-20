@@ -8,80 +8,81 @@ mixin panel(options={})
 	fieldset(class = elemName + ' ' + elemNameMod)
 		legend Configuration
 		fieldset(class = elemName + '__mainSetup')
-			legend main setup
-			div(class = elemName + '__input' + ' ' + elemName + '__input-min')
+			legend Main
+			div(class = elemName + '__mainSetup-min')
 				+input(
 										{width: 'narrow',
 										labelText: 'min'} 
 										)
-			div(class = elemName + '__input' + ' ' + elemName + '__input-max')
+			div(class = elemName + '__mainSetup-max')
 				+input(
 										{width: 'narrow',
 										labelText: 'max'} 
 										)
-			div(class = elemName + '__input' + ' ' + elemName + '__input-from')
+			div(class = elemName + '__mainSetup-from')
 				+input(
 										{width: 'narrow',
 										labelText: 'from'} 
 										)
-			div(class = elemName + '__input' + ' ' + elemName + '__input-to')
+			div(class = elemName + '__mainSetup-to')
 				+input(
 										{width: 'narrow',
 										labelText: 'to'} 
 										)
-			div(class = elemName + '__toggle' + ' ' + elemName + '__toggle-vertical')
+			div(class = elemName + '__mainSetup-vertical')
 				+toggle(
 										{name: 'vertical'}
 										)
-			div(class = elemName + '__toggle' + ' ' + elemName + '__toggle-range')
+			div(class = elemName + '__mainSetup-range')
 				+toggle(
 										{name: 'range'}
 										)
-			div(class = elemName + '__toggle' + ' ' + elemName + '__toggle-bar')
+			div(class = elemName + '__mainSetup-bar')
 				+toggle(
 										{name: 'bar'}
 										)
-			div(class = elemName + '__toggle' + ' ' + elemName + '__toggle-tip')
+			div(class = elemName + '__mainSetup-tip')
 				+toggle(
 										{name: 'tip'}
 										)
 		fieldset(class = elemName + '__scaleSetup')
-			legend Scale setup
-			div(class = elemName + '__toggle' + ' ' + elemName + '__toggle-scale')
+			legend Scale
+			div(class = elemName + '__scaleSetup-scale')
 				+toggle(
 										{name: 'scale'}
 										)
-			div(class = elemName + '__radiobuttons')
-				span Scale Base
+			span scale base
+			div(class = elemName + '__scaleSetup-radiobuttons')
 				+radiobuttons({categories:
 								{cat1: {name:'steps'}, 
 								cat2:{name:'intervals'}},
 								radioGroupName: 'scaleBase'})
-			div(class = elemName + '__input' + ' ' + elemName + '__input-interval')
-				+input(
-										{width: 'narrow',
-										labelText: 'interval'} 
-										)
-			div(class = elemName + '__input' + ' ' + elemName + '__input-step')
-				+input(
-										{width: 'narrow',
-										labelText: 'step'} 
-										)
+			div(class = elemName + '__scaleSetup-IntervalStep')
+				div(class = elemName + '__scaleSetup-step')
+					+input(
+											{width: 'narrow',
+											labelText: 'step'} 
+											)
+				div(class = elemName + '__scaleSetup-interval')
+					+input(
+											{width: 'narrow',
+											labelText: 'interval'} 
+											)
 		fieldset(class = elemName + '__moveSetup')
-			legend Control movement setup
-			div(class = elemName + '__toggle' + ' ' + elemName + '__toggle-sticky')
+			legend Control movement
+			div(class = elemName + '__moveSetup-sticky')
 				+toggle(
 										{name: 'sticky'}
 										)
-			div(class = elemName + '__input' + ' ' + elemName + '__input-shiftOnKeyDown')
+			div(class = elemName + '__moveSetup-shiftOnKeyDown')
 				+input(
 										{width: 'narrow',
-										labelText: 'shift On Key Down'} 
+										labelText: 'shift on key down'} 
 										)
-			div(class = elemName + '__input' + ' ' + elemName + '__input-shiftOnKeyHold')
+			div(class = elemName + '__moveSetup-shiftOnKeyHold')
 				+input(
 										{width: 'narrow',
-										labelText: 'shift On Key Hold'} 
+										labelText: 'shift on key hold'} 
 										)
 
 
