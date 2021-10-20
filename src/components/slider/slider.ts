@@ -51,6 +51,11 @@ class SliderInstance {
 				}
 				this.panel.to.disabled = data.range ? false : true;
 
+			},
+			onUpdate: (data: IConf) => {
+				this.panel.interval.value = data.intervals;
+				this.panel.step.value = data.step;
+
 			}
 
 		}).data('Slider'); // вернёт объект для одного элемента

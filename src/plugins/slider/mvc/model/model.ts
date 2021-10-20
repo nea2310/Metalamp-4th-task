@@ -13,6 +13,7 @@ class sliderModel extends Observer {
 	$methods: $Imethods;
 	$data: $Idata;
 	onStart?: Function;
+	onUpdate?: Function;
 
 	constructor(conf: IConf) {
 		super();
@@ -62,6 +63,7 @@ class sliderModel extends Observer {
 		if (this.$checkConf(conf)) {
 			this.$conf = conf;
 			this.onStart = this.$conf.onStart;
+			this.onUpdate = this.$conf.onUpdate;
 			this.$calcFromPosition();
 			this.$calcToPosition();
 			this.$calcScale();
@@ -86,10 +88,19 @@ class sliderModel extends Observer {
 				if (this.$methods[key]) {
 					let method = `this.${key}()`;
 					eval(method);
-					//this.$methods[key] = false;
 				}
 			}
 		}
+		this.onUpdate(this.$conf);
+		//вернем исходные значения (false)
+		let key: keyof $Imethods;
+		for (key in this.$methods) {
+			if (this.$methods[key]) {
+				this.$methods[key] = false;
+			}
+		}
+
+
 	}
 
 	$checkConf(newConf: IConf) {
@@ -258,6 +269,7 @@ class sliderModel extends Observer {
 			this.$data.$scaleBase = 'steps';
 			this.$data.$intervalValue = arg;
 			this.$data.$stepValue = String(this.$conf.step);
+			this.$conf.intervals = parseFloat(arg);
 		}
 
 		if (this.$conf.scaleBase == 'intervals') {//если рассчитываем шкалу на основе интервалов
@@ -271,6 +283,7 @@ class sliderModel extends Observer {
 			this.$data.$scaleBase = 'intervals';
 			this.$data.$intervalValue = String(intervals);
 			this.$data.$stepValue = arg;
+			this.$conf.step = parseFloat(arg);
 		}
 
 		this.$data.$marksArr = [{ val: this.$conf.min, pos: 0 }]; //первое деление всегда стоит на позиции left = 0% и его значение равно this.$conf.min
@@ -291,6 +304,8 @@ class sliderModel extends Observer {
 			this.$conf.max) { // если длина шкалы не кратна длине шага
 			this.$data.$marksArr.push({ val: this.$conf.max, pos: 100 });//последнее деление ставим на позицию left = 100% и его значение равно this.$conf.max
 		}
+		console.log(this.$conf);
+
 		this.fire('Scale', this.$data, this.$conf);
 	}
 
