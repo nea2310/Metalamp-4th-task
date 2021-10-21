@@ -66,8 +66,6 @@ class sliderModel extends Observer {
 	// }
 
 	$start(newConf: IConf) {
-		console.log(this.backEndConf);
-
 		let conf = {};
 		//conf = Object.assign(conf, this.$conf, newConf, this.backEndConf);
 		conf = Object.assign(conf, this.$conf, newConf);
