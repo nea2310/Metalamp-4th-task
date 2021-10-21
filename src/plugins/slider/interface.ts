@@ -21,21 +21,21 @@ interface IConf {
 	max?: number
 	from?: number
 	to?: number
+	vertical?: boolean
 	range?: boolean
 	bar?: boolean
 	tip?: boolean
 	scale?: boolean
+	scaleBase?: string
 	step?: number
 	intervals?: number
 	sticky?: boolean
 	shiftOnKeyDown?: number
 	shiftOnKeyHold?: number
-	target?: string
-	vertical?: boolean
 	onStart?: Function
 	onChange?: Function
 	onUpdate?: Function
-	scaleBase?: string
+
 
 
 

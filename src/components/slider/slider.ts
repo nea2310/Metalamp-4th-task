@@ -14,18 +14,17 @@ class SliderInstance {
 		this.panel = new Panel('.panel', panelElem);
 
 		this.slider = $(slider).Slider({
-			min: -10,
+			min: 10,
 			max: 100,
-			from: 0,
-			to: 30,
-			step: 20,
+			from: 30,
+			to: 50,
+			step: 1,
 			shiftOnKeyDown: 1,
 			shiftOnKeyHold: 2,
 			scaleBase: 'steps',
-			//sticky: false,
 			intervals: 10,
 			vertical: true,
-			//range: false,
+
 			onStart: (data: IConf) => {
 				this.panel.min.value = data.min;
 				this.panel.max.value = data.max;
@@ -53,6 +52,27 @@ class SliderInstance {
 
 			},
 			onUpdate: (data: IConf) => {
+				this.panel.from.value = this.panel.from.value !==
+					data.from ? data.from : this.panel.from.value;
+				this.panel.to.value = this.panel.to.value !==
+					data.to ? data.to : this.panel.to.value;
+
+				this.panel.min.value = this.panel.min.value !==
+					data.min ? data.min : this.panel.min.value;
+				this.panel.max.value = this.panel.max.value !==
+					data.max ? data.max : this.panel.max.value;
+
+
+				this.panel.shiftOnKeyDown.value =
+					this.panel.shiftOnKeyDown.value !==
+						data.shiftOnKeyDown ? data.shiftOnKeyDown :
+						this.panel.shiftOnKeyDown.value;
+				this.panel.shiftOnKeyHold.value =
+					this.panel.shiftOnKeyHold.value !==
+						data.shiftOnKeyHold ? data.shiftOnKeyHold :
+						this.panel.shiftOnKeyHold.value;
+
+
 				this.panel.interval.value = this.panel.interval.value !==
 					data.intervals ? data.intervals : this.panel.interval.value;
 				this.panel.step.value = this.panel.step.value !==

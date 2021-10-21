@@ -23,24 +23,24 @@ class sliderModel extends Observer {
 		super();
 		//дефолтный конфиг
 		this.$conf = {
-
-			min: 1,
-			max: 10,
-			from: 3,
-			to: 7,
+			min: 0,
+			max: 0,
+			from: 0,
+			to: 0,
+			vertical: false,
 			range: true,
 			bar: true,
 			tip: true,
 			scale: true,
-			//	step: 1,
+			scaleBase: 'intervals',
+			step: 0,
+			intervals: 0,
 			sticky: true,
-			shiftOnKeyDown: 1,
-			shiftOnKeyHold: 2,
-			vertical: false,
+			shiftOnKeyDown: 0,
+			shiftOnKeyHold: 0,
 			onStart: () => true,
 			onChange: () => true,
 			onUpdate: () => true,
-			scaleBase: 'intervals'
 		};
 
 		this.$data = {};
@@ -69,71 +69,102 @@ class sliderModel extends Observer {
 		let conf = {};
 		//conf = Object.assign(conf, this.$conf, newConf, this.backEndConf);
 		conf = Object.assign(conf, this.$conf, newConf);
-		//проверим корректность полученных параметров конфигурации
-		if (this.$checkConf(conf)) {
-			this.$conf = conf;
-			this.onStart = this.$conf.onStart;
-			this.onUpdate = this.$conf.onUpdate;
-			this.onChange = this.$conf.onChange;
-			this.$calcFromPosition();
-			this.$calcToPosition();
-			this.$calcScale();
-			this.$calcBar();
-			this.onStart(this.$conf);
+		//проверим корректность полученных параметров конфигурации и при необходимости - исправим
+		this.$conf = this.$checkConf(conf);
+		this.onStart = this.$conf.onStart;
+		this.onUpdate = this.$conf.onUpdate;
+		this.onChange = this.$conf.onChange;
+
+
+		this.$calcFromPosition();
+		this.$calcToPosition();
+		this.$calcScale();
+		this.$calcBar();
+		this.onStart(this.$conf);
+
+	}
+
+
+
+	$checkConf(conf: IConf) {
+		//надо проверять на число те параметры, которые вводятся в инпут (т.к. можно ввести строку)
+
+		if (Number.isNaN(conf.min)) {
+			conf.min = 0;
 		}
+		if (Number.isNaN(conf.max)) {
+			conf.max = 0;
+		}
+		if (Number.isNaN(conf.from)) {
+			conf.from = 0;
+		}
+		if (Number.isNaN(conf.to)) {
+			conf.to = 0;
+		}
+		if (Number.isNaN(conf.step) || conf.step <= 0) {
+			conf.step = (conf.max - conf.min) / 3;
+		}
+		if (Number.isNaN(conf.intervals) || conf.intervals <= 0) {
+			conf.intervals = 3;
+		}
+		if (Number.isNaN(conf.shiftOnKeyDown) || conf.shiftOnKeyDown <= 0) {
+			conf.shiftOnKeyDown = 1;
+		}
+		if (Number.isNaN(conf.shiftOnKeyHold) || conf.shiftOnKeyHold <= 0) {
+			conf.shiftOnKeyHold = 1;
+		}
+
+		if (conf.max <= conf.min) {
+			conf.max = conf.min + 10
+		}
+		if (conf.from < conf.min) {
+			conf.from = conf.min
+		}
+
+		if (conf.to < conf.min) {
+			conf.to = conf.min
+		}
+
+		if (conf.to > conf.max) {
+			conf.to = conf.max
+		}
+
+		if (conf.range) {
+			if (conf.from > conf.max) {
+				conf.from = conf.to
+			}
+			if (conf.to <= conf.from) {
+				conf.to = conf.max
+			}
+		}
+		return conf;
 	}
 
 	$update(newConf: IConf) {
 		let conf = {};
 		conf = Object.assign(conf, this.$conf, newConf);
-		//проверим корректность полученных параметров конфигурации
-		let checkResult = this.$checkConf(conf);
-		if (checkResult) {
-
-			//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
-			this.$findChangedConf(this.$conf, conf);
-			this.$conf = conf;
-			//запустим методы, для которых есть изменившиеся параметры
-			let key: keyof $Imethods;
-			for (key in this.$methods) {
-				if (this.$methods[key]) {
-					let method = `this.${key}()`;
-					eval(method);
-				}
+		//проверим корректность полученных параметров конфигурации и при необходимости - исправим
+		conf = this.$checkConf(conf);
+		//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
+		this.$findChangedConf(this.$conf, conf);
+		this.$conf = conf;
+		//запустим методы, для которых есть изменившиеся параметры
+		let key: keyof $Imethods;
+		for (key in this.$methods) {
+			if (this.$methods[key]) {
+				let method = `this.${key}()`;
+				eval(method);
 			}
 		}
+		//	}
 		this.onUpdate(this.$conf);
 		//вернем исходные значения (false)
-		let key: keyof $Imethods;
 		for (key in this.$methods) {
 			if (this.$methods[key]) {
 				this.$methods[key] = false;
 			}
 		}
-
-
 	}
-
-	$checkConf(newConf: IConf) {
-		if (newConf.range) { // режим Double
-			if (newConf.min > newConf.from ||
-				newConf.to >= newConf.max) return false;
-		} else {
-			if (newConf.min > newConf.from ||
-				newConf.from >= newConf.max)
-				return false;
-		}
-		return true;
-	}
-
-	$checkMin() { }
-	$checkMax() { }
-	$checkFrom() { }
-	$checkTo() { }
-	$checkStep() { }
-	$checkInterval() { }
-	$checkShiftDown() { }
-	$checkShiftHold() { }
 
 	$findChangedConf(conf: IConf, newConf: IConf) {
 		let key: keyof IConf;
@@ -203,17 +234,6 @@ class sliderModel extends Observer {
 
 	$switchRange() {
 		this.fire('IsRange', this.$data, this.$conf);
-		if (this.$conf.range) {
-			/*Если во время single режима меньший ползунок зашел за позицию большего (т.е. from стало больше to) - 
-				при возвращении в double режим поменять ползунки местами */
-			if (this.$conf.from >= this.$conf.to) {
-				let temp = this.$conf.from;
-				this.$conf.from = this.$conf.to;
-				this.$conf.to = temp; // ??
-				this.$calcFromPosition();
-				this.$calcToPosition();
-			}
-		}
 		this.$calcBar();
 		this.onChange(this.$conf)
 	}
@@ -282,9 +302,6 @@ class sliderModel extends Observer {
 		let arg = '';
 		if (this.$conf.scaleBase == 'steps') {//если рассчитываем шкалу на основе кол-ва шагов
 			step = this.$conf.step; // находим длину шага
-			if (!step) { // если длина шага не указана или равна 0
-				step = (this.$conf.max - this.$conf.min) / 3; // длина шага равна 1/3 длины шкалы
-			}
 			intervals = (this.$conf.max - this.$conf.min) / step; // находим кол-во интервалов
 			arg = intervals % 1 === 0 ? String(intervals) :
 				String(Math.trunc(intervals + 1));
@@ -296,9 +313,6 @@ class sliderModel extends Observer {
 
 		if (this.$conf.scaleBase == 'intervals') {//если рассчитываем шкалу на основе интервалов
 			intervals = this.$conf.intervals; // находим кол-во интервалов
-			if (!intervals) { //если кол-во интервалов не указано или равно 0
-				intervals = 3 // кол-во интервалов равно 3
-			}
 			step = (this.$conf.max - this.$conf.min) / intervals;// находим ширину (кол-во единиц) в шаге
 			let arg = step % 1 === 0 ? String(step) :
 				String(step.toFixed(2));

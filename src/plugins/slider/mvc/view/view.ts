@@ -33,12 +33,12 @@ class sliderView extends Observer {
 		this.backEndConf.max = parseFloat(this.slider.getAttribute('data-max'));
 		this.backEndConf.from = parseFloat(this.slider.getAttribute('data-from'));
 		this.backEndConf.to = parseFloat(this.slider.getAttribute('data-to'));
-		console.log(this.backEndConf);
+		//	console.log(this.backEndConf);
 
 
 	}
 	$init(conf: IConf) {
-		console.log(conf);
+		//	console.log(conf);
 
 		this.conf = conf;
 		this.createSubViews();
