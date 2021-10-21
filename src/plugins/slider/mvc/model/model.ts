@@ -432,7 +432,6 @@ class sliderModel extends Observer {
 
 		this.$calcBar();
 		//console.log(this.$data);
-		console.log(this.$conf);
 		this.onChange(this.$conf);
 	}
 

@@ -16,7 +16,7 @@ class SliderInstance {
 		this.slider = $(slider).Slider({
 			min: 10,
 			max: 100,
-			from: 30,
+			from: 20,
 			to: 50,
 			step: 1,
 			shiftOnKeyDown: 1,

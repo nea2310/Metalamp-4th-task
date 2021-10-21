@@ -16,6 +16,7 @@ class sliderView extends Observer {
 
 	slider: HTMLElement;
 	track: HTMLElement;
+	input: HTMLInputElement;
 	conf: IConf;
 	backEndConf: IConf;
 	//root: string;
@@ -27,6 +28,11 @@ class sliderView extends Observer {
 		this.track = document.createElement('div');
 		this.track.className = 'rs__track';
 		this.slider.append(this.track);
+		this.input = document.createElement('input');
+		this.input.className = 'rs__input';
+
+		this.slider.append(this.input);
+
 
 		this.backEndConf = {}
 		this.backEndConf.min = parseFloat(this.slider.getAttribute('data-min'));
@@ -43,13 +49,17 @@ class sliderView extends Observer {
 		this.conf = conf;
 		this.createSubViews();
 		this.$createListeners();//срабатывает после инициализации модели
+		this.input.value = this.conf.from + ', ' + this.conf.to;
+		console.log(this.input.value);
 
 		if (conf.vertical) {
 			this.slider.classList.add('vertical');
 			this.track.classList.add('vertical');
+			this.input.classList.add('vertical');
 		} else {
 			this.slider.classList.remove('vertical');
 			this.track.classList.remove('vertical');
+			this.input.classList.remove('vertical');
 		}
 	}
 
@@ -80,8 +90,6 @@ class sliderView extends Observer {
 
 
 	$handleFromValue = (key: string, data: $Idata) => {
-		console.log(data.$fromVal);
-
 		this.viewControl.updateTipVal(data.$fromVal, true);
 	}
 
@@ -104,9 +112,11 @@ class sliderView extends Observer {
 		if (conf.vertical) {
 			this.slider.classList.add('vertical');
 			this.track.classList.add('vertical');
+			this.input.classList.add('vertical');
 		} else {
 			this.slider.classList.remove('vertical');
 			this.track.classList.remove('vertical');
+			this.input.classList.remove('vertical');
 		}
 		this.viewBar.$switchVertical(conf);
 		this.viewControl.$switchVertical(conf);

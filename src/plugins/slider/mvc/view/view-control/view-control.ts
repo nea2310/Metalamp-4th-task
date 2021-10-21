@@ -8,6 +8,7 @@ import { Observer } from '../../../observer';
 class sliderViewControl extends Observer {
 	conf: IConf;
 	slider: HTMLElement;
+	input: HTMLInputElement;
 	controlMin: HTMLElement;
 	controlMax: HTMLElement;
 	tipMin: HTMLInputElement;
@@ -18,6 +19,8 @@ class sliderViewControl extends Observer {
 	constructor(root: HTMLElement, conf: IConf) {
 		super();
 		this.slider = root;
+		this.input = this.slider.querySelector('.rs__input')
+
 		this.track = this.slider.querySelector('.rs__track');
 		this.$data = {};
 		this.$data.$thumb = {};
@@ -136,6 +139,9 @@ class sliderViewControl extends Observer {
 					this.$data.$thumb.$clientX = e.clientX;
 					this.$data.$thumb.$clientY = e.clientY;
 					this.fire('MoveEvent', this.$data);
+					// this.input.value = this.$data.$fromVal + ', ' + this.$data.$toVal;
+					// console.log(this.$data);
+					// console.log(this.input.value);
 				};
 
 				let pointerUpHandler = () => {
@@ -172,11 +178,12 @@ class sliderViewControl extends Observer {
 					this.$data.$thumb.$key = e.code;
 					this.$data.$thumb.$repeat = e.repeat;
 					this.fire('KeydownEvent', this.$data);
+					//	this.input.value = this.$data.$fromVal + ', ' + this.$data.$toVal;
+					console.log(this.input.value);
 				}
 			}
 		};
 		this.slider.addEventListener('keydown', pointerDownHandler);
-
 	}
 
 	clickTrack() {
@@ -188,7 +195,9 @@ class sliderViewControl extends Observer {
 				target.classList.contains('rs__progressBar') ||
 				target.classList.contains('rs__label') ||
 				target.classList.contains('rs__mark') ||
-				target.classList.contains('rs__wrapper')) {
+				target.classList.contains('rs__input')) {
+				console.log(e);
+
 
 				let controlMinDist = 0;
 				let controlMaxDist = 0;
@@ -229,6 +238,8 @@ class sliderViewControl extends Observer {
 						this.$data.$thumb.$moovingControl = 'max';
 				}
 				this.fire('MoveEvent', this.$data);
+				//	this.input.value = this.$data.$fromVal + ', ' + this.$data.$toVal;
+				console.log(this.input.value);
 			}
 		};
 		this.slider.addEventListener('pointerdown', pointerDownHandler);
@@ -245,6 +256,9 @@ class sliderViewControl extends Observer {
 			elem.style.bottom = newPos + '%';
 			elem.style.left = '';
 		}
+		this.input.value = this.conf.from + ', ' + this.conf.to;
+		console.log(this.input.value);
+
 	}
 
 

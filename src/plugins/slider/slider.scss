@@ -27,6 +27,22 @@
 	//width: auto;
 	display: inline-block;
 }
+.rs__input {
+	border: 1px solid red;
+	background-color: #bc9cff;
+	position: absolute;
+	top: 40px;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	opacity: 0;
+}
+.rs__input.vertical {
+	top: 0;
+	left: 60px;
+	right: 0;
+	width: 50%;
+}
 
 .rs__track {
 	border-radius: 3px;
@@ -128,33 +144,33 @@
 	width: 30px;
 }
 
-.rs__panelWrapper {
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: column;
-	//	border: 1px solid red;
-	margin-top: 30px;
-	width: 100%;
-}
+// .rs__panelWrapper {
+// 	display: flex;
+// 	flex-wrap: wrap;
+// 	flex-direction: column;
+// 	//	border: 1px solid red;
+// 	margin-top: 30px;
+// 	width: 100%;
+// }
 
-.rs__panel {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-}
+// .rs__panel {
+// 	display: flex;
+// 	flex-wrap: wrap;
+// 	justify-content: space-between;
+// }
 
-.rs__input {
-	//	border: 1px solid red;
-	width: 50px;
-	color: $colorDarkShade75;
-	border-radius: 5px;
-	border-width: 1px;
-	border-color: $colorDarkShade75;
-	:focus {
-		outline: none;
-		border-width: 2px;
-	}
-}
+// .rs__input {
+// 	//	border: 1px solid red;
+// 	width: 50px;
+// 	color: $colorDarkShade75;
+// 	border-radius: 5px;
+// 	border-width: 1px;
+// 	border-color: $colorDarkShade75;
+// 	:focus {
+// 		outline: none;
+// 		border-width: 2px;
+// 	}
+// }
 
 .rs__mark {
 	height: 5px;

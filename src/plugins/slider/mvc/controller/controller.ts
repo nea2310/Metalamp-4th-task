@@ -64,8 +64,6 @@ class sliderController extends Observer {
 	$handleFromValue = (key: string, data: $Idata) => {
 		if (key !== 'FromValue') return;
 		else {
-			console.log('!!!');
-
 			this.view.$handleFromValue(key, data);
 		}
 	}
