@@ -15,7 +15,7 @@
 	//border: 1px solid green;
 }
 .rs__wrapper {
-	//	border: 1px solid blue;
+	border: 1px solid blue;
 	padding: 60px 30px 30px 60px;
 	position: relative;
 	display: flex;
@@ -24,6 +24,8 @@
 .rs__wrapper.vertical {
 	height: 100%;
 	padding: 24px 30px 30px 80px;
+	//width: auto;
+	display: inline-block;
 }
 
 .rs__track {
@@ -33,6 +35,7 @@
 	height: 8px;
 	background: #c5c0c0;
 	display: flex;
+	border: 1px solid green;
 }
 
 .rs__track.vertical {

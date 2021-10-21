@@ -5,11 +5,14 @@ import {
 	$Idata
 } from './../../interface';
 import { Observer } from '../../observer';
+import { isConstTypeReference } from 'typescript';
 
 
 class sliderModel extends Observer {
 	changeMode: boolean;
 	$conf: IConf;
+	conf: IConf;
+	backEndConf: IConf;
 	$methods: $Imethods;
 	$data: $Idata;
 	onStart?: Function;
@@ -53,12 +56,20 @@ class sliderModel extends Observer {
 			$switchBar: false,
 			$switchTip: false,
 		};
+		this.conf = conf;
 		this.$start(conf);
 
 	}
+	// $getConf(conf: IConf) {
+	// 	this.backEndConf = conf;
+	// 	this.$start(conf);
+	// }
 
 	$start(newConf: IConf) {
+		console.log(this.backEndConf);
+
 		let conf = {};
+		//conf = Object.assign(conf, this.$conf, newConf, this.backEndConf);
 		conf = Object.assign(conf, this.$conf, newConf);
 		//проверим корректность полученных параметров конфигурации
 		if (this.$checkConf(conf)) {
@@ -116,6 +127,15 @@ class sliderModel extends Observer {
 		}
 		return true;
 	}
+
+	$checkMin() { }
+	$checkMax() { }
+	$checkFrom() { }
+	$checkTo() { }
+	$checkStep() { }
+	$checkInterval() { }
+	$checkShiftDown() { }
+	$checkShiftHold() { }
 
 	$findChangedConf(conf: IConf, newConf: IConf) {
 		let key: keyof IConf;
@@ -191,7 +211,7 @@ class sliderModel extends Observer {
 			if (this.$conf.from >= this.$conf.to) {
 				let temp = this.$conf.from;
 				this.$conf.from = this.$conf.to;
-				this.$conf.to = temp;
+				this.$conf.to = temp; // ??
 				this.$calcFromPosition();
 				this.$calcToPosition();
 			}

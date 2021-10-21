@@ -7,6 +7,7 @@ import {
 } from '../../interface';
 
 import { Observer } from '../../observer';
+import { formatDiagnostic } from 'typescript';
 
 class sliderView extends Observer {
 	viewControl: sliderViewControl;
@@ -16,6 +17,7 @@ class sliderView extends Observer {
 	slider: HTMLElement;
 	track: HTMLElement;
 	conf: IConf;
+	backEndConf: IConf;
 	//root: string;
 
 	constructor(root: Element, i: number) {
@@ -26,8 +28,18 @@ class sliderView extends Observer {
 		this.track.className = 'rs__track';
 		this.slider.append(this.track);
 
+		this.backEndConf = {}
+		this.backEndConf.min = parseFloat(this.slider.getAttribute('data-min'));
+		this.backEndConf.max = parseFloat(this.slider.getAttribute('data-max'));
+		this.backEndConf.from = parseFloat(this.slider.getAttribute('data-from'));
+		this.backEndConf.to = parseFloat(this.slider.getAttribute('data-to'));
+		console.log(this.backEndConf);
+
+
 	}
 	$init(conf: IConf) {
+		console.log(conf);
+
 		this.conf = conf;
 		this.createSubViews();
 		this.$createListeners();//срабатывает после инициализации модели
@@ -68,7 +80,8 @@ class sliderView extends Observer {
 
 
 	$handleFromValue = (key: string, data: $Idata) => {
-		//this.viewPanel.updateFromTo('from', data.$fromVal);
+		console.log(data.$fromVal);
+
 		this.viewControl.updateTipVal(data.$fromVal, true);
 	}
 
