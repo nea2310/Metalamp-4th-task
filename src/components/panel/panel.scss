@@ -1,11 +1,25 @@
 @import "@styles/glob.scss";
 .panel {
-	border: 1px solid $colorDarkShade25;
-	padding: 5px 0 0 10px;
+	padding: 5px;
+	display: flex;
+	border: 2px solid $colorDarkShade25;
+	border-radius: 2px;
+	height: 200px;
+
 	@include font-body;
+	@include media-breakpoint-down($lg) {
+		height: auto;
+		display: block;
+		padding: 5px 0 0 10px;
+	}
 	&__mainSetup {
-		margin: 0 10px 10px 0;
-		padding: 0 0 10px 10px;
+		margin: 5px;
+		padding: 5px;
+		@include media-breakpoint-down($lg) {
+			margin: 0 10px 10px 0;
+			padding: 0 0 10px 10px;
+		}
+
 		border: 1px solid $colorDarkShade25;
 		display: grid;
 		grid-template-columns: repeat(4, 110px);
@@ -100,8 +114,13 @@
 		}
 	}
 	&__scaleSetup {
-		padding: 10px 0 10px 10px;
-		margin: 10px 10px 10px 0;
+		margin: 5px;
+		padding: 5px;
+		@include media-breakpoint-down($lg) {
+			padding: 10px 0 10px 10px;
+			margin: 10px 10px 10px 0;
+		}
+
 		border: 1px solid $colorDarkShade25;
 		&-scale {
 			margin-bottom: 20px;
@@ -117,10 +136,16 @@
 		}
 	}
 	&__moveSetup {
-		padding: 10px 0 10px 10px;
-		margin: 10px 10px 10px 0;
+		margin: 5px;
+		padding: 5px;
+		@include media-breakpoint-down($lg) {
+			padding: 10px 0 10px 10px;
+			margin: 10px 10px 10px 0;
+		}
+
 		border: 1px solid $colorDarkShade25;
 		display: flex;
+		align-items: center;
 		& > div {
 			margin-right: 10px;
 			display: flex;

@@ -16,7 +16,7 @@ class sliderView extends Observer {
 
 	slider: HTMLElement;
 	track: HTMLElement;
-	input: HTMLInputElement;
+	frame: HTMLElement;
 	conf: IConf;
 	backEndConf: IConf;
 	//root: string;
@@ -28,10 +28,10 @@ class sliderView extends Observer {
 		this.track = document.createElement('div');
 		this.track.className = 'rs__track';
 		this.slider.append(this.track);
-		this.input = document.createElement('input');
-		this.input.className = 'rs__input';
+		this.frame = document.createElement('div');
+		this.frame.className = 'rs__frame';
 
-		this.slider.append(this.input);
+		this.slider.append(this.frame);
 
 
 		this.backEndConf = {}
@@ -125,17 +125,17 @@ class sliderView extends Observer {
 		this.conf = conf;
 		this.createSubViews();
 		this.$createListeners();//срабатывает после инициализации модели
-		this.input.value = this.conf.from + ', ' + this.conf.to;
-		//	console.log(this.input.value);
+		//	this.frame.value = this.conf.from + ', ' + this.conf.to;
+		//	console.log(this.frame.value);
 
 		if (conf.vertical) {
 			this.slider.classList.add('vertical');
 			this.track.classList.add('vertical');
-			this.input.classList.add('vertical');
+			this.frame.classList.add('vertical');
 		} else {
 			this.slider.classList.remove('vertical');
 			this.track.classList.remove('vertical');
-			this.input.classList.remove('vertical');
+			this.frame.classList.remove('vertical');
 		}
 	}
 
@@ -188,11 +188,11 @@ class sliderView extends Observer {
 		if (conf.vertical) {
 			this.slider.classList.add('vertical');
 			this.track.classList.add('vertical');
-			this.input.classList.add('vertical');
+			this.frame.classList.add('vertical');
 		} else {
 			this.slider.classList.remove('vertical');
 			this.track.classList.remove('vertical');
-			this.input.classList.remove('vertical');
+			this.frame.classList.remove('vertical');
 		}
 		this.viewBar.$switchVertical(conf);
 		this.viewControl.$switchVertical(conf);

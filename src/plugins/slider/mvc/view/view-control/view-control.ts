@@ -8,7 +8,7 @@ import { Observer } from '../../../observer';
 class sliderViewControl extends Observer {
 	conf: IConf;
 	slider: HTMLElement;
-	input: HTMLInputElement;
+	//	input: HTMLInputElement;
 	controlMin: HTMLElement;
 	controlMax: HTMLElement;
 	tipMin: HTMLInputElement;
@@ -19,7 +19,7 @@ class sliderViewControl extends Observer {
 	constructor(root: HTMLElement, conf: IConf) {
 		super();
 		this.slider = root;
-		this.input = this.slider.querySelector('.rs__input')
+		//this.input = this.slider.querySelector('.rs__input')
 
 		this.track = this.slider.querySelector('.rs__track');
 		this.$data = {};
@@ -179,7 +179,7 @@ class sliderViewControl extends Observer {
 					this.$data.$thumb.$repeat = e.repeat;
 					this.fire('KeydownEvent', this.$data);
 					//	this.input.value = this.$data.$fromVal + ', ' + this.$data.$toVal;
-					console.log(this.input.value);
+					//console.log(this.input.value);
 				}
 			}
 		};
@@ -239,7 +239,7 @@ class sliderViewControl extends Observer {
 				}
 				this.fire('MoveEvent', this.$data);
 				//	this.input.value = this.$data.$fromVal + ', ' + this.$data.$toVal;
-				console.log(this.input.value);
+				//console.log(this.input.value);
 			}
 		};
 		this.slider.addEventListener('pointerdown', pointerDownHandler);
@@ -256,7 +256,7 @@ class sliderViewControl extends Observer {
 			elem.style.bottom = newPos + '%';
 			elem.style.left = '';
 		}
-		this.input.value = this.conf.from + ', ' + this.conf.to;
+		//this.input.value = this.conf.from + ', ' + this.conf.to;
 		//	console.log(this.input.value);
 
 	}

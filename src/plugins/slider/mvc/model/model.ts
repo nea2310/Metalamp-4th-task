@@ -69,6 +69,7 @@ class sliderModel extends Observer {
 		joinedConf = Object.assign(joinedConf, this.$conf, this.conf, this.backEndConf);
 		//проверим корректность полученных параметров конфигурации и при необходимости - исправим
 		this.$conf = this.$checkConf(joinedConf);
+
 	}
 
 	$start() {
@@ -636,6 +637,7 @@ class sliderModel extends Observer {
 			}
 		}
 		this.$calcBar();
+		this.onChange(this.$conf);
 	}
 
 	/*Рассчитываем новое значение ползунка на основании min, max и позиции (%)*/

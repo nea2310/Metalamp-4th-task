@@ -55,7 +55,7 @@ mixin panel(options={})
 				+radiobuttons({categories:
 								{cat1: {name:'steps'}, 
 								cat2:{name:'intervals'}},
-								radioGroupName: 'scaleBase'})
+								radioGroupName: options.radioGroupName})
 			div(class = elemName + '__scaleSetup-IntervalStep')
 				div(class = elemName + '__scaleSetup-step')
 					+input(

@@ -14,15 +14,15 @@ class SliderInstance {
 		this.panel = new Panel('.panel', panelElem);
 
 		this.slider = $(slider).Slider({
-			min: 10,
+			min: -20,
 			max: 100,
-			from: 20,
+			from: 10,
 			to: 50,
 			step: 1,
 			shiftOnKeyDown: 1,
 			shiftOnKeyHold: 2,
 			//scaleBase: 'steps',
-			intervals: 0,
+			intervals: 20,
 			vertical: true,
 			//	sticky: false,
 
@@ -45,7 +45,8 @@ class SliderInstance {
 				if (data.scaleBase == 'intervals') {
 					this.panel.scaleBaseIntervals.checked = true;
 					this.panel.step.disabled = true;
-				} else {
+				}
+				if (data.scaleBase == 'steps') {
 					this.panel.scaleBaseSteps.checked = true;
 					this.panel.interval.disabled = true;
 				}
@@ -114,5 +115,5 @@ class SliderInstance {
 	}
 }
 
-const Slider1 = new SliderInstance('.panel-horizontal', '.rs__wrapper-hor');
-const Slider2 = new SliderInstance('.panel-vertical', '.rs__wrapper-vert');
+const Slider1 = new SliderInstance('.panel-1', '.rs__wrapper-1');
+const Slider2 = new SliderInstance('.panel-2', '.rs__wrapper-2');
