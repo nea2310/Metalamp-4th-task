@@ -15,7 +15,7 @@
 	//border: 1px solid green;
 }
 .rs__wrapper {
-	border: 1px solid blue;
+	//	border: 1px solid blue;
 	padding: 60px 30px 30px 60px;
 	position: relative;
 	display: flex;
@@ -28,7 +28,7 @@
 	display: inline-block;
 }
 .rs__input {
-	border: 1px solid red;
+	//border: 1px solid red;
 	background-color: #bc9cff;
 	position: absolute;
 	top: 40px;
@@ -51,7 +51,7 @@
 	height: 8px;
 	background: #c5c0c0;
 	display: flex;
-	border: 1px solid green;
+	//	border: 1px solid green;
 }
 
 .rs__track.vertical {
@@ -80,10 +80,11 @@
 }
 
 .rs__control {
+	box-sizing: border-box;
 	width: 1px;
 	height: 25px;
 	position: absolute;
-	// background: #bc9cff;
+	//	background: #bc9cff;
 	// border-radius: 50%;
 	z-index: 30;
 	cursor: pointer;
@@ -92,34 +93,36 @@
 
 	&::after {
 		background: #98d4a7;
+		box-sizing: border-box;
 		position: absolute;
 		top: 3px;
-		left: -12.5px;
+		left: -7px;
 		content: "";
-		width: 25px;
+		width: 14px;
 		height: 25px;
-		border-radius: 50%;
+		border-radius: 25%;
 		//border: 1px solid red;
 	}
 
-	&-min::after {
-		border: 1px solid blue;
-	}
-	&-max::after {
-		border: 1px solid red;
-	}
+	// &-min::after {
+	// 	border: 1px solid blue;
+	// }
+	// &-max::after {
+	// 	border: 1px solid red;
+	// }
 
 	&.vertical {
 		width: 25px;
 		height: 1px;
 
 		&::after {
+			box-sizing: border-box;
 			position: absolute;
-			top: -13px;
+			top: -7px;
 			left: 1px;
 			content: "";
 			width: 25px;
-			height: 25px;
+			height: 14px;
 			//		border: 1px solid blue;
 		}
 	}

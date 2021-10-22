@@ -21,9 +21,10 @@ class SliderInstance {
 			step: 1,
 			shiftOnKeyDown: 1,
 			shiftOnKeyHold: 2,
-			scaleBase: 'steps',
-			intervals: 10,
+			//scaleBase: 'steps',
+			intervals: 0,
 			vertical: true,
+			//	sticky: false,
 
 			onStart: (data: IConf) => {
 				this.panel.min.value = data.min;

@@ -55,6 +55,7 @@ class sliderModel extends Observer {
 			$switchScale: false,
 			$switchBar: false,
 			$switchTip: false,
+			$switchSticky: false,
 		};
 		this.conf = conf;
 		this.$start(conf);
@@ -75,10 +76,10 @@ class sliderModel extends Observer {
 		this.onUpdate = this.$conf.onUpdate;
 		this.onChange = this.$conf.onChange;
 
-
+		this.$calcScale();
 		this.$calcFromPosition();
 		this.$calcToPosition();
-		this.$calcScale();
+
 		this.$calcBar();
 		this.onStart(this.$conf);
 
@@ -215,6 +216,9 @@ class sliderModel extends Observer {
 					case 'tip':
 						this.$methods.$switchTip = true;
 						break;
+					case 'sticky':
+						this.$methods.$switchSticky = true;
+						break;
 				}
 			}
 		}
@@ -223,19 +227,29 @@ class sliderModel extends Observer {
 
 
 	$switchVertical() {
-		this.fire('IsVertical', this.$data, this.$conf);
+
 		this.$calcFromPosition();
 		this.$calcToPosition();
 		this.$calcBar();
 		this.$calcScale();
+		this.fire('IsVertical', this.$data, this.$conf);
 	}
 
 
 
 	$switchRange() {
-		this.fire('IsRange', this.$data, this.$conf);
+
 		this.$calcBar();
 		this.onChange(this.$conf)
+		this.fire('IsRange', this.$data, this.$conf);
+	}
+
+	$switchSticky() {
+		this.$calcFromPosition();
+		this.$calcToPosition();
+		this.$calcBar();
+		this.onChange(this.$conf)
+		this.fire('IsSticky', this.$data, this.$conf);
 	}
 
 	$switchScale() { //??
@@ -250,7 +264,26 @@ class sliderModel extends Observer {
 		this.fire('IsTip', this.$data, this.$conf);
 	}
 
+	$setSticky(controlPos: number) {
+		/*Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из значения newPos 
+до тех пор, пока результат текущей итерации не станет больше результата предыдущей (это значит, что мы нашли деление,
+	ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления*/
+		let pos = 0
+		for (let i = 0; i < this.$data.$marksArr.length; i++) {
 
+
+			let a = 0;
+			if (i < this.$data.$marksArr.length - 1) {
+				a = this.$data.$marksArr[i + 1].pos;
+			}
+			if (Math.abs(controlPos - this.$data.$marksArr[i].pos) <
+				Math.abs(controlPos - a)) {
+				pos = this.$data.$marksArr[i].pos;
+				break;
+			}
+		}
+		return pos;
+	}
 	// рассчитать позицию From (%) на основании значений from, min и max
 	$calcFromPosition() {
 		if (this.$conf.from != this.$conf.min) {
@@ -267,6 +300,15 @@ class sliderModel extends Observer {
 		else {
 			this.$data.$fromPos = 0.00001; // начальное положение ползунка на шкале, если min=from 
 		}
+
+
+
+		/* если ползунок должен вставать на позицию ближайшего к нему деления шкалы - скорректировать значение newPos (переместить ползунок 
+		к ближайшему делению шкалы) */
+		if (this.$conf.sticky) {
+			this.$data.$fromPos = this.$setSticky(this.$data.$fromPos);
+		}
+
 		this.$calcVal('normal', this.$data.$fromPos, 'min');
 		this.fire('FromPosition', this.$data);
 
@@ -275,6 +317,11 @@ class sliderModel extends Observer {
 	$calcToPosition() {
 		this.$data.$toPos = ((this.$conf.to - this.$conf.min) * 100) /
 			(this.$conf.max - this.$conf.min);
+		if (this.$conf.sticky) {
+			this.$data.$toPos = this.$setSticky(this.$data.$toPos);
+		}
+
+
 		this.$calcVal('normal', this.$data.$toPos, 'max');
 		this.fire('ToPosition', this.$data);
 	}
@@ -373,20 +420,7 @@ class sliderModel extends Observer {
 		/* если ползунок должен вставать на позицию ближайшего к нему деления шкалы - скорректировать значение newPos (переместить ползунок 
 		к ближайшему делению шкалы) */
 		if (this.$conf.sticky) {
-			/*Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из значения newPos 
-			до тех пор, пока результат текущей итерации не станет больше результата предыдущей (это значит, что мы нашли деление,
-				ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления*/
-			for (let i = 0; i < this.$data.$marksArr.length; i++) {
-				let a = 0;
-				if (i < this.$data.$marksArr.length - 1) {
-					a = this.$data.$marksArr[i + 1].pos;
-				}
-				if (Math.abs(newPos - this.$data.$marksArr[i].pos) <
-					Math.abs(newPos - a)) {
-					newPos = this.$data.$marksArr[i].pos;
-					break;
-				}
-			}
+			newPos = this.$setSticky(newPos);
 		}
 
 		let isStop = false;
@@ -431,7 +465,6 @@ class sliderModel extends Observer {
 			this.$calcVal('normal', newPos, moovingControl);
 
 		this.$calcBar();
-		//console.log(this.$data);
 		this.onChange(this.$conf);
 	}
 
@@ -554,6 +587,10 @@ class sliderModel extends Observer {
 			if (moovingControl == 'min') {// ползунок min
 				let index = this.$data.$marksArr.
 					findIndex(item => item.val == this.$conf.from);
+				// console.log(index);
+				// console.log(this.$conf.from);
+				// console.log(this.$data.$marksArr);
+
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
 					item = incr(index);
 					if (item.val > this.$conf.from &&
@@ -564,6 +601,8 @@ class sliderModel extends Observer {
 					}
 				} else {//Уменьшение значения
 					item = decr(index);
+
+
 					if (item.val < this.$conf.to) {
 						changeFrom(item);
 					}
