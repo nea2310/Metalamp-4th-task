@@ -114,4 +114,5 @@ class SliderInstance {
 	}
 }
 
-const Test = new SliderInstance('.panel-horizontal', '.rs__wrapper-hor');
+const Slider1 = new SliderInstance('.panel-horizontal', '.rs__wrapper-hor');
+const Slider2 = new SliderInstance('.panel-vertical', '.rs__wrapper-vert');

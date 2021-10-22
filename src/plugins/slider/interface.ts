@@ -80,7 +80,7 @@ interface $Imethods {
 	$switchScale: boolean
 	$switchBar: boolean
 	$switchTip: boolean
-	$switchSticky: boolean
+	$updateControlPos: boolean
 }
 
 interface $Idata {

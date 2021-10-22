@@ -55,7 +55,7 @@ class sliderModel extends Observer {
 			$switchScale: false,
 			$switchBar: false,
 			$switchTip: false,
-			$switchSticky: false,
+			$updateControlPos: false,
 		};
 		this.conf = conf;
 		this.$start(conf);
@@ -194,9 +194,11 @@ class sliderModel extends Observer {
 						break;
 					case 'step':
 						this.$methods.$calcScale = true;
+						this.$methods.$updateControlPos = true;
 						break;
 					case 'intervals':
 						this.$methods.$calcScale = true;
+						this.$methods.$updateControlPos = true;
 						break;
 					case 'scaleBase':
 						this.$methods.$calcScale = true;
@@ -217,7 +219,7 @@ class sliderModel extends Observer {
 						this.$methods.$switchTip = true;
 						break;
 					case 'sticky':
-						this.$methods.$switchSticky = true;
+						this.$methods.$updateControlPos = true;
 						break;
 				}
 			}
@@ -244,7 +246,7 @@ class sliderModel extends Observer {
 
 	}
 
-	$switchSticky() {
+	$updateControlPos() {
 		this.$calcFromPosition();
 		this.$calcToPosition();
 		this.$calcBar();

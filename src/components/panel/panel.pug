@@ -5,8 +5,7 @@ mixin panel(options={})
 	-
 		let elemName='panel'
 		let elemNameMod=elemName + '-' + options.mod
-	fieldset(class = elemName + ' ' + elemNameMod)
-		legend Configuration
+	div(class = elemName + ' ' + elemNameMod)
 		fieldset(class = elemName + '__mainSetup')
 			legend Main
 			div(class = elemName + '__mainSetup-min')

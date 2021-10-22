@@ -102,12 +102,16 @@ class sliderViewScale {
 			}
 			//если общая ширина подписей к шагам больше ширины шкалы
 			if (totalWidth > this.track.offsetWidth) {
+				//	console.log('!!!!!');
+
 				//Скрываем подписи
 				hideLabels(markList);
 			} else {
-				//возвращаем подпись последнему шагу и выходим из рекурсии
-				this.addLastLabel(this.lastLabelRemoved);
-				return;
+				if (this.lastLabelRemoved) {
+					//возвращаем подпись последнему шагу и выходим из рекурсии
+					this.addLastLabel(this.lastLabelRemoved);
+					return;
+				}
 			}
 		} else {//Вертикальный слайдер
 			let totalHeight = 0;
@@ -121,9 +125,11 @@ class sliderViewScale {
 				//Скрываем подписи
 				hideLabels(markList);
 			} else {
-				//возвращаем подпись последнему шагу и выходим из рекурсии
-				this.addLastLabel(this.lastLabelRemoved);
-				return;
+				if (this.lastLabelRemoved) {
+					//возвращаем подпись последнему шагу и выходим из рекурсии
+					this.addLastLabel(this.lastLabelRemoved);
+					return;
+				}
 			}
 		}
 

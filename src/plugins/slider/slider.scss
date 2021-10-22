@@ -6,14 +6,14 @@
 :root {
 	--background-range: #bc9cff;
 }
-.wrapper {
-	height: 350px;
-	//border: 1px solid green;
-}
-.wrapper.vertical {
-	height: 400px;
-	//border: 1px solid green;
-}
+// .wrapper {
+// 	//	height: 350px;
+// 	border: 1px solid green;
+// }
+// .wrapper.vertical {
+// 	//height: 400px;
+// 	border: 1px solid green;
+// }
 .rs__wrapper {
 	//	border: 1px solid blue;
 	padding: 60px 30px 30px 60px;
@@ -104,12 +104,12 @@
 		//border: 1px solid red;
 	}
 
-	// &-min::after {
-	// 	border: 1px solid blue;
-	// }
-	// &-max::after {
-	// 	border: 1px solid red;
-	// }
+	&-min::after {
+		border: 1px solid blue;
+	}
+	&-max::after {
+		border: 1px solid red;
+	}
 
 	&.vertical {
 		width: 25px;
