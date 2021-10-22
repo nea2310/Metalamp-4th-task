@@ -7,7 +7,7 @@ import {
 } from '../../interface';
 
 import { Observer } from '../../observer';
-import { formatDiagnostic } from 'typescript';
+
 
 class sliderView extends Observer {
 	viewControl: sliderViewControl;
@@ -35,26 +35,88 @@ class sliderView extends Observer {
 
 
 		this.backEndConf = {}
+		//min
 		if (this.slider.getAttribute('data-min')) {
 			this.backEndConf.min = parseFloat(this.slider.getAttribute('data-min'));
 		}
+		//max
 		if (this.slider.getAttribute('data-max')) {
 			this.backEndConf.max = parseFloat(this.slider.getAttribute('data-max'));
 		}
+		//from
 		if (this.slider.getAttribute('data-from')) {
 			this.backEndConf.from = parseFloat(this.slider.getAttribute('data-from'));
 		}
+		//to
 		if (this.slider.getAttribute('data-to')) {
 			this.backEndConf.to = parseFloat(this.slider.getAttribute('data-to'));
 		}
+		//vertical
 		if (this.slider.getAttribute('data-vertical') == 'true') {
 			this.backEndConf.vertical = true;
 		}
 		if (this.slider.getAttribute('data-vertical') == 'false') {
 			this.backEndConf.vertical = false;
 		}
-		console.log(this.backEndConf);
+		//range
+		if (this.slider.getAttribute('data-range') == 'true') {
+			this.backEndConf.range = true;
+		}
+		if (this.slider.getAttribute('data-range') == 'false') {
+			this.backEndConf.range = false;
+		}
+		//bar
+		if (this.slider.getAttribute('data-bar') == 'true') {
+			this.backEndConf.bar = true;
+		}
+		if (this.slider.getAttribute('data-bar') == 'false') {
+			this.backEndConf.bar = false;
+		}
+		//tip
+		if (this.slider.getAttribute('data-tip') == 'true') {
+			this.backEndConf.tip = true;
+		}
+		if (this.slider.getAttribute('data-tip') == 'false') {
+			this.backEndConf.tip = false;
+		}
+		//scale
+		if (this.slider.getAttribute('data-scale') == 'true') {
+			this.backEndConf.scale = true;
+		}
+		if (this.slider.getAttribute('data-scale') == 'false') {
+			this.backEndConf.scale = false;
+		}
+		//scaleBase
+		if (this.slider.getAttribute('data-scaleBase') == 'steps') {
+			this.backEndConf.scaleBase = 'steps';
+		}
+		if (this.slider.getAttribute('data-scaleBase') == 'intervals') {
+			this.backEndConf.scaleBase = 'intervals';
+		}
+		//step
+		if (this.slider.getAttribute('data-step')) {
+			this.backEndConf.step = parseFloat(this.slider.getAttribute('data-step'));
+		}
+		//intervals
+		if (this.slider.getAttribute('data-intervals')) {
+			this.backEndConf.intervals = parseFloat(this.slider.getAttribute('data-intervals'));
+		}
+		//sticky
+		if (this.slider.getAttribute('data-sticky') == 'true') {
+			this.backEndConf.sticky = true;
+		}
+		if (this.slider.getAttribute('data-sticky') == 'false') {
+			this.backEndConf.sticky = false;
+		}
 
+		//shiftOnKeyDown
+		if (this.slider.getAttribute('data-shiftOnKeyDown')) {
+			this.backEndConf.shiftOnKeyDown = parseFloat(this.slider.getAttribute('data-shiftOnKeyDown'));
+		}
+		//shiftOnKeyHold
+		if (this.slider.getAttribute('data-shiftOnKeyHold')) {
+			this.backEndConf.shiftOnKeyHold = parseFloat(this.slider.getAttribute('data-shiftOnKeyHold'));
+		}
 
 	}
 	$init(conf: IConf) {

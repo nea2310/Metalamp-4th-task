@@ -58,23 +58,30 @@ class sliderModel extends Observer {
 			$updateControlPos: false,
 		};
 		this.conf = conf;
-		this.$start(conf);
+		//	this.$start(conf);
 
 	}
-	// $getConf(conf: IConf) {
-	// 	this.backEndConf = conf;
-	// 	this.$start(conf);
-	// }
-
-	$start(newConf: IConf) {
-		let conf = {};
+	$getConf(conf: IConf) {
+		this.backEndConf = conf;
+		//	this.$start();
+		let joinedConf = {};
 		//conf = Object.assign(conf, this.$conf, newConf, this.backEndConf);
-		conf = Object.assign(conf, this.$conf, newConf);
+		joinedConf = Object.assign(joinedConf, this.$conf, this.conf, this.backEndConf);
 		//проверим корректность полученных параметров конфигурации и при необходимости - исправим
-		this.$conf = this.$checkConf(conf);
+		this.$conf = this.$checkConf(joinedConf);
+	}
+
+	$start() {
+		// let conf = {};
+		// //conf = Object.assign(conf, this.$conf, newConf, this.backEndConf);
+		// conf = Object.assign(conf, this.$conf, this.conf, this.backEndConf);
+		// //проверим корректность полученных параметров конфигурации и при необходимости - исправим
+		// this.$conf = this.$checkConf(conf);
 		this.onStart = this.$conf.onStart;
 		this.onUpdate = this.$conf.onUpdate;
 		this.onChange = this.$conf.onChange;
+		console.log(this.$conf);
+
 
 		this.$calcScale();
 		this.$calcFromPosition();
