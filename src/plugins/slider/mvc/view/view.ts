@@ -35,11 +35,25 @@ class sliderView extends Observer {
 
 
 		this.backEndConf = {}
-		this.backEndConf.min = parseFloat(this.slider.getAttribute('data-min'));
-		this.backEndConf.max = parseFloat(this.slider.getAttribute('data-max'));
-		this.backEndConf.from = parseFloat(this.slider.getAttribute('data-from'));
-		this.backEndConf.to = parseFloat(this.slider.getAttribute('data-to'));
-		//	console.log(this.backEndConf);
+		if (this.slider.getAttribute('data-min')) {
+			this.backEndConf.min = parseFloat(this.slider.getAttribute('data-min'));
+		}
+		if (this.slider.getAttribute('data-max')) {
+			this.backEndConf.max = parseFloat(this.slider.getAttribute('data-max'));
+		}
+		if (this.slider.getAttribute('data-from')) {
+			this.backEndConf.from = parseFloat(this.slider.getAttribute('data-from'));
+		}
+		if (this.slider.getAttribute('data-to')) {
+			this.backEndConf.to = parseFloat(this.slider.getAttribute('data-to'));
+		}
+		if (this.slider.getAttribute('data-vertical') == 'true') {
+			this.backEndConf.vertical = true;
+		}
+		if (this.slider.getAttribute('data-vertical') == 'false') {
+			this.backEndConf.vertical = false;
+		}
+		console.log(this.backEndConf);
 
 
 	}

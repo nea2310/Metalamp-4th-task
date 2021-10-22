@@ -4,7 +4,7 @@ mixin slider(options={})
 		let elemName='slider'
 	div(class = elemName + '-hor')
 		div(class=elemName+'__rs ' + elemName+'__rs-hor')
-			span(class='rs__wrapper rs__wrapper-hor' data-min='-20' data-max='200' data-from='20' data-to='50')
+			span(class='rs__wrapper rs__wrapper-hor')
 		div(class = elemName + '__panel')
 			+panel({mod: 'horizontal'})
 	div(class = elemName + '-vert')
