@@ -257,7 +257,7 @@ class sliderViewControl extends Observer {
 			elem.style.left = '';
 		}
 		this.input.value = this.conf.from + ', ' + this.conf.to;
-		console.log(this.input.value);
+		//	console.log(this.input.value);
 
 	}
 

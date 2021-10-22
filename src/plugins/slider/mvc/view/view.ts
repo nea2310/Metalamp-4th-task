@@ -50,7 +50,7 @@ class sliderView extends Observer {
 		this.createSubViews();
 		this.$createListeners();//срабатывает после инициализации модели
 		this.input.value = this.conf.from + ', ' + this.conf.to;
-		console.log(this.input.value);
+		//	console.log(this.input.value);
 
 		if (conf.vertical) {
 			this.slider.classList.add('vertical');

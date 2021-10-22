@@ -227,21 +227,21 @@ class sliderModel extends Observer {
 
 
 	$switchVertical() {
-
+		this.fire('IsVertical', this.$data, this.$conf);
 		this.$calcFromPosition();
 		this.$calcToPosition();
 		this.$calcBar();
 		this.$calcScale();
-		this.fire('IsVertical', this.$data, this.$conf);
+
 	}
 
 
 
 	$switchRange() {
-
+		this.fire('IsRange', this.$data, this.$conf);
 		this.$calcBar();
 		this.onChange(this.$conf)
-		this.fire('IsRange', this.$data, this.$conf);
+
 	}
 
 	$switchSticky() {
@@ -439,14 +439,14 @@ class sliderModel extends Observer {
 		/*запрещаем ползункам перепрыгивать друг через друга, если это не single режим*/
 		if (this.$conf.range) {
 			if (moovingControl == 'min') {//двигается min ползунок
-				if (newPos >= this.$data.$toPos) {
+				if (newPos > this.$data.$toPos) {
 					isStop = true;
 					this.$calcVal('meetMax', 0, moovingControl);
 					return;
 				}
 			}
 			if (moovingControl == 'max') {//двигается max ползунок
-				if (newPos <= this.$data.$fromPos) {
+				if (newPos < this.$data.$fromPos) {
 					isStop = true;
 					this.$calcVal('meetMin', 0, moovingControl);
 					return;
