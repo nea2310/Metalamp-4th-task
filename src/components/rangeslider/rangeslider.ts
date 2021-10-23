@@ -12,6 +12,12 @@ class SliderInstance {
 	constructor(panel: string, slider: string) {
 		let panelElem = document.querySelector(panel);
 		this.panel = new Panel('.panel', panelElem);
+		let panelWrapper = panelElem.parentElement;
+		let rangeSlider = document.querySelector(slider);
+		let sliderWrapper = rangeSlider.parentElement;
+		let wrapper = panelElem.closest('.rangeslider');
+		console.log(slider);
+
 
 		this.slider = $(slider).Slider({
 			min: -20,
@@ -27,6 +33,19 @@ class SliderInstance {
 			//	sticky: false,
 
 			onStart: (data: IConf) => {
+				if (data.vertical) {
+					wrapper.classList.add('vertical');
+					panelWrapper.classList.add('vertical');
+					panelElem.classList.add('vertical');
+					sliderWrapper.classList.add('vertical');
+				} else {
+					wrapper.classList.remove('vertical');
+					panelWrapper.classList.remove('vertical');
+					panelElem.classList.remove('vertical');
+					sliderWrapper.classList.remove('vertical');
+
+				}
+
 				this.panel.min.value = data.min;
 				this.panel.max.value = data.max;
 				this.panel.from.value = data.from;
@@ -79,6 +98,20 @@ class SliderInstance {
 					data.intervals ? data.intervals : this.panel.interval.value;
 				this.panel.step.value = this.panel.step.value !==
 					data.step ? data.step : this.panel.step.value;
+				if (data.vertical == true) {
+					wrapper.classList.add('vertical');
+					panelWrapper.classList.add('vertical');
+					panelElem.classList.add('vertical');
+					sliderWrapper.classList.add('vertical');
+				} else {
+					wrapper.classList.remove('vertical');
+					panelWrapper.classList.remove('vertical');
+					panelElem.classList.remove('vertical');
+					sliderWrapper.classList.remove('vertical');
+
+				}
+
+
 			},
 
 			onChange: (data: IConf) => {
