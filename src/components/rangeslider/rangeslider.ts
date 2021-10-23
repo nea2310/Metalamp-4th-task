@@ -1,4 +1,4 @@
-import './slider.scss';
+import './rangeslider.scss';
 import { Panel } from './../panel/panel';
 import {
 	IConf,
