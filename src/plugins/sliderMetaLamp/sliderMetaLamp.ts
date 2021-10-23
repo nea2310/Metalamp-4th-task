@@ -1,5 +1,5 @@
 
-import './slider.scss';
+import './sliderMetaLamp.scss';
 import { sliderModel, sliderView, sliderController }
 	from './mvc/controller/controller';
 

@@ -3,7 +3,7 @@ import { Panel } from './../panel/panel';
 import {
 	IConf,
 	$Idata
-} from './../../plugins/slider/interface';
+} from './../../plugins/sliderMetaLamp/interface';
 
 
 class SliderInstance {
