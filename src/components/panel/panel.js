@@ -41,7 +41,7 @@ class Panel {
 	//Если очищают поле - вставить в него 0 (чтобы не было ошибки)
 	correctInputVal() {
 		for (let elem of this.inputs) {
-			elem.addEventListener('input', () => {
+			elem.addEventListener('change', () => {
 				if (!elem.value) {
 					elem.value = '0';
 				}
@@ -50,49 +50,49 @@ class Panel {
 	}
 
 	updateMin(sliderObj) {
-		this.min.addEventListener('input', (e) => {
+		this.min.addEventListener('change', (e) => {
 			sliderObj.update({ min: parseFloat(e.target.value) });
 		});
 	}
 
 	updateMax(sliderObj) {
-		this.max.addEventListener('input', (e) => {
+		this.max.addEventListener('change', (e) => {
 			sliderObj.update({ max: parseFloat(e.target.value) });
 		});
 	}
 
 	updateFrom(sliderObj) {
-		this.from.addEventListener('input', (e) => {
+		this.from.addEventListener('change', (e) => {
 			sliderObj.update({ from: parseFloat(e.target.value) });
 		});
 	}
 
 	updateTo(sliderObj) {
-		this.to.addEventListener('input', (e) => {
+		this.to.addEventListener('change', (e) => {
 			sliderObj.update({ to: parseFloat(e.target.value) });
 		});
 	}
 
 	updateStep(sliderObj) {
-		this.step.addEventListener('input', (e) => {
+		this.step.addEventListener('change', (e) => {
 			sliderObj.update({ step: parseFloat(e.target.value) });
 		});
 	}
 
 	updateInterval(sliderObj) {
-		this.interval.addEventListener('input', (e) => {
+		this.interval.addEventListener('change', (e) => {
 			sliderObj.update({ intervals: parseFloat(e.target.value) });
 		});
 	}
 
 	updateShiftOnKeyDown(sliderObj) {
-		this.shiftOnKeyDown.addEventListener('input', (e) => {
+		this.shiftOnKeyDown.addEventListener('change', (e) => {
 			sliderObj.update({ shiftOnKeyDown: parseFloat(e.target.value) });
 		});
 	}
 
 	updateShiftOnKeyHold(sliderObj) {
-		this.shiftOnKeyHold.addEventListener('input', (e) => {
+		this.shiftOnKeyHold.addEventListener('change', (e) => {
 			sliderObj.update({ shiftOnKeyHold: parseFloat(e.target.value) });
 		});
 	}

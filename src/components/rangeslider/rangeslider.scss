@@ -1,9 +1,10 @@
 @import "@styles/glob.scss";
 .rangeslider {
-	padding: 20px;
-	margin: 0 auto;
-	//	border: 1px solid green;
-
+	padding: 20px 5px 20px 60px;
+	margin: 20px auto;
+	//	border: 3px solid $colorDarkShade25;
+	border-radius: 3px;
+	box-shadow: 0 0 10px $colorDarkShade50;
 	&.vertical {
 		display: flex;
 		height: 500px;
@@ -17,12 +18,17 @@
 
 	&__rs {
 		min-width: 200px;
+
 		//	border: 1px solid red;
 		&.vertical {
-			margin-right: 20px;
+			//width: auto;
+			margin-right: 0 auto;
 			//	border: 1px solid blue;
+
 			@include media-breakpoint-down($sm) {
 				height: 400px;
+				display: flex;
+				justify-content: center;
 			}
 		}
 	}

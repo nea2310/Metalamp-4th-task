@@ -1,15 +1,15 @@
 @import "@styles/glob.scss";
 .panel {
-	padding: 5px;
+	position: relative;
+	padding: 5px 10px 40px 10px;
 	display: inline-flex;
 	border: 2px solid $colorDarkShade25;
 	border-radius: 2px;
-	height: 200px;
+	height: 235px;
 	text-align: left;
 	&.vertical {
 		height: auto;
 		display: block;
-		padding: 5px 0 0 10px;
 	}
 
 	@include font-body;
@@ -145,6 +145,21 @@
 			margin-right: 10px;
 			display: flex;
 			align-items: flex-end;
+		}
+	}
+	&__apply {
+		box-sizing: border-box;
+		@include font-body;
+		position: absolute;
+		bottom: 7px;
+		right: 14px;
+		background-color: $colorDarkShade25;
+		height: 30px;
+		border-radius: 5px;
+		padding: 0 5px;
+		border: 3px solid $colorDarkShade25;
+		&:hover {
+			border: 3px solid $colorDarkShade50;
 		}
 	}
 }
