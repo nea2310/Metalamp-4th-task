@@ -8,6 +8,7 @@ import { Observer } from '../../../observer';
 class sliderViewControl extends Observer {
 	conf: IConf;
 	slider: HTMLElement;
+	root: HTMLInputElement;
 	//	input: HTMLInputElement;
 	controlMin: HTMLElement;
 	controlMax: HTMLElement;
@@ -16,11 +17,10 @@ class sliderViewControl extends Observer {
 	track: HTMLInputElement;
 	$data: $Idata;
 
-	constructor(root: HTMLElement, conf: IConf) {
+	constructor(sliderElem: HTMLElement, conf: IConf) {
 		super();
-		this.slider = root;
-		//this.input = this.slider.querySelector('.rs__input')
-
+		this.slider = sliderElem;
+		this.root = sliderElem.previousElementSibling as HTMLInputElement;
 		this.track = this.slider.querySelector('.rs__track');
 		this.$data = {};
 		this.$data.$thumb = {};
@@ -256,9 +256,12 @@ class sliderViewControl extends Observer {
 			elem.style.bottom = newPos + '%';
 			elem.style.left = '';
 		}
-		//this.input.value = this.conf.from + ', ' + this.conf.to;
-		//	console.log(this.input.value);
 
+		if (this.root.tagName === 'INPUT') {
+			//	console.log(this.conf.range);
+			this.root.value = this.conf.range ? this.conf.from + ', ' + this.conf.to :
+				String(this.conf.from);
+		}
 	}
 
 

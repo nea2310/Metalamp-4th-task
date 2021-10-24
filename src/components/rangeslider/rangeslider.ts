@@ -16,9 +16,6 @@ class SliderInstance {
 		let rangeSlider = document.querySelector(slider);
 		let sliderWrapper = rangeSlider.parentElement;
 		let wrapper = panelElem.closest('.rangeslider');
-		console.log(slider);
-
-
 		this.slider = $(slider).Slider({
 			min: -20,
 			max: 100,
@@ -30,7 +27,8 @@ class SliderInstance {
 			//scaleBase: 'steps',
 			intervals: 20,
 			vertical: true,
-			//	sticky: false,
+			sticky: false,
+			//range: false,
 
 			onStart: (data: IConf) => {
 				if (data.vertical) {
@@ -148,5 +146,5 @@ class SliderInstance {
 	}
 }
 
-const Slider1 = new SliderInstance('.panel-1', '.rs__wrapper-1');
-const Slider2 = new SliderInstance('.panel-2', '.rs__wrapper-2');
+const Slider1 = new SliderInstance('.panel-1', '.rs__root-1');
+const Slider2 = new SliderInstance('.panel-2', '.rs__root-2');

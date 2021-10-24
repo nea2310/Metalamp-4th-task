@@ -14,6 +14,7 @@ class sliderView extends Observer {
 	viewScale: sliderViewScale;
 	viewBar: sliderViewBar;
 
+	root: HTMLElement;
 	slider: HTMLElement;
 	track: HTMLElement;
 	frame: HTMLElement;
@@ -24,7 +25,10 @@ class sliderView extends Observer {
 	constructor(root: Element, i: number) {
 		super();
 		/*Находим корневой элемент*/
-		this.slider = root as HTMLElement;
+		this.root = root as HTMLElement;
+		this.slider = document.createElement('div');
+		this.slider.className = 'rs__wrapper';
+		this.root.after(this.slider);
 		this.track = document.createElement('div');
 		this.track.className = 'rs__track';
 		this.slider.append(this.track);
@@ -36,86 +40,86 @@ class sliderView extends Observer {
 
 		this.backEndConf = {}
 		//min
-		if (this.slider.getAttribute('data-min')) {
-			this.backEndConf.min = parseFloat(this.slider.getAttribute('data-min'));
+		if (this.root.getAttribute('data-min')) {
+			this.backEndConf.min = parseFloat(this.root.getAttribute('data-min'));
 		}
 		//max
-		if (this.slider.getAttribute('data-max')) {
-			this.backEndConf.max = parseFloat(this.slider.getAttribute('data-max'));
+		if (this.root.getAttribute('data-max')) {
+			this.backEndConf.max = parseFloat(this.root.getAttribute('data-max'));
 		}
 		//from
-		if (this.slider.getAttribute('data-from')) {
-			this.backEndConf.from = parseFloat(this.slider.getAttribute('data-from'));
+		if (this.root.getAttribute('data-from')) {
+			this.backEndConf.from = parseFloat(this.root.getAttribute('data-from'));
 		}
 		//to
-		if (this.slider.getAttribute('data-to')) {
-			this.backEndConf.to = parseFloat(this.slider.getAttribute('data-to'));
+		if (this.root.getAttribute('data-to')) {
+			this.backEndConf.to = parseFloat(this.root.getAttribute('data-to'));
 		}
 		//vertical
-		if (this.slider.getAttribute('data-vertical') == 'true') {
+		if (this.root.getAttribute('data-vertical') == 'true') {
 			this.backEndConf.vertical = true;
 		}
-		if (this.slider.getAttribute('data-vertical') == 'false') {
+		if (this.root.getAttribute('data-vertical') == 'false') {
 			this.backEndConf.vertical = false;
 		}
 		//range
-		if (this.slider.getAttribute('data-range') == 'true') {
+		if (this.root.getAttribute('data-range') == 'true') {
 			this.backEndConf.range = true;
 		}
-		if (this.slider.getAttribute('data-range') == 'false') {
+		if (this.root.getAttribute('data-range') == 'false') {
 			this.backEndConf.range = false;
 		}
 		//bar
-		if (this.slider.getAttribute('data-bar') == 'true') {
+		if (this.root.getAttribute('data-bar') == 'true') {
 			this.backEndConf.bar = true;
 		}
-		if (this.slider.getAttribute('data-bar') == 'false') {
+		if (this.root.getAttribute('data-bar') == 'false') {
 			this.backEndConf.bar = false;
 		}
 		//tip
-		if (this.slider.getAttribute('data-tip') == 'true') {
+		if (this.root.getAttribute('data-tip') == 'true') {
 			this.backEndConf.tip = true;
 		}
-		if (this.slider.getAttribute('data-tip') == 'false') {
+		if (this.root.getAttribute('data-tip') == 'false') {
 			this.backEndConf.tip = false;
 		}
 		//scale
-		if (this.slider.getAttribute('data-scale') == 'true') {
+		if (this.root.getAttribute('data-scale') == 'true') {
 			this.backEndConf.scale = true;
 		}
-		if (this.slider.getAttribute('data-scale') == 'false') {
+		if (this.root.getAttribute('data-scale') == 'false') {
 			this.backEndConf.scale = false;
 		}
 		//scaleBase
-		if (this.slider.getAttribute('data-scaleBase') == 'steps') {
+		if (this.root.getAttribute('data-scaleBase') == 'steps') {
 			this.backEndConf.scaleBase = 'steps';
 		}
-		if (this.slider.getAttribute('data-scaleBase') == 'intervals') {
+		if (this.root.getAttribute('data-scaleBase') == 'intervals') {
 			this.backEndConf.scaleBase = 'intervals';
 		}
 		//step
-		if (this.slider.getAttribute('data-step')) {
-			this.backEndConf.step = parseFloat(this.slider.getAttribute('data-step'));
+		if (this.root.getAttribute('data-step')) {
+			this.backEndConf.step = parseFloat(this.root.getAttribute('data-step'));
 		}
 		//intervals
-		if (this.slider.getAttribute('data-intervals')) {
-			this.backEndConf.intervals = parseFloat(this.slider.getAttribute('data-intervals'));
+		if (this.root.getAttribute('data-intervals')) {
+			this.backEndConf.intervals = parseFloat(this.root.getAttribute('data-intervals'));
 		}
 		//sticky
-		if (this.slider.getAttribute('data-sticky') == 'true') {
+		if (this.root.getAttribute('data-sticky') == 'true') {
 			this.backEndConf.sticky = true;
 		}
-		if (this.slider.getAttribute('data-sticky') == 'false') {
+		if (this.root.getAttribute('data-sticky') == 'false') {
 			this.backEndConf.sticky = false;
 		}
 
 		//shiftOnKeyDown
-		if (this.slider.getAttribute('data-shiftOnKeyDown')) {
-			this.backEndConf.shiftOnKeyDown = parseFloat(this.slider.getAttribute('data-shiftOnKeyDown'));
+		if (this.root.getAttribute('data-shiftOnKeyDown')) {
+			this.backEndConf.shiftOnKeyDown = parseFloat(this.root.getAttribute('data-shiftOnKeyDown'));
 		}
 		//shiftOnKeyHold
-		if (this.slider.getAttribute('data-shiftOnKeyHold')) {
-			this.backEndConf.shiftOnKeyHold = parseFloat(this.slider.getAttribute('data-shiftOnKeyHold'));
+		if (this.root.getAttribute('data-shiftOnKeyHold')) {
+			this.backEndConf.shiftOnKeyHold = parseFloat(this.root.getAttribute('data-shiftOnKeyHold'));
 		}
 
 	}
@@ -125,8 +129,6 @@ class sliderView extends Observer {
 		this.conf = conf;
 		this.createSubViews();
 		this.$createListeners();//срабатывает после инициализации модели
-		//	this.frame.value = this.conf.from + ', ' + this.conf.to;
-		//	console.log(this.frame.value);
 
 		if (conf.vertical) {
 			this.slider.classList.add('vertical');
@@ -154,12 +156,15 @@ class sliderView extends Observer {
 
 
 	$handleFromPosition = (key: string, data: $Idata) => {
+		//	console.log('$handleFromPosition');
+
 		this.viewControl.updateControlPos(this.viewControl.controlMin,
 			data.$fromPos);
 
 	}
 
 	$handleToPosition = (key: string, data: $Idata) => {
+		//	console.log('$handleToPosition');
 		this.viewControl.updateControlPos(this.viewControl.controlMax,
 			data.$toPos);
 	}
@@ -171,7 +176,6 @@ class sliderView extends Observer {
 
 
 	$handleToValue = (key: string, data: $Idata) => {
-		//this.viewPanel.updateFromTo('to', data.$toVal);
 		this.viewControl.updateTipVal(data.$toVal, false);
 	}
 
@@ -199,8 +203,6 @@ class sliderView extends Observer {
 	}
 
 	$handleIsRange = (key: string, data: $Idata, conf: IConf) => {
-
-		//this.viewBar.$updateBar(data.$barPos, data.$barWidth, conf.vertical);
 		this.viewControl.$switchRange(conf);
 	}
 

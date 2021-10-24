@@ -81,12 +81,12 @@ class sliderModel extends Observer {
 		this.onStart = this.$conf.onStart;
 		this.onUpdate = this.$conf.onUpdate;
 		this.onChange = this.$conf.onChange;
-		console.log(this.$conf);
-
 
 		this.$calcScale();
 		this.$calcFromPosition();
-		this.$calcToPosition();
+		if (this.$conf.range) {
+			this.$calcToPosition();
+		}
 
 		this.$calcBar();
 		this.onStart(this.$conf);
@@ -325,15 +325,15 @@ class sliderModel extends Observer {
 	}
 	// рассчитать позицию To (%) на основании значений to, min и max
 	$calcToPosition() {
-		this.$data.$toPos = ((this.$conf.to - this.$conf.min) * 100) /
-			(this.$conf.max - this.$conf.min);
-		if (this.$conf.sticky) {
-			this.$data.$toPos = this.$setSticky(this.$data.$toPos);
+		if (this.$conf.range) {
+			this.$data.$toPos = ((this.$conf.to - this.$conf.min) * 100) /
+				(this.$conf.max - this.$conf.min);
+			if (this.$conf.sticky) {
+				this.$data.$toPos = this.$setSticky(this.$data.$toPos);
+			}
+			this.$calcVal('normal', this.$data.$toPos, 'max');
+			this.fire('ToPosition', this.$data);
 		}
-
-
-		this.$calcVal('normal', this.$data.$toPos, 'max');
-		this.fire('ToPosition', this.$data);
 	}
 
 
@@ -597,10 +597,6 @@ class sliderModel extends Observer {
 			if (moovingControl == 'min') {// ползунок min
 				let index = this.$data.$marksArr.
 					findIndex(item => item.val == this.$conf.from);
-				// console.log(index);
-				// console.log(this.$conf.from);
-				// console.log(this.$data.$marksArr);
-
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
 					item = incr(index);
 					if (item.val > this.$conf.from &&
