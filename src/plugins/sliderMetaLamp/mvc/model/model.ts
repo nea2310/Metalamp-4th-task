@@ -241,8 +241,8 @@ class sliderModel extends Observer {
 		this.$calcFromPosition();
 		this.$calcToPosition();
 		this.$calcBar();
-		this.$calcScale();
-
+		let calcScale = this.$calcScale.bind(this);
+		setTimeout(calcScale, 100);
 	}
 
 
