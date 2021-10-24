@@ -86,6 +86,7 @@ class sliderModel extends Observer {
 	$checkConf(conf: IConf) {
 		//надо проверять на число те параметры, которые вводятся в инпут (т.к. можно ввести строку)
 
+
 		if (Number.isNaN(conf.min)) {
 			conf.min = 0;
 		}

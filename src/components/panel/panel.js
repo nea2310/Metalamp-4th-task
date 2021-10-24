@@ -9,8 +9,7 @@ class Panel {
 
 	}
 	getElem(name) {
-		let wrapper = this.elem.querySelector(this.elemName + name);
-		return wrapper.querySelector('input');
+		return this.elem.querySelector(this.elemName + name + ' input');
 	}
 	render() {
 		this.min = this.getElem('__mainSetup-min');

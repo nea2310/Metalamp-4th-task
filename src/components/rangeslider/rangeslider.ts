@@ -62,10 +62,12 @@ class SliderInstance {
 				this.panel.bar.checked = data.bar;
 				this.panel.tip.checked = data.tip;
 				this.panel.sticky.checked = data.sticky;
+
 				if (data.scaleBase == 'intervals') {
 					this.panel.scaleBaseIntervals.checked = true;
 					this.panel.step.disabled = true;
 				}
+
 				if (data.scaleBase == 'steps') {
 					this.panel.scaleBaseSteps.checked = true;
 					this.panel.interval.disabled = true;
@@ -81,26 +83,26 @@ class SliderInstance {
 				// 		data[param] ? data[param] : this.panel[param].value;
 				// };
 
-				this.panel.from.value = this.panel.from.value !==
-					data.from ? data.from : this.panel.from.value;
-				this.panel.to.value = this.panel.to.value !==
-					data.to ? data.to : this.panel.to.value;
-				this.panel.min.value = this.panel.min.value !==
-					data.min ? data.min : this.panel.min.value;
-				this.panel.max.value = this.panel.max.value !==
-					data.max ? data.max : this.panel.max.value;
-				this.panel.shiftOnKeyDown.value =
-					this.panel.shiftOnKeyDown.value !==
-						data.shiftOnKeyDown ? data.shiftOnKeyDown :
-						this.panel.shiftOnKeyDown.value;
-				this.panel.shiftOnKeyHold.value =
-					this.panel.shiftOnKeyHold.value !==
-						data.shiftOnKeyHold ? data.shiftOnKeyHold :
-						this.panel.shiftOnKeyHold.value;
-				this.panel.interval.value = this.panel.interval.value !==
-					data.intervals ? data.intervals : this.panel.interval.value;
-				this.panel.step.value = this.panel.step.value !==
-					data.step ? data.step : this.panel.step.value;
+				const valid = (
+					item: HTMLInputElement,
+					val: number | string | boolean
+				) => {
+					if (item.value != val)
+						item.value = val as string;
+				};
+
+
+				const P = this.panel;
+				const D = data;
+				valid(P.from, D.from);
+				valid(P.to, D.to);
+				valid(P.min, D.min);
+				valid(P.max, D.max);
+				valid(P.shiftOnKeyDown, D.shiftOnKeyDown);
+				valid(P.shiftOnKeyHold, D.shiftOnKeyHold);
+				valid(P.interval, D.intervals);
+				valid(P.step, D.step);
+
 			},
 			onChange: (data: IConf) => {
 				this.panel.from.value = this.panel.from.value !==
@@ -134,5 +136,11 @@ class SliderInstance {
 
 
 
-const Slider1 = new SliderInstance('.panel-1', '.rs__root-1');
-const Slider2 = new SliderInstance('.panel-2', '.rs__root-2');
+// const panels = document.querySelectorAll('.panel');
+// for (let i = 0; i < panels.length; i++)
+// 	new SliderInstance(panels[i]);
+
+
+
+new SliderInstance('.panel-1', '.rs__root-1');
+new SliderInstance('.panel-2', '.rs__root-2');
