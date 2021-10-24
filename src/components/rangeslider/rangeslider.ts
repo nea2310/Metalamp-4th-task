@@ -26,7 +26,7 @@ class SliderInstance {
 			shiftOnKeyHold: 2,
 			//scaleBase: 'steps',
 			intervals: 20,
-			vertical: true,
+			//vertical: true,
 			sticky: false,
 			//range: false,
 

@@ -125,27 +125,36 @@ class sliderModel extends Observer {
 
 		if (conf.max <= conf.min) {
 			conf.max = conf.min + 10
+			conf.from = conf.min;
+			conf.to = conf.max;
 		}
 		if (conf.from < conf.min) {
 			conf.from = conf.min
 		}
 
 		if (conf.to < conf.min) {
-			conf.to = conf.min
+			console.log('conf.to < conf.min');
+			conf.to = conf.from
 		}
 
 		if (conf.to > conf.max) {
-			conf.to = conf.max
+			conf.to = conf.from
+		}
+		if (conf.from > conf.max) {
+			conf.from = conf.to
+		}
+		if (conf.from > conf.to) {
+			conf.from = conf.to
 		}
 
-		if (conf.range) {
-			if (conf.from > conf.max) {
-				conf.from = conf.to
-			}
-			if (conf.to <= conf.from) {
-				conf.to = conf.max
-			}
-		}
+		// if (conf.range) {
+		// 	if (conf.from > conf.max) {
+		// 		conf.from = conf.to
+		// 	}
+		// 	if (conf.to <= conf.from) {
+		// 		conf.to = conf.from
+		// 	}
+		// }
 		return conf;
 	}
 
