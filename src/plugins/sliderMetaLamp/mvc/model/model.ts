@@ -11,7 +11,7 @@ import { isConstTypeReference } from 'typescript';
 class sliderModel extends Observer {
 	changeMode: boolean;
 	$conf: IConf;
-	conf: IConf;
+	startConf: IConf;
 	backEndConf: IConf;
 	$methods: $Imethods;
 	$data: $Idata;
@@ -57,37 +57,25 @@ class sliderModel extends Observer {
 			$switchTip: false,
 			$updateControlPos: false,
 		};
-		this.conf = conf;
-		//	this.$start(conf);
-
+		this.startConf = conf;
 	}
 	$getConf(conf: IConf) {
 		this.backEndConf = conf;
-		//	this.$start();
 		let joinedConf = {};
-		//conf = Object.assign(conf, this.$conf, newConf, this.backEndConf);
-		joinedConf = Object.assign(joinedConf, this.$conf, this.conf, this.backEndConf);
+		joinedConf = Object.assign(joinedConf, this.$conf, this.startConf, this.backEndConf);
 		//проверим корректность полученных параметров конфигурации и при необходимости - исправим
 		this.$conf = this.$checkConf(joinedConf);
 
 	}
 
 	$start() {
-		// let conf = {};
-		// //conf = Object.assign(conf, this.$conf, newConf, this.backEndConf);
-		// conf = Object.assign(conf, this.$conf, this.conf, this.backEndConf);
-		// //проверим корректность полученных параметров конфигурации и при необходимости - исправим
-		// this.$conf = this.$checkConf(conf);
 		this.onStart = this.$conf.onStart;
 		this.onUpdate = this.$conf.onUpdate;
 		this.onChange = this.$conf.onChange;
 
 		this.$calcScale();
 		this.$calcFromPosition();
-		//	if (this.$conf.range) {
 		this.$calcToPosition();
-		//}
-
 		this.$calcBar();
 		this.onStart(this.$conf);
 
@@ -133,10 +121,8 @@ class sliderModel extends Observer {
 		}
 
 		if (conf.to < conf.min) {
-			console.log('conf.to < conf.min');
 			conf.to = conf.from
 		}
-
 		if (conf.to > conf.max) {
 			conf.to = conf.from
 		}
@@ -146,15 +132,6 @@ class sliderModel extends Observer {
 		if (conf.from > conf.to) {
 			conf.from = conf.min
 		}
-
-		// if (conf.range) {
-		// 	if (conf.from > conf.max) {
-		// 		conf.from = conf.to
-		// 	}
-		// 	if (conf.to <= conf.from) {
-		// 		conf.to = conf.from
-		// 	}
-		// }
 		return conf;
 	}
 
@@ -251,7 +228,7 @@ class sliderModel extends Observer {
 		this.$calcToPosition();
 		this.$calcBar();
 		let calcScale = this.$calcScale.bind(this);
-		setTimeout(calcScale, 100);
+		setTimeout(calcScale, 100); //нужна задержка, т.к. иначе в view ширина offsetWidth берется у не успевшего перестроиться элемента
 	}
 
 
@@ -260,7 +237,6 @@ class sliderModel extends Observer {
 		this.fire('IsRange', this.$data, this.$conf);
 		this.$calcBar();
 		this.onChange(this.$conf)
-
 	}
 
 	$updateControlPos() {
@@ -289,8 +265,6 @@ class sliderModel extends Observer {
 	ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления*/
 		let pos = 0
 		for (let i = 0; i < this.$data.$marksArr.length; i++) {
-
-
 			let a = 0;
 			if (i < this.$data.$marksArr.length - 1) {
 				a = this.$data.$marksArr[i + 1].pos;
@@ -306,15 +280,9 @@ class sliderModel extends Observer {
 	// рассчитать позицию From (%) на основании значений from, min и max
 	$calcFromPosition() {
 		if (this.$conf.from != this.$conf.min) {
-			if (this.$conf.vertical) {
-				this.$data.$fromPos = ((this.$conf.from -
-					this.$conf.min) * 100) /
-					(this.$conf.max - this.$conf.min);
-			} else { // ???
-				this.$data.$fromPos = ((this.$conf.from -
-					this.$conf.min) * 100) /
-					(this.$conf.max - this.$conf.min);
-			}
+			this.$data.$fromPos = ((this.$conf.from -
+				this.$conf.min) * 100) /
+				(this.$conf.max - this.$conf.min);
 		}
 		else {
 			this.$data.$fromPos = 0.00001; // начальное положение ползунка на шкале, если min=from 
@@ -334,7 +302,6 @@ class sliderModel extends Observer {
 	}
 	// рассчитать позицию To (%) на основании значений to, min и max
 	$calcToPosition() {
-		//	if (this.$conf.range) {
 		this.$data.$toPos = ((this.$conf.to - this.$conf.min) * 100) /
 			(this.$conf.max - this.$conf.min);
 		if (this.$conf.sticky) {
@@ -342,7 +309,6 @@ class sliderModel extends Observer {
 		}
 		this.$calcVal('normal', this.$data.$toPos, 'max');
 		this.fire('ToPosition', this.$data);
-		//	}
 	}
 
 
