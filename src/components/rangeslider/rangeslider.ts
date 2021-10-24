@@ -16,34 +16,38 @@ class SliderInstance {
 		let rangeSlider = document.querySelector(slider);
 		let sliderWrapper = rangeSlider.parentElement;
 		let wrapper = panelElem.closest('.rangeslider');
+
+
+		let setVertical = (flag: boolean) => {
+			if (flag) {
+				wrapper.classList.add('vertical');
+				panelWrapper.classList.add('vertical');
+				panelElem.classList.add('vertical');
+				sliderWrapper.classList.add('vertical');
+			} else {
+				wrapper.classList.remove('vertical');
+				panelWrapper.classList.remove('vertical');
+				panelElem.classList.remove('vertical');
+				sliderWrapper.classList.remove('vertical');
+			}
+		};
+
 		this.slider = $(slider).Slider({
-			min: -20,
-			max: 100,
-			from: 10,
-			to: 50,
-			step: 1,
-			shiftOnKeyDown: 1,
-			shiftOnKeyHold: 2,
-			//scaleBase: 'steps',
-			intervals: 20,
-			//vertical: true,
-			sticky: false,
-			//range: false,
+			// min: -20,
+			// max: 100,
+			// from: 10,
+			// to: 50,
+			// step: 1,
+			// shiftOnKeyDown: 1,
+			// shiftOnKeyHold: 2,
+			// //scaleBase: 'steps',
+			// intervals: 20,
+			// //vertical: true,
+			// sticky: false,
+			// //range: false,
 
 			onStart: (data: IConf) => {
-				if (data.vertical) {
-					wrapper.classList.add('vertical');
-					panelWrapper.classList.add('vertical');
-					panelElem.classList.add('vertical');
-					sliderWrapper.classList.add('vertical');
-				} else {
-					wrapper.classList.remove('vertical');
-					panelWrapper.classList.remove('vertical');
-					panelElem.classList.remove('vertical');
-					sliderWrapper.classList.remove('vertical');
-
-				}
-
+				setVertical(data.vertical);
 				this.panel.min.value = data.min;
 				this.panel.max.value = data.max;
 				this.panel.from.value = data.from;
@@ -52,7 +56,6 @@ class SliderInstance {
 				this.panel.step.value = data.step;
 				this.panel.shiftOnKeyDown.value = data.shiftOnKeyDown;
 				this.panel.shiftOnKeyHold.value = data.shiftOnKeyHold;
-
 				this.panel.vertical.checked = data.vertical;
 				this.panel.range.checked = data.range;
 				this.panel.scale.checked = data.scale;
@@ -71,17 +74,21 @@ class SliderInstance {
 
 			},
 			onUpdate: (data: IConf) => {
+				setVertical(data.vertical);
+
+				// let test = (param: string) => {
+				// 	this.panel[param].value = this.panel[param].value !==
+				// 		data[param] ? data[param] : this.panel[param].value;
+				// };
+
 				this.panel.from.value = this.panel.from.value !==
 					data.from ? data.from : this.panel.from.value;
 				this.panel.to.value = this.panel.to.value !==
 					data.to ? data.to : this.panel.to.value;
-
 				this.panel.min.value = this.panel.min.value !==
 					data.min ? data.min : this.panel.min.value;
 				this.panel.max.value = this.panel.max.value !==
 					data.max ? data.max : this.panel.max.value;
-
-
 				this.panel.shiftOnKeyDown.value =
 					this.panel.shiftOnKeyDown.value !==
 						data.shiftOnKeyDown ? data.shiftOnKeyDown :
@@ -90,36 +97,20 @@ class SliderInstance {
 					this.panel.shiftOnKeyHold.value !==
 						data.shiftOnKeyHold ? data.shiftOnKeyHold :
 						this.panel.shiftOnKeyHold.value;
-
-
 				this.panel.interval.value = this.panel.interval.value !==
 					data.intervals ? data.intervals : this.panel.interval.value;
 				this.panel.step.value = this.panel.step.value !==
 					data.step ? data.step : this.panel.step.value;
-				if (data.vertical == true) {
-					wrapper.classList.add('vertical');
-					panelWrapper.classList.add('vertical');
-					panelElem.classList.add('vertical');
-					sliderWrapper.classList.add('vertical');
-				} else {
-					wrapper.classList.remove('vertical');
-					panelWrapper.classList.remove('vertical');
-					panelElem.classList.remove('vertical');
-					sliderWrapper.classList.remove('vertical');
-
-				}
-
-
 			},
-
 			onChange: (data: IConf) => {
 				this.panel.from.value = this.panel.from.value !==
 					data.from ? data.from : this.panel.from.value;
 				this.panel.to.value = this.panel.to.value !==
 					data.to ? data.to : this.panel.to.value;
 			}
-
 		}).data('Slider'); // вернёт объект для одного элемента
+
+
 
 		this.panel.updateMin(this.slider);
 		this.panel.updateMax(this.slider);
@@ -127,24 +118,21 @@ class SliderInstance {
 		this.panel.updateTo(this.slider);
 		this.panel.updateShiftOnKeyDown(this.slider);
 		this.panel.updateShiftOnKeyHold(this.slider);
-
 		this.panel.updateStep(this.slider);
 		this.panel.updateInterval(this.slider);
-
 		this.panel.selectScaleBaseSteps(this.slider);
 		this.panel.selectScaleBaseIntervals(this.slider);
-
 		this.panel.updateIsVertical(this.slider);
 		this.panel.updateIsRange(this.slider);
-
 		this.panel.updateIsSticky(this.slider);
-
 		this.panel.updateIsScale(this.slider);
 		this.panel.updateIsBar(this.slider);
 		this.panel.updateIsTip(this.slider);
-
 	}
+
 }
+
+
 
 const Slider1 = new SliderInstance('.panel-1', '.rs__root-1');
 const Slider2 = new SliderInstance('.panel-2', '.rs__root-2');
