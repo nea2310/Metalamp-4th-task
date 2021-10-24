@@ -84,9 +84,9 @@ class sliderModel extends Observer {
 
 		this.$calcScale();
 		this.$calcFromPosition();
-		if (this.$conf.range) {
-			this.$calcToPosition();
-		}
+		//	if (this.$conf.range) {
+		this.$calcToPosition();
+		//}
 
 		this.$calcBar();
 		this.onStart(this.$conf);
@@ -144,7 +144,7 @@ class sliderModel extends Observer {
 			conf.from = conf.to
 		}
 		if (conf.from > conf.to) {
-			conf.from = conf.to
+			conf.from = conf.min
 		}
 
 		// if (conf.range) {
@@ -334,15 +334,15 @@ class sliderModel extends Observer {
 	}
 	// рассчитать позицию To (%) на основании значений to, min и max
 	$calcToPosition() {
-		if (this.$conf.range) {
-			this.$data.$toPos = ((this.$conf.to - this.$conf.min) * 100) /
-				(this.$conf.max - this.$conf.min);
-			if (this.$conf.sticky) {
-				this.$data.$toPos = this.$setSticky(this.$data.$toPos);
-			}
-			this.$calcVal('normal', this.$data.$toPos, 'max');
-			this.fire('ToPosition', this.$data);
+		//	if (this.$conf.range) {
+		this.$data.$toPos = ((this.$conf.to - this.$conf.min) * 100) /
+			(this.$conf.max - this.$conf.min);
+		if (this.$conf.sticky) {
+			this.$data.$toPos = this.$setSticky(this.$data.$toPos);
 		}
+		this.$calcVal('normal', this.$data.$toPos, 'max');
+		this.fire('ToPosition', this.$data);
+		//	}
 	}
 
 
