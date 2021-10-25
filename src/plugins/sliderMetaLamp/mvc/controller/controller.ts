@@ -51,9 +51,9 @@ class sliderController extends Observer {
 
 	$handleFromPosition = (key: string, data: $Idata) => {
 		if (key !== 'FromPosition') return;
-		else {
-			this.view.$handleFromPosition(key, data);
-		}
+
+		this.view.$handleFromPosition(key, data);
+
 	}
 
 	$handleToPosition = (key: string, data: $Idata) => {
