@@ -6,141 +6,395 @@ import {
 } from './../../plugins/sliderMetaLamp/interface';
 
 
-class SliderInstance {
-	panel: Panel
-	slider: any
-	constructor(panel: string, slider: string) {
-		let panelElem = document.querySelector(panel);
-		this.panel = new Panel('.panel', panelElem);
-		let panelWrapper = panelElem.parentElement;
-		let rangeSlider = document.querySelector(slider);
-		let sliderWrapper = rangeSlider.parentElement;
-		let wrapper = panelElem.closest('.rangeslider');
+class RangeSlider {
+	slider: HTMLElement
+	wrapper: HTMLElement
+	panel: HTMLElement
+	panelWrapper: HTMLElement
+	sliderWrapper: HTMLElement
+	rangeSlider: any
 
 
-		let setVertical = (flag: boolean) => {
+
+
+	min: HTMLInputElement
+	max: HTMLInputElement
+	from: HTMLInputElement
+	to: HTMLInputElement
+	interval: HTMLInputElement
+	step: HTMLInputElement
+	shiftOnKeyDown: HTMLInputElement
+	shiftOnKeyHold: HTMLInputElement
+
+	vertical: HTMLInputElement
+	range: HTMLInputElement
+	scale: HTMLInputElement
+	bar: HTMLInputElement
+	tip: HTMLInputElement
+	sticky: HTMLInputElement
+	scaleBaseSteps: HTMLInputElement
+	scaleBaseIntervals: HTMLInputElement
+	inputs: HTMLInputElement[]
+	selector: string
+
+
+
+
+
+
+	constructor(selector: string, elem: Element) {
+		this.selector = selector;
+		this.wrapper = elem as HTMLElement;
+		this.panel = this.wrapper.querySelector('.panel');
+		this.slider = this.wrapper.querySelector('.rs__root');
+		this.panelWrapper =
+			this.wrapper.querySelector(this.selector + '__panel');
+		this.sliderWrapper = this.wrapper.querySelector(this.selector + '__rs');
+		this.renderPanel();
+		this.renderSlider(this.slider);
+
+
+
+	}
+
+	renderPanel() {
+		const getElem = (name: string) => {
+			return this.panel.querySelector<HTMLInputElement>
+				('.' + name + ' input');
+		};
+
+		this.min = getElem('min');
+		this.max = getElem('max');
+		this.from = getElem('from');
+		this.to = getElem('to');
+		this.interval = getElem('interval');
+		this.step = getElem('step');
+		this.shiftOnKeyDown =
+			getElem('shiftOnKeyDown');
+		this.shiftOnKeyHold =
+			getElem('shiftOnKeyHold');
+
+		this.vertical = getElem('vertical');
+		this.range = getElem('range');
+		this.scale = getElem('scale');
+		this.bar = getElem('bar');
+		this.tip = getElem('tip');
+		this.sticky = getElem('sticky');
+
+		const scaleBaseWrap =
+			this.panel.querySelector(
+				'.radiobuttons');
+		this.scaleBaseSteps = scaleBaseWrap.querySelector('[value=steps]');
+		this.scaleBaseIntervals =
+			scaleBaseWrap.querySelector('[value=intervals]');
+		const inputs = [...this.panel.querySelectorAll<HTMLInputElement>
+			('.input-field__input')];
+
+		for (let elem of inputs) {
+			elem.addEventListener('change', () => {
+				if (!elem.value) {
+					elem.value = '0';
+				}
+			});
+		}
+	}
+
+	renderSlider(slider: HTMLElement) {
+		const setVertical = (flag: boolean) => {
 			if (flag) {
-				wrapper.classList.add('vertical');
-				panelWrapper.classList.add('vertical');
-				panelElem.classList.add('vertical');
-				sliderWrapper.classList.add('vertical');
+				this.wrapper.classList.add('vertical');
+				this.panelWrapper.classList.add('vertical');
+				this.panel.classList.add('vertical');
+				this.sliderWrapper.classList.add('vertical');
 			} else {
-				wrapper.classList.remove('vertical');
-				panelWrapper.classList.remove('vertical');
-				panelElem.classList.remove('vertical');
-				sliderWrapper.classList.remove('vertical');
+				this.wrapper.classList.remove('vertical');
+				this.panelWrapper.classList.remove('vertical');
+				this.panel.classList.remove('vertical');
+				this.sliderWrapper.classList.remove('vertical');
 			}
 		};
 
-		this.slider = $(slider).Slider({
-			// min: -20,
-			// max: 100,
-			// from: 10,
-			// to: 50,
-			// step: 1,
-			// shiftOnKeyDown: 1,
-			// shiftOnKeyHold: 2,
-			// //scaleBase: 'steps',
-			// intervals: 20,
-			// //vertical: true,
-			// sticky: false,
-			// //range: false,
+		const valid = (
+			item: HTMLInputElement,
+			val: number | string | boolean
+		) => {
+			if (item.value != val)
+				item.value = val as string;
+		};
 
+		const displayData = (data: IConf) => {
+			setVertical(data.vertical);
+			this.min.value = String(data.min);
+			this.max.value = String(data.max);
+			this.from.value = String(data.from);
+			this.to.value = String(data.to);
+			this.interval.value = String(data.intervals);
+			this.step.value = String(data.step);
+			this.shiftOnKeyDown.value = String(data.shiftOnKeyDown);
+			this.shiftOnKeyHold.value = String(data.shiftOnKeyHold);
+			this.vertical.checked = data.vertical;
+			this.range.checked = data.range;
+			this.scale.checked = data.scale;
+			this.bar.checked = data.bar;
+			this.tip.checked = data.tip;
+			this.sticky.checked = data.sticky;
+
+			if (data.scaleBase == 'intervals') {
+				this.scaleBaseIntervals.checked = true;
+				this.step.disabled = true;
+			}
+
+			if (data.scaleBase == 'steps') {
+				this.scaleBaseSteps.checked = true;
+				this.interval.disabled = true;
+			}
+			this.to.disabled = data.range ? false : true;
+		};
+
+		const updateData = (data: IConf) => {
+			setVertical(data.vertical);
+			const D = data;
+			valid(this.from, D.from);
+			valid(this.to, D.to);
+			valid(this.min, D.min);
+			valid(this.max, D.max);
+			valid(this.shiftOnKeyDown, D.shiftOnKeyDown);
+			valid(this.shiftOnKeyHold, D.shiftOnKeyHold);
+			valid(this.interval, D.intervals);
+			valid(this.step, D.step);
+		};
+
+		const changeData = (data: IConf) => {
+			const D = data;
+			valid(this.from, D.from);
+			valid(this.to, D.to);
+		};
+
+
+		this.rangeSlider = $(slider).Slider({
 			onStart: (data: IConf) => {
-				setVertical(data.vertical);
-				this.panel.min.value = data.min;
-				this.panel.max.value = data.max;
-				this.panel.from.value = data.from;
-				this.panel.to.value = data.to;
-				this.panel.interval.value = data.intervals;
-				this.panel.step.value = data.step;
-				this.panel.shiftOnKeyDown.value = data.shiftOnKeyDown;
-				this.panel.shiftOnKeyHold.value = data.shiftOnKeyHold;
-				this.panel.vertical.checked = data.vertical;
-				this.panel.range.checked = data.range;
-				this.panel.scale.checked = data.scale;
-				this.panel.bar.checked = data.bar;
-				this.panel.tip.checked = data.tip;
-				this.panel.sticky.checked = data.sticky;
-
-				if (data.scaleBase == 'intervals') {
-					this.panel.scaleBaseIntervals.checked = true;
-					this.panel.step.disabled = true;
-				}
-
-				if (data.scaleBase == 'steps') {
-					this.panel.scaleBaseSteps.checked = true;
-					this.panel.interval.disabled = true;
-				}
-				this.panel.to.disabled = data.range ? false : true;
-
+				displayData(data);
 			},
 			onUpdate: (data: IConf) => {
-				setVertical(data.vertical);
-
-				// let test = (param: string) => {
-				// 	this.panel[param].value = this.panel[param].value !==
-				// 		data[param] ? data[param] : this.panel[param].value;
-				// };
-
-				const valid = (
-					item: HTMLInputElement,
-					val: number | string | boolean
-				) => {
-					if (item.value != val)
-						item.value = val as string;
-				};
-
-
-				const P = this.panel;
-				const D = data;
-				valid(P.from, D.from);
-				valid(P.to, D.to);
-				valid(P.min, D.min);
-				valid(P.max, D.max);
-				valid(P.shiftOnKeyDown, D.shiftOnKeyDown);
-				valid(P.shiftOnKeyHold, D.shiftOnKeyHold);
-				valid(P.interval, D.intervals);
-				valid(P.step, D.step);
-
+				updateData(data);
 			},
 			onChange: (data: IConf) => {
-				this.panel.from.value = this.panel.from.value !==
-					data.from ? data.from : this.panel.from.value;
-				this.panel.to.value = this.panel.to.value !==
-					data.to ? data.to : this.panel.to.value;
+				changeData(data);
 			}
 		}).data('Slider'); // вернёт объект для одного элемента
 
 
 
-		this.panel.updateMin(this.slider);
-		this.panel.updateMax(this.slider);
-		this.panel.updateFrom(this.slider);
-		this.panel.updateTo(this.slider);
-		this.panel.updateShiftOnKeyDown(this.slider);
-		this.panel.updateShiftOnKeyHold(this.slider);
-		this.panel.updateStep(this.slider);
-		this.panel.updateInterval(this.slider);
-		this.panel.selectScaleBaseSteps(this.slider);
-		this.panel.selectScaleBaseIntervals(this.slider);
-		this.panel.updateIsVertical(this.slider);
-		this.panel.updateIsRange(this.slider);
-		this.panel.updateIsSticky(this.slider);
-		this.panel.updateIsScale(this.slider);
-		this.panel.updateIsBar(this.slider);
-		this.panel.updateIsTip(this.slider);
+		// this.updateMin();
+		// this.updateMax();
+		// this.updateFrom();
+		// this.updateTo();
+		// this.updateShiftOnKeyDown();
+		// this.updateShiftOnKeyHold();
+		// this.updateStep();
+		// this.updateInterval();
+		// this.selectScaleBaseSteps();
+		// this.selectScaleBaseIntervals();
+		// this.updateIsVertical();
+		// this.updateIsRange();
+		// this.updateIsSticky();
+		// this.updateIsScale();
+		// this.updateIsBar();
+		// this.updateIsTip();
+		this.updateSlider();
 	}
+
+	updateSlider() {
+		let arr = ['min',
+			'max',
+			'from',
+			'to',
+			'step',
+			'interval',
+			'shiftOnKeyDown',
+			'shiftOnKeyHold',
+			'scaleBaseSteps',
+			'scaleBaseIntervals',
+			'vertical',
+			'range',
+			'sticky',
+			'scale',
+			'bar',
+			'tip'
+
+		];
+		this.panel.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			for (let elem of arr) {
+
+				if (target.closest('.' + elem)) {
+					console.log(target.closest('.' + elem));
+
+
+					this.rangeSlider.
+						update({ [elem]: parseFloat(target.value) });
+
+					break;
+				}
+			}
+			//console.log(target.closest('.max'));
+
+			// if (arr.includes(target)) {
+			// 	let fieldName =
+			// 		target.parentElement.parentElement.parentElement.className;
+
+			// this.rangeSlider.
+			// 	update({ [fieldName]: parseFloat(target.value) });
+
+			// }
+
+
+		});
+	}
+
+
+	updateMin() {
+		this.min.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({ min: parseFloat(target.value) });
+		});
+	}
+
+	updateMax() {
+		this.max.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({ max: parseFloat(target.value) });
+		});
+	}
+
+	updateFrom() {
+		this.from.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({ from: parseFloat(target.value) });
+		});
+	}
+
+	updateTo() {
+		this.to.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({ to: parseFloat(target.value) });
+		});
+	}
+
+
+	updateStep() {
+		this.step.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({ step: parseFloat(target.value) });
+		});
+	}
+
+
+	updateInterval() {
+		this.interval.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({ intervals: parseFloat(target.value) });
+		});
+	}
+
+	updateShiftOnKeyDown() {
+		this.shiftOnKeyDown.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({
+				shiftOnKeyDown:
+					parseFloat(target.value)
+			});
+		});
+	}
+
+	updateShiftOnKeyHold() {
+		this.shiftOnKeyHold.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({
+				shiftOnKeyHold:
+					parseFloat(target.value)
+			});
+		});
+	}
+
+	//!//
+	selectScaleBaseSteps() {
+		this.scaleBaseSteps.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({ scaleBase: target.value });
+			this.interval.disabled = true;
+			this.step.disabled = false;
+		});
+	}
+	//!//
+	selectScaleBaseIntervals() {
+		this.scaleBaseIntervals.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({ scaleBase: target.value });
+			this.interval.disabled = false;
+			this.step.disabled = true;
+		});
+	}
+
+	updateIsVertical() {
+		this.vertical.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({ vertical: target.checked });
+		});
+	}
+
+	//!//
+	updateIsRange() {
+		this.range.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({ range: target.checked });
+			this.to.disabled = target.checked ? false : true;
+		});
+	}
+
+	updateIsSticky() {
+		this.sticky.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({ sticky: target.checked });
+		});
+	}
+
+
+	updateIsScale() {
+		this.scale.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({ scale: target.checked });
+		});
+	}
+
+	updateIsBar() {
+		this.bar.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({ bar: target.checked });
+		});
+	}
+
+	updateIsTip() {
+		this.tip.addEventListener('change', (e) => {
+			let target = e.target as HTMLInputElement;
+			this.rangeSlider.update({ tip: target.checked });
+		});
+	}
+
+
+
+
+
+
 
 }
 
 
 
-// const panels = document.querySelectorAll('.panel');
-// for (let i = 0; i < panels.length; i++)
-// 	new SliderInstance(panels[i]);
-
-
-
-new SliderInstance('.panel-1', '.rs__root-1');
-new SliderInstance('.panel-2', '.rs__root-2');
+function renderRangeSliders(selector: string) {
+	let rangeSliders = document.querySelectorAll(selector);
+	for (let rangeSlider of rangeSliders) {
+		new RangeSlider(selector, rangeSlider);
+	}
+}
+renderRangeSliders('.rangeslider');

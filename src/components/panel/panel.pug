@@ -8,81 +8,81 @@ mixin panel(options={})
 	div(class = elemName + ' ' + elemNameMod)
 		fieldset(class = elemName + '__mainSetup')
 			legend Main
-			div(class = elemName + '__mainSetup-min')
+			div(class = 'min')
 				+input(
 										{width: 'narrow',
 										labelText: 'min'} 
 										)
-			div(class = elemName + '__mainSetup-max')
+			div(class = 'max')
 				+input(
 										{width: 'narrow',
 										labelText: 'max'} 
 										)
-			div(class = elemName + '__mainSetup-from')
+			div(class = 'from')
 				+input(
 										{width: 'narrow',
 										labelText: 'from'} 
 										)
-			div(class = elemName + '__mainSetup-to')
+			div(class = 'to')
 				+input(
 										{width: 'narrow',
 										labelText: 'to'} 
 										)
-			div(class = elemName + '__mainSetup-vertical')
+			div(class = 'vertical')
 				+toggle(
 										{name: 'vertical'}
 										)
-			div(class = elemName + '__mainSetup-range')
+			div(class = 'range')
 				+toggle(
 										{name: 'range'}
 										)
-			div(class = elemName + '__mainSetup-bar')
+			div(class = 'bar')
 				+toggle(
 										{name: 'bar'}
 										)
-			div(class = elemName + '__mainSetup-tip')
+			div(class = 'tip')
 				+toggle(
 										{name: 'tip'}
 										)
 		fieldset(class = elemName + '__scaleSetup')
 			legend Scale
-			div(class = elemName + '__scaleSetup-scale')
+			div(class = 'scale')
 				+toggle(
 										{name: 'scale'}
 										)
 			span scale base
-			div(class = elemName + '__scaleSetup-radiobuttons')
+			div(class = 'radiobuttons')
 				+radiobuttons({categories:
 								{cat1: {name:'steps'}, 
 								cat2:{name:'intervals'}},
 								radioGroupName: options.radioGroupName})
-			div(class = elemName + '__scaleSetup-IntervalStep')
-				div(class = elemName + '__scaleSetup-step')
+			div(class = 'IntervalStep')
+				div(class = 'step')
 					+input(
 											{width: 'narrow',
 											labelText: 'step'} 
 											)
-				div(class = elemName + '__scaleSetup-interval')
+				div(class = 'interval')
 					+input(
 											{width: 'narrow',
 											labelText: 'interval'} 
 											)
 		fieldset(class = elemName + '__moveSetup')
 			legend Control movement
-			div(class = elemName + '__moveSetup-sticky')
+			div(class = 'sticky')
 				+toggle(
 										{name: 'sticky'}
 										)
-			div(class = elemName + '__moveSetup-shiftOnKeyDown')
+			div(class = 'shiftOnKeyDown')
 				+input(
 										{width: 'narrow',
 										labelText: 'shift on key down'} 
 										)
-			div(class = elemName + '__moveSetup-shiftOnKeyHold')
+			div(class = 'shiftOnKeyHold')
 				+input(
 										{width: 'narrow',
 										labelText: 'shift on key hold'} 
 										)
-		button(class = elemName + '__apply') Применить
+		button(class = 'apply') Применить
 
 

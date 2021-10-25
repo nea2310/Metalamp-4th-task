@@ -35,19 +35,19 @@
 			display: flex;
 			align-items: flex-end;
 		}
-		&-min {
+		.min {
 			grid-column-start: 1;
 			grid-column-end: 1;
 			grid-row-start: 1;
 			grid-row-end: 1;
 		}
-		&-max {
+		.max {
 			grid-column-start: 2;
 			grid-column-end: 2;
 			grid-row-start: 1;
 			grid-row-end: 1;
 		}
-		&-from {
+		.from {
 			grid-column-start: 3;
 			grid-column-end: 3;
 			grid-row-start: 1;
@@ -59,7 +59,7 @@
 				grid-row-end: 2;
 			}
 		}
-		&-to {
+		.to {
 			grid-column-start: 4;
 			grid-column-end: 4;
 			grid-row-start: 1;
@@ -71,7 +71,7 @@
 				grid-row-end: 2;
 			}
 		}
-		&-vertical {
+		.vertical {
 			grid-column-start: 1;
 			grid-column-end: 1;
 			grid-row-start: 2;
@@ -81,7 +81,7 @@
 				grid-row-end: 3;
 			}
 		}
-		&-range {
+		.range {
 			grid-column-start: 2;
 			grid-column-end: 2;
 			grid-row-start: 2;
@@ -91,7 +91,7 @@
 				grid-row-end: 3;
 			}
 		}
-		&-bar {
+		.bar {
 			grid-column-start: 3;
 			grid-column-end: 3;
 			grid-row-start: 2;
@@ -103,7 +103,7 @@
 				grid-row-end: 4;
 			}
 		}
-		&-tip {
+		.tip {
 			grid-column-start: 4;
 			grid-column-end: 4;
 			grid-row-start: 2;
@@ -121,16 +121,16 @@
 		padding: 5px;
 
 		border: 1px solid $colorDarkShade25;
-		&-scale {
+		.scale {
 			margin-bottom: 20px;
 		}
-		&-radiobuttons {
+		.radiobuttons {
 			margin-top: 5px;
 		}
-		&-IntervalStep {
+		.IntervalStep {
 			display: flex;
 		}
-		&-step {
+		.step {
 			margin-right: 10px;
 		}
 	}
@@ -147,7 +147,7 @@
 			align-items: flex-end;
 		}
 	}
-	&__apply {
+	.apply {
 		box-sizing: border-box;
 		@include font-body;
 		position: absolute;
