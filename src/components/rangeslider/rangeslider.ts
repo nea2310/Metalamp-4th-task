@@ -53,6 +53,7 @@ class RangeSlider {
 		this.renderPanel();
 		this.renderSlider(this.slider);
 
+		this.updateSlider();
 
 
 	}
@@ -200,8 +201,7 @@ class RangeSlider {
 		// this.updateIsSticky();
 		// this.updateIsScale();
 		// this.updateIsBar();
-		// this.updateIsTip();
-		this.updateSlider();
+
 	}
 
 	updateSlider() {
@@ -225,11 +225,14 @@ class RangeSlider {
 		];
 		this.panel.addEventListener('change', (e) => {
 			let target = e.target as HTMLInputElement;
+			console.log(target);
+
 			for (let elem of arr) {
 
 				if (target.closest('.' + elem)) {
 					console.log(target.closest('.' + elem));
 
+					console.log(parseFloat(target.value));
 
 					this.rangeSlider.
 						update({ [elem]: parseFloat(target.value) });
