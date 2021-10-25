@@ -32,9 +32,9 @@ class sliderModel extends Observer {
 			bar: true,
 			tip: true,
 			scale: true,
-			scaleBase: 'intervals',
+			scaleBase: 'interval',
 			step: 0,
-			intervals: 0,
+			interval: 0,
 			sticky: true,
 			shiftOnKeyDown: 0,
 			shiftOnKeyHold: 0,
@@ -102,8 +102,8 @@ class sliderModel extends Observer {
 		if (Number.isNaN(conf.step) || conf.step <= 0) {
 			conf.step = (conf.max - conf.min) / 3;
 		}
-		if (Number.isNaN(conf.intervals) || conf.intervals <= 0) {
-			conf.intervals = 3;
+		if (Number.isNaN(conf.interval) || conf.interval <= 0) {
+			conf.interval = 3;
 		}
 		if (Number.isNaN(conf.shiftOnKeyDown) || conf.shiftOnKeyDown <= 0) {
 			conf.shiftOnKeyDown = 1;
@@ -191,7 +191,7 @@ class sliderModel extends Observer {
 						this.$methods.$calcScale = true;
 						this.$methods.$updateControlPos = true;
 						break;
-					case 'intervals':
+					case 'interval':
 						this.$methods.$calcScale = true;
 						this.$methods.$updateControlPos = true;
 						break;
@@ -330,34 +330,34 @@ class sliderModel extends Observer {
 
 	// рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
 	$calcScale() {
-		let intervals = 0;
+		let interval = 0;
 		let step = 0;
 		let arg = '';
 		if (this.$conf.scaleBase == 'steps') {//если рассчитываем шкалу на основе кол-ва шагов
 			step = this.$conf.step; // находим длину шага
-			intervals = (this.$conf.max - this.$conf.min) / step; // находим кол-во интервалов
-			arg = intervals % 1 === 0 ? String(intervals) :
-				String(Math.trunc(intervals + 1));
+			interval = (this.$conf.max - this.$conf.min) / step; // находим кол-во интервалов
+			arg = interval % 1 === 0 ? String(interval) :
+				String(Math.trunc(interval + 1));
 			this.$data.$scaleBase = 'steps';
 			this.$data.$intervalValue = arg;
 			this.$data.$stepValue = String(this.$conf.step);
-			this.$conf.intervals = parseFloat(arg);
+			this.$conf.interval = parseFloat(arg);
 		}
 
-		if (this.$conf.scaleBase == 'intervals') {//если рассчитываем шкалу на основе интервалов
-			intervals = this.$conf.intervals; // находим кол-во интервалов
-			step = (this.$conf.max - this.$conf.min) / intervals;// находим ширину (кол-во единиц) в шаге
+		if (this.$conf.scaleBase == 'interval') {//если рассчитываем шкалу на основе интервалов
+			interval = this.$conf.interval; // находим кол-во интервалов
+			step = (this.$conf.max - this.$conf.min) / interval;// находим ширину (кол-во единиц) в шаге
 			let arg = step % 1 === 0 ? String(step) :
 				String(step.toFixed(2));
-			this.$data.$scaleBase = 'intervals';
-			this.$data.$intervalValue = String(intervals);
+			this.$data.$scaleBase = 'interval';
+			this.$data.$intervalValue = String(interval);
 			this.$data.$stepValue = arg;
 			this.$conf.step = parseFloat(arg);
 		}
 
 		this.$data.$marksArr = [{ val: this.$conf.min, pos: 0 }]; //первое деление всегда стоит на позиции left = 0% и его значение равно this.$conf.min
 		let val = this.$conf.min;
-		for (let i = 0; i < intervals; i++) {
+		for (let i = 0; i < interval; i++) {
 			let obj: IObj = {};
 			val += step;
 			if (val <= this.$conf.max) {

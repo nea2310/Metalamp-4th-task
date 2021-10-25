@@ -28,7 +28,7 @@ interface IConf {
 	scale?: boolean
 	scaleBase?: string
 	step?: number
-	intervals?: number
+	interval?: number
 	sticky?: boolean
 	shiftOnKeyDown?: number
 	shiftOnKeyHold?: number

@@ -94,16 +94,16 @@ class sliderView extends Observer {
 		if (this.root.getAttribute('data-scaleBase') == 'steps') {
 			this.backEndConf.scaleBase = 'steps';
 		}
-		if (this.root.getAttribute('data-scaleBase') == 'intervals') {
-			this.backEndConf.scaleBase = 'intervals';
+		if (this.root.getAttribute('data-scaleBase') == 'interval') {
+			this.backEndConf.scaleBase = 'interval';
 		}
 		//step
 		if (this.root.getAttribute('data-step')) {
 			this.backEndConf.step = parseFloat(this.root.getAttribute('data-step'));
 		}
-		//intervals
-		if (this.root.getAttribute('data-intervals')) {
-			this.backEndConf.intervals = parseFloat(this.root.getAttribute('data-intervals'));
+		//interval
+		if (this.root.getAttribute('data-interval')) {
+			this.backEndConf.interval = parseFloat(this.root.getAttribute('data-interval'));
 		}
 		//sticky
 		if (this.root.getAttribute('data-sticky') == 'true') {

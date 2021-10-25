@@ -86,7 +86,7 @@ class RangeSlider {
 				'.radiobuttons');
 		this.scaleBaseSteps = scaleBaseWrap.querySelector('[value=steps]');
 		this.scaleBaseIntervals =
-			scaleBaseWrap.querySelector('[value=intervals]');
+			scaleBaseWrap.querySelector('[value=interval]');
 		const inputs = [...this.panel.querySelectorAll<HTMLInputElement>
 			('.input-field__input')];
 
@@ -128,7 +128,7 @@ class RangeSlider {
 			this.max.value = String(data.max);
 			this.from.value = String(data.from);
 			this.to.value = String(data.to);
-			this.interval.value = String(data.intervals);
+			this.interval.value = String(data.interval);
 			this.step.value = String(data.step);
 			this.shiftOnKeyDown.value = String(data.shiftOnKeyDown);
 			this.shiftOnKeyHold.value = String(data.shiftOnKeyHold);
@@ -139,7 +139,7 @@ class RangeSlider {
 			this.tip.checked = data.tip;
 			this.sticky.checked = data.sticky;
 
-			if (data.scaleBase == 'intervals') {
+			if (data.scaleBase == 'interval') {
 				this.scaleBaseIntervals.checked = true;
 				this.step.disabled = true;
 			}
@@ -160,7 +160,7 @@ class RangeSlider {
 			valid(this.max, D.max);
 			valid(this.shiftOnKeyDown, D.shiftOnKeyDown);
 			valid(this.shiftOnKeyHold, D.shiftOnKeyHold);
-			valid(this.interval, D.intervals);
+			valid(this.interval, D.interval);
 			valid(this.step, D.step);
 		};
 
@@ -293,7 +293,7 @@ class RangeSlider {
 	updateInterval() {
 		this.interval.addEventListener('change', (e) => {
 			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ intervals: parseFloat(target.value) });
+			this.rangeSlider.update({ interval: parseFloat(target.value) });
 		});
 	}
 

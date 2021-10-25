@@ -8,7 +8,7 @@ interface SliderOptions {
 	tip?: boolean
 	scale?: boolean
 	step?: number
-	intervals?: number
+	interval?: number
 	sticky?: boolean
 	shiftOnKeyDown?: number
 	shiftOnKeyHold?: number
