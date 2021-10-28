@@ -1,9 +1,9 @@
+
 import './rangeslider.scss';
-import { Panel } from './../panel/panel';
 import {
 	IConf,
-	$Idata
 } from './../../plugins/sliderMetaLamp/interface';
+//import 
 
 
 class RangeSlider {
@@ -12,7 +12,7 @@ class RangeSlider {
 	panel: HTMLElement
 	panelWrapper: HTMLElement
 	sliderWrapper: HTMLElement
-	rangeSlider: any
+	rangeSlider: any //какой здесь должен быть тип?
 
 
 
@@ -52,7 +52,6 @@ class RangeSlider {
 		this.sliderWrapper = this.wrapper.querySelector(this.selector + '__rs');
 		this.renderPanel();
 		this.renderSlider(this.slider);
-
 		this.updateSlider();
 
 
@@ -184,26 +183,11 @@ class RangeSlider {
 			}
 		}).data('Slider'); // вернёт объект для одного элемента
 
-
-
-		// this.updateMin();
-		// this.updateMax();
-		// this.updateFrom();
-		// this.updateTo();
-		// this.updateShiftOnKeyDown();
-		// this.updateShiftOnKeyHold();
-		// this.updateStep();
-		// this.updateInterval();
-		// this.selectScaleBaseSteps();
-		// this.selectScaleBaseIntervals();
-		// this.updateIsVertical();
-		// this.updateIsRange();
-		// this.updateIsSticky();
-		// this.updateIsScale();
-		// this.updateIsBar();
+		console.log(this.rangeSlider);
 
 	}
 
+	// API update
 	updateSlider() {
 		let arr = ['min',
 			'max',
@@ -220,179 +204,45 @@ class RangeSlider {
 			'sticky',
 			'scale',
 			'bar',
-			'tip'
-
+			'tip',
+			'scaleBase'
 		];
 		this.panel.addEventListener('change', (e) => {
 			let target = e.target as HTMLInputElement;
-			console.log(target);
 
 			for (let elem of arr) {
-
 				if (target.closest('.' + elem)) {
-					console.log(target.closest('.' + elem));
+					let value;
+					if (target.type == 'checkbox') {
+						value = target.checked;
+					}
+					if (target.type == 'radio') {
+						value = target.value;
+					}
+					else {
+						value = parseFloat(target.value);
+					}
+					this.rangeSlider.update({ [elem]: value });
 
-					console.log(parseFloat(target.value));
-
-					this.rangeSlider.
-						update({ [elem]: parseFloat(target.value) });
-
+					if (elem == 'scaleBase') {
+						if (value == 'interval') {
+							this.interval.disabled = false;
+							this.step.disabled = true;
+						}
+						if (value == 'steps') {
+							this.interval.disabled = true;
+							this.step.disabled = false;
+						}
+					}
+					if (elem == 'range') {
+						this.to.disabled = target.checked ? false : true;
+					}
 					break;
 				}
 			}
-			//console.log(target.closest('.max'));
-
-			// if (arr.includes(target)) {
-			// 	let fieldName =
-			// 		target.parentElement.parentElement.parentElement.className;
-
-			// this.rangeSlider.
-			// 	update({ [fieldName]: parseFloat(target.value) });
-
-			// }
-
-
 		});
 	}
-
-
-	updateMin() {
-		this.min.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ min: parseFloat(target.value) });
-		});
-	}
-
-	updateMax() {
-		this.max.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ max: parseFloat(target.value) });
-		});
-	}
-
-	updateFrom() {
-		this.from.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ from: parseFloat(target.value) });
-		});
-	}
-
-	updateTo() {
-		this.to.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ to: parseFloat(target.value) });
-		});
-	}
-
-
-	updateStep() {
-		this.step.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ step: parseFloat(target.value) });
-		});
-	}
-
-
-	updateInterval() {
-		this.interval.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ interval: parseFloat(target.value) });
-		});
-	}
-
-	updateShiftOnKeyDown() {
-		this.shiftOnKeyDown.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({
-				shiftOnKeyDown:
-					parseFloat(target.value)
-			});
-		});
-	}
-
-	updateShiftOnKeyHold() {
-		this.shiftOnKeyHold.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({
-				shiftOnKeyHold:
-					parseFloat(target.value)
-			});
-		});
-	}
-
-	//!//
-	selectScaleBaseSteps() {
-		this.scaleBaseSteps.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ scaleBase: target.value });
-			this.interval.disabled = true;
-			this.step.disabled = false;
-		});
-	}
-	//!//
-	selectScaleBaseIntervals() {
-		this.scaleBaseIntervals.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ scaleBase: target.value });
-			this.interval.disabled = false;
-			this.step.disabled = true;
-		});
-	}
-
-	updateIsVertical() {
-		this.vertical.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ vertical: target.checked });
-		});
-	}
-
-	//!//
-	updateIsRange() {
-		this.range.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ range: target.checked });
-			this.to.disabled = target.checked ? false : true;
-		});
-	}
-
-	updateIsSticky() {
-		this.sticky.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ sticky: target.checked });
-		});
-	}
-
-
-	updateIsScale() {
-		this.scale.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ scale: target.checked });
-		});
-	}
-
-	updateIsBar() {
-		this.bar.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ bar: target.checked });
-		});
-	}
-
-	updateIsTip() {
-		this.tip.addEventListener('change', (e) => {
-			let target = e.target as HTMLInputElement;
-			this.rangeSlider.update({ tip: target.checked });
-		});
-	}
-
-
-
-
-
-
-
 }
-
-
 
 function renderRangeSliders(selector: string) {
 	let rangeSliders = document.querySelectorAll(selector);

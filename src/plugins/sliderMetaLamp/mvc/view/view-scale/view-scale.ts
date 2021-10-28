@@ -40,8 +40,6 @@ class sliderViewScale {
 				elem.remove();
 			}
 		}
-		console.log(this.track.offsetWidth);
-
 		for (let node of scaleMarks) {
 			let elem = document.createElement('div');
 			elem.classList.add('rs__mark');
@@ -80,9 +78,6 @@ class sliderViewScale {
 
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
 	checkScaleLength(markList: HTMLElement[]) {
-
-
-
 		let hideLabels = (markList: HTMLElement[]) => {
 			console.log('hideLabels');
 			//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
@@ -102,28 +97,14 @@ class sliderViewScale {
 		};
 
 		if (!this.conf.vertical) { //Горизонтальный слайдер
-			console.log('ГОРИЗОНТАЛЬНЫЙ');
-
 			let totalWidth = 0;
 			//вычисляем общую ширину подписей к шагам
 			for (let node of markList) {
-				// console.log(node.firstElementChild);
-				// console.log(node.firstElementChild.
-				// 	getBoundingClientRect().width);
-
-
 				totalWidth += node.firstElementChild.
 					getBoundingClientRect().width;
 			}
-			// console.log(totalWidth);
-			// console.log(this.track);
-
-			console.log(this.track.offsetWidth);
-
 			//если общая ширина подписей к шагам больше ширины шкалы
 			if (totalWidth > this.track.offsetWidth) {
-				//	console.log('!!!!!');
-
 				//Скрываем подписи
 				hideLabels(markList);
 			} else {
@@ -134,7 +115,6 @@ class sliderViewScale {
 				}
 			}
 		} else {//Вертикальный слайдер
-			console.log('ВЕРТИКАЛЬНЫЙ');
 			let totalHeight = 0;
 			//вычисляем общую высоту подписей к шагам
 			for (let node of markList) {
@@ -154,7 +134,6 @@ class sliderViewScale {
 				}
 			}
 		}
-		//	this.lastLabelRemoved = false;
 	}
 
 	//возвращаем подпись у последненего шага и удаляем у предпоследнего подписанного
