@@ -59,7 +59,7 @@ class sliderModel extends Observer {
 		};
 		this.startConf = conf;
 	}
-	$getConf(conf: IConf) {
+	getConf(conf: IConf) {
 		this.backEndConf = conf;
 		let joinedConf = {};
 		joinedConf = Object.assign(joinedConf, this.$conf, this.startConf, this.backEndConf);
@@ -68,7 +68,7 @@ class sliderModel extends Observer {
 
 	}
 
-	$start() {
+	start() {
 		this.onStart = this.$conf.onStart;
 		this.onUpdate = this.$conf.onUpdate;
 		this.onChange = this.$conf.onChange;
@@ -86,29 +86,28 @@ class sliderModel extends Observer {
 	$checkConf(conf: IConf) {
 		//надо проверять на число те параметры, которые вводятся в инпут (т.к. можно ввести строку)
 
+		let validType = (value: any) => Number.isNaN(value) ? 0 : value;
 
-		if (Number.isNaN(conf.min)) {
-			conf.min = 0;
+		conf.min = validType(conf.min);
+		conf.max = validType(conf.max);
+		conf.from = validType(conf.from);
+		conf.to = validType(conf.to);
+		conf.step = validType(conf.step);
+		conf.interval = validType(conf.interval);
+		conf.shiftOnKeyDown = validType(conf.shiftOnKeyDown);
+		conf.shiftOnKeyHold = validType(conf.shiftOnKeyHold);
+
+
+		if (conf.step <= 0) {
+			conf.step = (conf.max - conf.min) / 2;
 		}
-		if (Number.isNaN(conf.max)) {
-			conf.max = 0;
+		if (conf.interval <= 0) {
+			conf.interval = 2;
 		}
-		if (Number.isNaN(conf.from)) {
-			conf.from = 0;
-		}
-		if (Number.isNaN(conf.to)) {
-			conf.to = 0;
-		}
-		if (Number.isNaN(conf.step) || conf.step <= 0) {
-			conf.step = (conf.max - conf.min) / 3;
-		}
-		if (Number.isNaN(conf.interval) || conf.interval <= 0) {
-			conf.interval = 3;
-		}
-		if (Number.isNaN(conf.shiftOnKeyDown) || conf.shiftOnKeyDown <= 0) {
+		if (conf.shiftOnKeyDown <= 0) {
 			conf.shiftOnKeyDown = 1;
 		}
-		if (Number.isNaN(conf.shiftOnKeyHold) || conf.shiftOnKeyHold <= 0) {
+		if (conf.shiftOnKeyHold <= 0) {
 			conf.shiftOnKeyHold = 1;
 		}
 

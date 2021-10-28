@@ -27,6 +27,10 @@ class sliderView extends Observer {
 		super();
 		/*Находим корневой элемент*/
 		this.root = root as HTMLElement;
+		this.render();
+		this.collectParms();
+	}
+	render() {
 		this.slider = document.createElement('div');
 		this.slider.className = 'rs__wrapper';
 		this.root.after(this.slider);
@@ -35,86 +39,11 @@ class sliderView extends Observer {
 		this.slider.append(this.track);
 		this.frame = document.createElement('div');
 		this.frame.className = 'rs__frame';
-
 		this.slider.append(this.frame);
+	}
 
-
+	collectParms() {
 		this.backEndConf = {}
-		// this.backEndConfTest = {};
-		// //min
-		// if (this.root.hasAttribute('data-min')) {
-		// 	this.backEndConf.min = parseFloat(this.root.getAttribute('data-min'));
-		// }
-		// //max
-		// if (this.root.hasAttribute('data-max')) {
-		// 	this.backEndConf.max = parseFloat(this.root.getAttribute('data-max'));
-		// }
-		// //from
-		// if (this.root.hasAttribute('data-from')) {
-		// 	this.backEndConf.from = parseFloat(this.root.getAttribute('data-from'));
-		// }
-		// //to
-		// if (this.root.hasAttribute('data-to')) {
-		// 	this.backEndConf.to = parseFloat(this.root.getAttribute('data-to'));
-		// }
-		// //shiftOnKeyDown
-		// if (this.root.hasAttribute('data-shiftOnKeyDown')) {
-		// 	this.backEndConf.shiftOnKeyDown = parseFloat(this.root.getAttribute('data-shiftOnKeyDown'));
-		// }
-		// //shiftOnKeyHold
-		// if (this.root.hasAttribute('data-shiftOnKeyHold')) {
-		// 	this.backEndConf.shiftOnKeyHold = parseFloat(this.root.getAttribute('data-shiftOnKeyHold'));
-		// }
-
-		// //scaleBase
-		// if (this.root.getAttribute('data-scaleBase')) {
-		// 	this.backEndConf.scaleBase = this.root.getAttribute('data-scaleBase');
-		// }
-
-		// //step
-		// if (this.root.hasAttribute('data-step')) {
-		// 	this.backEndConf.step = parseFloat(this.root.getAttribute('data-step'));
-		// }
-		// //interval
-		// if (this.root.hasAttribute('data-interval')) {
-		// 	this.backEndConf.interval = parseFloat(this.root.getAttribute('data-interval'));
-		// }
-
-
-
-
-		// //vertical
-		// if (this.root.hasAttribute('data-vertical')) {
-		// 	this.backEndConf.vertical = true;
-		// }
-
-		// //range
-		// if (this.root.hasAttribute('data-range')) {
-		// 	this.backEndConf.range = true;
-		// }
-
-		// //bar
-		// if (this.root.hasAttribute('data-bar')) {
-		// 	this.backEndConf.bar = true;
-		// }
-
-		// //tip
-		// if (this.root.hasAttribute('data-tip')) {
-		// 	this.backEndConf.tip = true;
-		// }
-
-		// //scale
-		// if (this.root.hasAttribute('data-scale')) {
-		// 	this.backEndConf.scale = true;
-		// }
-
-
-		// //sticky
-		// if (this.root.hasAttribute('data-sticky')) {
-		// 	this.backEndConf.sticky = true;
-		// }
-
-		//	console.log(this.root.attributes);
 		let map = new Map();
 		let arr = ['min',
 			'max',
@@ -156,7 +85,7 @@ class sliderView extends Observer {
 	}
 
 
-	$init(conf: IConf) {
+	init(conf: IConf) {
 		this.conf = conf;
 		this.createSubViews();
 		this.createListeners();//срабатывает после инициализации модели

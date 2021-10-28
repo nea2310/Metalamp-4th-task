@@ -20,9 +20,9 @@ class sliderController extends Observer {
 
 	$init() {
 
-		this.model.$getConf(this.view.backEndConf);
-		this.view.$init(this.model.$conf); //закидываем конфиг из модели в view
-		this.model.$start();
+		this.model.getConf(this.view.backEndConf);
+		this.view.init(this.model.$conf); //закидываем конфиг из модели в view
+		this.model.start();
 
 
 	}
