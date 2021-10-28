@@ -183,7 +183,7 @@ class RangeSlider {
 			}
 		}).data('Slider'); // вернёт объект для одного элемента
 
-		console.log(this.rangeSlider);
+
 
 	}
 

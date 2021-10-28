@@ -46,15 +46,15 @@ class sliderViewBar {
 		}
 	}
 
-	$switchVertical(conf: IConf) {
+	switchVertical(conf: IConf) {
 		if (conf.vertical) {
 			this.progressBar.classList.add('vertical');
 		} else {
 			this.progressBar.classList.remove('vertical');
 		}
 	}
-	/*красим Progress Bar (вызывается из контроллера)*/
-	$updateBar(pos: number, length: number, isVertical: boolean) {
+
+	updateBar(pos: number, length: number, isVertical: boolean) {
 
 		if (!isVertical) {
 			this.progressBar.style.left = pos + '%';
@@ -69,8 +69,7 @@ class sliderViewBar {
 		}
 	}
 
-
-	$switchBar(conf: IConf) {
+	switchBar(conf: IConf) {
 		this.conf = conf;
 		this.conf.bar ? this.progressBar.classList.remove('hidden') :
 			this.progressBar.classList.add('hidden');

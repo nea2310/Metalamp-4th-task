@@ -162,7 +162,7 @@ class sliderViewScale {
 	}
 
 
-	$switchScale(conf: IConf) {
+	switchScale(conf: IConf) {
 		this.conf = conf;
 		let stepMarks = this.slider.querySelectorAll('.rs__mark');
 		if (this.conf.scale) {

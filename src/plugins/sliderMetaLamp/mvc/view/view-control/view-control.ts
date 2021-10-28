@@ -86,7 +86,7 @@ class sliderViewControl extends Observer {
 		}
 	}
 
-	$switchVertical(conf: IConf) {
+	switchVertical(conf: IConf) {
 		this.conf = conf;
 
 		if (this.conf.vertical) { // vertical mode
@@ -247,7 +247,7 @@ class sliderViewControl extends Observer {
 
 
 	//Обновляем позицию ползунка (вызывается через контроллер)
-	updateControlPos(elem: HTMLElement, newPos: number) {
+	updatePos(elem: HTMLElement, newPos: number) {
 		if (!this.conf.vertical) {
 			elem.style.left = newPos + '%';
 			elem.style.bottom = '';
@@ -266,12 +266,12 @@ class sliderViewControl extends Observer {
 
 
 	//Обновляем значение tip
-	updateTipVal(val: string, isFrom: boolean) {
+	updateVal(val: string, isFrom: boolean) {
 		isFrom ? this.tipMin.value = val : this.tipMax.value = val;
 	}
 
 
-	$switchRange(conf: IConf) {
+	switchRange(conf: IConf) {
 		this.conf = conf;
 		if (this.conf.range) {
 			this.controlMax.classList.remove('hidden');
@@ -285,7 +285,7 @@ class sliderViewControl extends Observer {
 	}
 
 
-	$switchTip(conf: IConf) {
+	switchTip(conf: IConf) {
 		this.conf = conf;
 		if (this.conf.tip) {
 			this.tipMax.classList.remove('hidden');

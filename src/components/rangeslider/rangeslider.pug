@@ -10,8 +10,8 @@ mixin rangeslider(options={})
 	div(class = elemName)
 		div(class = elemName + '__rs')
 			input(class='rs__root rs__root-2' data-min='-20' data-max='200' 
-					data-from='10' data-to='50' data-vertical='true' data-scaleBase='steps'
-					data-step='20' data-shiftOnKeyDown='1' data-shiftOnKeyHold='3' data-sticky='false' 
+					data-from='10' data-to='50' data-vertical='true' data-scalebase='steps'
+					data-step='20' data-shiftonkeydown='1' data-shiftonkeyhold='3' data-sticky='false' 
 					data-range='false')
 		div(class = elemName + '__panel '+ elemName + '__panel-2')
 			+panel({mod: '2', radioGroupName: 'vertical'})
