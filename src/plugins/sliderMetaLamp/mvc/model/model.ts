@@ -13,7 +13,7 @@ class sliderModel extends Observer {
 	$conf: IConf;
 	startConf: IConf;
 	backEndConf: IConf;
-	$methods: $Imethods;
+	methods: $Imethods;
 	data: $Idata;
 	onStart?: Function;
 	onUpdate?: Function;
@@ -45,7 +45,7 @@ class sliderModel extends Observer {
 
 		this.data = {};
 
-		this.$methods = {
+		this.methods = {
 			$calcFromPosition: false,
 			$calcToPosition: false,
 			$calcScale: false,
@@ -145,8 +145,8 @@ class sliderModel extends Observer {
 		this.$conf = conf;
 		//запустим методы, для которых есть изменившиеся параметры
 		let key: keyof $Imethods;
-		for (key in this.$methods) {
-			if (this.$methods[key]) {
+		for (key in this.methods) {
+			if (this.methods[key]) {
 				let method = `this.${key}()`;
 				eval(method);
 			}
@@ -154,9 +154,9 @@ class sliderModel extends Observer {
 		//	}
 		this.onUpdate(this.$conf);
 		//вернем исходные значения (false)
-		for (key in this.$methods) {
-			if (this.$methods[key]) {
-				this.$methods[key] = false;
+		for (key in this.methods) {
+			if (this.methods[key]) {
+				this.methods[key] = false;
 			}
 		}
 	}
@@ -169,56 +169,56 @@ class sliderModel extends Observer {
 			} else {
 				switch (key) {
 					case 'min':
-						this.$methods.$calcScale = true;
-						this.$methods.$calcFromPosition = true;
-						this.$methods.$calcBar = true;
+						this.methods.$calcScale = true;
+						this.methods.$calcFromPosition = true;
+						this.methods.$calcBar = true;
 						break;
 					case 'max':
-						this.$methods.$calcScale = true;
-						this.$methods.$calcToPosition = true;
-						this.$methods.$calcBar = true;
+						this.methods.$calcScale = true;
+						this.methods.$calcToPosition = true;
+						this.methods.$calcBar = true;
 						break;
 					case 'from':
-						this.$methods.$calcFromPosition = true;
-						this.$methods.$calcBar = true;
+						this.methods.$calcFromPosition = true;
+						this.methods.$calcBar = true;
 						break;
 					case 'to':
-						this.$methods.$calcToPosition = true;
-						this.$methods.$calcBar = true;
+						this.methods.$calcToPosition = true;
+						this.methods.$calcBar = true;
 						break;
 					case 'step':
-						this.$methods.$calcScale = true;
-						this.$methods.$updateControlPos = true;
+						this.methods.$calcScale = true;
+						this.methods.$updateControlPos = true;
 						break;
 					case 'interval':
-						this.$methods.$calcScale = true;
-						this.$methods.$updateControlPos = true;
+						this.methods.$calcScale = true;
+						this.methods.$updateControlPos = true;
 						break;
 					case 'scaleBase':
-						this.$methods.$calcScale = true;
+						this.methods.$calcScale = true;
 						break;
 					case 'vertical':
-						this.$methods.$switchVertical = true;
+						this.methods.$switchVertical = true;
 						break;
 					case 'range':
-						this.$methods.$switchRange = true;
+						this.methods.$switchRange = true;
 						break;
 					case 'scale':
-						this.$methods.$switchScale = true;
+						this.methods.$switchScale = true;
 						break;
 					case 'bar':
-						this.$methods.$switchBar = true;
+						this.methods.$switchBar = true;
 						break;
 					case 'tip':
-						this.$methods.$switchTip = true;
+						this.methods.$switchTip = true;
 						break;
 					case 'sticky':
-						this.$methods.$updateControlPos = true;
+						this.methods.$updateControlPos = true;
 						break;
 				}
 			}
 		}
-		return this.$methods;
+		return this.methods;
 	}
 
 
