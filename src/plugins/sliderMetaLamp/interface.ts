@@ -95,7 +95,7 @@ interface $Idata {
 	//	$newPos?: number
 	$fromVal?: string
 	$toVal?: string
-	$thumb?: $Ithumb
+	thumb?: $Ithumb
 }
 
 interface $Ithumb {

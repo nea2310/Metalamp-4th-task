@@ -128,15 +128,15 @@ class sliderController extends Observer {
 		if (key !== 'MoveEvent') return;
 		else {
 			this.model.calcPos(
-				data.$thumb.$type,
-				data.$thumb.$clientY,
-				data.$thumb.$clientX,
-				data.$thumb.$top,
-				data.$thumb.$left,
-				data.$thumb.$width,
-				data.$thumb.$height,
-				data.$thumb.$shiftBase,
-				data.$thumb.$moovingControl);
+				data.thumb.$type,
+				data.thumb.$clientY,
+				data.thumb.$clientX,
+				data.thumb.$top,
+				data.thumb.$left,
+				data.thumb.$width,
+				data.thumb.$height,
+				data.thumb.$shiftBase,
+				data.thumb.$moovingControl);
 		}
 	}
 
@@ -144,9 +144,9 @@ class sliderController extends Observer {
 		if (key !== 'KeydownEvent') return;
 		else {
 			this.model.calcPosKey(
-				data.$thumb.$key,
-				data.$thumb.$repeat,
-				data.$thumb.$moovingControl);
+				data.thumb.$key,
+				data.thumb.$repeat,
+				data.thumb.$moovingControl);
 		}
 	}
 
