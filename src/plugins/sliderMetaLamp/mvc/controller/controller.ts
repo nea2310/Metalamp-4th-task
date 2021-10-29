@@ -151,7 +151,7 @@ class sliderController extends Observer {
 	}
 
 	update(conf: IConf) {
-		this.model.$update(conf);
+		this.model.update(conf);
 	}
 }
 

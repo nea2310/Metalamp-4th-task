@@ -64,7 +64,7 @@ class sliderModel extends Observer {
 		let joinedConf = {};
 		joinedConf = Object.assign(joinedConf, this.conf, this.startConf, this.backEndConf);
 		//проверим корректность полученных параметров конфигурации и при необходимости - исправим
-		this.conf = this.$checkConf(joinedConf);
+		this.conf = this.checkConf(joinedConf);
 
 	}
 
@@ -83,10 +83,10 @@ class sliderModel extends Observer {
 
 
 
-	$checkConf(conf: IConf) {
+	checkConf(conf: IConf) {
 		//надо проверять на число те параметры, которые вводятся в инпут (т.к. можно ввести строку)
 
-		let validType = (value: any) => Number.isNaN(value) ? 0 : value;
+		const validType = (value: any) => Number.isNaN(value) ? 0 : value;
 
 		conf.min = validType(conf.min);
 		conf.max = validType(conf.max);
@@ -130,18 +130,16 @@ class sliderModel extends Observer {
 			conf.from = conf.to
 		}
 		if (conf.range && conf.from > conf.to) {
-			console.log('!!!');
-
 			conf.from = conf.min
 		}
 		return conf;
 	}
 
-	$update(newConf: IConf) {
+	update(newConf: IConf) {
 		let conf = {};
 		conf = Object.assign(conf, this.conf, newConf);
 		//проверим корректность полученных параметров конфигурации и при необходимости - исправим
-		conf = this.$checkConf(conf);
+		conf = this.checkConf(conf);
 		//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
 		this.$findChangedConf(this.conf, conf);
 		this.conf = conf;
@@ -162,7 +160,8 @@ class sliderModel extends Observer {
 			}
 		}
 	}
-
+	/*находим изменившийся параметр и меняем соотв-щее св-во объекта this.methods; это нужно чтобы не выполнять одни и те же 
+	действия несколько раз, если получаем несколько параметров, требующих запуска одного и того же метода в модели*/
 	$findChangedConf(conf: IConf, newConf: IConf) {
 		let key: keyof IConf;
 		for (key in newConf) {
