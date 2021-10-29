@@ -92,12 +92,12 @@
 		border-radius: 25%;
 	}
 
-	// &-min::after {
-	// 	border: 1px solid blue;
-	// }
-	// &-max::after {
-	// 	border: 1px solid red;
-	// }
+	&-min::after {
+		border: 1px solid blue;
+	}
+	&-max::after {
+		border: 1px solid red;
+	}
 
 	&.vert {
 		width: 25px;

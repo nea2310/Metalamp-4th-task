@@ -55,6 +55,8 @@ class sliderController extends Observer {
 	handleToPosition = (key: string, data: Idata) => {
 		if (key !== 'ToPosition') return;
 		else {
+			console.log(data);
+
 			this.view.updateToPos(data);
 		}
 	}
@@ -69,6 +71,7 @@ class sliderController extends Observer {
 	handleToValue = (key: string, data: Idata) => {
 		if (key !== 'ToValue') return;
 		else {
+			console.log(data);
 			this.view.updateToVal(data);
 		}
 	}

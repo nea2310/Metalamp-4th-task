@@ -85,6 +85,10 @@ class RangeSlider {
 				}
 			});
 		}
+
+		console.log(this.shiftOnKeyDown);
+		console.log(this.interval);
+
 	}
 
 	renderSlider(slider: HTMLElement) {
@@ -141,6 +145,7 @@ class RangeSlider {
 		};
 
 		const updateData = (data: IConf) => {
+
 			setVertical(data.vertical);
 			const D = data;
 			valid(this.from, D.from);

@@ -112,7 +112,7 @@ class sliderModel extends Observer {
 		}
 
 		if (conf.max <= conf.min) {
-			conf.max = conf.min + 10
+			conf.max = conf.min + 10;
 			conf.from = conf.min;
 			conf.to = conf.max;
 		}
@@ -123,8 +123,12 @@ class sliderModel extends Observer {
 		if (conf.to < conf.min) {
 			conf.to = conf.from
 		}
-		if (conf.to > conf.max) {
+		if (!conf.range && conf.to > conf.max) {
 			conf.to = conf.from
+		}
+
+		if (conf.range && conf.to > conf.max) {
+			conf.to = conf.max
 		}
 		if (conf.from > conf.max) {
 			conf.from = conf.to
@@ -143,6 +147,7 @@ class sliderModel extends Observer {
 		//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
 		this.$findChangedConf(this.conf, conf);
 		this.conf = conf;
+		console.log(this.conf);
 		//запустим методы, для которых есть изменившиеся параметры
 		let key: keyof Imethods;
 		for (key in this.methods) {
@@ -151,7 +156,6 @@ class sliderModel extends Observer {
 				eval(method);
 			}
 		}
-		//	}
 		this.onUpdate(this.conf);
 		//вернем исходные значения (false)
 		for (key in this.methods) {
@@ -172,10 +176,12 @@ class sliderModel extends Observer {
 					case 'min':
 						this.methods.calcScale = true;
 						this.methods.calcFromPosition = true;
+						this.methods.calcToPosition = true;
 						this.methods.calcBar = true;
 						break;
 					case 'max':
 						this.methods.calcScale = true;
+						this.methods.calcFromPosition = true;
 						this.methods.calcToPosition = true;
 						this.methods.calcBar = true;
 						break;
@@ -303,11 +309,17 @@ class sliderModel extends Observer {
 	}
 	// рассчитать позицию To (%) на основании значений to, min и max
 	calcToPosition() {
+		console.log(this.conf.to);
+		console.log(this.conf.min);
+		console.log(this.conf.max);
+
 		this.data.toPos = ((this.conf.to - this.conf.min) * 100) /
 			(this.conf.max - this.conf.min);
 		if (this.conf.sticky) {
 			this.data.toPos = this.setSticky(this.data.toPos);
 		}
+
+		console.log(this.data.toPos);
 		this.calcVal('normal', this.data.toPos, 'max');
 		this.fire('ToPosition', this.data);
 	}
@@ -500,23 +512,23 @@ class sliderModel extends Observer {
 		if (!this.conf.sticky) {	// если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
 			if (moovingControl == 'min') {// Ползунок min
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
-					if (this.conf.range && this.conf.from <
-						this.conf.to ||
-						!this.conf.range && this.conf.from < this.conf.max) {
+					/*проверяем, что FROM не стал больше TO или MAX*/
+					const checkMaxRange = this.conf.range && this.conf.from <
+						this.conf.to;
+					const checkMaxNoRange = !this.conf.range && this.conf.from < this.conf.max;
 
+					if (checkMaxRange || checkMaxNoRange) {
 						newVal = repeat ?
 							this.conf.from +
 							this.conf.shiftOnKeyHold :
 							this.conf.from +
 							this.conf.shiftOnKeyDown;
-
 						if (this.conf.range && newVal > this.conf.to) {
 							newVal = this.conf.to;
 						}
 						if (!this.conf.range && newVal > this.conf.max) {
 							newVal = this.conf.max;
 						}
-
 					} else return;
 				} else {// Уменьшение значения
 					if (this.conf.from > this.conf.min) {
@@ -570,6 +582,11 @@ class sliderModel extends Observer {
 
 		// если ползунок должен вставать на позицию ближайшего к нему деления шкалы
 		else {
+
+			console.log('!!!');
+			console.log(this.data.marksArr);
+			console.log(this.conf.from);
+
 			if (moovingControl == 'min') {// ползунок min
 				let index = this.data.marksArr.
 					findIndex(item => item.val == this.conf.from);
@@ -583,8 +600,6 @@ class sliderModel extends Observer {
 					}
 				} else {//Уменьшение значения
 					item = decr(index);
-
-
 					if (item.val < this.conf.to) {
 						changeFrom(item);
 					}
