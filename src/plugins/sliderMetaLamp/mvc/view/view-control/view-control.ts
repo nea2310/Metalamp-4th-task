@@ -15,15 +15,15 @@ class sliderViewControl extends Observer {
 	tipMin: HTMLInputElement;
 	tipMax: HTMLInputElement;
 	track: HTMLInputElement;
-	$data: $Idata;
+	data: $Idata;
 
 	constructor(sliderElem: HTMLElement, conf: IConf) {
 		super();
 		this.slider = sliderElem;
 		this.root = sliderElem.previousElementSibling as HTMLInputElement;
 		this.track = this.slider.querySelector('.rs__track');
-		this.$data = {};
-		this.$data.thumb = {};
+		this.data = {};
+		this.data.thumb = {};
 		this.init(conf);
 		this.dragControl();
 		this.pressControl();
@@ -121,26 +121,26 @@ class sliderViewControl extends Observer {
 			if (target.classList.contains('rs__control')) {
 				//определяем ползунок, за который тянут
 				target.classList.contains('rs__control-min') ?
-					this.$data.thumb.$moovingControl = 'min' :
-					this.$data.thumb.$moovingControl = 'max';
+					this.data.thumb.moovingControl = 'min' :
+					this.data.thumb.moovingControl = 'max';
 				//определяем расстояние между позицией клика и левым краем ползунка
 				if (!this.conf.vertical) {
-					this.$data.thumb.$shiftBase = e.clientX -
+					this.data.thumb.$shiftBase = e.clientX -
 						target.getBoundingClientRect().left;
 				}
 				let scale = target.parentElement;
-				this.$data.thumb.$top = scale.getBoundingClientRect().top;
-				this.$data.thumb.$left = scale.getBoundingClientRect().left;
-				this.$data.thumb.$width = scale.offsetWidth;
-				this.$data.thumb.$height = scale.offsetHeight;
+				this.data.thumb.$top = scale.getBoundingClientRect().top;
+				this.data.thumb.$left = scale.getBoundingClientRect().left;
+				this.data.thumb.$width = scale.offsetWidth;
+				this.data.thumb.$height = scale.offsetHeight;
 
 				let pointerMoveHandler = (e: PointerEvent) => {
-					this.$data.thumb.$type = e.type;
-					this.$data.thumb.$clientX = e.clientX;
-					this.$data.thumb.$clientY = e.clientY;
-					this.fire('MoveEvent', this.$data);
-					// this.input.value = this.$data.$fromVal + ', ' + this.$data.$toVal;
-					// console.log(this.$data);
+					this.data.thumb.$type = e.type;
+					this.data.thumb.$clientX = e.clientX;
+					this.data.thumb.$clientY = e.clientY;
+					this.fire('MoveEvent', this.data);
+					// this.input.value = this.data.$fromVal + ', ' + this.data.$toVal;
+					// console.log(this.data);
 					// console.log(this.input.value);
 				};
 
@@ -173,12 +173,12 @@ class sliderViewControl extends Observer {
 				if (target.classList.contains('rs__control')) {
 					//определяем ползунок, на который нажимают
 					target.classList.contains('rs__control-min') ?
-						this.$data.thumb.$moovingControl = 'min' :
-						this.$data.thumb.$moovingControl = 'max';
-					this.$data.thumb.$key = e.code;
-					this.$data.thumb.$repeat = e.repeat;
-					this.fire('KeydownEvent', this.$data);
-					//	this.input.value = this.$data.$fromVal + ', ' + this.$data.$toVal;
+						this.data.thumb.moovingControl = 'min' :
+						this.data.thumb.moovingControl = 'max';
+					this.data.thumb.$key = e.code;
+					this.data.thumb.$repeat = e.repeat;
+					this.fire('KeydownEvent', this.data);
+					//	this.input.value = this.data.$fromVal + ', ' + this.data.$toVal;
 					//console.log(this.input.value);
 				}
 			}
@@ -218,27 +218,27 @@ class sliderViewControl extends Observer {
 						getBoundingClientRect().bottom - e.clientY);
 				}
 
-				this.$data.thumb.$top = this.track.getBoundingClientRect().top;
-				this.$data.thumb.$left =
+				this.data.thumb.$top = this.track.getBoundingClientRect().top;
+				this.data.thumb.$left =
 					this.track.getBoundingClientRect().left;
-				this.$data.thumb.$width = this.track.offsetWidth;
-				this.$data.thumb.$height = this.track.offsetHeight;
-				this.$data.thumb.$type = e.type;
-				this.$data.thumb.$clientX = e.clientX;
-				this.$data.thumb.$clientY = e.clientY;
+				this.data.thumb.$width = this.track.offsetWidth;
+				this.data.thumb.$height = this.track.offsetHeight;
+				this.data.thumb.$type = e.type;
+				this.data.thumb.$clientX = e.clientX;
+				this.data.thumb.$clientY = e.clientY;
 
 				//определяем ползунок, находящийся ближе к позиции клика
 				if (this.controlMax.classList.contains('hidden')) {//Single mode
-					this.$data.thumb.$moovingControl = 'min';
+					this.data.thumb.moovingControl = 'min';
 				}
 
 				else {//Double mode
 					controlMinDist <= controlMaxDist ?
-						this.$data.thumb.$moovingControl = 'min' :
-						this.$data.thumb.$moovingControl = 'max';
+						this.data.thumb.moovingControl = 'min' :
+						this.data.thumb.moovingControl = 'max';
 				}
-				this.fire('MoveEvent', this.$data);
-				//	this.input.value = this.$data.$fromVal + ', ' + this.$data.$toVal;
+				this.fire('MoveEvent', this.data);
+				//	this.input.value = this.data.$fromVal + ', ' + this.data.$toVal;
 				//console.log(this.input.value);
 			}
 		};

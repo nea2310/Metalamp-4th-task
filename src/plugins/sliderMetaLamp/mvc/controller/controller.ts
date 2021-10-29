@@ -136,7 +136,7 @@ class sliderController extends Observer {
 				data.thumb.$width,
 				data.thumb.$height,
 				data.thumb.$shiftBase,
-				data.thumb.$moovingControl);
+				data.thumb.moovingControl);
 		}
 	}
 
@@ -146,7 +146,7 @@ class sliderController extends Observer {
 			this.model.calcPosKey(
 				data.thumb.$key,
 				data.thumb.$repeat,
-				data.thumb.$moovingControl);
+				data.thumb.moovingControl);
 		}
 	}
 
