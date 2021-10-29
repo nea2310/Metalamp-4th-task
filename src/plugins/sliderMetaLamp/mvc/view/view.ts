@@ -85,16 +85,7 @@ class sliderView extends Observer {
 		this.conf = conf;
 		this.createSubViews();
 		this.createListeners();//срабатывает после инициализации модели
-
-		if (conf.vertical) {
-			this.slider.classList.add('vert');
-			this.track.classList.add('vert');
-			this.frame.classList.add('vert');
-		} else {
-			this.slider.classList.remove('vert');
-			this.track.classList.remove('vert');
-			this.frame.classList.remove('vert');
-		}
+		this.switchVertical(conf);
 	}
 
 
@@ -111,37 +102,37 @@ class sliderView extends Observer {
 	}
 
 
-	updateFromPos = (key: string, data: Idata) => {
+	updateFromPos = (data: Idata) => {
 		this.viewControl.updatePos(this.viewControl.controlMin,
 			data.fromPos);
 
 	}
 
-	updateToPos = (key: string, data: Idata) => {
+	updateToPos = (data: Idata) => {
 		this.viewControl.updatePos(this.viewControl.controlMax,
 			data.toPos);
 	}
 
 
-	updateFromVal = (key: string, data: Idata) => {
+	updateFromVal = (data: Idata) => {
 		this.viewControl.updateVal(data.fromVal, true);
 	}
 
 
-	updateToVal = (key: string, data: Idata) => {
+	updateToVal = (data: Idata) => {
 		this.viewControl.updateVal(data.toVal, false);
 	}
 
-	updateScale = (key: string, data: Idata, conf: IConf) => {
+	updateScale = (data: Idata, conf: IConf) => {
 		this.viewScale.createScale(data.marksArr, conf);
 	}
 
-	updateBar = (key: string, data: Idata, conf: IConf) => {
+	updateBar = (data: Idata, conf: IConf) => {
 		this.viewBar.
 			updateBar(data.barPos, data.barWidth, conf.vertical);
 	}
 
-	switchVertical = (key: string, data: Idata, conf: IConf) => {
+	switchVertical = (conf: IConf) => {
 		if (conf.vertical) {
 			this.slider.classList.add('vert');
 			this.track.classList.add('vert');
@@ -155,19 +146,19 @@ class sliderView extends Observer {
 		this.viewControl.switchVertical(conf);
 	}
 
-	switchRange = (key: string, data: Idata, conf: IConf) => {
+	switchRange = (conf: IConf) => {
 		this.viewControl.switchRange(conf);
 	}
 
-	switchScale = (key: string, data: Idata, conf: IConf) => {
+	switchScale = (conf: IConf) => {
 		this.viewScale.switchScale(conf);
 	}
 
-	switchBar = (key: string, data: Idata, conf: IConf) => {
+	switchBar = (conf: IConf) => {
 		this.viewBar.switchBar(conf);
 	}
 
-	switchTip = (key: string, data: Idata, conf: IConf) => {
+	switchTip = (conf: IConf) => {
 		this.viewControl.switchTip(conf);
 	}
 

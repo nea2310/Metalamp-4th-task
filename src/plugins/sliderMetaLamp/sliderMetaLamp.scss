@@ -21,21 +21,22 @@
 	padding: 20px;
 	display: inline-block;
 }
-// .rs__frame {
-// 	position: absolute;
-// 	top: 40px;
-// 	bottom: 0;
-// 	left: 0;
-// 	width: 100%;
-// 	opacity: 0.5;
-// 	cursor: default;
-// }
-// .rs__frame.vert {
-// 	top: 0;
-// 	left: 60px;
-// 	right: 0;
-// 	width: 50%;
-// }
+.rs__frame {
+	background-color: $colorDarkShade25;
+	position: absolute;
+	top: 40px;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	opacity: 0.5;
+	cursor: default;
+}
+.rs__frame.vert {
+	top: 0;
+	left: 5px;
+	right: 0;
+	width: 120%;
+}
 
 .rs__track {
 	border-radius: 3px;

@@ -48,70 +48,70 @@ class sliderController extends Observer {
 	handleFromPosition = (key: string, data: Idata) => {
 		if (key !== 'FromPosition') return;
 
-		this.view.updateFromPos(key, data);
+		this.view.updateFromPos(data);
 
 	}
 
 	handleToPosition = (key: string, data: Idata) => {
 		if (key !== 'ToPosition') return;
 		else {
-			this.view.updateToPos(key, data);
+			this.view.updateToPos(data);
 		}
 	}
 
 	handleFromValue = (key: string, data: Idata) => {
 		if (key !== 'FromValue') return;
 		else {
-			this.view.updateFromVal(key, data);
+			this.view.updateFromVal(data);
 		}
 	}
 
 	handleToValue = (key: string, data: Idata) => {
 		if (key !== 'ToValue') return;
 		else {
-			this.view.updateToVal(key, data);
+			this.view.updateToVal(data);
 		}
 	}
 
 	handleScale = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'Scale') return;
 		else {
-			this.view.updateScale(key, data, conf);
+			this.view.updateScale(data, conf);
 		}
 	}
 
 	handleBar = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'Bar') return;
 		else {
-			this.view.updateBar(key, data, conf);
+			this.view.updateBar(data, conf);
 		}
 	}
 
 	handleIsVertical = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsVertical') return;
 		else {
-			this.view.switchVertical(key, data, conf);
+			this.view.switchVertical(conf);
 		}
 	}
 
 	handleIsRange = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsRange') return;
 		else {
-			this.view.switchRange(key, data, conf);
+			this.view.switchRange(conf);
 		}
 	}
 
 	handleIsScale = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsScale') return;
 		else {
-			this.view.switchScale(key, data, conf);
+			this.view.switchScale(conf);
 		}
 	}
 
 	handleIsBar = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsBar') return;
 		else {
-			this.view.switchBar(key, data, conf);
+			this.view.switchBar(conf);
 		}
 	}
 
@@ -119,7 +119,7 @@ class sliderController extends Observer {
 	handleIsTip = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsTip') return;
 		else {
-			this.view.switchTip(key, data, conf);
+			this.view.switchTip(conf);
 		}
 	}
 
