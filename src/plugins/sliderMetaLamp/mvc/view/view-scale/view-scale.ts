@@ -45,7 +45,6 @@ class sliderViewScale {
 			label.classList.add('rs__label');
 			elem.appendChild(label);
 
-
 			if (conf.vertical) {
 				elem.classList.add('vert');
 				label.classList.add('vert');
@@ -76,7 +75,7 @@ class sliderViewScale {
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
 	checkScaleLength(markList: HTMLElement[]) {
 		let hideLabels = (markList: HTMLElement[]) => {
-			console.log('hideLabels');
+			//console.log('hideLabels');
 			//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
 			for (let i = 1; i < markList.length; i += 2) {
 				markList[i].firstElementChild.
@@ -120,7 +119,7 @@ class sliderViewScale {
 			}
 			//если общая высота подписей к шагам больше высоты шкалы
 			if (totalHeight > this.track.offsetHeight) {
-				console.log('recursion');
+				//	console.log('recursion');
 				//Скрываем подписи
 				hideLabels(markList);
 			} else {
@@ -157,7 +156,6 @@ class sliderViewScale {
 			beforeLastLabel.classList.add('hidden');
 		}
 	}
-
 
 	switchScale(conf: IConf) {
 		this.conf = conf;
@@ -206,7 +204,7 @@ class sliderViewScale {
 				let totalWidth = this.slider.offsetWidth; // ----------------------------------- получаем ширину после ресайза
 				if (totalWidth != this.startWidth) { // -------------------------------------------------- если до и после отличаеться 
 					if (totalWidth < this.startWidth) {
-						console.log('RESIZE');
+						//	console.log('RESIZE');
 						this.checkScaleLength(this.markList);
 					}
 					if (totalWidth > this.startWidth) {
@@ -226,7 +224,6 @@ class sliderViewScale {
 		});
 	}
 }
-
 
 export { sliderViewScale };
 

@@ -35,7 +35,7 @@ class sliderModel extends Observer {
 			scaleBase: 'interval',
 			step: 0,
 			interval: 0,
-			sticky: true,
+			sticky: false,
 			shiftOnKeyDown: 0,
 			shiftOnKeyHold: 0,
 			onStart: () => true,
@@ -65,10 +65,6 @@ class sliderModel extends Observer {
 		joinedConf = Object.assign(joinedConf, this.conf, this.startConf, this.backEndConf);
 		//проверим корректность полученных параметров конфигурации и при необходимости - исправим
 		this.conf = this.checkConf(joinedConf);
-
-		console.log(this.conf);
-
-
 	}
 
 	start() {

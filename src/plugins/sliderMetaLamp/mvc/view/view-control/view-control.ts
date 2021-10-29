@@ -73,6 +73,7 @@ class sliderViewControl extends Observer {
 		let pointerDownHandler = (e: PointerEvent) => {
 			e.preventDefault();
 			const target = e.target as HTMLElement;
+			target.classList.add('grabbing')
 			const T = this.data.thumb;
 			if (target.classList.contains('rs__control')) {
 				//определяем ползунок, за который тянут
@@ -91,6 +92,7 @@ class sliderViewControl extends Observer {
 				T.height = scale.offsetHeight;
 
 				let pointerMoveHandler = (e: PointerEvent) => {
+
 					T.type = e.type;
 					T.clientX = e.clientX;
 					T.clientY = e.clientY;
@@ -98,6 +100,7 @@ class sliderViewControl extends Observer {
 				};
 
 				let pointerUpHandler = () => {
+					target.classList.remove('grabbing')
 					target.
 						removeEventListener('pointermove', pointerMoveHandler);
 					target.

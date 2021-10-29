@@ -40,7 +40,6 @@ class sliderView extends Observer {
 
 	collectParms() {
 
-
 		this.backEndConf = {}
 		let map = new Map();
 		let arr = ['min',
@@ -92,12 +91,8 @@ class sliderView extends Observer {
 				map.delete(elem[0]);
 			}
 		}
-		console.log(map);
 		this.backEndConf = Object.fromEntries(map.entries());
-
-
 	}
-
 
 	init(conf: IConf) {
 		this.conf = conf;
@@ -106,12 +101,10 @@ class sliderView extends Observer {
 		this.switchVertical(conf);
 	}
 
-
 	createSubViews() {
 		this.viewControl = new sliderViewControl(this.slider, this.conf);
 		this.viewScale = new sliderViewScale(this.slider, this.conf);
 		this.viewBar = new sliderViewBar(this.slider, this.conf);
-
 	}
 
 	createListeners() {
@@ -119,11 +112,9 @@ class sliderView extends Observer {
 		this.viewControl.subscribe(this.handleKeydownEvent);
 	}
 
-
 	updateFromPos = (data: Idata) => {
 		this.viewControl.updatePos(this.viewControl.controlMin,
 			data.fromPos);
-
 	}
 
 	updateToPos = (data: Idata) => {
@@ -131,11 +122,9 @@ class sliderView extends Observer {
 			data.toPos);
 	}
 
-
 	updateFromVal = (data: Idata) => {
 		this.viewControl.updateVal(data.fromVal, true);
 	}
-
 
 	updateToVal = (data: Idata) => {
 		this.viewControl.updateVal(data.toVal, false);
@@ -180,7 +169,6 @@ class sliderView extends Observer {
 		this.viewControl.switchTip(conf);
 	}
 
-
 	handleMoveEvent = (key: string, data: Idata) => {
 		if (key !== 'MoveEvent') return;
 		else {
@@ -194,10 +182,7 @@ class sliderView extends Observer {
 			this.fire('KeydownEvent', data);
 		}
 	}
-
 }
-
-
 
 export { sliderView };
 

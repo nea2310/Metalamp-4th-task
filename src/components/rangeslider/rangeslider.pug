@@ -4,16 +4,21 @@ mixin rangeslider(options={})
 		let elemName='rangeslider'
 	div(class =elemName)
 		div(class = elemName + '__rs')
-			input(class='rs__root rs__root-1' data-min='20' data-max='30' 
+			input(class='rs__root' data-min='20' data-max='30' 
 					data-from='20' data-to='30' data-scalebase='interval'
 					data-interval='20' data-shiftonkeydown='10' data-shiftonkeyhold='3' data-sticky='true')
 		div(class = elemName + '__panel '+ elemName + '__panel-1')
 			+panel({mod: '1', radioGroupName: 'horizontal'})
 	div(class = elemName)
 		div(class = elemName + '__rs')
-			input(class='rs__root rs__root-2' data-min='-20' data-max='200' 
+			input(class='rs__root' data-min='-20' data-max='200' 
 					data-from='10' data-to='50' data-vertical='true' data-scalebase='steps'
 					data-step='20' data-shiftonkeydown='1' data-shiftonkeyhold='3' data-sticky='false' 
-					data-range='false' data-bar='false')
+					data-range='false' data-bar='false' data-tip='false' data-scale='false')
+		div(class = elemName + '__panel '+ elemName + '__panel-2')
+			+panel({mod: '2', radioGroupName: 'vertical'})
+	div(class = elemName)
+		div(class = elemName + '__rs')
+			input(class='rs__root')
 		div(class = elemName + '__panel '+ elemName + '__panel-2')
 			+panel({mod: '2', radioGroupName: 'vertical'})

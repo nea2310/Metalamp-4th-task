@@ -85,10 +85,6 @@ class RangeSlider {
 				}
 			});
 		}
-
-		console.log(this.shiftOnKeyDown);
-		console.log(this.interval);
-
 	}
 
 	renderSlider(slider: HTMLElement) {
