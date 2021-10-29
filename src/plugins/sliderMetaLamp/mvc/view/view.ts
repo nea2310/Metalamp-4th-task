@@ -2,10 +2,7 @@ import { sliderViewControl } from
 	'./../view/view-control/view-control';
 import { sliderViewScale } from './../view/view-scale/view-scale';
 import { sliderViewBar } from './../view/view-bar/view-bar';
-import {
-	Idata, IConf
-} from '../interface';
-
+import { Idata, IConf } from '../interface';
 import { Observer } from '../observer';
 
 
@@ -21,7 +18,6 @@ class sliderView extends Observer {
 	conf: IConf;
 	backEndConf: IConf;
 	backEndConfTest: any
-	//root: string;
 
 	constructor(root: Element, i: number) {
 		super();

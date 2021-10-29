@@ -28,14 +28,11 @@ class sliderViewScale {
 	//создаем деления
 	createScale(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 		conf: IConf) {
-		//	console.log('!!!');
-
 		this.conf = conf;
 		this.scaleMarks = scaleMarks;
 		let steps = this.slider.querySelectorAll('.rs__mark');
+		//Если это переотрисовка шкалы - удалить существующие деления
 		if (steps.length) {
-			console.log('REMOVE SCALE');
-
 			for (let elem of steps) {
 				elem.remove();
 			}
@@ -49,7 +46,7 @@ class sliderViewScale {
 			elem.appendChild(label);
 
 
-			if (conf.vertical == true) {
+			if (conf.vertical) {
 				elem.classList.add('vert');
 				label.classList.add('vert');
 				elem.style.bottom = String(node.pos) + '%';
@@ -63,7 +60,7 @@ class sliderViewScale {
 			}
 			this.track.appendChild(elem);
 
-			if (conf.vertical == true) {
+			if (conf.vertical) {
 				label.style.top = label.offsetHeight / 2 * (-1) + 'px';
 			} else {
 				label.style.left = label.offsetWidth / 2 * (-1) + 'px';
