@@ -78,9 +78,24 @@ class sliderView extends Observer {
 			if (elem[1] == 'false') {
 				map.set(elem[0], false)
 			}
+			//перевод ключей в camelCase
+			if (elem[0] == 'shiftonkeydown') {
+				map.set('shiftOnKeyDown', elem[1]);
+				map.delete(elem[0]);
+			}
+			if (elem[0] == 'shiftonkeyhold') {
+				map.set('shiftOnKeyHold', elem[1]);
+				map.delete(elem[0]);
+			}
+			if (elem[0] == 'scalebase') {
+				map.set('scaleBase', elem[1]);
+				map.delete(elem[0]);
+			}
 		}
-
+		console.log(map);
 		this.backEndConf = Object.fromEntries(map.entries());
+
+
 	}
 
 
