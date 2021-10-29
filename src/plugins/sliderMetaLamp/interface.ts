@@ -1,63 +1,6 @@
-type CBNoArgs = () => void;
-type CBControlElements = (arg1: IControlElements) => void;
-type CBMouseEvent = (arg1: MouseEvent) => void;
-type CBPointerEvent = (arg1: PointerEvent) => void;
-type CBEvent = (arg1: Event) => void;
-type CBStringEvent = (arg1: string, arg2: Event) => void;
-type CBStringPointerEvent = (arg1: string, arg2: PointerEvent) => void;
-type CBInputEvent = (arg1: InputEvent) => void;
-type CBStringInputEvent = (arg1: string, arg2: InputEvent) => void;
-type CBKeyboardEvent = (arg1: KeyboardEvent) => void;
 
 
 
-type ControlPosUpdated = (arg1: HTMLElement, arg2: number) => void;
-type ProgressBarUpdated = (arg1: string, arg2: string, arg3: boolean) => void;
-type ControlValueUpdated = (arg1: HTMLElement, arg2: string) => void;
-type StepValueUpdated = (arg1: string) => void;
-
-interface IConf {
-	min?: number
-	max?: number
-	from?: number
-	to?: number
-	vertical?: boolean
-	range?: boolean
-	bar?: boolean
-	tip?: boolean
-	scale?: boolean
-	scaleBase?: string
-	step?: number
-	interval?: number
-	sticky?: boolean
-	shiftOnKeyDown?: number
-	shiftOnKeyHold?: number
-	onStart?: Function
-	onChange?: Function
-	onUpdate?: Function
-
-
-
-
-}
-
-
-interface IControlElements {
-	currentControlElem?: HTMLElement;
-	// secondControl?: HTMLElement;
-	// currentControlFlag?: boolean;
-	shift?: number;
-	moovingControl?: string;
-	key?: string;
-	repeat?: boolean;
-	type?: string,
-	clientY?: number,
-	clientX?: number,
-	top?: number,
-	left?: number,
-	width?: number,
-	height?: number
-}
 
 
 interface IObj {
@@ -65,11 +8,7 @@ interface IObj {
 	pos?: number;
 }
 
-interface IScaleLabels {
-	elem?: HTMLElement;
-	elemLeft?: number;
-	elemRight?: number;
-}
+
 interface Imethods {
 	calcFromPosition: boolean,
 	calcToPosition: boolean,
@@ -94,10 +33,10 @@ interface Idata {
 	barPos?: number
 	fromVal?: string
 	toVal?: string
-	thumb?: $Ithumb
+	thumb?: Ithumb
 }
 
-interface $Ithumb {
+interface Ithumb {
 	type?: string,
 	clientY?: number,
 	clientX?: number,
@@ -111,25 +50,68 @@ interface $Ithumb {
 	repeat?: boolean
 }
 
+
+interface SliderOptions {
+	min?: number
+	max?: number
+	from?: number
+	to?: number
+	range?: boolean
+	bar?: boolean
+	tip?: boolean
+	scale?: boolean
+	step?: number
+	interval?: number
+	sticky?: boolean
+	shiftOnKeyDown?: number
+	shiftOnKeyHold?: number
+	//target?: string
+	vertical?: boolean
+	onStart?: Function
+	onUpdate?: Function
+	onChange?: Function
+	scaleBase?: string
+}
+
+
+
+interface IConf {
+	min?: number
+	max?: number
+	from?: number
+	to?: number
+	vertical?: boolean
+	range?: boolean
+	bar?: boolean
+	tip?: boolean
+	scale?: boolean
+	scaleBase?: string
+	step?: number
+	interval?: number
+	sticky?: boolean
+	shiftOnKeyDown?: number
+	shiftOnKeyHold?: number
+	onStart?: Function
+	onChange?: Function
+	onUpdate?: Function
+}
+
+interface SliderFunction {
+	// eslint-disable-next-line no-unused-vars
+	(options: SliderOptions): JQuery;
+}
+
+
+interface Slider extends
+	SliderFunction { }
+
+interface JQuery {
+	Slider: Slider;
+}
+
 export {
-	CBNoArgs,
-	CBControlElements,
-	CBMouseEvent,
-	CBPointerEvent,
-	CBEvent,
-	CBStringEvent,
-	CBStringPointerEvent,
-	CBInputEvent,
-	CBStringInputEvent,
-	CBKeyboardEvent,
-	ControlPosUpdated,
-	ProgressBarUpdated,
-	ControlValueUpdated,
-	StepValueUpdated,
 	IConf,
-	IControlElements,
 	IObj,
-	IScaleLabels,
 	Imethods,
 	Idata
 };
