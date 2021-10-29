@@ -39,6 +39,8 @@ class sliderView extends Observer {
 	}
 
 	collectParms() {
+
+
 		this.backEndConf = {}
 		let map = new Map();
 		let arr = ['min',
@@ -77,6 +79,7 @@ class sliderView extends Observer {
 				map.set(elem[0], false)
 			}
 		}
+
 		this.backEndConf = Object.fromEntries(map.entries());
 	}
 

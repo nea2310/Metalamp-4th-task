@@ -4,9 +4,9 @@ mixin rangeslider(options={})
 		let elemName='rangeslider'
 	div(class =elemName)
 		div(class = elemName + '__rs')
-			input(class='rs__root rs__root-1' data-min='20' data-max='100' 
-					data-from='50' data-to='70' data-scalebase='interval'
-					data-interval='10' data-shiftonkeydown='10' data-shiftonkeyhold='3' data-sticky='false')
+			input(class='rs__root rs__root-1' data-min='20' data-max='30' 
+					data-from='20' data-to='30' data-scalebase='interval'
+					data-interval='20' data-shiftonkeydown='10' data-shiftonkeyhold='3' data-sticky='true')
 		div(class = elemName + '__panel '+ elemName + '__panel-1')
 			+panel({mod: '1', radioGroupName: 'horizontal'})
 	div(class = elemName)

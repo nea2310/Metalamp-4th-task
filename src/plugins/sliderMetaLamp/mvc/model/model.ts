@@ -66,6 +66,9 @@ class sliderModel extends Observer {
 		//проверим корректность полученных параметров конфигурации и при необходимости - исправим
 		this.conf = this.checkConf(joinedConf);
 
+		console.log(this.conf);
+
+
 	}
 
 	start() {
@@ -147,7 +150,6 @@ class sliderModel extends Observer {
 		//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
 		this.$findChangedConf(this.conf, conf);
 		this.conf = conf;
-		console.log(this.conf);
 		//запустим методы, для которых есть изменившиеся параметры
 		let key: keyof Imethods;
 		for (key in this.methods) {
@@ -309,17 +311,12 @@ class sliderModel extends Observer {
 	}
 	// рассчитать позицию To (%) на основании значений to, min и max
 	calcToPosition() {
-		console.log(this.conf.to);
-		console.log(this.conf.min);
-		console.log(this.conf.max);
-
 		this.data.toPos = ((this.conf.to - this.conf.min) * 100) /
 			(this.conf.max - this.conf.min);
 		if (this.conf.sticky) {
 			this.data.toPos = this.setSticky(this.data.toPos);
 		}
 
-		console.log(this.data.toPos);
 		this.calcVal('normal', this.data.toPos, 'max');
 		this.fire('ToPosition', this.data);
 	}
@@ -582,11 +579,6 @@ class sliderModel extends Observer {
 
 		// если ползунок должен вставать на позицию ближайшего к нему деления шкалы
 		else {
-
-			console.log('!!!');
-			console.log(this.data.marksArr);
-			console.log(this.conf.from);
-
 			if (moovingControl == 'min') {// ползунок min
 				let index = this.data.marksArr.
 					findIndex(item => item.val == this.conf.from);
