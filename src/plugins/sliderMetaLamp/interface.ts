@@ -71,16 +71,16 @@ interface IScaleLabels {
 	elemRight?: number;
 }
 interface $Imethods {
-	$calcFromPosition: boolean,
-	$calcToPosition: boolean,
-	$calcScale: boolean
-	$calcBar: boolean
-	$switchVertical: boolean
-	$switchRange: boolean
-	$switchScale: boolean
-	$switchBar: boolean
-	$switchTip: boolean
-	$updateControlPos: boolean
+	calcFromPosition: boolean,
+	calcToPosition: boolean,
+	calcScale: boolean
+	calcBar: boolean
+	switchVertical: boolean
+	switchRange: boolean
+	switchScale: boolean
+	switchBar: boolean
+	switchTip: boolean
+	updateControlPos: boolean
 }
 
 interface $Idata {

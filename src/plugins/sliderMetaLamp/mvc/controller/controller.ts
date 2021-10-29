@@ -127,7 +127,7 @@ class sliderController extends Observer {
 	handleMoveEvent = (key: string, data: $Idata) => {
 		if (key !== 'MoveEvent') return;
 		else {
-			this.model.$calcPos(
+			this.model.calcPos(
 				data.$thumb.$type,
 				data.$thumb.$clientY,
 				data.$thumb.$clientX,
@@ -143,7 +143,7 @@ class sliderController extends Observer {
 	handleKeydownEvent = (key: string, data: $Idata) => {
 		if (key !== 'KeydownEvent') return;
 		else {
-			this.model.$calcPosKey(
+			this.model.calcPosKey(
 				data.$thumb.$key,
 				data.$thumb.$repeat,
 				data.$thumb.$moovingControl);

@@ -46,16 +46,16 @@ class sliderModel extends Observer {
 		this.data = {};
 
 		this.methods = {
-			$calcFromPosition: false,
-			$calcToPosition: false,
-			$calcScale: false,
-			$calcBar: false,
-			$switchVertical: false,
-			$switchRange: false,
-			$switchScale: false,
-			$switchBar: false,
-			$switchTip: false,
-			$updateControlPos: false,
+			calcFromPosition: false,
+			calcToPosition: false,
+			calcScale: false,
+			calcBar: false,
+			switchVertical: false,
+			switchRange: false,
+			switchScale: false,
+			switchBar: false,
+			switchTip: false,
+			updateControlPos: false,
 		};
 		this.startConf = conf;
 	}
@@ -73,10 +73,10 @@ class sliderModel extends Observer {
 		this.onUpdate = this.$conf.onUpdate;
 		this.onChange = this.$conf.onChange;
 
-		this.$calcScale();
-		this.$calcFromPosition();
-		this.$calcToPosition();
-		this.$calcBar();
+		this.calcScale();
+		this.calcFromPosition();
+		this.calcToPosition();
+		this.calcBar();
 		this.onStart(this.$conf);
 
 	}
@@ -169,51 +169,51 @@ class sliderModel extends Observer {
 			} else {
 				switch (key) {
 					case 'min':
-						this.methods.$calcScale = true;
-						this.methods.$calcFromPosition = true;
-						this.methods.$calcBar = true;
+						this.methods.calcScale = true;
+						this.methods.calcFromPosition = true;
+						this.methods.calcBar = true;
 						break;
 					case 'max':
-						this.methods.$calcScale = true;
-						this.methods.$calcToPosition = true;
-						this.methods.$calcBar = true;
+						this.methods.calcScale = true;
+						this.methods.calcToPosition = true;
+						this.methods.calcBar = true;
 						break;
 					case 'from':
-						this.methods.$calcFromPosition = true;
-						this.methods.$calcBar = true;
+						this.methods.calcFromPosition = true;
+						this.methods.calcBar = true;
 						break;
 					case 'to':
-						this.methods.$calcToPosition = true;
-						this.methods.$calcBar = true;
+						this.methods.calcToPosition = true;
+						this.methods.calcBar = true;
 						break;
 					case 'step':
-						this.methods.$calcScale = true;
-						this.methods.$updateControlPos = true;
+						this.methods.calcScale = true;
+						this.methods.updateControlPos = true;
 						break;
 					case 'interval':
-						this.methods.$calcScale = true;
-						this.methods.$updateControlPos = true;
+						this.methods.calcScale = true;
+						this.methods.updateControlPos = true;
 						break;
 					case 'scaleBase':
-						this.methods.$calcScale = true;
+						this.methods.calcScale = true;
 						break;
 					case 'vertical':
-						this.methods.$switchVertical = true;
+						this.methods.switchVertical = true;
 						break;
 					case 'range':
-						this.methods.$switchRange = true;
+						this.methods.switchRange = true;
 						break;
 					case 'scale':
-						this.methods.$switchScale = true;
+						this.methods.switchScale = true;
 						break;
 					case 'bar':
-						this.methods.$switchBar = true;
+						this.methods.switchBar = true;
 						break;
 					case 'tip':
-						this.methods.$switchTip = true;
+						this.methods.switchTip = true;
 						break;
 					case 'sticky':
-						this.methods.$updateControlPos = true;
+						this.methods.updateControlPos = true;
 						break;
 				}
 			}
@@ -222,44 +222,44 @@ class sliderModel extends Observer {
 	}
 
 
-	$switchVertical() {
+	switchVertical() {
 		this.fire('IsVertical', this.data, this.$conf);
-		this.$calcFromPosition();
-		this.$calcToPosition();
-		this.$calcBar();
-		let calcScale = this.$calcScale.bind(this);
+		this.calcFromPosition();
+		this.calcToPosition();
+		this.calcBar();
+		let calcScale = this.calcScale.bind(this);
 		setTimeout(calcScale, 100); //нужна задержка, т.к. иначе в view ширина offsetWidth берется у не успевшего перестроиться элемента
 	}
 
 
 
-	$switchRange() {
+	switchRange() {
 		this.fire('IsRange', this.data, this.$conf);
-		this.$calcBar();
+		this.calcBar();
 		this.onChange(this.$conf)
 	}
 
-	$updateControlPos() {
-		this.$calcFromPosition();
-		this.$calcToPosition();
-		this.$calcBar();
+	updateControlPos() {
+		this.calcFromPosition();
+		this.calcToPosition();
+		this.calcBar();
 		this.onChange(this.$conf)
 		this.fire('IsSticky', this.data, this.$conf);
 	}
 
-	$switchScale() { //??
+	switchScale() { //??
 		this.fire('IsScale', this.data, this.$conf);
 	}
 
-	$switchBar() {
+	switchBar() {
 		this.fire('IsBar', this.data, this.$conf);
 	}
 
-	$switchTip() {
+	switchTip() {
 		this.fire('IsTip', this.data, this.$conf);
 	}
 
-	$setSticky(controlPos: number) {
+	setSticky(controlPos: number) {
 		/*Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из значения newPos 
 до тех пор, пока результат текущей итерации не станет больше результата предыдущей (это значит, что мы нашли деление,
 	ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления*/
@@ -278,7 +278,7 @@ class sliderModel extends Observer {
 		return pos;
 	}
 	// рассчитать позицию From (%) на основании значений from, min и max
-	$calcFromPosition() {
+	calcFromPosition() {
 		if (this.$conf.from != this.$conf.min) {
 			this.data.$fromPos = ((this.$conf.from -
 				this.$conf.min) * 100) /
@@ -293,28 +293,28 @@ class sliderModel extends Observer {
 		/* если ползунок должен вставать на позицию ближайшего к нему деления шкалы - скорректировать значение newPos (переместить ползунок 
 		к ближайшему делению шкалы) */
 		if (this.$conf.sticky) {
-			this.data.$fromPos = this.$setSticky(this.data.$fromPos);
+			this.data.$fromPos = this.setSticky(this.data.$fromPos);
 		}
 
-		this.$calcVal('normal', this.data.$fromPos, 'min');
+		this.calcVal('normal', this.data.$fromPos, 'min');
 		this.fire('FromPosition', this.data);
 
 	}
 	// рассчитать позицию To (%) на основании значений to, min и max
-	$calcToPosition() {
+	calcToPosition() {
 		this.data.$toPos = ((this.$conf.to - this.$conf.min) * 100) /
 			(this.$conf.max - this.$conf.min);
 		if (this.$conf.sticky) {
-			this.data.$toPos = this.$setSticky(this.data.$toPos);
+			this.data.$toPos = this.setSticky(this.data.$toPos);
 		}
-		this.$calcVal('normal', this.data.$toPos, 'max');
+		this.calcVal('normal', this.data.$toPos, 'max');
 		this.fire('ToPosition', this.data);
 	}
 
 
 
 	/*Рассчитываем ширину и позицию left (top) прогресс-бара*/
-	$calcBar() {
+	calcBar() {
 		if (this.$conf.range) {//режим Double
 			this.data.$barPos = this.data.$fromPos;
 			this.data.$barWidth = this.data.$toPos -
@@ -328,7 +328,7 @@ class sliderModel extends Observer {
 
 
 	// рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
-	$calcScale() {
+	calcScale() {
 		let interval = 0;
 		let step = 0;
 		let arg = '';
@@ -377,7 +377,7 @@ class sliderModel extends Observer {
 
 
 	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале или перемещения сфокусированного ползунка стрелкой 
-	$calcPos(type: string,
+	calcPos(type: string,
 		clientY: number,
 		clientX: number,
 		top: number,
@@ -405,19 +405,19 @@ class sliderModel extends Observer {
 		/* если ползунок должен вставать на позицию ближайшего к нему деления шкалы - скорректировать значение newPos (переместить ползунок 
 		к ближайшему делению шкалы) */
 		if (this.$conf.sticky) {
-			newPos = this.$setSticky(newPos);
+			newPos = this.setSticky(newPos);
 		}
 
 		let isStop = false;
 		//запрещаем ползункам выходить за границы слайдера
 		if (newPos < 0) {
 			isStop = true;
-			this.$calcVal('min', 0, moovingControl);
+			this.calcVal('min', 0, moovingControl);
 			return;
 		}
 		if (newPos > 100) {
 			isStop = true;
-			this.$calcVal('max', 0, moovingControl);
+			this.calcVal('max', 0, moovingControl);
 			return;
 		}
 
@@ -426,14 +426,14 @@ class sliderModel extends Observer {
 			if (moovingControl == 'min') {//двигается min ползунок
 				if (newPos > this.data.$toPos) {
 					isStop = true;
-					this.$calcVal('meetMax', 0, moovingControl);
+					this.calcVal('meetMax', 0, moovingControl);
 					return;
 				}
 			}
 			if (moovingControl == 'max') {//двигается max ползунок
 				if (newPos < this.data.$fromPos) {
 					isStop = true;
-					this.$calcVal('meetMin', 0, moovingControl);
+					this.calcVal('meetMin', 0, moovingControl);
 					return;
 				}
 			}
@@ -447,15 +447,15 @@ class sliderModel extends Observer {
 			this.fire('ToPosition', this.data);
 		}
 		if (!isStop)
-			this.$calcVal('normal', newPos, moovingControl);
+			this.calcVal('normal', newPos, moovingControl);
 
-		this.$calcBar();
+		this.calcBar();
 		this.onChange(this.$conf);
 	}
 
 
 
-	$calcPosKey(key: string, repeat: boolean, moovingControl: string) {
+	calcPosKey(key: string, repeat: boolean, moovingControl: string) {
 		// поменять позицию и значение FROM
 		let changeFrom = (item: IObj) => {
 			this.$conf.from = item.val;
@@ -532,7 +532,7 @@ class sliderModel extends Observer {
 
 				this.data.$fromVal = String(newVal);
 				this.$conf.from = newVal;
-				this.$calcFromPosition();
+				this.calcFromPosition();
 				this.fire('FromValue', this.data);
 
 			} else {// Ползунок max
@@ -562,7 +562,7 @@ class sliderModel extends Observer {
 				}
 				this.data.$toVal = String(newVal);
 				this.$conf.to = newVal;
-				this.$calcToPosition();
+				this.calcToPosition();
 				this.fire('ToValue', this.data);
 			}
 		}
@@ -607,13 +607,13 @@ class sliderModel extends Observer {
 				}
 			}
 		}
-		this.$calcBar();
+		this.calcBar();
 		this.onChange(this.$conf);
 	}
 
 	/*Рассчитываем новое значение ползунка на основании min, max и позиции (%)*/
 
-	$calcVal(stopType: string,
+	calcVal(stopType: string,
 		pos: number,
 		moovingControl: string) {
 
