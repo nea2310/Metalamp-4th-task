@@ -1,8 +1,4 @@
-import {
-	IConf,
-	Idata
-} from '../../interface';
-
+import { IConf, Idata } from '../../interface';
 import { Observer } from '../../observer';
 
 class sliderViewControl extends Observer {
@@ -34,6 +30,9 @@ class sliderViewControl extends Observer {
 		this.conf = conf;
 		this.renderLeftControl();
 		this.renderRightControl();
+		this.switchRange(this.conf);
+		this.switchVertical(this.conf);
+		this.switchTip(this.conf);
 	}
 
 	renderControl(
@@ -46,18 +45,6 @@ class sliderViewControl extends Observer {
 		tip.className = 'rs__tip';
 		tip.classList.add(tipClassName);
 		tip.value = String(value);
-
-		if (!isTip) { // no tip mode
-			tip.classList.add('hidden');
-		}
-		if (isVertical) { // vertical mode
-			control.classList.add('vert');
-			tip.classList.add('vert');
-		} else {//horizontal mode
-			control.classList.add('horizontal');
-			tip.classList.add('horizontal');
-		}
-
 		control.append(tip);
 		return control;
 	}
@@ -79,36 +66,34 @@ class sliderViewControl extends Observer {
 			this.conf.tip, this.conf.vertical);
 		this.tipMax = this.controlMax.querySelector('.rs__tip');
 		this.track.append(this.controlMax);
-		this.switchRange(this.conf)
 	}
-
-
 
 	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
 	dragControl() {
 		let pointerDownHandler = (e: PointerEvent) => {
 			e.preventDefault();
 			const target = e.target as HTMLElement;
+			const T = this.data.thumb;
 			if (target.classList.contains('rs__control')) {
 				//определяем ползунок, за который тянут
 				target.classList.contains('rs__control-min') ?
-					this.data.thumb.moovingControl = 'min' :
-					this.data.thumb.moovingControl = 'max';
+					T.moovingControl = 'min' :
+					T.moovingControl = 'max';
 				//определяем расстояние между позицией клика и левым краем ползунка
 				if (!this.conf.vertical) {
-					this.data.thumb.shiftBase = e.clientX -
+					T.shiftBase = e.clientX -
 						target.getBoundingClientRect().left;
 				}
 				let scale = target.parentElement;
-				this.data.thumb.top = scale.getBoundingClientRect().top;
-				this.data.thumb.left = scale.getBoundingClientRect().left;
-				this.data.thumb.width = scale.offsetWidth;
-				this.data.thumb.height = scale.offsetHeight;
+				T.top = scale.getBoundingClientRect().top;
+				T.left = scale.getBoundingClientRect().left;
+				T.width = scale.offsetWidth;
+				T.height = scale.offsetHeight;
 
 				let pointerMoveHandler = (e: PointerEvent) => {
-					this.data.thumb.type = e.type;
-					this.data.thumb.clientX = e.clientX;
-					this.data.thumb.clientY = e.clientY;
+					T.type = e.type;
+					T.clientX = e.clientX;
+					T.clientY = e.clientY;
 					this.fire('MoveEvent', this.data);
 				};
 
@@ -134,17 +119,20 @@ class sliderViewControl extends Observer {
 	// Вешаем обработчик нажатия стрелок на сфокусированном ползунке
 	pressControl() {
 		let pointerDownHandler = (e: KeyboardEvent) => {
-			if (e.code == 'ArrowLeft' || e.code == 'ArrowDown' ||
-				e.code == 'ArrowRight' || e.code == 'ArrowUp') {
+
+			let arr = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
+			const result = arr.indexOf(e.code)
+			if (result != -1) {
 				e.preventDefault();
 				const target = e.target as HTMLElement;
+				const T = this.data.thumb;
 				if (target.classList.contains('rs__control')) {
 					//определяем ползунок, на который нажимают
 					target.classList.contains('rs__control-min') ?
-						this.data.thumb.moovingControl = 'min' :
-						this.data.thumb.moovingControl = 'max';
-					this.data.thumb.key = e.code;
-					this.data.thumb.repeat = e.repeat;
+						T.moovingControl = 'min' :
+						T.moovingControl = 'max';
+					T.key = e.code;
+					T.repeat = e.repeat;
 					this.fire('KeydownEvent', this.data);
 				}
 			}
@@ -156,17 +144,21 @@ class sliderViewControl extends Observer {
 		let pointerDownHandler = (e: PointerEvent) => {
 			e.preventDefault();
 			const target = e.target as HTMLElement;
+			const T = this.data.thumb;
 
-			if (target.classList.contains('rs__track') ||
-				target.classList.contains('rs__progressBar') ||
-				target.classList.contains('rs__label') ||
-				target.classList.contains('rs__mark') ||
-				target.classList.contains('rs__input')) {
-
+			let arr = ['rs__track', 'rs__progressBar', 'rs__label', 'rs__mark', 'rs__frame']
+			const result = [...target.classList].some(className => arr.indexOf(className) !== -1);
+			if (result) {
 				let controlMinDist = 0;
 				let controlMaxDist = 0;
 				//определяем расстояние от места клика до каждого из бегунков
-				if (!this.conf.vertical) {
+				if (this.conf.vertical) {
+					controlMinDist =
+						Math.abs(this.controlMin.getBoundingClientRect().
+							bottom - e.clientY);
+					controlMaxDist = Math.abs(this.controlMax.
+						getBoundingClientRect().bottom - e.clientY);
+				} else {
 					controlMinDist =
 						Math.abs(this.controlMin.getBoundingClientRect().left -
 							e.clientX);
@@ -174,32 +166,26 @@ class sliderViewControl extends Observer {
 						Math.abs(this.controlMax.
 							getBoundingClientRect().left -
 							e.clientX);
-				} else {
-					controlMinDist =
-						Math.abs(this.controlMin.getBoundingClientRect().
-							bottom - e.clientY);
-					controlMaxDist = Math.abs(this.controlMax.
-						getBoundingClientRect().bottom - e.clientY);
 				}
 
-				this.data.thumb.top = this.track.getBoundingClientRect().top;
-				this.data.thumb.left =
+				T.top = this.track.getBoundingClientRect().top;
+				T.left =
 					this.track.getBoundingClientRect().left;
-				this.data.thumb.width = this.track.offsetWidth;
-				this.data.thumb.height = this.track.offsetHeight;
-				this.data.thumb.type = e.type;
-				this.data.thumb.clientX = e.clientX;
-				this.data.thumb.clientY = e.clientY;
+				T.width = this.track.offsetWidth;
+				T.height = this.track.offsetHeight;
+				T.type = e.type;
+				T.clientX = e.clientX;
+				T.clientY = e.clientY;
 
 				//определяем ползунок, находящийся ближе к позиции клика
 				if (this.controlMax.classList.contains('hidden')) {//Single mode
-					this.data.thumb.moovingControl = 'min';
+					T.moovingControl = 'min';
 				}
 
 				else {//Double mode
 					controlMinDist <= controlMaxDist ?
-						this.data.thumb.moovingControl = 'min' :
-						this.data.thumb.moovingControl = 'max';
+						T.moovingControl = 'min' :
+						T.moovingControl = 'max';
 				}
 				this.fire('MoveEvent', this.data);
 			}
@@ -207,30 +193,29 @@ class sliderViewControl extends Observer {
 		this.slider.addEventListener('pointerdown', pointerDownHandler);
 	}
 
-
 	//Обновляем позицию ползунка (вызывается через контроллер)
 	updatePos(elem: HTMLElement, newPos: number) {
-		if (!this.conf.vertical) {
-			elem.style.left = newPos + '%';
-			elem.style.bottom = '';
-		}
 		if (this.conf.vertical) {
 			elem.style.bottom = newPos + '%';
 			elem.style.left = '';
+		} else {
+			elem.style.left = newPos + '%';
+			elem.style.bottom = '';
 		}
 
+		// передать значения FROM и TO в инпут
 		if (this.root.tagName === 'INPUT') {
 			this.root.value = this.conf.range ? this.conf.from + ', ' + this.conf.to :
 				String(this.conf.from);
 		}
 	}
 
-
 	//Обновляем значение tip
 	updateVal(val: string, isFrom: boolean) {
 		isFrom ? this.tipMin.value = val : this.tipMax.value = val;
 	}
 
+	//включение / отключение вертикального режима
 	switchVertical(conf: IConf) {
 		this.conf = conf;
 		let arr = [this.controlMax, this.tipMax, this.controlMin, this.tipMin];
@@ -245,6 +230,7 @@ class sliderViewControl extends Observer {
 		}
 	}
 
+	//включение / отключение single режима
 	switchRange(conf: IConf) {
 		this.conf = conf;
 		if (this.conf.range) {
@@ -258,7 +244,7 @@ class sliderViewControl extends Observer {
 		}
 	}
 
-
+	//включение / отключение подсказок
 	switchTip(conf: IConf) {
 		this.conf = conf;
 		if (this.conf.tip) {
@@ -270,8 +256,6 @@ class sliderViewControl extends Observer {
 		}
 	}
 }
-
-
 
 export { sliderViewControl };
 
