@@ -216,7 +216,7 @@ class RangeSlider {
 					if (target.type == 'checkbox') {
 						value = target.checked;
 					}
-					if (target.type == 'radio') {
+					else if (target.type == 'radio') {
 						value = target.value;
 					}
 					else {
