@@ -1,6 +1,6 @@
 import { sliderModel } from './../model/model';
 import { sliderView } from './../view/view';
-import { IConf, $Idata } from './../../interface';
+import { IConf, Idata } from './../../interface';
 import { Observer } from '../../observer';
 
 
@@ -14,11 +14,11 @@ class sliderController extends Observer {
 		super();
 		this.model = model;
 		this.view = view;
-		this.$createListeners();//срабатывает после инициализации модели
-		this.$init();
+		this.createListeners();//срабатывает после инициализации модели
+		this.init();
 	}
 
-	$init() {
+	init() {
 
 		this.model.getConf(this.view.backEndConf);
 		this.view.init(this.model.conf); //закидываем конфиг из модели в view
@@ -27,7 +27,7 @@ class sliderController extends Observer {
 
 	}
 
-	$createListeners() {
+	createListeners() {
 		this.model.subscribe(this.handleFromPosition);
 		this.model.subscribe(this.handleToPosition);
 		this.model.subscribe(this.handleFromValue);
@@ -45,70 +45,70 @@ class sliderController extends Observer {
 
 	}
 
-	handleFromPosition = (key: string, data: $Idata) => {
+	handleFromPosition = (key: string, data: Idata) => {
 		if (key !== 'FromPosition') return;
 
 		this.view.updateFromPos(key, data);
 
 	}
 
-	handleToPosition = (key: string, data: $Idata) => {
+	handleToPosition = (key: string, data: Idata) => {
 		if (key !== 'ToPosition') return;
 		else {
 			this.view.updateToPos(key, data);
 		}
 	}
 
-	handleFromValue = (key: string, data: $Idata) => {
+	handleFromValue = (key: string, data: Idata) => {
 		if (key !== 'FromValue') return;
 		else {
 			this.view.updateFromVal(key, data);
 		}
 	}
 
-	handleToValue = (key: string, data: $Idata) => {
+	handleToValue = (key: string, data: Idata) => {
 		if (key !== 'ToValue') return;
 		else {
 			this.view.updateToVal(key, data);
 		}
 	}
 
-	handleScale = (key: string, data: $Idata, conf: IConf) => {
+	handleScale = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'Scale') return;
 		else {
 			this.view.updateScale(key, data, conf);
 		}
 	}
 
-	handleBar = (key: string, data: $Idata, conf: IConf) => {
+	handleBar = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'Bar') return;
 		else {
 			this.view.updateBar(key, data, conf);
 		}
 	}
 
-	handleIsVertical = (key: string, data: $Idata, conf: IConf) => {
+	handleIsVertical = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsVertical') return;
 		else {
 			this.view.switchVertical(key, data, conf);
 		}
 	}
 
-	handleIsRange = (key: string, data: $Idata, conf: IConf) => {
+	handleIsRange = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsRange') return;
 		else {
 			this.view.switchRange(key, data, conf);
 		}
 	}
 
-	handleIsScale = (key: string, data: $Idata, conf: IConf) => {
+	handleIsScale = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsScale') return;
 		else {
 			this.view.switchScale(key, data, conf);
 		}
 	}
 
-	handleIsBar = (key: string, data: $Idata, conf: IConf) => {
+	handleIsBar = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsBar') return;
 		else {
 			this.view.switchBar(key, data, conf);
@@ -116,7 +116,7 @@ class sliderController extends Observer {
 	}
 
 
-	handleIsTip = (key: string, data: $Idata, conf: IConf) => {
+	handleIsTip = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsTip') return;
 		else {
 			this.view.switchTip(key, data, conf);
@@ -124,28 +124,28 @@ class sliderController extends Observer {
 	}
 
 
-	handleMoveEvent = (key: string, data: $Idata) => {
+	handleMoveEvent = (key: string, data: Idata) => {
 		if (key !== 'MoveEvent') return;
 		else {
 			this.model.calcPos(
-				data.thumb.$type,
-				data.thumb.$clientY,
-				data.thumb.$clientX,
-				data.thumb.$top,
-				data.thumb.$left,
-				data.thumb.$width,
-				data.thumb.$height,
-				data.thumb.$shiftBase,
+				data.thumb.type,
+				data.thumb.clientY,
+				data.thumb.clientX,
+				data.thumb.top,
+				data.thumb.left,
+				data.thumb.width,
+				data.thumb.height,
+				data.thumb.shiftBase,
 				data.thumb.moovingControl);
 		}
 	}
 
-	handleKeydownEvent = (key: string, data: $Idata) => {
+	handleKeydownEvent = (key: string, data: Idata) => {
 		if (key !== 'KeydownEvent') return;
 		else {
 			this.model.calcPosKey(
-				data.thumb.$key,
-				data.thumb.$repeat,
+				data.thumb.key,
+				data.thumb.repeat,
 				data.thumb.moovingControl);
 		}
 	}

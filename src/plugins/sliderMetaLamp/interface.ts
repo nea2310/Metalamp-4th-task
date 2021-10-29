@@ -70,7 +70,7 @@ interface IScaleLabels {
 	elemLeft?: number;
 	elemRight?: number;
 }
-interface $Imethods {
+interface Imethods {
 	calcFromPosition: boolean,
 	calcToPosition: boolean,
 	calcScale: boolean
@@ -83,33 +83,32 @@ interface $Imethods {
 	updateControlPos: boolean
 }
 
-interface $Idata {
-	$fromPos?: number
-	$toPos?: number
-	$marksArr?: { 'pos'?: number, 'val'?: number }[];
-	$intervalValue?: string
-	$stepValue?: string
-	$scaleBase?: string
-	$barWidth?: number
-	$barPos?: number
-	//	$newPos?: number
-	$fromVal?: string
-	$toVal?: string
+interface Idata {
+	fromPos?: number
+	toPos?: number
+	marksArr?: { 'pos'?: number, 'val'?: number }[];
+	intervalValue?: string
+	stepValue?: string
+	scaleBase?: string
+	barWidth?: number
+	barPos?: number
+	fromVal?: string
+	toVal?: string
 	thumb?: $Ithumb
 }
 
 interface $Ithumb {
-	$type?: string,
-	$clientY?: number,
-	$clientX?: number,
-	$top?: number,
-	$left?: number,
-	$width?: number,
-	$height?: number,
-	$shiftBase?: number,
+	type?: string,
+	clientY?: number,
+	clientX?: number,
+	top?: number,
+	left?: number,
+	width?: number,
+	height?: number,
+	shiftBase?: number,
 	moovingControl?: string,
-	$key?: string,
-	$repeat?: boolean
+	key?: string,
+	repeat?: boolean
 }
 
 export {
@@ -131,6 +130,6 @@ export {
 	IControlElements,
 	IObj,
 	IScaleLabels,
-	$Imethods,
-	$Idata
+	Imethods,
+	Idata
 };
