@@ -91,13 +91,13 @@ class sliderView extends Observer {
 		this.createListeners();//срабатывает после инициализации модели
 
 		if (conf.vertical) {
-			this.slider.classList.add('vertical');
-			this.track.classList.add('vertical');
-			this.frame.classList.add('vertical');
+			this.slider.classList.add('vert');
+			this.track.classList.add('vert');
+			this.frame.classList.add('vert');
 		} else {
-			this.slider.classList.remove('vertical');
-			this.track.classList.remove('vertical');
-			this.frame.classList.remove('vertical');
+			this.slider.classList.remove('vert');
+			this.track.classList.remove('vert');
+			this.frame.classList.remove('vert');
 		}
 	}
 
@@ -147,13 +147,13 @@ class sliderView extends Observer {
 
 	switchVertical = (key: string, data: $Idata, conf: IConf) => {
 		if (conf.vertical) {
-			this.slider.classList.add('vertical');
-			this.track.classList.add('vertical');
-			this.frame.classList.add('vertical');
+			this.slider.classList.add('vert');
+			this.track.classList.add('vert');
+			this.frame.classList.add('vert');
 		} else {
-			this.slider.classList.remove('vertical');
-			this.track.classList.remove('vertical');
-			this.frame.classList.remove('vertical');
+			this.slider.classList.remove('vert');
+			this.track.classList.remove('vert');
+			this.frame.classList.remove('vert');
 		}
 		this.viewBar.switchVertical(conf);
 		this.viewControl.switchVertical(conf);

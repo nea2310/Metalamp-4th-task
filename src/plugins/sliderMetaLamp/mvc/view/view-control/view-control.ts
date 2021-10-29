@@ -52,8 +52,8 @@ class sliderViewControl extends Observer {
 			tip.classList.add('hidden');
 		}
 		if (isVertical) { // vertical mode
-			control.classList.add('vertical');
-			tip.classList.add('vertical');
+			control.classList.add('vert');
+			tip.classList.add('vert');
 		} else {//horizontal mode
 			control.classList.add('horizontal');
 			tip.classList.add('horizontal');
@@ -90,10 +90,10 @@ class sliderViewControl extends Observer {
 		this.conf = conf;
 
 		if (this.conf.vertical) { // vertical mode
-			this.controlMax.classList.add('vertical');
-			this.tipMax.classList.add('vertical');
-			this.controlMin.classList.add('vertical');
-			this.tipMin.classList.add('vertical');
+			this.controlMax.classList.add('vert');
+			this.tipMax.classList.add('vert');
+			this.controlMin.classList.add('vert');
+			this.tipMin.classList.add('vert');
 			this.controlMax.classList.remove('horizontal');
 			this.tipMax.classList.remove('horizontal');
 			this.controlMin.classList.remove('horizontal');
@@ -103,10 +103,10 @@ class sliderViewControl extends Observer {
 			this.tipMax.classList.add('horizontal');
 			this.controlMin.classList.add('horizontal');
 			this.tipMin.classList.add('horizontal');
-			this.controlMax.classList.remove('vertical');
-			this.tipMax.classList.remove('vertical');
-			this.controlMin.classList.remove('vertical');
-			this.tipMin.classList.remove('vertical');
+			this.controlMax.classList.remove('vert');
+			this.tipMax.classList.remove('vert');
+			this.controlMin.classList.remove('vert');
+			this.tipMin.classList.remove('vert');
 		}
 	}
 

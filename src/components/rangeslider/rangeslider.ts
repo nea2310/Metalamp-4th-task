@@ -102,15 +102,15 @@ class RangeSlider {
 	renderSlider(slider: HTMLElement) {
 		const setVertical = (flag: boolean) => {
 			if (flag) {
-				this.wrapper.classList.add('vertical');
-				this.panelWrapper.classList.add('vertical');
-				this.panel.classList.add('vertical');
-				this.sliderWrapper.classList.add('vertical');
+				this.wrapper.classList.add('vert');
+				this.panelWrapper.classList.add('vert');
+				this.panel.classList.add('vert');
+				this.sliderWrapper.classList.add('vert');
 			} else {
-				this.wrapper.classList.remove('vertical');
-				this.panelWrapper.classList.remove('vertical');
-				this.panel.classList.remove('vertical');
-				this.sliderWrapper.classList.remove('vertical');
+				this.wrapper.classList.remove('vert');
+				this.panelWrapper.classList.remove('vert');
+				this.panel.classList.remove('vert');
+				this.sliderWrapper.classList.remove('vert');
 			}
 		};
 

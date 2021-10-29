@@ -40,17 +40,17 @@ class sliderViewBar {
 		}
 
 		if (conf.vertical) {
-			this.progressBar.classList.add('vertical');
+			this.progressBar.classList.add('vert');
 		} else {
-			this.progressBar.classList.remove('vertical');
+			this.progressBar.classList.remove('vert');
 		}
 	}
 
 	switchVertical(conf: IConf) {
 		if (conf.vertical) {
-			this.progressBar.classList.add('vertical');
+			this.progressBar.classList.add('vert');
 		} else {
-			this.progressBar.classList.remove('vertical');
+			this.progressBar.classList.remove('vert');
 		}
 	}
 

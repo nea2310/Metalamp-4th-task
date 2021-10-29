@@ -21,7 +21,7 @@
 	//cursor: crosshair;
 }
 
-.rs__wrapper.vertical {
+.rs__wrapper.vert {
 	//margin: 0 auto;
 	//	border: 1px solid blue;
 	width: auto;
@@ -43,7 +43,7 @@
 	opacity: 0.5;
 	cursor: default;
 }
-.rs__input.vertical {
+.rs__input.vert {
 	top: 0;
 	left: 60px;
 	right: 0;
@@ -60,7 +60,7 @@
 	//	border: 1px solid green;
 }
 
-.rs__track.vertical {
+.rs__track.vert {
 	height: 100%;
 	width: 8px;
 	flex-direction: column;
@@ -79,7 +79,7 @@
 	//cursor: pointer;
 }
 
-.rs__progressBar.vertical {
+.rs__progressBar.vert {
 	//	cursor: se-resize;
 	position: absolute;
 	width: 8px;
@@ -119,7 +119,7 @@
 	// 	border: 1px solid red;
 	// }
 
-	&.vertical {
+	&.vert {
 		width: 25px;
 		height: 1px;
 
@@ -136,7 +136,7 @@
 	}
 }
 
-.rs__control.vertical {
+.rs__control.vert {
 	left: -9.5px;
 }
 
@@ -193,7 +193,7 @@
 	background-color: grey;
 }
 
-.rs__mark.vertical {
+.rs__mark.vert {
 	margin-left: 15px;
 	height: 2px;
 	width: 5px;
@@ -217,7 +217,7 @@
 	//	border: 1px solid red;
 }
 
-.rs__label.vertical {
+.rs__label.vert {
 	position: absolute;
 	left: 10px;
 	padding: 5px 0;
@@ -247,7 +247,7 @@
 	}
 }
 
-.rs__tip.vertical {
+.rs__tip.vert {
 	left: -55px;
 	top: -12.5px;
 }

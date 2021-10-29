@@ -50,8 +50,8 @@ class sliderViewScale {
 
 
 			if (conf.vertical == true) {
-				elem.classList.add('vertical');
-				label.classList.add('vertical');
+				elem.classList.add('vert');
+				label.classList.add('vert');
 				elem.style.bottom = String(node.pos) + '%';
 			} else {
 				elem.classList.add('horizontal');
