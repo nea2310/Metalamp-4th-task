@@ -33,3 +33,7 @@ interface JQuery {
 	Slider: Slider;
 }
 
+
+
+
+
