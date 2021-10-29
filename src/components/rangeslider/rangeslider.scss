@@ -2,7 +2,6 @@
 .rangeslider {
 	padding: 60px;
 	margin: 20px auto;
-	//	border: 3px solid $colorDarkShade25;
 	border-radius: 3px;
 	box-shadow: 0 0 10px $colorDarkShade50;
 	&.vert {
@@ -18,13 +17,8 @@
 
 	&__rs {
 		min-width: 150px;
-
-		//	border: 1px solid red;
 		&.vert {
-			//width: auto;
 			margin-right: 0 auto;
-			//	border: 1px solid blue;
-
 			@include media-breakpoint-down($sm) {
 				height: 400px;
 				display: flex;
@@ -38,11 +32,7 @@
 			max-width: 540px;
 			margin: 20px auto;
 		}
-		//	border: 1px solid red;
 		margin-top: 20px;
 		text-align: center;
-		&.vert {
-			//	border: 1px solid blue;
-		}
 	}
 }
