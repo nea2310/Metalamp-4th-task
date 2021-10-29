@@ -230,7 +230,7 @@ class sliderModel extends Observer {
 		this.calcToPosition();
 		this.calcBar();
 		let calcScale = this.calcScale.bind(this);
-		setTimeout(calcScale, 200); //нужна задержка, т.к. иначе в view ширина offsetWidth берется у не успевшего перестроиться элемента
+		setTimeout(calcScale, 100); //нужна задержка, т.к. иначе в view ширина offsetWidth берется у не успевшего перестроиться элемента
 	}
 
 
