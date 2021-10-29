@@ -3,8 +3,8 @@ import {
 	IObj,
 	Imethods,
 	Idata
-} from './../../interface';
-import { Observer } from '../../observer';
+} from './../interface';
+import { Observer } from '../observer';
 import { isConstTypeReference } from 'typescript';
 
 

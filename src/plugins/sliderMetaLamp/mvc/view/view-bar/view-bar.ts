@@ -1,6 +1,6 @@
 import {
 	IConf,
-} from '../../../interface';
+} from '../../interface';
 
 
 
@@ -27,55 +27,47 @@ class sliderViewBar {
 	// Инициализация
 	init(conf: IConf) {
 		this.conf = conf;
-		this.renderBar(conf);// шкала
+		this.renderBar(conf);
 	}
-	//создаем бар
+	//создание бара
 	renderBar(conf: IConf) {
 		this.track = this.slider.querySelector('.rs__track');
 		this.progressBar = document.createElement('div');
 		this.progressBar.className = 'rs__progressBar';
 		this.track.append(this.progressBar);
-		if (!conf.bar) {
-			this.progressBar.classList.add('hidden');
-		}
-
-		if (conf.vertical) {
-			this.progressBar.classList.add('vert');
-		} else {
-			this.progressBar.classList.remove('vert');
-		}
+		this.switchBar(conf);
+		this.switchVertical(conf);
 	}
 
+	// переключение в вертикальный режим
 	switchVertical(conf: IConf) {
-		if (conf.vertical) {
-			this.progressBar.classList.add('vert');
-		} else {
-			this.progressBar.classList.remove('vert');
-		}
+		const classList = this.progressBar.classList;
+		conf.vertical ? classList.add('vert') : classList.remove('vert');
 	}
 
-	updateBar(pos: number, length: number, isVertical: boolean) {
-
-		if (!isVertical) {
-			this.progressBar.style.left = pos + '%';
-			this.progressBar.style.width = length + '%';
-			this.progressBar.style.bottom = '';
-			this.progressBar.style.height = '';
-		} else {
-			this.progressBar.style.bottom = pos + '%';
-			this.progressBar.style.height = length + '%';
-			this.progressBar.style.left = '';
-			this.progressBar.style.width = '';
-		}
-	}
-
+	// отключение / включение бара
 	switchBar(conf: IConf) {
 		this.conf = conf;
-		this.conf.bar ? this.progressBar.classList.remove('hidden') :
-			this.progressBar.classList.add('hidden');
+		const classList = this.progressBar.classList;
+		this.conf.bar ? classList.remove('hidden') : classList.add('hidden');
+	}
+
+	//обновление бара при изменении позиций ползунков
+	updateBar(pos: number, length: number, isVertical: boolean) {
+		const style = this.progressBar.style;
+		if (!isVertical) {
+			style.left = pos + '%';
+			style.width = length + '%';
+			style.bottom = '';
+			style.height = '';
+		} else {
+			style.bottom = pos + '%';
+			style.height = length + '%';
+			style.left = '';
+			style.width = '';
+		}
 	}
 }
-
 
 export { sliderViewBar };
 

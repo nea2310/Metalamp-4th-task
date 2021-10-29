@@ -4,9 +4,9 @@ import { sliderViewScale } from './../view/view-scale/view-scale';
 import { sliderViewBar } from './../view/view-bar/view-bar';
 import {
 	Idata, IConf
-} from '../../interface';
+} from '../interface';
 
-import { Observer } from '../../observer';
+import { Observer } from '../observer';
 
 
 class sliderView extends Observer {

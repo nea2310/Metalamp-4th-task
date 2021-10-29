@@ -1,15 +1,14 @@
 import {
 	IConf,
 	Idata
-} from '../../../interface';
+} from '../../interface';
 
-import { Observer } from '../../../observer';
+import { Observer } from '../../observer';
 
 class sliderViewControl extends Observer {
 	conf: IConf;
 	slider: HTMLElement;
 	root: HTMLInputElement;
-	//	input: HTMLInputElement;
 	controlMin: HTMLElement;
 	controlMax: HTMLElement;
 	tipMin: HTMLInputElement;
@@ -80,36 +79,8 @@ class sliderViewControl extends Observer {
 			this.conf.tip, this.conf.vertical);
 		this.tipMax = this.controlMax.querySelector('.rs__tip');
 		this.track.append(this.controlMax);
-		if (!this.conf.range) { // single mode
-			this.controlMax.classList.add('hidden');
-			this.tipMax.classList.add('hidden');
-		}
+		this.switchRange(this.conf)
 	}
-
-	switchVertical(conf: IConf) {
-		this.conf = conf;
-
-		if (this.conf.vertical) { // vertical mode
-			this.controlMax.classList.add('vert');
-			this.tipMax.classList.add('vert');
-			this.controlMin.classList.add('vert');
-			this.tipMin.classList.add('vert');
-			this.controlMax.classList.remove('horizontal');
-			this.tipMax.classList.remove('horizontal');
-			this.controlMin.classList.remove('horizontal');
-			this.tipMin.classList.remove('horizontal');
-		} else {//horizontal mode
-			this.controlMax.classList.add('horizontal');
-			this.tipMax.classList.add('horizontal');
-			this.controlMin.classList.add('horizontal');
-			this.tipMin.classList.add('horizontal');
-			this.controlMax.classList.remove('vert');
-			this.tipMax.classList.remove('vert');
-			this.controlMin.classList.remove('vert');
-			this.tipMin.classList.remove('vert');
-		}
-	}
-
 
 
 
@@ -191,8 +162,6 @@ class sliderViewControl extends Observer {
 				target.classList.contains('rs__label') ||
 				target.classList.contains('rs__mark') ||
 				target.classList.contains('rs__input')) {
-				console.log(e);
-
 
 				let controlMinDist = 0;
 				let controlMaxDist = 0;
@@ -262,6 +231,19 @@ class sliderViewControl extends Observer {
 		isFrom ? this.tipMin.value = val : this.tipMax.value = val;
 	}
 
+	switchVertical(conf: IConf) {
+		this.conf = conf;
+		let arr = [this.controlMax, this.tipMax, this.controlMin, this.tipMin];
+		for (let elem of arr) {
+			if (this.conf.vertical) {
+				elem.classList.add('vert');
+				elem.classList.remove('horizontal');
+			} else {
+				elem.classList.remove('vert');
+				elem.classList.add('horizontal');
+			}
+		}
+	}
 
 	switchRange(conf: IConf) {
 		this.conf = conf;

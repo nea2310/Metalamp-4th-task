@@ -1,6 +1,6 @@
 import {
 	IConf,
-} from '../../../interface';
+} from '../../interface';
 
 
 

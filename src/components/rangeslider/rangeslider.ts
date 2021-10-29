@@ -2,9 +2,7 @@
 import './rangeslider.scss';
 import {
 	IConf,
-} from './../../plugins/sliderMetaLamp/interface';
-//import 
-
+} from './../../plugins/sliderMetaLamp/mvc/interface';
 
 class RangeSlider {
 	slider: HTMLElement
@@ -14,9 +12,6 @@ class RangeSlider {
 	sliderWrapper: HTMLElement
 	rangeSlider: any //какой здесь должен быть тип?
 
-
-
-
 	min: HTMLInputElement
 	max: HTMLInputElement
 	from: HTMLInputElement
@@ -25,7 +20,6 @@ class RangeSlider {
 	step: HTMLInputElement
 	shiftOnKeyDown: HTMLInputElement
 	shiftOnKeyHold: HTMLInputElement
-
 	vertical: HTMLInputElement
 	range: HTMLInputElement
 	scale: HTMLInputElement
@@ -36,10 +30,6 @@ class RangeSlider {
 	scaleBaseIntervals: HTMLInputElement
 	inputs: HTMLInputElement[]
 	selector: string
-
-
-
-
 
 
 	constructor(selector: string, elem: Element) {
@@ -53,8 +43,6 @@ class RangeSlider {
 		this.renderPanel();
 		this.renderSlider(this.slider);
 		this.updateSlider();
-
-
 	}
 
 	renderPanel() {
@@ -124,20 +112,21 @@ class RangeSlider {
 
 		const displayData = (data: IConf) => {
 			setVertical(data.vertical);
-			this.min.value = String(data.min);
-			this.max.value = String(data.max);
-			this.from.value = String(data.from);
-			this.to.value = String(data.to);
-			this.interval.value = String(data.interval);
-			this.step.value = String(data.step);
-			this.shiftOnKeyDown.value = String(data.shiftOnKeyDown);
-			this.shiftOnKeyHold.value = String(data.shiftOnKeyHold);
-			this.vertical.checked = data.vertical;
-			this.range.checked = data.range;
-			this.scale.checked = data.scale;
-			this.bar.checked = data.bar;
-			this.tip.checked = data.tip;
-			this.sticky.checked = data.sticky;
+			const D = data;
+			this.min.value = String(D.min);
+			this.max.value = String(D.max);
+			this.from.value = String(D.from);
+			this.to.value = String(D.to);
+			this.interval.value = String(D.interval);
+			this.step.value = String(D.step);
+			this.shiftOnKeyDown.value = String(D.shiftOnKeyDown);
+			this.shiftOnKeyHold.value = String(D.shiftOnKeyHold);
+			this.vertical.checked = D.vertical;
+			this.range.checked = D.range;
+			this.scale.checked = D.scale;
+			this.bar.checked = D.bar;
+			this.tip.checked = D.tip;
+			this.sticky.checked = D.sticky;
 
 			if (data.scaleBase == 'interval') {
 				this.scaleBaseIntervals.checked = true;
@@ -148,7 +137,7 @@ class RangeSlider {
 				this.scaleBaseSteps.checked = true;
 				this.interval.disabled = true;
 			}
-			this.to.disabled = data.range ? false : true;
+			this.to.disabled = D.range ? false : true;
 		};
 
 		const updateData = (data: IConf) => {
@@ -181,10 +170,7 @@ class RangeSlider {
 			onChange: (data: IConf) => {
 				changeData(data);
 			}
-		}).data('Slider'); // вернёт объект для одного элемента
-
-
-
+		}).data('SliderMetaLamp'); // вернёт объект для одного элемента
 	}
 
 	// API update

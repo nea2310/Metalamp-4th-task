@@ -1,7 +1,7 @@
 import { sliderModel } from './../model/model';
 import { sliderView } from './../view/view';
-import { IConf, Idata } from './../../interface';
-import { Observer } from '../../observer';
+import { IConf, Idata } from './../interface';
+import { Observer } from '../observer';
 
 
 

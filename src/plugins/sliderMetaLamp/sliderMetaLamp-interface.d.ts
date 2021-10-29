@@ -12,7 +12,6 @@ interface SliderOptions {
 	sticky?: boolean
 	shiftOnKeyDown?: number
 	shiftOnKeyHold?: number
-	//target?: string
 	vertical?: boolean
 	onStart?: Function
 	onUpdate?: Function
