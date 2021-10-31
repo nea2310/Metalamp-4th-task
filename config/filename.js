@@ -4,25 +4,30 @@
 const DP = require('./isDev');
 const PATHS = require('./paths');
 
+
 module.exports = {
-	filename: function (ext) {
+  filename: function (ext) {
 
-		let dir = '';
+    let dir = '';
 
-		if (ext === 'css') {
-			dir = `${PATHS.assets}css/`;
-		} else
-			if (ext === 'js') {
-				dir = `${PATHS.assets}js/`;
-			}
-		dir = dir.replace(/\//g, "\\");
+    if (ext === 'css') {
+      dir = `${PATHS.assets}css/`;
+    } else
+      if (ext === 'js') {
+        dir = `${PATHS.assets}js/`;
+      }
 
-		if (DP.isDev) {
-			return `${dir}[name].${ext}`;
-		}
-		else {
-			return `${dir}[name].[hash].${ext}`;
-		}
+    dir = dir.replace(/\//g, '\\');
 
-	}
+    if (DP.isMulti)
+      dir = dir.replace(/^\\/, '');
+
+    if (DP.isDev) {
+      return `${dir}[name].${ext}`;
+    }
+    else {
+      return `${dir}[name].[hash].${ext}`;
+    }
+
+  }
 };
