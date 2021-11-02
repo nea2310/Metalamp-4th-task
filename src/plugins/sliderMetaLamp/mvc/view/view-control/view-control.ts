@@ -69,7 +69,20 @@ class sliderViewControl extends Observer {
 		this.track.append(this.controlMax);
 	}
 
-	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
+	defineControl = (elem: HTMLElement) =>
+		elem.classList.contains('rs__control-min') ? 'min' : 'max';
+
+	getMetrics(elem: HTMLElement) {
+		const scale = elem.parentElement;
+		const T = this.data.thumb;
+		T.top = scale.getBoundingClientRect().top;
+		T.left = scale.getBoundingClientRect().left;
+		T.width = scale.offsetWidth;
+		T.height = scale.offsetHeight;
+	}
+
+
+	// Вешаем обработчики события нажатия мышью на ползунке (захвата ползунка) и перемещения ползунка 
 	dragControlMouse() {
 		let pointerDownHandler = (e: PointerEvent) => {
 			e.preventDefault();
@@ -77,28 +90,23 @@ class sliderViewControl extends Observer {
 			target.classList.add('grabbing')
 			const T = this.data.thumb;
 			if (target.classList.contains('rs__control')) {
+
 				//определяем ползунок, за который тянут
-				target.classList.contains('rs__control-min') ?
-					T.moovingControl = 'min' :
-					T.moovingControl = 'max';
+				T.moovingControl = this.defineControl(target);
 				//определяем расстояние между позицией клика и левым краем ползунка
 				if (!this.conf.vertical) {
 					T.shiftBase = e.clientX -
 						target.getBoundingClientRect().left;
 				}
-				let scale = target.parentElement;
-				T.top = scale.getBoundingClientRect().top;
-				T.left = scale.getBoundingClientRect().left;
-				T.width = scale.offsetWidth;
-				T.height = scale.offsetHeight;
+				this.getMetrics(target);
 
-				let pointerMoveHandler = (e: PointerEvent) => {
+				const pointerMoveHandler = (e: PointerEvent) => {
 					T.clientX = e.clientX;
 					T.clientY = e.clientY;
 					this.fire('MoveEvent', this.data);
 				};
 
-				let pointerUpHandler = () => {
+				const pointerUpHandler = () => {
 					target.classList.remove('grabbing')
 					target.
 						removeEventListener('pointermove', pointerMoveHandler);
@@ -120,39 +128,28 @@ class sliderViewControl extends Observer {
 	}
 
 
-	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
+	// Вешаем обработчики события нажатия пальцем на ползунке и перемещения ползунка
 	dragControlTouch() {
 		let pointerDownHandler = (e: TouchEvent) => {
 			e.preventDefault();
 			const target = e.target as HTMLElement;
 			const T = this.data.thumb;
 			if (target.classList.contains('rs__control')) {
+
 				//определяем ползунок, за который тянут
-				target.classList.contains('rs__control-min') ?
-					T.moovingControl = 'min' :
-					T.moovingControl = 'max';
+				T.moovingControl = this.defineControl(target);
+				this.getMetrics(target);
 
-				let scale = target.parentElement;
-				T.top = scale.getBoundingClientRect().top;
-				T.left = scale.getBoundingClientRect().left;
-				T.width = scale.offsetWidth;
-				T.height = scale.offsetHeight;
-
-				let pointerMoveHandler = (e: TouchEvent) => {
+				const pointerMoveHandler = (e: TouchEvent) => {
 					T.clientX = e.targetTouches[0].clientX;
 					T.clientY = e.targetTouches[0].clientY;
 					this.fire('MoveEvent', this.data);
 				};
-
 				target.addEventListener('touchmove', pointerMoveHandler);
-
 			}
 		};
-
 		this.slider.addEventListener('touchstart', pointerDownHandler);
 	}
-
-
 
 	// Вешаем обработчик нажатия стрелок на сфокусированном ползунке
 	pressControl() {
@@ -177,7 +174,7 @@ class sliderViewControl extends Observer {
 		};
 		this.slider.addEventListener('keydown', pointerDownHandler);
 	}
-
+	// Обработчик клика по шкале
 	clickTrack() {
 		let pointerDownHandler = (e: PointerEvent) => {
 			e.preventDefault();
