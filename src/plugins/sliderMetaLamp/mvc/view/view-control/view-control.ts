@@ -20,7 +20,8 @@ class sliderViewControl extends Observer {
 		this.data = {};
 		this.data.thumb = {};
 		this.init(conf);
-		this.dragControl();
+		this.dragControlMouse();
+		this.dragControlTouch();
 		this.pressControl();
 		this.clickTrack();
 	}
@@ -69,10 +70,8 @@ class sliderViewControl extends Observer {
 	}
 
 	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
-	dragControl_() {
+	dragControlMouse() {
 		let pointerDownHandler = (e: PointerEvent) => {
-			console.log(e);
-
 			e.preventDefault();
 			const target = e.target as HTMLElement;
 			target.classList.add('grabbing')
@@ -94,24 +93,21 @@ class sliderViewControl extends Observer {
 				T.height = scale.offsetHeight;
 
 				let pointerMoveHandler = (e: PointerEvent) => {
-					//	console.log(e.changedTouches);
-
-
-					T.type = e.type;
 					T.clientX = e.clientX;
 					T.clientY = e.clientY;
 					this.fire('MoveEvent', this.data);
 				};
 
 				let pointerUpHandler = () => {
-					console.log('pointerUpHandler');
 					target.classList.remove('grabbing')
 					target.
 						removeEventListener('pointermove', pointerMoveHandler);
 					target.
 						removeEventListener('pointerup', pointerUpHandler);
 				};
-
+				/*elem.setPointerCapture(pointerId) – привязывает события с данным pointerId к elem. 
+				После такого вызова все события указателя с таким pointerId будут иметь elem в качестве целевого элемента 
+				(как будто произошли над elem), вне зависимости от того, где в документе они произошли.*/
 				target.setPointerCapture(e.pointerId);
 				target.addEventListener('pointermove', pointerMoveHandler);
 				target.addEventListener('pointerup', pointerUpHandler);
@@ -119,29 +115,23 @@ class sliderViewControl extends Observer {
 		};
 
 		this.slider.addEventListener('pointerdown', pointerDownHandler);
-		// this.slider.addEventListener('dragstart', () => false);
-		// this.slider.addEventListener('selectstart', () => false);
+		this.slider.addEventListener('dragstart', () => false);
+		this.slider.addEventListener('selectstart', () => false);
 	}
 
 
 	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
-	dragControl() {
+	dragControlTouch() {
 		let pointerDownHandler = (e: TouchEvent) => {
-			console.log(e);
-
 			e.preventDefault();
 			const target = e.target as HTMLElement;
-			target.classList.add('grabbing')
 			const T = this.data.thumb;
 			if (target.classList.contains('rs__control')) {
 				//определяем ползунок, за который тянут
 				target.classList.contains('rs__control-min') ?
 					T.moovingControl = 'min' :
 					T.moovingControl = 'max';
-				//определяем расстояние между позицией клика и левым краем ползунка
-				if (!this.conf.vertical) {
-					T.shiftBase = 0;
-				}
+
 				let scale = target.parentElement;
 				T.top = scale.getBoundingClientRect().top;
 				T.left = scale.getBoundingClientRect().left;
@@ -149,33 +139,17 @@ class sliderViewControl extends Observer {
 				T.height = scale.offsetHeight;
 
 				let pointerMoveHandler = (e: TouchEvent) => {
-					console.log(e);
-
-
-					T.type = e.type;
 					T.clientX = e.targetTouches[0].clientX;
 					T.clientY = e.targetTouches[0].clientY;
 					this.fire('MoveEvent', this.data);
 				};
 
-				let pointerUpHandler = () => {
-					console.log(e);
-					target.classList.remove('grabbing')
-					target.
-						removeEventListener('touchmove', pointerMoveHandler);
-					target.
-						removeEventListener('pointerup', pointerUpHandler);
-				};
-
-				//target.setPointerCapture(e.targetTouches[0].force);
 				target.addEventListener('touchmove', pointerMoveHandler);
-				target.addEventListener('touchend', pointerUpHandler);
+
 			}
 		};
 
 		this.slider.addEventListener('touchstart', pointerDownHandler);
-		// this.slider.addEventListener('dragstart', () => false);
-		// this.slider.addEventListener('selectstart', () => false);
 	}
 
 
