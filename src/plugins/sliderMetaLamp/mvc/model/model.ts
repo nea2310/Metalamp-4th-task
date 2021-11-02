@@ -284,14 +284,14 @@ class sliderModel extends Observer {
 	}
 	// рассчитать позицию From (%) на основании значений from, min и max
 	calcFromPosition() {
-		if (this.conf.from != this.conf.min) {
-			this.data.fromPos = ((this.conf.from -
-				this.conf.min) * 100) /
-				(this.conf.max - this.conf.min);
-		}
-		else {
-			this.data.fromPos = 0.00001; // начальное положение ползунка на шкале, если min=from 
-		}
+		//	if (this.conf.from != this.conf.min) {
+		this.data.fromPos = ((this.conf.from -
+			this.conf.min) * 100) /
+			(this.conf.max - this.conf.min);
+		//	}
+		// else {
+		// 		this.data.fromPos = 0.00001; // начальное положение ползунка на шкале, если min=from 
+		// 			}
 
 
 
@@ -321,6 +321,9 @@ class sliderModel extends Observer {
 
 	/*Рассчитываем ширину и позицию left (top) прогресс-бара*/
 	calcBar() {
+		console.log(this.data.fromPos);
+		console.log(this.data.toPos);
+
 		if (this.conf.range) {//режим Double
 			this.data.barPos = this.data.fromPos;
 			this.data.barWidth = this.data.toPos -
