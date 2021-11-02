@@ -22,16 +22,24 @@
 
 		& + .toggle__checkmark {
 			border: 1px solid $colorDarkShade25;
-			background-image: url("~comp/toggle/img/rectangle-border.svg");
-			background-position-y: 50%;
-			background-position-x: 13%;
-			background-repeat: no-repeat;
+			& > .toggle__ball {
+				width: 10px;
+				height: 10px;
+				border-radius: 50%;
+				top: 3px;
+				left: 3px;
+				position: absolute;
+				background-color: $colorDarkShade25;
+			}
 		}
 
 		&:checked + .toggle__checkmark {
 			border: 1px solid $colorPurple;
-			background-image: url("~comp/toggle/img/rectangle.svg");
-			background-position-x: 87%;
+			& > .toggle__ball {
+				background-image: $gradientPurple;
+				right: 3px;
+				left: auto;
+			}
 		}
 	}
 
