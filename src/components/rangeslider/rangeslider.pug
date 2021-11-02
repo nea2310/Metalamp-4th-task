@@ -6,7 +6,7 @@ mixin rangeslider(options={})
 		div(class = elemName + '__rs')
 			input(class='rs__root' data-min='20' data-max='30' 
 					data-from='20' data-to='30' data-scalebase='interval'
-					data-interval='20' data-shiftonkeydown='10' data-shiftonkeyhold='3' data-sticky='true')
+					data-interval='20' data-shiftonkeydown='10' data-shiftonkeyhold='3' data-sticky='false')
 		div(class = elemName + '__panel '+ elemName + '__panel-1')
 			+panel({mod: '1', radioGroupName: 'horizontal'})
 	div(class = elemName)
