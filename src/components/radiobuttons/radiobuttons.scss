@@ -36,9 +36,9 @@
 		outline-offset: 12px;
 
 		&:checked + .radiobuttons__cat-radiomark {
-			border: 1px solid $colorPurple;
+			border: 2px solid $colorBlue;
 			box-shadow: inset 0px 0px 0px 3.5px $colorWhite;
-			background: linear-gradient(180deg, $colorPurple 0%, #8ba4f9 100%);
+			background-color: $colorBlue;
 		}
 	}
 
@@ -46,13 +46,13 @@
 		cursor: pointer;
 		display: inline-block;
 		position: relative;
-		border: 1px solid $colorDarkShade25;
-		width: 18px;
+		border: 2px solid $colorDarkShade25;
+		width: 19px;
 		height: 18px;
 		border-radius: 50%;
 		content: "";
 		display: inline-block;
-		width: 18px;
+		width: 19px;
 		height: 18px;
 		background-color: $colorWhite;
 	}

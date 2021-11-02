@@ -47,9 +47,9 @@
 			color: $colorDarkShade25;
 		}
 		@include font-body;
-		//	height: 30px;
+		font-weight: normal;
 		text-indent: 12px;
-		border-radius: 5px;
+		border-radius: 3px;
 		border: 1px solid $colorDarkShade25;
 		margin-top: 4px;
 		width: 100%;
@@ -60,7 +60,7 @@
 			border-color: $colorDarkShade50;
 		}
 		&:disabled {
-			background-color: $colorDarkShade25;
+			background-color: $colorDarkShade15;
 		}
 	}
 }

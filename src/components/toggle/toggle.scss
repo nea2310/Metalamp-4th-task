@@ -21,7 +21,7 @@
 		outline-offset: 12px;
 
 		& + .toggle__checkmark {
-			border: 1px solid $colorDarkShade25;
+			border: 2px solid $colorDarkShade25;
 			& > .toggle__ball {
 				width: 10px;
 				height: 10px;
@@ -34,9 +34,9 @@
 		}
 
 		&:checked + .toggle__checkmark {
-			border: 1px solid $colorPurple;
+			border: 2px solid $colorBlue;
 			& > .toggle__ball {
-				background-image: $gradientPurple;
+				background-color: $colorBlue;
 				right: 3px;
 				left: auto;
 			}
@@ -49,7 +49,7 @@
 		position: relative;
 		border: 1px solid $colorDarkShade25;
 		width: 38px;
-		height: 18px;
+		height: 20px;
 		border-radius: 22px;
 		background-color: $colorWhite;
 	}

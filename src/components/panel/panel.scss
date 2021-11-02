@@ -151,16 +151,21 @@
 	.apply {
 		box-sizing: border-box;
 		@include font-body;
+		font-weight: normal;
+		color: rgb(41, 39, 39);
+
 		position: absolute;
 		bottom: 7px;
 		right: 14px;
-		background-color: $colorDarkShade25;
+		background-color: $colorBlue;
 		height: 30px;
-		border-radius: 5px;
-		padding: 0 5px;
-		border: 3px solid $colorDarkShade25;
+		width: 120px;
+		border-radius: 2px;
+		padding: 0 10px;
+		//	border: 3px solid $colorBlue;
 		&:hover {
-			border: 3px solid $colorDarkShade50;
+			//	box-sizing: border-box;
+			border: 2px solid rgb(41, 39, 39);
 		}
 	}
 }

@@ -15,11 +15,11 @@ $colorDarkShade15: rgba(31, 32, 65, 0.15);
 $colorDarkShade5: rgba(31, 32, 65, 0.05);
 $colorPurple: #bc9cff;
 $colorPurpleOpaque: rgba(188, 156, 255, 0.5);
-$colorBlue: #8ba4f9;
+$colorBlue: #75b7ec;
 $colorBlueOpaque: rgba(139, 164, 249, 0.5);
 $colorGreen: #6fcf97;
 $colorWhite: #ffffff;
-$colorLightBlue: #66d2ea;
+$colorLightBlue: rgb(137, 226, 247);
 $gradientPurple: linear-gradient($colorPurple 0%, $colorBlue 100%);
 $gradientGreen: linear-gradient($colorGreen 0%, $colorLightBlue 100%);
 
@@ -55,7 +55,7 @@ $gradientGreen: linear-gradient($colorGreen 0%, $colorLightBlue 100%);
 	font-weight: normal;
 	font-size: 14px;
 	line-height: 17px;
-	color: $colorDarkShade75;
+	color: rgb(41, 39, 39);
 }
 
 @mixin media-breakpoint-up($width) {
