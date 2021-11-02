@@ -42,10 +42,10 @@ class sliderViewControl extends Observer {
 		let control = document.createElement('button');
 		control.className = 'rs__control';
 		control.classList.add(controlClassName);
-		let tip = document.createElement('input');
+		let tip = document.createElement('span');
 		tip.className = 'rs__tip';
 		tip.classList.add(tipClassName);
-		tip.value = String(value);
+		tip.innerText = String(value);
 		control.append(tip);
 		return control;
 	}
@@ -247,7 +247,7 @@ class sliderViewControl extends Observer {
 
 	//Обновляем значение tip
 	updateVal(val: string, isFrom: boolean) {
-		isFrom ? this.tipMin.value = val : this.tipMax.value = val;
+		isFrom ? this.tipMin.innerText = val : this.tipMax.innerText = val;
 	}
 
 	//включение / отключение вертикального режима
