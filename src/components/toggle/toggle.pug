@@ -8,4 +8,5 @@ mixin toggle(options={})
 			label(class = elemName + '__wrapper')
 				input(class = elemName + '__checkbox', type = "checkbox" name = options.name value = options.name)
 				span(class = elemName + '__checkmark')
+					span(class = elemName + '__ball')
 				p(class = elemName + '__name')=options.name
