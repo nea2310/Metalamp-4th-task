@@ -69,8 +69,10 @@ class sliderViewControl extends Observer {
 	}
 
 	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
-	dragControl() {
+	dragControl_() {
 		let pointerDownHandler = (e: PointerEvent) => {
+			console.log(e);
+
 			e.preventDefault();
 			const target = e.target as HTMLElement;
 			target.classList.add('grabbing')
@@ -92,6 +94,8 @@ class sliderViewControl extends Observer {
 				T.height = scale.offsetHeight;
 
 				let pointerMoveHandler = (e: PointerEvent) => {
+					//	console.log(e.changedTouches);
+
 
 					T.type = e.type;
 					T.clientX = e.clientX;
@@ -100,6 +104,7 @@ class sliderViewControl extends Observer {
 				};
 
 				let pointerUpHandler = () => {
+					console.log('pointerUpHandler');
 					target.classList.remove('grabbing')
 					target.
 						removeEventListener('pointermove', pointerMoveHandler);
@@ -114,9 +119,65 @@ class sliderViewControl extends Observer {
 		};
 
 		this.slider.addEventListener('pointerdown', pointerDownHandler);
-		this.slider.addEventListener('dragstart', () => false);
-		this.slider.addEventListener('selectstart', () => false);
+		// this.slider.addEventListener('dragstart', () => false);
+		// this.slider.addEventListener('selectstart', () => false);
 	}
+
+
+	// Вешаем обработчики события нажатия кнопки на ползунке (захвата ползунка) и перемещения ползунка
+	dragControl() {
+		let pointerDownHandler = (e: TouchEvent) => {
+			console.log(e);
+
+			e.preventDefault();
+			const target = e.target as HTMLElement;
+			target.classList.add('grabbing')
+			const T = this.data.thumb;
+			if (target.classList.contains('rs__control')) {
+				//определяем ползунок, за который тянут
+				target.classList.contains('rs__control-min') ?
+					T.moovingControl = 'min' :
+					T.moovingControl = 'max';
+				//определяем расстояние между позицией клика и левым краем ползунка
+				if (!this.conf.vertical) {
+					T.shiftBase = 0;
+				}
+				let scale = target.parentElement;
+				T.top = scale.getBoundingClientRect().top;
+				T.left = scale.getBoundingClientRect().left;
+				T.width = scale.offsetWidth;
+				T.height = scale.offsetHeight;
+
+				let pointerMoveHandler = (e: TouchEvent) => {
+					console.log(e);
+
+
+					T.type = e.type;
+					T.clientX = e.targetTouches[0].clientX;
+					T.clientY = e.targetTouches[0].clientY;
+					this.fire('MoveEvent', this.data);
+				};
+
+				let pointerUpHandler = () => {
+					console.log(e);
+					target.classList.remove('grabbing')
+					target.
+						removeEventListener('touchmove', pointerMoveHandler);
+					target.
+						removeEventListener('pointerup', pointerUpHandler);
+				};
+
+				//target.setPointerCapture(e.targetTouches[0].force);
+				target.addEventListener('touchmove', pointerMoveHandler);
+				target.addEventListener('touchend', pointerUpHandler);
+			}
+		};
+
+		this.slider.addEventListener('touchstart', pointerDownHandler);
+		// this.slider.addEventListener('dragstart', () => false);
+		// this.slider.addEventListener('selectstart', () => false);
+	}
+
 
 
 	// Вешаем обработчик нажатия стрелок на сфокусированном ползунке
