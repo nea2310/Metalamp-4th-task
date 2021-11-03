@@ -76,6 +76,9 @@ class sliderController extends Observer {
 	handleScale = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'Scale') return;
 		else {
+
+			// let calcScale = this.view.updateScale.bind(this.view);
+			// setTimeout(calcScale, 100); //нужна задержка, т.к. иначе в view ширина offsetWidth берется у не успевшего перестроиться элемента
 			this.view.updateScale(data, conf);
 		}
 	}

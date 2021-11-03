@@ -31,11 +31,20 @@ class sliderView extends Observer {
 		this.slider.className = 'rs__wrapper';
 		this.root.after(this.slider);
 		this.track = document.createElement('div');
+
+
 		this.track.className = 'rs__track';
 		this.slider.append(this.track);
 		this.frame = document.createElement('div');
 		this.frame.className = 'rs__frame';
 		this.slider.append(this.frame);
+		this.getHeight();
+		setTimeout(this.getHeight, 3000)
+		//console.log(this.track.offsetHeight);
+	}
+
+	getHeight = () => {
+		console.log(this.track.offsetHeight);
 	}
 
 	collectParms() {
@@ -96,6 +105,15 @@ class sliderView extends Observer {
 
 	init(conf: IConf) {
 		this.conf = conf;
+
+
+		// let createSubViews = this.createSubViews.bind(this);
+		// let createListeners = this.createListeners.bind(this);
+		// let switchVertical = this.switchVertical.bind(this);
+		// setTimeout(createSubViews, 100); //нужна задержка, т.к. иначе  ширина offsetWidth берется у не успевшего построиться элемента
+		// setTimeout(createListeners, 200); //нужна задержка, т.к. иначе  ширина offsetWidth берется у не успевшего построиться элемента
+		// setTimeout(switchVertical, 200, conf); //нужна задержка, т.к. иначе  ширина offsetWidth берется у не успевшего построиться элемента
+
 		this.createSubViews();
 		this.createListeners();//срабатывает после инициализации модели
 		this.switchVertical(conf);
@@ -131,7 +149,8 @@ class sliderView extends Observer {
 	}
 
 	updateScale = (data: Idata, conf: IConf) => {
-		this.viewScale.createScale(data.marksArr, conf);
+		let calcScale = this.viewScale.createScale.bind(this.viewScale);
+		setTimeout(calcScale, 100, data.marksArr, conf); //нужна задержка, т.к. иначе в view ширина offsetWidth берется у не успевшего перестроиться элемента
 	}
 
 	updateBar = (data: Idata, conf: IConf) => {

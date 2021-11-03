@@ -71,7 +71,8 @@ class sliderModel extends Observer {
 		this.onStart = this.conf.onStart;
 		this.onUpdate = this.conf.onUpdate;
 		this.onChange = this.conf.onChange;
-
+		// let calcScale = this.calcScale.bind(this);
+		// setTimeout(calcScale, 100); //нужна задержка, т.к. иначе в view ширина offsetWidth берется у не успевшего перестроиться элемента
 		this.calcScale();
 		this.calcFromPosition();
 		this.calcToPosition();
@@ -133,8 +134,8 @@ class sliderModel extends Observer {
 
 		if (conf.step <= 0) {
 			conf.step = (conf.max - conf.min) / 2;
-			console.log(conf.max);
-			console.log(conf.min);
+			// console.log(conf.max);
+			// console.log(conf.min);
 
 		}
 		if (conf.interval <= 0) {
@@ -350,7 +351,7 @@ class sliderModel extends Observer {
 		let arg = '';
 		if (this.conf.scaleBase == 'step') {//если рассчитываем шкалу на основе кол-ва шагов
 			step = this.conf.step; // находим длину шага
-			console.log(step);
+			//	console.log(step);
 
 			interval = (this.conf.max - this.conf.min) / step; // находим кол-во интервалов
 			arg = interval % 1 === 0 ? String(interval) :

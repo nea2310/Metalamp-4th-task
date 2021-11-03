@@ -15,6 +15,9 @@ class sliderViewScale {
 
 	constructor(root: HTMLElement, conf: IConf) {
 		this.slider = root;
+		//	console.log(this.slider);
+		// let init = this.init.bind(this);
+		// setTimeout(init, 100, conf); //нужна задержка, т.к. иначе  ширина offsetWidth берется у не успевшего построиться элемента
 		this.init(conf);
 	}
 
@@ -22,12 +25,17 @@ class sliderViewScale {
 	init(conf: IConf) {
 		this.conf = conf;
 		this.track = this.slider.firstElementChild as HTMLElement;
-		this.getResizeWrap();
+		let getResizeWrap = this.getResizeWrap.bind(this);
+		setTimeout(getResizeWrap, 100); //нужна задержка, т.к. иначе  ширина offsetWidth берется у не успевшего построиться элемента
+		//	this.getResizeWrap();
 	}
 
 	//создаем деления
 	createScale(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 		conf: IConf) {
+		//console.log('createScale');
+		//console.log(this.track.offsetHeight);
+
 		this.conf = conf;
 		this.scaleMarks = scaleMarks;
 		let steps = this.slider.querySelectorAll('.rs__mark');
@@ -72,11 +80,14 @@ class sliderViewScale {
 		this.markList =
 			[...this.track.querySelectorAll<HTMLElement>('.rs__mark')];
 		this.checkScaleLength(this.markList);
+
+		console.log(this.track.offsetHeight);
 	}
 
 
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
 	checkScaleLength(markList: HTMLElement[]) {
+		console.log(this.track.offsetHeight);
 		let hideLabels = (markList: HTMLElement[]) => {
 			//console.log('hideLabels');
 			//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
@@ -180,7 +191,6 @@ class sliderViewScale {
 		let timeout = false; // ----- флаг для запрета лишний раз вызывать функцию resizeend
 
 		this.startWidth = this.slider.offsetWidth; // ----------------- запоминаем ширину враппера до ресайза
-
 		(function () { // ------------------------------------------------- функция которая сразу исполняеться (она повесит искуственное событие optimizedResize)
 			let throttle = function (type: string, name: string, obj = window) {
 				let running = false;  // ------------------------------------ флаг начала события
@@ -205,12 +215,16 @@ class sliderViewScale {
 				timeout = false;
 
 				let totalWidth = this.slider.offsetWidth; // ----------------------------------- получаем ширину после ресайза
+				console.log('totalWidth: ' + totalWidth);
+
 				if (totalWidth != this.startWidth) { // -------------------------------------------------- если до и после отличаеться 
 					if (totalWidth < this.startWidth) {
-						//	console.log('RESIZE');
+						console.log('totalWidth < this.startWidth');
 						this.checkScaleLength(this.markList);
 					}
 					if (totalWidth > this.startWidth) {
+						console.log('totalWidth > this.startWidth');
+
 						this.createScale(this.scaleMarks, this.conf);
 					}
 					this.startWidth = totalWidth;//-------------------------------------------------------- запоминаем новую ширину враппера до ресайза

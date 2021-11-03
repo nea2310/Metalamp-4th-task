@@ -265,7 +265,7 @@ class sliderViewControl extends Observer {
 				elem.classList.remove('vert');
 				elem.classList.add('horizontal');
 				if (elem.classList.contains('rs__tip')) {
-					console.log(elem.offsetWidth);
+					//	console.log(elem.offsetWidth);
 
 					elem.style.left = elem.offsetWidth / 2 * (-1) + 'px';
 				}
@@ -289,7 +289,7 @@ class sliderViewControl extends Observer {
 
 	//включение / отключение подсказок
 	switchTip(conf: IConf) {
-		console.log('!!!');
+		//console.log('!!!');
 
 		this.conf = conf;
 		if (this.conf.tip) {
@@ -300,7 +300,7 @@ class sliderViewControl extends Observer {
 				this.tipMax.style.left = this.tipMax.offsetWidth * (-1) - 5 + 'px';
 				this.tipMin.style.left = this.tipMin.offsetWidth * (-1) - 5 + 'px';
 			} else {
-				console.log(this.tipMax.offsetWidth);
+				//	console.log(this.tipMax.offsetWidth);
 				this.tipMax.style.left = this.tipMax.offsetWidth / 2 * (-1) + 'px';
 				this.tipMin.style.left = this.tipMin.offsetWidth / 2 * (-1) + 'px';
 			}
