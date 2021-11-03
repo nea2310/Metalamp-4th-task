@@ -98,38 +98,52 @@ class sliderModel extends Observer {
 		conf.shiftOnKeyHold = validType(conf.shiftOnKeyHold);
 
 
-
 		if (conf.shiftOnKeyDown <= 0) {
 			conf.shiftOnKeyDown = 1;
+			//console.log('1');
+
 		}
 		if (conf.shiftOnKeyHold <= 0) {
 			conf.shiftOnKeyHold = 1;
+			//	console.log('2');
 		}
 
 		if (conf.max <= conf.min) {
 			conf.max = conf.min + 10;
 			conf.from = conf.min;
 			conf.to = conf.max;
+			//console.log('3');
 		}
 		if (conf.from < conf.min) {
-			conf.from = conf.min
+			conf.from = conf.min;
+			//console.log('4');
 		}
 
 		if (conf.to < conf.min) {
-			conf.to = conf.from
+			conf.to = conf.from;
+			//console.log('5');
 		}
 		if (!conf.range && conf.to > conf.max) {
-			conf.to = conf.from
+			conf.to = conf.from;
+			//console.log('6');
 		}
 
 		if (conf.range && conf.to > conf.max) {
-			conf.to = conf.max
+			conf.to = conf.max;
+			//console.log('7');
 		}
-		if (conf.from > conf.max) {
-			conf.from = conf.to
+		if (conf.range && conf.from > conf.max) {
+			conf.from = conf.to;
+			//console.log('8');
+		}
+
+		if (!conf.range && conf.from > conf.max) {
+			conf.from = conf.max;
+			//console.log('8');
 		}
 		if (conf.range && conf.from > conf.to) {
-			conf.from = conf.min
+			conf.from = conf.min;
+			//console.log('9');
 		}
 
 		if (conf.step <= 0) {

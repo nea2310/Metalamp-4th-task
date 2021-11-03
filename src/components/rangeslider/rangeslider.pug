@@ -2,6 +2,13 @@ include ../panel/panel.pug
 mixin rangeslider(options={})
 	-
 		let elemName='rangeslider'
+	div(class =elemName)
+		div(class = elemName + '__rs')
+			input(class='rs__root' data-min='200000' data-max='300000' 
+					data-from='250000' data-tip='false' data-scaleBase = 'interval'
+					data-interval='20' data-shiftonkeydown='10' data-shiftonkeyhold='3' data-sticky='false' data-range = 'false' )
+		div(class = elemName + '__panel '+ elemName + '__panel-1')
+			+panel({radioGroupName: 'horizontal'})
 	div(class = elemName)
 		div(class = elemName + '__rs')
 			input(class='rs__root' data-min='-150' data-max='300' data-tip = 'true'
@@ -9,3 +16,8 @@ mixin rangeslider(options={})
 					data-step='4' data-shiftonkeydown='1' data-shiftonkeyhold='3' data-sticky='true')
 		div(class = elemName + '__panel '+ elemName + '__panel-2')
 			+panel({radioGroupName: 'vertical'})
+	div(class = elemName)
+		div(class = elemName + '__rs')
+			input(class='rs__root')
+		div(class = elemName + '__panel '+ elemName + '__panel-3')
+			+panel({radioGroupName: 'vertical1'})

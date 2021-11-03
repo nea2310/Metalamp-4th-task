@@ -265,8 +265,6 @@ class sliderViewControl extends Observer {
 				elem.classList.remove('vert');
 				elem.classList.add('horizontal');
 				if (elem.classList.contains('rs__tip')) {
-					//	console.log(elem.offsetWidth);
-
 					elem.style.left = elem.offsetWidth / 2 * (-1) + 'px';
 				}
 			}

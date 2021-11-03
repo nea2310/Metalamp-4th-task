@@ -81,13 +81,13 @@ class sliderViewScale {
 			[...this.track.querySelectorAll<HTMLElement>('.rs__mark')];
 		this.checkScaleLength(this.markList);
 
-		console.log(this.track.offsetHeight);
+		//console.log(this.track.offsetHeight);
 	}
 
 
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
 	checkScaleLength(markList: HTMLElement[]) {
-		console.log(this.track.offsetHeight);
+		//	console.log(this.track.offsetHeight);
 		let hideLabels = (markList: HTMLElement[]) => {
 			//console.log('hideLabels');
 			//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
@@ -133,7 +133,6 @@ class sliderViewScale {
 			}
 			//если общая высота подписей к шагам больше высоты шкалы
 			if (totalHeight > this.track.offsetHeight) {
-				//	console.log('recursion');
 				//Скрываем подписи
 				hideLabels(markList);
 			} else {
@@ -164,11 +163,11 @@ class sliderViewScale {
 		let right = beforeLastLabel.getBoundingClientRect().right;
 		let left = lastLabel.getBoundingClientRect().left;
 
-		if (right > left) {
-			markLabeledList[markLabeledList.length - 2].
-				classList.add('no-label');
-			beforeLastLabel.classList.add('hidden');
-		}
+		// if (right > left) {
+		// 	markLabeledList[markLabeledList.length - 2].
+		// 		classList.add('no-label');
+		// 	beforeLastLabel.classList.add('hidden');
+		// }
 	}
 
 	switchScale(conf: IConf) {

@@ -38,13 +38,6 @@ class sliderView extends Observer {
 		this.frame = document.createElement('div');
 		this.frame.className = 'rs__frame';
 		this.slider.append(this.frame);
-		this.getHeight();
-		setTimeout(this.getHeight, 3000)
-		//console.log(this.track.offsetHeight);
-	}
-
-	getHeight = () => {
-		console.log(this.track.offsetHeight);
 	}
 
 	collectParms() {
@@ -105,15 +98,6 @@ class sliderView extends Observer {
 
 	init(conf: IConf) {
 		this.conf = conf;
-
-
-		// let createSubViews = this.createSubViews.bind(this);
-		// let createListeners = this.createListeners.bind(this);
-		// let switchVertical = this.switchVertical.bind(this);
-		// setTimeout(createSubViews, 100); //нужна задержка, т.к. иначе  ширина offsetWidth берется у не успевшего построиться элемента
-		// setTimeout(createListeners, 200); //нужна задержка, т.к. иначе  ширина offsetWidth берется у не успевшего построиться элемента
-		// setTimeout(switchVertical, 200, conf); //нужна задержка, т.к. иначе  ширина offsetWidth берется у не успевшего построиться элемента
-
 		this.createSubViews();
 		this.createListeners();//срабатывает после инициализации модели
 		this.switchVertical(conf);
