@@ -258,16 +258,12 @@ class sliderViewControl extends Observer {
 			if (this.conf.vertical) {
 				elem.classList.add('vert');
 				elem.classList.remove('horizontal');
-				if (elem.classList.contains('rs__tip')) {
-					elem.style.left = elem.offsetWidth * (-1) - 5 + 'px';
-				}
 			} else {
 				elem.classList.remove('vert');
 				elem.classList.add('horizontal');
-				if (elem.classList.contains('rs__tip')) {
-					elem.style.left = elem.offsetWidth / 2 * (-1) + 'px';
-				}
 			}
+			if (elem.classList.contains('rs__tip'))
+				elem.style.left = this.calcTipPos(this.conf.vertical, elem);
 		}
 	}
 
@@ -287,27 +283,31 @@ class sliderViewControl extends Observer {
 
 	//включение / отключение подсказок
 	switchTip(conf: IConf) {
-		//console.log('!!!');
-
 		this.conf = conf;
 		if (this.conf.tip) {
 			this.tipMax.classList.remove('hidden');
 			this.tipMin.classList.remove('hidden');
 
-			if (conf.vertical) {
-				this.tipMax.style.left = this.tipMax.offsetWidth * (-1) - 5 + 'px';
-				this.tipMin.style.left = this.tipMin.offsetWidth * (-1) - 5 + 'px';
-			} else {
-				//	console.log(this.tipMax.offsetWidth);
-				this.tipMax.style.left = this.tipMax.offsetWidth / 2 * (-1) + 'px';
-				this.tipMin.style.left = this.tipMin.offsetWidth / 2 * (-1) + 'px';
-			}
+			//	if (conf.vertical) {
+			this.tipMax.style.left = this.calcTipPos(conf.vertical, this.tipMax);
+			this.tipMin.style.left = this.calcTipPos(conf.vertical, this.tipMin);
+			// } else {
+			// 	this.tipMax.style.left = this.tipMax.offsetWidth / 2 * (-1) + 'px';
+			// 	this.tipMin.style.left = this.tipMin.offsetWidth / 2 * (-1) + 'px';
+			// }
 
 
 		} else {
 			this.tipMax.classList.add('hidden');
 			this.tipMin.classList.add('hidden');
 		}
+	}
+
+
+	calcTipPos(isVertical: boolean, elem: HTMLElement) {
+		if (isVertical)
+			return elem.offsetWidth * (-1) - 5 + 'px'
+		else return elem.offsetWidth / 2 * (-1) + 'px';
 	}
 }
 

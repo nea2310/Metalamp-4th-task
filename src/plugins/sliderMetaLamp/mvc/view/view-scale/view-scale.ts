@@ -15,9 +15,6 @@ class sliderViewScale {
 
 	constructor(root: HTMLElement, conf: IConf) {
 		this.slider = root;
-		//	console.log(this.slider);
-		// let init = this.init.bind(this);
-		// setTimeout(init, 100, conf); //нужна задержка, т.к. иначе  ширина offsetWidth берется у не успевшего построиться элемента
 		this.init(conf);
 	}
 
@@ -27,15 +24,11 @@ class sliderViewScale {
 		this.track = this.slider.firstElementChild as HTMLElement;
 		let getResizeWrap = this.getResizeWrap.bind(this);
 		setTimeout(getResizeWrap, 100); //нужна задержка, т.к. иначе  ширина offsetWidth берется у не успевшего построиться элемента
-		//	this.getResizeWrap();
 	}
 
 	//создаем деления
 	createScale(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 		conf: IConf) {
-		//console.log('createScale');
-		//console.log(this.track.offsetHeight);
-
 		this.conf = conf;
 		this.scaleMarks = scaleMarks;
 		let steps = this.slider.querySelectorAll('.rs__mark');
@@ -66,10 +59,6 @@ class sliderViewScale {
 				elem.classList.add('visually-hidden');
 			}
 			this.track.appendChild(elem);
-			// console.log(conf.vertical);
-			// console.log(label.offsetHeight);
-
-
 			if (conf.vertical) {
 				label.style.top = label.offsetHeight / 2 * (-1) + 'px';
 			} else {
@@ -80,16 +69,12 @@ class sliderViewScale {
 		this.markList =
 			[...this.track.querySelectorAll<HTMLElement>('.rs__mark')];
 		this.checkScaleLength(this.markList);
-
-		//console.log(this.track.offsetHeight);
 	}
 
 
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
 	checkScaleLength(markList: HTMLElement[]) {
-		//	console.log(this.track.offsetHeight);
 		let hideLabels = (markList: HTMLElement[]) => {
-			//console.log('hideLabels');
 			//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
 			for (let i = 1; i < markList.length; i += 2) {
 				markList[i].firstElementChild.
@@ -157,11 +142,11 @@ class sliderViewScale {
 			lastMark.classList.remove('no-label');
 			lastMark.firstElementChild.classList.remove('hidden');
 		}
-		let lastLabel = lastMark.firstElementChild;
-		let beforeLastLabel =
-			markLabeledList[markLabeledList.length - 2].firstElementChild;
-		let right = beforeLastLabel.getBoundingClientRect().right;
-		let left = lastLabel.getBoundingClientRect().left;
+		// let lastLabel = lastMark.firstElementChild;
+		// let beforeLastLabel =
+		// 	markLabeledList[markLabeledList.length - 2].firstElementChild;
+		// let right = beforeLastLabel.getBoundingClientRect().right;
+		// let left = lastLabel.getBoundingClientRect().left;
 
 		// if (right > left) {
 		// 	markLabeledList[markLabeledList.length - 2].
@@ -214,16 +199,11 @@ class sliderViewScale {
 				timeout = false;
 
 				let totalWidth = this.slider.offsetWidth; // ----------------------------------- получаем ширину после ресайза
-				console.log('totalWidth: ' + totalWidth);
-
 				if (totalWidth != this.startWidth) { // -------------------------------------------------- если до и после отличаеться 
 					if (totalWidth < this.startWidth) {
-						console.log('totalWidth < this.startWidth');
 						this.checkScaleLength(this.markList);
 					}
 					if (totalWidth > this.startWidth) {
-						console.log('totalWidth > this.startWidth');
-
 						this.createScale(this.scaleMarks, this.conf);
 					}
 					this.startWidth = totalWidth;//-------------------------------------------------------- запоминаем новую ширину враппера до ресайза

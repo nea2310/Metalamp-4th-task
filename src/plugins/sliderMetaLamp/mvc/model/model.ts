@@ -148,9 +148,6 @@ class sliderModel extends Observer {
 
 		if (conf.step <= 0) {
 			conf.step = (conf.max - conf.min) / 2;
-			// console.log(conf.max);
-			// console.log(conf.min);
-
 		}
 		if (conf.interval <= 0) {
 			conf.interval = 2;
@@ -341,9 +338,6 @@ class sliderModel extends Observer {
 
 	/*Рассчитываем ширину и позицию left (top) прогресс-бара*/
 	calcBar() {
-		// console.log(this.data.fromPos);
-		// console.log(this.data.toPos);
-
 		if (this.conf.range) {//режим Double
 			this.data.barPos = this.data.fromPos;
 			this.data.barWidth = this.data.toPos -
@@ -358,15 +352,11 @@ class sliderModel extends Observer {
 
 	// рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
 	calcScale() {
-		//	console.log(this.conf);
-
 		let interval = 1;
 		let step = 1;
 		let arg = '';
 		if (this.conf.scaleBase == 'step') {//если рассчитываем шкалу на основе кол-ва шагов
 			step = this.conf.step; // находим длину шага
-			//	console.log(step);
-
 			interval = (this.conf.max - this.conf.min) / step; // находим кол-во интервалов
 			arg = interval % 1 === 0 ? String(interval) :
 				String(Math.trunc(interval + 1));
