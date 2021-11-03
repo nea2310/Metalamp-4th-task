@@ -130,14 +130,6 @@
 	top: -12.5px;
 }
 
-.hidden {
-	display: none;
-}
-
-.visually-hidden {
-	opacity: 0;
-}
-
 .rs__value {
 	position: absolute;
 	top: -30px;
@@ -199,18 +191,22 @@
 	padding: 0 5px;
 	background: #98d4a7;
 	z-index: 1;
-	&-max.rs__tip.horizontal {
-		right: -25px;
-		top: -40px;
-	}
+}
 
-	&-min.rs__tip.horizontal {
-		left: -25px;
-		top: -40px;
-	}
+.rs__tip.horizontal {
+	//	right: -55px;
+	top: -30px;
 }
 
 .rs__tip.vert {
-	left: -55px;
+	//	right: -55px;
 	top: -12.5px;
+}
+
+.hidden {
+	display: none;
+}
+
+.visually-hidden {
+	opacity: 0;
 }

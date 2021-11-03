@@ -97,12 +97,7 @@ class sliderModel extends Observer {
 		conf.shiftOnKeyHold = validType(conf.shiftOnKeyHold);
 
 
-		if (conf.step <= 0) {
-			conf.step = (conf.max - conf.min) / 2;
-		}
-		if (conf.interval <= 0) {
-			conf.interval = 2;
-		}
+
 		if (conf.shiftOnKeyDown <= 0) {
 			conf.shiftOnKeyDown = 1;
 		}
@@ -134,6 +129,16 @@ class sliderModel extends Observer {
 		}
 		if (conf.range && conf.from > conf.to) {
 			conf.from = conf.min
+		}
+
+		if (conf.step <= 0) {
+			conf.step = (conf.max - conf.min) / 2;
+			console.log(conf.max);
+			console.log(conf.min);
+
+		}
+		if (conf.interval <= 0) {
+			conf.interval = 2;
 		}
 		return conf;
 	}
@@ -338,13 +343,15 @@ class sliderModel extends Observer {
 
 	// рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
 	calcScale() {
-		console.log(this.conf);
+		//	console.log(this.conf);
 
 		let interval = 1;
 		let step = 1;
 		let arg = '';
 		if (this.conf.scaleBase == 'step') {//если рассчитываем шкалу на основе кол-ва шагов
 			step = this.conf.step; // находим длину шага
+			console.log(step);
+
 			interval = (this.conf.max - this.conf.min) / step; // находим кол-во интервалов
 			arg = interval % 1 === 0 ? String(interval) :
 				String(Math.trunc(interval + 1));
