@@ -32,7 +32,7 @@ class sliderModel extends Observer {
 			bar: true,
 			tip: true,
 			scale: true,
-			scaleBase: 'interval',
+			scaleBase: 'steps',
 			step: 0,
 			interval: 0,
 			sticky: false,
@@ -338,8 +338,10 @@ class sliderModel extends Observer {
 
 	// рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
 	calcScale() {
-		let interval = 0;
-		let step = 0;
+		console.log(this.conf);
+
+		let interval = 1;
+		let step = 1;
 		let arg = '';
 		if (this.conf.scaleBase == 'steps') {//если рассчитываем шкалу на основе кол-ва шагов
 			step = this.conf.step; // находим длину шага

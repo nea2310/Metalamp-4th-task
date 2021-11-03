@@ -58,8 +58,8 @@ class sliderViewScale {
 				elem.classList.add('visually-hidden');
 			}
 			this.track.appendChild(elem);
-			console.log(conf.vertical);
-			console.log(label.offsetHeight);
+			// console.log(conf.vertical);
+			// console.log(label.offsetHeight);
 
 
 			if (conf.vertical) {

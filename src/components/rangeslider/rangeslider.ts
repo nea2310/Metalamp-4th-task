@@ -134,6 +134,7 @@ class RangeSlider {
 			}
 
 			if (data.scaleBase == 'steps') {
+
 				this.scaleBaseSteps.checked = true;
 				this.interval.disabled = true;
 			}

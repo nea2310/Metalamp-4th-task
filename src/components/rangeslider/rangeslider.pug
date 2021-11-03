@@ -5,20 +5,20 @@ mixin rangeslider(options={})
 	div(class =elemName)
 		div(class = elemName + '__rs')
 			input(class='rs__root' data-min='2000000' data-max='3000000' 
-					data-from='250000' data-to='28' data-scalebase='interval'
+					data-from='250000' data-to='28'
 					data-interval='20' data-shiftonkeydown='10' data-shiftonkeyhold='3' data-sticky='false' data-vertical='true')
 		div(class = elemName + '__panel '+ elemName + '__panel-1')
-			+panel({mod: '1', radioGroupName: 'horizontal'})
+			+panel({radioGroupName: 'horizontal'})
 	div(class = elemName)
 		div(class = elemName + '__rs')
-			input(class='rs__root' data-min='-20' data-max='200' 
-					data-from='10' data-to='50' data-vertical='true' data-scalebase='steps'
-					data-step='20' data-shiftonkeydown='1' data-shiftonkeyhold='3' data-sticky='false' 
-					data-range='false' data-bar='false' data-tip='false' data-scale='false')
+			input(class='rs__root' data-min='2000000' data-max='3000000' 
+					data-from='250000' data-to='28'
+					data-interval='20' data-shiftonkeydown='10' data-shiftonkeyhold='3' data-sticky='false' data-vertical='true')
+		div(class = elemName + '__panel '+ elemName + '__panel-1')
 		div(class = elemName + '__panel '+ elemName + '__panel-2')
-			+panel({mod: '2', radioGroupName: 'vertical'})
+			+panel({radioGroupName: 'vertical'})
 	div(class = elemName)
 		div(class = elemName + '__rs')
-			input(class='rs__root')
+			input(class='rs__root' data-scaleBase = 'steps' data-step = '2.5')
 		div(class = elemName + '__panel '+ elemName + '__panel-2')
-			+panel({mod: '2', radioGroupName: 'vertical'})
+			+panel({radioGroupName: 'vertical1'})
