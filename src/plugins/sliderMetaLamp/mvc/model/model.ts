@@ -321,8 +321,8 @@ class sliderModel extends Observer {
 
 	/*Рассчитываем ширину и позицию left (top) прогресс-бара*/
 	calcBar() {
-		console.log(this.data.fromPos);
-		console.log(this.data.toPos);
+		// console.log(this.data.fromPos);
+		// console.log(this.data.toPos);
 
 		if (this.conf.range) {//режим Double
 			this.data.barPos = this.data.fromPos;

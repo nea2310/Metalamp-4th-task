@@ -55,9 +55,12 @@ class sliderViewScale {
 				elem.style.left = String(node.pos) + '%';
 			}
 			if (!conf.scale) {
-				elem.classList.add('hidden');
+				elem.classList.add('visually-hidden');
 			}
 			this.track.appendChild(elem);
+			console.log(conf.vertical);
+			console.log(label.offsetHeight);
+
 
 			if (conf.vertical) {
 				label.style.top = label.offsetHeight / 2 * (-1) + 'px';
@@ -162,11 +165,11 @@ class sliderViewScale {
 		let stepMarks = this.slider.querySelectorAll('.rs__mark');
 		if (this.conf.scale) {
 			for (let elem of stepMarks) {
-				elem.classList.remove('hidden');
+				elem.classList.remove('visually-hidden');
 			}
 		} else {
 			for (let elem of stepMarks) {
-				elem.classList.add('hidden');
+				elem.classList.add('visually-hidden');
 			}
 		}
 	}

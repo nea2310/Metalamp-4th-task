@@ -134,6 +134,10 @@
 	display: none;
 }
 
+.visually-hidden {
+	opacity: 0;
+}
+
 .rs__value {
 	position: absolute;
 	top: -30px;
@@ -166,6 +170,7 @@
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 	color: #626066;
 	font-size: 12px;
+	//border: 1px solid red;
 }
 .rs__label.horizontal {
 	position: absolute;
