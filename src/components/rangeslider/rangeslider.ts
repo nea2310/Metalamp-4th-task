@@ -72,7 +72,7 @@ class RangeSlider {
 		const scaleBaseWrap =
 			this.panel.querySelector(
 				'.radiobuttons');
-		this.scaleBaseSteps = scaleBaseWrap.querySelector('[value=steps]');
+		this.scaleBaseSteps = scaleBaseWrap.querySelector('[value=step]');
 		this.scaleBaseIntervals =
 			scaleBaseWrap.querySelector('[value=interval]');
 		const inputs = [...this.panel.querySelectorAll<HTMLInputElement>
@@ -133,7 +133,7 @@ class RangeSlider {
 				this.step.disabled = true;
 			}
 
-			if (data.scaleBase == 'steps') {
+			if (data.scaleBase == 'step') {
 
 				this.scaleBaseSteps.checked = true;
 				this.interval.disabled = true;
@@ -217,7 +217,7 @@ class RangeSlider {
 							this.interval.disabled = false;
 							this.step.disabled = true;
 						}
-						if (value == 'steps') {
+						if (value == 'step') {
 							this.interval.disabled = true;
 							this.step.disabled = false;
 						}

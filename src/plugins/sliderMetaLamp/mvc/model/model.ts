@@ -32,7 +32,7 @@ class sliderModel extends Observer {
 			bar: true,
 			tip: true,
 			scale: true,
-			scaleBase: 'steps',
+			scaleBase: 'step',
 			step: 0,
 			interval: 0,
 			sticky: false,
@@ -343,12 +343,12 @@ class sliderModel extends Observer {
 		let interval = 1;
 		let step = 1;
 		let arg = '';
-		if (this.conf.scaleBase == 'steps') {//если рассчитываем шкалу на основе кол-ва шагов
+		if (this.conf.scaleBase == 'step') {//если рассчитываем шкалу на основе кол-ва шагов
 			step = this.conf.step; // находим длину шага
 			interval = (this.conf.max - this.conf.min) / step; // находим кол-во интервалов
 			arg = interval % 1 === 0 ? String(interval) :
 				String(Math.trunc(interval + 1));
-			this.data.scaleBase = 'steps';
+			this.data.scaleBase = 'step';
 			this.data.intervalValue = arg;
 			this.data.stepValue = String(this.conf.step);
 			this.conf.interval = parseFloat(arg);
