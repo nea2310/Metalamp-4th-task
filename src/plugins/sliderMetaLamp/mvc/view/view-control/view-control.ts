@@ -238,6 +238,10 @@ class sliderViewControl extends Observer {
 			elem.style.bottom = '';
 		}
 
+		//пересчитать ширину подсказок
+		this.tipMax.style.left = this.calcTipPos(this.conf.vertical, this.tipMax);
+		this.tipMin.style.left = this.calcTipPos(this.conf.vertical, this.tipMin);
+
 		// передать значения FROM и TO в инпут
 		if (this.root.tagName === 'INPUT') {
 			this.root.value = this.conf.range ? this.conf.from + ', ' + this.conf.to :
@@ -287,16 +291,8 @@ class sliderViewControl extends Observer {
 		if (this.conf.tip) {
 			this.tipMax.classList.remove('hidden');
 			this.tipMin.classList.remove('hidden');
-
-			//	if (conf.vertical) {
 			this.tipMax.style.left = this.calcTipPos(conf.vertical, this.tipMax);
 			this.tipMin.style.left = this.calcTipPos(conf.vertical, this.tipMin);
-			// } else {
-			// 	this.tipMax.style.left = this.tipMax.offsetWidth / 2 * (-1) + 'px';
-			// 	this.tipMin.style.left = this.tipMin.offsetWidth / 2 * (-1) + 'px';
-			// }
-
-
 		} else {
 			this.tipMax.classList.add('hidden');
 			this.tipMin.classList.add('hidden');
