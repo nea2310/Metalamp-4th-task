@@ -62,7 +62,8 @@ class sliderModel extends Observer {
 	getConf(conf: IConf) {
 		this.backEndConf = conf;
 		let joinedConf = {};
-		joinedConf = Object.assign(joinedConf, this.conf, this.startConf, this.backEndConf);
+		joinedConf = Object.assign(joinedConf,
+			this.conf, this.startConf, this.backEndConf);
 		//проверим корректность полученных параметров конфигурации и при необходимости - исправим
 		this.conf = this.checkConf(joinedConf);
 	}
@@ -525,7 +526,8 @@ class sliderModel extends Observer {
 					/*проверяем, что FROM не стал больше TO или MAX*/
 					const checkMaxRange = this.conf.range && this.conf.from <
 						this.conf.to;
-					const checkMaxNoRange = !this.conf.range && this.conf.from < this.conf.max;
+					const checkMaxNoRange = !this.conf.range &&
+						this.conf.from < this.conf.max;
 
 					if (checkMaxRange || checkMaxNoRange) {
 						newVal = repeat ?

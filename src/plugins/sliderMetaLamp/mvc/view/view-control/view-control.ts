@@ -181,8 +181,14 @@ class sliderViewControl extends Observer {
 			const target = e.target as HTMLElement;
 			const T = this.data.thumb;
 
-			let arr = ['rs__track', 'rs__progressBar', 'rs__label', 'rs__mark', 'rs__frame']
-			const result = [...target.classList].some(className => arr.indexOf(className) !== -1);
+			let arr =
+				['rs__track',
+					'rs__progressBar',
+					'rs__label',
+					'rs__mark',
+					'rs__frame']
+			const result = [...target.classList].some(className =>
+				arr.indexOf(className) !== -1);
 			if (result) {
 				let controlMinDist = 0;
 				let controlMaxDist = 0;
@@ -239,13 +245,16 @@ class sliderViewControl extends Observer {
 		}
 
 		//пересчитать ширину подсказок
-		this.tipMax.style.left = this.calcTipPos(this.conf.vertical, this.tipMax);
-		this.tipMin.style.left = this.calcTipPos(this.conf.vertical, this.tipMin);
+		this.tipMax.style.left =
+			this.calcTipPos(this.conf.vertical, this.tipMax);
+		this.tipMin.style.left =
+			this.calcTipPos(this.conf.vertical, this.tipMin);
 
 		// передать значения FROM и TO в инпут
 		if (this.root.tagName === 'INPUT') {
-			this.root.value = this.conf.range ? this.conf.from + ', ' + this.conf.to :
-				String(this.conf.from);
+			this.root.value =
+				this.conf.range ? this.conf.from + ', ' + this.conf.to :
+					String(this.conf.from);
 		}
 	}
 
@@ -291,8 +300,10 @@ class sliderViewControl extends Observer {
 		if (this.conf.tip) {
 			this.tipMax.classList.remove('hidden');
 			this.tipMin.classList.remove('hidden');
-			this.tipMax.style.left = this.calcTipPos(conf.vertical, this.tipMax);
-			this.tipMin.style.left = this.calcTipPos(conf.vertical, this.tipMin);
+			this.tipMax.style.left =
+				this.calcTipPos(conf.vertical, this.tipMax);
+			this.tipMin.style.left =
+				this.calcTipPos(conf.vertical, this.tipMin);
 		} else {
 			this.tipMax.classList.add('hidden');
 			this.tipMin.classList.add('hidden');
