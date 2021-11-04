@@ -1,9 +1,4 @@
 
-import './air-datepicker/css/datepicker.min.css';
-import './air-datepicker/js/datepicker.min.js';
-import './rangeSlider/css/ion.rangeSlider.min.css';
-import './rangeSlider/js/ion.rangeSlider.min.js';
-
 import './sliderMetaLamp/sliderMetaLamp.scss';
 import './sliderMetaLamp/sliderMetaLamp.ts';
 

@@ -156,7 +156,7 @@ class sliderViewControl extends Observer {
 		let pointerDownHandler = (e: KeyboardEvent) => {
 
 			let arr = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
-			const result = arr.indexOf(e.code)
+			const result = arr.indexOf(e.code);
 			if (result != -1) {
 				e.preventDefault();
 				const target = e.target as HTMLElement;
@@ -168,6 +168,10 @@ class sliderViewControl extends Observer {
 						T.moovingControl = 'max';
 					T.key = e.code;
 					T.repeat = e.repeat;
+					console.log(T.moovingControl);
+					console.log(T.key);
+					console.log(T.repeat);
+
 					this.fire('KeydownEvent', this.data);
 				}
 			}

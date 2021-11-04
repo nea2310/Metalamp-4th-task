@@ -1,10 +1,8 @@
 @import "@styles/glob.scss";
 .panel {
-	//border: 1px solid red;
 	position: relative;
-	padding: 5px 10px 40px 10px;
+	padding: 5px 10px 60px 10px;
 	display: inline-flex;
-	//	border: 2px solid $colorDarkShade25;
 	border-radius: 2px;
 	height: 235px;
 	text-align: left;
@@ -155,13 +153,14 @@
 		color: rgb(41, 39, 39);
 
 		position: absolute;
-		bottom: 7px;
+		bottom: 18px;
 		right: 14px;
 		background-color: $colorBlue;
 		height: 30px;
 		width: 120px;
 		border-radius: 2px;
 		padding: 0 10px;
+
 		//	border: 3px solid $colorBlue;
 		&:hover {
 			//	box-sizing: border-box;

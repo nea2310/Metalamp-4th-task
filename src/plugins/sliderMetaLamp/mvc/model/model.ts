@@ -606,8 +606,13 @@ class sliderModel extends Observer {
 						changeFrom(item);
 					}
 				} else {//Уменьшение значения
+					console.log('MIN');
 					item = decr(index);
-					if (item.val < this.conf.to) {
+					console.log(item);
+					console.log(this.conf.to);
+
+					if (this.conf.range && item.val < this.conf.to ||
+						!this.conf.range) {
 						changeFrom(item);
 					}
 				}
