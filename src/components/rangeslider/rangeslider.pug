@@ -4,27 +4,22 @@ mixin rangeslider(options={})
 		let elemName='rangeslider'
 	div(class =elemName)
 		div(class = elemName + '__rs')
-			input(class='rs__root' data-min='-100' data-max='100' 
-					data-from='-50' data-to = '50' data-scaleBase = 'interval'
-					data-interval='20' data-shiftonkeyhold='5' data-sticky='false'  )
+			input(class='rs__root' 
+			data-min = options.min
+			data-max = options.max
+			data-from = options.from
+			data-to = options.to
+			data-vertical = options.vertical
+			data-range = options.range
+			data-bar = options.bar
+			data-tip = options.tip
+			data-scale = options.scale
+			data-scalebase = options.scaleBase
+			data-step = options.step
+			data-interval = options.interval
+			data-sticky = options.sticky
+			data-shiftonkeydown = options.shiftOnKeyDown
+			data-shiftonkeyhold = options.shiftOnKeyHold
+			)
 		div(class = elemName + '__panel')
-			+panel({radioGroupName: 'slider1'})
-	div(class = elemName)
-		div(class = elemName + '__rs')
-			input(class='rs__root' data-min='-150' data-max='300' data-tip = 'true'
-					data-from='0' data-to='150' data-scaleBase='step' data-vertical='true'
-					data-step='4' data-shiftonkeydown='1' data-shiftonkeyhold='3' data-sticky='true')
-		div(class = elemName + '__panel')
-			+panel({radioGroupName: 'slider2'})
-	div(class = elemName)
-		div(class = elemName + '__rs')
-			input(class='rs__root' data-range = 'false' data-tip='false' data-sticky='true' data-scaleBase='interval'
-			data-interval='30' data-shiftonkeydown='1' data-shiftonkeyhold='3'
-			 data-min='0' data-max='10' data-from='5')
-		div(class = elemName + '__panel')
-			+panel({radioGroupName: 'slider3'})
-	div(class = elemName)
-		div(class = elemName + '__rs')
-			input(class='rs__root' data-range = 'false' data-scale='false' data-min='0' data-max='10' data-from='5')
-		div(class = elemName + '__panel')
-			+panel({radioGroupName: 'slider4'})
+			+panel({radioGroupName: options.radioGroupName})

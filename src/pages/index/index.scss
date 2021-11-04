@@ -2,5 +2,7 @@
 .sliderMetaLamp {
 	max-width: $xl;
 	margin: 0 auto;
-	//border: 1px solid blue;
+	&__wrapper {
+		margin: 25px 0;
+	}
 }

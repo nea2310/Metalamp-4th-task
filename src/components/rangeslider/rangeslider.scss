@@ -1,7 +1,7 @@
 @import "@styles/glob.scss";
 .rangeslider {
 	//padding: 60px;
-	margin: 20px auto;
+	//	margin: 20px auto;
 	border-radius: 3px;
 	box-shadow: 0 0 10px $colorDarkShade50;
 	&.vert {
@@ -35,7 +35,7 @@
 	&__panel {
 		@include media-breakpoint-down($lg) {
 			max-width: 540px;
-			margin: 20px auto;
+			margin: 20px auto 0 auto;
 		}
 		margin-top: 20px;
 		text-align: center;
