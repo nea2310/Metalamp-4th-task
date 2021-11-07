@@ -23,7 +23,7 @@ class sliderViewScale {
 		this.conf = conf;
 		this.track = this.slider.firstElementChild as HTMLElement;
 		let getResizeWrap = this.getResizeWrap.bind(this);
-		setTimeout(getResizeWrap, 100); //нужна задержка, т.к. иначе  ширина offsetWidth берется у не успевшего построиться элемента
+		setTimeout(getResizeWrap, 100); //нужна задержка, т.к. иначе  ширина this.slider.offsetWidth берется у не успевшего построиться элемента
 	}
 
 	//создаем деления
