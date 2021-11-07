@@ -2,8 +2,9 @@ include ../panel/panel.pug
 mixin rangeslider(options={})
 	-
 		let elemName='rangeslider'
-	div(class =elemName)
-		div(class = elemName + '__rs')
+		let modif = options.vertical=='true'?' vert':''
+	div(class =elemName + modif)
+		div(class = elemName + '__rs' + modif)
 			input(class='rs__root' 
 			data-min = options.min
 			data-max = options.max
@@ -21,5 +22,5 @@ mixin rangeslider(options={})
 			data-shiftonkeydown = options.shiftOnKeyDown
 			data-shiftonkeyhold = options.shiftOnKeyHold
 			)
-		div(class = elemName + '__panel')
-			+panel({radioGroupName: options.radioGroupName})
+		div(class = elemName + '__panel'+ modif)
+			+panel({radioGroupName: options.radioGroupName, vertical: options.vertical})

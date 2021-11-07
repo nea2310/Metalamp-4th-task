@@ -4,8 +4,8 @@ include ../radiobuttons/radiobuttons.pug
 mixin panel(options={})
 	-
 		let elemName='panel'
-		let elemNameMod=elemName + '-' + options.mod
-	div(class = elemName + ' ' + elemNameMod)
+		let modif = options.vertical=='true'?' vert':''
+	div(class = elemName + modif)
 		fieldset(class = elemName + '__mainSetup')
 			legend Main
 			div(class = 'min')

@@ -90,10 +90,10 @@ class RangeSlider {
 	renderSlider(slider: HTMLElement) {
 		const setVertical = (flag: boolean) => {
 			if (flag) {
-				this.wrapper.classList.add('vert');
-				this.panelWrapper.classList.add('vert');
-				this.panel.classList.add('vert');
-				this.sliderWrapper.classList.add('vert');
+				this.wrapper.classList.add('vert'); // .rangeslider
+				this.panelWrapper.classList.add('vert'); // .rangeslider__panel
+				this.panel.classList.add('vert'); // .panel
+				this.sliderWrapper.classList.add('vert'); //.rangeslider__rs
 			} else {
 				this.wrapper.classList.remove('vert');
 				this.panelWrapper.classList.remove('vert');
@@ -111,7 +111,7 @@ class RangeSlider {
 		};
 
 		const displayData = (data: IConf) => {
-			setVertical(data.vertical);
+			//	setVertical(data.vertical);
 			const D = data;
 			this.min.value = String(D.min);
 			this.max.value = String(D.max);

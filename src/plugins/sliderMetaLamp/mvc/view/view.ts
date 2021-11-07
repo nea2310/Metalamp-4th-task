@@ -133,8 +133,8 @@ class sliderView extends Observer {
 	}
 
 	updateScale = (data: Idata, conf: IConf) => {
-		let calcScale = this.viewScale.createScale.bind(this.viewScale);
-		setTimeout(calcScale, 100, data.marksArr, conf); //нужна задержка, т.к. иначе в view ширина offsetWidth берется у не успевшего перестроиться элемента
+		this.viewScale.createScale(data.marksArr, conf);
+
 	}
 
 	updateBar = (data: Idata, conf: IConf) => {

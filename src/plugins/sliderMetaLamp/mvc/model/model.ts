@@ -72,8 +72,6 @@ class sliderModel extends Observer {
 		this.onStart = this.conf.onStart;
 		this.onUpdate = this.conf.onUpdate;
 		this.onChange = this.conf.onChange;
-		// let calcScale = this.calcScale.bind(this);
-		// setTimeout(calcScale, 100); //нужна задержка, т.к. иначе в view ширина offsetWidth берется у не успевшего перестроиться элемента
 		this.calcScale();
 		this.calcFromPosition();
 		this.calcToPosition();
@@ -250,8 +248,9 @@ class sliderModel extends Observer {
 		this.calcFromPosition();
 		this.calcToPosition();
 		this.calcBar();
-		let calcScale = this.calcScale.bind(this);
-		setTimeout(calcScale, 100); //нужна задержка, т.к. иначе в view ширина offsetWidth берется у не успевшего перестроиться элемента
+		this.calcScale();
+		// let calcScale = this.calcScale.bind(this);
+		// setTimeout(calcScale, 100); //нужна задержка, т.к. иначе в view ширина offsetWidth берется у не успевшего перестроиться элемента
 	}
 
 
@@ -259,14 +258,14 @@ class sliderModel extends Observer {
 	switchRange() {
 		this.fire('IsRange', this.data, this.conf);
 		this.calcBar();
-		this.onChange(this.conf)
+		this.onChange(this.conf);
 	}
 
 	updateControlPos() {
 		this.calcFromPosition();
 		this.calcToPosition();
 		this.calcBar();
-		this.onChange(this.conf)
+		this.onChange(this.conf);
 		this.fire('IsSticky', this.data, this.conf);
 	}
 
