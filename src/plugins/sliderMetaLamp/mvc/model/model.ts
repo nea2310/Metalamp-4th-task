@@ -258,8 +258,8 @@ class sliderModel extends Observer {
 	async switchRange() {
 		console.log('switchRange');
 		await this.fire('IsRange', this.data, this.conf);
-		await this.calcBar();
-		await this.onChange(this.conf);
+		await this.calcBar(); // ???
+		await this.onChange(this.conf); // onChange нужен т.к. после проверки перед возвратом в double режим могут поменяться значения from / to, их нужно отдать наружу
 	}
 
 	async updateControlPos() {
@@ -267,7 +267,7 @@ class sliderModel extends Observer {
 		await this.calcFromPosition();
 		await this.calcToPosition();
 		await this.calcBar();
-		await this.onChange(this.conf);
+		await this.onChange(this.conf); // onChange нужен т.к. после проверки  могут поменяться значения from / to / min / max, их нужно отдать наружу
 		await this.fire('IsSticky', this.data, this.conf);
 	}
 
@@ -285,7 +285,7 @@ class sliderModel extends Observer {
 		console.log('switchTip');
 		this.fire('IsTip', this.data, this.conf);
 	}
-
+	// корректирует позицию ползунка, устанавливает его на ближайшее деление шкалы при sticky режиме
 	setSticky(controlPos: number) {
 		console.log('setSticky');
 		/*Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из значения newPos 
@@ -407,7 +407,7 @@ class sliderModel extends Observer {
 	}
 
 
-	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале или перемещения сфокусированного ползунка стрелкой 
+	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале
 	calcPos(type: string,
 		clientY: number,
 		clientX: number,
@@ -486,7 +486,7 @@ class sliderModel extends Observer {
 	}
 
 
-	// рассчитывает новое value
+	// Рассчитывает значение ползунка при нажатии кнопки стрелки на сфокусированном ползунке
 	calcPosKey(key: string, repeat: boolean, moovingControl: string) {
 		console.log('calcPosKey');
 		// поменять позицию и значение FROM
