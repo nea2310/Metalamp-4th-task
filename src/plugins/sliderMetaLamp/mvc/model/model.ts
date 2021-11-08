@@ -77,7 +77,6 @@ class sliderModel extends Observer {
 		this.calcToPosition();
 		this.calcBar();
 		this.onStart(this.conf);
-
 	}
 
 
@@ -160,6 +159,7 @@ class sliderModel extends Observer {
 		//проверим корректность полученных параметров конфигурации и при необходимости - исправим
 		conf = this.checkConf(conf);
 		//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
+		//для этого сравним this.conf (текущая конфигурация) и conf (новая конфигурация)
 		this.$findChangedConf(this.conf, conf);
 		this.conf = conf;
 		//запустим методы, для которых есть изменившиеся параметры
@@ -249,30 +249,23 @@ class sliderModel extends Observer {
 		await this.calcToPosition();
 		await this.calcBar();
 		await this.calcScale();
-
-
-
-		//нужен синхронный режим, т.к. иначе в view ширина offsetWidth берется у не успевшего перестроиться элемента
-		/*нужно дожидаться завершения методов switchVertical в view, view-bar и view-control, кот. инициируются методом this.fire('IsVertical'... */
 	}
 
-
-
-	switchRange() {
-		this.fire('IsRange', this.data, this.conf);
-		this.calcBar();
-		this.onChange(this.conf);
+	async switchRange() {
+		await this.fire('IsRange', this.data, this.conf);
+		await this.calcBar();
+		await this.onChange(this.conf);
 	}
 
-	updateControlPos() {
-		this.calcFromPosition();
-		this.calcToPosition();
-		this.calcBar();
-		this.onChange(this.conf);
-		this.fire('IsSticky', this.data, this.conf);
+	async updateControlPos() {
+		await this.calcFromPosition();
+		await this.calcToPosition();
+		await this.calcBar();
+		await this.onChange(this.conf);
+		await this.fire('IsSticky', this.data, this.conf);
 	}
 
-	switchScale() { //??
+	switchScale() {
 		this.fire('IsScale', this.data, this.conf);
 	}
 
@@ -288,7 +281,7 @@ class sliderModel extends Observer {
 		/*Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из значения newPos 
 до тех пор, пока результат текущей итерации не станет больше результата предыдущей (это значит, что мы нашли деление,
 	ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления*/
-		let pos = 0
+		let pos = 0;
 		for (let i = 0; i < this.data.marksArr.length; i++) {
 			let a = 0;
 			if (i < this.data.marksArr.length - 1) {
@@ -304,16 +297,9 @@ class sliderModel extends Observer {
 	}
 	// рассчитать позицию From (%) на основании значений from, min и max
 	calcFromPosition() {
-		//	if (this.conf.from != this.conf.min) {
 		this.data.fromPos = ((this.conf.from -
 			this.conf.min) * 100) /
 			(this.conf.max - this.conf.min);
-		//	}
-		// else {
-		// 		this.data.fromPos = 0.00001; // начальное положение ползунка на шкале, если min=from 
-		// 			}
-
-
 
 		/* если ползунок должен вставать на позицию ближайшего к нему деления шкалы - скорректировать значение newPos (переместить ползунок 
 		к ближайшему делению шкалы) */
@@ -416,7 +402,7 @@ class sliderModel extends Observer {
 		let newPos = 0;
 		if (this.conf.vertical) {
 			newPos = 100 -
-				((clientY - top) * 100 / height);  ///????
+				((clientY - top) * 100 / height);
 
 		} else {
 			let shift = 0;
