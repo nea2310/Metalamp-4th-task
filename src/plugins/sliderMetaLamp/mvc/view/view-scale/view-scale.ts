@@ -179,10 +179,6 @@ class sliderViewScale {
 
 
 		this.startWidth = this.slider.offsetWidth; // ----------------- запоминаем ширину враппера до ресайза
-
-		console.log('getResizeWrap');
-		console.log(this.startWidth);
-
 		(function () { // ------------------------------------------------- функция которая сразу исполняеться (она повесит искуственное событие optimizedResize)
 			let throttle = function (type: string, name: string, obj = window) {
 				let running = false;  // ------------------------------------ флаг начала события
@@ -209,13 +205,10 @@ class sliderViewScale {
 				let totalWidth = this.slider.offsetWidth; // ----------------------------------- получаем ширину после ресайза
 				if (totalWidth != this.startWidth) { // -------------------------------------------------- если до и после отличаеться 
 					if (totalWidth < this.startWidth) {
-						console.log('checkScaleLength');
-
 						this.checkScaleLength(this.markList);
 					}
 					if (totalWidth > this.startWidth) {
 						this.createScale(this.scaleMarks, this.conf);
-						console.log('createScale');
 					}
 					this.startWidth = totalWidth;//-------------------------------------------------------- запоминаем новую ширину враппера до ресайза
 				}

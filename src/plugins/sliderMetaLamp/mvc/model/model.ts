@@ -248,13 +248,11 @@ class sliderModel extends Observer {
 		await this.calcFromPosition();
 		await this.calcToPosition();
 		await this.calcBar();
-		//console.log('calc scale');
 		await this.calcScale();
 
-		//let calcScale = this.calcScale.bind(this);
-		//setTimeout(calcScale, 100); 
 
-		//нужна задержка, т.к. иначе в view ширина offsetWidth берется у не успевшего перестроиться элемента
+
+		//нужен синхронный режим, т.к. иначе в view ширина offsetWidth берется у не успевшего перестроиться элемента
 		/*нужно дожидаться завершения методов switchVertical в view, view-bar и view-control, кот. инициируются методом this.fire('IsVertical'... */
 	}
 
@@ -610,11 +608,7 @@ class sliderModel extends Observer {
 						changeFrom(item);
 					}
 				} else {//Уменьшение значения
-					console.log('MIN');
 					item = decr(index);
-					console.log(item);
-					console.log(this.conf.to);
-
 					if (this.conf.range && item.val < this.conf.to ||
 						!this.conf.range) {
 						changeFrom(item);

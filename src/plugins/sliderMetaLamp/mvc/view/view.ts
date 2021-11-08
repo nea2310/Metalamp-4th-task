@@ -145,13 +145,10 @@ class sliderView extends Observer {
 	switchVertical = (conf: IConf) => {
 		if (conf.vertical) {
 			this.slider.classList.add('vert');
-			console.log('add class vert');
-
 			this.track.classList.add('vert');
 			this.frame.classList.add('vert');
 		} else {
 			this.slider.classList.remove('vert');
-			console.log('remove class vert');
 			this.track.classList.remove('vert');
 			this.frame.classList.remove('vert');
 		}
