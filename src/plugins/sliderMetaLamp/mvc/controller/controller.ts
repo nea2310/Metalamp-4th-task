@@ -63,6 +63,8 @@ class sliderController extends Observer {
 		if (key !== 'FromValue') return;
 		else {
 			this.view.updateFromVal(data);
+			console.log('handleFromValue');
+
 		}
 	}
 
@@ -70,6 +72,7 @@ class sliderController extends Observer {
 		if (key !== 'ToValue') return;
 		else {
 			this.view.updateToVal(data);
+			console.log('handleToValue');
 		}
 	}
 

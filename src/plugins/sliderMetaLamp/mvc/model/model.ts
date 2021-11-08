@@ -18,6 +18,7 @@ class sliderModel extends Observer {
 	onStart?: Function;
 	onUpdate?: Function;
 	onChange?: Function;
+	noCalVal: boolean;
 
 	constructor(conf: IConf) {
 		super();
@@ -58,6 +59,7 @@ class sliderModel extends Observer {
 			updateControlPos: false,
 		};
 		this.startConf = conf;
+		this.noCalVal = false;
 	}
 	getConf(conf: IConf) {
 		this.backEndConf = conf;
@@ -244,6 +246,8 @@ class sliderModel extends Observer {
 
 
 	async switchVertical() {
+		console.log('switchVertical');
+
 		await this.fire('IsVertical', this.data, this.conf);
 		await this.calcFromPosition();
 		await this.calcToPosition();
@@ -252,12 +256,14 @@ class sliderModel extends Observer {
 	}
 
 	async switchRange() {
+		console.log('switchRange');
 		await this.fire('IsRange', this.data, this.conf);
 		await this.calcBar();
 		await this.onChange(this.conf);
 	}
 
 	async updateControlPos() {
+		console.log('updateControlPos');
 		await this.calcFromPosition();
 		await this.calcToPosition();
 		await this.calcBar();
@@ -266,18 +272,22 @@ class sliderModel extends Observer {
 	}
 
 	switchScale() {
+		console.log('switchScale');
 		this.fire('IsScale', this.data, this.conf);
 	}
 
 	switchBar() {
+		console.log('switchBar');
 		this.fire('IsBar', this.data, this.conf);
 	}
 
 	switchTip() {
+		console.log('switchTip');
 		this.fire('IsTip', this.data, this.conf);
 	}
 
 	setSticky(controlPos: number) {
+		console.log('setSticky');
 		/*Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из значения newPos 
 до тех пор, пока результат текущей итерации не станет больше результата предыдущей (это значит, что мы нашли деление,
 	ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления*/
@@ -297,6 +307,7 @@ class sliderModel extends Observer {
 	}
 	// рассчитать позицию From (%) на основании значений from, min и max
 	calcFromPosition() {
+		console.log('calcFromPosition');
 		this.data.fromPos = ((this.conf.from -
 			this.conf.min) * 100) /
 			(this.conf.max - this.conf.min);
@@ -306,20 +317,26 @@ class sliderModel extends Observer {
 		if (this.conf.sticky) {
 			this.data.fromPos = this.setSticky(this.data.fromPos);
 		}
+		if (!this.noCalVal) {
+			console.log('calcVal!');
 
-		this.calcVal('normal', this.data.fromPos, 'min');
+			this.calcVal('normal', this.data.fromPos, 'min');
+		}
 		this.fire('FromPosition', this.data);
 
 	}
 	// рассчитать позицию To (%) на основании значений to, min и max
 	calcToPosition() {
+		console.log('calcToPosition');
 		this.data.toPos = ((this.conf.to - this.conf.min) * 100) /
 			(this.conf.max - this.conf.min);
 		if (this.conf.sticky) {
 			this.data.toPos = this.setSticky(this.data.toPos);
 		}
-
-		this.calcVal('normal', this.data.toPos, 'max');
+		if (!this.noCalVal) {
+			console.log('calcVal!');
+			this.calcVal('normal', this.data.toPos, 'max');
+		}
 		this.fire('ToPosition', this.data);
 	}
 
@@ -327,6 +344,7 @@ class sliderModel extends Observer {
 
 	/*Рассчитываем ширину и позицию left (top) прогресс-бара*/
 	calcBar() {
+		console.log('calcBar');
 		if (this.conf.range) {//режим Double
 			this.data.barPos = this.data.fromPos;
 			this.data.barWidth = this.data.toPos -
@@ -341,6 +359,7 @@ class sliderModel extends Observer {
 
 	// рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
 	calcScale() {
+		console.log('calcScale');
 		let interval = 1;
 		let step = 1;
 		let arg = '';
@@ -398,6 +417,7 @@ class sliderModel extends Observer {
 		height: number,
 		shiftBase: number,
 		moovingControl: string) {
+		console.log('calcPos');
 
 		let newPos = 0;
 		if (this.conf.vertical) {
@@ -466,8 +486,9 @@ class sliderModel extends Observer {
 	}
 
 
-
+	// рассчитывает новое value
 	calcPosKey(key: string, repeat: boolean, moovingControl: string) {
+		console.log('calcPosKey');
 		// поменять позицию и значение FROM
 		let changeFrom = (item: IObj) => {
 			this.conf.from = item.val;
@@ -509,6 +530,7 @@ class sliderModel extends Observer {
 		let newVal;
 		let item;
 		if (!this.conf.sticky) {	// если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
+			this.noCalVal = true;
 			if (moovingControl == 'min') {// Ползунок min
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
 					/*проверяем, что FROM не стал больше TO или MAX*/
@@ -578,6 +600,7 @@ class sliderModel extends Observer {
 				this.calcToPosition();
 				this.fire('ToValue', this.data);
 			}
+			this.noCalVal = false;
 		}
 
 		// если ползунок должен вставать на позицию ближайшего к нему деления шкалы
@@ -628,7 +651,7 @@ class sliderModel extends Observer {
 	calcVal(stopType: string,
 		pos: number,
 		moovingControl: string) {
-
+		console.log('calcVal');
 
 		if (!this.changeMode) {
 			let newVal = '';
