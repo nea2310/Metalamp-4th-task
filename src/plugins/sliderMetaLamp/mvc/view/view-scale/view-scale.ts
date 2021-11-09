@@ -2,8 +2,6 @@ import {
 	IConf,
 } from '../../interface';
 
-
-
 class sliderViewScale {
 	slider: HTMLElement;
 	startWidth: number = 0;
@@ -22,7 +20,6 @@ class sliderViewScale {
 	init(conf: IConf) {
 		this.conf = conf;
 		this.track = this.slider.firstElementChild as HTMLElement;
-
 		this.getResizeWrap();
 
 	}
@@ -143,17 +140,6 @@ class sliderViewScale {
 			lastMark.classList.remove('no-label');
 			lastMark.firstElementChild.classList.remove('hidden');
 		}
-		// let lastLabel = lastMark.firstElementChild;
-		// let beforeLastLabel =
-		// 	markLabeledList[markLabeledList.length - 2].firstElementChild;
-		// let right = beforeLastLabel.getBoundingClientRect().right;
-		// let left = lastLabel.getBoundingClientRect().left;
-
-		// if (right > left) {
-		// 	markLabeledList[markLabeledList.length - 2].
-		// 		classList.add('no-label');
-		// 	beforeLastLabel.classList.add('hidden');
-		// }
 	}
 
 	switchScale(conf: IConf) {
@@ -170,7 +156,7 @@ class sliderViewScale {
 		}
 	}
 
-	getResizeWrap() { // ??????
+	getResizeWrap() {
 		let sleep = 200; // --------- задержка в миллесекундах
 		let rtime = 0;  // ---------- для хранения отрезка времени
 		let timeout = false; // ----- флаг для запрета лишний раз вызывать функцию resizeend
