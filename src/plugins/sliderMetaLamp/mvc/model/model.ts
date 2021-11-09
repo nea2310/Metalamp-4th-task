@@ -37,7 +37,7 @@ class sliderModel extends Observer {
 			sticky: false,
 			shiftOnKeyDown: 0,
 			shiftOnKeyHold: 0,
-			onStart: () => true,
+			onStart: () => true, // null?
 			onChange: () => true,
 			onUpdate: () => true,
 		};
