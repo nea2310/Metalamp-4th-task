@@ -5,8 +5,6 @@ import {
 	Idata
 } from './../interface';
 import { Observer } from '../observer';
-import { isConstTypeReference } from 'typescript';
-
 
 class sliderModel extends Observer {
 	changeMode: boolean;
@@ -179,6 +177,7 @@ class sliderModel extends Observer {
 				this.methods[key] = false;
 			}
 		}
+		this.noCalVal = false;
 	}
 	/*находим изменившийся параметр и меняем соотв-щее св-во объекта this.methods; это нужно чтобы не выполнять одни и те же 
 	действия несколько раз, если получаем несколько параметров, требующих запуска одного и того же метода в модели*/
@@ -190,12 +189,14 @@ class sliderModel extends Observer {
 			} else {
 				switch (key) {
 					case 'min':
+						this.noCalVal = true;
 						this.methods.calcScale = true;
 						this.methods.calcFromPosition = true;
 						this.methods.calcToPosition = true;
 						this.methods.calcBar = true;
 						break;
 					case 'max':
+						this.noCalVal = true;
 						this.methods.calcScale = true;
 						this.methods.calcFromPosition = true;
 						this.methods.calcToPosition = true;
@@ -312,7 +313,7 @@ class sliderModel extends Observer {
 			this.calcVal('normal', this.data.fromPos, 'min');
 		}
 		this.fire('FromPosition', this.data);
-
+		//	this.noCalVal = false;
 	}
 	// рассчитать позицию To (%) на основании значений to, min и max
 	calcToPosition() {
@@ -325,6 +326,7 @@ class sliderModel extends Observer {
 			this.calcVal('normal', this.data.toPos, 'max');
 		}
 		this.fire('ToPosition', this.data);
+		//	this.noCalVal = false;
 	}
 
 
@@ -582,7 +584,7 @@ class sliderModel extends Observer {
 				this.calcToPosition();
 				this.fire('ToValue', this.data);
 			}
-			this.noCalVal = false;
+			this.noCalVal = false; // ??
 		}
 
 		// если ползунок должен вставать на позицию ближайшего к нему деления шкалы

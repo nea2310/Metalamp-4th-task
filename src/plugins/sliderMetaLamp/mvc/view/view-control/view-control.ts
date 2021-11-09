@@ -11,6 +11,7 @@ class sliderViewControl extends Observer {
 	tipMax: HTMLInputElement;
 	track: HTMLInputElement;
 	data: Idata;
+	initDone: boolean;
 
 	constructor(sliderElem: HTMLElement, conf: IConf) {
 		super();
@@ -32,13 +33,13 @@ class sliderViewControl extends Observer {
 		this.renderLeftControl();
 		this.renderRightControl();
 		this.switchRange(this.conf);
-		this.switchVertical(this.conf);
+		//this.switchVertical(this.conf);
 		this.switchTip(this.conf);
+
 	}
 
 	renderControl(
-		controlClassName: string, tipClassName: string, value: number,
-		isTip: boolean, isVertical: boolean) {
+		controlClassName: string, tipClassName: string, value: number) {
 		let control = document.createElement('button');
 		control.className = 'rs__control';
 		control.classList.add(controlClassName);
@@ -54,8 +55,7 @@ class sliderViewControl extends Observer {
 	/*Создаем ползунок минимального значения*/
 	renderLeftControl() {
 		this.controlMin = this.renderControl(
-			'rs__control-min', 'rs__tip-min', this.conf.from,
-			this.conf.tip, this.conf.vertical);
+			'rs__control-min', 'rs__tip-min', this.conf.from);
 		this.tipMin = this.controlMin.querySelector('.rs__tip');
 		this.track.append(this.controlMin);
 	}
@@ -63,8 +63,7 @@ class sliderViewControl extends Observer {
 	/*Создаем ползунок максимального значения*/
 	renderRightControl() {
 		this.controlMax = this.renderControl(
-			'rs__control-max', 'rs__tip-max', this.conf.to,
-			this.conf.tip, this.conf.vertical);
+			'rs__control-max', 'rs__tip-max', this.conf.to);
 		this.tipMax = this.controlMax.querySelector('.rs__tip');
 		this.track.append(this.controlMax);
 	}
@@ -87,7 +86,7 @@ class sliderViewControl extends Observer {
 		let pointerDownHandler = (e: PointerEvent) => {
 			e.preventDefault();
 			const target = e.target as HTMLElement;
-			target.classList.add('grabbing')
+			target.classList.add('grabbing');
 			const T = this.data.thumb;
 			if (target.classList.contains('rs__control')) {
 
@@ -107,7 +106,7 @@ class sliderViewControl extends Observer {
 				};
 
 				const pointerUpHandler = () => {
-					target.classList.remove('grabbing')
+					target.classList.remove('grabbing');
 					target.
 						removeEventListener('pointermove', pointerMoveHandler);
 					target.
@@ -186,7 +185,7 @@ class sliderViewControl extends Observer {
 					'rs__progressBar',
 					'rs__label',
 					'rs__mark',
-					'rs__frame']
+					'rs__frame'];
 			const result = [...target.classList].some(className =>
 				arr.indexOf(className) !== -1);
 			if (result) {
@@ -236,6 +235,10 @@ class sliderViewControl extends Observer {
 
 	//Обновляем позицию ползунка (вызывается через контроллер)
 	updatePos(elem: HTMLElement, newPos: number) {
+		if (!this.initDone) {
+			this.initDone = true;
+		}
+
 		if (this.conf.vertical) {
 			elem.style.bottom = newPos + '%';
 			elem.style.left = '';
@@ -243,12 +246,14 @@ class sliderViewControl extends Observer {
 			elem.style.left = newPos + '%';
 			elem.style.bottom = '';
 		}
-
 		//пересчитать ширину подсказок
-		this.tipMax.style.left =
-			this.calcTipPos(this.conf.vertical, this.tipMax);
-		this.tipMin.style.left =
-			this.calcTipPos(this.conf.vertical, this.tipMin);
+		if (this.defineControl(elem) == 'min') {
+			this.tipMin.style.left =
+				this.calcTipPos(this.conf.vertical, this.tipMin);
+		} else {
+			this.tipMax.style.left =
+				this.calcTipPos(this.conf.vertical, this.tipMax);
+		}
 
 		// передать значения FROM и TO в инпут
 		if (this.root.tagName === 'INPUT') {
@@ -275,8 +280,6 @@ class sliderViewControl extends Observer {
 				elem.classList.remove('vert');
 				elem.classList.add('horizontal');
 			}
-			if (elem.classList.contains('rs__tip'))
-				elem.style.left = this.calcTipPos(this.conf.vertical, elem);
 		}
 	}
 
@@ -300,20 +303,20 @@ class sliderViewControl extends Observer {
 		if (this.conf.tip) {
 			this.tipMax.classList.remove('hidden');
 			this.tipMin.classList.remove('hidden');
-			this.tipMax.style.left =
-				this.calcTipPos(conf.vertical, this.tipMax);
-			this.tipMin.style.left =
-				this.calcTipPos(conf.vertical, this.tipMin);
+			if (this.initDone) {
+				this.tipMax.style.left =
+					this.calcTipPos(conf.vertical, this.tipMax);
+				this.tipMin.style.left =
+					this.calcTipPos(conf.vertical, this.tipMin);
+			}
 		} else {
 			this.tipMax.classList.add('hidden');
 			this.tipMin.classList.add('hidden');
 		}
 	}
-
-
 	calcTipPos(isVertical: boolean, elem: HTMLElement) {
 		if (isVertical)
-			return elem.offsetWidth * (-1) - 5 + 'px'
+			return elem.offsetWidth * (-1) - 5 + 'px';
 		else return elem.offsetWidth / 2 * (-1) + 'px';
 	}
 }

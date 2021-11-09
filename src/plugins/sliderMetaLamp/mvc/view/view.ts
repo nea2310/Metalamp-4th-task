@@ -19,6 +19,7 @@ class sliderView extends Observer {
 	backEndConf: IConf;
 	backEndConfTest: any
 
+
 	constructor(root: Element, i: number) {
 		super();
 		/*Находим корневой элемент*/
