@@ -21,7 +21,6 @@ class sliderViewScale {
 		this.conf = conf;
 		this.track = this.slider.firstElementChild as HTMLElement;
 		this.getResizeWrap();
-
 	}
 
 	//создаем деления
@@ -161,9 +160,6 @@ class sliderViewScale {
 		let rtime = 0;  // ---------- для хранения отрезка времени
 		let timeout = false; // ----- флаг для запрета лишний раз вызывать функцию resizeend
 
-
-
-
 		this.startWidth = this.slider.offsetWidth; // ----------------- запоминаем ширину враппера до ресайза
 		(function () { // ------------------------------------------------- функция которая сразу исполняеться (она повесит искуственное событие optimizedResize)
 			let throttle = function (type: string, name: string, obj = window) {
@@ -181,7 +177,6 @@ class sliderViewScale {
 			throttle("resize", "optimizedResize");
 		})();
 
-
 		const resizeend = () => {
 			if (+(new Date()) - rtime < sleep) { // -------------------------- сверяем отрезок времени с задержкой - если мы уже давно не ресайзимся то скорей всего остановились
 				setTimeout(resizeend, sleep); // --------------------------- если отрезок времени короче чем sleep то ждём ещё  миллисекунд на sleep... 
@@ -198,7 +193,6 @@ class sliderViewScale {
 					}
 					this.startWidth = totalWidth;//-------------------------------------------------------- запоминаем новую ширину враппера до ресайза
 				}
-
 			}
 		};
 
