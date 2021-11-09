@@ -2,8 +2,6 @@ import {
 	IConf,
 } from '../../interface';
 
-
-
 class sliderViewBar {
 	slider: HTMLElement;
 	track: HTMLElement;
@@ -36,7 +34,6 @@ class sliderViewBar {
 		this.progressBar.className = 'rs__progressBar';
 		this.track.append(this.progressBar);
 		this.switchBar(conf);
-		this.switchVertical(conf);
 	}
 
 	// переключение в вертикальный режим

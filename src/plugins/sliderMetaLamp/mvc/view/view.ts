@@ -42,7 +42,7 @@ class sliderView extends Observer {
 
 	collectParms() {
 
-		this.backEndConf = {}
+		this.backEndConf = {};
 		let map = new Map();
 		let arr = ['min',
 			'max',
@@ -63,21 +63,21 @@ class sliderView extends Observer {
 		for (let elem of this.root.attributes) {
 			let a = elem.name.replace(/^data-/, '');
 			if (arr.indexOf(a) != -1) {
-				map.set(a, elem.value)
+				map.set(a, elem.value);
 			}
 		}
 		for (let elem of map) {
 			//если значение содержит только цифры
 			if (/^-?\d+\.?\d*$/.test(elem[1])) {
-				map.set(elem[0], parseFloat(elem[1]))
+				map.set(elem[0], parseFloat(elem[1]));
 			}
 			//если значение содержит строку 'true'
 			if (elem[1] == 'true') {
-				map.set(elem[0], true)
+				map.set(elem[0], true);
 			}
 			//если значение содержит строку 'false'
 			if (elem[1] == 'false') {
-				map.set(elem[0], false)
+				map.set(elem[0], false);
 			}
 			//перевод ключей в camelCase
 			if (elem[0] == 'shiftonkeydown') {
