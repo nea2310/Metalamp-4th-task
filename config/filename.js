@@ -6,28 +6,28 @@ const PATHS = require('./paths');
 
 
 module.exports = {
-  filename: function (ext) {
+	filename: function (ext) {
 
-    let dir = '';
+		let dir = '';
 
-    if (ext === 'css') {
-      dir = `${PATHS.assets}css/`;
-    } else
-      if (ext === 'js') {
-        dir = `${PATHS.assets}js/`;
-      }
+		if (ext === 'css') {
+			dir = `${PATHS.assets}css/`;
+		} else
+			if (ext === 'js') {
+				dir = `${PATHS.assets}js/`;
+			}
 
-    dir = dir.replace(/\//g, '\\');
+		dir = dir.replace(/\//g, '\\');
 
-    if (DP.isMulti)
-      dir = dir.replace(/^\\/, '');
+		if (DP.isAbsPath)
+			dir = dir.replace(/^\\/, '');
 
-    if (DP.isDev) {
-      return `${dir}[name].${ext}`;
-    }
-    else {
-      return `${dir}[name].[hash].${ext}`;
-    }
+		if (DP.isDev) {
+			return `${dir}[name].${ext}`;
+		}
+		else {
+			return `${dir}[name].[hash].${ext}`;
+		}
 
-  }
+	}
 };

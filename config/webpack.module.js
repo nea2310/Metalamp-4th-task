@@ -33,7 +33,8 @@ module.exports = {
 				loader: 'file-loader',
 				options: {
 					outputPath: `${PATHS.assets}fonts\\`,
-					publicPath: DP.isMulti ? '../fonts/' : '/assets/fonts/',
+					// eslint-disable-next-line max-len
+					publicPath: DP.isAbsPath ? `${PATHS.public}/assets/fonts/` : '/assets/fonts/',
 				},
 			},
 
@@ -53,7 +54,8 @@ module.exports = {
 				loader: 'file-loader',
 				options: {
 					outputPath: `${PATHS.assets}images/`,
-					publicPath: DP.isMulti ? 'assets/images/' : '/assets/images/',
+					// eslint-disable-next-line max-len
+					publicPath: DP.isAbsPath ? `${PATHS.public}/assets/images/` : '/assets/images/',
 				},
 			},
 
