@@ -8,7 +8,8 @@
 		"build": "cross-env NODE_ENV=production webpack --mode production",
 		"buildAbs": "cross-env NODE_ENV=abspath webpack --mode production",
 		"watch": "cross-env NODE_ENV=development webpack --mode development --watch",
-		"start": "cross-env NODE_ENV=development webpack serve --mode development"
+		"start": "cross-env NODE_ENV=development webpack serve --mode development",
+		"test": "jest"
 	},
 	"author": "coder1 <c.o.d.e.r.1@mail.ru>",
 	"license": "ISC",
