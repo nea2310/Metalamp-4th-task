@@ -1,28 +1,21 @@
 
 // eslint-disable-next-line no-unused-vars
 import { Observer } from '../observer';
-import { Idata, IConf } from '../interface';
 
-class TestOB extends Observer {
+
+class TestObserver extends Observer {
 	constructor() {
 		super();
 	}
 
-	// notifyTest(key: string, data: Idata, conf: IConf) {
-	// 	this.fire(key, data, conf);
-	// }
+
 }
 
 describe('Observer - subscribe, unsubscribe, fire', () => {
 
-	//let ob: TestOB;
-	// let сallback: Function;
-	// let сallback2: Function;
-
-
 
 	test('subscribe', () => {
-		let ob = new TestOB();
+		let ob = new TestObserver();
 		let cb1 = () => true;
 		let cb2 = () => true;
 		expect(ob.observers).toHaveLength(0);
@@ -33,7 +26,7 @@ describe('Observer - subscribe, unsubscribe, fire', () => {
 	});
 
 	test('unsubscribe', () => {
-		let ob = new TestOB();
+		let ob = new TestObserver();
 		let cb1 = () => true;
 		let cb2 = () => true;
 		let cb3 = () => true;
@@ -46,7 +39,7 @@ describe('Observer - subscribe, unsubscribe, fire', () => {
 
 
 	test('fire', () => {
-		let ob = new TestOB();
+		let ob = new TestObserver();
 		let cb1 = jest.fn();
 		let cb2 = jest.fn();
 		let arg1 = 'key';
