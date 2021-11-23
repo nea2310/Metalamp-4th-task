@@ -26,8 +26,9 @@ class sliderView extends Observer {
 		this.root = root as HTMLElement;
 		this.render();
 		this.collectParms();
+
 	}
-	render() {
+	private render() {
 		this.slider = document.createElement('div');
 		this.slider.className = 'rs__wrapper';
 		this.root.after(this.slider);
@@ -41,7 +42,7 @@ class sliderView extends Observer {
 		this.slider.append(this.frame);
 	}
 
-	collectParms() {
+	private collectParms() {
 
 		this.backEndConf = {};
 		let map = new Map();
@@ -97,53 +98,55 @@ class sliderView extends Observer {
 		this.backEndConf = Object.fromEntries(map.entries());
 	}
 
-	init(conf: IConf) {
+	public init(conf: IConf) {
 		this.conf = conf;
 		this.createSubViews();
 		this.createListeners();//срабатывает после инициализации модели
 		this.switchVertical(conf);
+		//console.log(this);
+
 	}
 
-	createSubViews() {
+	private createSubViews() {
 		this.viewControl = new sliderViewControl(this.slider, this.conf);
 		this.viewScale = new sliderViewScale(this.slider, this.conf);
 		this.viewBar = new sliderViewBar(this.slider, this.conf);
 	}
 
-	createListeners() {
+	private createListeners() {
 		this.viewControl.subscribe(this.handleMoveEvent);
 		this.viewControl.subscribe(this.handleKeydownEvent);
 	}
 
-	updateFromPos = (data: Idata) => {
+	public updateFromPos = (data: Idata) => {
 		this.viewControl.updatePos(this.viewControl.controlMin,
 			data.fromPos);
 	}
 
-	updateToPos = (data: Idata) => {
+	public updateToPos = (data: Idata) => {
 		this.viewControl.updatePos(this.viewControl.controlMax,
 			data.toPos);
 	}
 
-	updateFromVal = (data: Idata) => {
+	public updateFromVal = (data: Idata) => {
 		this.viewControl.updateVal(data.fromVal, true);
 	}
 
-	updateToVal = (data: Idata) => {
+	public updateToVal = (data: Idata) => {
 		this.viewControl.updateVal(data.toVal, false);
 	}
 
-	updateScale = (data: Idata, conf: IConf) => {
+	public updateScale = (data: Idata, conf: IConf) => {
 		this.viewScale.createScale(data.marksArr, conf);
 
 	}
 
-	updateBar = (data: Idata, conf: IConf) => {
+	public updateBar = (data: Idata, conf: IConf) => {
 		this.viewBar.
 			updateBar(data.barPos, data.barWidth, conf.vertical);
 	}
 
-	switchVertical = (conf: IConf) => {
+	public switchVertical = (conf: IConf) => {
 		if (conf.vertical) {
 			this.slider.classList.add('vert');
 			this.track.classList.add('vert');
@@ -157,30 +160,30 @@ class sliderView extends Observer {
 		this.viewControl.switchVertical(conf);
 	}
 
-	switchRange = (conf: IConf) => {
+	public switchRange = (conf: IConf) => {
 		this.viewControl.switchRange(conf);
 	}
 
-	switchScale = (conf: IConf) => {
+	public switchScale = (conf: IConf) => {
 		this.viewScale.switchScale(conf);
 	}
 
-	switchBar = (conf: IConf) => {
+	public switchBar = (conf: IConf) => {
 		this.viewBar.switchBar(conf);
 	}
 
-	switchTip = (conf: IConf) => {
+	public switchTip = (conf: IConf) => {
 		this.viewControl.switchTip(conf);
 	}
 
-	handleMoveEvent = (key: string, data: Idata) => {
+	private handleMoveEvent = (key: string, data: Idata) => {//почему здесь теряется this, если сделать обычную функцию?
 		if (key !== 'MoveEvent') return;
 		else {
 			this.fire('MoveEvent', data);
 		}
 	}
 
-	handleKeydownEvent = (key: string, data: Idata) => {
+	private handleKeydownEvent = (key: string, data: Idata) => {//почему здесь теряется this, если сделать обычную функцию?
 		if (key !== 'KeydownEvent') return;
 		else {
 			this.fire('KeydownEvent', data);

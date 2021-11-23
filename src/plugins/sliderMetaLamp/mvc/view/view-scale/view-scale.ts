@@ -17,60 +17,14 @@ class sliderViewScale {
 	}
 
 	// Инициализация
-	init(conf: IConf) {
+	private init(conf: IConf) {
 		this.conf = conf;
 		this.track = this.slider.firstElementChild as HTMLElement;
 		this.getResizeWrap();
 	}
 
-	//создаем деления
-	createScale(scaleMarks: { 'pos'?: number, 'val'?: number }[],
-		conf: IConf) {
-		this.conf = conf;
-		this.scaleMarks = scaleMarks;
-		let steps = this.slider.querySelectorAll('.rs__mark');
-		//Если это переотрисовка шкалы - удалить существующие деления
-		if (steps.length) {
-			for (let elem of steps) {
-				elem.remove();
-			}
-		}
-		for (let node of scaleMarks) {
-			let elem = document.createElement('div');
-			elem.classList.add('rs__mark');
-			let label = document.createElement('div');
-			label.innerText = String(node.val);
-			label.classList.add('rs__label');
-			elem.appendChild(label);
-
-			if (conf.vertical) {
-				elem.classList.add('vert');
-				label.classList.add('vert');
-				elem.style.bottom = String(node.pos) + '%';
-			} else {
-				elem.classList.add('horizontal');
-				label.classList.add('horizontal');
-				elem.style.left = String(node.pos) + '%';
-			}
-			if (!conf.scale) {
-				elem.classList.add('visually-hidden');
-			}
-			this.track.appendChild(elem);
-			if (conf.vertical) {
-				label.style.top = label.offsetHeight / 2 * (-1) + 'px';
-			} else {
-				label.style.left = label.offsetWidth / 2 * (-1) + 'px';
-			}
-		}
-
-		this.markList =
-			[...this.track.querySelectorAll<HTMLElement>('.rs__mark')];
-		this.checkScaleLength(this.markList);
-	}
-
-
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
-	checkScaleLength(markList: HTMLElement[]) {
+	private checkScaleLength(markList: HTMLElement[]) {
 		let hideLabels = (markList: HTMLElement[]) => {
 			//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
 			for (let i = 1; i < markList.length; i += 2) {
@@ -128,7 +82,7 @@ class sliderViewScale {
 	}
 
 	//возвращаем подпись у последненего шага и удаляем у предпоследнего подписанного
-	addLastLabel(isRemoved: boolean) {
+	private addLastLabel(isRemoved: boolean) {
 		let markLabeledList = this.track.
 			querySelectorAll('.rs__mark:not(.no-label)');
 		let lastMarkLabeled = markLabeledList[markLabeledList.length - 1];
@@ -141,21 +95,7 @@ class sliderViewScale {
 		}
 	}
 
-	switchScale(conf: IConf) {
-		this.conf = conf;
-		let stepMarks = this.slider.querySelectorAll('.rs__mark');
-		if (this.conf.scale) {
-			for (let elem of stepMarks) {
-				elem.classList.remove('visually-hidden');
-			}
-		} else {
-			for (let elem of stepMarks) {
-				elem.classList.add('visually-hidden');
-			}
-		}
-	}
-
-	getResizeWrap() {
+	private getResizeWrap() {
 		let sleep = 200; // --------- задержка в миллесекундах
 		let rtime = 0;  // ---------- для хранения отрезка времени
 		let timeout = false; // ----- флаг для запрета лишний раз вызывать функцию resizeend
@@ -204,6 +144,70 @@ class sliderViewScale {
 			}
 		});
 	}
+
+
+	//создаем деления
+	public createScale(scaleMarks: { 'pos'?: number, 'val'?: number }[],
+		conf: IConf) {
+		this.conf = conf;
+		this.scaleMarks = scaleMarks;
+		let steps = this.slider.querySelectorAll('.rs__mark');
+		//Если это переотрисовка шкалы - удалить существующие деления
+		if (steps.length) {
+			for (let elem of steps) {
+				elem.remove();
+			}
+		}
+		for (let node of scaleMarks) {
+			let elem = document.createElement('div');
+			elem.classList.add('rs__mark');
+			let label = document.createElement('div');
+			label.innerText = String(node.val);
+			label.classList.add('rs__label');
+			elem.appendChild(label);
+
+			if (conf.vertical) {
+				elem.classList.add('vert');
+				label.classList.add('vert');
+				elem.style.bottom = String(node.pos) + '%';
+			} else {
+				elem.classList.add('horizontal');
+				label.classList.add('horizontal');
+				elem.style.left = String(node.pos) + '%';
+			}
+			if (!conf.scale) {
+				elem.classList.add('visually-hidden');
+			}
+			this.track.appendChild(elem);
+			if (conf.vertical) {
+				label.style.top = label.offsetHeight / 2 * (-1) + 'px';
+			} else {
+				label.style.left = label.offsetWidth / 2 * (-1) + 'px';
+			}
+		}
+
+		this.markList =
+			[...this.track.querySelectorAll<HTMLElement>('.rs__mark')];
+		this.checkScaleLength(this.markList);
+	}
+
+
+	public switchScale(conf: IConf) {
+		this.conf = conf;
+		let stepMarks = this.slider.querySelectorAll('.rs__mark');
+		if (this.conf.scale) {
+			for (let elem of stepMarks) {
+				elem.classList.remove('visually-hidden');
+			}
+		} else {
+			for (let elem of stepMarks) {
+				elem.classList.add('visually-hidden');
+			}
+		}
+	}
+
+
+
 }
 
 export { sliderViewScale };

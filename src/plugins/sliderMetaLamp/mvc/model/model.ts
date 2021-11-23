@@ -59,7 +59,7 @@ class sliderModel extends Observer {
 		this.startConf = conf;
 		this.noCalVal = false;
 	}
-	getConf(conf: IConf) {
+	public getConf(conf: IConf) {
 		this.backEndConf = conf;
 		let joinedConf = {};
 		joinedConf = Object.assign(joinedConf,
@@ -68,7 +68,7 @@ class sliderModel extends Observer {
 		this.conf = this.checkConf(joinedConf);
 	}
 
-	start() {
+	public start() {
 		this.onStart = this.conf.onStart;
 		this.onUpdate = this.conf.onUpdate;
 		this.onChange = this.conf.onChange;
@@ -81,7 +81,7 @@ class sliderModel extends Observer {
 
 
 
-	checkConf(conf: IConf) {
+	private checkConf(conf: IConf) {
 		//надо проверять на число те параметры, которые вводятся в инпут (т.к. можно ввести строку)
 
 		const validType = (value: any) => Number.isNaN(value) ? 0 : value;
@@ -153,14 +153,14 @@ class sliderModel extends Observer {
 		return conf;
 	}
 
-	update(newConf: IConf) {
+	public update(newConf: IConf) {
 		let conf = {};
 		conf = Object.assign(conf, this.conf, newConf);
 		//проверим корректность полученных параметров конфигурации и при необходимости - исправим
 		conf = this.checkConf(conf);
 		//определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
 		//для этого сравним this.conf (текущая конфигурация) и conf (новая конфигурация)
-		this.$findChangedConf(this.conf, conf);
+		this.findChangedConf(this.conf, conf);
 		this.conf = conf;
 		//запустим методы, для которых есть изменившиеся параметры
 		let key: keyof Imethods;
@@ -181,7 +181,7 @@ class sliderModel extends Observer {
 	}
 	/*находим изменившийся параметр и меняем соотв-щее св-во объекта this.methods; это нужно чтобы не выполнять одни и те же 
 	действия несколько раз, если получаем несколько параметров, требующих запуска одного и того же метода в модели*/
-	$findChangedConf(conf: IConf, newConf: IConf) {
+	private findChangedConf(conf: IConf, newConf: IConf) {
 		let key: keyof IConf;
 		for (key in newConf) {
 			if (newConf[key] === conf[key]) {
@@ -246,7 +246,7 @@ class sliderModel extends Observer {
 	}
 
 
-	async switchVertical() {
+	private async switchVertical() {
 		await this.fire('IsVertical', this.data, this.conf);
 		await this.calcFromPosition();
 		await this.calcToPosition();
@@ -254,13 +254,13 @@ class sliderModel extends Observer {
 		await this.calcScale();
 	}
 
-	async switchRange() {
+	private async switchRange() {
 		await this.fire('IsRange', this.data, this.conf);
 		await this.calcBar(); // ???
 		await this.onChange(this.conf); // onChange нужен т.к. после проверки перед возвратом в double режим могут поменяться значения from / to, их нужно отдать наружу
 	}
 
-	async updateControlPos() {
+	private async updateControlPos() {
 		await this.calcFromPosition();
 		await this.calcToPosition();
 		await this.calcBar();
@@ -268,19 +268,19 @@ class sliderModel extends Observer {
 		await this.fire('IsSticky', this.data, this.conf);
 	}
 
-	switchScale() {
+	private switchScale() {
 		this.fire('IsScale', this.data, this.conf);
 	}
 
-	switchBar() {
+	private switchBar() {
 		this.fire('IsBar', this.data, this.conf);
 	}
 
-	switchTip() {
+	private switchTip() {
 		this.fire('IsTip', this.data, this.conf);
 	}
 	// корректирует позицию ползунка, устанавливает его на ближайшее деление шкалы при sticky режиме
-	setSticky(controlPos: number) {
+	private setSticky(controlPos: number) {
 		/*Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из значения newPos 
 до тех пор, пока результат текущей итерации не станет больше результата предыдущей (это значит, что мы нашли деление,
 	ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления*/
@@ -299,7 +299,7 @@ class sliderModel extends Observer {
 		return pos;
 	}
 	// рассчитать позицию From (%) на основании значений from, min и max
-	calcFromPosition() {
+	private calcFromPosition() {
 		this.data.fromPos = ((this.conf.from -
 			this.conf.min) * 100) /
 			(this.conf.max - this.conf.min);
@@ -316,7 +316,7 @@ class sliderModel extends Observer {
 		//	this.noCalVal = false;
 	}
 	// рассчитать позицию To (%) на основании значений to, min и max
-	calcToPosition() {
+	private calcToPosition() {
 		this.data.toPos = ((this.conf.to - this.conf.min) * 100) /
 			(this.conf.max - this.conf.min);
 		if (this.conf.sticky) {
@@ -332,7 +332,7 @@ class sliderModel extends Observer {
 
 
 	/*Рассчитываем ширину и позицию left (top) прогресс-бара*/
-	calcBar() {
+	private calcBar() {
 		if (this.conf.range) {//режим Double
 			this.data.barPos = this.data.fromPos;
 			this.data.barWidth = this.data.toPos -
@@ -346,7 +346,7 @@ class sliderModel extends Observer {
 
 
 	// рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
-	calcScale() {
+	private calcScale() {
 		let interval = 1;
 		let step = 1;
 		let arg = '';
@@ -393,9 +393,41 @@ class sliderModel extends Observer {
 		this.fire('Scale', this.data, this.conf);
 	}
 
+	private calcVal(stopType: string,
+		pos: number,
+		moovingControl: string) {
+		if (!this.changeMode) {
+			let newVal = '';
+			if (stopType == 'normal') {
+				newVal = (this.conf.min + ((this.conf.max -
+					this.conf.min) * pos) / 100).toFixed(0);
+
+			} else if (stopType == 'min') {
+				newVal = String(this.conf.min);
+			} else if (stopType == 'max') {
+				newVal = String(this.conf.max);
+			}
+			else if (stopType == 'meetMax') {
+				newVal = String(this.conf.to);
+			}
+			else if (stopType == 'meetMin') {
+				newVal = String(this.conf.from);
+			}
+			if (moovingControl == 'min') {
+				this.data.fromVal = newVal;
+				this.conf.from = parseFloat(newVal);
+				this.fire('FromValue', this.data);
+			} else {
+				this.data.toVal = newVal;
+				this.conf.to = parseFloat(newVal);
+				this.fire('ToValue', this.data);
+			}
+		}
+	}
+
 
 	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале
-	calcPos(type: string,
+	public calcPos(type: string,
 		clientY: number,
 		clientX: number,
 		top: number,
@@ -472,7 +504,7 @@ class sliderModel extends Observer {
 
 
 	// Рассчитывает значение ползунка при нажатии кнопки стрелки на сфокусированном ползунке
-	calcPosKey(key: string, repeat: boolean, moovingControl: string) {
+	public calcPosKey(key: string, repeat: boolean, moovingControl: string) {
 		// поменять позицию и значение FROM
 		let changeFrom = (item: IObj) => {
 			this.conf.from = item.val;
@@ -632,37 +664,7 @@ class sliderModel extends Observer {
 
 	/*Рассчитываем новое значение ползунка на основании min, max и позиции (%)*/
 
-	calcVal(stopType: string,
-		pos: number,
-		moovingControl: string) {
-		if (!this.changeMode) {
-			let newVal = '';
-			if (stopType == 'normal') {
-				newVal = (this.conf.min + ((this.conf.max -
-					this.conf.min) * pos) / 100).toFixed(0);
 
-			} else if (stopType == 'min') {
-				newVal = String(this.conf.min);
-			} else if (stopType == 'max') {
-				newVal = String(this.conf.max);
-			}
-			else if (stopType == 'meetMax') {
-				newVal = String(this.conf.to);
-			}
-			else if (stopType == 'meetMin') {
-				newVal = String(this.conf.from);
-			}
-			if (moovingControl == 'min') {
-				this.data.fromVal = newVal;
-				this.conf.from = parseFloat(newVal);
-				this.fire('FromValue', this.data);
-			} else {
-				this.data.toVal = newVal;
-				this.conf.to = parseFloat(newVal);
-				this.fire('ToValue', this.data);
-			}
-		}
-	}
 
 
 }

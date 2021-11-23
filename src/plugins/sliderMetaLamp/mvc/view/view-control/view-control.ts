@@ -25,20 +25,22 @@ class sliderViewControl extends Observer {
 		this.dragControlTouch();
 		this.pressControl();
 		this.clickTrack();
+		//	this.test();
+		//console.log(this);
+
 	}
 
 	// Инициализация
-	init(conf: IConf) {
+	private init(conf: IConf) {
 		this.conf = conf;
 		this.renderLeftControl();
 		this.renderRightControl();
 		this.switchRange(this.conf);
 		//this.switchVertical(this.conf);
 		this.switchTip(this.conf);
-
 	}
 
-	renderControl(
+	private renderControl(
 		controlClassName: string, tipClassName: string, value: number) {
 		let control = document.createElement('button');
 		control.className = 'rs__control';
@@ -53,25 +55,33 @@ class sliderViewControl extends Observer {
 
 
 	/*Создаем ползунок минимального значения*/
-	renderLeftControl() {
+	private renderLeftControl() {
 		this.controlMin = this.renderControl(
 			'rs__control-min', 'rs__tip-min', this.conf.from);
+		// console.log(this.controlMin);
+		// console.log(this.slider);
+
+		// console.log(this.root);
+		// console.log(this.track);
+
+
+
 		this.tipMin = this.controlMin.querySelector('.rs__tip');
 		this.track.append(this.controlMin);
 	}
 
 	/*Создаем ползунок максимального значения*/
-	renderRightControl() {
+	private renderRightControl() {
 		this.controlMax = this.renderControl(
 			'rs__control-max', 'rs__tip-max', this.conf.to);
 		this.tipMax = this.controlMax.querySelector('.rs__tip');
 		this.track.append(this.controlMax);
 	}
 
-	defineControl = (elem: HTMLElement) =>
+	private defineControl = (elem: HTMLElement) =>
 		elem.classList.contains('rs__control-min') ? 'min' : 'max';
 
-	getMetrics(elem: HTMLElement) {
+	private getMetrics(elem: HTMLElement) {
 		const scale = elem.parentElement;
 		const T = this.data.thumb;
 		T.top = scale.getBoundingClientRect().top;
@@ -82,7 +92,7 @@ class sliderViewControl extends Observer {
 
 
 	// Вешаем обработчики события нажатия мышью на ползунке (захвата ползунка) и перемещения ползунка 
-	dragControlMouse() {
+	private dragControlMouse() {
 		let pointerDownHandler = (e: PointerEvent) => {
 			e.preventDefault();
 			const target = e.target as HTMLElement;
@@ -126,9 +136,8 @@ class sliderViewControl extends Observer {
 		this.slider.addEventListener('selectstart', () => false);
 	}
 
-
 	// Вешаем обработчики события нажатия пальцем на ползунке и перемещения ползунка
-	dragControlTouch() {
+	private dragControlTouch() {
 		let pointerDownHandler = (e: TouchEvent) => {
 			e.preventDefault();
 			const target = e.target as HTMLElement;
@@ -140,8 +149,10 @@ class sliderViewControl extends Observer {
 				this.getMetrics(target);
 
 				const pointerMoveHandler = (e: TouchEvent) => {
-					T.clientX = e.targetTouches[0].clientX;
-					T.clientY = e.targetTouches[0].clientY;
+					T.clientX =
+						e.targetTouches[0] ? e.targetTouches[0].clientX : 0;
+					T.clientY =
+						e.targetTouches[0] ? e.targetTouches[0].clientY : 0;
 					this.fire('MoveEvent', this.data);
 				};
 				target.addEventListener('touchmove', pointerMoveHandler);
@@ -151,7 +162,7 @@ class sliderViewControl extends Observer {
 	}
 
 	// Вешаем обработчик нажатия стрелок на сфокусированном ползунке
-	pressControl() {
+	private pressControl() {
 		let pointerDownHandler = (e: KeyboardEvent) => {
 
 			let arr = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
@@ -174,7 +185,7 @@ class sliderViewControl extends Observer {
 		this.slider.addEventListener('keydown', pointerDownHandler);
 	}
 	// Обработчик клика по шкале
-	clickTrack() {
+	private clickTrack() {
 		let pointerDownHandler = (e: PointerEvent) => {
 			e.preventDefault();
 			const target = e.target as HTMLElement;
@@ -233,8 +244,14 @@ class sliderViewControl extends Observer {
 		this.slider.addEventListener('pointerdown', pointerDownHandler);
 	}
 
+	private calcTipPos(isVertical: boolean, elem: HTMLElement) {
+		if (isVertical)
+			return elem.offsetWidth * (-1) - 5 + 'px';
+		else return elem.offsetWidth / 2 * (-1) + 'px';
+	}
+
 	//Обновляем позицию ползунка (вызывается через контроллер)
-	updatePos(elem: HTMLElement, newPos: number) {
+	public updatePos(elem: HTMLElement, newPos: number) {
 		if (!this.initDone) {
 			this.initDone = true;
 		}
@@ -264,12 +281,12 @@ class sliderViewControl extends Observer {
 	}
 
 	//Обновляем значение tip
-	updateVal(val: string, isFrom: boolean) {
+	public updateVal(val: string, isFrom: boolean) {
 		isFrom ? this.tipMin.innerText = val : this.tipMax.innerText = val;
 	}
 
 	//включение / отключение вертикального режима
-	switchVertical(conf: IConf) {
+	public switchVertical(conf: IConf) {
 		this.conf = conf;
 		let arr = [this.controlMax, this.tipMax, this.controlMin, this.tipMin];
 		for (let elem of arr) {
@@ -284,7 +301,7 @@ class sliderViewControl extends Observer {
 	}
 
 	//включение / отключение single режима
-	switchRange(conf: IConf) {
+	public switchRange(conf: IConf) {
 		this.conf = conf;
 		if (this.conf.range) {
 			this.controlMax.classList.remove('hidden');
@@ -298,7 +315,7 @@ class sliderViewControl extends Observer {
 	}
 
 	//включение / отключение подсказок
-	switchTip(conf: IConf) {
+	public switchTip(conf: IConf) {
 		this.conf = conf;
 		if (this.conf.tip) {
 			this.tipMax.classList.remove('hidden');
@@ -314,11 +331,41 @@ class sliderViewControl extends Observer {
 			this.tipMin.classList.add('hidden');
 		}
 	}
-	calcTipPos(isVertical: boolean, elem: HTMLElement) {
-		if (isVertical)
-			return elem.offsetWidth * (-1) - 5 + 'px';
-		else return elem.offsetWidth / 2 * (-1) + 'px';
-	}
+
+
+
+	// private test() {
+	// 	const touchObj: Touch = {
+	// 		identifier: Date.now(),
+	// 		target: this.slider,
+	// 		clientX: 0,
+	// 		clientY: 0,
+	// 		radiusX: 0,
+	// 		radiusY: 0,
+	// 		rotationAngle: 0,
+	// 		force: 0,
+	// 		pageX: 0,
+	// 		pageY: 0,
+	// 		screenX: 0,
+	// 		screenY: 0,
+	// 	};
+
+
+	// 	// const touchObj = new Touch({
+	// 	// 	identifier: Date.now(),
+	// 	// 	target: this.slider,
+	// 	// 	clientX: 0,
+	// 	// 	clientY: 0,
+	// 	// 	radiusX: 0,
+	// 	// 	radiusY: 0,
+	// 	// 	rotationAngle: 0,
+	// 	// 	force: 0
+	// 	// });
+	// 	console.log(touchObj);
+	// 	console.log(touchObj.constructor.name);
+
+	// }
+
 }
 
 export { sliderViewControl };

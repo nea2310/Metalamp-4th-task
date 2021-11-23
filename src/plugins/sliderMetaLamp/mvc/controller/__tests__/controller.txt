@@ -1,7 +1,0 @@
-import { sliderController } from '../controller';
-
-// class TestController extends sliderController {
-// 	constructor() {
-// 		super();
-// 	}
-// }

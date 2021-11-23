@@ -16,4 +16,8 @@ $.fn.Slider = function (options): JQuery {
 		}
 	});
 };
+console.log($);
+
+let plugin = $;
+export { plugin };
 

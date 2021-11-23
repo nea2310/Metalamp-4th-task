@@ -1,0 +1,16 @@
+import { plugin } from "../sliderMetaLamp";
+
+console.log(plugin);
+// describe('plugin initialization', () => {
+
+
+// 	let parent = document.createElement('input');
+// 	document.body.appendChild(parent);
+// 	let plugin = $(parent).Slider({});
+
+// 	console.log(plugin);
+// 	test('should be defined', () => {
+// 		expect(plugin).toBeDefined();
+// 	});
+
+// });
