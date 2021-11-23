@@ -14,40 +14,47 @@ const testView = new sliderView(parent, 0);
 new sliderController(testModel, testView);
 const testViewControl = testView.viewControl;
 const calcPosSpy = jest.spyOn(testModel, 'calcPos');
-
+const calcPosKeySpy = jest.spyOn(testModel, 'calcPosKey');
 function mockPointerEvent(element: HTMLElement, {
 	eventType, clientX = 0, clientY = 0,
 }: {
 	eventType: string, clientX?: number, clientY?: number,
 }): void {
-	const mockElement = element;
 	const pointerEvent = new MouseEvent(eventType, {
-		//	view: window,
 		bubbles: true,
-		cancelable: true,
 		clientX,
 		clientY,
 	});
-	mockElement.setPointerCapture = jest.fn(element.setPointerCapture);
-	mockElement.releasePointerCapture = jest.fn(element.releasePointerCapture);
-	mockElement.dispatchEvent(pointerEvent);
+	element.setPointerCapture = jest.fn(element.setPointerCapture);
+	element.releasePointerCapture = jest.fn(element.releasePointerCapture);
+	element.dispatchEvent(pointerEvent);
 }
 
 
 function mockTouchEvent(element: HTMLElement,
 	{ eventType }: { eventType: string }): void {
-	const mockElement = element;
 	const touchEvent = new TouchEvent(eventType,
 		{/* including in this second parameter of TouchEvent constructor (touchEventInit) any parameter which value is Touch object (touches, targetTouches, changedTouches)
-even with its default value (empty array) ends up with error Touch is not defined in Jest.
-But touchEventInit should include other non-Touch object parameters,
-otherwise the dispatched event will not trigger the event listener
-*/
-			cancelable: true,
+even with its default value (empty array) ends up with error Touch is not defined in Jest.*/
 			bubbles: true,
 		}
 	);
-	mockElement.dispatchEvent(touchEvent);
+	element.dispatchEvent(touchEvent);
+}
+
+function mockKeyboardEvent(element: HTMLElement,
+	{ eventType, key = 'ArrowLeft', repeat = false }:
+		{ eventType: string, key: string, repeat: boolean }): void {
+	const keyboardEvent = new KeyboardEvent(eventType,
+		{
+			code: key,
+			repeat: repeat,
+			bubbles: true,
+		}
+	);
+	element.setPointerCapture = jest.fn(element.setPointerCapture);
+	element.releasePointerCapture = jest.fn(element.releasePointerCapture);
+	element.dispatchEvent(keyboardEvent);
 }
 
 
@@ -78,4 +85,9 @@ describe('ViewControl', () => {
 		expect(calcPosSpy).toBeCalledTimes(1);
 	});
 
+	test('notifies observer about pressing on a focused control', () => {
+		mockKeyboardEvent(testViewControl.controlMax,
+			{ eventType: 'keydown', key: 'ArrowLeft', repeat: false });
+		expect(calcPosKeySpy).toBeCalledTimes(1);
+	});
 });

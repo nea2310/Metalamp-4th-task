@@ -160,18 +160,19 @@ class sliderViewControl extends Observer {
 		};
 		this.slider.addEventListener('touchstart', pointerDownHandler);
 	}
-
+	//	public test() { }
 	// Вешаем обработчик нажатия стрелок на сфокусированном ползунке
 	private pressControl() {
 		let pointerDownHandler = (e: KeyboardEvent) => {
-
 			let arr = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
 			const result = arr.indexOf(e.code);
 			if (result != -1) {
 				e.preventDefault();
 				const target = e.target as HTMLElement;
 				const T = this.data.thumb;
+
 				if (target.classList.contains('rs__control')) {
+
 					//определяем ползунок, на который нажимают
 					target.classList.contains('rs__control-min') ?
 						T.moovingControl = 'min' :
