@@ -436,6 +436,10 @@ class sliderModel extends Observer {
 		height: number,
 		shiftBase: number,
 		moovingControl: string) {
+		console.log('type: ' + type);
+		console.log('shiftBase: ' + shiftBase);
+
+
 		let newPos = 0;
 		if (this.conf.vertical) {
 			newPos = 100 -

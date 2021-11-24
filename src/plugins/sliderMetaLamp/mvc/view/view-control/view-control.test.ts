@@ -15,6 +15,7 @@ new sliderController(testModel, testView);
 const testViewControl = testView.viewControl;
 const calcPosSpy = jest.spyOn(testModel, 'calcPos');
 const calcPosKeySpy = jest.spyOn(testModel, 'calcPosKey');
+const testSpy = jest.spyOn(testViewControl, 'test');
 function mockPointerEvent(element: HTMLElement, {
 	eventType, clientX = 0, clientY = 0,
 }: {
@@ -70,7 +71,7 @@ describe('ViewControl', () => {
 			{ eventType: 'touchmove' });
 		expect(calcPosSpy).toBeCalledTimes(1);
 		expect(calcPosSpy).toBeCalledWith(
-			'touchmove', 0, 0, 0, 0, 0, 0, undefined, "max");
+			undefined, 0, 0, 0, 0, 0, 0, undefined, "max");
 	});
 
 	test('notifies observer about control mooving made by mouse', () => {
@@ -80,7 +81,7 @@ describe('ViewControl', () => {
 			{ eventType: 'pointermove', clientY: 100, clientX: 1000 });
 		expect(calcPosSpy).toBeCalledTimes(1);
 		expect(calcPosSpy).toBeCalledWith(
-			'pointermove', 100, 1000, 0, 0, 0, 0, 100, "max");
+			undefined, 100, 1000, 0, 0, 0, 0, 100, "max");
 	});
 
 	test('notifies observer about clicking on the track', () => {
