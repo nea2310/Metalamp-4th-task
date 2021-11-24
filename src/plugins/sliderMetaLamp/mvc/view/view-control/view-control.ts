@@ -254,7 +254,7 @@ class sliderViewControl extends Observer {
 			elem.style.left = newPos + '%';
 			elem.style.bottom = '';
 		}
-		//пересчитать ширину подсказок
+		//пересчитать ширину подсказок (возможно это надо вынести в отдельный метод)
 		if (this.defineControl(elem) == 'min') {
 			this.tipMin.style.left =
 				this.calcTipPos(this.conf.vertical, this.tipMin);
