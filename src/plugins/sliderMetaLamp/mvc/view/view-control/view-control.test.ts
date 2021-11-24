@@ -3,19 +3,6 @@ import { sliderModel } from './../../model/model';
 import { sliderView } from './../../view/view';
 import { IConf } from './../../interface';
 
-let parent: HTMLInputElement;
-parent = document.createElement('input');
-document.body.appendChild(parent);
-const conf: IConf = {};
-
-const testModel = new sliderModel(conf);
-const testView = new sliderView(parent, 0);
-
-new sliderController(testModel, testView);
-const testViewControl = testView.viewControl;
-const calcPosSpy = jest.spyOn(testModel, 'calcPos');
-const calcPosKeySpy = jest.spyOn(testModel, 'calcPosKey');
-const testSpy = jest.spyOn(testViewControl, 'test');
 function mockPointerEvent(element: HTMLElement, {
 	eventType, clientX = 0, clientY = 0,
 }: {
@@ -58,9 +45,22 @@ function mockKeyboardEvent(element: HTMLElement,
 	element.dispatchEvent(keyboardEvent);
 }
 
+const parent = document.createElement('input');
+document.body.appendChild(parent);
+const conf: IConf = {};
+
+const testModel = new sliderModel(conf);
+const testView = new sliderView(parent, 0);
+new sliderController(testModel, testView);
+
+const testViewControl = testView.viewControl;
+const calcPosSpy = jest.spyOn(testModel, 'calcPos');
+const calcPosKeySpy = jest.spyOn(testModel, 'calcPosKey');
+//const testSpy = jest.spyOn(testViewControl, 'test');
+
+
 
 describe('ViewControl', () => {
-
 	afterEach(() => {
 		calcPosSpy.mockClear();
 	});

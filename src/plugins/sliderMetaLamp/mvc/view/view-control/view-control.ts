@@ -90,9 +90,9 @@ class sliderViewControl extends Observer {
 		T.height = scale.offsetHeight;
 	}
 
-	public test(param: any) {
-		console.log(param);
-	}
+	// public test(param: any) {
+	// 	console.log(param);
+	// }
 	// Вешаем обработчики события нажатия мышью на ползунке (захвата ползунка) и перемещения ползунка 
 	private dragControlMouse() {
 		let pointerDownHandler = (e: PointerEvent) => {

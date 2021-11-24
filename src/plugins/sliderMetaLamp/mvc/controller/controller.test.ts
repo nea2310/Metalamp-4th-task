@@ -20,8 +20,7 @@ const viewMock = jest.mock('./../view/view', () => {
 console.log(viewMock);
 */
 
-let parent: HTMLInputElement;
-parent = document.createElement('input');
+const parent = document.createElement('input');
 document.body.appendChild(parent);
 
 const conf: IConf = {};
@@ -30,7 +29,6 @@ const testView = new sliderView(parent, 0);
 const TestController =
 	new sliderController(testModel, testView);
 const updateSpy = jest.spyOn(testModel, 'update');
-
 
 describe('controller', () => {
 	test('calls update method in model on calling API method "update"', () => {
