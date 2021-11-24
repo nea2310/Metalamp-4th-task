@@ -93,9 +93,14 @@ describe('ViewControl', () => {
 
 	test('updateVal', () => {
 		expect(testViewControl.tipMin.innerText).toBe('0');
+		expect(testViewControl.tipMax.innerText).toBe('10');
 		testViewControl.updateVal('20', true);
+		testViewControl.updateVal('30', false);
 		expect(testViewControl.tipMin.innerText).toBe('20');
+		expect(testViewControl.tipMax.innerText).toBe('30');
 	});
+
+
 
 
 
