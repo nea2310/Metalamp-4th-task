@@ -58,12 +58,51 @@ const calcPosSpy = jest.spyOn(testModel, 'calcPos');
 const calcPosKeySpy = jest.spyOn(testModel, 'calcPosKey');
 //const testSpy = jest.spyOn(testViewControl, 'test');
 
+const updatePosSpy = jest.spyOn(testViewControl, 'updatePos');
+
+
 
 
 describe('ViewControl', () => {
 	afterEach(() => {
 		calcPosSpy.mockClear();
 	});
+
+	test('updatePos', () => {
+		expect(testViewControl.controlMax).
+			toHaveProperty('style.left', '100%');
+		expect(testViewControl.controlMax).
+			toHaveProperty('style.bottom', '');
+		/*
+		Это не протестируешь, т.к. в расчетах используется offsetWidth
+				expect(testViewControl.tipMax).
+					toHaveProperty('style.left', '0px');
+				expect(testViewControl.tipMax).
+					toHaveProperty('style.bottom', '');
+		*/
+		testViewControl.updatePos(testViewControl.controlMax, 50);
+
+		expect(testViewControl.controlMax).toHaveProperty('style.left', '50%');
+		expect(testViewControl.controlMax).toHaveProperty('style.bottom', '');
+		/*
+		Это не протестируешь, т.к. в расчетах используется offsetWidth
+				expect(testViewControl.tipMax).toHaveProperty('style.left', '0px');
+				expect(testViewControl.tipMax).toHaveProperty('style.bottom', '');
+		*/
+	});
+
+
+	test('updateInput', () => {
+		expect(parent.value).toBe('0, 10');
+		testViewControl.updateInput({ from: 20, to: 30, range: true });
+		expect(parent.value).toBe('20, 30');
+	});
+
+
+
+
+
+
 	test('notifies observer about control mooving made by touching', () => {
 		mockTouchEvent(testViewControl.controlMax,
 			{ eventType: 'touchstart' });

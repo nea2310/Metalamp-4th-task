@@ -312,7 +312,7 @@ class sliderModel extends Observer {
 		if (!this.noCalVal) {
 			this.calcVal('normal', this.data.fromPos, 'min');
 		}
-		this.fire('FromPosition', this.data);
+		this.fire('FromPosition', this.data, this.conf);
 		//	this.noCalVal = false;
 	}
 	// рассчитать позицию To (%) на основании значений to, min и max
@@ -325,8 +325,7 @@ class sliderModel extends Observer {
 		if (!this.noCalVal) {
 			this.calcVal('normal', this.data.toPos, 'max');
 		}
-		this.fire('ToPosition', this.data);
-		//	this.noCalVal = false;
+		this.fire('ToPosition', this.data, this.conf);
 	}
 
 
@@ -436,9 +435,6 @@ class sliderModel extends Observer {
 		height: number,
 		shiftBase: number,
 		moovingControl: string) {
-		// console.log('type: ' + type);
-		// console.log('shiftBase: ' + shiftBase);
-
 
 		let newPos = 0;
 		if (this.conf.vertical) {
@@ -494,10 +490,10 @@ class sliderModel extends Observer {
 
 		if (moovingControl == 'min') {
 			this.data.fromPos = newPos;
-			this.fire('FromPosition', this.data);
+			this.fire('FromPosition', this.data, this.conf);
 		} else {
 			this.data.toPos = newPos;
-			this.fire('ToPosition', this.data);
+			this.fire('ToPosition', this.data, this.conf);
 		}
 		if (!isStop)
 			this.calcVal('normal', newPos, moovingControl);

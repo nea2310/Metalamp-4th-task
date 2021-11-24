@@ -118,14 +118,18 @@ class sliderView extends Observer {
 		this.viewControl.subscribe(this.handleKeydownEvent);
 	}
 
-	public updateFromPos = (data: Idata) => {
+	public updateFromPos = (data: Idata, conf: IConf) => {
+		console.log('conf view:');
+		console.log(conf);
 		this.viewControl.updatePos(this.viewControl.controlMin,
 			data.fromPos);
+		this.viewControl.updateInput(conf);
 	}
 
-	public updateToPos = (data: Idata) => {
+	public updateToPos = (data: Idata, conf: IConf) => {
 		this.viewControl.updatePos(this.viewControl.controlMax,
 			data.toPos);
+		this.viewControl.updateInput(conf);
 	}
 
 	public updateFromVal = (data: Idata) => {

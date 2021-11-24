@@ -25,9 +25,6 @@ class sliderViewControl extends Observer {
 		this.dragControlTouch();
 		this.pressControl();
 		this.clickTrack();
-		//	this.test();
-		//console.log(this);
-
 	}
 
 	// Инициализация
@@ -36,7 +33,6 @@ class sliderViewControl extends Observer {
 		this.renderLeftControl();
 		this.renderRightControl();
 		this.switchRange(this.conf);
-		//this.switchVertical(this.conf);
 		this.switchTip(this.conf);
 	}
 
@@ -58,14 +54,6 @@ class sliderViewControl extends Observer {
 	private renderLeftControl() {
 		this.controlMin = this.renderControl(
 			'rs__control-min', 'rs__tip-min', this.conf.from);
-		// console.log(this.controlMin);
-		// console.log(this.slider);
-
-		// console.log(this.root);
-		// console.log(this.track);
-
-
-
 		this.tipMin = this.controlMin.querySelector('.rs__tip');
 		this.track.append(this.controlMin);
 	}
@@ -274,18 +262,22 @@ class sliderViewControl extends Observer {
 			this.tipMax.style.left =
 				this.calcTipPos(this.conf.vertical, this.tipMax);
 		}
-
-		// передать значения FROM и TO в инпут
-		if (this.root.tagName === 'INPUT') {
-			this.root.value =
-				this.conf.range ? this.conf.from + ', ' + this.conf.to :
-					String(this.conf.from);
-		}
 	}
 
 	//Обновляем значение tip
 	public updateVal(val: string, isFrom: boolean) {
 		isFrom ? this.tipMin.innerText = val : this.tipMax.innerText = val;
+	}
+
+
+	// передать значения FROM и TO в инпут
+	public updateInput(conf: IConf) {
+
+		if (this.root.tagName === 'INPUT') {
+			this.root.value =
+				this.conf.range ? conf.from + ', ' + conf.to :
+					String(conf.from);
+		}
 	}
 
 	//включение / отключение вертикального режима
@@ -334,41 +326,6 @@ class sliderViewControl extends Observer {
 			this.tipMin.classList.add('hidden');
 		}
 	}
-
-
-
-	// private test() {
-	// 	const touchObj: Touch = {
-	// 		identifier: Date.now(),
-	// 		target: this.slider,
-	// 		clientX: 0,
-	// 		clientY: 0,
-	// 		radiusX: 0,
-	// 		radiusY: 0,
-	// 		rotationAngle: 0,
-	// 		force: 0,
-	// 		pageX: 0,
-	// 		pageY: 0,
-	// 		screenX: 0,
-	// 		screenY: 0,
-	// 	};
-
-
-	// 	// const touchObj = new Touch({
-	// 	// 	identifier: Date.now(),
-	// 	// 	target: this.slider,
-	// 	// 	clientX: 0,
-	// 	// 	clientY: 0,
-	// 	// 	radiusX: 0,
-	// 	// 	radiusY: 0,
-	// 	// 	rotationAngle: 0,
-	// 	// 	force: 0
-	// 	// });
-	// 	console.log(touchObj);
-	// 	console.log(touchObj.constructor.name);
-
-	// }
-
 }
 
 export { sliderViewControl };

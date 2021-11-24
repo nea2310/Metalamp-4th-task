@@ -37,14 +37,17 @@ class sliderController extends Observer {
 	}
 
 
-	private handleFromPosition = (key: string, data: Idata) => {
+	private handleFromPosition = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'FromPosition') return;
-		this.view.updateFromPos(data);
+		this.view.updateFromPos(data, conf);
+		console.log('conf controller:');
+		console.log(conf);
+
 	}
-	private handleToPosition = (key: string, data: Idata) => {
+	private handleToPosition = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'ToPosition') return;
 		//	else {
-		this.view.updateToPos(data);
+		this.view.updateToPos(data, conf);
 		//	}
 	}
 
