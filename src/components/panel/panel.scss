@@ -164,4 +164,23 @@
 			border: 2px solid rgb(41, 39, 39);
 		}
 	}
+
+	.destroy {
+		box-sizing: border-box;
+		@include font-body;
+		font-weight: normal;
+		color: rgb(41, 39, 39);
+
+		position: absolute;
+		bottom: 18px;
+		right: 170px;
+		background-color: $colorBlue;
+		height: 30px;
+		width: 120px;
+		border-radius: 2px;
+		padding: 0 10px;
+		&:hover {
+			border: 2px solid rgb(41, 39, 39);
+		}
+	}
 }

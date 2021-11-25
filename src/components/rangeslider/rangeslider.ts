@@ -29,6 +29,7 @@ class RangeSlider {
 	scaleBaseSteps: HTMLInputElement
 	scaleBaseIntervals: HTMLInputElement
 	inputs: HTMLInputElement[]
+	destroyBtn: HTMLButtonElement
 	selector: string
 
 
@@ -43,6 +44,7 @@ class RangeSlider {
 		this.renderPanel();
 		this.renderSlider(this.slider);
 		this.updateSlider();
+		this.destroySlider();
 	}
 
 	renderPanel() {
@@ -68,6 +70,7 @@ class RangeSlider {
 		this.bar = getElem('bar');
 		this.tip = getElem('tip');
 		this.sticky = getElem('sticky');
+		this.destroyBtn = this.panel.querySelector('.destroy');
 
 		const scaleBaseWrap =
 			this.panel.querySelector(
@@ -229,6 +232,11 @@ class RangeSlider {
 				}
 			}
 		});
+	}
+
+
+	destroySlider() {
+		this.destroyBtn.addEventListener('click', this.rangeSlider.destroy);
 	}
 }
 

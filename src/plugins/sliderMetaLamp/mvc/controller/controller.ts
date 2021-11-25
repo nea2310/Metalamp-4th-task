@@ -145,6 +145,12 @@ class sliderController extends Observer {
 		this.model.update(conf);
 	}
 
+	public destroy = () => {
+		this.view.slider.remove();
+		this.view = null;
+		this.model = null;
+	}
+
 
 }
 
