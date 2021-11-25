@@ -119,8 +119,8 @@ class sliderView extends Observer {
 	}
 
 	public updateFromPos = (data: Idata, conf: IConf) => {
-		console.log('conf view:');
-		console.log(conf);
+		// console.log('conf view:');
+		// console.log(conf);
 		this.viewControl.updatePos(this.viewControl.controlMin,
 			data.fromPos);
 		this.viewControl.updateInput(conf);

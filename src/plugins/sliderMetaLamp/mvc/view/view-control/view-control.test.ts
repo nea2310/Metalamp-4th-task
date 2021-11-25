@@ -51,7 +51,7 @@ const conf: IConf = {};
 
 const testModel = new sliderModel(conf);
 const testView = new sliderView(parent, 0);
-new sliderController(testModel, testView);
+const testController = new sliderController(testModel, testView);
 
 const testViewControl = testView.viewControl;
 const calcPosSpy = jest.spyOn(testModel, 'calcPos');
@@ -64,9 +64,6 @@ const updatePosSpy = jest.spyOn(testViewControl, 'updatePos');
 
 
 describe('ViewControl', () => {
-	afterEach(() => {
-		calcPosSpy.mockClear();
-	});
 
 	test('updatePos', () => {
 		expect(testViewControl.controlMax).
@@ -141,39 +138,58 @@ describe('ViewControl', () => {
 
 
 
-	// test('notifies observer about control mooving made by touching', () => {
-	// 	mockTouchEvent(testViewControl.controlMax,
-	// 		{ eventType: 'touchstart' });
-	// 	mockTouchEvent(testViewControl.controlMax,
-	// 		{ eventType: 'touchmove' });
-	// 	expect(calcPosSpy).toBeCalledTimes(1);
-	// 	expect(calcPosSpy).toBeCalledWith(
-	// 		undefined, 0, 0, 0, 0, 0, 0, undefined, "max");
-	// });
 
-	// test('notifies observer about control mooving made by mouse', () => {
-	// 	mockPointerEvent(testViewControl.controlMax,
-	// 		{ eventType: 'pointerdown', clientY: 100, clientX: 100 });
-	// 	mockPointerEvent(testViewControl.controlMax,
-	// 		{ eventType: 'pointermove', clientY: 100, clientX: 1000 });
-	// 	expect(calcPosSpy).toBeCalledTimes(1);
-	// 	expect(calcPosSpy).toBeCalledWith(
-	// 		undefined, 100, 1000, 0, 0, 0, 0, 100, "max");
-	// });
 
-	// test('notifies observer about clicking on the track', () => {
-	// 	mockPointerEvent(testViewControl.track,
-	// 		{ eventType: 'pointerdown', clientY: 100, clientX: 100 });
-	// 	expect(calcPosSpy).toBeCalledTimes(1);
-	// 	expect(calcPosSpy).toBeCalledWith(
-	// 		"pointerdown", 100, 100, 0, 0, 0, 0, 100, "min");
-	// });
+});
 
-	// test('notifies observer about pressing on a focused control', () => {
-	// 	mockKeyboardEvent(testViewControl.controlMax,
-	// 		{ eventType: 'keydown', key: 'ArrowLeft', repeat: false });
-	// 	expect(calcPosKeySpy).toBeCalledTimes(1);
-	// 	expect(calcPosKeySpy).toBeCalledWith('ArrowLeft', false, 'max');
-	// });
+
+describe('ViewControl event listeners', () => {
+
+	afterEach(() => {
+		calcPosSpy.mockClear();
+	});
+
+
+	test('notifies observer about control mooving made by touching', () => {
+		mockTouchEvent(testViewControl.controlMax,
+			{ eventType: 'touchstart' });
+		mockTouchEvent(testViewControl.controlMax,
+			{ eventType: 'touchmove' });
+		expect(calcPosSpy).toBeCalledTimes(1);
+		expect(calcPosSpy).toBeCalledWith(
+			undefined, 0, 0, 0, 0, 0, 0, undefined, "max");
+	});
+
+	test('notifies observer about control mooving made by mouse', () => {
+		mockPointerEvent(testViewControl.controlMax,
+			{ eventType: 'pointerdown', clientY: 100, clientX: 100 });
+		mockPointerEvent(testViewControl.controlMax,
+			{ eventType: 'pointermove', clientY: 100, clientX: 1000 });
+		expect(calcPosSpy).toBeCalledTimes(1);
+		expect(calcPosSpy).toBeCalledWith(
+			undefined, 100, 1000, 0, 0, 0, 0, 100, "max");
+	});
+
+	test('notifies observer about clicking on the track', () => {
+		mockPointerEvent(testViewControl.track,
+			{ eventType: 'pointerdown', clientY: 100, clientX: 100 });
+		expect(calcPosSpy).toBeCalledTimes(1);
+		expect(calcPosSpy).toBeCalledWith(
+			"pointerdown", 100, 100, 0, 0, 0, 0, 100, "min");
+	});
+
+	test('notifies observer about pressing on a focused control', () => {
+		mockKeyboardEvent(testViewControl.controlMax,
+			{ eventType: 'keydown', key: 'ArrowLeft', repeat: false });
+		expect(calcPosKeySpy).toBeCalledTimes(1);
+		expect(calcPosKeySpy).toBeCalledWith('ArrowLeft', false, 'max');
+	});
+
+
+
+
+
+
+
 
 });

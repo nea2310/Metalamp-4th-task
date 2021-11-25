@@ -5,12 +5,14 @@ import { Observer } from '../observer';
 class sliderController extends Observer {
 	model: sliderModel;
 	view: sliderView;
+	enabled: boolean;
 	constructor(model: sliderModel, view: sliderView) {
 		super();
 		this.model = model;
 		this.view = view;
 		this.createListeners();//срабатывает после инициализации модели
 		this.init();
+		this.enabled = true;
 	}
 
 
@@ -36,6 +38,22 @@ class sliderController extends Observer {
 		this.view.subscribe(this.handleKeydownEvent);
 	}
 
+	private removeListeners() {
+		this.model.unsubscribe(this.handleFromPosition);
+		this.model.unsubscribe(this.handleToPosition);
+		this.model.unsubscribe(this.handleFromValue);
+		this.model.unsubscribe(this.handleToValue);
+		this.model.unsubscribe(this.handleBar);
+		this.model.unsubscribe(this.handleScale);
+		this.model.unsubscribe(this.handleIsVertical);
+		this.model.unsubscribe(this.handleIsRange);
+		this.model.unsubscribe(this.handleIsScale);
+		this.model.unsubscribe(this.handleIsBar);
+		this.model.unsubscribe(this.handleIsTip);
+		this.view.unsubscribe(this.handleMoveEvent);
+		this.view.unsubscribe(this.handleKeydownEvent);
+	}
+
 
 	private handleFromPosition = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'FromPosition') return;
@@ -43,81 +61,58 @@ class sliderController extends Observer {
 	}
 	private handleToPosition = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'ToPosition') return;
-		//	else {
 		this.view.updateToPos(data, conf);
-		//	}
 	}
 
 	private handleFromValue = (key: string, data: Idata) => {
 		if (key !== 'FromValue') return;
-		//	else {
 		this.view.updateFromVal(data);
-		//	}
 	}
 
 	private handleToValue = (key: string, data: Idata) => {
 		if (key !== 'ToValue') return;
-		//	else {
 		this.view.updateToVal(data);
-		//	}
 	}
 
 	private handleScale = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'Scale') return;
-		//	else {
 		this.view.updateScale(data, conf);
-		//	}
 	}
 
 	private handleBar = (key: string, data: Idata, conf: IConf) => {
-		//	console.log(data);
-
 		if (key !== 'Bar') return;
-		//	else {
 		this.view.updateBar(data, conf);
-		//	}
 	}
 
 	private handleIsVertical = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsVertical') return;
-		//	else {
 		this.view.switchVertical(conf);
-		//	}
 	}
 
 	private handleIsRange = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsRange') return;
-		//	else {
 		this.view.switchRange(conf);
-		//	}
 	}
 
 	private handleIsScale = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsScale') return;
-		//	else {
 		this.view.switchScale(conf);
-		//	}
 	}
 
 	private handleIsBar = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsBar') return;
-		//	else {
 		this.view.switchBar(conf);
-		//	}
 	}
 
 
 	private handleIsTip = (key: string, data: Idata, conf: IConf) => {
 		if (key !== 'IsTip') return;
-		//	else {
 		this.view.switchTip(conf);
-		//}
 	}
 
 
 	private handleMoveEvent = (key: string, data: Idata) => {
 		if (key !== 'MoveEvent') return;
-		//	else {
 		this.model.calcPos(
 			data.thumb.type,
 			data.thumb.clientY,
@@ -128,20 +123,17 @@ class sliderController extends Observer {
 			data.thumb.height,
 			data.thumb.shiftBase,
 			data.thumb.moovingControl);
-		//	}
 	}
 
 	private handleKeydownEvent = (key: string, data: Idata) => {
 		if (key !== 'KeydownEvent') return;
-		//		else {
 		this.model.calcPosKey(
 			data.thumb.key,
 			data.thumb.repeat,
 			data.thumb.moovingControl);
-		//		}
 	}
 
-	public update(conf: IConf) {
+	public update = (conf: IConf) => {
 		this.model.update(conf);
 	}
 
@@ -149,6 +141,18 @@ class sliderController extends Observer {
 		this.view.slider.remove();
 		this.view = null;
 		this.model = null;
+	}
+
+	public disable = () => {
+		this.removeListeners();
+		this.enabled = false;
+	}
+
+	public enable = () => {
+		if (!this.enabled) {
+			this.createListeners();
+		}
+		this.enabled = true;
 	}
 
 
