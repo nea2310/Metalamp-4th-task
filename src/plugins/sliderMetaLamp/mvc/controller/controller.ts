@@ -154,8 +154,6 @@ class sliderController extends Observer {
 		}
 		this.enabled = true;
 	}
-
-
 }
 
 export { sliderModel, sliderView, sliderController };

@@ -135,8 +135,13 @@ class sliderViewScale {
 				}
 			}
 		};
+		const that = this;
 
-		window.addEventListener("optimizedResize", function () { // ------- метод будет вызван 60 раз в сек
+		window.addEventListener("optimizedResize", function (e) { // ------- метод будет вызван 60 раз в сек
+			console.log(e);
+
+			that.test();
+
 			rtime = +(new Date()); // ----------------------------------------- каждый раз получаем текущее время
 			if (timeout === false) { // ------------------------------------ пропускать только если мы дождались setTimeout
 				timeout = true; // ------------------------------------------ даём понять что нам не нужно лишний раз вызывать setTimeout пока мы полностью не дождались конца ресайза
@@ -145,6 +150,7 @@ class sliderViewScale {
 		});
 	}
 
+	test() { }
 
 	//создаем деления
 	public createScale(scaleMarks: { 'pos'?: number, 'val'?: number }[],
@@ -189,6 +195,7 @@ class sliderViewScale {
 		this.markList =
 			[...this.track.querySelectorAll<HTMLElement>('.rs__mark')];
 		this.checkScaleLength(this.markList);
+		return this.markList;
 	}
 
 

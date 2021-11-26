@@ -65,7 +65,7 @@ const updatePosSpy = jest.spyOn(testViewControl, 'updatePos');
 
 describe('ViewControl', () => {
 
-	test('updatePos', () => {
+	test('updatePos', async () => {
 		expect(testViewControl.controlMax).
 			toHaveProperty('style.left', '100%');
 		expect(testViewControl.controlMax).
@@ -77,7 +77,7 @@ describe('ViewControl', () => {
 				expect(testViewControl.tipMax).
 					toHaveProperty('style.bottom', '');
 		*/
-		testViewControl.updatePos(testViewControl.controlMax, 50);
+		await testViewControl.updatePos(testViewControl.controlMax, 50);
 
 		expect(testViewControl.controlMax).toHaveProperty('style.left', '50%');
 		expect(testViewControl.controlMax).toHaveProperty('style.bottom', '');
@@ -88,11 +88,11 @@ describe('ViewControl', () => {
 		*/
 	});
 
-	test('updateVal', () => {
+	test('updateVal', async () => {
 		expect(testViewControl.tipMin.innerText).toBe('0');
 		expect(testViewControl.tipMax.innerText).toBe('10');
-		testViewControl.updateVal('20', true);
-		testViewControl.updateVal('30', false);
+		await testViewControl.updateVal('20', true);
+		await testViewControl.updateVal('30', false);
 		expect(testViewControl.tipMin.innerText).toBe('20');
 		expect(testViewControl.tipMax.innerText).toBe('30');
 	});
@@ -100,14 +100,14 @@ describe('ViewControl', () => {
 
 
 
-	test('updateInput', () => {
+	test('updateInput', async () => {
 		expect(parent.value).toBe('0, 10');
-		testViewControl.updateInput({ from: 20, to: 30, range: true });
+		await testViewControl.updateInput({ from: 20, to: 30, range: true });
 		expect(parent.value).toBe('20, 30');
 	});
 
 
-	test('switchVertical', () => {
+	test('switchVertical', async () => {
 		expect(testViewControl.controlMin.classList.contains('vert')).
 			toBe(false);
 		expect(testViewControl.controlMax.classList.contains('vert')).
@@ -116,7 +116,7 @@ describe('ViewControl', () => {
 			toBe(false);
 		expect(testViewControl.tipMax.classList.contains('vert')).
 			toBe(false);
-		testViewControl.switchVertical({ vertical: true });
+		await testViewControl.switchVertical({ vertical: true });
 		expect(testViewControl.controlMin.classList.contains('vert')).
 			toBe(true);
 		expect(testViewControl.controlMax.classList.contains('vert')).
@@ -125,7 +125,7 @@ describe('ViewControl', () => {
 			toBe(true);
 		expect(testViewControl.tipMax.classList.contains('vert')).
 			toBe(true);
-		testViewControl.switchVertical({ vertical: false });
+		await testViewControl.switchVertical({ vertical: false });
 		expect(testViewControl.controlMin.classList.contains('vert')).
 			toBe(false);
 		expect(testViewControl.controlMax.classList.contains('vert')).
@@ -136,9 +136,51 @@ describe('ViewControl', () => {
 			toBe(false);
 	});
 
+	test('switchRange', async () => {
+		expect(testViewControl.controlMin.classList.contains('hidden')).
+			toBe(false);
+		expect(testViewControl.controlMax.classList.contains('hidden')).
+			toBe(false);
+		expect(testViewControl.tipMin.classList.contains('hidden')).
+			toBe(false);
+		expect(testViewControl.tipMax.classList.contains('hidden')).
+			toBe(false);
+		await testViewControl.switchRange({ range: false, tip: true });
+		expect(testViewControl.controlMin.classList.contains('hidden')).
+			toBe(false);
+		expect(testViewControl.controlMax.classList.contains('hidden')).
+			toBe(true);
+		expect(testViewControl.tipMin.classList.contains('hidden')).
+			toBe(false);
+		expect(testViewControl.tipMax.classList.contains('hidden')).
+			toBe(true);
+		await testViewControl.switchRange({ range: true, tip: true });
+		expect(testViewControl.controlMin.classList.contains('hidden')).
+			toBe(false);
+		expect(testViewControl.controlMax.classList.contains('hidden')).
+			toBe(false);
+		expect(testViewControl.tipMin.classList.contains('hidden')).
+			toBe(false);
+		expect(testViewControl.tipMax.classList.contains('hidden')).
+			toBe(false);
+	});
 
-
-
+	test('switchTip', async () => {
+		expect(testViewControl.tipMin.classList.contains('hidden')).
+			toBe(false);
+		expect(testViewControl.tipMax.classList.contains('hidden')).
+			toBe(false);
+		await testViewControl.switchTip({ range: true, tip: false });
+		expect(testViewControl.tipMin.classList.contains('hidden')).
+			toBe(true);
+		expect(testViewControl.tipMax.classList.contains('hidden')).
+			toBe(true);
+		await testViewControl.switchTip({ range: true, tip: true });
+		expect(testViewControl.tipMin.classList.contains('hidden')).
+			toBe(false);
+		expect(testViewControl.tipMax.classList.contains('hidden')).
+			toBe(false);
+	});
 
 });
 
@@ -184,12 +226,4 @@ describe('ViewControl event listeners', () => {
 		expect(calcPosKeySpy).toBeCalledTimes(1);
 		expect(calcPosKeySpy).toBeCalledWith('ArrowLeft', false, 'max');
 	});
-
-
-
-
-
-
-
-
 });
