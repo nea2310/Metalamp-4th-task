@@ -20,7 +20,7 @@ class sliderViewScale {
 	private init(conf: IConf) {
 		this.conf = conf;
 		this.track = this.slider.firstElementChild as HTMLElement;
-		this.getResizeWrap();
+
 	}
 
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
@@ -118,6 +118,7 @@ class sliderViewScale {
 		})();
 
 		const resizeend = () => {
+			this.test();
 			if (+(new Date()) - rtime < sleep) { // -------------------------- сверяем отрезок времени с задержкой - если мы уже давно не ресайзимся то скорей всего остановились
 				setTimeout(resizeend, sleep); // --------------------------- если отрезок времени короче чем sleep то ждём ещё  миллисекунд на sleep... 
 			} else { // --------------------------------------------------- если времени прошло достаточно а ресайза не было то можно считать что мы остановились
@@ -138,14 +139,12 @@ class sliderViewScale {
 		const that = this;
 
 		window.addEventListener("optimizedResize", function (e) { // ------- метод будет вызван 60 раз в сек
-			console.log(e);
-
-			that.test();
-
+			//that.test();
 			rtime = +(new Date()); // ----------------------------------------- каждый раз получаем текущее время
 			if (timeout === false) { // ------------------------------------ пропускать только если мы дождались setTimeout
 				timeout = true; // ------------------------------------------ даём понять что нам не нужно лишний раз вызывать setTimeout пока мы полностью не дождались конца ресайза
 				setTimeout(resizeend, sleep); // ---------------------------- ждём (когда ресайз кончиться) и вызовим метод что бы проверить что он кончился
+				//	resizeend();
 			}
 		});
 	}
@@ -195,6 +194,7 @@ class sliderViewScale {
 		this.markList =
 			[...this.track.querySelectorAll<HTMLElement>('.rs__mark')];
 		this.checkScaleLength(this.markList);
+		this.getResizeWrap();
 		return this.markList;
 	}
 
@@ -211,7 +211,9 @@ class sliderViewScale {
 				elem.classList.add('visually-hidden');
 			}
 		}
+		console.log(stepMarks[0]);
 	}
+
 
 
 

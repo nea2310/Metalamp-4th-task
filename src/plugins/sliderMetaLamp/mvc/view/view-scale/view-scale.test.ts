@@ -13,15 +13,14 @@ testView.init({});
 const testViewScale = testView.viewScale;
 const arr = testViewScale.slider.querySelectorAll('.rs__mark');
 const testSpy = jest.spyOn(testViewScale, 'test');
+const createScaleSpy = jest.spyOn(testViewScale, 'createScale');
+
 
 
 function mockCustomEvent(element: any,
 	{ eventType }: { eventType: string }): void {
 	const customEvent = new CustomEvent(eventType,
-		{/* including in this second parameter of TouchEvent constructor (touchEventInit) any parameter which value is Touch object (touches, targetTouches, changedTouches)
-even with its default value (empty array) ends up with error Touch is not defined in Jest.*/
-			bubbles: true,
-		}
+		{ bubbles: true }
 	);
 	element.dispatchEvent(customEvent);
 }
@@ -29,21 +28,29 @@ even with its default value (empty array) ends up with error Touch is not define
 
 describe('ViewScale', () => {
 
-	console.log(arr.length);
+	//console.log(arr.length);
+	const arr = [
+		{ pos: 0, val: 0 },
+		{ pos: 50, val: 5 },
+		{ pos: 100, val: 10 }
+	];
 
-	test('createScale', async () => {
-		expect(testViewScale.createScale([
-			{ pos: 0, val: 0 },
-			{ pos: 50, val: 5 },
-			{ pos: 100, val: 10 }
-		], {})).toHaveLength(3);
+
+	test('createScale', () => {
+		expect(testViewScale.createScale(arr, {})).toHaveLength(3);
 		expect(testViewScale.markList).toHaveLength(3);
 	});
 
-	test('resize', () => {
+	test('resize', async () => {
+		jest.useFakeTimers();
+		jest.spyOn(global, 'setTimeout');
 		mockCustomEvent(window,
 			{ eventType: 'optimizedResize' });
-		expect(testSpy).toBeCalledTimes(1);
+		//	expect(testSpy).toBeCalled();
+		expect(setTimeout).toHaveBeenCalledTimes(1);
+		expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 200);
+		//	setTimeout(expect(testSpy).toBeCalled, 0);
+
 	});
 
 });
