@@ -42,6 +42,7 @@ function mockCustomEvent(element: any,
 	element.dispatchEvent(customEvent);
 }
 
+
 function createMarkList(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 	conf: IConf, wrapper: HTMLElement, elemWidth: number, elemHeight: number) {
 	for (let node of scaleMarks) {

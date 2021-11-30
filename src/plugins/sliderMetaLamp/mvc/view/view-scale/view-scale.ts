@@ -40,7 +40,7 @@ class sliderViewScale {
 			let totalWidth = 0;
 			//вычисляем общую ширину подписей к шагам
 			for (let node of markList) {
-				totalWidth = node.firstElementChild.
+				totalWidth += node.firstElementChild.
 					getBoundingClientRect().width;
 			}
 			console.log('totalWidth: ' + totalWidth);
