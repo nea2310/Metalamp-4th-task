@@ -10,12 +10,24 @@ class sliderViewScale {
 	conf: IConf;
 	lastLabelRemoved: boolean;
 	scaleMarks: { 'pos'?: number, 'val'?: number }[];
+	calcMarkList: boolean
 
-	constructor(slider: HTMLElement, track: HTMLElement, conf: IConf) {
+	constructor(
+		slider: HTMLElement,
+		track: HTMLElement,
+		conf: IConf,
+		markList: HTMLElement[] = []) {
+
 		this.conf = conf;
 		this.slider = slider;
 		this.track = track;
+		if (markList.length == 0) {
+			this.calcMarkList = true;
+		} else {
+			this.markList = markList;
+		}
 	}
+
 
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
 	private checkScaleLength(markList: HTMLElement[]) {
@@ -149,42 +161,44 @@ class sliderViewScale {
 		this.conf = conf;
 		this.scaleMarks = scaleMarks;
 		let steps = this.slider.querySelectorAll('.rs__mark');
-		//Если это переотрисовка шкалы - удалить существующие деления
-		if (steps.length) {
-			for (let elem of steps) {
-				elem.remove();
+		if (this.calcMarkList) {//Если это переотрисовка шкалы - удалить существующие деления
+			if (steps.length) {
+				for (let elem of steps) {
+					elem.remove();
+				}
 			}
-		}
-		for (let node of scaleMarks) {
-			let elem = document.createElement('div');
-			elem.classList.add('rs__mark');
-			let label = document.createElement('div');
-			label.innerText = String(node.val);
-			label.classList.add('rs__label');
-			elem.appendChild(label);
+			for (let node of scaleMarks) {
+				let elem = document.createElement('div');
+				elem.classList.add('rs__mark');
+				let label = document.createElement('div');
+				label.innerText = String(node.val);
+				label.classList.add('rs__label');
+				elem.appendChild(label);
 
-			if (conf.vertical) {
-				elem.classList.add('vert');
-				label.classList.add('vert');
-				elem.style.bottom = String(node.pos) + '%';
-			} else {
-				elem.classList.add('horizontal');
-				label.classList.add('horizontal');
-				elem.style.left = String(node.pos) + '%';
+				if (conf.vertical) {
+					elem.classList.add('vert');
+					label.classList.add('vert');
+					elem.style.bottom = String(node.pos) + '%';
+				} else {
+					elem.classList.add('horizontal');
+					label.classList.add('horizontal');
+					elem.style.left = String(node.pos) + '%';
+				}
+				if (!conf.scale) {
+					elem.classList.add('visually-hidden');
+				}
+				this.track.appendChild(elem);
+				if (conf.vertical) {
+					label.style.top = label.offsetHeight / 2 * (-1) + 'px';
+				} else {
+					label.style.left = label.offsetWidth / 2 * (-1) + 'px';
+				}
 			}
-			if (!conf.scale) {
-				elem.classList.add('visually-hidden');
-			}
-			this.track.appendChild(elem);
-			if (conf.vertical) {
-				label.style.top = label.offsetHeight / 2 * (-1) + 'px';
-			} else {
-				label.style.left = label.offsetWidth / 2 * (-1) + 'px';
-			}
+
+			this.markList =
+				[...this.track.querySelectorAll<HTMLElement>('.rs__mark')];
 		}
 
-		this.markList =
-			[...this.track.querySelectorAll<HTMLElement>('.rs__mark')];
 		this.getResizeWrap();
 		return this.checkScaleLength(this.markList);
 	}
