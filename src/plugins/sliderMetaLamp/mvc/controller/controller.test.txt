@@ -1,7 +1,10 @@
 import { sliderController } from './controller';
 import { sliderModel } from './../model/model';
+//jest.mock('./../model/model');
 import { sliderView } from './../view/view';
+//jest.mock('./../view/view');
 import { IConf } from './../interface';
+
 
 /*
 jest.mock('./../view/view');

@@ -109,7 +109,8 @@ class sliderView extends Observer {
 
 	private createSubViews() {
 		this.viewControl = new sliderViewControl(this.slider, this.conf);
-		this.viewScale = new sliderViewScale(this.slider, this.conf);
+		this.viewScale =
+			new sliderViewScale(this.slider, this.track, this.conf);
 		this.viewBar = new sliderViewBar(this.slider, this.conf);
 	}
 
