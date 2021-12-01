@@ -23,12 +23,12 @@ class sliderViewBar {
 	}
 
 	// Инициализация
-	init(conf: IConf) {
+	private init(conf: IConf) {
 		this.conf = conf;
 		this.renderBar(conf);
 	}
 	//создание бара
-	renderBar(conf: IConf) {
+	private renderBar(conf: IConf) {
 		this.track = this.slider.querySelector('.rs__track');
 		this.progressBar = document.createElement('div');
 		this.progressBar.className = 'rs__progressBar';
@@ -37,20 +37,20 @@ class sliderViewBar {
 	}
 
 	// переключение в вертикальный режим
-	switchVertical(conf: IConf) {
+	public switchVertical(conf: IConf) {
 		const classList = this.progressBar.classList;
 		conf.vertical ? classList.add('vert') : classList.remove('vert');
 	}
 
 	// отключение / включение бара
-	switchBar(conf: IConf) {
+	public switchBar(conf: IConf) {
 		this.conf = conf;
 		const classList = this.progressBar.classList;
 		this.conf.bar ? classList.remove('hidden') : classList.add('hidden');
 	}
 
 	//обновление бара при изменении позиций ползунков
-	updateBar(pos: number, length: number, isVertical: boolean) {
+	public updateBar(pos: number, length: number, isVertical: boolean) {
 		const style = this.progressBar.style;
 		if (!isVertical) {
 			style.left = pos + '%';

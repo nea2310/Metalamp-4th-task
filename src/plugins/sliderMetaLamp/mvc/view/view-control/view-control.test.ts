@@ -63,7 +63,7 @@ const updatePosSpy = jest.spyOn(testViewControl, 'updatePos');
 
 
 
-describe('ViewControl', () => {
+describe('apply styles on calling ViewControl method', () => {
 
 	test('updatePos', async () => {
 		expect(testViewControl.controlMax).
@@ -88,7 +88,7 @@ describe('ViewControl', () => {
 		*/
 	});
 
-	test('updateVal', async () => {
+	test('change tip inner text on calling updateVal method', async () => {
 		expect(testViewControl.tipMin.innerText).toBe('0');
 		expect(testViewControl.tipMax.innerText).toBe('10');
 		await testViewControl.updateVal('20', true);
@@ -100,14 +100,14 @@ describe('ViewControl', () => {
 
 
 
-	test('updateInput', async () => {
+	test('update input value on calling updateInput method', async () => {
 		expect(parent.value).toBe('0, 10');
 		await testViewControl.updateInput({ from: 20, to: 30, range: true });
 		expect(parent.value).toBe('20, 30');
 	});
 
 
-	test('switchVertical', async () => {
+	test('toggle classes on calling switchVertical method', async () => {
 		expect(testViewControl.controlMin.classList.contains('vert')).
 			toBe(false);
 		expect(testViewControl.controlMax.classList.contains('vert')).
@@ -136,7 +136,7 @@ describe('ViewControl', () => {
 			toBe(false);
 	});
 
-	test('switchRange', async () => {
+	test('toggle class hidden on calling switchRange method', async () => {
 		expect(testViewControl.controlMin.classList.contains('hidden')).
 			toBe(false);
 		expect(testViewControl.controlMax.classList.contains('hidden')).
@@ -165,7 +165,7 @@ describe('ViewControl', () => {
 			toBe(false);
 	});
 
-	test('switchTip', async () => {
+	test('toggle class hidden on calling switchTip method', async () => {
 		expect(testViewControl.tipMin.classList.contains('hidden')).
 			toBe(false);
 		expect(testViewControl.tipMax.classList.contains('hidden')).
