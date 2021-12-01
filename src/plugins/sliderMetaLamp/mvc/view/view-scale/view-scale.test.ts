@@ -1,5 +1,6 @@
 import { sliderViewScale } from './view-scale';
 import { IConf } from '../../interface';
+
 interface IMockElement {
 	width: number,
 	height: number,
@@ -11,9 +12,6 @@ interface IMockElement {
 function mockElementDimensions(element: HTMLElement, {
 	width, height, padding = 0, x = 0, y = 0,
 }: IMockElement) {
-	//const mockElement = element;
-	// mockElement.style.width = `${width}px`;
-	// mockElement.style.height = `${height}px`;
 	element.getBoundingClientRect = jest.fn(() => {
 		const rect = {
 			x,
@@ -28,12 +26,8 @@ function mockElementDimensions(element: HTMLElement, {
 		return { ...rect, toJSON: () => rect };
 	});
 	Object.defineProperties(element, {
-		// clientWidth: { value: width + 2 * padding },
-		// clientHeight: { value: height + 2 * padding },
 		offsetWidth: { value: width + 2 * padding },
 		offsetHeight: { value: height + 2 * padding },
-		// width: { value: width + 2 * padding },
-		// height: { value: height + 2 * padding },
 	});
 	return element;
 }
@@ -54,41 +48,21 @@ function createMarkList(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 		let elem = document.createElement('div');
 		elem.classList.add('rs__mark');
 		let label = document.createElement('div');
-		label.innerText = String(node.val);
-		label.classList.add('rs__label');
 		mockElementDimensions(elem, { width: elemWidth, height: elemHeight });
 		mockElementDimensions(label, { width: elemWidth, height: elemHeight });
 		elem.appendChild(label);
-
-		if (conf.vertical) {
-			elem.classList.add('vert');
-			label.classList.add('vert');
-			elem.style.bottom = String(node.pos) + '%';
-		} else {
-			elem.classList.add('horizontal');
-			label.classList.add('horizontal');
-			elem.style.left = String(node.pos) + '%';
-		}
-		if (!conf.scale) {
-			elem.classList.add('visually-hidden');
-		}
 		wrapper.appendChild(elem);
-		if (conf.vertical) {
-			label.style.top = label.offsetHeight / 2 * (-1) + 'px';
-		} else {
-			label.style.left = label.offsetWidth / 2 * (-1) + 'px';
-		}
 	}
 	return [...wrapper.querySelectorAll<HTMLElement>('.rs__mark')];
 }
 
-const data = {
-	marksArr: [
-		{ pos: 0, val: 0 },
-		{ pos: 50, val: 5 },
-		{ pos: 100, val: 10 }
-	]
-};
+
+const marksArr = [
+	{ pos: 0, val: 0 },
+	{ pos: 50, val: 5 },
+	{ pos: 100, val: 10 }
+];
+
 
 const conf = {
 	vertical: false,
@@ -103,14 +77,9 @@ function prepareInstance(
 	mockDimensions: boolean) {
 
 	const root = document.createElement('input');
-	//root.className = 'rs__root';
-
 	const slider = document.createElement('div');
-	//slider.className = 'rs__wrapper';
 	root.after(slider);
-
 	const track = document.createElement('div');
-	//	track.className = 'rs__track';
 	slider.append(track);
 	let testViewScale: sliderViewScale;
 	if (mockDimensions) {
@@ -126,73 +95,58 @@ function prepareInstance(
 		testViewScale.lastLabelRemoved = true;
 	}
 
-	testViewScale.createScale(scaleMarks, {
-		scale: true,
-		vertical: false
-	});
-
-	testViewScale.createScale(scaleMarks, {
-		scale: true,
-		vertical: true
-	});
-
-	testViewScale.createScale(scaleMarks, {
-		scale: false,
-		vertical: false
-	});
-
-	testViewScale.createScale(scaleMarks, {
-		scale: false,
-		vertical: true
-	});
+	function createScale(conf: IConf) {
+		testViewScale.createScale(scaleMarks, conf);
+	}
+	//create scale for each scale / vertical combination
+	createScale({ scale: true, vertical: false });
+	createScale({ scale: true, vertical: true });
+	createScale({ scale: false, vertical: false });
+	createScale({ scale: false, vertical: true });
 
 	return testViewScale;
 }
 
-
-
-const testViewScale1 = prepareInstance(
-	data.marksArr, conf, true, false
-);
-const testViewScale3 = prepareInstance(
-	data.marksArr, conf, false, true
-);
-const testViewScale4 = prepareInstance(
-	data.marksArr, conf, false, false
-);
-
 /***************************/
 
 describe('ViewScale', () => {
-
-	test('createScale', () => {
-
-		expect(testViewScale1.createScale(data.marksArr, {
+	// eslint-disable-next-line max-len
+	test('scale marks are not hidden if their total width (height) is less or equal to slider width (height)', () => {
+		const testViewScale = prepareInstance(
+			marksArr, conf, true, false
+		);
+		expect(testViewScale.createScale(marksArr, {
 			scale: true,
 			vertical: false
 		})).
 			toHaveLength(3);
+	});
 
-		expect(testViewScale3.createScale(data.marksArr, {
+	// eslint-disable-next-line max-len
+	test('scale marks are hidden if their total width (height) is less or equal to slider width (height)', () => {
+		const testViewScale = prepareInstance(
+			marksArr, conf, false, true
+		);
+		expect(testViewScale.createScale(marksArr, {
 			scale: true,
 			vertical: false
 		})).
 			toHaveLength(1);
 	});
 
-
-
 	test('switchScale', () => {
-		const a = testViewScale1.switchScale({
+		const testViewScale = prepareInstance(
+			marksArr, conf, false, false
+		);
+		const a = testViewScale.switchScale({
 			scale: true,
 		});
 		expect(a[0].classList.contains('visually-hidden')).toBe(false);
-		const b = testViewScale1.switchScale({
+		const b = testViewScale.switchScale({
 			scale: false,
 		});
 		expect(b[0].classList.contains('visually-hidden')).toBe(true);
 	});
-
 
 	test('resize', async () => {
 		jest.useFakeTimers();
