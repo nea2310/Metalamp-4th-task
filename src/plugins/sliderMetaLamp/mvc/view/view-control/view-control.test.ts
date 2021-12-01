@@ -47,7 +47,23 @@ function mockKeyboardEvent(element: HTMLElement,
 
 const parent = document.createElement('input');
 document.body.appendChild(parent);
-const conf: IConf = {};
+const conf: IConf = {
+	min: 10,
+	max: 100,
+	from: 20,
+	to: 70,
+	vertical: false,
+	range: true,
+	bar: true,
+	tip: true,
+	scale: true,
+	scaleBase: 'step',
+	step: 10,
+	interval: 0,
+	sticky: false,
+	shiftOnKeyDown: 1,
+	shiftOnKeyHold: 1,
+};
 
 const testModel = new sliderModel(conf);
 const testView = new sliderView(parent, 0);
@@ -67,7 +83,7 @@ describe('apply styles on calling ViewControl method', () => {
 
 	test('updatePos', async () => {
 		expect(testViewControl.controlMax).
-			toHaveProperty('style.left', '100%');
+			toHaveProperty('style.left', '66.66666666666667%');
 		expect(testViewControl.controlMax).
 			toHaveProperty('style.bottom', '');
 		/*
@@ -89,11 +105,11 @@ describe('apply styles on calling ViewControl method', () => {
 	});
 
 	test('change tip inner text on calling updateVal method', async () => {
-		expect(testViewControl.tipMin.innerText).toBe('0');
-		expect(testViewControl.tipMax.innerText).toBe('10');
-		await testViewControl.updateVal('20', true);
-		await testViewControl.updateVal('30', false);
 		expect(testViewControl.tipMin.innerText).toBe('20');
+		expect(testViewControl.tipMax.innerText).toBe('70');
+		await testViewControl.updateVal('25', true);
+		await testViewControl.updateVal('30', false);
+		expect(testViewControl.tipMin.innerText).toBe('25');
 		expect(testViewControl.tipMax.innerText).toBe('30');
 	});
 
@@ -101,9 +117,9 @@ describe('apply styles on calling ViewControl method', () => {
 
 
 	test('update input value on calling updateInput method', async () => {
-		expect(parent.value).toBe('0, 10');
-		await testViewControl.updateInput({ from: 20, to: 30, range: true });
-		expect(parent.value).toBe('20, 30');
+		expect(parent.value).toBe('20, 70');
+		await testViewControl.updateInput({ from: 25, to: 30, range: true });
+		expect(parent.value).toBe('25, 30');
 	});
 
 
