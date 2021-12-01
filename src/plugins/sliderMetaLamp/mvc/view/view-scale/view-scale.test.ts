@@ -1,15 +1,20 @@
 import { sliderViewScale } from './view-scale';
 import { IConf } from '../../interface';
+interface IMockElement {
+	width: number,
+	height: number,
+	padding?: number,
+	x?: number,
+	y?: number,
+}
 
 function mockElementDimensions(element: HTMLElement, {
 	width, height, padding = 0, x = 0, y = 0,
-}: {
-	width: number, height: number, padding?: number, x?: number, y?: number,
-}): HTMLElement {
-	const mockElement = element;
-	mockElement.style.width = `${width}px`;
-	mockElement.style.height = `${height}px`;
-	mockElement.getBoundingClientRect = jest.fn(() => {
+}: IMockElement) {
+	//const mockElement = element;
+	// mockElement.style.width = `${width}px`;
+	// mockElement.style.height = `${height}px`;
+	element.getBoundingClientRect = jest.fn(() => {
 		const rect = {
 			x,
 			y,
@@ -22,19 +27,19 @@ function mockElementDimensions(element: HTMLElement, {
 		};
 		return { ...rect, toJSON: () => rect };
 	});
-	Object.defineProperties(mockElement, {
-		clientWidth: { value: width + 2 * padding },
-		clientHeight: { value: height + 2 * padding },
+	Object.defineProperties(element, {
+		// clientWidth: { value: width + 2 * padding },
+		// clientHeight: { value: height + 2 * padding },
 		offsetWidth: { value: width + 2 * padding },
 		offsetHeight: { value: height + 2 * padding },
-		width: { value: width + 2 * padding },
-		height: { value: height + 2 * padding },
+		// width: { value: width + 2 * padding },
+		// height: { value: height + 2 * padding },
 	});
-	return mockElement;
+	return element;
 }
 
 
-function mockCustomEvent(element: any,
+function mockCustomEvent(element: Window,
 	{ eventType }: { eventType: string }): void {
 	const customEvent = new CustomEvent(eventType,
 		{ bubbles: true }
@@ -89,118 +94,160 @@ const conf = {
 	vertical: false,
 	scale: true,
 };
+
+
+function prepareInstance(
+	scaleMarks: { 'pos'?: number, 'val'?: number }[],
+	conf: IConf,
+	lastLabelRemoved: boolean,
+	mockDimensions: boolean) {
+
+
+
+
+	const root = document.createElement('input');
+	root.className = 'rs__root';
+
+	const slider = document.createElement('div');
+	slider.className = 'rs__wrapper';
+	root.after(slider);
+
+	const track = document.createElement('div');
+	track.className = 'rs__track';
+	slider.append(track);
+	let testViewScale: sliderViewScale;
+	if (mockDimensions) {
+		mockElementDimensions(track, { width: 100, height: 100 });
+		const markList = createMarkList(scaleMarks, conf, track, 100, 100);
+		testViewScale =
+			new sliderViewScale(slider, track, conf, markList);
+	}
+	else {
+		testViewScale = new sliderViewScale(slider, track, conf);
+	}
+	if (lastLabelRemoved) {
+		testViewScale.lastLabelRemoved = true;
+	}
+
+	testViewScale.createScale(scaleMarks, {
+		scale: true,
+		vertical: false
+	});
+
+	testViewScale.createScale(scaleMarks, {
+		scale: true,
+		vertical: true
+	});
+
+	testViewScale.createScale(scaleMarks, {
+		scale: false,
+		vertical: false
+	});
+
+	testViewScale.createScale(scaleMarks, {
+		scale: false,
+		vertical: true
+	});
+
+	return testViewScale;
+}
+
+
 /***********INSTANCE 1 lastLabelRemoved = true****************/
-const root1 = document.createElement('input');
-root1.className = 'rs__root';
 
-const slider1 = document.createElement('div');
-slider1.className = 'rs__wrapper';
-root1.after(slider1);
 
-const track1 = document.createElement('div');
-track1.className = 'rs__track';
-slider1.append(track1);
 
-const testViewScale1 = new sliderViewScale(slider1, track1, conf);
-testViewScale1.lastLabelRemoved = true;
 
-testViewScale1.createScale(data.marksArr, {
-	scale: true,
-	vertical: false
-});
+// const root1 = document.createElement('input');
+// root1.className = 'rs__root';
 
-testViewScale1.createScale(data.marksArr, {
-	scale: true,
-	vertical: true
-});
+// const slider1 = document.createElement('div');
+// slider1.className = 'rs__wrapper';
+// root1.after(slider1);
 
-testViewScale1.createScale(data.marksArr, {
-	scale: false,
-	vertical: false
-});
+// const track1 = document.createElement('div');
+// track1.className = 'rs__track';
+// slider1.append(track1);
 
-testViewScale1.createScale(data.marksArr, {
-	scale: false,
-	vertical: true
-});
+// const testViewScale1 = new sliderViewScale(slider1, track1, conf);
+// testViewScale1.lastLabelRemoved = true;
+
+// testViewScale1.createScale(data.marksArr, {
+// 	scale: true,
+// 	vertical: false
+// });
+
+// testViewScale1.createScale(data.marksArr, {
+// 	scale: true,
+// 	vertical: true
+// });
+
+// testViewScale1.createScale(data.marksArr, {
+// 	scale: false,
+// 	vertical: false
+// });
+
+// testViewScale1.createScale(data.marksArr, {
+// 	scale: false,
+// 	vertical: true
+// });
 
 
 /***********INSTANCE 3  mockElementDimensions****************/
-const root3 = document.createElement('input');
-root3.className = 'rs__root';
+//const root3 = document.createElement('input');
+// root3.className = 'rs__root';
 
-const slider3 = document.createElement('div');
-slider3.className = 'rs__wrapper';
-root3.after(slider3);
+// const slider3 = document.createElement('div');
+// slider3.className = 'rs__wrapper';
+// root3.after(slider3);
 
-const track3 = document.createElement('div');
-track3.className = 'rs__track';
-slider3.append(track3);
-mockElementDimensions(track3, { width: 100, height: 100 });
-const markList3 = createMarkList(data.marksArr, conf, track3, 100, 100);
-const testViewScale3 = new sliderViewScale(slider3, track3, conf, markList3);
+// const track3 = document.createElement('div');
+// track3.className = 'rs__track';
+// slider3.append(track3);
+// mockElementDimensions(track3, { width: 100, height: 100 });
+// const markList3 = createMarkList(data.marksArr, conf, track3, 100, 100);
+// const testViewScale3 = new sliderViewScale(slider3, track3, conf, markList3);
 
 
-testViewScale3.createScale(data.marksArr, {
-	scale: true,
-	vertical: false
-});
+// testViewScale3.createScale(data.marksArr, {
+// 	scale: true,
+// 	vertical: false
+// });
 
-testViewScale3.createScale(data.marksArr, {
-	scale: true,
-	vertical: true
-});
+// testViewScale3.createScale(data.marksArr, {
+// 	scale: true,
+// 	vertical: true
+// });
 
-testViewScale3.createScale(data.marksArr, {
-	scale: false,
-	vertical: false
-});
+// testViewScale3.createScale(data.marksArr, {
+// 	scale: false,
+// 	vertical: false
+// });
 
-testViewScale3.createScale(data.marksArr, {
-	scale: false,
-	vertical: true
-});
+// testViewScale3.createScale(data.marksArr, {
+// 	scale: false,
+// 	vertical: true
+// });
 
 /***********INSTANCE 4 lastLabelRemoved = false****************/
-const root4 = document.createElement('input');
-root4.className = 'rs__root';
+// 
 
-const slider4 = document.createElement('div');
-slider4.className = 'rs__wrapper';
-root4.after(slider4);
-
-const track4 = document.createElement('div');
-track4.className = 'rs__track';
-slider4.append(track4);
-
-const testViewScale4 = new sliderViewScale(slider4, track4, conf);
-testViewScale4.createScale(data.marksArr, {
-	scale: true,
-	vertical: false
-});
-
-testViewScale4.createScale(data.marksArr, {
-	scale: true,
-	vertical: true
-});
-
-testViewScale4.createScale(data.marksArr, {
-	scale: false,
-	vertical: false
-});
-
-testViewScale4.createScale(data.marksArr, {
-	scale: false,
-	vertical: true
-});
-
-
+const testViewScale1 = prepareInstance(
+	data.marksArr, conf, true, false
+);
+const testViewScale3 = prepareInstance(
+	data.marksArr, conf, false, true
+);
+const testViewScale4 = prepareInstance(
+	data.marksArr, conf, false, false
+);
 
 /***************************/
 
 describe('ViewScale', () => {
 
 	test('createScale', () => {
+
 		expect(testViewScale1.createScale(data.marksArr, {
 			scale: true,
 			vertical: false
