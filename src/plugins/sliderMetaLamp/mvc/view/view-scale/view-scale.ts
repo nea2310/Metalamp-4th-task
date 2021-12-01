@@ -55,8 +55,8 @@ class sliderViewScale {
 				totalWidth += node.firstElementChild.
 					getBoundingClientRect().width;
 			}
-			console.log('totalWidth: ' + totalWidth);
-			console.log('this.track.offsetWidth: ' + this.track.offsetWidth);
+			// console.log('totalWidth: ' + totalWidth);
+			// console.log('this.track.offsetWidth: ' + this.track.offsetWidth);
 			//если общая ширина подписей к шагам больше ширины шкалы
 			if (totalWidth > this.track.offsetWidth) {
 				//Скрываем подписи
@@ -75,8 +75,8 @@ class sliderViewScale {
 				totalHeight += node.firstElementChild.
 					getBoundingClientRect().height;
 			}
-			console.log('totalHeight ' + totalHeight);
-			console.log('this.track.offsetHeight: ' + this.track.offsetHeight);
+			// console.log('totalHeight ' + totalHeight);
+			// console.log('this.track.offsetHeight: ' + this.track.offsetHeight);
 			//если общая высота подписей к шагам больше высоты шкалы
 			if (totalHeight > this.track.offsetHeight) {
 				//Скрываем подписи

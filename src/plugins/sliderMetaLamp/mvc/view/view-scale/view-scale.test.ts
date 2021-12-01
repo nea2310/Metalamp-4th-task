@@ -52,6 +52,7 @@ function createMarkList(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 		label.innerText = String(node.val);
 		label.classList.add('rs__label');
 		mockElementDimensions(elem, { width: elemWidth, height: elemHeight });
+		mockElementDimensions(label, { width: elemWidth, height: elemHeight });
 		elem.appendChild(label);
 
 		if (conf.vertical) {
@@ -99,7 +100,7 @@ root1.after(slider1);
 const track1 = document.createElement('div');
 track1.className = 'rs__track';
 slider1.append(track1);
-mockElementDimensions(track1, { width: 100, height: 100 });
+//mockElementDimensions(track1, { width: 100, height: 100 });
 
 const testViewScale1 = new sliderViewScale(slider1, track1, conf);
 testViewScale1.lastLabelRemoved = true;
@@ -126,16 +127,16 @@ testViewScale1.createScale(data.marksArr, {
 
 /***********INSTANCE 2****************/
 const root2 = document.createElement('input');
-root1.className = 'rs__root';
+root2.className = 'rs__root';
 
 const slider2 = document.createElement('div');
 slider2.className = 'rs__wrapper';
-root2.after(slider1);
+root2.after(slider2);
 
 const track2 = document.createElement('div');
 track2.className = 'rs__track';
 slider2.append(track2);
-mockElementDimensions(track2, { width: 100, height: 100 });
+//mockElementDimensions(track2, { width: 100, height: 100 });
 
 const testViewScale2 = new sliderViewScale(slider2, track2, conf);
 
@@ -160,16 +161,54 @@ testViewScale2.createScale(data.marksArr, {
 	vertical: true
 });
 
+/***********INSTANCE 3****************/
+const root3 = document.createElement('input');
+root3.className = 'rs__root';
+
+const slider3 = document.createElement('div');
+slider3.className = 'rs__wrapper';
+root3.after(slider3);
+
+const track3 = document.createElement('div');
+track3.className = 'rs__track';
+slider3.append(track3);
+mockElementDimensions(track3, { width: 100, height: 100 });
+const markList = createMarkList(data.marksArr, conf, track3, 100, 100);
+const testViewScale3 = new sliderViewScale(slider3, track3, conf, markList);
+
+testViewScale3.lastLabelRemoved = true;
+
+testViewScale3.createScale(data.marksArr, {
+	scale: true,
+	vertical: false
+});
+
+testViewScale3.createScale(data.marksArr, {
+	scale: true,
+	vertical: true
+});
+
+testViewScale3.createScale(data.marksArr, {
+	scale: false,
+	vertical: false
+});
+
+testViewScale3.createScale(data.marksArr, {
+	scale: false,
+	vertical: true
+});
+
+
 /***************************/
 
 describe('ViewScale', () => {
 
 	test('createScale', () => {
-		// expect(testViewScale1.createScale(data.marksArr, {
-		// 	scale: true,
-		// 	vertical: false
-		// })).
-		// 	toBeUndefined();
+		expect(testViewScale1.createScale(data.marksArr, {
+			scale: true,
+			vertical: false
+		})).
+			toHaveLength(3);
 
 
 		expect(testViewScale2.createScale(data.marksArr, {
@@ -199,7 +238,7 @@ describe('ViewScale', () => {
 		jest.spyOn(global, 'setTimeout');
 		mockCustomEvent(window,
 			{ eventType: 'optimizedResize' });
-		expect(setTimeout).toHaveBeenCalledTimes(9);
+		expect(setTimeout).toHaveBeenCalledTimes(14);
 		expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 200);
 	});
 });
