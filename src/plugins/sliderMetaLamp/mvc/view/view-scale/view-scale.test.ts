@@ -102,18 +102,15 @@ function prepareInstance(
 	lastLabelRemoved: boolean,
 	mockDimensions: boolean) {
 
-
-
-
 	const root = document.createElement('input');
-	root.className = 'rs__root';
+	//root.className = 'rs__root';
 
 	const slider = document.createElement('div');
-	slider.className = 'rs__wrapper';
+	//slider.className = 'rs__wrapper';
 	root.after(slider);
 
 	const track = document.createElement('div');
-	track.className = 'rs__track';
+	//	track.className = 'rs__track';
 	slider.append(track);
 	let testViewScale: sliderViewScale;
 	if (mockDimensions) {
@@ -153,84 +150,6 @@ function prepareInstance(
 }
 
 
-/***********INSTANCE 1 lastLabelRemoved = true****************/
-
-
-
-
-// const root1 = document.createElement('input');
-// root1.className = 'rs__root';
-
-// const slider1 = document.createElement('div');
-// slider1.className = 'rs__wrapper';
-// root1.after(slider1);
-
-// const track1 = document.createElement('div');
-// track1.className = 'rs__track';
-// slider1.append(track1);
-
-// const testViewScale1 = new sliderViewScale(slider1, track1, conf);
-// testViewScale1.lastLabelRemoved = true;
-
-// testViewScale1.createScale(data.marksArr, {
-// 	scale: true,
-// 	vertical: false
-// });
-
-// testViewScale1.createScale(data.marksArr, {
-// 	scale: true,
-// 	vertical: true
-// });
-
-// testViewScale1.createScale(data.marksArr, {
-// 	scale: false,
-// 	vertical: false
-// });
-
-// testViewScale1.createScale(data.marksArr, {
-// 	scale: false,
-// 	vertical: true
-// });
-
-
-/***********INSTANCE 3  mockElementDimensions****************/
-//const root3 = document.createElement('input');
-// root3.className = 'rs__root';
-
-// const slider3 = document.createElement('div');
-// slider3.className = 'rs__wrapper';
-// root3.after(slider3);
-
-// const track3 = document.createElement('div');
-// track3.className = 'rs__track';
-// slider3.append(track3);
-// mockElementDimensions(track3, { width: 100, height: 100 });
-// const markList3 = createMarkList(data.marksArr, conf, track3, 100, 100);
-// const testViewScale3 = new sliderViewScale(slider3, track3, conf, markList3);
-
-
-// testViewScale3.createScale(data.marksArr, {
-// 	scale: true,
-// 	vertical: false
-// });
-
-// testViewScale3.createScale(data.marksArr, {
-// 	scale: true,
-// 	vertical: true
-// });
-
-// testViewScale3.createScale(data.marksArr, {
-// 	scale: false,
-// 	vertical: false
-// });
-
-// testViewScale3.createScale(data.marksArr, {
-// 	scale: false,
-// 	vertical: true
-// });
-
-/***********INSTANCE 4 lastLabelRemoved = false****************/
-// 
 
 const testViewScale1 = prepareInstance(
 	data.marksArr, conf, true, false
