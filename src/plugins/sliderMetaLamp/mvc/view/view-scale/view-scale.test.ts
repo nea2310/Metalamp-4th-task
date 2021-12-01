@@ -89,7 +89,7 @@ const conf = {
 	vertical: false,
 	scale: true,
 };
-/***********INSTANCE 1****************/
+/***********INSTANCE 1 lastLabelRemoved = true****************/
 const root1 = document.createElement('input');
 root1.className = 'rs__root';
 
@@ -100,7 +100,6 @@ root1.after(slider1);
 const track1 = document.createElement('div');
 track1.className = 'rs__track';
 slider1.append(track1);
-//mockElementDimensions(track1, { width: 100, height: 100 });
 
 const testViewScale1 = new sliderViewScale(slider1, track1, conf);
 testViewScale1.lastLabelRemoved = true;
@@ -125,43 +124,8 @@ testViewScale1.createScale(data.marksArr, {
 	vertical: true
 });
 
-/***********INSTANCE 2****************/
-const root2 = document.createElement('input');
-root2.className = 'rs__root';
 
-const slider2 = document.createElement('div');
-slider2.className = 'rs__wrapper';
-root2.after(slider2);
-
-const track2 = document.createElement('div');
-track2.className = 'rs__track';
-slider2.append(track2);
-//mockElementDimensions(track2, { width: 100, height: 100 });
-
-const testViewScale2 = new sliderViewScale(slider2, track2, conf);
-
-testViewScale2.lastLabelRemoved = true;
-testViewScale2.createScale(data.marksArr, {
-	scale: true,
-	vertical: false
-});
-
-testViewScale2.createScale(data.marksArr, {
-	scale: true,
-	vertical: true
-});
-
-testViewScale2.createScale(data.marksArr, {
-	scale: false,
-	vertical: false
-});
-
-testViewScale2.createScale(data.marksArr, {
-	scale: false,
-	vertical: true
-});
-
-/***********INSTANCE 3****************/
+/***********INSTANCE 3  mockElementDimensions****************/
 const root3 = document.createElement('input');
 root3.className = 'rs__root';
 
@@ -173,10 +137,9 @@ const track3 = document.createElement('div');
 track3.className = 'rs__track';
 slider3.append(track3);
 mockElementDimensions(track3, { width: 100, height: 100 });
-const markList = createMarkList(data.marksArr, conf, track3, 100, 100);
-const testViewScale3 = new sliderViewScale(slider3, track3, conf, markList);
+const markList3 = createMarkList(data.marksArr, conf, track3, 100, 100);
+const testViewScale3 = new sliderViewScale(slider3, track3, conf, markList3);
 
-testViewScale3.lastLabelRemoved = true;
 
 testViewScale3.createScale(data.marksArr, {
 	scale: true,
@@ -197,6 +160,40 @@ testViewScale3.createScale(data.marksArr, {
 	scale: false,
 	vertical: true
 });
+
+/***********INSTANCE 4 lastLabelRemoved = false****************/
+const root4 = document.createElement('input');
+root4.className = 'rs__root';
+
+const slider4 = document.createElement('div');
+slider4.className = 'rs__wrapper';
+root4.after(slider4);
+
+const track4 = document.createElement('div');
+track4.className = 'rs__track';
+slider4.append(track4);
+
+const testViewScale4 = new sliderViewScale(slider4, track4, conf);
+testViewScale4.createScale(data.marksArr, {
+	scale: true,
+	vertical: false
+});
+
+testViewScale4.createScale(data.marksArr, {
+	scale: true,
+	vertical: true
+});
+
+testViewScale4.createScale(data.marksArr, {
+	scale: false,
+	vertical: false
+});
+
+testViewScale4.createScale(data.marksArr, {
+	scale: false,
+	vertical: true
+});
+
 
 
 /***************************/
@@ -210,13 +207,11 @@ describe('ViewScale', () => {
 		})).
 			toHaveLength(3);
 
-
-		expect(testViewScale2.createScale(data.marksArr, {
+		expect(testViewScale3.createScale(data.marksArr, {
 			scale: true,
 			vertical: false
 		})).
-			toHaveLength(3);
-
+			toHaveLength(1);
 	});
 
 
