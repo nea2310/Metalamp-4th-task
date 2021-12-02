@@ -516,6 +516,8 @@ class sliderModel extends Observer {
 			this.data.fromVal = String(item.val);
 			this.fire('FromPosition', this.data);
 			this.fire('FromValue', this.data);
+
+			return { newVal: String(item.val), newPos: item.pos };
 		};
 		// поменять позицию и значение TO
 		let changeTo = (item: IObj) => {
@@ -524,6 +526,7 @@ class sliderModel extends Observer {
 			this.data.toVal = String(item.val);
 			this.fire('ToPosition', this.data);
 			this.fire('ToValue', this.data);
+			return { newVal: String(item.val), newPos: item.pos };
 		};
 		// движение в большую сторону
 		let incr = (index: number) => {
@@ -549,6 +552,7 @@ class sliderModel extends Observer {
 
 		let newVal;
 		let item;
+		let result;
 		if (!this.conf.sticky) {	// если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
 			this.noCalVal = true;
 			if (moovingControl == 'min') {// Ползунок min
@@ -571,7 +575,7 @@ class sliderModel extends Observer {
 						if (!this.conf.range && newVal > this.conf.max) {
 							newVal = this.conf.max;
 						}
-					} else return;
+					} else return 'too big newPos';
 				} else {// Уменьшение значения
 					if (this.conf.from > this.conf.min) {
 						newVal = repeat ?
@@ -582,13 +586,14 @@ class sliderModel extends Observer {
 						if (newVal < this.conf.min) {
 							newVal = this.conf.min;
 						}
-					} else return;
+					} else return 'too small newPos';
 				}
 
 				this.data.fromVal = String(newVal);
 				this.conf.from = newVal;
 				this.calcFromPosition();
 				this.fire('FromValue', this.data);
+				result = newVal;
 
 			} else {// Ползунок max
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
@@ -602,7 +607,7 @@ class sliderModel extends Observer {
 						if (newVal > this.conf.max) {
 							newVal = this.conf.max;
 						}
-					} else return;
+					} else return 'too big newPos';
 				} else {// Уменьшение значения
 					if (this.conf.to > this.conf.from) {
 						newVal = repeat ?
@@ -613,12 +618,13 @@ class sliderModel extends Observer {
 						if (newVal < this.conf.from) {
 							newVal = this.conf.from;
 						}
-					} else return;
+					} else return 'too small newPos';
 				}
 				this.data.toVal = String(newVal);
 				this.conf.to = newVal;
 				this.calcToPosition();
 				this.fire('ToValue', this.data);
+				result = newVal;
 			}
 			this.noCalVal = false; // ??
 		}
@@ -630,18 +636,23 @@ class sliderModel extends Observer {
 					findIndex(item => item.val == this.conf.from);
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
 					item = incr(index);
-					if (item.val > this.conf.from &&
+					if (item == undefined) return 'newPos>100';
+					else if (item.val > this.conf.from &&
 						(this.conf.range && item.val <= this.conf.to
 							|| !this.conf.range && item.val <=
 							this.conf.max)) {
-						changeFrom(item);
+						result = changeFrom(item);
 					}
+					else result = 'too big newPos';
 				} else {//Уменьшение значения
 					item = decr(index);
-					if (this.conf.range && item.val < this.conf.to ||
+					if (item == undefined) return 'newPos<0';
+
+					else if (this.conf.range && item.val < this.conf.to ||
 						!this.conf.range) {
-						changeFrom(item);
+						result = changeFrom(item);
 					}
+					else result = 'too small newPos';
 				}
 
 			} else {// ползунок max
@@ -649,21 +660,26 @@ class sliderModel extends Observer {
 					findIndex(item => item.val == this.conf.to);
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
 					item = incr(index);
-					if (item && item.val > this.conf.to &&
+					if (item == undefined) return 'newPos>100';
+					else if (item && item.val > this.conf.to &&
 						this.conf.to < this.conf.max) {
-						changeTo(item);
+						result = changeTo(item);
 					}
+					else result = 'too big newPos';
 				} else {//Уменьшение значения
 					item = decr(index);
-					if (item.val >= this.conf.from &&
+					if (item == undefined) return 'newPos<0';
+					else if (item.val >= this.conf.from &&
 						this.conf.to > this.conf.from) {
-						changeTo(item);
+						result = changeTo(item);
 					}
+					else result = 'too small newPos';
 				}
 			}
 		}
 		this.calcBar();
 		this.onChange(this.conf);
+		return result;
 	}
 
 	/*Рассчитываем новое значение ползунка на основании min, max и позиции (%)*/
