@@ -42,6 +42,7 @@ describe('ViewScale', () => {
 		expect(testViewControl).toBeInstanceOf(sliderViewControl);
 		expect(testViewScale).toBeInstanceOf(sliderViewScale);
 		expect(testViewBar).toBeInstanceOf(sliderViewBar);
+		expect(testView.viewControl.observers).toHaveLength(2);
 	});
 
 	test('updateFromPos', async () => {

@@ -153,6 +153,7 @@ describe('ViewScale', () => {
 		jest.spyOn(global, 'setTimeout');
 		mockCustomEvent(window,
 			{ eventType: 'optimizedResize' });
+		jest.runAllTimers();
 		expect(setTimeout).toHaveBeenCalledTimes(14);
 		expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 200);
 	});
