@@ -65,7 +65,7 @@ class sliderModel extends Observer {
 		joinedConf = Object.assign(joinedConf,
 			this.conf, this.startConf, this.backEndConf);
 		//проверим корректность полученных параметров конфигурации и при необходимости - исправим
-		this.conf = this.checkConf(joinedConf);
+		return this.conf = this.checkConf(joinedConf);
 	}
 
 	public start() {
@@ -462,12 +462,12 @@ class sliderModel extends Observer {
 		if (newPos < 0) {
 			isStop = true;
 			this.calcVal('min', 0, moovingControl);
-			return;
+			return 'newPos < 0';
 		}
 		if (newPos > 100) {
 			isStop = true;
 			this.calcVal('max', 0, moovingControl);
-			return;
+			return 'newPos > 100';
 		}
 
 		/*запрещаем ползункам перепрыгивать друг через друга, если это не single режим*/
@@ -476,14 +476,14 @@ class sliderModel extends Observer {
 				if (newPos > this.data.toPos) {
 					isStop = true;
 					this.calcVal('meetMax', 0, moovingControl);
-					return;
+					return 'newPos > toPos';
 				}
 			}
 			if (moovingControl == 'max') {//двигается max ползунок
 				if (newPos < this.data.fromPos) {
 					isStop = true;
 					this.calcVal('meetMin', 0, moovingControl);
-					return;
+					return 'newPos < fromPos';
 				}
 			}
 		}
@@ -500,6 +500,10 @@ class sliderModel extends Observer {
 
 		this.calcBar();
 		this.onChange(this.conf);
+
+		return newPos;
+
+
 	}
 
 
