@@ -7,16 +7,16 @@ import {
 import { Observer } from '../observer';
 
 class sliderModel extends Observer {
-	changeMode: boolean;
-	conf: IConf;
-	startConf: IConf;
-	backEndConf: IConf;
-	methods: Imethods;
-	data: Idata;
-	onStart?: Function;
-	onUpdate?: Function;
-	onChange?: Function;
-	noCalVal: boolean;
+	private changeMode: boolean;
+	public conf: IConf;
+	private startConf: IConf;
+	private backEndConf: IConf;
+	private methods: Imethods;
+	private data: Idata;
+	private onStart?: Function;
+	private onUpdate?: Function;
+	private onChange?: Function;
+	private noCalVal: boolean;
 
 	constructor(conf: IConf) {
 		super();
@@ -77,6 +77,8 @@ class sliderModel extends Observer {
 		this.calcToPosition();
 		this.calcBar();
 		this.onStart(this.conf);
+		//console.log(this.data);
+
 	}
 
 
@@ -178,6 +180,9 @@ class sliderModel extends Observer {
 			}
 		}
 		this.noCalVal = false;
+		//console.log(Object.assign(this.conf, this.data));
+
+		return Object.assign(this.conf, this.data);
 	}
 	/*находим изменившийся параметр и меняем соотв-щее св-во объекта this.methods; это нужно чтобы не выполнять одни и те же 
 	действия несколько раз, если получаем несколько параметров, требующих запуска одного и того же метода в модели*/
@@ -194,7 +199,6 @@ class sliderModel extends Observer {
 						this.methods.calcFromPosition = true;
 						this.methods.calcToPosition = true;
 						this.methods.calcBar = true;
-
 						break;
 					case 'max':
 						this.noCalVal = false;
@@ -202,6 +206,7 @@ class sliderModel extends Observer {
 						this.methods.calcFromPosition = true;
 						this.methods.calcToPosition = true;
 						this.methods.calcBar = true;
+						//console.log(this.data);
 						break;
 					case 'from':
 						this.methods.calcFromPosition = true;
@@ -214,6 +219,7 @@ class sliderModel extends Observer {
 					case 'step':
 						this.methods.calcScale = true;
 						this.methods.updateControlPos = true;
+						//console.log(this.data);
 						break;
 					case 'interval':
 						this.methods.calcScale = true;
@@ -224,6 +230,7 @@ class sliderModel extends Observer {
 						break;
 					case 'vertical':
 						this.methods.switchVertical = true;
+						//(this.data);
 						break;
 					case 'range':
 						this.methods.switchRange = true;
@@ -301,7 +308,7 @@ class sliderModel extends Observer {
 	}
 	// рассчитать позицию From (%) на основании значений from, min и max
 	private calcFromPosition() {
-		console.log('calcFromPosition');
+		//console.log('calcFromPosition');
 
 		this.data.fromPos = ((this.conf.from -
 			this.conf.min) * 100) /
