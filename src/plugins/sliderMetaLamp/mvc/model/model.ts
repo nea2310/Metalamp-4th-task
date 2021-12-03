@@ -189,14 +189,15 @@ class sliderModel extends Observer {
 			} else {
 				switch (key) {
 					case 'min':
-						this.noCalVal = true;
+						this.noCalVal = false;
 						this.methods.calcScale = true;
 						this.methods.calcFromPosition = true;
 						this.methods.calcToPosition = true;
 						this.methods.calcBar = true;
+
 						break;
 					case 'max':
-						this.noCalVal = true;
+						this.noCalVal = false;
 						this.methods.calcScale = true;
 						this.methods.calcFromPosition = true;
 						this.methods.calcToPosition = true;
@@ -300,6 +301,8 @@ class sliderModel extends Observer {
 	}
 	// рассчитать позицию From (%) на основании значений from, min и max
 	private calcFromPosition() {
+		console.log('calcFromPosition');
+
 		this.data.fromPos = ((this.conf.from -
 			this.conf.min) * 100) /
 			(this.conf.max - this.conf.min);

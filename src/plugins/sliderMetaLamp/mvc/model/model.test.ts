@@ -72,7 +72,7 @@ describe('model', () => {
 		testModel.start();
 
 		expect(testModel.calcPos(
-			'pointerevent', 50, 50, 100, 100, 10, 10, 0.5, 'min')). //надо передавать имя события
+			'pointerevent', 50, 50, 100, 100, 10, 10, 0.5, 'min')).
 			toBe(0);
 
 		expect(testModel.calcPos(
