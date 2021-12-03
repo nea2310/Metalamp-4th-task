@@ -6,13 +6,12 @@ block content
 	main(class='sliderMetaLamp')
 		div(class='sliderMetaLamp__wrapper')
 			+rangeslider({
-				min: '-100',
+				min: '10',
 				max: '100',
-				from: '-50',
-				to: '50',
-				scaleBase: 'interval',
-				interval: '20',
-				shiftOnKeyHold:'5',
+				from: '10',
+				to: '100',
+				step: '9',
+				shiftOnKeyHold:'2',
 				radioGroupName: 'radio1'
 					})
 

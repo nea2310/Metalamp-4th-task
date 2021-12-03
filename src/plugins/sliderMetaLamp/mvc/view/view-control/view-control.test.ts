@@ -215,7 +215,7 @@ describe('ViewControl event listeners', () => {
 			{ eventType: 'touchmove' });
 		expect(calcPosSpy).toBeCalledTimes(1);
 		expect(calcPosSpy).toBeCalledWith(
-			undefined, 0, 0, 0, 0, 0, 0, undefined, "max");
+			'touchmove', 0, 0, 0, 0, 0, 0, undefined, "max");
 	});
 
 	test('notifies observer about control mooving made by mouse', () => {
@@ -225,7 +225,7 @@ describe('ViewControl event listeners', () => {
 			{ eventType: 'pointermove', clientY: 100, clientX: 1000 });
 		expect(calcPosSpy).toBeCalledTimes(1);
 		expect(calcPosSpy).toBeCalledWith(
-			undefined, 100, 1000, 0, 0, 0, 0, 100, "max");
+			'pointermove', 100, 1000, 0, 0, 0, 0, 100, "max");
 	});
 
 	test('notifies observer about clicking on the track', () => {

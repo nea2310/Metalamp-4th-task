@@ -100,6 +100,7 @@ class sliderViewControl extends Observer {
 				this.getMetrics(target);
 
 				const pointerMoveHandler = (e: PointerEvent) => {
+					T.type = e.type;
 					T.clientX = e.clientX;
 					T.clientY = e.clientY;
 					this.fire('MoveEvent', this.data);
@@ -139,6 +140,7 @@ class sliderViewControl extends Observer {
 				this.getMetrics(target);
 
 				const pointerMoveHandler = (e: TouchEvent) => {
+					T.type = e.type;
 					T.clientX =
 						e.targetTouches[0] ? e.targetTouches[0].clientX : 0;
 					T.clientY =

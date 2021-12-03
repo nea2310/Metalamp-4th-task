@@ -426,7 +426,7 @@ class sliderModel extends Observer {
 
 
 	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале
-	public calcPos(type: string,
+	public calcPos(type: string = 'pointerevent',
 		clientY: number,
 		clientX: number,
 		top: number,
@@ -558,12 +558,16 @@ class sliderModel extends Observer {
 			if (moovingControl == 'min') {// Ползунок min
 				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
 					/*проверяем, что FROM не стал больше TO или MAX*/
-					const checkMaxRange = this.conf.range && this.conf.from <
+					const belowMaxRange = this.conf.range && this.conf.from <
 						this.conf.to;
-					const checkMaxNoRange = !this.conf.range &&
+					const belowMaxNoRange = !this.conf.range &&
 						this.conf.from < this.conf.max;
+					const aboveMaxRange = this.conf.range &&
+						this.conf.from >= this.conf.to;
+					const aboveMaxNoRange = !this.conf.range &&
+						this.conf.from >= this.conf.max;
 
-					if (checkMaxRange || checkMaxNoRange) {
+					if (belowMaxRange || belowMaxNoRange) {
 						newVal = repeat ?
 							this.conf.from +
 							this.conf.shiftOnKeyHold :
@@ -575,8 +579,15 @@ class sliderModel extends Observer {
 						if (!this.conf.range && newVal > this.conf.max) {
 							newVal = this.conf.max;
 						}
-					} else return 'too big newPos';
-				} else {// Уменьшение значения
+					}
+					if (aboveMaxRange) {
+						newVal = this.conf.to;
+					}
+					if (aboveMaxNoRange) {
+						newVal = this.conf.max;
+					}
+				}
+				else {// Уменьшение значения
 					if (this.conf.from > this.conf.min) {
 						newVal = repeat ?
 							this.conf.from -
@@ -586,7 +597,9 @@ class sliderModel extends Observer {
 						if (newVal < this.conf.min) {
 							newVal = this.conf.min;
 						}
-					} else return 'too small newPos';
+					} else {
+						newVal = this.conf.min;
+					}
 				}
 
 				this.data.fromVal = String(newVal);
@@ -607,7 +620,7 @@ class sliderModel extends Observer {
 						if (newVal > this.conf.max) {
 							newVal = this.conf.max;
 						}
-					} else return 'too big newPos';
+					} else newVal = this.conf.max;
 				} else {// Уменьшение значения
 					if (this.conf.to > this.conf.from) {
 						newVal = repeat ?
@@ -618,7 +631,7 @@ class sliderModel extends Observer {
 						if (newVal < this.conf.from) {
 							newVal = this.conf.from;
 						}
-					} else return 'too small newPos';
+					} else newVal = this.conf.from;
 				}
 				this.data.toVal = String(newVal);
 				this.conf.to = newVal;
@@ -681,12 +694,6 @@ class sliderModel extends Observer {
 		this.onChange(this.conf);
 		return result;
 	}
-
-	/*Рассчитываем новое значение ползунка на основании min, max и позиции (%)*/
-
-
-
-
 }
 
 export { sliderModel };
