@@ -2,16 +2,17 @@ import { IConf, Idata } from '../../interface';
 import { Observer } from '../../observer';
 
 class sliderViewControl extends Observer {
-	conf: IConf;
-	slider: HTMLElement;
-	root: HTMLInputElement;
-	controlMin: HTMLElement;
-	controlMax: HTMLElement;
-	tipMin: HTMLInputElement;
-	tipMax: HTMLInputElement;
-	track: HTMLInputElement;
-	data: Idata;
-	initDone: boolean;
+	public controlMin: HTMLElement;
+	public controlMax: HTMLElement;
+	public tipMin: HTMLInputElement;
+	public tipMax: HTMLInputElement;
+	public track: HTMLInputElement;
+
+	private conf: IConf;
+	private slider: HTMLElement;
+	private root: HTMLInputElement;
+	private data: Idata;
+	private initDone: boolean;
 
 	constructor(sliderElem: HTMLElement, conf: IConf) {
 		super();

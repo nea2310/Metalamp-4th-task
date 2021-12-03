@@ -3,14 +3,14 @@ import {
 } from '../../interface';
 
 class sliderViewScale {
-	slider: HTMLElement;
-	startWidth: number = 0;
-	track: HTMLElement;
-	markList: HTMLElement[];
-	conf: IConf;
-	lastLabelRemoved: boolean;
-	scaleMarks: { 'pos'?: number, 'val'?: number }[];
-	calcMarkList: boolean
+	private slider: HTMLElement;
+	private startWidth: number = 0;
+	private track: HTMLElement;
+	private markList: HTMLElement[];
+	private conf: IConf;
+	private lastLabelRemoved: boolean;
+	private scaleMarks: { 'pos'?: number, 'val'?: number }[];
+	private calcMarkList: boolean
 
 	constructor(
 		slider: HTMLElement,

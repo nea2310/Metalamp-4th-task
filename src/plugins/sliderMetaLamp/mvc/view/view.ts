@@ -7,17 +7,17 @@ import { Observer } from '../observer';
 
 
 class sliderView extends Observer {
-	viewControl: sliderViewControl;
-	viewScale: sliderViewScale;
-	viewBar: sliderViewBar;
+	public viewControl: sliderViewControl;
+	public viewScale: sliderViewScale;
+	public viewBar: sliderViewBar;
 
-	root: HTMLElement;
-	slider: HTMLElement;
-	track: HTMLElement;
-	frame: HTMLElement;
-	conf: IConf;
-	backEndConf: IConf;
-	backEndConfTest: any
+	private root: HTMLElement;
+	public slider: HTMLElement;
+	private track: HTMLElement;
+	private frame: HTMLElement;
+	private conf: IConf;
+	public backEndConf: IConf;
+
 
 
 	constructor(root: Element, i: number) {
@@ -103,8 +103,6 @@ class sliderView extends Observer {
 		this.createSubViews();
 		this.createListeners();//срабатывает после инициализации модели
 		this.switchVertical(conf);
-		//console.log(this);
-
 	}
 
 	private createSubViews() {
@@ -120,8 +118,6 @@ class sliderView extends Observer {
 	}
 
 	public updateFromPos = (data: Idata, conf: IConf) => {
-		// console.log('conf view:');
-		// console.log(conf);
 		this.viewControl.updatePos(this.viewControl.controlMin,
 			data.fromPos);
 		this.viewControl.updateInput(conf);
@@ -181,14 +177,14 @@ class sliderView extends Observer {
 		this.viewControl.switchTip(conf);
 	}
 
-	private handleMoveEvent = (key: string, data: Idata) => {//почему здесь теряется this, если сделать обычную функцию?
+	private handleMoveEvent = (key: string, data: Idata) => {
 		if (key !== 'MoveEvent') return;
 		else {
 			this.fire('MoveEvent', data);
 		}
 	}
 
-	private handleKeydownEvent = (key: string, data: Idata) => {//почему здесь теряется this, если сделать обычную функцию?
+	private handleKeydownEvent = (key: string, data: Idata) => {
 		if (key !== 'KeydownEvent') return;
 		else {
 			this.fire('KeydownEvent', data);

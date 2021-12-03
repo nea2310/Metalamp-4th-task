@@ -253,11 +253,7 @@
 <a name='L194'></a><a href='#L194'>194</a>
 <a name='L195'></a><a href='#L195'>195</a>
 <a name='L196'></a><a href='#L196'>196</a>
-<a name='L197'></a><a href='#L197'>197</a>
-<a name='L198'></a><a href='#L198'>198</a>
-<a name='L199'></a><a href='#L199'>199</a>
-<a name='L200'></a><a href='#L200'>200</a>
-<a name='L201'></a><a href='#L201'>201</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L197'></a><a href='#L197'>197</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -268,8 +264,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -407,7 +401,6 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -456,7 +449,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { sliderViewControl } from
 	'./../view/view-control/view-control';
 import { sliderViewScale } from './../view/view-scale/view-scale';
@@ -466,17 +458,17 @@ import { Observer } from '../observer';
 &nbsp;
 &nbsp;
 class sliderView extends Observer {
-	viewControl: sliderViewControl;
-	viewScale: sliderViewScale;
-	viewBar: sliderViewBar;
+	public viewControl: sliderViewControl;
+	public viewScale: sliderViewScale;
+	public viewBar: sliderViewBar;
 &nbsp;
-	root: HTMLElement;
-	slider: HTMLElement;
-	track: HTMLElement;
-	frame: HTMLElement;
-	conf: IConf;
-	backEndConf: IConf;
-	backEndConfTest: any
+	private root: HTMLElement;
+	public slider: HTMLElement;
+	private track: HTMLElement;
+	private frame: HTMLElement;
+	private conf: IConf;
+	public backEndConf: IConf;
+&nbsp;
 &nbsp;
 &nbsp;
 	constructor(root: Element, i: number) {
@@ -502,10 +494,10 @@ class sliderView extends Observer {
 	}
 &nbsp;
 	private collectParms() {
-&nbsp;
-		this.backEndConf = {};
-		let map = new Map();<span class="fstat-no" title="function not covered" ></span>
-		let arr = <span class="cstat-no" title="statement not covered" >['min',</span>
+<span class="fstat-no" title="function not covered" ></span>
+		this.backE<span class="cstat-no" title="statement not covered" >ndConf = {};</span>
+		let map = new Map();
+		let arr = ['min',
 			'max',
 			'from',
 			'to',
@@ -562,8 +554,6 @@ class sliderView extends Observer {
 		this.createSubViews();
 		this.createListeners();//срабатывает после инициализации модели
 		this.switchVertical(conf);
-		//console.log(this);
-&nbsp;
 	}
 &nbsp;
 	private createSubVi<span class="cstat-no" title="statement not covered" >ews() {</span>
@@ -579,25 +569,23 @@ class sliderView extends Observer {
 	}
 <span class="cstat-no" title="statement not covered" ></span>
 	public updateFr<span class="cstat-no" title="statement not covered" >omPos = (data: Idata, co</span>nf: IConf) =&gt; {
-		// console.log('conf view:');
-		// console.log(conf);
-		this.viewC<span class="cstat-no" title="statement not covered" >ontrol.updatePos(this.viewControl.controlMin,</span>
-			data.fromPos)<span class="cstat-no" title="statement not covered" >;</span>
-		this.viewControl.updateInput(conf);
-	}
-<span class="cstat-no" title="statement not covered" ></span>
-	public updateTo<span class="cstat-no" title="statement not covered" >Pos = (data: Idata, conf: IConf) =&gt; </span>{
-		this.viewContr<span class="cstat-no" title="statement not covered" >ol.updatePos(this.vie</span>wControl.controlMax,
-			data.toPos);
+		this.viewControl.updatePos(this.viewControl.controlMin,
+			data.fromPos);
 		this.viewC<span class="cstat-no" title="statement not covered" >ontrol.updateInput(conf);</span>
 	}<span class="cstat-no" title="statement not covered" ></span>
+&nbsp;
+	public updateToPos = (data: Idata, conf: IConf) =&gt; {
+		this.viewC<span class="cstat-no" title="statement not covered" >ontrol.updatePos(this.viewControl.controlMax,</span>
+			data.toPos);<span class="cstat-no" title="statement not covered" ></span>
+		this.viewContr<span class="cstat-no" title="statement not covered" >ol.updateInput(conf);</span>
+	}
 <span class="cstat-no" title="statement not covered" ></span>
-	public updateFromVal = (data: Idata) =&gt; {
-		this.viewC<span class="cstat-no" title="statement not covered" >ontrol.updateVal(data.fromVal, true);</span>
-	}<span class="cstat-no" title="statement not covered" ></span>
+	public updateFr<span class="cstat-no" title="statement not covered" >omVal = (data: Idata) =&gt; {</span>
+		this.viewContr<span class="cstat-no" title="statement not covered" >ol.updateVal(data.fro</span>mVal, true);
+	}
 <span class="cstat-no" title="statement not covered" ></span>
-	public updateToVal = (data: Idata) =&gt; {
-		this.viewControl.updateVal(data.toVal, false);
+	public updateTo<span class="cstat-no" title="statement not covered" >Val = (data: Idata) =&gt; {</span>
+		this.viewContr<span class="cstat-no" title="statement not covered" >ol.updateVal(data.toV</span>al, false);
 	}
 &nbsp;
 	public updateScale = (data: Idata, conf: IConf) =&gt; {
@@ -640,14 +628,14 @@ class sliderView extends Observer {
 		this.viewControl.switchTip(conf);
 	}
 &nbsp;
-	private handleMoveEvent = (key: string, data: Idata) =&gt; {//почему здесь теряется this, если сделать обычную функцию?
+	private handleMoveEvent = (key: string, data: Idata) =&gt; {
 		if (key !== 'MoveEvent') return;
 		else {
 			this.fire('MoveEvent', data);
 		}
 	}
 &nbsp;
-	private handleKeydownEvent = (key: string, data: Idata) =&gt; {//почему здесь теряется this, если сделать обычную функцию?
+	private handleKeydownEvent = (key: string, data: Idata) =&gt; {
 		if (key !== 'KeydownEvent') return;
 		else {
 			this.fire('KeydownEvent', data);
@@ -664,7 +652,7 @@ export { sliderView };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Dec 03 2021 18:35:45 GMT+0500 (Екатеринбург, стандартное время)
+                at Fri Dec 03 2021 20:46:01 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         </div>
         <script src="../../prettify.js"></script>

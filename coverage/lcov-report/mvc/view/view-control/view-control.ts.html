@@ -391,7 +391,8 @@
 <a name='L332'></a><a href='#L332'>332</a>
 <a name='L333'></a><a href='#L333'>333</a>
 <a name='L334'></a><a href='#L334'>334</a>
-<a name='L335'></a><a href='#L335'>335</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -725,20 +726,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { IConf, Idata } from '../../interface';
 import { Observer } from '../../observer';
 &nbsp;
 class sliderViewControl extends Observer {
-	conf: IConf;
-	slider: HTMLElement;
-	root: HTMLInputElement;
-	controlMin: HTMLElement;
-	controlMax: HTMLElement;
-	tipMin: HTMLInputElement;
-	tipMax: HTMLInputElement;
-	track: HTMLInputElement;
-	data: Idata;
-	initDone: boolean;
+	public controlMin: HTMLElement;
+	public controlMax: HTMLElement;
+	public tipMin: HTMLInputElement;
+	public tipMax: HTMLInputElement;
+	public track: HTMLInputElement;
+&nbsp;
+	private conf: IConf;
+	private slider: HTMLElement;
+	private root: HTMLInputElement;
+	private data: Idata;
+	private initDone: boolean;
 &nbsp;
 	constructor(sliderElem: HTMLElement, conf: IConf) {
 		super();
@@ -807,12 +810,12 @@ class sliderViewControl extends Observer {
 &nbsp;
 	// public test(param: any) {
 	// 	console.log(param);
-	// }
-	// Вешаем обработчики события нажатия мы<span class="fstat-no" title="function not covered" >шь</span>ю на ползунке (захвата ползунка) и перемещения ползунка 
+	// }<span class="fstat-no" title="function not covered" ></span>
+	// Вешаем обработчи<span class="cstat-no" title="statement not covered" >ки события нажатия мышью на ползунке </span>(захвата ползунка) и перемещения ползунка 
 	private dragControl<span class="cstat-no" title="statement not covered" >Mouse() {</span>
-		let pointerDownHan<span class="cstat-no" title="statement not covered" >dler = (e: PointerEvent) =&gt; {</span>
-			e.preventDefault();
-			const target = e.<span class="cstat-no" title="statement not covered" >target as HTMLElement;</span>
+		let pointerDownHandler = (e: PointerEvent) =&gt; {
+			e.preventDefault(<span class="cstat-no" title="statement not covered" >);</span>
+			const target = e.target as HTMLElement;
 			target.classList.add('grabbing');
 			const T = this.data.thumb;
 			if (target.classList.contains('rs__control')) {
@@ -823,9 +826,9 @@ class sliderViewControl extends Observer {
 				if (!this.conf.vertical) {
 					T.shiftBase = e.clientX -
 						target.getBoundingClientRect().left;
-				}
+				}<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
 				this.getMetrics(target);<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+&nbsp;
 				const pointerMoveHandler = (e: PointerEvent) =&gt; {
 					T.type = e.type;
 					T.clientX = e.clientX;
@@ -839,10 +842,10 @@ class sliderViewControl extends Observer {
 						removeEventListener('pointermove', pointerMoveHandler);
 					target.
 						removeEventListener('pointerup', pointerUpHandler);
-				};
-				/*elem.setPointerCapture(pointerId) – при<span class="branch-0 cbranch-no" title="branch not covered" >вязывает события с данным p</span>ointerId к elem. 
-				После такого вызова все события указателя с таким pointerId будут иметь elem в качестве целевого элемента 
-				(как будто произошли над elem), вне завис<span class="branch-0 cbranch-no" title="branch not covered" >имости от того, где в докум</span>енте они произошли.*/
+				};<span class="branch-0 cbranch-no" title="branch not covered" ></span>
+				/*elem.setPointerCapture(pointerId) – привязывает события с данным pointerId к elem. 
+				После такого вызова все события указателя<span class="branch-0 cbranch-no" title="branch not covered" > с таким pointerId будут им</span>еть elem в качестве целевого элемента 
+				(как будто произошли над elem), вне зависимости от того, где в документе они произошли.*/
 				target.setPointerCapture(e.pointerId);
 				target.addEventListener('pointermove', pointerMoveHandler);
 				target.addEventListener('pointerup', pointerUpHandler);
@@ -861,8 +864,8 @@ class sliderViewControl extends Observer {
 			const target = e.target as HTMLElement;
 			const T = this.data.thumb;
 			if (target.classList.contains('rs__control')) {
-&nbsp;
-				//определяем ползуно<span class="branch-0 cbranch-no" title="branch not covered" >к, за который тянут</span>
+<span class="branch-0 cbranch-no" title="branch not covered" ></span>
+				//определяем ползунок, за который тянут
 				T.moovingControl = this.defineControl(target);
 				this.getMetrics(target);
 &nbsp;
@@ -887,12 +890,12 @@ class sliderViewControl extends Observer {
 			const result = arr.indexOf(e.code);
 			if (result != -1) {
 				e.preventDefault();
-				const target = e.target as HTMLElement;
-				const T = th<span class="missing-if-branch" title="if path not taken" >I</span>is.data.thumb;
-<span class="cstat-no" title="statement not covered" ></span>
-				if (target.classList.contains('rs__control')) {
+				const target<span class="missing-if-branch" title="if path not taken" >I</span> = e.target as HTMLElement;
+				const T = this.d<span class="cstat-no" title="statement not covered" >ata.thumb;</span>
 &nbsp;
-					//определяем по<span class="cstat-no" title="statement not covered" >лзунок, на который нажимают</span>
+				if (target.classList.contains('rs__control')) {
+<span class="cstat-no" title="statement not covered" ></span>
+					//определяем ползунок, на который нажимают
 					target.classList.contains('rs__control-min') ?
 						T.moovingControl = 'min' :
 						T.moovingControl = 'max';
@@ -912,14 +915,14 @@ class sliderViewControl extends Observer {
 			const T = this.data.thumb;
 &nbsp;
 			let arr =
-				['rs__track',
-					'rs__progre<span class="missing-if-branch" title="if path not taken" >I</span>ssBar',
-					'rs__label',<span class="cstat-no" title="statement not covered" ></span>
+				['rs__track'<span class="missing-if-branch" title="if path not taken" >I</span>,
+					'rs__progressBa<span class="cstat-no" title="statement not covered" >r',</span>
+					'rs__label',
 					'rs__mark',
 					'rs__frame'];
 			const result = [...target.classList].some(className =&gt;
-				arr.indexOf(className) !== -1);
-			if (result) {<span class="branch-1 cbranch-no" title="branch not covered" ></span>
+				arr.indexOf(classNam<span class="branch-1 cbranch-no" title="branch not covered" >e) !== -1);</span>
+			if (result) {
 				let controlMinDist = 0;
 				let controlMaxDist = 0;
 				//определяем расстояние от места клика до каждого из бегунков
@@ -1066,7 +1069,7 @@ export { sliderViewControl };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Dec 03 2021 18:35:45 GMT+0500 (Екатеринбург, стандартное время)
+                at Fri Dec 03 2021 20:46:01 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         </div>
         <script src="../../../prettify.js"></script>

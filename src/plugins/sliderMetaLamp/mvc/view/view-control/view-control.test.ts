@@ -64,53 +64,56 @@ const conf: IConf = {
 	shiftOnKeyDown: 1,
 	shiftOnKeyHold: 1,
 };
+const getElem = (selector: string) =>
+	document.getElementsByClassName(selector)[0] as HTMLElement;
 
 const testModel = new sliderModel(conf);
 const testView = new sliderView(parent, 0);
-const testController = new sliderController(testModel, testView);
-
+new sliderController(testModel, testView);
 const testViewControl = testView.viewControl;
+
 const calcPosSpy = jest.spyOn(testModel, 'calcPos');
 const calcPosKeySpy = jest.spyOn(testModel, 'calcPosKey');
-//const testSpy = jest.spyOn(testViewControl, 'test');
 
-const updatePosSpy = jest.spyOn(testViewControl, 'updatePos');
-
-
+const controlMin = getElem('rs__control-min');
+const controlMax = getElem('rs__control-max');
+const tipMin = getElem('rs__tip-min');
+const tipMax = getElem('rs__tip-max');
+const track = getElem('rs__track');
 
 
 describe('apply styles on calling ViewControl method', () => {
 
 	test('updatePos', async () => {
-		expect(testViewControl.controlMax).
+		expect(controlMax).
 			toHaveProperty('style.left', '66.66666666666667%');
-		expect(testViewControl.controlMax).
+		expect(controlMax).
 			toHaveProperty('style.bottom', '');
 		/*
 		Это не протестируешь, т.к. в расчетах используется offsetWidth
-				expect(testViewControl.tipMax).
+				expect(tipMax).
 					toHaveProperty('style.left', '0px');
-				expect(testViewControl.tipMax).
+				expect(tipMax).
 					toHaveProperty('style.bottom', '');
 		*/
-		await testViewControl.updatePos(testViewControl.controlMax, 50);
+		await testViewControl.updatePos(controlMax, 50);
 
-		expect(testViewControl.controlMax).toHaveProperty('style.left', '50%');
-		expect(testViewControl.controlMax).toHaveProperty('style.bottom', '');
+		expect(controlMax).toHaveProperty('style.left', '50%');
+		expect(controlMax).toHaveProperty('style.bottom', '');
 		/*
 		Это не протестируешь, т.к. в расчетах используется offsetWidth
-				expect(testViewControl.tipMax).toHaveProperty('style.left', '0px');
-				expect(testViewControl.tipMax).toHaveProperty('style.bottom', '');
+				expect(tipMax).toHaveProperty('style.left', '0px');
+				expect(tipMax).toHaveProperty('style.bottom', '');
 		*/
 	});
 
 	test('change tip inner text on calling updateVal method', async () => {
-		expect(testViewControl.tipMin.innerText).toBe('20');
-		expect(testViewControl.tipMax.innerText).toBe('70');
+		expect(tipMin.innerText).toBe('20');
+		expect(tipMax.innerText).toBe('70');
 		await testViewControl.updateVal('25', true);
 		await testViewControl.updateVal('30', false);
-		expect(testViewControl.tipMin.innerText).toBe('25');
-		expect(testViewControl.tipMax.innerText).toBe('30');
+		expect(tipMin.innerText).toBe('25');
+		expect(tipMax.innerText).toBe('30');
 	});
 
 
@@ -124,77 +127,77 @@ describe('apply styles on calling ViewControl method', () => {
 
 
 	test('toggle classes on calling switchVertical method', async () => {
-		expect(testViewControl.controlMin.classList.contains('vert')).
+		expect(controlMin.classList.contains('vert')).
 			toBe(false);
-		expect(testViewControl.controlMax.classList.contains('vert')).
+		expect(controlMax.classList.contains('vert')).
 			toBe(false);
-		expect(testViewControl.tipMin.classList.contains('vert')).
+		expect(tipMin.classList.contains('vert')).
 			toBe(false);
-		expect(testViewControl.tipMax.classList.contains('vert')).
+		expect(tipMax.classList.contains('vert')).
 			toBe(false);
 		await testViewControl.switchVertical({ vertical: true });
-		expect(testViewControl.controlMin.classList.contains('vert')).
+		expect(controlMin.classList.contains('vert')).
 			toBe(true);
-		expect(testViewControl.controlMax.classList.contains('vert')).
+		expect(controlMax.classList.contains('vert')).
 			toBe(true);
-		expect(testViewControl.tipMin.classList.contains('vert')).
+		expect(tipMin.classList.contains('vert')).
 			toBe(true);
-		expect(testViewControl.tipMax.classList.contains('vert')).
+		expect(tipMax.classList.contains('vert')).
 			toBe(true);
 		await testViewControl.switchVertical({ vertical: false });
-		expect(testViewControl.controlMin.classList.contains('vert')).
+		expect(controlMin.classList.contains('vert')).
 			toBe(false);
-		expect(testViewControl.controlMax.classList.contains('vert')).
+		expect(controlMax.classList.contains('vert')).
 			toBe(false);
-		expect(testViewControl.tipMin.classList.contains('vert')).
+		expect(tipMin.classList.contains('vert')).
 			toBe(false);
-		expect(testViewControl.tipMax.classList.contains('vert')).
+		expect(tipMax.classList.contains('vert')).
 			toBe(false);
 	});
 
 	test('toggle class hidden on calling switchRange method', async () => {
-		expect(testViewControl.controlMin.classList.contains('hidden')).
+		expect(controlMin.classList.contains('hidden')).
 			toBe(false);
-		expect(testViewControl.controlMax.classList.contains('hidden')).
+		expect(controlMax.classList.contains('hidden')).
 			toBe(false);
-		expect(testViewControl.tipMin.classList.contains('hidden')).
+		expect(tipMin.classList.contains('hidden')).
 			toBe(false);
-		expect(testViewControl.tipMax.classList.contains('hidden')).
+		expect(tipMax.classList.contains('hidden')).
 			toBe(false);
 		await testViewControl.switchRange({ range: false, tip: true });
-		expect(testViewControl.controlMin.classList.contains('hidden')).
+		expect(controlMin.classList.contains('hidden')).
 			toBe(false);
-		expect(testViewControl.controlMax.classList.contains('hidden')).
+		expect(controlMax.classList.contains('hidden')).
 			toBe(true);
-		expect(testViewControl.tipMin.classList.contains('hidden')).
+		expect(tipMin.classList.contains('hidden')).
 			toBe(false);
-		expect(testViewControl.tipMax.classList.contains('hidden')).
+		expect(tipMax.classList.contains('hidden')).
 			toBe(true);
 		await testViewControl.switchRange({ range: true, tip: true });
-		expect(testViewControl.controlMin.classList.contains('hidden')).
+		expect(controlMin.classList.contains('hidden')).
 			toBe(false);
-		expect(testViewControl.controlMax.classList.contains('hidden')).
+		expect(controlMax.classList.contains('hidden')).
 			toBe(false);
-		expect(testViewControl.tipMin.classList.contains('hidden')).
+		expect(tipMin.classList.contains('hidden')).
 			toBe(false);
-		expect(testViewControl.tipMax.classList.contains('hidden')).
+		expect(tipMax.classList.contains('hidden')).
 			toBe(false);
 	});
 
 	test('toggle class hidden on calling switchTip method', async () => {
-		expect(testViewControl.tipMin.classList.contains('hidden')).
+		expect(tipMin.classList.contains('hidden')).
 			toBe(false);
-		expect(testViewControl.tipMax.classList.contains('hidden')).
+		expect(tipMax.classList.contains('hidden')).
 			toBe(false);
 		await testViewControl.switchTip({ range: true, tip: false });
-		expect(testViewControl.tipMin.classList.contains('hidden')).
+		expect(tipMin.classList.contains('hidden')).
 			toBe(true);
-		expect(testViewControl.tipMax.classList.contains('hidden')).
+		expect(tipMax.classList.contains('hidden')).
 			toBe(true);
 		await testViewControl.switchTip({ range: true, tip: true });
-		expect(testViewControl.tipMin.classList.contains('hidden')).
+		expect(tipMin.classList.contains('hidden')).
 			toBe(false);
-		expect(testViewControl.tipMax.classList.contains('hidden')).
+		expect(tipMax.classList.contains('hidden')).
 			toBe(false);
 	});
 
@@ -209,9 +212,9 @@ describe('ViewControl event listeners', () => {
 
 
 	test('notifies observer about control mooving made by touching', () => {
-		mockTouchEvent(testViewControl.controlMax,
+		mockTouchEvent(controlMax,
 			{ eventType: 'touchstart' });
-		mockTouchEvent(testViewControl.controlMax,
+		mockTouchEvent(controlMax,
 			{ eventType: 'touchmove' });
 		expect(calcPosSpy).toBeCalledTimes(1);
 		expect(calcPosSpy).toBeCalledWith(
@@ -219,9 +222,9 @@ describe('ViewControl event listeners', () => {
 	});
 
 	test('notifies observer about control mooving made by mouse', () => {
-		mockPointerEvent(testViewControl.controlMax,
+		mockPointerEvent(controlMax,
 			{ eventType: 'pointerdown', clientY: 100, clientX: 100 });
-		mockPointerEvent(testViewControl.controlMax,
+		mockPointerEvent(controlMax,
 			{ eventType: 'pointermove', clientY: 100, clientX: 1000 });
 		expect(calcPosSpy).toBeCalledTimes(1);
 		expect(calcPosSpy).toBeCalledWith(
@@ -229,7 +232,7 @@ describe('ViewControl event listeners', () => {
 	});
 
 	test('notifies observer about clicking on the track', () => {
-		mockPointerEvent(testViewControl.track,
+		mockPointerEvent(track,
 			{ eventType: 'pointerdown', clientY: 100, clientX: 100 });
 		expect(calcPosSpy).toBeCalledTimes(1);
 		expect(calcPosSpy).toBeCalledWith(
@@ -237,7 +240,7 @@ describe('ViewControl event listeners', () => {
 	});
 
 	test('notifies observer about pressing on a focused control', () => {
-		mockKeyboardEvent(testViewControl.controlMax,
+		mockKeyboardEvent(controlMax,
 			{ eventType: 'keydown', key: 'ArrowLeft', repeat: false });
 		expect(calcPosKeySpy).toBeCalledTimes(1);
 		expect(calcPosKeySpy).toBeCalledWith('ArrowLeft', false, 'max');

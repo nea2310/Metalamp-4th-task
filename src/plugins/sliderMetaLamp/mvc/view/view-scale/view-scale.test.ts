@@ -73,7 +73,6 @@ const conf = {
 function prepareInstance(
 	scaleMarks: { 'pos'?: number, 'val'?: number }[],
 	conf: IConf,
-	lastLabelRemoved: boolean,
 	mockDimensions: boolean) {
 
 	const root = document.createElement('input');
@@ -90,9 +89,6 @@ function prepareInstance(
 	}
 	else {
 		testViewScale = new sliderViewScale(slider, track, conf);
-	}
-	if (lastLabelRemoved) {
-		testViewScale.lastLabelRemoved = true;
 	}
 
 	function createScale(conf: IConf) {
@@ -113,7 +109,7 @@ describe('ViewScale', () => {
 	// eslint-disable-next-line max-len
 	test('scale marks are not hidden if their total width (height) is less or equal to slider width (height)', () => {
 		const testViewScale = prepareInstance(
-			marksArr, conf, true, false
+			marksArr, conf, false
 		);
 		expect(testViewScale.createScale(marksArr, {
 			scale: true,
@@ -125,7 +121,7 @@ describe('ViewScale', () => {
 	// eslint-disable-next-line max-len
 	test('scale marks are hidden if their total width (height) is less or equal to slider width (height)', () => {
 		const testViewScale = prepareInstance(
-			marksArr, conf, false, true
+			marksArr, conf, true
 		);
 		expect(testViewScale.createScale(marksArr, {
 			scale: true,
@@ -136,7 +132,7 @@ describe('ViewScale', () => {
 
 	test('switchScale', () => {
 		const testViewScale = prepareInstance(
-			marksArr, conf, false, false
+			marksArr, conf, false
 		);
 		const a = testViewScale.switchScale({
 			scale: true,

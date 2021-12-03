@@ -3,19 +3,19 @@ import {
 } from '../../interface';
 
 class sliderViewBar {
-	slider: HTMLElement;
-	track: HTMLElement;
-	elem: HTMLElement;
-	progressBar: HTMLElement;
-	controlMin: HTMLElement;
-	controlMax: HTMLElement;
-	controlMinDist: number;
-	controlMaxDist: number;
-	markList: HTMLElement[];
-	conf: IConf;
-	scale: HTMLElement;
-	checkNext: boolean;
-	lastLabelRemoved: boolean;
+	private slider: HTMLElement;
+	private track: HTMLElement;
+	private elem: HTMLElement;
+	private progressBar: HTMLElement;
+	private controlMin: HTMLElement;
+	private controlMax: HTMLElement;
+	private controlMinDist: number;
+	private controlMaxDist: number;
+	private markList: HTMLElement[];
+	private conf: IConf;
+	private scale: HTMLElement;
+	private checkNext: boolean;
+	private lastLabelRemoved: boolean;
 
 	constructor(root: HTMLElement, conf: IConf) {
 		this.slider = root;
