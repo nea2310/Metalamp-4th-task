@@ -137,11 +137,13 @@ describe('ViewScale', () => {
 		const a = testViewScale.switchScale({
 			scale: true,
 		});
-		expect(a[0].classList.contains('visually-hidden')).toBe(false);
+		expect(a[0].classList.contains('rs-metalamp__mark_visually-hidden')).
+			toBe(false);
 		const b = testViewScale.switchScale({
 			scale: false,
 		});
-		expect(b[0].classList.contains('visually-hidden')).toBe(true);
+		expect(b[0].classList.contains('rs-metalamp__mark_visually-hidden')).
+			toBe(true);
 	});
 
 	test('resize', async () => {

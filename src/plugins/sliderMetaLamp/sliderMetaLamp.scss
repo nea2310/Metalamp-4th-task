@@ -149,7 +149,7 @@
 	position: absolute;
 }
 
-.rs-metalamp__mark.no-label {
+.rs-metalamp__mark_no-label {
 	background-color: grey;
 }
 
@@ -161,8 +161,11 @@
 
 .rs-metalamp__mark_horizontal {
 	margin-top: 15px;
-
 	width: 1px;
+}
+
+.rs-metalamp__mark_visually-hidden {
+	opacity: 0;
 }
 
 .rs-metalamp__label {
@@ -180,6 +183,10 @@
 	position: absolute;
 	left: 10px;
 	padding: 5px 0;
+}
+
+.rs-metalamp__label_hidden {
+	display: none;
 }
 .rs-metalamp__tip {
 	cursor: default;
@@ -209,10 +216,10 @@
 	display: none;
 }
 
-.hidden {
-	display: none;
-}
+// .hidden {
+// 	display: none;
+// }
 
-.visually-hidden {
-	opacity: 0;
-}
+// .visually-hidden {
+// 	opacity: 0;
+// }
