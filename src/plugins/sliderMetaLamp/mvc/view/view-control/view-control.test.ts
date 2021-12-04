@@ -127,77 +127,77 @@ describe('apply styles on calling ViewControl method', () => {
 
 
 	test('toggle classes on calling switchVertical method', async () => {
-		expect(controlMin.classList.contains('vert')).
+		expect(controlMin.classList.contains('rs-metalamp__control_vert')).
 			toBe(false);
-		expect(controlMax.classList.contains('vert')).
+		expect(controlMax.classList.contains('rs-metalamp__control_vert')).
 			toBe(false);
-		expect(tipMin.classList.contains('vert')).
+		expect(tipMin.classList.contains('rs-metalamp__tip_vert')).
 			toBe(false);
-		expect(tipMax.classList.contains('vert')).
+		expect(tipMax.classList.contains('rs-metalamp__tip_vert')).
 			toBe(false);
 		await testViewControl.switchVertical({ vertical: true });
-		expect(controlMin.classList.contains('vert')).
+		expect(controlMin.classList.contains('rs-metalamp__control_vert')).
 			toBe(true);
-		expect(controlMax.classList.contains('vert')).
+		expect(controlMax.classList.contains('rs-metalamp__control_vert')).
 			toBe(true);
-		expect(tipMin.classList.contains('vert')).
+		expect(tipMin.classList.contains('rs-metalamp__tip_vert')).
 			toBe(true);
-		expect(tipMax.classList.contains('vert')).
+		expect(tipMax.classList.contains('rs-metalamp__tip_vert')).
 			toBe(true);
 		await testViewControl.switchVertical({ vertical: false });
-		expect(controlMin.classList.contains('vert')).
+		expect(controlMin.classList.contains('rs-metalamp__control_vert')).
 			toBe(false);
-		expect(controlMax.classList.contains('vert')).
+		expect(controlMax.classList.contains('rs-metalamp__control_vert')).
 			toBe(false);
-		expect(tipMin.classList.contains('vert')).
+		expect(tipMin.classList.contains('rs-metalamp__tip_vert')).
 			toBe(false);
-		expect(tipMax.classList.contains('vert')).
+		expect(tipMax.classList.contains('rs-metalamp__tip_vert')).
 			toBe(false);
 	});
 
 	test('toggle class hidden on calling switchRange method', async () => {
-		expect(controlMin.classList.contains('hidden')).
+		expect(controlMin.classList.contains('rs-metalamp__control_hidden')).
 			toBe(false);
-		expect(controlMax.classList.contains('hidden')).
+		expect(controlMax.classList.contains('rs-metalamp__control_hidden')).
 			toBe(false);
-		expect(tipMin.classList.contains('hidden')).
+		expect(tipMin.classList.contains('rs-metalamp__tip_hidden')).
 			toBe(false);
-		expect(tipMax.classList.contains('hidden')).
+		expect(tipMax.classList.contains('rs-metalamp__tip_hidden')).
 			toBe(false);
 		await testViewControl.switchRange({ range: false, tip: true });
-		expect(controlMin.classList.contains('hidden')).
+		expect(controlMin.classList.contains('rs-metalamp__control_hidden')).
 			toBe(false);
-		expect(controlMax.classList.contains('hidden')).
+		expect(controlMax.classList.contains('rs-metalamp__control_hidden')).
 			toBe(true);
-		expect(tipMin.classList.contains('hidden')).
+		expect(tipMin.classList.contains('rs-metalamp__tip_hidden')).
 			toBe(false);
-		expect(tipMax.classList.contains('hidden')).
+		expect(tipMax.classList.contains('rs-metalamp__tip_hidden')).
 			toBe(true);
 		await testViewControl.switchRange({ range: true, tip: true });
 		expect(controlMin.classList.contains('hidden')).
 			toBe(false);
-		expect(controlMax.classList.contains('hidden')).
+		expect(controlMax.classList.contains('rs-metalamp__control_hidden')).
 			toBe(false);
-		expect(tipMin.classList.contains('hidden')).
+		expect(tipMin.classList.contains('rs-metalamp__tip_hidden')).
 			toBe(false);
-		expect(tipMax.classList.contains('hidden')).
+		expect(tipMax.classList.contains('rs-metalamp__tip_hidden')).
 			toBe(false);
 	});
 
 	test('toggle class hidden on calling switchTip method', async () => {
-		expect(tipMin.classList.contains('hidden')).
+		expect(tipMin.classList.contains('rs-metalamp__tip_hidden')).
 			toBe(false);
-		expect(tipMax.classList.contains('hidden')).
+		expect(tipMax.classList.contains('rs-metalamp__tip_hidden')).
 			toBe(false);
 		await testViewControl.switchTip({ range: true, tip: false });
-		expect(tipMin.classList.contains('hidden')).
+		expect(tipMin.classList.contains('rs-metalamp__tip_hidden')).
 			toBe(true);
-		expect(tipMax.classList.contains('hidden')).
+		expect(tipMax.classList.contains('rs-metalamp__tip_hidden')).
 			toBe(true);
 		await testViewControl.switchTip({ range: true, tip: true });
-		expect(tipMin.classList.contains('hidden')).
+		expect(tipMin.classList.contains('rs-metalamp__tip_hidden')).
 			toBe(false);
-		expect(tipMax.classList.contains('hidden')).
+		expect(tipMax.classList.contains('rs-metalamp__tip_hidden')).
 			toBe(false);
 	});
 

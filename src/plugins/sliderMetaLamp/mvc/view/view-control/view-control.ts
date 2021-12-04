@@ -307,33 +307,33 @@ class sliderViewControl extends Observer {
 		}
 
 
-		let arr =
-			[this.controlMax, this.tipMax, this.controlMin, this.tipMin];
-		for (let elem of arr) {
-			if (this.conf.vertical) {
-				elem.classList.add('vert');
-				elem.classList.remove('horizontal');
-			} else {
-				elem.classList.remove('vert');
-				elem.classList.add('horizontal');
-			}
-		}
+		// let arr =
+		// 	[this.controlMax, this.tipMax, this.controlMin, this.tipMin];
+		// for (let elem of arr) {
+		// 	if (this.conf.vertical) {
+		// 		elem.classList.add('vert');
+		// 		elem.classList.remove('horizontal');
+		// 	} else {
+		// 		elem.classList.remove('vert');
+		// 		elem.classList.add('horizontal');
+		// 	}
+		// }
 	}
 
 	//включение / отключение single режима
 	public switchRange(conf: IConf) {
 		this.conf = conf;
 		if (this.conf.range) {
-			this.controlMax.classList.remove('hidden');
+			//	this.controlMax.classList.remove('hidden');
 			this.controlMax.classList.remove('rs-metalamp__control_hidden');
 			if (this.conf.tip) {
-				this.tipMax.classList.remove('hidden');
+				//	this.tipMax.classList.remove('hidden');
 				this.tipMax.classList.remove('rs-metalamp__tip_hidden');
 			}
 		} else {
-			this.controlMax.classList.add('hidden');
+			//	this.controlMax.classList.add('hidden');
 			this.controlMax.classList.add('rs-metalamp__control_hidden');
-			this.tipMax.classList.add('hidden');
+			//	this.tipMax.classList.add('hidden');
 			this.tipMax.classList.add('rs-metalamp__tip_hidden');
 		}
 	}
@@ -342,8 +342,10 @@ class sliderViewControl extends Observer {
 	public switchTip(conf: IConf) {
 		this.conf = conf;
 		if (this.conf.tip) {
-			this.tipMax.classList.remove('hidden');
-			this.tipMin.classList.remove('hidden');
+			// this.tipMax.classList.remove('hidden');
+			// this.tipMin.classList.remove('hidden');
+			this.tipMax.classList.remove('rs-metalamp__tip_hidden');
+			this.tipMin.classList.remove('rs-metalamp__tip_hidden');
 			if (this.initDone) {
 				this.tipMax.style.left =
 					this.calcTipPos(conf.vertical, this.tipMax);
@@ -351,8 +353,10 @@ class sliderViewControl extends Observer {
 					this.calcTipPos(conf.vertical, this.tipMin);
 			}
 		} else {
-			this.tipMax.classList.add('hidden');
-			this.tipMin.classList.add('hidden');
+			// this.tipMax.classList.add('hidden');
+			// this.tipMin.classList.add('hidden');
+			this.tipMax.classList.add('rs-metalamp__tip_hidden');
+			this.tipMin.classList.add('rs-metalamp__tip_hidden');
 		}
 	}
 }

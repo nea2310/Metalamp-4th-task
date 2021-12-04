@@ -15,7 +15,7 @@
 	width: 100%;
 }
 
-.rs-metalamp__wrapper.vert {
+.rs-metalamp__wrapper_vert {
 	width: auto;
 	height: 100%;
 	padding: 20px;
@@ -30,7 +30,7 @@
 	opacity: 0.5;
 	cursor: default;
 }
-.rs-metalamp__frame.vert {
+.rs-metalamp__frame_vert {
 	top: 0;
 	left: 5px;
 	right: 0;
@@ -46,7 +46,7 @@
 	display: flex;
 }
 
-.rs-metalamp__track.vert {
+.rs-metalamp__track_vert {
 	height: 100%;
 	width: 8px;
 	flex-direction: column;
@@ -109,7 +109,7 @@
 	// 	border: 1px solid red;
 	// }
 
-	&.vert {
+	&_vert {
 		width: 25px;
 		height: 1px;
 
@@ -125,12 +125,16 @@
 	}
 }
 
-.rs-metalamp__control.vert {
+.rs-metalamp__control_vert {
 	left: -9.5px;
 }
 
-.rs-metalamp__control.horizontal {
+.rs-metalamp__control_horizontal {
 	top: -12.5px;
+}
+
+.rs-metalamp__control_hidden {
+	display: none;
 }
 
 .rs-metalamp__value {
@@ -149,13 +153,13 @@
 	background-color: grey;
 }
 
-.rs-metalamp__mark.vert {
+.rs-metalamp__mark_vert {
 	margin-left: 15px;
 	height: 1px;
 	width: 5px;
 }
 
-.rs-metalamp__mark.horizontal {
+.rs-metalamp__mark_horizontal {
 	margin-top: 15px;
 
 	width: 1px;
@@ -166,13 +170,13 @@
 	color: #626066;
 	font-size: 10px;
 }
-.rs-metalamp__label.horizontal {
+.rs-metalamp__label_horizontal {
 	position: absolute;
 	top: 10px;
 	padding: 0 5px;
 }
 
-.rs-metalamp__label.vert {
+.rs-metalamp__label_vert {
 	position: absolute;
 	left: 10px;
 	padding: 5px 0;
@@ -193,12 +197,16 @@
 	z-index: 1;
 }
 
-.rs-metalamp__tip.horizontal {
+.rs-metalamp__tip_horizontal {
 	top: -30px;
 }
 
-.rs-metalamp__tip.vert {
+.rs-metalamp__tip_vert {
 	top: -12.5px;
+}
+
+.rs-metalamp__tip_hidden {
+	display: none;
 }
 
 .hidden {
