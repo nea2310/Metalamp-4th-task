@@ -79,15 +79,14 @@ class sliderViewControl extends Observer {
 		T.height = scale.offsetHeight;
 	}
 
-	// public test(param: any) {
-	// 	console.log(param);
-	// }
 	// Вешаем обработчики события нажатия мышью на ползунке (захвата ползунка) и перемещения ползунка 
 	private dragControlMouse() {
 		let pointerDownHandler = (e: PointerEvent) => {
 			e.preventDefault();
 			const target = e.target as HTMLElement;
-			target.classList.add('grabbing');
+			if (target.classList.contains('rs-metalamp__control')) {
+				target.classList.add('rs-metalamp__control_grabbing');
+			}
 			const T = this.data.thumb;
 			if (target.classList.contains('rs-metalamp__control')) {
 
@@ -108,7 +107,7 @@ class sliderViewControl extends Observer {
 				};
 
 				const pointerUpHandler = () => {
-					target.classList.remove('grabbing');
+					target.classList.remove('rs-metalamp__control_grabbing');
 					target.
 						removeEventListener('pointermove', pointerMoveHandler);
 					target.
@@ -305,35 +304,18 @@ class sliderViewControl extends Observer {
 			this.controlMin.classList.add('rs-metalamp__control_horizontal');
 			this.tipMin.classList.add('rs-metalamp__tip_horizontal');
 		}
-
-
-		// let arr =
-		// 	[this.controlMax, this.tipMax, this.controlMin, this.tipMin];
-		// for (let elem of arr) {
-		// 	if (this.conf.vertical) {
-		// 		elem.classList.add('vert');
-		// 		elem.classList.remove('horizontal');
-		// 	} else {
-		// 		elem.classList.remove('vert');
-		// 		elem.classList.add('horizontal');
-		// 	}
-		// }
 	}
 
 	//включение / отключение single режима
 	public switchRange(conf: IConf) {
 		this.conf = conf;
 		if (this.conf.range) {
-			//	this.controlMax.classList.remove('hidden');
 			this.controlMax.classList.remove('rs-metalamp__control_hidden');
 			if (this.conf.tip) {
-				//	this.tipMax.classList.remove('hidden');
 				this.tipMax.classList.remove('rs-metalamp__tip_hidden');
 			}
 		} else {
-			//	this.controlMax.classList.add('hidden');
 			this.controlMax.classList.add('rs-metalamp__control_hidden');
-			//	this.tipMax.classList.add('hidden');
 			this.tipMax.classList.add('rs-metalamp__tip_hidden');
 		}
 	}
@@ -342,8 +324,6 @@ class sliderViewControl extends Observer {
 	public switchTip(conf: IConf) {
 		this.conf = conf;
 		if (this.conf.tip) {
-			// this.tipMax.classList.remove('hidden');
-			// this.tipMin.classList.remove('hidden');
 			this.tipMax.classList.remove('rs-metalamp__tip_hidden');
 			this.tipMin.classList.remove('rs-metalamp__tip_hidden');
 			if (this.initDone) {
@@ -353,8 +333,6 @@ class sliderViewControl extends Observer {
 					this.calcTipPos(conf.vertical, this.tipMin);
 			}
 		} else {
-			// this.tipMax.classList.add('hidden');
-			// this.tipMin.classList.add('hidden');
 			this.tipMax.classList.add('rs-metalamp__tip_hidden');
 			this.tipMin.classList.add('rs-metalamp__tip_hidden');
 		}

@@ -189,14 +189,10 @@ class sliderViewScale {
 				elem.appendChild(label);
 
 				if (conf.vertical) {
-					// elem.classList.add('vert');
-					// label.classList.add('vert');
 					elem.classList.add('rs-metalamp__mark_vert');
 					label.classList.add('rs-metalamp__label_vert');
 					elem.style.bottom = String(node.pos) + '%';
 				} else {
-					// elem.classList.add('horizontal');
-					// label.classList.add('horizontal');
 					elem.classList.add('rs-metalamp__mark_horizontal');
 					label.classList.add('rs-metalamp__label_horizontal');
 					elem.style.left = String(node.pos) + '%';

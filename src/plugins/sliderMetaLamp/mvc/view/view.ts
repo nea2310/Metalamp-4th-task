@@ -149,16 +149,10 @@ class sliderView extends Observer {
 
 	public switchVertical = (conf: IConf) => {
 		if (conf.vertical) {
-			// this.slider.classList.add('vert');
-			// this.track.classList.add('vert');
-			// this.frame.classList.add('vert');
 			this.slider.classList.add('rs-metalamp__wrapper_vert');
 			this.track.classList.add('rs-metalamp__track_vert');
 			this.frame.classList.add('rs-metalamp__frame_vert');
 		} else {
-			// this.slider.classList.remove('vert');
-			// this.track.classList.remove('vert');
-			// this.frame.classList.remove('vert');
 			this.slider.classList.remove('rs-metalamp__wrapper_vert');
 			this.track.classList.remove('rs-metalamp__track_vert');
 			this.frame.classList.remove('rs-metalamp__frame_vert');
