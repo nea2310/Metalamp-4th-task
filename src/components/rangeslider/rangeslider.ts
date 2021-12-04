@@ -39,7 +39,7 @@ class RangeSlider {
 		this.selector = selector;
 		this.wrapper = elem as HTMLElement;
 		this.panel = this.wrapper.querySelector('.panel');
-		this.slider = this.wrapper.querySelector('.rs__root');
+		this.slider = this.wrapper.querySelector('.rs-metalamp');
 		this.panelWrapper =
 			this.wrapper.querySelector(this.selector + '__panel');
 		this.sliderWrapper = this.wrapper.querySelector(this.selector + '__rs');
