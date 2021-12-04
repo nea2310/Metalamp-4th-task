@@ -151,6 +151,8 @@ class sliderViewScale {
 					this.startWidth = totalWidth;//-------------------------------------------------------- запоминаем новую ширину враппера до ресайза
 				}
 			}
+
+			return true;
 		};
 		window.addEventListener("optimizedResize", function (e) { // ------- метод будет вызван 60 раз в сек
 			rtime = +(new Date()); // ----------------------------------------- каждый раз получаем текущее время
@@ -225,11 +227,9 @@ class sliderViewScale {
 		}
 		return stepMarks;
 	}
-
-
-
-
 }
 
 export { sliderViewScale };
+
+
 
