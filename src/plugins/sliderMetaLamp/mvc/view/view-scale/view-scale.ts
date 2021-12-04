@@ -34,10 +34,6 @@ class sliderViewScale {
 		let hideLabels = (markList: HTMLElement[]) => {
 			//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
 			for (let i = 1; i < markList.length; i += 2) {
-				// markList[i].firstElementChild.
-				// 	classList.add('hidden');
-				// markList[i].
-				// 	classList.add('no-label');
 				markList[i].firstElementChild.
 					classList.add('rs-metalamp__label_hidden');
 				markList[i].
@@ -59,8 +55,6 @@ class sliderViewScale {
 				totalWidth += node.firstElementChild.
 					getBoundingClientRect().width;
 			}
-			// console.log('totalWidth: ' + totalWidth);
-			// console.log('this.track.offsetWidth: ' + this.track.offsetWidth);
 			//если общая ширина подписей к шагам больше ширины шкалы
 			if (totalWidth > this.track.offsetWidth) {
 				//Скрываем подписи
@@ -79,8 +73,6 @@ class sliderViewScale {
 				totalHeight += node.firstElementChild.
 					getBoundingClientRect().height;
 			}
-			// console.log('totalHeight ' + totalHeight);
-			// console.log('this.track.offsetHeight: ' + this.track.offsetHeight);
 			//если общая высота подписей к шагам больше высоты шкалы
 			if (totalHeight > this.track.offsetHeight) {
 				//Скрываем подписи
@@ -105,11 +97,6 @@ class sliderViewScale {
 		let lastMark =
 			this.track.querySelector('.rs-metalamp__mark:last-child');
 		if (isRemoved) {
-			// lastMarkLabeled.classList.add('no-label');
-			// lastMarkLabeled.firstElementChild.classList.add('hidden');
-			// lastMark.classList.remove('no-label');
-			// lastMark.firstElementChild.classList.remove('hidden');
-
 			lastMarkLabeled.classList.add('rs-metalamp__mark_no-label');
 			lastMarkLabeled.firstElementChild.
 				classList.add('rs-metalamp__label_hidden');

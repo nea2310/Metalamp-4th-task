@@ -18,7 +18,9 @@ class sliderViewControl extends Observer {
 		super();
 		this.slider = sliderElem;
 		this.root = sliderElem.previousElementSibling as HTMLInputElement;
-		this.track = this.slider.querySelector('.rs-metalamp__track');
+		this.track = sliderElem.firstElementChild as HTMLInputElement;
+		console.log(this.track);
+
 		this.data = {};
 		this.data.thumb = {};
 		this.init(conf);
