@@ -38,11 +38,15 @@ class sliderViewScale {
 					classList.add('rs-metalamp__label_hidden');
 				markList[i].
 					classList.add('rs-metalamp__mark_no-label');
+				markList[i].
+					classList.add('js-rs-metalamp__mark_no-label');
+
 			}
 			this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
 				[...this.track.
 					querySelectorAll<HTMLElement>
-					('.rs-metalamp__mark:not(.rs-metalamp__mark_no-label)')];
+					// eslint-disable-next-line max-len
+					('.js-rs-metalamp__mark:not(.js-rs-metalamp__mark_no-label)')];
 			// запускаем функцию проверки заново
 			this.lastLabelRemoved = true;
 			this.checkScaleLength(this.markList);
@@ -92,15 +96,17 @@ class sliderViewScale {
 	private addLastLabel(isRemoved: boolean) {
 		let markLabeledList =
 			// eslint-disable-next-line max-len
-			this.track.querySelectorAll('.rs-metalamp__mark:not(.rs-metalamp__mark_no-label)');
+			this.track.querySelectorAll('.js-rs-metalamp__mark:not(.js-rs-metalamp__mark_no-label)');
 		let lastMarkLabeled = markLabeledList[markLabeledList.length - 1];
 		let lastMark =
-			this.track.querySelector('.rs-metalamp__mark:last-child');
+			this.track.querySelector('.js-rs-metalamp__mark:last-child');
 		if (isRemoved) {
 			lastMarkLabeled.classList.add('rs-metalamp__mark_no-label');
+			lastMarkLabeled.classList.add('js-rs-metalamp__mark_no-label');
 			lastMarkLabeled.firstElementChild.
 				classList.add('rs-metalamp__label_hidden');
 			lastMark.classList.remove('rs-metalamp__mark_no-label');
+			lastMark.classList.remove('js-rs-metalamp__mark_no-label');
 			lastMark.firstElementChild.
 				classList.remove('rs-metalamp__label_hidden');
 		}
@@ -160,7 +166,7 @@ class sliderViewScale {
 		conf: IConf) {
 		this.conf = conf;
 		this.scaleMarks = scaleMarks;
-		let steps = this.slider.querySelectorAll('.rs-metalamp__mark');
+		let steps = this.slider.querySelectorAll('.js-rs-metalamp__mark');
 		if (this.calcMarkList) {//Если это переотрисовка шкалы - удалить существующие деления
 			if (steps.length) {
 				for (let elem of steps) {
@@ -170,6 +176,7 @@ class sliderViewScale {
 			for (let node of scaleMarks) {
 				let elem = document.createElement('div');
 				elem.classList.add('rs-metalamp__mark');
+				elem.classList.add('js-rs-metalamp__mark');
 				let label = document.createElement('div');
 				label.innerText = String(node.val);
 				label.classList.add('rs-metalamp__label');
@@ -197,7 +204,7 @@ class sliderViewScale {
 
 			this.markList =
 				[...this.track.querySelectorAll<HTMLElement>
-					('.rs-metalamp__mark')];
+					('.js-rs-metalamp__mark')];
 		}
 
 		this.getResizeWrap();
@@ -206,7 +213,7 @@ class sliderViewScale {
 
 	public switchScale(conf: IConf) {
 		this.conf = conf;
-		let stepMarks = this.slider.querySelectorAll('.rs-metalamp__mark');
+		let stepMarks = this.slider.querySelectorAll('.js-rs-metalamp__mark');
 		if (this.conf.scale) {
 			for (let elem of stepMarks) {
 				elem.classList.remove('rs-metalamp__mark_visually-hidden');

@@ -19,7 +19,6 @@ class sliderViewControl extends Observer {
 		this.slider = sliderElem;
 		this.root = sliderElem.previousElementSibling as HTMLInputElement;
 		this.track = sliderElem.firstElementChild as HTMLInputElement;
-		console.log(this.track);
 
 		this.data = {};
 		this.data.thumb = {};
