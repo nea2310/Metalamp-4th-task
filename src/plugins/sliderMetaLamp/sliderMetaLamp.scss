@@ -64,11 +64,15 @@
 	border-radius: 3px;
 }
 
-.rs-metalamp__progressBar.vert {
+.rs-metalamp__progressBar_vert {
 	position: absolute;
 	width: 8px;
 	border: none;
 	left: 0px;
+}
+
+.rs-metalamp__progressBar_hidden {
+	display: none;
 }
 
 .rs-metalamp__control {

@@ -60,15 +60,32 @@ describe('ViewScale', () => {
 	});
 
 
-	test('updateToPos', () => {
-		const conf = {};
+	// eslint-disable-next-line max-len
+	test('should call updatePos and updateInput methods in view-control on calling updateToPos in view', () => {
+		const conf = {
+			min: 0,
+			max: 100,
+			from: 10,
+			to: 90,
+			vertical: false,
+			range: true,
+			bar: true,
+			tip: true,
+			scale: true,
+			scaleBase: 'step',
+			step: 1,
+			interval: 0,
+			sticky: false,
+			shiftOnKeyDown: 1,
+			shiftOnKeyHold: 2,
+		};
 		const data = { toPos: 10 };
 		testView.updateToPos(data, conf);
 		expect(updatePosSpy).toBeCalledTimes(1);
 		expect(updatePosSpy).toBeCalledWith(
-			testView.viewControl.controlMax, 10);
+			testView.viewControl.controlMax, data.toPos);
 		expect(updateInputSpy).toBeCalledTimes(1);
-		expect(updateInputSpy).toBeCalledWith({});
+		expect(updateInputSpy).toBeCalledWith(conf);
 
 		updatePosSpy.mockClear();
 		updateInputSpy.mockClear();

@@ -39,14 +39,19 @@ class sliderViewBar {
 	// переключение в вертикальный режим
 	public switchVertical(conf: IConf) {
 		const classList = this.progressBar.classList;
-		conf.vertical ? classList.add('vert') : classList.remove('vert');
+		//conf.vertical ? classList.add('vert') : classList.remove('vert');
+		conf.vertical ? classList.add('rs-metalamp__progressBar_vert') :
+			classList.remove('rs-metalamp__progressBar_vert');
 	}
 
 	// отключение / включение бара
 	public switchBar(conf: IConf) {
 		this.conf = conf;
 		const classList = this.progressBar.classList;
-		this.conf.bar ? classList.remove('hidden') : classList.add('hidden');
+		//this.conf.bar ? classList.remove('hidden') : classList.add('hidden');
+		this.conf.bar ? classList.remove('rs-metalamp__progressBar_hidden') :
+			classList.add('rs-metalamp__progressBar_hidden');
+
 	}
 
 	//обновление бара при изменении позиций ползунков

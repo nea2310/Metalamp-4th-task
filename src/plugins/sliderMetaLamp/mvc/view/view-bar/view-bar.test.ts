@@ -12,24 +12,27 @@ const progressBar = document.
 describe('ViewControl', () => {
 
 	test('toggle class vert on calling switchVertical method', async () => {
-		expect(progressBar.classList.contains('vert')).
+		expect(progressBar.classList.contains('rs-metalamp__progressBar_vert')).
 			toBe(false);
 		await testBar.switchVertical({ vertical: true });
-		expect(progressBar.classList.contains('vert')).
+		expect(progressBar.classList.contains('rs-metalamp__progressBar_vert')).
 			toBe(true);
 		await testBar.switchVertical({ vertical: false });
-		expect(progressBar.classList.contains('vert')).
+		expect(progressBar.classList.contains('rs-metalamp__progressBar_vert')).
 			toBe(false);
 	});
 
 	test('toggle class hidden on calling switchBar method', async () => {
-		expect(progressBar.classList.contains('hidden')).
+		expect(progressBar.classList.
+			contains('rs-metalamp__progressBar_hidden')).
 			toBe(true);
 		await testBar.switchBar({ bar: true });
-		expect(progressBar.classList.contains('hidden')).
+		expect(progressBar.classList.
+			contains('rs-metalamp__progressBar_hidden')).
 			toBe(false);
 		await testBar.switchBar({ bar: false });
-		expect(progressBar.classList.contains('hidden')).
+		expect(progressBar.classList.
+			contains('rs-metalamp__progressBar_hidden')).
 			toBe(true);
 	});
 

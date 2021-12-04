@@ -286,7 +286,29 @@ class sliderViewControl extends Observer {
 	//включение / отключение вертикального режима
 	public switchVertical(conf: IConf) {
 		this.conf = conf;
-		let arr = [this.controlMax, this.tipMax, this.controlMin, this.tipMin];
+		if (this.conf.vertical) {
+			this.controlMax.classList.add('rs-metalamp__control_vert');
+			this.tipMax.classList.add('rs-metalamp__tip_vert');
+			this.controlMin.classList.add('rs-metalamp__control_vert');
+			this.tipMin.classList.add('rs-metalamp__tip_vert');
+			this.controlMax.classList.remove('rs-metalamp__control_horizontal');
+			this.tipMax.classList.remove('rs-metalamp__tip_horizontal');
+			this.controlMin.classList.remove('rs-metalamp__control_horizontal');
+			this.tipMin.classList.remove('rs-metalamp__tip_horizontal');
+		} else {
+			this.controlMax.classList.remove('rs-metalamp__control_vert');
+			this.tipMax.classList.remove('rs-metalamp__tip_vert');
+			this.controlMin.classList.remove('rs-metalamp__control_vert');
+			this.tipMin.classList.remove('rs-metalamp__tip_vert');
+			this.controlMax.classList.add('rs-metalamp__control_horizontal');
+			this.tipMax.classList.add('rs-metalamp__tip_horizontal');
+			this.controlMin.classList.add('rs-metalamp__control_horizontal');
+			this.tipMin.classList.add('rs-metalamp__tip_horizontal');
+		}
+
+
+		let arr =
+			[this.controlMax, this.tipMax, this.controlMin, this.tipMin];
 		for (let elem of arr) {
 			if (this.conf.vertical) {
 				elem.classList.add('vert');
@@ -303,12 +325,16 @@ class sliderViewControl extends Observer {
 		this.conf = conf;
 		if (this.conf.range) {
 			this.controlMax.classList.remove('hidden');
+			this.controlMax.classList.remove('rs-metalamp__control_hidden');
 			if (this.conf.tip) {
 				this.tipMax.classList.remove('hidden');
+				this.tipMax.classList.remove('rs-metalamp__tip_hidden');
 			}
 		} else {
 			this.controlMax.classList.add('hidden');
+			this.controlMax.classList.add('rs-metalamp__control_hidden');
 			this.tipMax.classList.add('hidden');
+			this.tipMax.classList.add('rs-metalamp__tip_hidden');
 		}
 	}
 
