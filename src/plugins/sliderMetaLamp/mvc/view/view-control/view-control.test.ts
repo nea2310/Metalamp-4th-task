@@ -75,11 +75,11 @@ const testViewControl = testView.viewControl;
 const calcPosSpy = jest.spyOn(testModel, 'calcPos');
 const calcPosKeySpy = jest.spyOn(testModel, 'calcPosKey');
 
-const controlMin = getElem('rs__control-min');
-const controlMax = getElem('rs__control-max');
-const tipMin = getElem('rs__tip-min');
-const tipMax = getElem('rs__tip-max');
-const track = getElem('rs__track');
+const controlMin = getElem('rs-metalamp__control-min');
+const controlMax = getElem('rs-metalamp__control-max');
+const tipMin = getElem('rs-metalamp__tip-min');
+const tipMax = getElem('rs-metalamp__tip-max');
+const track = getElem('rs-metalamp__track');
 
 
 describe('apply styles on calling ViewControl method', () => {

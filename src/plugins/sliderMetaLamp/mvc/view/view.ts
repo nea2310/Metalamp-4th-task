@@ -30,15 +30,15 @@ class sliderView extends Observer {
 	}
 	private render() {
 		this.slider = document.createElement('div');
-		this.slider.className = 'rs__wrapper';
+		this.slider.className = 'rs-metalamp__wrapper';
 		this.root.after(this.slider);
 		this.track = document.createElement('div');
 
 
-		this.track.className = 'rs__track';
+		this.track.className = 'rs-metalamp__track';
 		this.slider.append(this.track);
 		this.frame = document.createElement('div');
-		this.frame.className = 'rs__frame';
+		this.frame.className = 'rs-metalamp__frame';
 		this.slider.append(this.frame);
 	}
 

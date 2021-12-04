@@ -8,20 +8,20 @@
 	display: none;
 }
 
-.rs__wrapper {
+.rs-metalamp__wrapper {
 	padding: 60px 30px 30px 60px;
 	position: relative;
 	display: flex;
 	width: 100%;
 }
 
-.rs__wrapper.vert {
+.rs-metalamp__wrapper.vert {
 	width: auto;
 	height: 100%;
 	padding: 20px;
 	display: inline-block;
 }
-.rs__frame {
+.rs-metalamp__frame {
 	position: absolute;
 	top: 40px;
 	bottom: 0;
@@ -30,14 +30,14 @@
 	opacity: 0.5;
 	cursor: default;
 }
-.rs__frame.vert {
+.rs-metalamp__frame.vert {
 	top: 0;
 	left: 5px;
 	right: 0;
 	width: 120%;
 }
 
-.rs__track {
+.rs-metalamp__track {
 	border-radius: 3px;
 	width: 100%;
 	position: relative;
@@ -46,14 +46,14 @@
 	display: flex;
 }
 
-.rs__track.vert {
+.rs-metalamp__track.vert {
 	height: 100%;
 	width: 8px;
 	flex-direction: column;
 	justify-content: center;
 }
 
-.rs__progressBar {
+.rs-metalamp__progressBar {
 	position: absolute;
 	background: $colorBlue;
 
@@ -64,14 +64,14 @@
 	border-radius: 3px;
 }
 
-.rs__progressBar.vert {
+.rs-metalamp__progressBar.vert {
 	position: absolute;
 	width: 8px;
 	border: none;
 	left: 0px;
 }
 
-.rs__control {
+.rs-metalamp__control {
 	box-sizing: border-box;
 	width: 1px;
 	height: 25px;
@@ -121,59 +121,59 @@
 	}
 }
 
-.rs__control.vert {
+.rs-metalamp__control.vert {
 	left: -9.5px;
 }
 
-.rs__control.horizontal {
+.rs-metalamp__control.horizontal {
 	top: -12.5px;
 }
 
-.rs__value {
+.rs-metalamp__value {
 	position: absolute;
 	top: -30px;
 	font-size: 14px;
 	width: 30px;
 }
-.rs__mark {
+.rs-metalamp__mark {
 	height: 5px;
 	background-color: #000;
 	position: absolute;
 }
 
-.rs__mark.no-label {
+.rs-metalamp__mark.no-label {
 	background-color: grey;
 }
 
-.rs__mark.vert {
+.rs-metalamp__mark.vert {
 	margin-left: 15px;
 	height: 1px;
 	width: 5px;
 }
 
-.rs__mark.horizontal {
+.rs-metalamp__mark.horizontal {
 	margin-top: 15px;
 
 	width: 1px;
 }
 
-.rs__label {
+.rs-metalamp__label {
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 	color: #626066;
 	font-size: 10px;
 }
-.rs__label.horizontal {
+.rs-metalamp__label.horizontal {
 	position: absolute;
 	top: 10px;
 	padding: 0 5px;
 }
 
-.rs__label.vert {
+.rs-metalamp__label.vert {
 	position: absolute;
 	left: 10px;
 	padding: 5px 0;
 }
-.rs__tip {
+.rs-metalamp__tip {
 	cursor: default;
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 	font-size: 10px;
@@ -189,11 +189,11 @@
 	z-index: 1;
 }
 
-.rs__tip.horizontal {
+.rs-metalamp__tip.horizontal {
 	top: -30px;
 }
 
-.rs__tip.vert {
+.rs-metalamp__tip.vert {
 	top: -12.5px;
 }
 

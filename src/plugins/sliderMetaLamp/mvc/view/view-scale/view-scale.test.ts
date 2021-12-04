@@ -46,14 +46,14 @@ function createMarkList(scaleMarks: { 'pos'?: number, 'val'?: number }[],
 	conf: IConf, wrapper: HTMLElement, elemWidth: number, elemHeight: number) {
 	for (let node of scaleMarks) {
 		let elem = document.createElement('div');
-		elem.classList.add('rs__mark');
+		elem.classList.add('rs-metalamp__mark');
 		let label = document.createElement('div');
 		mockElementDimensions(elem, { width: elemWidth, height: elemHeight });
 		mockElementDimensions(label, { width: elemWidth, height: elemHeight });
 		elem.appendChild(label);
 		wrapper.appendChild(elem);
 	}
-	return [...wrapper.querySelectorAll<HTMLElement>('.rs__mark')];
+	return [...wrapper.querySelectorAll<HTMLElement>('.rs-metalamp__mark')];
 }
 
 

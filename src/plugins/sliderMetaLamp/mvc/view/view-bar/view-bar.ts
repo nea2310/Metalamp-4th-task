@@ -29,9 +29,9 @@ class sliderViewBar {
 	}
 	//создание бара
 	private renderBar(conf: IConf) {
-		this.track = this.slider.querySelector('.rs__track');
+		this.track = this.slider.querySelector('.rs-metalamp__track');
 		this.progressBar = document.createElement('div');
-		this.progressBar.className = 'rs__progressBar';
+		this.progressBar.className = 'rs-metalamp__progressBar';
 		this.track.append(this.progressBar);
 		this.switchBar(conf);
 	}

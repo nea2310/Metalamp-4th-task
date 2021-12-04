@@ -42,7 +42,7 @@ class sliderViewScale {
 			this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
 				[...this.track.
 					querySelectorAll<HTMLElement>
-					('.rs__mark:not(.no-label)')];
+					('.rs-metalamp__mark:not(.no-label)')];
 			// запускаем функцию проверки заново
 			this.lastLabelRemoved = true;
 			this.checkScaleLength(this.markList);
@@ -95,9 +95,10 @@ class sliderViewScale {
 	//возвращаем подпись у последненего шага и удаляем у предпоследнего подписанного
 	private addLastLabel(isRemoved: boolean) {
 		let markLabeledList = this.track.
-			querySelectorAll('.rs__mark:not(.no-label)');
+			querySelectorAll('.rs-metalamp__mark:not(.no-label)');
 		let lastMarkLabeled = markLabeledList[markLabeledList.length - 1];
-		let lastMark = this.track.querySelector('.rs__mark:last-child');
+		let lastMark =
+			this.track.querySelector('.rs-metalamp__mark:last-child');
 		if (isRemoved) {
 			lastMarkLabeled.classList.add('no-label');
 			lastMarkLabeled.firstElementChild.classList.add('hidden');
@@ -160,7 +161,7 @@ class sliderViewScale {
 		conf: IConf) {
 		this.conf = conf;
 		this.scaleMarks = scaleMarks;
-		let steps = this.slider.querySelectorAll('.rs__mark');
+		let steps = this.slider.querySelectorAll('.rs-metalamp__mark');
 		if (this.calcMarkList) {//Если это переотрисовка шкалы - удалить существующие деления
 			if (steps.length) {
 				for (let elem of steps) {
@@ -169,10 +170,10 @@ class sliderViewScale {
 			}
 			for (let node of scaleMarks) {
 				let elem = document.createElement('div');
-				elem.classList.add('rs__mark');
+				elem.classList.add('rs-metalamp__mark');
 				let label = document.createElement('div');
 				label.innerText = String(node.val);
-				label.classList.add('rs__label');
+				label.classList.add('rs-metalamp__label');
 				elem.appendChild(label);
 
 				if (conf.vertical) {
@@ -196,7 +197,8 @@ class sliderViewScale {
 			}
 
 			this.markList =
-				[...this.track.querySelectorAll<HTMLElement>('.rs__mark')];
+				[...this.track.querySelectorAll<HTMLElement>
+					('.rs-metalamp__mark')];
 		}
 
 		this.getResizeWrap();
@@ -205,7 +207,7 @@ class sliderViewScale {
 
 	public switchScale(conf: IConf) {
 		this.conf = conf;
-		let stepMarks = this.slider.querySelectorAll('.rs__mark');
+		let stepMarks = this.slider.querySelectorAll('.rs-metalamp__mark');
 		if (this.conf.scale) {
 			for (let elem of stepMarks) {
 				elem.classList.remove('visually-hidden');

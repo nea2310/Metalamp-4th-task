@@ -284,7 +284,9 @@
 <a name='L225'></a><a href='#L225'>225</a>
 <a name='L226'></a><a href='#L226'>226</a>
 <a name='L227'></a><a href='#L227'>227</a>
-<a name='L228'></a><a href='#L228'>228</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -511,6 +513,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
 	IConf,
 } from '../../interface';
@@ -555,7 +559,7 @@ class sliderViewScale {
 			this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
 				[...this.track.
 					querySelectorAll&lt;HTMLElement&gt;
-					('.rs__mark:not(.no-label)')];
+					('.rs-metalamp__mark:not(.no-label)')];
 			// запускаем функцию проверки заново
 			this.lastLabelRemoved = true;
 			this.checkScaleLength(this.markList);
@@ -608,36 +612,37 @@ class sliderViewScale {
 	//возвращаем подпись у последненего шага и удаляем у предпоследнего подписанного
 	private addLastLabel(isRemoved: boolean) {
 		let markLabeledList = this.track.
-			querySelectorAll('.rs__mark:not(.no-label)');
+			querySelectorAll('.rs-metalamp__mark:not(.no-label)');
 		let lastMarkLabeled = mar<span class="fstat-no" title="function not covered" >kL</span>abeledList[markLabeledList.length - 1];
-		let lastMark = thi<span class="cstat-no" title="statement not covered" >s.track.querySelector('.rs__mark:last-child');</span>
-		if (isRemoved) {<span class="cstat-no" title="statement not covered" ></span>
-			lastMarkLabeled.classList.add('no-label');
-			lastMarkLabeled.f<span class="cstat-no" title="statement not covered" >irstElementChild</span>.classList.add('hidden');
-			lastMark.classLis<span class="cstat-no" title="statement not covered" >t.remove('no-label');<span class="fstat-no" title="function not covered" ></span></span>
-			lastMark.firstElement<span class="cstat-no" title="statement not covered" >Child.classList.remove('hidden');</span>
-		}<span class="cstat-no" title="statement not covered" ></span>
+		let lastMark =<span class="cstat-no" title="statement not covered" ></span>
+			this.track.querySelec<span class="cstat-no" title="statement not covered" >tor('.rs</span>-metalamp__mark:last-child');
+		if (isRemoved) {
+			lastMarkLabeled.c<span class="cstat-no" title="statement not covered" >lassList.add('no</span>-label');
+			lastMarkLabeled.f<span class="cstat-no" title="statement not covered" >irstElementChild.class<span class="fstat-no" title="function not covered" >Li</span>st.add('hidden');</span>
+			lastMark.classList.re<span class="cstat-no" title="statement not covered" >move('no-label');</span>
+			lastMark.firstElement<span class="cstat-no" title="statement not covered" >Child.classList.r</span>emove('hidden');
+		}
 	}
 &nbsp;
 	private getResizeWrap() {
 		let sleep = 200; // --------- задержка в миллесекундах
 		let rtime = 0;  // ---------- для хранения отрезка времени
 		let timeout = false; // ----- флаг для запрета лишний раз вызывать функцию resizeend
-&nbsp;
-		this.start<span class="missing-if-branch" title="if path not taken" >I</span>Width = this.slider.offsetWidth; // ----------------- запоминаем ширину враппера до ресайза
-		(function () {<span class="cstat-no" title="statement not covered" > // --------------------------</span>----------------------- функция которая сразу исполняеться (она повесит искуственное событие optimizedResize)
+<span class="missing-if-branch" title="if path not taken" >I</span>
+		this.startWidt<span class="cstat-no" title="statement not covered" >h = this.slider.offsetWidth; /</span>/ ----------------- запоминаем ширину враппера до ресайза
+		(function () { // ------------------------------------------------- функция которая сразу исполняеться (она повесит искуственное событие optimizedResize)
 			let throttle = function (type: string, name: string, obj = window) {
 				let running = false;  // ------------------------------------ флаг начала события
 				let func = function () { //---------------------------------- функция создающая оптимизированное отслеживание ресайза 60 запросов в сек. 
-					if (running) { return; } // ------------------------------ выйти если мы ещё не сделали dispatchEvent
-					running = t<span class="missing-if-branch" title="if path not taken" >I</span>rue;
-					requestAnimatio<span class="cstat-no" title="statement not covered" >nFrame(function () {  // ------------------ делаем отрисовку Анимации - то есть вызовим функцию при следующей отрисовке и частота опроса не больше 60 раз в сек</span>
-						obj.dispatchEvent(<span class="cstat-no" title="statement not covered" >new CustomEvent(name)); //----------- </span>создаём искуственное событие - которое будет вешаться раз 60 раз в сек
-						running = false; // ----------------------------------- даём знать что requestAnimationFrame можно будет выполнить в след раз
+					if (running<span class="missing-if-branch" title="if path not taken" >I</span>) { return; } // ------------------------------ выйти если мы ещё не сделали dispatchEvent
+					running = true;<span class="cstat-no" title="statement not covered" ></span>
+					requestAnimationFra<span class="cstat-no" title="statement not covered" >me(function () {  // -----------------</span>- делаем отрисовку Анимации - то есть вызовим функцию при следующей отрисовке и частота опроса не больше 60 раз в сек
+						obj.dispatchEvent(new CustomEvent(name)); //----------- создаём искуственное событие - которое будет вешаться раз 60 раз в сек
+						running = fals<span class="cstat-no" title="statement not covered" >e; // ----------------------------------- даём знать что requestAnimationFrame можно будет выполнить в след раз</span>
 					});<span class="cstat-no" title="statement not covered" ></span>
-				};<span class="cstat-no" title="statement not covered" ></span>
-				obj.addEventListener(type, func); // ------------------------ на виндовс вешаем событие ресайза и отслеживаем его как только ресайз будет - вызовиться функция func
-			};<span class="cstat-no" title="statement not covered" ></span>
+				};
+				obj.addEventList<span class="cstat-no" title="statement not covered" >ener(type, func); // ---------</span>--------------- на виндовс вешаем событие ресайза и отслеживаем его как только ресайз будет - вызовиться функция func
+			};
 			throttle("resize", "optimizedResize");
 		})();
 &nbsp;
@@ -673,7 +678,7 @@ class sliderViewScale {
 		conf: IConf) {
 		this.conf = conf;
 		this.scaleMarks = scaleMarks;
-		let steps = this.slider.querySelectorAll('.rs__mark');
+		let steps = this.slider.querySelectorAll('.rs-metalamp__mark');
 		if (this.calcMarkList) {//Если это переотрисовка шкалы - удалить существующие деления
 			if (steps.length) {
 				for (let elem of steps) {
@@ -682,10 +687,10 @@ class sliderViewScale {
 			}
 			for (let node of scaleMarks) {
 				let elem = document.createElement('div');
-				elem.classList.add('rs__mark');
+				elem.classList.add('rs-metalamp__mark');
 				let label = document.createElement('div');
 				label.innerText = String(node.val);
-				label.classList.add('rs__label');
+				label.classList.add('rs-metalamp__label');
 				elem.appendChild(label);
 &nbsp;
 				if (conf.vertical) {
@@ -709,7 +714,8 @@ class sliderViewScale {
 			}
 &nbsp;
 			this.markList =
-				[...this.track.querySelectorAll&lt;HTMLElement&gt;('.rs__mark')];
+				[...this.track.querySelectorAll&lt;HTMLElement&gt;
+					('.rs-metalamp__mark')];
 		}
 &nbsp;
 		this.getResizeWrap();
@@ -718,7 +724,7 @@ class sliderViewScale {
 &nbsp;
 	public switchScale(conf: IConf) {
 		this.conf = conf;
-		let stepMarks = this.slider.querySelectorAll('.rs__mark');
+		let stepMarks = this.slider.querySelectorAll('.rs-metalamp__mark');
 		if (this.conf.scale) {
 			for (let elem of stepMarks) {
 				elem.classList.remove('visually-hidden');
@@ -745,7 +751,7 @@ export { sliderViewScale };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Dec 03 2021 20:46:01 GMT+0500 (Екатеринбург, стандартное время)
+                at Sat Dec 04 2021 15:45:53 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         </div>
         <script src="../../../prettify.js"></script>

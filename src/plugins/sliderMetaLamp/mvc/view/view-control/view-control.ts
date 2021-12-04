@@ -18,7 +18,7 @@ class sliderViewControl extends Observer {
 		super();
 		this.slider = sliderElem;
 		this.root = sliderElem.previousElementSibling as HTMLInputElement;
-		this.track = this.slider.querySelector('.rs__track');
+		this.track = this.slider.querySelector('.rs-metalamp__track');
 		this.data = {};
 		this.data.thumb = {};
 		this.init(conf);
@@ -40,10 +40,10 @@ class sliderViewControl extends Observer {
 	private renderControl(
 		controlClassName: string, tipClassName: string, value: number) {
 		let control = document.createElement('button');
-		control.className = 'rs__control';
+		control.className = 'rs-metalamp__control';
 		control.classList.add(controlClassName);
 		let tip = document.createElement('span');
-		tip.className = 'rs__tip';
+		tip.className = 'rs-metalamp__tip';
 		tip.classList.add(tipClassName);
 		tip.innerText = String(value);
 		control.append(tip);
@@ -54,21 +54,21 @@ class sliderViewControl extends Observer {
 	/*Создаем ползунок минимального значения*/
 	private renderLeftControl() {
 		this.controlMin = this.renderControl(
-			'rs__control-min', 'rs__tip-min', this.conf.from);
-		this.tipMin = this.controlMin.querySelector('.rs__tip');
+			'rs-metalamp__control-min', 'rs-metalamp__tip-min', this.conf.from);
+		this.tipMin = this.controlMin.querySelector('.rs-metalamp__tip');
 		this.track.append(this.controlMin);
 	}
 
 	/*Создаем ползунок максимального значения*/
 	private renderRightControl() {
 		this.controlMax = this.renderControl(
-			'rs__control-max', 'rs__tip-max', this.conf.to);
-		this.tipMax = this.controlMax.querySelector('.rs__tip');
+			'rs-metalamp__control-max', 'rs-metalamp__tip-max', this.conf.to);
+		this.tipMax = this.controlMax.querySelector('.rs-metalamp__tip');
 		this.track.append(this.controlMax);
 	}
 
 	private defineControl = (elem: HTMLElement) =>
-		elem.classList.contains('rs__control-min') ? 'min' : 'max';
+		elem.classList.contains('rs-metalamp__control-min') ? 'min' : 'max';
 
 	private getMetrics(elem: HTMLElement) {
 		const scale = elem.parentElement;
@@ -89,7 +89,7 @@ class sliderViewControl extends Observer {
 			const target = e.target as HTMLElement;
 			target.classList.add('grabbing');
 			const T = this.data.thumb;
-			if (target.classList.contains('rs__control')) {
+			if (target.classList.contains('rs-metalamp__control')) {
 
 				//определяем ползунок, за который тянут
 				T.moovingControl = this.defineControl(target);
@@ -134,7 +134,7 @@ class sliderViewControl extends Observer {
 			e.preventDefault();
 			const target = e.target as HTMLElement;
 			const T = this.data.thumb;
-			if (target.classList.contains('rs__control')) {
+			if (target.classList.contains('rs-metalamp__control')) {
 
 				//определяем ползунок, за который тянут
 				T.moovingControl = this.defineControl(target);
@@ -164,10 +164,10 @@ class sliderViewControl extends Observer {
 				const target = e.target as HTMLElement;
 				const T = this.data.thumb;
 
-				if (target.classList.contains('rs__control')) {
+				if (target.classList.contains('rs-metalamp__control')) {
 
 					//определяем ползунок, на который нажимают
-					target.classList.contains('rs__control-min') ?
+					target.classList.contains('rs-metalamp__control-min') ?
 						T.moovingControl = 'min' :
 						T.moovingControl = 'max';
 					T.key = e.code;
@@ -186,11 +186,11 @@ class sliderViewControl extends Observer {
 			const T = this.data.thumb;
 
 			let arr =
-				['rs__track',
-					'rs__progressBar',
-					'rs__label',
-					'rs__mark',
-					'rs__frame'];
+				['rs-metalamp__track',
+					'rs-metalamp__progressBar',
+					'rs-metalamp__label',
+					'rs-metalamp__mark',
+					'rs-metalamp__frame'];
 			const result = [...target.classList].some(className =>
 				arr.indexOf(className) !== -1);
 			if (result) {
