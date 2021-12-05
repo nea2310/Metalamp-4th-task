@@ -29,6 +29,101 @@ class sliderViewControl extends Observer {
 		this.clickTrack();
 	}
 
+	//Обновляем позицию ползунка (вызывается через контроллер)
+	public updatePos(elem: HTMLElement, newPos: number) {
+		if (!this.initDone) {
+			this.initDone = true;
+		}
+
+		if (this.conf.vertical) {
+			elem.style.bottom = newPos + '%';
+			elem.style.left = '';
+		} else {
+			elem.style.left = newPos + '%';
+			elem.style.bottom = '';
+		}
+		//пересчитать ширину подсказок (возможно это надо вынести в отдельный метод)
+		if (this.defineControl(elem) == 'min') {
+			this.tipMin.style.left =
+				this.calcTipPos(this.conf.vertical, this.tipMin);
+		} else {
+			this.tipMax.style.left =
+				this.calcTipPos(this.conf.vertical, this.tipMax);
+		}
+	}
+
+	//Обновляем значение tip
+	public updateVal(val: string, isFrom: boolean) {
+		isFrom ? this.tipMin.innerText = val : this.tipMax.innerText = val;
+	}
+
+
+	// передать значения FROM и TO в инпут
+	public updateInput(conf: IConf) {
+
+		if (this.root.tagName === 'INPUT') {
+			this.root.value =
+				this.conf.range ? conf.from + ', ' + conf.to :
+					String(conf.from);
+		}
+	}
+
+	//включение / отключение вертикального режима
+	public switchVertical(conf: IConf) {
+		this.conf = conf;
+		if (this.conf.vertical) {
+			this.controlMax.classList.add('rs-metalamp__control_vert');
+			this.tipMax.classList.add('rs-metalamp__tip_vert');
+			this.controlMin.classList.add('rs-metalamp__control_vert');
+			this.tipMin.classList.add('rs-metalamp__tip_vert');
+			this.controlMax.classList.remove('rs-metalamp__control_horizontal');
+			this.tipMax.classList.remove('rs-metalamp__tip_horizontal');
+			this.controlMin.classList.remove('rs-metalamp__control_horizontal');
+			this.tipMin.classList.remove('rs-metalamp__tip_horizontal');
+		} else {
+			this.controlMax.classList.remove('rs-metalamp__control_vert');
+			this.tipMax.classList.remove('rs-metalamp__tip_vert');
+			this.controlMin.classList.remove('rs-metalamp__control_vert');
+			this.tipMin.classList.remove('rs-metalamp__tip_vert');
+			this.controlMax.classList.add('rs-metalamp__control_horizontal');
+			this.tipMax.classList.add('rs-metalamp__tip_horizontal');
+			this.controlMin.classList.add('rs-metalamp__control_horizontal');
+			this.tipMin.classList.add('rs-metalamp__tip_horizontal');
+		}
+	}
+
+	//включение / отключение single режима
+	public switchRange(conf: IConf) {
+		this.conf = conf;
+		if (this.conf.range) {
+			this.controlMax.classList.remove('rs-metalamp__control_hidden');
+			if (this.conf.tip) {
+				this.tipMax.classList.remove('rs-metalamp__tip_hidden');
+			}
+		} else {
+			this.controlMax.classList.add('rs-metalamp__control_hidden');
+			this.tipMax.classList.add('rs-metalamp__tip_hidden');
+		}
+	}
+
+	//включение / отключение подсказок
+	public switchTip(conf: IConf) {
+		this.conf = conf;
+		if (this.conf.tip) {
+			this.tipMax.classList.remove('rs-metalamp__tip_hidden');
+			this.tipMin.classList.remove('rs-metalamp__tip_hidden');
+			if (this.initDone) {
+				this.tipMax.style.left =
+					this.calcTipPos(conf.vertical, this.tipMax);
+				this.tipMin.style.left =
+					this.calcTipPos(conf.vertical, this.tipMin);
+			}
+		} else {
+			this.tipMax.classList.add('rs-metalamp__tip_hidden');
+			this.tipMin.classList.add('rs-metalamp__tip_hidden');
+		}
+	}
+
 	// Инициализация
 	private init(conf: IConf) {
 		this.conf = conf;
@@ -244,100 +339,7 @@ class sliderViewControl extends Observer {
 		else return elem.offsetWidth / 2 * (-1) + 'px';
 	}
 
-	//Обновляем позицию ползунка (вызывается через контроллер)
-	public updatePos(elem: HTMLElement, newPos: number) {
-		if (!this.initDone) {
-			this.initDone = true;
-		}
 
-		if (this.conf.vertical) {
-			elem.style.bottom = newPos + '%';
-			elem.style.left = '';
-		} else {
-			elem.style.left = newPos + '%';
-			elem.style.bottom = '';
-		}
-		//пересчитать ширину подсказок (возможно это надо вынести в отдельный метод)
-		if (this.defineControl(elem) == 'min') {
-			this.tipMin.style.left =
-				this.calcTipPos(this.conf.vertical, this.tipMin);
-		} else {
-			this.tipMax.style.left =
-				this.calcTipPos(this.conf.vertical, this.tipMax);
-		}
-	}
-
-	//Обновляем значение tip
-	public updateVal(val: string, isFrom: boolean) {
-		isFrom ? this.tipMin.innerText = val : this.tipMax.innerText = val;
-	}
-
-
-	// передать значения FROM и TO в инпут
-	public updateInput(conf: IConf) {
-
-		if (this.root.tagName === 'INPUT') {
-			this.root.value =
-				this.conf.range ? conf.from + ', ' + conf.to :
-					String(conf.from);
-		}
-	}
-
-	//включение / отключение вертикального режима
-	public switchVertical(conf: IConf) {
-		this.conf = conf;
-		if (this.conf.vertical) {
-			this.controlMax.classList.add('rs-metalamp__control_vert');
-			this.tipMax.classList.add('rs-metalamp__tip_vert');
-			this.controlMin.classList.add('rs-metalamp__control_vert');
-			this.tipMin.classList.add('rs-metalamp__tip_vert');
-			this.controlMax.classList.remove('rs-metalamp__control_horizontal');
-			this.tipMax.classList.remove('rs-metalamp__tip_horizontal');
-			this.controlMin.classList.remove('rs-metalamp__control_horizontal');
-			this.tipMin.classList.remove('rs-metalamp__tip_horizontal');
-		} else {
-			this.controlMax.classList.remove('rs-metalamp__control_vert');
-			this.tipMax.classList.remove('rs-metalamp__tip_vert');
-			this.controlMin.classList.remove('rs-metalamp__control_vert');
-			this.tipMin.classList.remove('rs-metalamp__tip_vert');
-			this.controlMax.classList.add('rs-metalamp__control_horizontal');
-			this.tipMax.classList.add('rs-metalamp__tip_horizontal');
-			this.controlMin.classList.add('rs-metalamp__control_horizontal');
-			this.tipMin.classList.add('rs-metalamp__tip_horizontal');
-		}
-	}
-
-	//включение / отключение single режима
-	public switchRange(conf: IConf) {
-		this.conf = conf;
-		if (this.conf.range) {
-			this.controlMax.classList.remove('rs-metalamp__control_hidden');
-			if (this.conf.tip) {
-				this.tipMax.classList.remove('rs-metalamp__tip_hidden');
-			}
-		} else {
-			this.controlMax.classList.add('rs-metalamp__control_hidden');
-			this.tipMax.classList.add('rs-metalamp__tip_hidden');
-		}
-	}
-
-	//включение / отключение подсказок
-	public switchTip(conf: IConf) {
-		this.conf = conf;
-		if (this.conf.tip) {
-			this.tipMax.classList.remove('rs-metalamp__tip_hidden');
-			this.tipMin.classList.remove('rs-metalamp__tip_hidden');
-			if (this.initDone) {
-				this.tipMax.style.left =
-					this.calcTipPos(conf.vertical, this.tipMax);
-				this.tipMin.style.left =
-					this.calcTipPos(conf.vertical, this.tipMin);
-			}
-		} else {
-			this.tipMax.classList.add('rs-metalamp__tip_hidden');
-			this.tipMin.classList.add('rs-metalamp__tip_hidden');
-		}
-	}
 }
 
 export { sliderViewControl };

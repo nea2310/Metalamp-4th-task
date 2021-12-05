@@ -15,6 +15,27 @@ class sliderController extends Observer {
 		this.enabled = true;
 	}
 
+	public update = (conf: IConf) => {
+		this.model.update(conf);
+	}
+
+	public destroy = () => {
+		this.view.slider.remove();
+		this.view = null;
+		this.model = null;
+	}
+
+	public disable = () => {
+		this.removeListeners();
+		this.enabled = false;
+	}
+
+	public enable = () => {
+		if (!this.enabled) {
+			this.createListeners();
+		}
+		this.enabled = true;
+	}
 
 	private init() {
 		this.model.getConf(this.view.backEndConf);
@@ -131,28 +152,6 @@ class sliderController extends Observer {
 			data.thumb.key,
 			data.thumb.repeat,
 			data.thumb.moovingControl);
-	}
-
-	public update = (conf: IConf) => {
-		this.model.update(conf);
-	}
-
-	public destroy = () => {
-		this.view.slider.remove();
-		this.view = null;
-		this.model = null;
-	}
-
-	public disable = () => {
-		this.removeListeners();
-		this.enabled = false;
-	}
-
-	public enable = () => {
-		if (!this.enabled) {
-			this.createListeners();
-		}
-		this.enabled = true;
 	}
 }
 

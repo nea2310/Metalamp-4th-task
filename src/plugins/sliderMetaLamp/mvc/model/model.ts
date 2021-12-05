@@ -78,10 +78,277 @@ class sliderModel extends Observer {
 		this.calcBar();
 		this.onStart(this.conf);
 		//console.log(this.data);
+	}
+
+	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале
+	public calcPos(type: string = 'pointerevent',
+		clientY: number,
+		clientX: number,
+		top: number,
+		left: number,
+		width: number,
+		height: number,
+		shiftBase: number,
+		moovingControl: string) {
+
+		let newPos = 0;
+		if (this.conf.vertical) {
+			newPos = 100 -
+				((clientY - top) * 100 / height);
+
+		} else {
+			let shift = 0;
+			if (type == 'pointermove') {
+				shift = (shiftBase * 100) / width;
+			}
+
+			newPos =
+				((clientX - left) * 100 / width) - shift;
+		}
+
+		/* если ползунок должен вставать на позицию ближайшего к нему деления шкалы - скорректировать значение newPos (переместить ползунок 
+		к ближайшему делению шкалы) */
+		if (this.conf.sticky) {
+			newPos = this.setSticky(newPos);
+		}
+
+		let isStop = false;
+		//запрещаем ползункам выходить за границы слайдера
+		if (newPos < 0) {
+			isStop = true;
+			this.calcVal('min', 0, moovingControl);
+			return 'newPos < 0';
+		}
+		if (newPos > 100) {
+			isStop = true;
+			this.calcVal('max', 0, moovingControl);
+			return 'newPos > 100';
+		}
+
+		/*запрещаем ползункам перепрыгивать друг через друга, если это не single режим*/
+		if (this.conf.range) {
+			if (moovingControl == 'min') {//двигается min ползунок
+				if (newPos > this.data.toPos) {
+					isStop = true;
+					this.calcVal('meetMax', 0, moovingControl);
+					return 'newPos > toPos';
+				}
+			}
+			if (moovingControl == 'max') {//двигается max ползунок
+				if (newPos < this.data.fromPos) {
+					isStop = true;
+					this.calcVal('meetMin', 0, moovingControl);
+					return 'newPos < fromPos';
+				}
+			}
+		}
+
+		if (moovingControl == 'min') {
+			this.data.fromPos = newPos;
+			this.fire('FromPosition', this.data, this.conf);
+		} else {
+			this.data.toPos = newPos;
+			this.fire('ToPosition', this.data, this.conf);
+		}
+		if (!isStop)
+			this.calcVal('normal', newPos, moovingControl);
+
+		this.calcBar();
+		this.onChange(this.conf);
+
+		return newPos;
+
 
 	}
 
 
+	// Рассчитывает значение ползунка при нажатии кнопки стрелки на сфокусированном ползунке
+	public calcPosKey(key: string, repeat: boolean, moovingControl: string) {
+		// поменять позицию и значение FROM
+		let changeFrom = (item: IObj) => {
+			this.conf.from = item.val;
+			this.data.fromPos = item.pos;
+			this.data.fromVal = String(item.val);
+			this.fire('FromPosition', this.data);
+			this.fire('FromValue', this.data);
+
+			return { newVal: String(item.val), newPos: item.pos };
+		};
+		// поменять позицию и значение TO
+		let changeTo = (item: IObj) => {
+			this.conf.to = item.val;
+			this.data.toPos = item.pos;
+			this.data.toVal = String(item.val);
+			this.fire('ToPosition', this.data);
+			this.fire('ToValue', this.data);
+			return { newVal: String(item.val), newPos: item.pos };
+		};
+		// движение в большую сторону
+		let incr = (index: number) => {
+			if (repeat) {
+				return this.data.marksArr[index +
+					this.conf.shiftOnKeyHold];
+			} else {
+				return this.data.marksArr[index +
+					this.conf.shiftOnKeyDown];
+			}
+		};
+		// движение в меньшую сторону
+		let decr = (index: number) => {
+			if (repeat) {
+				return this.data.marksArr[index -
+					this.conf.shiftOnKeyHold];
+			} else {
+				return this.data.marksArr[index -
+					this.conf.shiftOnKeyDown];
+			}
+		};
+
+
+		let newVal;
+		let item;
+		let result;
+		if (!this.conf.sticky) {	// если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
+			this.noCalVal = true;
+			if (moovingControl == 'min') {// Ползунок min
+				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
+					/*проверяем, что FROM не стал больше TO или MAX*/
+					const belowMaxRange = this.conf.range && this.conf.from <
+						this.conf.to;
+					const belowMaxNoRange = !this.conf.range &&
+						this.conf.from < this.conf.max;
+					const aboveMaxRange = this.conf.range &&
+						this.conf.from >= this.conf.to;
+					const aboveMaxNoRange = !this.conf.range &&
+						this.conf.from >= this.conf.max;
+
+					if (belowMaxRange || belowMaxNoRange) {
+						newVal = repeat ?
+							this.conf.from +
+							this.conf.shiftOnKeyHold :
+							this.conf.from +
+							this.conf.shiftOnKeyDown;
+						if (this.conf.range && newVal > this.conf.to) {
+							newVal = this.conf.to;
+						}
+						if (!this.conf.range && newVal > this.conf.max) {
+							newVal = this.conf.max;
+						}
+					}
+					if (aboveMaxRange) {
+						newVal = this.conf.to;
+					}
+					if (aboveMaxNoRange) {
+						newVal = this.conf.max;
+					}
+				}
+				else {// Уменьшение значения
+					if (this.conf.from > this.conf.min) {
+						newVal = repeat ?
+							this.conf.from -
+							this.conf.shiftOnKeyHold :
+							this.conf.from -
+							this.conf.shiftOnKeyDown;
+						if (newVal < this.conf.min) {
+							newVal = this.conf.min;
+						}
+					} else {
+						newVal = this.conf.min;
+					}
+				}
+
+				this.data.fromVal = String(newVal);
+				this.conf.from = newVal;
+				this.calcFromPosition();
+				this.fire('FromValue', this.data);
+				result = newVal;
+
+			} else {// Ползунок max
+				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
+					if (this.conf.to < this.conf.max) {
+
+						newVal = repeat ?
+							this.conf.to +
+							this.conf.shiftOnKeyHold :
+							this.conf.to +
+							this.conf.shiftOnKeyDown;
+						if (newVal > this.conf.max) {
+							newVal = this.conf.max;
+						}
+					} else newVal = this.conf.max;
+				} else {// Уменьшение значения
+					if (this.conf.to > this.conf.from) {
+						newVal = repeat ?
+							this.conf.to -
+							this.conf.shiftOnKeyHold :
+							this.conf.to -
+							this.conf.shiftOnKeyDown;
+						if (newVal < this.conf.from) {
+							newVal = this.conf.from;
+						}
+					} else newVal = this.conf.from;
+				}
+				this.data.toVal = String(newVal);
+				this.conf.to = newVal;
+				this.calcToPosition();
+				this.fire('ToValue', this.data);
+				result = newVal;
+			}
+			this.noCalVal = false; // ??
+		}
+
+		// если ползунок должен вставать на позицию ближайшего к нему деления шкалы
+		else {
+			if (moovingControl == 'min') {// ползунок min
+				let index = this.data.marksArr.
+					findIndex(item => item.val == this.conf.from);
+				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
+					item = incr(index);
+					if (item == undefined) return 'newPos>100';
+					else if (item.val > this.conf.from &&
+						(this.conf.range && item.val <= this.conf.to
+							|| !this.conf.range && item.val <=
+							this.conf.max)) {
+						result = changeFrom(item);
+					}
+					else result = 'too big newPos';
+				} else {//Уменьшение значения
+					item = decr(index);
+					if (item == undefined) return 'newPos<0';
+
+					else if (this.conf.range && item.val < this.conf.to ||
+						!this.conf.range) {
+						result = changeFrom(item);
+					}
+					else result = 'too small newPos';
+				}
+
+			} else {// ползунок max
+				let index = this.data.marksArr.
+					findIndex(item => item.val == this.conf.to);
+				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
+					item = incr(index);
+					if (item == undefined) return 'newPos>100';
+					else if (item && item.val > this.conf.to &&
+						this.conf.to < this.conf.max) {
+						result = changeTo(item);
+					}
+					else result = 'too big newPos';
+				} else {//Уменьшение значения
+					item = decr(index);
+					if (item == undefined) return 'newPos<0';
+					else if (item.val >= this.conf.from &&
+						this.conf.to > this.conf.from) {
+						result = changeTo(item);
+					}
+					else result = 'too small newPos';
+				}
+			}
+		}
+		this.calcBar();
+		this.onChange(this.conf);
+		return result;
+	}
 
 	private checkConf(conf: IConf) {
 		//надо проверять на число те параметры, которые вводятся в инпут (т.к. можно ввести строку)
@@ -432,277 +699,6 @@ class sliderModel extends Observer {
 				this.fire('ToValue', this.data);
 			}
 		}
-	}
-
-
-	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале
-	public calcPos(type: string = 'pointerevent',
-		clientY: number,
-		clientX: number,
-		top: number,
-		left: number,
-		width: number,
-		height: number,
-		shiftBase: number,
-		moovingControl: string) {
-
-		let newPos = 0;
-		if (this.conf.vertical) {
-			newPos = 100 -
-				((clientY - top) * 100 / height);
-
-		} else {
-			let shift = 0;
-			if (type == 'pointermove') {
-				shift = (shiftBase * 100) / width;
-			}
-
-			newPos =
-				((clientX - left) * 100 / width) - shift;
-		}
-
-		/* если ползунок должен вставать на позицию ближайшего к нему деления шкалы - скорректировать значение newPos (переместить ползунок 
-		к ближайшему делению шкалы) */
-		if (this.conf.sticky) {
-			newPos = this.setSticky(newPos);
-		}
-
-		let isStop = false;
-		//запрещаем ползункам выходить за границы слайдера
-		if (newPos < 0) {
-			isStop = true;
-			this.calcVal('min', 0, moovingControl);
-			return 'newPos < 0';
-		}
-		if (newPos > 100) {
-			isStop = true;
-			this.calcVal('max', 0, moovingControl);
-			return 'newPos > 100';
-		}
-
-		/*запрещаем ползункам перепрыгивать друг через друга, если это не single режим*/
-		if (this.conf.range) {
-			if (moovingControl == 'min') {//двигается min ползунок
-				if (newPos > this.data.toPos) {
-					isStop = true;
-					this.calcVal('meetMax', 0, moovingControl);
-					return 'newPos > toPos';
-				}
-			}
-			if (moovingControl == 'max') {//двигается max ползунок
-				if (newPos < this.data.fromPos) {
-					isStop = true;
-					this.calcVal('meetMin', 0, moovingControl);
-					return 'newPos < fromPos';
-				}
-			}
-		}
-
-		if (moovingControl == 'min') {
-			this.data.fromPos = newPos;
-			this.fire('FromPosition', this.data, this.conf);
-		} else {
-			this.data.toPos = newPos;
-			this.fire('ToPosition', this.data, this.conf);
-		}
-		if (!isStop)
-			this.calcVal('normal', newPos, moovingControl);
-
-		this.calcBar();
-		this.onChange(this.conf);
-
-		return newPos;
-
-
-	}
-
-
-	// Рассчитывает значение ползунка при нажатии кнопки стрелки на сфокусированном ползунке
-	public calcPosKey(key: string, repeat: boolean, moovingControl: string) {
-		// поменять позицию и значение FROM
-		let changeFrom = (item: IObj) => {
-			this.conf.from = item.val;
-			this.data.fromPos = item.pos;
-			this.data.fromVal = String(item.val);
-			this.fire('FromPosition', this.data);
-			this.fire('FromValue', this.data);
-
-			return { newVal: String(item.val), newPos: item.pos };
-		};
-		// поменять позицию и значение TO
-		let changeTo = (item: IObj) => {
-			this.conf.to = item.val;
-			this.data.toPos = item.pos;
-			this.data.toVal = String(item.val);
-			this.fire('ToPosition', this.data);
-			this.fire('ToValue', this.data);
-			return { newVal: String(item.val), newPos: item.pos };
-		};
-		// движение в большую сторону
-		let incr = (index: number) => {
-			if (repeat) {
-				return this.data.marksArr[index +
-					this.conf.shiftOnKeyHold];
-			} else {
-				return this.data.marksArr[index +
-					this.conf.shiftOnKeyDown];
-			}
-		};
-		// движение в меньшую сторону
-		let decr = (index: number) => {
-			if (repeat) {
-				return this.data.marksArr[index -
-					this.conf.shiftOnKeyHold];
-			} else {
-				return this.data.marksArr[index -
-					this.conf.shiftOnKeyDown];
-			}
-		};
-
-
-		let newVal;
-		let item;
-		let result;
-		if (!this.conf.sticky) {	// если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
-			this.noCalVal = true;
-			if (moovingControl == 'min') {// Ползунок min
-				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
-					/*проверяем, что FROM не стал больше TO или MAX*/
-					const belowMaxRange = this.conf.range && this.conf.from <
-						this.conf.to;
-					const belowMaxNoRange = !this.conf.range &&
-						this.conf.from < this.conf.max;
-					const aboveMaxRange = this.conf.range &&
-						this.conf.from >= this.conf.to;
-					const aboveMaxNoRange = !this.conf.range &&
-						this.conf.from >= this.conf.max;
-
-					if (belowMaxRange || belowMaxNoRange) {
-						newVal = repeat ?
-							this.conf.from +
-							this.conf.shiftOnKeyHold :
-							this.conf.from +
-							this.conf.shiftOnKeyDown;
-						if (this.conf.range && newVal > this.conf.to) {
-							newVal = this.conf.to;
-						}
-						if (!this.conf.range && newVal > this.conf.max) {
-							newVal = this.conf.max;
-						}
-					}
-					if (aboveMaxRange) {
-						newVal = this.conf.to;
-					}
-					if (aboveMaxNoRange) {
-						newVal = this.conf.max;
-					}
-				}
-				else {// Уменьшение значения
-					if (this.conf.from > this.conf.min) {
-						newVal = repeat ?
-							this.conf.from -
-							this.conf.shiftOnKeyHold :
-							this.conf.from -
-							this.conf.shiftOnKeyDown;
-						if (newVal < this.conf.min) {
-							newVal = this.conf.min;
-						}
-					} else {
-						newVal = this.conf.min;
-					}
-				}
-
-				this.data.fromVal = String(newVal);
-				this.conf.from = newVal;
-				this.calcFromPosition();
-				this.fire('FromValue', this.data);
-				result = newVal;
-
-			} else {// Ползунок max
-				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
-					if (this.conf.to < this.conf.max) {
-
-						newVal = repeat ?
-							this.conf.to +
-							this.conf.shiftOnKeyHold :
-							this.conf.to +
-							this.conf.shiftOnKeyDown;
-						if (newVal > this.conf.max) {
-							newVal = this.conf.max;
-						}
-					} else newVal = this.conf.max;
-				} else {// Уменьшение значения
-					if (this.conf.to > this.conf.from) {
-						newVal = repeat ?
-							this.conf.to -
-							this.conf.shiftOnKeyHold :
-							this.conf.to -
-							this.conf.shiftOnKeyDown;
-						if (newVal < this.conf.from) {
-							newVal = this.conf.from;
-						}
-					} else newVal = this.conf.from;
-				}
-				this.data.toVal = String(newVal);
-				this.conf.to = newVal;
-				this.calcToPosition();
-				this.fire('ToValue', this.data);
-				result = newVal;
-			}
-			this.noCalVal = false; // ??
-		}
-
-		// если ползунок должен вставать на позицию ближайшего к нему деления шкалы
-		else {
-			if (moovingControl == 'min') {// ползунок min
-				let index = this.data.marksArr.
-					findIndex(item => item.val == this.conf.from);
-				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
-					item = incr(index);
-					if (item == undefined) return 'newPos>100';
-					else if (item.val > this.conf.from &&
-						(this.conf.range && item.val <= this.conf.to
-							|| !this.conf.range && item.val <=
-							this.conf.max)) {
-						result = changeFrom(item);
-					}
-					else result = 'too big newPos';
-				} else {//Уменьшение значения
-					item = decr(index);
-					if (item == undefined) return 'newPos<0';
-
-					else if (this.conf.range && item.val < this.conf.to ||
-						!this.conf.range) {
-						result = changeFrom(item);
-					}
-					else result = 'too small newPos';
-				}
-
-			} else {// ползунок max
-				let index = this.data.marksArr.
-					findIndex(item => item.val == this.conf.to);
-				if (key == 'ArrowRight' || key == 'ArrowUp') {//Увеличение значения
-					item = incr(index);
-					if (item == undefined) return 'newPos>100';
-					else if (item && item.val > this.conf.to &&
-						this.conf.to < this.conf.max) {
-						result = changeTo(item);
-					}
-					else result = 'too big newPos';
-				} else {//Уменьшение значения
-					item = decr(index);
-					if (item == undefined) return 'newPos<0';
-					else if (item.val >= this.conf.from &&
-						this.conf.to > this.conf.from) {
-						result = changeTo(item);
-					}
-					else result = 'too small newPos';
-				}
-			}
-		}
-		this.calcBar();
-		this.onChange(this.conf);
-		return result;
 	}
 }
 

@@ -29,6 +29,71 @@ class sliderViewScale {
 	}
 
 
+	//создаем деления
+	public createScale(scaleMarks: { 'pos'?: number, 'val'?: number }[],
+		conf: IConf) {
+		this.conf = conf;
+		this.scaleMarks = scaleMarks;
+		let steps = this.slider.querySelectorAll('.js-rs-metalamp__mark');
+		if (this.calcMarkList) {//Если это переотрисовка шкалы - удалить существующие деления
+			if (steps.length) {
+				for (let elem of steps) {
+					elem.remove();
+				}
+			}
+			for (let node of scaleMarks) {
+				let elem = document.createElement('div');
+				elem.classList.add('rs-metalamp__mark');
+				elem.classList.add('js-rs-metalamp__mark');
+				let label = document.createElement('div');
+				label.innerText = String(node.val);
+				label.classList.add('rs-metalamp__label');
+				elem.appendChild(label);
+
+				if (conf.vertical) {
+					elem.classList.add('rs-metalamp__mark_vert');
+					label.classList.add('rs-metalamp__label_vert');
+					elem.style.bottom = String(node.pos) + '%';
+				} else {
+					elem.classList.add('rs-metalamp__mark_horizontal');
+					label.classList.add('rs-metalamp__label_horizontal');
+					elem.style.left = String(node.pos) + '%';
+				}
+				if (!conf.scale) {
+					elem.classList.add('rs-metalamp__mark_visually-hidden');
+				}
+				this.track.appendChild(elem);
+				if (conf.vertical) {
+					label.style.top = label.offsetHeight / 2 * (-1) + 'px';
+				} else {
+					label.style.left = label.offsetWidth / 2 * (-1) + 'px';
+				}
+			}
+
+			this.markList =
+				[...this.track.querySelectorAll<HTMLElement>
+					('.js-rs-metalamp__mark')];
+		}
+
+		this.resize();
+		return this.checkScaleLength(this.markList);
+	}
+
+	public switchScale(conf: IConf) {
+		this.conf = conf;
+		let stepMarks = this.slider.querySelectorAll('.js-rs-metalamp__mark');
+		if (this.conf.scale) {
+			for (let elem of stepMarks) {
+				elem.classList.remove('rs-metalamp__mark_visually-hidden');
+			}
+		} else {
+			for (let elem of stepMarks) {
+				elem.classList.add('rs-metalamp__mark_visually-hidden');
+			}
+		}
+		return stepMarks;
+	}
+
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
 	private checkScaleLength(markList: HTMLElement[]) {
 		let hideLabels = (markList: HTMLElement[]) => {
@@ -130,70 +195,6 @@ class sliderViewScale {
 	}
 
 
-	//создаем деления
-	public createScale(scaleMarks: { 'pos'?: number, 'val'?: number }[],
-		conf: IConf) {
-		this.conf = conf;
-		this.scaleMarks = scaleMarks;
-		let steps = this.slider.querySelectorAll('.js-rs-metalamp__mark');
-		if (this.calcMarkList) {//Если это переотрисовка шкалы - удалить существующие деления
-			if (steps.length) {
-				for (let elem of steps) {
-					elem.remove();
-				}
-			}
-			for (let node of scaleMarks) {
-				let elem = document.createElement('div');
-				elem.classList.add('rs-metalamp__mark');
-				elem.classList.add('js-rs-metalamp__mark');
-				let label = document.createElement('div');
-				label.innerText = String(node.val);
-				label.classList.add('rs-metalamp__label');
-				elem.appendChild(label);
-
-				if (conf.vertical) {
-					elem.classList.add('rs-metalamp__mark_vert');
-					label.classList.add('rs-metalamp__label_vert');
-					elem.style.bottom = String(node.pos) + '%';
-				} else {
-					elem.classList.add('rs-metalamp__mark_horizontal');
-					label.classList.add('rs-metalamp__label_horizontal');
-					elem.style.left = String(node.pos) + '%';
-				}
-				if (!conf.scale) {
-					elem.classList.add('rs-metalamp__mark_visually-hidden');
-				}
-				this.track.appendChild(elem);
-				if (conf.vertical) {
-					label.style.top = label.offsetHeight / 2 * (-1) + 'px';
-				} else {
-					label.style.left = label.offsetWidth / 2 * (-1) + 'px';
-				}
-			}
-
-			this.markList =
-				[...this.track.querySelectorAll<HTMLElement>
-					('.js-rs-metalamp__mark')];
-		}
-
-		this.resize();
-		return this.checkScaleLength(this.markList);
-	}
-
-	public switchScale(conf: IConf) {
-		this.conf = conf;
-		let stepMarks = this.slider.querySelectorAll('.js-rs-metalamp__mark');
-		if (this.conf.scale) {
-			for (let elem of stepMarks) {
-				elem.classList.remove('rs-metalamp__mark_visually-hidden');
-			}
-		} else {
-			for (let elem of stepMarks) {
-				elem.classList.add('rs-metalamp__mark_visually-hidden');
-			}
-		}
-		return stepMarks;
-	}
 }
 
 export { sliderViewScale };

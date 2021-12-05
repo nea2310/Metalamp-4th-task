@@ -22,20 +22,6 @@ class sliderViewBar {
 		this.init(conf);
 	}
 
-	// Инициализация
-	private init(conf: IConf) {
-		this.conf = conf;
-		this.renderBar(conf);
-	}
-	//создание бара
-	private renderBar(conf: IConf) {
-		this.track = this.slider.querySelector('.rs-metalamp__track');
-		this.progressBar = document.createElement('div');
-		this.progressBar.className = 'rs-metalamp__progressBar';
-		this.track.append(this.progressBar);
-		this.switchBar(conf);
-	}
-
 	// переключение в вертикальный режим
 	public switchVertical(conf: IConf) {
 		const classList = this.progressBar.classList;
@@ -66,6 +52,20 @@ class sliderViewBar {
 			style.left = '';
 			style.width = '';
 		}
+	}
+
+	// Инициализация
+	private init(conf: IConf) {
+		this.conf = conf;
+		this.renderBar(conf);
+	}
+	//создание бара
+	private renderBar(conf: IConf) {
+		this.track = this.slider.querySelector('.rs-metalamp__track');
+		this.progressBar = document.createElement('div');
+		this.progressBar.className = 'rs-metalamp__progressBar';
+		this.track.append(this.progressBar);
+		this.switchBar(conf);
 	}
 }
 
