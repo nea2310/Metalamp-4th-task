@@ -1,0 +1,84 @@
+@import "@styles/glob.scss";
+$borderWidth: 2px;
+
+.btn {
+	cursor: pointer;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	user-select: none;
+	border-radius: 22px;
+
+	&_very-long {
+		width: 100%;
+		max-width: 320px;
+	}
+
+	&_long {
+		width: 196px;
+	}
+
+	&_short {
+		width: 95px;
+	}
+	&_very-short {
+		width: 87px;
+	}
+
+	&_wide {
+		height: 44px;
+	}
+
+	&_narrow {
+		height: 35px;
+	}
+
+	&_plain-text {
+		color: $colorPurple;
+		border: none;
+		background: none;
+		&:hover,
+		&:focus {
+			color: $colorDarkShade50;
+		}
+	}
+	&_dark {
+		background: $gradientPurple;
+		color: $colorWhite;
+		&:hover,
+		&:focus {
+			opacity: 0.5;
+		}
+	}
+
+	&_blue {
+		box-sizing: border-box;
+		font-weight: normal;
+		color: rgb(41, 39, 39);
+		background-color: $colorBlue;
+		border-radius: 2px;
+		padding: 0 10px;
+		&:hover {
+			border: 2px solid rgb(41, 39, 39);
+		}
+	}
+	&_light {
+		background-color: $colorWhite;
+		box-shadow: inset 0px 2px 0px 0px $colorPurple, inset 0px 0px 0px 2px $colorBlue;
+		color: $colorPurple;
+
+		&:hover,
+		&:focus {
+			box-shadow: inset 0px 2px 0px 0px $colorPurpleOpaque, inset 0px 0px 0px 2px $colorBlueOpaque;
+		}
+	}
+	&__img {
+		position: absolute;
+		top: 14px;
+		right: 14px;
+	}
+}

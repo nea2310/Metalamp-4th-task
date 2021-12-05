@@ -16,6 +16,20 @@
 		height: auto;
 		display: block;
 	}
+
+	&__actions {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		margin: 5px;
+		padding: 5px;
+		border: 1px solid $colorDarkShade25;
+		@include media-breakpoint-down($lg) {
+			flex-direction: row;
+			justify-content: space-between;
+		}
+	}
+
 	&__mainSetup {
 		margin: 5px;
 		padding: 5px;
@@ -147,78 +161,8 @@
 		}
 	}
 	.apply {
-		box-sizing: border-box;
-		@include font-body;
-		font-weight: normal;
-		color: rgb(41, 39, 39);
-
 		position: absolute;
 		bottom: 18px;
 		right: 14px;
-		background-color: $colorBlue;
-		height: 30px;
-		width: 120px;
-		border-radius: 2px;
-		padding: 0 10px;
-		&:hover {
-			border: 2px solid rgb(41, 39, 39);
-		}
-	}
-
-	.destroy {
-		box-sizing: border-box;
-		@include font-body;
-		font-weight: normal;
-		color: rgb(41, 39, 39);
-
-		position: absolute;
-		bottom: 18px;
-		right: 170px;
-		background-color: $colorBlue;
-		height: 30px;
-		width: 120px;
-		border-radius: 2px;
-		padding: 0 10px;
-		&:hover {
-			border: 2px solid rgb(41, 39, 39);
-		}
-	}
-
-	.disable {
-		box-sizing: border-box;
-		@include font-body;
-		font-weight: normal;
-		color: rgb(41, 39, 39);
-
-		position: absolute;
-		bottom: 18px;
-		right: 300px;
-		background-color: $colorBlue;
-		height: 30px;
-		width: 120px;
-		border-radius: 2px;
-		padding: 0 10px;
-		&:hover {
-			border: 2px solid rgb(41, 39, 39);
-		}
-	}
-
-	.enable {
-		box-sizing: border-box;
-		@include font-body;
-		font-weight: normal;
-		color: rgb(41, 39, 39);
-
-		position: absolute;
-		bottom: 18px;
-		right: 430px;
-		background-color: $colorBlue;
-		height: 30px;
-		width: 120px;
-		border-radius: 2px;
-		padding: 0 10px;
-		&:hover {
-			border: 2px solid rgb(41, 39, 39);
-		}
 	}
 }

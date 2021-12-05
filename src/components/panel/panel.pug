@@ -1,6 +1,7 @@
 include ../input-field/input-field.pug
 include ../toggle/toggle.pug
 include ../radiobuttons/radiobuttons.pug
+include ../btn/btn.pug
 mixin panel(options={})
 	-
 		let elemName='panel'
@@ -83,9 +84,44 @@ mixin panel(options={})
 										{width: 'narrow',
 										labelText: 'shift on key hold'} 
 										)
-		button(class = 'apply') Применить
-		button(class = 'destroy') Destroy
-		button(class = 'disable') Disable
-		button(class = 'enable') Enable
+		fieldset(class = elemName + '__actions')
+			legend Actions
+			div(class = 'destroy')
+				+btn(
+									{type: 'button',
+									length: 'short',
+									width: 'narrow',
+									color: 'blue',
+									text: 'Destroy'
+									} 
+									)
+			div(class = 'disable')
+				+btn(
+									{type: 'button',
+									length: 'short',
+									width: 'narrow',
+									color: 'blue',
+									text: 'Disable'
+									} 
+									)
+			div(class = 'enable')
+				+btn(
+									{type: 'button',
+									length: 'short',
+									width: 'narrow',
+									color: 'blue',
+									text: 'Enable'
+									} 
+									)
+		div(class = 'apply')
+			+btn(
+									{type: 'button',
+									length: 'long',
+									width: 'narrow',
+									color: 'blue',
+									text: 'Apply changes'
+									} 
+									)
+
 
 
