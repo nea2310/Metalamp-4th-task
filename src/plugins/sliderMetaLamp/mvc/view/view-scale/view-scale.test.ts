@@ -146,15 +146,5 @@ describe('ViewScale', () => {
 			toBe(true);
 	});
 
-	test('resize', async () => {
-		jest.useFakeTimers();
-		jest.spyOn(global, 'setTimeout');
-		mockCustomEvent(window,
-			{ eventType: 'optimizedResize' });
-		//jest.runAllTimers();
-		jest.runOnlyPendingTimers();
-		expect(setTimeout).toHaveBeenCalledTimes(14);
-		expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 200);
-	});
 });
 

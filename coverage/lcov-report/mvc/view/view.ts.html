@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.8% </span>
+                <span class="strong">79.56% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>80/99</span>
+                <span class='fraction'>74/93</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80.8% </span>
+                <span class="strong">79.56% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>80/99</span>
+                <span class='fraction'>74/93</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -253,13 +253,7 @@
 <a name='L194'></a><a href='#L194'>194</a>
 <a name='L195'></a><a href='#L195'>195</a>
 <a name='L196'></a><a href='#L196'>196</a>
-<a name='L197'></a><a href='#L197'>197</a>
-<a name='L198'></a><a href='#L198'>198</a>
-<a name='L199'></a><a href='#L199'>199</a>
-<a name='L200'></a><a href='#L200'>200</a>
-<a name='L201'></a><a href='#L201'>201</a>
-<a name='L202'></a><a href='#L202'>202</a>
-<a name='L203'></a><a href='#L203'>203</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L197'></a><a href='#L197'>197</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -295,14 +289,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -506,14 +494,14 @@ class sliderView extends Observer {
 	}
 &nbsp;
 	private collectParms() {
-&nbsp;
-		this.backEndConf = {};
+<span class="fstat-no" title="function not covered" ></span>
+		this.backE<span class="cstat-no" title="statement not covered" >ndConf = {};</span>
 		let map = new Map();
 		let arr = ['min',
 			'max',
 			'from',
-			'to',<span class="fstat-no" title="function not covered" ></span>
-			'step',<span class="cstat-no" title="statement not covered" ></span>
+			'to',
+			'step',
 			'interval',
 			'shiftonkeydown',
 			'shiftonkeyhold',
@@ -568,42 +556,42 @@ class sliderView extends Observer {
 		this.switchVertical(conf);
 	}
 &nbsp;
-	private createSubViews() {
-		this.viewControl = new sliderViewControl(this.slider, this.conf);
-		this.viewScale =
+	private createSubVi<span class="cstat-no" title="statement not covered" >ews() {</span>
+		this.viewC<span class="cstat-no" title="statement not covered" >ontrol = new sliderViewControl(this.slider, this.conf);</span>
+		this.viewScale<span class="cstat-no" title="statement not covered" > =</span>
 			new sliderViewScale(this.slider, this.track, this.conf);
 		this.viewBar = new sliderViewBar(this.slider, this.conf);
 	}
-<span class="cstat-no" title="statement not covered" ></span>
+&nbsp;
 	private cre<span class="cstat-no" title="statement not covered" >ateListeners() {</span>
-		this.viewContr<span class="cstat-no" title="statement not covered" >ol.subscribe(this.handle</span>MoveEvent);
+		this.viewContr<span class="cstat-no" title="statement not covered" >ol.subscribe(this.handleMoveEvent);</span>
 		this.viewControl.subscribe(this.handleKeydownEvent);
 	}
-&nbsp;
-	public updateFromPos = (data: Idata, conf: IConf) =&gt; {
-		this.viewC<span class="cstat-no" title="statement not covered" >ontrol.updatePos(this.viewControl.controlMin,</span>
-			data.fromPos)<span class="cstat-no" title="statement not covered" >;</span>
-		this.viewControl.updateInput(conf);
-	}
 <span class="cstat-no" title="statement not covered" ></span>
-	public updateTo<span class="cstat-no" title="statement not covered" >Pos = (data: Idata, conf</span>: IConf) =&gt; {
-		this.viewControl.updatePos(this.viewControl.controlMax,
-			data.toPos);
+	public updateFr<span class="cstat-no" title="statement not covered" >omPos = (data: Idata, co</span>nf: IConf) =&gt; {
+		this.viewControl.updatePos(this.viewControl.controlMin,
+			data.fromPos);
 		this.viewC<span class="cstat-no" title="statement not covered" >ontrol.updateInput(conf);</span>
 	}<span class="cstat-no" title="statement not covered" ></span>
 &nbsp;
-	public updateFromVal = (data: Idata) =&gt; {
-		this.viewC<span class="cstat-no" title="statement not covered" >ontrol.updateVal(data.fromVal, true);</span>
-	}<span class="cstat-no" title="statement not covered" ></span>
+	public updateToPos = (data: Idata, conf: IConf) =&gt; {
+		this.viewC<span class="cstat-no" title="statement not covered" >ontrol.updatePos(this.viewControl.controlMax,</span>
+			data.toPos);<span class="cstat-no" title="statement not covered" ></span>
+		this.viewContr<span class="cstat-no" title="statement not covered" >ol.updateInput(conf);</span>
+	}
 <span class="cstat-no" title="statement not covered" ></span>
-	public updateToVal = (data: Idata) =&gt; {
-		this.viewC<span class="cstat-no" title="statement not covered" >ontrol.updateVal(data.toVal, false);</span>
-	}<span class="cstat-no" title="statement not covered" ></span>
+	public updateFr<span class="cstat-no" title="statement not covered" >omVal = (data: Idata) =&gt; {</span>
+		this.viewContr<span class="cstat-no" title="statement not covered" >ol.updateVal(data.fro</span>mVal, true);
+	}
 <span class="cstat-no" title="statement not covered" ></span>
+	public updateTo<span class="cstat-no" title="statement not covered" >Val = (data: Idata) =&gt; {</span>
+		this.viewContr<span class="cstat-no" title="statement not covered" >ol.updateVal(data.toV</span>al, false);
+	}
+&nbsp;
 	public updateScale = (data: Idata, conf: IConf) =&gt; {
-		this.viewS<span class="cstat-no" title="statement not covered" >cale.createScale(data.marksArr, conf);</span>
-<span class="cstat-no" title="statement not covered" ></span>
-	}<span class="cstat-no" title="statement not covered" ></span>
+		this.viewScale.createScale(data.marksArr, conf);
+&nbsp;
+	}
 &nbsp;
 	public updateBar = (data: Idata, conf: IConf) =&gt; {
 		this.viewBar.
@@ -612,16 +600,10 @@ class sliderView extends Observer {
 &nbsp;
 	public switchVertical = (conf: IConf) =&gt; {
 		if (conf.vertical) {
-			this.slider.classList.add('vert');
-			this.track.classList.add('vert');
-			this.frame.classList.add('vert');
 			this.slider.classList.add('rs-metalamp__wrapper_vert');
 			this.track.classList.add('rs-metalamp__track_vert');
 			this.frame.classList.add('rs-metalamp__frame_vert');
 		} else {
-			this.slider.classList.remove('vert');
-			this.track.classList.remove('vert');
-			this.frame.classList.remove('vert');
 			this.slider.classList.remove('rs-metalamp__wrapper_vert');
 			this.track.classList.remove('rs-metalamp__track_vert');
 			this.frame.classList.remove('rs-metalamp__frame_vert');
@@ -670,7 +652,7 @@ export { sliderView };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Dec 04 2021 17:17:06 GMT+0500 (Екатеринбург, стандартное время)
+                at Sun Dec 05 2021 13:17:34 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         </div>
         <script src="../../prettify.js"></script>

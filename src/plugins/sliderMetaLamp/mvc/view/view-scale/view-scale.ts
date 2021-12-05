@@ -112,56 +112,23 @@ class sliderViewScale {
 		}
 	}
 
-	private getResizeWrap() {
-		let sleep = 200; // --------- задержка в миллесекундах
-		let rtime = 0;  // ---------- для хранения отрезка времени
-		let timeout = false; // ----- флаг для запрета лишний раз вызывать функцию resizeend
-
+	private resize() {
 		this.startWidth = this.slider.offsetWidth; // ----------------- запоминаем ширину враппера до ресайза
-		(function () { // ------------------------------------------------- функция которая сразу исполняеться (она повесит искуственное событие optimizedResize)
-			let throttle = function (type: string, name: string, obj = window) {
-				let running = false;  // ------------------------------------ флаг начала события
-				let func = function () { //---------------------------------- функция создающая оптимизированное отслеживание ресайза 60 запросов в сек. 
-					if (running) { return; } // ------------------------------ выйти если мы ещё не сделали dispatchEvent
-					running = true;
-					requestAnimationFrame(function () {  // ------------------ делаем отрисовку Анимации - то есть вызовим функцию при следующей отрисовке и частота опроса не больше 60 раз в сек
-						obj.dispatchEvent(new CustomEvent(name)); //----------- создаём искуственное событие - которое будет вешаться раз 60 раз в сек
-						running = false; // ----------------------------------- даём знать что requestAnimationFrame можно будет выполнить в след раз
-					});
-				};
-				obj.addEventListener(type, func); // ------------------------ на виндовс вешаем событие ресайза и отслеживаем его как только ресайз будет - вызовиться функция func
-			};
-			throttle("resize", "optimizedResize");
-		})();
-
-		const resizeend = () => {
-			if (+(new Date()) - rtime < sleep) { // -------------------------- сверяем отрезок времени с задержкой - если мы уже давно не ресайзимся то скорей всего остановились
-				setTimeout(resizeend, sleep); // --------------------------- если отрезок времени короче чем sleep то ждём ещё  миллисекунд на sleep... 
-			} else { // --------------------------------------------------- если времени прошло достаточно а ресайза не было то можно считать что мы остановились
-				timeout = false;
-
-				let totalWidth = this.slider.offsetWidth; // ----------------------------------- получаем ширину после ресайза
-				if (totalWidth != this.startWidth) { // -------------------------------------------------- если до и после отличаеться 
-					if (totalWidth < this.startWidth) {
-						this.checkScaleLength(this.markList);
-					}
-					if (totalWidth > this.startWidth) {
-						this.createScale(this.scaleMarks, this.conf);
-					}
-					this.startWidth = totalWidth;//-------------------------------------------------------- запоминаем новую ширину враппера до ресайза
+		const handleResize = () => {
+			let totalWidth = this.slider.offsetWidth;
+			if (totalWidth != this.startWidth) { // -------------------------------------------------- если до и после отличается 
+				if (totalWidth < this.startWidth) {
+					this.checkScaleLength(this.markList);
 				}
+				if (totalWidth > this.startWidth) {
+					this.createScale(this.scaleMarks, this.conf);
+				}
+				this.startWidth = totalWidth;//-------------------------------------------------------- запоминаем новую ширину до ресайза
 			}
-
-			return true;
 		};
-		window.addEventListener("optimizedResize", function (e) { // ------- метод будет вызван 60 раз в сек
-			rtime = +(new Date()); // ----------------------------------------- каждый раз получаем текущее время
-			if (timeout === false) { // ------------------------------------ пропускать только если мы дождались setTimeout
-				timeout = true; // ------------------------------------------ даём понять что нам не нужно лишний раз вызывать setTimeout пока мы полностью не дождались конца ресайза
-				setTimeout(resizeend, sleep); // ---------------------------- ждём (когда ресайз кончиться) и вызовим метод что бы проверить что он кончился
-			}
-		});
+		window.addEventListener("resize", handleResize);
 	}
+
 
 	//создаем деления
 	public createScale(scaleMarks: { 'pos'?: number, 'val'?: number }[],
@@ -209,7 +176,7 @@ class sliderViewScale {
 					('.js-rs-metalamp__mark')];
 		}
 
-		this.getResizeWrap();
+		this.resize();
 		return this.checkScaleLength(this.markList);
 	}
 

@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.12% </span>
+                <span class="strong">95.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>156/164</span>
+                <span class='fraction'>167/175</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76% </span>
+                <span class="strong">76.92% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>38/50</span>
+                <span class='fraction'>40/52</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.25% </span>
+                <span class="strong">96.49% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>154/160</span>
+                <span class='fraction'>165/171</span>
             </div>
         
             
@@ -392,7 +392,16 @@
 <a name='L333'></a><a href='#L333'>333</a>
 <a name='L334'></a><a href='#L334'>334</a>
 <a name='L335'></a><a href='#L335'>335</a>
-<a name='L336'></a><a href='#L336'>336</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a>
+<a name='L340'></a><a href='#L340'>340</a>
+<a name='L341'></a><a href='#L341'>341</a>
+<a name='L342'></a><a href='#L342'>342</a>
+<a name='L343'></a><a href='#L343'>343</a>
+<a name='L344'></a><a href='#L344'>344</a>
+<a name='L345'></a><a href='#L345'>345</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -452,13 +461,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -638,15 +646,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -727,6 +744,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { IConf, Idata } from '../../interface';
 import { Observer } from '../../observer';
 &nbsp;
@@ -747,7 +765,8 @@ class sliderViewControl extends Observer {
 		super();
 		this.slider = sliderElem;
 		this.root = sliderElem.previousElementSibling as HTMLInputElement;
-		this.track = this.slider.querySelector('.rs-metalamp__track');
+		this.track = sliderElem.firstElementChild as HTMLInputElement;
+&nbsp;
 		this.data = {};
 		this.data.thumb = {};
 		this.init(conf);
@@ -808,15 +827,14 @@ class sliderViewControl extends Observer {
 		T.height = scale.offsetHeight;
 	}
 &nbsp;
-	// public test(param: any) {
-	// 	console.log(param);
-	// }<span class="fstat-no" title="function not covered" ></span>
-	// Вешаем обработчи<span class="cstat-no" title="statement not covered" >ки события нажатия мышью на ползунке </span>(захвата ползунка) и перемещения ползунка 
+	// Вешаем обработчики события нажатия мы<span class="fstat-no" title="function not covered" >шь</span>ю на ползунке (захвата ползунка) и перемещения ползунка 
 	private dragControl<span class="cstat-no" title="statement not covered" >Mouse() {</span>
-		let pointerDownHandler = (e: PointerEvent) =&gt; {
-			e.preventDefault(<span class="cstat-no" title="statement not covered" >);</span>
-			const target = e.target as HTMLElement;
-			target.classList.add('grabbing');
+		let pointerDownHan<span class="cstat-no" title="statement not covered" >dler = (e: PointerEvent) =&gt; {</span>
+			e.preventDefault();
+			const target = e.<span class="cstat-no" title="statement not covered" >target as HTMLElement;</span>
+			if (target.classList.contains('rs-metalamp__control')) {
+				target.classList.add('rs-metalamp__control_grabbing');
+			}
 			const T = this.data.thumb;
 			if (target.classList.contains('rs-metalamp__control')) {
 &nbsp;
@@ -825,9 +843,9 @@ class sliderViewControl extends Observer {
 				//определяем расстояние между позицией клика и левым краем ползунка
 				if (!this.conf.vertical) {
 					T.shiftBase = e.clientX -
-						target.getBoundingClientRect().left;
+						target.getBoundingClientRect().left;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
 				}<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
-				this.getMetrics(target);<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+				this.getMetrics(target);
 &nbsp;
 				const pointerMoveHandler = (e: PointerEvent) =&gt; {
 					T.type = e.type;
@@ -837,14 +855,14 @@ class sliderViewControl extends Observer {
 				};
 &nbsp;
 				const pointerUpHandler = () =&gt; {
-					target.classList.remove('grabbing');
+					target.classList.remove('rs-metalamp__control_grabbing');
 					target.
 						removeEventListener('pointermove', pointerMoveHandler);
 					target.
-						removeEventListener('pointerup', pointerUpHandler);
-				};<span class="branch-0 cbranch-no" title="branch not covered" ></span>
-				/*elem.setPointerCapture(pointerId) – привязывает события с данным pointerId к elem. 
-				После такого вызова все события указателя<span class="branch-0 cbranch-no" title="branch not covered" > с таким pointerId будут им</span>еть elem в качестве целевого элемента 
+						removeEventListener('pointerup', pointe<span class="branch-0 cbranch-no" title="branch not covered" >rUpHandler);</span>
+				};
+				/*elem.setPointerCapture(pointerId) – при<span class="branch-0 cbranch-no" title="branch not covered" >вязывает события с данным p</span>ointerId к elem. 
+				После такого вызова все события указателя с таким pointerId будут иметь elem в качестве целевого элемента 
 				(как будто произошли над elem), вне зависимости от того, где в документе они произошли.*/
 				target.setPointerCapture(e.pointerId);
 				target.addEventListener('pointermove', pointerMoveHandler);
@@ -863,8 +881,8 @@ class sliderViewControl extends Observer {
 			e.preventDefault();
 			const target = e.target as HTMLElement;
 			const T = this.data.thumb;
-			if (target.classList.contains('rs-metalamp__control')) {
-<span class="branch-0 cbranch-no" title="branch not covered" ></span>
+			if (target.classList.<span class="branch-0 cbranch-no" title="branch not covered" >contains('rs-metalamp__co</span>ntrol')) {
+&nbsp;
 				//определяем ползунок, за который тянут
 				T.moovingControl = this.defineControl(target);
 				this.getMetrics(target);
@@ -889,12 +907,12 @@ class sliderViewControl extends Observer {
 			let arr = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
 			const result = arr.indexOf(e.code);
 			if (result != -1) {
-				e.preventDefault();
-				const target<span class="missing-if-branch" title="if path not taken" >I</span> = e.target as HTMLElement;
-				const T = this.d<span class="cstat-no" title="statement not covered" >ata.thumb;</span>
+				e.preventDef<span class="missing-if-branch" title="if path not taken" >I</span>ault();
+				const target = e<span class="cstat-no" title="statement not covered" >.target as HTMLElement;</span>
+				const T = this.data.thumb;
 &nbsp;
-				if (target.classList.contains('rs-metalamp__control')) {
-<span class="cstat-no" title="statement not covered" ></span>
+				if (target.class<span class="cstat-no" title="statement not covered" >List.contains('rs-metalamp__control')) {</span>
+&nbsp;
 					//определяем ползунок, на который нажимают
 					target.classList.contains('rs-metalamp__control-min') ?
 						T.moovingControl = 'min' :
@@ -914,14 +932,14 @@ class sliderViewControl extends Observer {
 			const target = e.target as HTMLElement;
 			const T = this.data.thumb;
 &nbsp;
-			let arr =
-				['rs-metalam<span class="missing-if-branch" title="if path not taken" >I</span>p__track',
-					'rs-metalamp__p<span class="cstat-no" title="statement not covered" >rogressBar',</span>
+			let arr =<span class="missing-if-branch" title="if path not taken" >I</span>
+				['rs-metalamp__t<span class="cstat-no" title="statement not covered" >rack',</span>
+					'rs-metalamp__progressBar',
 					'rs-metalamp__label',
 					'rs-metalamp__mark',
 					'rs-metalamp__frame'];
-			const result = [...target.classList].some(className =&gt;
-				arr.indexOf(classNam<span class="branch-1 cbranch-no" title="branch not covered" >e) !== -1);</span>
+			const result = [...ta<span class="branch-1 cbranch-no" title="branch not covered" >rget.classList].some(clas</span>sName =&gt;
+				arr.indexOf(className) !== -1);
 			if (result) {
 				let controlMinDist = 0;
 				let controlMaxDist = 0;
@@ -1015,15 +1033,24 @@ class sliderViewControl extends Observer {
 	//включение / отключение вертикального режима
 	public switchVertical(conf: IConf) {
 		this.conf = conf;
-		let arr = [this.controlMax, this.tipMax, this.controlMin, this.tipMin];
-		for (let elem of arr) {
-			if (this.conf.vertical) {
-				elem.classList.add('vert');
-				elem.classList.remove('horizontal');
-			} else {
-				elem.classList.remove('vert');
-				elem.classList.add('horizontal');
-			}
+		if (this.conf.vertical) {
+			this.controlMax.classList.add('rs-metalamp__control_vert');
+			this.tipMax.classList.add('rs-metalamp__tip_vert');
+			this.controlMin.classList.add('rs-metalamp__control_vert');
+			this.tipMin.classList.add('rs-metalamp__tip_vert');
+			this.controlMax.classList.remove('rs-metalamp__control_horizontal');
+			this.tipMax.classList.remove('rs-metalamp__tip_horizontal');
+			this.controlMin.classList.remove('rs-metalamp__control_horizontal');
+			this.tipMin.classList.remove('rs-metalamp__tip_horizontal');
+		} else {
+			this.controlMax.classList.remove('rs-metalamp__control_vert');
+			this.tipMax.classList.remove('rs-metalamp__tip_vert');
+			this.controlMin.classList.remove('rs-metalamp__control_vert');
+			this.tipMin.classList.remove('rs-metalamp__tip_vert');
+			this.controlMax.classList.add('rs-metalamp__control_horizontal');
+			this.tipMax.classList.add('rs-metalamp__tip_horizontal');
+			this.controlMin.classList.add('rs-metalamp__control_horizontal');
+			this.tipMin.classList.add('rs-metalamp__tip_horizontal');
 		}
 	}
 &nbsp;
@@ -1031,13 +1058,13 @@ class sliderViewControl extends Observer {
 	public switchRange(conf: IConf) {
 		this.conf = conf;
 		if (this.conf.range) {
-			this.controlMax.classList.remove('hidden');
+			this.controlMax.classList.remove('rs-metalamp__control_hidden');
 			if (this.conf.tip) {
-				this.tipMax.classList.remove('hidden');
+				this.tipMax.classList.remove('rs-metalamp__tip_hidden');
 			}
 		} else {
-			this.controlMax.classList.add('hidden');
-			this.tipMax.classList.add('hidden');
+			this.controlMax.classList.add('rs-metalamp__control_hidden');
+			this.tipMax.classList.add('rs-metalamp__tip_hidden');
 		}
 	}
 &nbsp;
@@ -1045,8 +1072,8 @@ class sliderViewControl extends Observer {
 	public switchTip(conf: IConf) {
 		this.conf = conf;
 		if (this.conf.tip) {
-			this.tipMax.classList.remove('hidden');
-			this.tipMin.classList.remove('hidden');
+			this.tipMax.classList.remove('rs-metalamp__tip_hidden');
+			this.tipMin.classList.remove('rs-metalamp__tip_hidden');
 			if (this.initDone) {
 				this.tipMax.style.left =
 					this.calcTipPos(conf.vertical, this.tipMax);
@@ -1054,8 +1081,8 @@ class sliderViewControl extends Observer {
 					this.calcTipPos(conf.vertical, this.tipMin);
 			}
 		} else {
-			this.tipMax.classList.add('hidden');
-			this.tipMin.classList.add('hidden');
+			this.tipMax.classList.add('rs-metalamp__tip_hidden');
+			this.tipMin.classList.add('rs-metalamp__tip_hidden');
 		}
 	}
 }
@@ -1069,7 +1096,7 @@ export { sliderViewControl };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Dec 04 2021 17:17:06 GMT+0500 (Екатеринбург, стандартное время)
+                at Sun Dec 05 2021 13:17:34 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         </div>
         <script src="../../../prettify.js"></script>
