@@ -28,11 +28,13 @@ class sliderController extends Observer {
 	public disable = () => {
 		this.removeListeners();
 		this.enabled = false;
+		this.view.disable();
 	}
 
 	public enable = () => {
 		if (!this.enabled) {
 			this.createListeners();
+			this.view.enable();
 		}
 		this.enabled = true;
 	}

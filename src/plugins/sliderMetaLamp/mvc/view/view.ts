@@ -32,16 +32,12 @@ class sliderView extends Observer {
 		this.switchVertical(conf);
 	}
 
-	private createSubViews() {
-		this.viewControl = new sliderViewControl(this.slider, this.conf);
-		this.viewScale =
-			new sliderViewScale(this.slider, this.track, this.conf);
-		this.viewBar = new sliderViewBar(this.slider, this.conf);
+	public disable() {
+		this.slider.classList.add('rs-metalamp__wrapper_disabled');
 	}
 
-	private createListeners() {
-		this.viewControl.subscribe(this.handleMoveEvent);
-		this.viewControl.subscribe(this.handleKeydownEvent);
+	public enable() {
+		this.slider.classList.remove('rs-metalamp__wrapper_disabled');
 	}
 
 	public updateFromPos = (data: Idata, conf: IConf) => {
@@ -102,20 +98,6 @@ class sliderView extends Observer {
 
 	public switchTip = (conf: IConf) => {
 		this.viewControl.switchTip(conf);
-	}
-
-	private handleMoveEvent = (key: string, data: Idata) => {
-		if (key !== 'MoveEvent') return;
-		else {
-			this.fire('MoveEvent', data);
-		}
-	}
-
-	private handleKeydownEvent = (key: string, data: Idata) => {
-		if (key !== 'KeydownEvent') return;
-		else {
-			this.fire('KeydownEvent', data);
-		}
 	}
 
 	private render() {
@@ -184,6 +166,32 @@ class sliderView extends Observer {
 			}
 		}
 		this.backEndConf = Object.fromEntries(map.entries());
+	}
+
+	private createSubViews() {
+		this.viewControl = new sliderViewControl(this.slider, this.conf);
+		this.viewScale =
+			new sliderViewScale(this.slider, this.track, this.conf);
+		this.viewBar = new sliderViewBar(this.slider, this.conf);
+	}
+
+	private createListeners() {
+		this.viewControl.subscribe(this.handleMoveEvent);
+		this.viewControl.subscribe(this.handleKeydownEvent);
+	}
+
+	private handleMoveEvent = (key: string, data: Idata) => {
+		if (key !== 'MoveEvent') return;
+		else {
+			this.fire('MoveEvent', data);
+		}
+	}
+
+	private handleKeydownEvent = (key: string, data: Idata) => {
+		if (key !== 'KeydownEvent') return;
+		else {
+			this.fire('KeydownEvent', data);
+		}
 	}
 }
 

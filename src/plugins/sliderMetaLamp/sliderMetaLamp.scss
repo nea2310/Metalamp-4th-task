@@ -19,6 +19,9 @@
 			padding: 20px;
 			display: inline-block;
 		}
+		&_disabled {
+			opacity: 0.5;
+		}
 	}
 
 	&__frame {
