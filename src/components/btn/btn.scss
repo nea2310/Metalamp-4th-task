@@ -6,6 +6,7 @@ $borderWidth: 2px;
 	margin: 0;
 	padding: 0;
 	position: relative;
+	@include font-h3;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -13,31 +14,31 @@ $borderWidth: 2px;
 	user-select: none;
 	border-radius: 22px;
 
-	&_very-long {
+	&_length_very-long {
 		width: 100%;
 		max-width: 320px;
 	}
 
-	&_long {
+	&_length_long {
 		width: 196px;
 	}
 
-	&_short {
-		width: 95px;
+	&_length_short {
+		width: 99px;
 	}
-	&_very-short {
+	&_length_very-short {
 		width: 87px;
 	}
 
-	&_wide {
+	&_width_wide {
 		height: 44px;
 	}
 
-	&_narrow {
-		height: 35px;
+	&_width_narrow {
+		height: 34px;
 	}
 
-	&_plain-text {
+	&_type_plain-text {
 		color: $colorPurple;
 		border: none;
 		background: none;
@@ -46,7 +47,7 @@ $borderWidth: 2px;
 			color: $colorDarkShade50;
 		}
 	}
-	&_dark {
+	&_color_dark {
 		background: $gradientPurple;
 		color: $colorWhite;
 		&:hover,
@@ -54,8 +55,18 @@ $borderWidth: 2px;
 			opacity: 0.5;
 		}
 	}
+	&_color_light {
+		background-color: $colorWhite;
+		box-shadow: inset 0px 2px 0px 0px $colorPurple, inset 0px 0px 0px 2px $colorBlue;
+		color: $colorPurple;
 
-	&_blue {
+		&:hover,
+		&:focus {
+			box-shadow: inset 0px 2px 0px 0px $colorPurpleOpaque, inset 0px 0px 0px 2px $colorBlueOpaque;
+		}
+	}
+
+	&_color_blue {
 		box-sizing: border-box;
 		font-weight: normal;
 		color: rgb(41, 39, 39);
@@ -66,16 +77,7 @@ $borderWidth: 2px;
 			border: 2px solid rgb(41, 39, 39);
 		}
 	}
-	&_light {
-		background-color: $colorWhite;
-		box-shadow: inset 0px 2px 0px 0px $colorPurple, inset 0px 0px 0px 2px $colorBlue;
-		color: $colorPurple;
 
-		&:hover,
-		&:focus {
-			box-shadow: inset 0px 2px 0px 0px $colorPurpleOpaque, inset 0px 0px 0px 2px $colorBlueOpaque;
-		}
-	}
 	&__img {
 		position: absolute;
 		top: 14px;

@@ -1,19 +1,22 @@
 mixin btn(options={})
 	-
 		let elemName='btn'
-		let elemType = options.type
-		let length = options.length
-		let width = options.width
-		let color = options.color
-		let text = options.text
+		let elemType = options.type ?? ''
+		let length = options.length ?? ''
+		let width = options.width ?? ''
+		let color = options.color ?? ''
+		let text = options.text ?? ''
 	case elemType
 		when 'button'
-			button(class = elemName + ' ' + elemName + '_' + length + ' ' + elemName + '_' + width + ' ' + elemName + '_' + color type = 'button')= text
+			button(class = elemName + ' ' + elemName + '_length_' + length + ' ' + 
+			elemName + '_width_' + width + ' ' + elemName + '_color_' + color type = 'button')= text
 		when 'submit'
-			button(class = elemName + ' ' + elemName + '_' + length + ' ' + elemName + '_' + width + ' ' + elemName + '_' + color type = 'submit')= text
+			button(class = elemName + ' ' + elemName + '_length_' + length + ' ' + 
+			elemName + '_width_' + width + ' ' + elemName + '_color_' + color type = 'submit')= text
 				if options.img
 					img(class = elemName+'__img', src = require('@com/btn/img/arrow-forward-white.svg').default)
 		when 'link'
-			a(class = elemName + ' ' + elemName + '_' + length + ' ' + elemName + '_' + width + ' ' + elemName + '_' + color href = options.href)= text
+			a(class = elemName + ' ' + elemName + '_length_' + length + ' ' + 
+			elemName + '_width_' + width + ' ' + elemName + '_color_' + color href = options.href)= text
 		when 'plain-text'
-			button(class = elemName + ' ' + elemName + '_plain-text' type = 'button')= text
+			button(class = elemName + ' ' + elemName + '_type_plain-text' type = 'button')= text
