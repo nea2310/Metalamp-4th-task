@@ -1,10 +1,7 @@
-import { sliderController } from './controller';
-import { sliderModel } from './../model/model';
-//jest.mock('./../model/model');
-import { sliderView } from './../view/view';
-//jest.mock('./../view/view');
 import { IConf } from './../interface';
-
+import { sliderModel } from './../model/model';
+import { sliderView } from './../view/view';
+import { sliderController } from './controller';
 
 /*
 jest.mock('./../view/view');
@@ -56,8 +53,6 @@ const TestController2 = prepareInstance(conf2);
 
 /***********************************/
 
-
-
 const conf: IConf = {
 	min: 10,
 	max: 100,
@@ -79,6 +74,34 @@ const conf: IConf = {
 const TestController = prepareInstance(conf);
 
 describe('controller', () => {
+
+	test('gets data from model on calling API method "getData"',
+		async () => {
+			const getDataSpy = jest.spyOn(TestController.model, 'getData');
+			await expect(TestController.getData()).toEqual({
+				bar: true,
+				from: 20,
+				interval: 9,
+				max: 100,
+				min: 10,
+				onChange: null,
+				onStart: null,
+				onUpdate: null,
+				range: true,
+				scale: true,
+				scaleBase: "step",
+				shiftOnKeyDown: 1,
+				shiftOnKeyHold: 1,
+				step: 10,
+				sticky: false,
+				tip: true,
+				to: 70,
+				vertical: false,
+			});
+			expect(getDataSpy).toBeCalledTimes(1);
+		});
+
+
 	test('calls update method in model on calling API method "update"', () => {
 		const updateSpy = jest.spyOn(TestController.model, 'update');
 		TestController.update(conf);

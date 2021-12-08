@@ -13,9 +13,9 @@ class sliderModel extends Observer {
 	private backEndConf: IConf;
 	private methods: Imethods;
 	private data: Idata;
-	private onStart?: Function;
-	private onUpdate?: Function;
-	private onChange?: Function;
+	private onStart?: Function | null;
+	private onUpdate?: Function | null;
+	private onChange?: Function | null;
 	private noCalVal: boolean;
 
 	constructor(conf: IConf) {
@@ -37,9 +37,9 @@ class sliderModel extends Observer {
 			sticky: false,
 			shiftOnKeyDown: 0,
 			shiftOnKeyHold: 0,
-			onStart: () => true, // null?
-			onChange: () => true,
-			onUpdate: () => true,
+			onStart: null, // null?
+			onChange: null,
+			onUpdate: null,
 		};
 
 		this.data = {};
@@ -76,8 +76,17 @@ class sliderModel extends Observer {
 		this.calcFromPosition();
 		this.calcToPosition();
 		this.calcBar();
-		this.onStart(this.conf);
+		if (typeof this.onStart == 'function') {
+			this.onStart(this.conf);
+		}
 		//console.log(this.data);
+	}
+
+	public getData() {
+		//	if (typeof this.onStart == 'function') {
+		//this.onStart(this.conf);
+		return this.conf;
+		//	}
 	}
 
 	//Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале
@@ -154,7 +163,9 @@ class sliderModel extends Observer {
 			this.calcVal('normal', newPos, moovingControl);
 
 		this.calcBar();
-		this.onChange(this.conf);
+		if (typeof this.onChange == 'function') {
+			this.onChange(this.conf);
+		}
 
 		return newPos;
 
@@ -346,7 +357,9 @@ class sliderModel extends Observer {
 			}
 		}
 		this.calcBar();
-		this.onChange(this.conf);
+		if (typeof this.onChange == 'function') {
+			this.onChange(this.conf);
+		}
 		return result;
 	}
 
@@ -423,6 +436,8 @@ class sliderModel extends Observer {
 	}
 
 	public update(newConf: IConf) {
+		//	console.log(newConf);
+
 		let conf = {};
 		conf = Object.assign(conf, this.conf, newConf);
 		//проверим корректность полученных параметров конфигурации и при необходимости - исправим
@@ -439,7 +454,9 @@ class sliderModel extends Observer {
 				eval(method);
 			}
 		}
-		this.onUpdate(this.conf);
+		if (typeof this.onUpdate == 'function') {
+			this.onUpdate(this.conf);
+		}
 		//вернем исходные значения (false)
 		for (key in this.methods) {
 			if (this.methods[key]) {
@@ -447,13 +464,14 @@ class sliderModel extends Observer {
 			}
 		}
 		this.noCalVal = false;
-		//console.log(Object.assign(this.conf, this.data));
 
 		return Object.assign(this.conf, this.data);
 	}
 	/*находим изменившийся параметр и меняем соотв-щее св-во объекта this.methods; это нужно чтобы не выполнять одни и те же 
 	действия несколько раз, если получаем несколько параметров, требующих запуска одного и того же метода в модели*/
 	private findChangedConf(conf: IConf, newConf: IConf) {
+		// console.log(conf);
+		// console.log(newConf);
 		let key: keyof IConf;
 		for (key in newConf) {
 			if (newConf[key] === conf[key]) {
@@ -514,9 +532,22 @@ class sliderModel extends Observer {
 					case 'sticky':
 						this.methods.updateControlPos = true;
 						break;
+					case 'onStart':
+						this.conf.onStart = newConf.onStart;
+						this.onStart = newConf.onStart;
+						break;
+					case 'onChange':
+						this.conf.onChange = newConf.onChange;
+						this.onChange = newConf.onChange;
+						break;
+					case 'onUpdate':
+						this.conf.onUpdate = newConf.onUpdate;
+						this.onUpdate = newConf.onUpdate;
+						break;
 				}
 			}
 		}
+		//	console.log(this.conf);
 		return this.methods;
 	}
 
@@ -532,14 +563,18 @@ class sliderModel extends Observer {
 	private async switchRange() {
 		await this.fire('IsRange', this.data, this.conf);
 		await this.calcBar(); // ???
-		await this.onChange(this.conf); // onChange нужен т.к. после проверки перед возвратом в double режим могут поменяться значения from / to, их нужно отдать наружу
+		if (typeof this.onChange == 'function') {
+			await this.onChange(this.conf);
+		} // onChange нужен т.к. после проверки перед возвратом в double режим могут поменяться значения from / to, их нужно отдать наружу
 	}
 
 	private async updateControlPos() {
 		await this.calcFromPosition();
 		await this.calcToPosition();
 		await this.calcBar();
-		await this.onChange(this.conf); // onChange нужен т.к. после проверки  могут поменяться значения from / to / min / max, их нужно отдать наружу
+		if (typeof this.onChange == 'function') {
+			await this.onChange(this.conf);
+		} // onChange нужен т.к. после проверки  могут поменяться значения from / to / min / max, их нужно отдать наружу
 		await this.fire('IsSticky', this.data, this.conf);
 	}
 

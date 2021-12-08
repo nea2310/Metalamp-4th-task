@@ -86,33 +86,21 @@ mixin panel(options={})
 										)
 		fieldset(class = elemName + '__actions')
 			legend Actions
-			div(class = 'destroy')
-				+btn(
-									{type: 'button',
-									length: 'short',
-									width: 'narrow',
-									color: 'blue',
-									text: 'Destroy'
-									} 
-									)
+			div(class = 'subscribe')
+				+toggle(
+										{name: 'subscribe events', 
+										}
+										)
 			div(class = 'disable')
-				+btn(
-									{type: 'button',
-									length: 'short',
-									width: 'narrow',
-									color: 'blue',
-									text: 'Disable'
-									} 
-									)
-			div(class = 'enable')
-				+btn(
-									{type: 'button',
-									length: 'short',
-									width: 'narrow',
-									color: 'blue',
-									text: 'Enable'
-									} 
-									)
+				+toggle(
+										{name: 'disable', 
+										}
+										)
+			div(class = 'destroy')
+				+toggle(
+										{name: 'destroy', 
+										}
+										)
 		div(class = 'apply')
 			+btn(
 									{type: 'button',

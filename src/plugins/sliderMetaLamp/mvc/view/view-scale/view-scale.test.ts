@@ -1,5 +1,5 @@
-import { sliderViewScale } from './view-scale';
 import { IConf } from '../../interface';
+import { sliderViewScale } from './view-scale';
 
 interface IMockElement {
 	width: number,

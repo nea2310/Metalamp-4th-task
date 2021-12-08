@@ -25,14 +25,9 @@ abstract class Observer {
 
 	protected fire(key: string, data: Idata, conf: IConf = {}) {
 		for (let item of this.observers) {
-			item(key, data, conf);
+			item({ key, data, conf });
 		}
 	}
 }
-
-
-
-
-
 
 export { Observer };

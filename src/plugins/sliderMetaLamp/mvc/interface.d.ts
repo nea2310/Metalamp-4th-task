@@ -65,9 +65,16 @@ interface Ithumb {
 	repeat?: boolean
 }
 
+interface IFireParms {
+	key?: string,
+	data?: Idata,
+	conf?: IConf
+}
+
 export {
 	IConf,
 	IObj,
 	Imethods,
 	Idata,
+	IFireParms
 };

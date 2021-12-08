@@ -1,7 +1,8 @@
+import { IConf, IFireParms } from './../interface';
 import { sliderModel } from './../model/model';
 import { sliderView } from './../view/view';
-import { IConf, Idata } from './../interface';
 import { Observer } from '../observer';
+
 class sliderController extends Observer {
 	model: sliderModel;
 	view: sliderView;
@@ -37,6 +38,13 @@ class sliderController extends Observer {
 			this.view.enable();
 		}
 		this.enabled = true;
+	}
+
+	public getData = () => {
+		//this.model.getData();
+		//	console.log(this.model.getData());
+
+		return this.model.getData();
 	}
 
 	private init() {
@@ -78,82 +86,83 @@ class sliderController extends Observer {
 	}
 
 
-	private handleFromPosition = (key: string, data: Idata, conf: IConf) => {
-		if (key !== 'FromPosition') return;
-		this.view.updateFromPos(data, conf);
-	}
-	private handleToPosition = (key: string, data: Idata, conf: IConf) => {
-		if (key !== 'ToPosition') return;
-		this.view.updateToPos(data, conf);
-	}
-
-	private handleFromValue = (key: string, data: Idata) => {
-		if (key !== 'FromValue') return;
-		this.view.updateFromVal(data);
+	private handleFromPosition =
+		(parms: IFireParms) => {
+			if (parms.key !== 'FromPosition') return;
+			this.view.updateFromPos(parms.data, parms.conf);
+		}
+	private handleToPosition = (parms: IFireParms) => {
+		if (parms.key !== 'ToPosition') return;
+		this.view.updateToPos(parms.data, parms.conf);
 	}
 
-	private handleToValue = (key: string, data: Idata) => {
-		if (key !== 'ToValue') return;
-		this.view.updateToVal(data);
+	private handleFromValue = (parms: IFireParms) => {
+		if (parms.key !== 'FromValue') return;
+		this.view.updateFromVal(parms.data);
 	}
 
-	private handleScale = (key: string, data: Idata, conf: IConf) => {
-		if (key !== 'Scale') return;
-		this.view.updateScale(data, conf);
+	private handleToValue = (parms: IFireParms) => {
+		if (parms.key !== 'ToValue') return;
+		this.view.updateToVal(parms.data);
 	}
 
-	private handleBar = (key: string, data: Idata, conf: IConf) => {
-		if (key !== 'Bar') return;
-		this.view.updateBar(data, conf);
+	private handleScale = (parms: IFireParms) => {
+		if (parms.key !== 'Scale') return;
+		this.view.updateScale(parms.data, parms.conf);
 	}
 
-	private handleIsVertical = (key: string, data: Idata, conf: IConf) => {
-		if (key !== 'IsVertical') return;
-		this.view.switchVertical(conf);
+	private handleBar = (parms: IFireParms) => {
+		if (parms.key !== 'Bar') return;
+		this.view.updateBar(parms.data, parms.conf);
 	}
 
-	private handleIsRange = (key: string, data: Idata, conf: IConf) => {
-		if (key !== 'IsRange') return;
-		this.view.switchRange(conf);
+	private handleIsVertical = (parms: IFireParms) => {
+		if (parms.key !== 'IsVertical') return;
+		this.view.switchVertical(parms.conf);
 	}
 
-	private handleIsScale = (key: string, data: Idata, conf: IConf) => {
-		if (key !== 'IsScale') return;
-		this.view.switchScale(conf);
+	private handleIsRange = (parms: IFireParms) => {
+		if (parms.key !== 'IsRange') return;
+		this.view.switchRange(parms.conf);
 	}
 
-	private handleIsBar = (key: string, data: Idata, conf: IConf) => {
-		if (key !== 'IsBar') return;
-		this.view.switchBar(conf);
+	private handleIsScale = (parms: IFireParms) => {
+		if (parms.key !== 'IsScale') return;
+		this.view.switchScale(parms.conf);
 	}
 
-
-	private handleIsTip = (key: string, data: Idata, conf: IConf) => {
-		if (key !== 'IsTip') return;
-		this.view.switchTip(conf);
+	private handleIsBar = (parms: IFireParms) => {
+		if (parms.key !== 'IsBar') return;
+		this.view.switchBar(parms.conf);
 	}
 
 
-	private handleMoveEvent = (key: string, data: Idata) => {
-		if (key !== 'MoveEvent') return;
+	private handleIsTip = (parms: IFireParms) => {
+		if (parms.key !== 'IsTip') return;
+		this.view.switchTip(parms.conf);
+	}
+
+
+	private handleMoveEvent = (parms: IFireParms) => {
+		if (parms.key !== 'MoveEvent') return;
 		this.model.calcPos(
-			data.thumb.type,
-			data.thumb.clientY,
-			data.thumb.clientX,
-			data.thumb.top,
-			data.thumb.left,
-			data.thumb.width,
-			data.thumb.height,
-			data.thumb.shiftBase,
-			data.thumb.moovingControl);
+			parms.data.thumb.type,
+			parms.data.thumb.clientY,
+			parms.data.thumb.clientX,
+			parms.data.thumb.top,
+			parms.data.thumb.left,
+			parms.data.thumb.width,
+			parms.data.thumb.height,
+			parms.data.thumb.shiftBase,
+			parms.data.thumb.moovingControl);
 	}
 
-	private handleKeydownEvent = (key: string, data: Idata) => {
-		if (key !== 'KeydownEvent') return;
+	private handleKeydownEvent = (parms: IFireParms) => {
+		if (parms.key !== 'KeydownEvent') return;
 		this.model.calcPosKey(
-			data.thumb.key,
-			data.thumb.repeat,
-			data.thumb.moovingControl);
+			parms.data.thumb.key,
+			parms.data.thumb.repeat,
+			parms.data.thumb.moovingControl);
 	}
 }
 

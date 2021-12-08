@@ -5,6 +5,7 @@ import { sliderModel, sliderView, sliderController }
 
 // eslint-disable-next-line no-undef
 $.fn.Slider = function (options): JQuery {
+	//метод each() принимает функцию, принимающую два аргумента 
 	return this.each(function (i: number, el: Element) {
 		if (!$.data(el, 'SliderMetaLamp')) {
 			$.data(
@@ -16,7 +17,6 @@ $.fn.Slider = function (options): JQuery {
 		}
 	});
 };
-console.log($);
 
 let plugin = $;
 export { plugin };

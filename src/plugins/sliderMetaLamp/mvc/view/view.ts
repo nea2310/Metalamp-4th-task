@@ -1,8 +1,8 @@
+import { sliderViewBar } from './../view/view-bar/view-bar';
 import { sliderViewControl } from
 	'./../view/view-control/view-control';
 import { sliderViewScale } from './../view/view-scale/view-scale';
-import { sliderViewBar } from './../view/view-bar/view-bar';
-import { Idata, IConf } from '../interface';
+import { Idata, IConf, IFireParms } from '../interface';
 import { Observer } from '../observer';
 
 class sliderView extends Observer {
@@ -180,17 +180,17 @@ class sliderView extends Observer {
 		this.viewControl.subscribe(this.handleKeydownEvent);
 	}
 
-	private handleMoveEvent = (key: string, data: Idata) => {
-		if (key !== 'MoveEvent') return;
+	private handleMoveEvent = (parms: IFireParms) => {
+		if (parms.key !== 'MoveEvent') return;
 		else {
-			this.fire('MoveEvent', data);
+			this.fire('MoveEvent', parms.data);
 		}
 	}
 
-	private handleKeydownEvent = (key: string, data: Idata) => {
-		if (key !== 'KeydownEvent') return;
+	private handleKeydownEvent = (parms: IFireParms) => {
+		if (parms.key !== 'KeydownEvent') return;
 		else {
-			this.fire('KeydownEvent', data);
+			this.fire('KeydownEvent', parms.data);
 		}
 	}
 }

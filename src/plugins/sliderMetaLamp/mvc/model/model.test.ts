@@ -1,5 +1,5 @@
-import { sliderModel } from './../model/model';
 import { IConf } from './../interface';
+import { sliderModel } from './../model/model';
 
 describe('model, calcPos and calcPosKey methods', () => {
 

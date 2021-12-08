@@ -1,8 +1,9 @@
+import { IConf } from './../interface';
 import { sliderView } from './../view/view';
-import { IConf, Idata } from './../interface';
+import { sliderViewBar } from './view-bar/view-bar';
 import { sliderViewControl } from './view-control/view-control';
 import { sliderViewScale } from './view-scale/view-scale';
-import { sliderViewBar } from './view-bar/view-bar';
+
 
 const parent = document.createElement('input');
 document.body.appendChild(parent);

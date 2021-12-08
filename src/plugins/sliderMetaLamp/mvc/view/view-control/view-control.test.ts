@@ -1,7 +1,8 @@
 import { sliderController } from './../../controller/controller';
+import { IConf } from './../../interface';
 import { sliderModel } from './../../model/model';
 import { sliderView } from './../../view/view';
-import { IConf } from './../../interface';
+
 
 function mockPointerEvent(element: HTMLElement, {
 	eventType, clientX = 0, clientY = 0,

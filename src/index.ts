@@ -1,8 +1,8 @@
-import '@styles/styles';
-import '@plugins/java-import';
-
 // eslint-disable-next-line no-unused-vars
 import $ from 'jquery';
+
+import '@styles/styles';
+import '@plugins/java-import';
 
 function requireAll(requireContext: any) {
 	return requireContext.keys().map(requireContext);
