@@ -20,10 +20,8 @@ class sliderController extends Observer {
 		this.model.update(conf);
 	}
 
-	public destroy = () => {
-		this.view.slider.remove();
-		this.view = null;
-		this.model = null;
+	public getData = () => {
+		return this.model.getData();
 	}
 
 	public disable = () => {
@@ -40,11 +38,10 @@ class sliderController extends Observer {
 		this.enabled = true;
 	}
 
-	public getData = () => {
-		//this.model.getData();
-		//	console.log(this.model.getData());
-
-		return this.model.getData();
+	public destroy = () => {
+		this.view.slider.remove();
+		this.view = null;
+		this.model = null;
 	}
 
 	private init() {

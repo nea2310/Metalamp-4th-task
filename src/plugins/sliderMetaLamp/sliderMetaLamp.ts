@@ -1,5 +1,3 @@
-
-import './sliderMetaLamp.scss';
 import { sliderModel, sliderView, sliderController }
 	from './mvc/controller/controller';
 
@@ -18,6 +16,6 @@ $.fn.Slider = function (options): JQuery {
 	});
 };
 
-let plugin = $;
-export { plugin };
+const _$ = $;
+export { _$ };
 
