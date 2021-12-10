@@ -13,7 +13,6 @@ const devServ = require('./webpack.devServer.js');
 
 let pubPath;
 if (DP.isAbsPath) pubPath = `${PATHS.public}`;
-console.log(pubPath);
 
 module.exports = merge(devServ, {
 
