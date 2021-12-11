@@ -3,9 +3,9 @@ mixin rangeslider(options={})
 	-
 		let elemName='rangeslider'
 		let modif = options.vertical=='true'?' vert':''
-	div(class =elemName + modif)
-		div(class = elemName + '__rs' + modif)
-			input(class='rs-metalamp' 
+	div(class =elemName + modif + ' js-' + elemName)
+		div(class = elemName + '__rs' + modif + ' js-' + elemName + '__rs')
+			input(class='rs-metalamp js-rs-metalamp' 
 			data-min = options.min
 			data-max = options.max
 			data-from = options.from
@@ -22,5 +22,5 @@ mixin rangeslider(options={})
 			data-shiftonkeydown = options.shiftOnKeyDown
 			data-shiftonkeyhold = options.shiftOnKeyHold
 			)
-		div(class = elemName + '__panel'+ modif)
+		div(class = elemName + '__panel'+ modif + ' js-' + elemName + '__panel')
 			+panel({radioGroupName: options.radioGroupName, vertical: options.vertical})

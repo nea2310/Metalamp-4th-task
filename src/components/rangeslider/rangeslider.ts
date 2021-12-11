@@ -1,4 +1,3 @@
-
 import './rangeslider.scss';
 import {
 	IConf,
@@ -28,11 +27,10 @@ class RangeSlider {
 	sticky: HTMLInputElement
 	scaleBaseSteps: HTMLInputElement
 	scaleBaseIntervals: HTMLInputElement
-	inputsAll: HTMLInputElement[]
+	inputsAll: HTMLInputElement[] = []
 	selector: string
 	isDestroyed: boolean
 	isDisabled: boolean
-
 	subscribe: HTMLInputElement
 	destroy: HTMLInputElement
 	disable: HTMLInputElement
@@ -40,8 +38,8 @@ class RangeSlider {
 	constructor(selector: string, elem: Element) {
 		this.selector = selector;
 		this.wrapper = elem as HTMLElement;
-		this.panel = this.wrapper.querySelector('.panel');
-		this.slider = this.wrapper.querySelector('.rs-metalamp');
+		this.panel = this.wrapper.querySelector('.js-panel');
+		this.slider = this.wrapper.querySelector('.js-rs-metalamp');
 		this.panelWrapper =
 			this.wrapper.querySelector(this.selector + '__panel');
 		this.sliderWrapper = this.wrapper.querySelector(this.selector + '__rs');
@@ -99,7 +97,6 @@ class RangeSlider {
 		}
 
 		if (data.scaleBase == 'step') {
-
 			this.scaleBaseSteps.checked = true;
 			this.interval.disabled = true;
 		}
@@ -141,54 +138,46 @@ class RangeSlider {
 	}
 
 	private renderPanel() {
-		const getElem = (name: string) => {
-			return this.panel.querySelector<HTMLInputElement>
-				('.' + name + ' input');
+		const getElem = (name: string, addToInputsAll: boolean = true) => {
+			const elem = this.panel.querySelector<HTMLInputElement>
+				('.js-' + name);
+			if (addToInputsAll) {
+				this.inputsAll.push(elem);
+			}
+			return elem;
 		};
 
-		this.min = getElem('min');
-		this.max = getElem('max');
-		this.from = getElem('from');
-		this.to = getElem('to');
-		this.interval = getElem('interval');
-		this.step = getElem('step');
+		this.min = getElem('input-min');
+		this.max = getElem('input-max');
+		this.from = getElem('input-from');
+		this.to = getElem('input-to');
+		this.interval = getElem('input-interval');
+		this.step = getElem('input-step');
 		this.shiftOnKeyDown =
-			getElem('shiftOnKeyDown');
+			getElem('input-shiftOnKeyDown');
 		this.shiftOnKeyHold =
-			getElem('shiftOnKeyHold');
+			getElem('input-shiftOnKeyHold');
 
-		this.vertical = getElem('vertical');
-		this.range = getElem('range');
-		this.scale = getElem('scale');
-		this.bar = getElem('bar');
-		this.tip = getElem('tip');
-		this.sticky = getElem('sticky');
+		this.vertical = getElem('toggle-vertical');
+		this.range = getElem('toggle-range');
+		this.scale = getElem('toggle-scale');
+		this.bar = getElem('toggle-bar');
+		this.tip = getElem('toggle-tip');
+		this.sticky = getElem('toggle-sticky');
+		this.subscribe = getElem('toggle-subscribe');
+		this.destroy = getElem('toggle-destroy', false);
+		this.disable = getElem('toggle-disable', false);
 
+		this.scaleBaseSteps = getElem('radio-step');
+		this.scaleBaseIntervals = getElem('radio-interval');
 
-		const scaleBaseWrap =
-			this.panel.querySelector(
-				'.radiobuttons');
-		this.scaleBaseSteps = scaleBaseWrap.querySelector('[value=step]');
-		this.scaleBaseIntervals =
-			scaleBaseWrap.querySelector('[value=interval]');
-		const inputs = [...this.panel.querySelectorAll<HTMLInputElement>
-			('.input-field__input')];
-
-		this.inputsAll = [...this.panel.querySelectorAll<HTMLInputElement>
-			('.input-field__input,' +
-				'.radiobuttons__cat-checkbox,' +
-				'.toggle__checkbox' +
-				':not([name="disable"]):not([name="destroy"])')];
-		for (let elem of inputs) {
+		for (let elem of this.inputsAll) {
 			elem.addEventListener('change', () => {
 				if (!elem.value) {
 					elem.value = '0';
 				}
 			});
 		}
-		this.subscribe = getElem('subscribe');
-		this.destroy = getElem('destroy');
-		this.disable = getElem('disable');
 	}
 
 	private renderSlider(slider: HTMLElement) {
@@ -219,7 +208,7 @@ class RangeSlider {
 			if (!this.isDestroyed) {
 				let target = e.target as HTMLInputElement;
 				for (let elem of arr) {
-					if (target.closest('.' + elem)) {
+					if (target.closest('.panel__' + elem)) {
 						let value;
 						if (target.type == 'checkbox') {
 							value = target.checked;
@@ -334,8 +323,8 @@ function renderRangeSliders(selector: string) {
 	return mas;
 }
 
-const mas = renderRangeSliders('.rangeslider');
-console.log(mas[0]);
+renderRangeSliders('.js-rangeslider');
+
 
 
 
