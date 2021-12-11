@@ -59,18 +59,10 @@ class RangeSlider {
 			item.value = val as string;
 	}
 
-	private setVertical(flag: boolean) {
-		if (flag) {
-			this.wrapper.classList.add('vert'); // .rangeslider
-			this.panelWrapper.classList.add('vert'); // .rangeslider__panel
-			this.panel.classList.add('vert'); // .panel
-			this.sliderWrapper.classList.add('vert'); //.rangeslider__rs
-		} else {
-			this.wrapper.classList.remove('vert');
-			this.panelWrapper.classList.remove('vert');
-			this.panel.classList.remove('vert');
-			this.sliderWrapper.classList.remove('vert');
-		}
+	private switchVertical() {
+		this.panel.classList.toggle('panel_vert');// .panel
+		this.wrapper.classList.toggle('rangeslider_vert'); // .rangeslider
+		this.sliderWrapper.classList.toggle('rangeslider__rs_vert'); //.rangeslider__rs
 	}
 
 	private displayData(data: IConf) {
@@ -104,7 +96,10 @@ class RangeSlider {
 	}
 
 	private updateData = (data: IConf) => {
-		this.setVertical(data.vertical);
+		if (data.vertical !=
+			this.wrapper.classList.contains('rangeslider_vert')) {
+			this.switchVertical();
+		}
 		const D = data;
 		this.valid(this.from, D.from);
 		this.valid(this.to, D.to);
@@ -295,19 +290,9 @@ class RangeSlider {
 					this.disable.checked = true;
 					this.disable.disabled = true;
 					this.isDestroyed = true;
+					this.destroy.disabled = true;
 					// отвязать объект слайдера от DOM-элемента
 					$.data(slider, 'SliderMetaLamp', null);
-				}
-				else {
-					this.renderSlider(slider);
-					for (let elem of this.inputsAll) {
-						elem.disabled = false;
-					}
-					this.rangeSlider.getData();
-					this.isDisabled = false;
-					this.disable.checked = false;
-					this.disable.disabled = false;
-					this.isDestroyed = false;
 				}
 			}
 		);

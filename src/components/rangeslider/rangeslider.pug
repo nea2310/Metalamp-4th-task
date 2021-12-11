@@ -2,9 +2,10 @@ include ../panel/panel.pug
 mixin rangeslider(options={})
 	-
 		let elemName='rangeslider'
-		let modif = options.vertical=='true'?' vert':''
-	div(class =elemName + modif + ' js-' + elemName)
-		div(class = elemName + '__rs' + modif + ' js-' + elemName + '__rs')
+		let modif = options.vertical=='true' ? elemName + '_vert':''
+		let modifRS = options.vertical=='true' ? elemName + '__rs_vert':''
+	div(class =elemName + ' ' + modif + ' js-' + elemName)
+		div(class = elemName + '__rs' + ' ' + modifRS + ' js-' + elemName + '__rs')
 			input(class='rs-metalamp js-rs-metalamp' 
 			data-min = options.min
 			data-max = options.max

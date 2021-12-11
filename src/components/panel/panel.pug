@@ -5,8 +5,8 @@ include ../btn/btn.pug
 mixin panel(options={})
 	-
 		let elemName='panel'
-		let modif = options.vertical=='true'?' vert':''
-	div(class = elemName + modif + ' js-' + elemName)
+		let modif = options.vertical=='true' ? elemName + '_vert':''
+	div(class = elemName +' ' + modif + ' js-' + elemName)
 		fieldset(class = elemName + '__mainSetup')
 			legend Main
 			div(class = elemName + '__min')
