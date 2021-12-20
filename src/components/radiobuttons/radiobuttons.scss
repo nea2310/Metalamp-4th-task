@@ -1,5 +1,8 @@
 @import "@styles/glob.scss";
 .radiobuttons {
+	padding: 0;
+	margin: 0;
+	border: none;
 	* {
 		box-sizing: border-box;
 	}
@@ -15,6 +18,9 @@
 	}
 
 	&__list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
 		display: flex;
 		justify-content: space-between;
 	}
@@ -58,6 +64,7 @@
 	}
 
 	&__cat-name {
+		margin: 0;
 		cursor: pointer;
 		@include font-body;
 		line-height: 19px;

@@ -77,11 +77,11 @@ $gradientGreen: linear-gradient($colorGreen 0%, $colorLightBlue 100%);
 }
 
 /***** Tag styles *****/
-html {
-	height: 100%; /* растягиваем страницу на весь экран */
-	width: 100%; /* растягиваем страницу на весь экран */
-	font-size: 16px;
-}
+// html {
+// 	height: 100%; /* растягиваем страницу на весь экран */
+// 	width: 100%; /* растягиваем страницу на весь экран */
+// 	font-size: 16px;
+// }
 body {
 	display: flex;
 	flex-direction: column;
@@ -92,36 +92,36 @@ body {
 	background: rgb(255, 255, 255);
 	min-width: 319px;
 }
-fieldset {
-	padding: 0;
-	margin: 0;
-	border: none;
-}
+// fieldset {
+// 	padding: 0;
+// 	margin: 0;
+// 	border: none;
+// }
 
-button {
-	background: none;
-	border: none;
-	margin: 0;
-	padding: 0;
-}
+// button {
+// 	background: none;
+// 	border: none;
+// 	margin: 0;
+// 	padding: 0;
+// }
 
-img {
-	height: auto;
-}
+// img {
+// 	height: auto;
+// }
 
-ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
+// ul {
+// 	list-style: none;
+// 	padding: 0;
+// 	margin: 0;
+// }
 
-a {
-	text-decoration: none;
-}
+// a {
+// 	text-decoration: none;
+// }
 
-h1,
-h2,
-h3,
-p {
-	margin: 0;
-}
+// h1,
+// h2,
+// h3,
+// p {
+// 	margin: 0;
+// }

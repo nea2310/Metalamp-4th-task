@@ -366,9 +366,14 @@ class sliderModel extends Observer {
 	private checkConf(conf: IConf) {
 		//надо проверять на число те параметры, которые вводятся в инпут (т.к. можно ввести строку)
 
-		const validType = (value: any) => Number.isNaN(value) ? 0 : value;
-
+		const validType =
+			(value: any) => typeof +value == 'number' ? +value : 0;
+		console.log(typeof conf.min);
+		console.log('conf.min before validation: ' + conf.min);
 		conf.min = validType(conf.min);
+		console.log('conf.min after validation: ' + conf.min);
+		console.log(conf.min);
+
 		conf.max = validType(conf.max);
 		conf.from = validType(conf.from);
 		conf.to = validType(conf.to);
@@ -685,9 +690,13 @@ class sliderModel extends Observer {
 
 		this.data.marksArr = [{ val: this.conf.min, pos: 0 }]; //первое деление всегда стоит на позиции left = 0% и его значение равно this.conf.min
 		let val = this.conf.min;
+
 		for (let i = 0; i < interval; i++) {
 			let obj: IObj = {};
 			val += step;
+			// console.log(val);
+			// console.log(step);
+
 			if (val <= this.conf.max) {
 				let pos = ((val - this.conf.min) * 100) /
 					(this.conf.max - this.conf.min);

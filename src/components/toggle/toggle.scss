@@ -55,6 +55,7 @@
 	}
 
 	&__name {
+		margin: 0;
 		cursor: pointer;
 		@include font-body;
 		line-height: 19px;

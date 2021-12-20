@@ -7,7 +7,7 @@
 	display: none;
 
 	&__wrapper {
-		padding: 60px 30px 30px 60px;
+		//	padding: 60px 30px 30px 60px;
 		position: relative;
 		display: flex;
 		width: 100%;
@@ -76,6 +76,10 @@
 	}
 
 	&__control {
+		background: none;
+		border: none;
+		margin: 0;
+		padding: 0;
 		box-sizing: border-box;
 		width: 1px;
 		height: 25px;

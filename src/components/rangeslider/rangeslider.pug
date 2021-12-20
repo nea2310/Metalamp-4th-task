@@ -23,5 +23,5 @@ mixin rangeslider(options={})
 			data-shiftonkeydown = options.shiftOnKeyDown
 			data-shiftonkeyhold = options.shiftOnKeyHold
 			)
-		div(class = elemName + '__panel'+ modif + ' js-' + elemName + '__panel')
+		div(class = elemName + '__panel '+ modif + ' js-' + elemName + '__panel')
 			+panel({radioGroupName: options.radioGroupName, vertical: options.vertical})
