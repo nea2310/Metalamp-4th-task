@@ -168,6 +168,8 @@ class RangeSlider {
 
 		for (let elem of this.inputsAll) {
 			elem.addEventListener('change', () => {
+				console.log(elem.value);
+
 				if (!elem.value) {
 					elem.value = '0';
 				}
@@ -212,7 +214,9 @@ class RangeSlider {
 							value = target.value;
 						}
 						else {
-							value = parseFloat(target.value);
+							if (!isNaN(+target.value)) {
+								value = parseFloat(target.value);
+							} else value = 0;
 						}
 						this.rangeSlider.update({ [elem]: value });
 						if (elem == 'scaleBase') {

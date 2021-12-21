@@ -366,22 +366,50 @@ class sliderModel extends Observer {
 	private checkConf(conf: IConf) {
 		//надо проверять на число те параметры, которые вводятся в инпут (т.к. можно ввести строку)
 
-		const validType =
-			(value: any) => typeof +value == 'number' ? +value : 0;
-		console.log(typeof conf.min);
-		console.log('conf.min before validation: ' + conf.min);
-		conf.min = validType(conf.min);
-		console.log('conf.min after validation: ' + conf.min);
-		console.log(conf.min);
+		const validNumber =
+			(value: any) => //typeof +value == 'number' ? +value : 0;
+			{
+				let result = 0;
+				if (!isNaN(+value)) {
+					result = +value;
+				}
+				return result;
+			};
 
-		conf.max = validType(conf.max);
-		conf.from = validType(conf.from);
-		conf.to = validType(conf.to);
-		conf.step = validType(conf.step);
-		conf.interval = validType(conf.interval);
-		conf.shiftOnKeyDown = validType(conf.shiftOnKeyDown);
-		conf.shiftOnKeyHold = validType(conf.shiftOnKeyHold);
+		const validBoolean = (value: any) => {
+			let result = false;
+			if (value == true || value == 'true') {
+				result = true;
+			}
+			return result;
+		};
 
+		// console.log('conf.min before validation: ');
+		// console.log(conf.min);
+		conf.min = validNumber(conf.min);
+		// console.log('conf.min after validation: ');
+		// console.log(conf.min);
+
+		conf.max = validNumber(conf.max);
+		conf.from = validNumber(conf.from);
+		conf.to = validNumber(conf.to);
+		conf.step = validNumber(conf.step);
+		conf.interval = validNumber(conf.interval);
+		conf.shiftOnKeyDown = validNumber(conf.shiftOnKeyDown);
+		conf.shiftOnKeyHold = validNumber(conf.shiftOnKeyHold);
+
+		conf.vertical = validBoolean(conf.vertical);
+		conf.range = validBoolean(conf.range);
+		conf.sticky = validBoolean(conf.sticky);
+		conf.scale = validBoolean(conf.scale);
+		conf.bar = validBoolean(conf.bar);
+		conf.tip = validBoolean(conf.tip);
+
+
+		if (conf.scaleBase != 'step' && conf.scaleBase != 'interval') {
+			conf.scaleBase = 'step';
+			//console.log('0');
+		}
 
 		if (conf.shiftOnKeyDown <= 0) {
 			conf.shiftOnKeyDown = 1;
@@ -441,7 +469,7 @@ class sliderModel extends Observer {
 	}
 
 	public update(newConf: IConf) {
-		//	console.log(newConf);
+
 
 		let conf = {};
 		conf = Object.assign(conf, this.conf, newConf);
@@ -597,7 +625,7 @@ class sliderModel extends Observer {
 	// корректирует позицию ползунка, устанавливает его на ближайшее деление шкалы при sticky режиме
 	private setSticky(controlPos: number) {
 		/*Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из значения newPos 
-до тех пор, пока результат текущей итерации не станет больше результата предыдущей (это значит, что мы нашли деление,
+	до тех пор, пока результат текущей итерации не станет больше результата предыдущей (это значит, что мы нашли деление,
 	ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления*/
 		let pos = 0;
 		for (let i = 0; i < this.data.marksArr.length; i++) {
