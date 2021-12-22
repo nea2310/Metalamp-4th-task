@@ -261,5 +261,24 @@ destroy()
 Deletes an instance of the plugin and removes its elements from DOM
 
 
+Project build 
+
+Node version v14.18.1
+
+Install dependencies:
+npm i
+
+Run on a devserver:
+npm start
+go to http://localhost:8080/
+
+Production build (plugin plus demonstration page):
+npm run build
+
+Production build (plugin only):
+npm run plugin
+
+Run testing:
+npm run test
 
 
