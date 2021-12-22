@@ -40,37 +40,37 @@ class sliderView extends Observer {
 		this.slider.classList.remove('rs-metalamp__wrapper_disabled');
 	}
 
-	public updateFromPos = (data: Idata, conf: IConf) => {
+	public updateFromPos(data: Idata, conf: IConf) {
 		this.viewControl.updatePos(this.viewControl.controlMin,
 			data.fromPos);
 		this.viewControl.updateInput(conf);
 	}
 
-	public updateToPos = (data: Idata, conf: IConf) => {
+	public updateToPos(data: Idata, conf: IConf) {
 		this.viewControl.updatePos(this.viewControl.controlMax,
 			data.toPos);
 		this.viewControl.updateInput(conf);
 	}
 
-	public updateFromVal = (data: Idata) => {
+	public updateFromVal(data: Idata) {
 		this.viewControl.updateVal(data.fromVal, true);
 	}
 
-	public updateToVal = (data: Idata) => {
+	public updateToVal(data: Idata) {
 		this.viewControl.updateVal(data.toVal, false);
 	}
 
-	public updateScale = (data: Idata, conf: IConf) => {
+	public updateScale(data: Idata, conf: IConf) {
 		this.viewScale.createScale(data.marksArr, conf);
 
 	}
 
-	public updateBar = (data: Idata, conf: IConf) => {
+	public updateBar(data: Idata, conf: IConf) {
 		this.viewBar.
 			updateBar(data.barPos, data.barWidth, conf.vertical);
 	}
 
-	public switchVertical = (conf: IConf) => {
+	public switchVertical(conf: IConf) {
 		if (conf.vertical) {
 			this.slider.classList.add('rs-metalamp__wrapper_vert');
 			this.track.classList.add('rs-metalamp__track_vert');
@@ -84,19 +84,19 @@ class sliderView extends Observer {
 		this.viewControl.switchVertical(conf);
 	}
 
-	public switchRange = (conf: IConf) => {
+	public switchRange(conf: IConf) {
 		this.viewControl.switchRange(conf);
 	}
 
-	public switchScale = (conf: IConf) => {
+	public switchScale(conf: IConf) {
 		this.viewScale.switchScale(conf);
 	}
 
-	public switchBar = (conf: IConf) => {
+	public switchBar(conf: IConf) {
 		this.viewBar.switchBar(conf);
 	}
 
-	public switchTip = (conf: IConf) => {
+	public switchTip(conf: IConf) {
 		this.viewControl.switchTip(conf);
 	}
 

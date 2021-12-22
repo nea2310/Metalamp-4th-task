@@ -16,21 +16,21 @@ class sliderController extends Observer {
 		this.enabled = true;
 	}
 
-	public update = (conf: IConf) => {
+	public update(conf: IConf) {
 		this.model.update(conf);
 	}
 
-	public getData = () => {
+	public getData() {
 		return this.model.getData();
 	}
 
-	public disable = () => {
+	public disable() {
 		this.removeListeners();
 		this.enabled = false;
 		this.view.disable();
 	}
 
-	public enable = () => {
+	public enable() {
 		if (!this.enabled) {
 			this.createListeners();
 			this.view.enable();
@@ -38,7 +38,7 @@ class sliderController extends Observer {
 		this.enabled = true;
 	}
 
-	public destroy = () => {
+	public destroy() {
 		this.view.slider.remove();
 		this.view = null;
 		this.model = null;
