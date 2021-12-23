@@ -1,13 +1,13 @@
 import { IConf, IFireParms } from './../interface';
-import { sliderModel } from './../model/model';
-import { sliderView } from './../view/view';
+import { Model } from './../model/model';
+import { View } from './../view/view';
 import { Observer } from '../observer';
 
-class sliderController extends Observer {
-	model: sliderModel;
-	view: sliderView;
+class Controller extends Observer {
+	model: Model;
+	view: View;
 	enabled: boolean;
-	constructor(model: sliderModel, view: sliderView) {
+	constructor(model: Model, view: View) {
 		super();
 		this.model = model;
 		this.view = view;
@@ -163,5 +163,5 @@ class sliderController extends Observer {
 	}
 }
 
-export { sliderModel, sliderView, sliderController };
+export { Model, View, Controller };
 

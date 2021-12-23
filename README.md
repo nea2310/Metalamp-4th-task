@@ -281,4 +281,7 @@ npm run plugin
 Run testing:
 npm run test
 
+UML 
+<a href = "./UML/uml.drawio">UML class diagram</a>
+
 

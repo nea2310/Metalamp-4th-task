@@ -1,4 +1,4 @@
-import { sliderModel, sliderView, sliderController }
+import { Model, View, Controller }
 	from './mvc/controller/controller';
 
 // eslint-disable-next-line no-undef
@@ -9,8 +9,8 @@ $.fn.Slider = function (options): JQuery {
 			$.data(
 				el,
 				'SliderMetaLamp',
-				new sliderController(
-					new sliderModel(options), new sliderView(el, i))
+				new Controller(
+					new Model(options), new View(el, i))
 			);
 		}
 	});

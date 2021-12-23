@@ -1,11 +1,11 @@
-import { sliderViewBar } from './../../view/view-bar/view-bar';
+import { ViewBar } from './../../view/view-bar/view-bar';
 const root = document.createElement('div');
 document.body.appendChild(root);
 
 const track = document.createElement('div');
 track.className = 'rs-metalamp__track';
 root.appendChild(track);
-const testBar = new sliderViewBar(root, {});
+const testBar = new ViewBar(root, {});
 const progressBar = document.
 	getElementsByClassName('rs-metalamp__progressBar')[0] as HTMLElement;
 

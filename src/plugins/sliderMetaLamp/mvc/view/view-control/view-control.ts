@@ -1,7 +1,7 @@
 import { IConf, Idata } from '../../interface';
 import { Observer } from '../../observer';
 
-class sliderViewControl extends Observer {
+class ViewControl extends Observer {
 	public controlMin: HTMLElement;
 	public controlMax: HTMLElement;
 	public tipMin: HTMLInputElement;
@@ -342,5 +342,5 @@ class sliderViewControl extends Observer {
 
 }
 
-export { sliderViewControl };
+export { ViewControl };
 

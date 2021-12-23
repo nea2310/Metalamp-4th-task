@@ -2,7 +2,7 @@ import {
 	IConf,
 } from '../../interface';
 
-class sliderViewBar {
+class ViewBar {
 	private slider: HTMLElement;
 	private track: HTMLElement;
 	private elem: HTMLElement;
@@ -69,5 +69,5 @@ class sliderViewBar {
 	}
 }
 
-export { sliderViewBar };
+export { ViewBar };
 

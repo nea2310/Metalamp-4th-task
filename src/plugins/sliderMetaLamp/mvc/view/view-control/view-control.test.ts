@@ -1,7 +1,7 @@
-import { sliderController } from './../../controller/controller';
+import { Controller } from './../../controller/controller';
 import { IConf } from './../../interface';
-import { sliderModel } from './../../model/model';
-import { sliderView } from './../../view/view';
+import { Model } from './../../model/model';
+import { View } from './../../view/view';
 
 
 function mockPointerEvent(element: HTMLElement, {
@@ -68,9 +68,9 @@ const conf: IConf = {
 const getElem = (selector: string) =>
 	document.getElementsByClassName(selector)[0] as HTMLElement;
 
-const testModel = new sliderModel(conf);
-const testView = new sliderView(parent, 0);
-new sliderController(testModel, testView);
+const testModel = new Model(conf);
+const testView = new View(parent, 0);
+new Controller(testModel, testView);
 const testViewControl = testView.viewControl;
 
 const calcPosSpy = jest.spyOn(testModel, 'calcPos');

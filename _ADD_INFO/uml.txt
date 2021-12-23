@@ -1,191 +1,184 @@
 
 
-model
-	private changeMode: boolean;
-	public conf: IConf;
-	private startConf: IConf;
-	private backEndConf: IConf;
-	private methods: Imethods;
-	private data: Idata;
-	private onStart?: Function | null;
-	private onUpdate?: Function | null;
-	private onChange?: Function | null;
-	private noCalVal: boolean;
+Model
++ conf: IConf
+- changeMode: boolean
+- startConf: IConf
+- backEndConf: IConf
+- methods: Imethods
+- data: Idata
+- onStart: Function | null
+- onUpdate: Function | null
+- onChange: Function | null
+- noCalVal: boolean
 	------------------------------
-	public getConf(conf: IConf): conf: IConf
-	public start(): void
-	public getData(): conf: IConf
-	public calcPos(string, number,number,number,number,number,number,number,string): string | number
-	public calcPosKey(string, boolean, string): string | number | {string, number}
-private checkConf(conf: IConf): conf: IConf
-public update(newConf: IConf): IConf & Idata // ?????
-private findChangedConf(conf: IConf, newConf: IConf):methods: Imethods
-private async switchVertical(): void
-private async switchRange(): void
-private async updateControlPos(): void
-private switchScale(): void
-private switchBar(): void
-private switchTip(): void
-private setSticky(number): number
-private calcFromPosition(): void
-private calcToPosition(): void
-private calcBar(): void
-private calcScale(): void
-private calcVal(string, number, string): void
++ getConf( IConf): IConf
++ start(): void
++ getData(): IConf
++ update(IConf): IConf & Idata
++ calcPos(string, number,number,number,number,number,number,number,string): string | number
++ calcPosKey(string, boolean, string): string | number | {string, number}
+- checkConf(IConf): conf: IConf
+- findChangedConf(IConf, IConf):methods: Imethods
+- async switchVertical(): void
+- async switchRange(): void
+- async updateControlPos(): void
+- switchScale(): void
+- switchBar(): void
+- switchTip(): void
+- setSticky(number): number
+- calcFromPosition(): void
+- calcToPosition(): void
+- calcBar(): void
+- calcScale(): void
+- calcVal(string, number, string): void
 	================================
 
-	controller
-	public model: sliderModel;
-	public view: sliderView;
-	private enabled: boolean;
-private handleFromPosition: Function
-private handleToPosition: Function
-private handleFromValue: Function
-private handleToValue: Function
-private handleScale: Function
-private handleBar: Function
-private handleIsVertical: Function
-private handleIsRange: Function
-private handleIsScale: Function
-private handleIsBar: Function
-private handleIsTip: Function
-private handleMoveEvent: Function
-private handleKeydownEvent: Function
+	Controller
++ model: Model;
++ view: View;
+- enabled: boolean;
+
 
 -----------------------------------
 
-	public update(conf: IConf)
-	public getData():conf: IConf
-	public disable(): void
-	public enable(): void
-	public destroy(): void
-	private init(): void
-	private createListeners(): void
-	private removeListeners(): void
-
-
-	================================
-view
-
-	public viewControl: sliderViewControl;
-	public viewScale: sliderViewScale;
-	public viewBar: sliderViewBar;
-	private root: HTMLElement;
-	public slider: HTMLElement;
-	private track: HTMLElement;
-	private frame: HTMLElement;
-	private conf: IConf;
-	public backEndConf: IConf;
-	private handleMoveEvent: Function
-	private handleKeydownEvent: Function
-
-	---------------------------------
-	public init(conf: IConf): void
-	public disable(): void
-	public enable(): void
-	public updateFromPos(data: Idata, conf: IConf): void
-	public updateToPos(data: Idata, conf: IConf): void
-	public updateFromVal(data: Idata): void
-	public updateToVal(data: Idata): void
-	public updateScale(data: Idata, conf: IConf): void
-	public updateBar(data: Idata, conf: IConf): void
-	public switchVertical(conf: IConf): void
-	public switchRange(conf: IConf): void
-	public switchScale(conf: IConf): void
-	public switchBar(conf: IConf): void
-	public switchTip(conf: IConf): void
-	private render(): void
-	private collectParms(): void
-	private createSubViews(): void
-	private createListeners(): void
++ update(IConf): void
++ getData(): IConf
++ disable(): void
++ enable(): void
++ destroy(): void
+- init(): void
+- createListeners(): void
+- removeListeners(): void
+- handleFromPosition: (IFireParms) => void
+- handleToPosition: (IFireParms) => void
+- handleFromValue: (IFireParms) => void
+- handleToValue: (IFireParms) => void
+- handleScale: (IFireParms) => void
+- handleBar: (IFireParms) => void
+- handleIsVertical: (IFireParms) => void
+- handleIsRange: (IFireParms) => void
+- handleIsScale: (IFireParms) => void
+- handleIsBar: (IFireParms) => void
+- handleIsTip: (IFireParms) => void
+- handleMoveEvent: (IFireParms) => void
+- handleKeydownEvent: (IFireParms) => void
 
 	================================
+View
 
-	scale
++ viewControl: ViewControl
++ viewScale: ViewScale
++ viewBar: ViewBar
++ backEndConf: IConf
+- root: HTMLElement
+- track: HTMLElement
+- frame: HTMLElement
+- conf: IConf
 
-	private slider: HTMLElement;
-	private startWidth: number = 0;
-	private track: HTMLElement;
-	private markList: HTMLElement[];
-	private conf: IConf;
-	private lastLabelRemoved: boolean;
-	private scaleMarks: {number, number }[];
-	private calcMarkList: boolean
+---------------------------------
++ init(IConf): void
++ disable(): void
++ enable(): void
++ updateFromPos(Idata, IConf): void
++ updateToPos(Idata, IConf): void
++ updateFromVal(Idata): void
++ updateToVal(Idata): void
++ updateScale(Idata, IConf): void
++ updateBar(Idata, IConf): void
++ switchVertical(IConf): void
++ switchRange(IConf): void
++ switchScale(IConf): void
++ switchBar(IConf): void
++ switchTip(IConf): void
+- render(): void
+- collectParms(): void
+- createSubViews(): void
+- createListeners(): void
+- handleMoveEvent: (IFireParms) => void
+- handleKeydownEvent: (IFireParms) => void
+
+================================
+
+ViewScale
+
+- slider: HTMLElement
+- startWidth: number = 0
+- track: HTMLElement
+- markList: HTMLElement[]
+- conf: IConf
+- lastLabelRemoved: boolean
+- scaleMarks: {number, number }[]
+- calcMarkList: boolean
 
 	--------------------------------
-	public createScale({number, number }[],
-	conf: IConf): Function(HTMLElement[]): HTMLElement[] //??
-
-	public switchScale(conf: IConf): NodeListOf<Element>
-
-	private checkScaleLength(markList: HTMLElement[]):  HTMLElement[]
-	private addLastLabel(boolean): void
-	private resize(): void
++ createScale({number, number }[], IConf): Function(HTMLElement[])
++ switchScale(IConf): NodeListOf<Element>
+- checkScaleLength(HTMLElement[]):  HTMLElement[]
+- addLastLabel(boolean): void
+- resize(): void
 
 			================================
 
-	control
-	public controlMin: HTMLElement;
-	public controlMax: HTMLElement;
-	public tipMin: HTMLInputElement;
-	public tipMax: HTMLInputElement;
-	public track: HTMLInputElement;
-
-	private conf: IConf;
-	private slider: HTMLElement;
-	private root: HTMLInputElement;
-	private data: Idata;
-	private initDone: boolean
-
-	private defineControl: Function
-
+	ViewControl
++ controlMin: HTMLElement
++ controlMax: HTMLElement
++ tipMin: HTMLInputElement
++ tipMax: HTMLInputElement
++ track: HTMLInputElement
+- conf: IConf
+- slider: HTMLElement
+- root: HTMLInputElement
+- data: Idata
+- initDone: boolean
 	-------------------------------
-	public updatePos(HTMLElement, number): void
-	public updateVal(string, boolean): void
-	public updateInput(conf: IConf): void
-	public switchVertical(conf: IConf): void
-	public switchRange(conf: IConf): void
-	public switchTip(conf: IConf): void
-	private init(conf: IConf): void
-	private renderControl(string, string, number): HTMLButtonElement
-	private renderLeftControl(): void
-	private renderRightControl(): void
-	private getMetrics(HTMLElement)
-	private dragControlMouse(): void
-	private dragControlTouch(): void
-	private pressControl(): void
-	private clickTrack(): void
-	private calcTipPos(boolean, HTMLElement): string
++ updatePos(HTMLElement, number): void
++ updateVal(string, boolean): void
++ updateInput(conf: IConf): void
++ switchVertical(conf: IConf): void
++ switchRange(conf: IConf): void
++ switchTip(conf: IConf): void
+- init(conf: IConf): void
+- renderControl(string, string, number): HTMLButtonElement
+- renderLeftControl(): void
+- renderRightControl(): void
+- getMetrics(HTMLElement)
+- dragControlMouse(): void
+- dragControlTouch(): void
+- pressControl(): void
+- clickTrack(): void
+- calcTipPos(boolean, HTMLElement): string
+- defineControl: (HTMLElement) => void
 
 ======================================
-bar
+Bar
 
-	private slider: HTMLElement;
-	private track: HTMLElement;
-	private elem: HTMLElement;
-	private progressBar: HTMLElement;
-	private controlMin: HTMLElement;
-	private controlMax: HTMLElement;
-	private controlMinDist: number;
-	private controlMaxDist: number;
-	private markList: HTMLElement[];
-	private conf: IConf;
-	private scale: HTMLElement;
-	private checkNext: boolean;
-	private lastLabelRemoved: boolean;
+- slider: HTMLElement
+- track: HTMLElement
+- elem: HTMLElement;
+- progressBar: HTMLElement
+- controlMin: HTMLElement
+- controlMax: HTMLElement
+- controlMinDist: number
+- controlMaxDist: number
+- markList: HTMLElement[]
+- conf: IConf
+- scale: HTMLElement
+- checkNext: boolean
+- lastLabelRemoved: boolean
 	---------------------------------
 
-	public switchVertical(conf: IConf): void
-	public switchBar(conf: IConf)
-	public updateBar(number, number, boolean): void
-	private init(conf: IConf): void
-	private renderBar(conf: IConf): void
++ switchVertical(IConf): void
++ switchBar(IConf)
++ updateBar(number, number, boolean): void
+- init(IConf): void
+- renderBar(IConf): void
 
 	======================================
 
-	observer
-	observers: Function[];
+	Observer
+- observers: Function[]
 
-	public subscribe(Function):Function[] | boolean
-	public unsubscribe(Function):Function[]
-	protected fire(string, data: Idata, conf: IConf): void
++ subscribe(Function):Function[] | boolean
++ unsubscribe(Function):Function[]
+# fire(string, data: Idata, conf: IConf): void

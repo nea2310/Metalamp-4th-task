@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.61% </span>
+                <span class="strong">95.41% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>109/114</span>
+                <span class='fraction'>104/109</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.53% </span>
+                <span class="strong">95.32% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>107/112</span>
+                <span class='fraction'>102/107</span>
             </div>
         
             
@@ -236,29 +236,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">53x</span>
 <span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -330,6 +307,29 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -392,15 +392,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { IConf, IFireParms } from './../interface';
-import { sliderModel } from './../model/model';
-import { sliderView } from './../view/view';
+import { Model } from './../model/model';
+import { View } from './../view/view';
 import { Observer } from '../observer';
 &nbsp;
-class sliderController extends Observer {
-	model: sliderModel;
-	view: sliderView;
+class Controller extends Observer {
+	model: Model;
+	view: View;
 	enabled: boolean;
-	constructor(model: sliderModel, view: sliderView) {
+	constructor(model: Model, view: View) {
 		super();
 		this.model = model;
 		this.view = view;
@@ -409,21 +409,21 @@ class sliderController extends Observer {
 		this.enabled = true;
 	}
 &nbsp;
-	public update = (conf: IConf) =&gt; {
+	public update(conf: IConf) {
 		this.model.update(conf);
 	}
 &nbsp;
-	public getData = () =&gt; {
+	public getData() {
 		return this.model.getData();
 	}
 &nbsp;
-	public disable = () =&gt; {
+	public disable() {
 		this.removeListeners();
 		this.enabled = false;
 		this.view.disable();
 	}
 &nbsp;
-	public enable = () =&gt; {
+	public enable() {
 		if (!this.enabled) {
 			this.createListeners();
 			this.view.enable();
@@ -431,54 +431,54 @@ class sliderController extends Observer {
 		this.enabled = true;
 	}
 &nbsp;
-	public destroy = () =&gt; {
+	public destroy() {
 		this.view.slider.remove();
 		this.view = null;
 		this.model = null;
-	}
+	}<span class="cstat-no" title="statement not covered" ></span>
 &nbsp;
 	private init() {
 		this.model.getConf(this.view.backEndConf);
 		this.view.init(this.model.conf); //закидываем конфиг из модели в view
-		this.model.start();
+		this.model<span class="cstat-no" title="statement not covered" >.start();</span>
 	}
 &nbsp;
 	private createListeners() {
 		this.model.subscribe(this.handleFromPosition);
-		this.model.subscribe(this.handleToPosition);
+		this.model<span class="cstat-no" title="statement not covered" >.subscribe(this.handleToPosition);</span>
 		this.model.subscribe(this.handleFromValue);
 		this.model.subscribe(this.handleToValue);
 		this.model.subscribe(this.handleBar);
 		this.model.subscribe(this.handleScale);
-		this.model.subscribe(this.handleIsVertical);
+		this.model<span class="cstat-no" title="statement not covered" >.subscribe(this.handleIsVertical)</span>;
 		this.model.subscribe(this.handleIsRange);
 		this.model.subscribe(this.handleIsScale);
 		this.model.subscribe(this.handleIsBar);
 		this.model.subscribe(this.handleIsTip);
-		this.view.subscribe(this.handleMoveEvent);
+		this.view.<span class="cstat-no" title="statement not covered" >subscribe(this.handleMoveEvent);</span>
 		this.view.subscribe(this.handleKeydownEvent);
 	}
-<span class="cstat-no" title="statement not covered" ></span>
+&nbsp;
 	private removeListeners() {
 		this.model.unsubscribe(this.handleFromPosition);
 		this.model.unsubscribe(this.handleToPosition);
 		this.model.unsubscribe(this.handleFromValue);
-		this.model<span class="cstat-no" title="statement not covered" >.unsubscribe(this.handleToValue);</span>
+		this.model.unsubscribe(this.handleToValue);
 		this.model.unsubscribe(this.handleBar);
 		this.model.unsubscribe(this.handleScale);
 		this.model.unsubscribe(this.handleIsVertical);
 		this.model.unsubscribe(this.handleIsRange);
-		this.model<span class="cstat-no" title="statement not covered" >.unsubscribe(this.handleIsScale);</span>
+		this.model.unsubscribe(this.handleIsScale);
 		this.model.unsubscribe(this.handleIsBar);
 		this.model.unsubscribe(this.handleIsTip);
 		this.view.unsubscribe(this.handleMoveEvent);
 		this.view.unsubscribe(this.handleKeydownEvent);
-	}<span class="cstat-no" title="statement not covered" ></span>
+	}
 &nbsp;
 &nbsp;
 	private handleFromPosition =
 		(parms: IFireParms) =&gt; {
-			if (parms<span class="cstat-no" title="statement not covered" >.key !== 'FromPosition') return;</span>
+			if (parms.key !== 'FromPosition') return;
 			this.view.updateFromPos(parms.data, parms.conf);
 		}
 	private handleToPosition = (parms: IFireParms) =&gt; {
@@ -556,7 +556,7 @@ class sliderController extends Observer {
 	}
 }
 &nbsp;
-export { sliderModel, sliderView, sliderController };
+export { Model, View, Controller };
 &nbsp;
 &nbsp;</pre></td></tr></table></pre>
 
@@ -565,7 +565,7 @@ export { sliderModel, sliderView, sliderController };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Dec 21 2021 17:49:01 GMT+0500 (Екатеринбург, стандартное время)
+                at Thu Dec 23 2021 11:34:24 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         </div>
         <script src="../../../prettify.js"></script>

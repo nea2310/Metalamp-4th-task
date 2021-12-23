@@ -1,8 +1,8 @@
 import { IConf } from './../interface';
-import { sliderView } from './../view/view';
-import { sliderViewBar } from './view-bar/view-bar';
-import { sliderViewControl } from './view-control/view-control';
-import { sliderViewScale } from './view-scale/view-scale';
+import { View } from './../view/view';
+import { ViewBar } from './view-bar/view-bar';
+import { ViewControl } from './view-control/view-control';
+import { ViewScale } from './view-scale/view-scale';
 
 
 const parent = document.createElement('input');
@@ -25,7 +25,7 @@ const conf: IConf = {
 	shiftOnKeyHold: 1,
 };
 
-const testView = new sliderView(parent, 0);
+const testView = new View(parent, 0);
 const initSpy = jest.spyOn(testView, 'init');
 testView.init(conf);
 const testViewControl = testView.viewControl;
@@ -40,9 +40,9 @@ describe('ViewScale', () => {
 	const updateValSpy = jest.spyOn(testViewControl, 'updateVal');
 	test('init', () => {
 		expect(initSpy).toBeCalledTimes(1);
-		expect(testViewControl).toBeInstanceOf(sliderViewControl);
-		expect(testViewScale).toBeInstanceOf(sliderViewScale);
-		expect(testViewBar).toBeInstanceOf(sliderViewBar);
+		expect(testViewControl).toBeInstanceOf(ViewControl);
+		expect(testViewScale).toBeInstanceOf(ViewScale);
+		expect(testViewBar).toBeInstanceOf(ViewBar);
 		expect(testView.viewControl.observers).toHaveLength(2);
 	});
 

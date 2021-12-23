@@ -1,20 +1,20 @@
 import { IConf } from './../interface';
-import { sliderModel } from './../model/model';
-import { sliderView } from './../view/view';
-import { sliderController } from './controller';
+import { Model } from './../model/model';
+import { View } from './../view/view';
+import { Controller } from './controller';
 
 /*
 jest.mock('./../view/view');
-const viewMock = sliderView as jest.MockedClass<typeof sliderView>;
+const viewMock = View as jest.MockedClass<typeof View>;
 jest.mock('./../model/model');
-const modelMock = sliderModel as jest.MockedClass<typeof sliderModel>;
+const modelMock = Model as jest.MockedClass<typeof Model>;
 */
 
 /*
-const mockSliderViewFile = jest.fn();
+const mockViewFile = jest.fn();
 const viewMock = jest.mock('./../view/view', () => {
 	return jest.fn().mockImplementation(() => {
-		return { sliderViewFile: mockSliderViewFile };
+		return { ViewFile: mockViewFile };
 	});
 });
 console.log(viewMock);
@@ -23,9 +23,9 @@ console.log(viewMock);
 function prepareInstance(conf: IConf) {
 	const parent = document.createElement('input');
 	document.body.appendChild(parent);
-	const testModel = new sliderModel(conf);
-	const testView = new sliderView(parent, 0);
-	return new sliderController(testModel, testView);
+	const testModel = new Model(conf);
+	const testView = new View(parent, 0);
+	return new Controller(testModel, testView);
 }
 
 

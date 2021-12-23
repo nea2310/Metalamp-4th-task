@@ -2,7 +2,7 @@ import { _$ as $ } from './sliderMetaLamp';
 import {
 	IConf,
 } from './../../plugins/sliderMetaLamp/mvc/interface';
-import { sliderController }
+import { Controller }
 	from './mvc/controller/controller';
 
 describe('sliderMetaLamp', () => {
@@ -35,7 +35,7 @@ describe('sliderMetaLamp', () => {
 	};
 
 	test(' Initialize plugin on a DOM-element ', () => {
-		expect(slider).toBeInstanceOf(sliderController);
+		expect(slider).toBeInstanceOf(Controller);
 	});
 
 	test(' Should call API update', () => {

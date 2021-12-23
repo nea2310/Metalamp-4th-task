@@ -1,5 +1,5 @@
 import { IConf } from '../../interface';
-import { sliderViewScale } from './view-scale';
+import { ViewScale } from './view-scale';
 
 interface IMockElement {
 	width: number,
@@ -80,15 +80,15 @@ function prepareInstance(
 	root.after(slider);
 	const track = document.createElement('div');
 	slider.append(track);
-	let testViewScale: sliderViewScale;
+	let testViewScale: ViewScale;
 	if (mockDimensions) {
 		mockElementDimensions(track, { width: 100, height: 100 });
 		const markList = createMarkList(scaleMarks, conf, track, 100, 100);
 		testViewScale =
-			new sliderViewScale(slider, track, conf, markList);
+			new ViewScale(slider, track, conf, markList);
 	}
 	else {
-		testViewScale = new sliderViewScale(slider, track, conf);
+		testViewScale = new ViewScale(slider, track, conf);
 	}
 
 	function createScale(conf: IConf) {

@@ -1,5 +1,5 @@
 import { IConf } from './../interface';
-import { sliderModel } from './../model/model';
+import { Model } from './../model/model';
 
 describe('model, calcPos and calcPosKey methods', () => {
 
@@ -14,7 +14,7 @@ describe('model, calcPos and calcPosKey methods', () => {
 			shiftOnKeyDown: 1,
 			shiftOnKeyHold: 2,
 		};
-		const testModel = new sliderModel(conf);
+		const testModel = new Model(conf);
 		testModel.getConf(conf);
 		testModel.start();
 		expect(testModel.calcPos(
@@ -53,7 +53,7 @@ describe('model, calcPos and calcPosKey methods', () => {
 			shiftOnKeyDown: 1,
 			shiftOnKeyHold: 2,
 		};
-		const testModel = new sliderModel(conf);
+		const testModel = new Model(conf);
 		testModel.getConf(conf);
 		testModel.start();
 
@@ -95,7 +95,7 @@ describe('model, calcPos and calcPosKey methods', () => {
 				shiftOnKeyDown: 1,
 				shiftOnKeyHold: 2,
 			};
-			const testModel = new sliderModel(conf);
+			const testModel = new Model(conf);
 			await testModel.getConf(conf);
 			await testModel.start();
 
@@ -155,7 +155,7 @@ describe('model, calcPos and calcPosKey methods', () => {
 				shiftOnKeyDown: 1,
 				shiftOnKeyHold: 2,
 			};
-			const testModel = new sliderModel(conf);
+			const testModel = new Model(conf);
 			testModel.getConf(conf);
 			testModel.start();
 
@@ -221,7 +221,7 @@ describe('model, values correction on  update API request processing', () => {
 		shiftOnKeyDown: 1,
 		shiftOnKeyHold: 2,
 	};
-	const testModel = new sliderModel(conf);
+	const testModel = new Model(conf);
 	testModel.getConf(conf);
 	testModel.start();
 	test('shiftOnKeyDown <= 0', async () => {
@@ -387,7 +387,7 @@ describe('model, update API request processing', () => {
 			toVal: '50',
 			vertical: false,
 		};
-		const testModel = await new sliderModel(conf);
+		const testModel = await new Model(conf);
 		await testModel.getConf(conf);
 		await testModel.start();
 		expect(testModel.update({
@@ -401,7 +401,7 @@ describe('model, update API request processing', () => {
 
 
 	test('switch vertical', async () => {
-		const testModel = await new sliderModel(conf);
+		const testModel = await new Model(conf);
 		await testModel.getConf(conf);
 		await testModel.start();
 		expect(testModel.update({ vertical: true }).vertical).
@@ -409,7 +409,7 @@ describe('model, update API request processing', () => {
 	});
 
 	test('switch range', async () => {
-		const testModel = await new sliderModel(conf);
+		const testModel = await new Model(conf);
 		await testModel.getConf(conf);
 		await testModel.start();
 		expect(testModel.update({ range: false }).range).
@@ -417,7 +417,7 @@ describe('model, update API request processing', () => {
 	});
 
 	test('switch bar', async () => {
-		const testModel = await new sliderModel(conf);
+		const testModel = await new Model(conf);
 		await testModel.getConf(conf);
 		await testModel.start();
 		expect(testModel.update({ bar: false }).bar).
@@ -425,7 +425,7 @@ describe('model, update API request processing', () => {
 	});
 
 	test('switch tip', async () => {
-		const testModel = await new sliderModel(conf);
+		const testModel = await new Model(conf);
 		await testModel.getConf(conf);
 		await testModel.start();
 		expect(testModel.update({ tip: false }).tip).
@@ -433,7 +433,7 @@ describe('model, update API request processing', () => {
 	});
 
 	test('switch scale', async () => {
-		const testModel = await new sliderModel(conf);
+		const testModel = await new Model(conf);
 		await testModel.getConf(conf);
 		await testModel.start();
 		expect(testModel.update({ scale: false }).scale).
@@ -441,7 +441,7 @@ describe('model, update API request processing', () => {
 	});
 
 	test('update scaleBase and interval', async () => {
-		const testModel = await new sliderModel(conf);
+		const testModel = await new Model(conf);
 		await testModel.getConf(conf);
 		await testModel.start();
 		expect(testModel.update({ scaleBase: 'interval' }).
@@ -454,7 +454,7 @@ describe('model, update API request processing', () => {
 	});
 
 	test('update isSticky', async () => {
-		const testModel = await new sliderModel(conf);
+		const testModel = await new Model(conf);
 		await testModel.getConf(conf);
 		await testModel.start();
 		expect(testModel.update({ sticky: true }).
@@ -462,7 +462,7 @@ describe('model, update API request processing', () => {
 	});
 
 	test('round interval value', async () => {
-		const testModel = await new sliderModel(conf);
+		const testModel = await new Model(conf);
 		await testModel.getConf(conf);
 		await testModel.start();
 		expect(testModel.update({ step: 30 }).
@@ -470,7 +470,7 @@ describe('model, update API request processing', () => {
 	});
 
 	test('round step value', async () => {
-		const testModel = await new sliderModel(conf);
+		const testModel = await new Model(conf);
 		await testModel.getConf(conf);
 		await testModel.start();
 		expect(testModel.update({ scaleBase: 'interval', interval: 6 }).

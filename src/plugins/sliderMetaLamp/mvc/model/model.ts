@@ -6,7 +6,7 @@ import {
 } from './../interface';
 import { Observer } from '../observer';
 
-class sliderModel extends Observer {
+class Model extends Observer {
 	private changeMode: boolean;
 	public conf: IConf;
 	private startConf: IConf;
@@ -774,4 +774,4 @@ class sliderModel extends Observer {
 	}
 }
 
-export { sliderModel };
+export { Model };

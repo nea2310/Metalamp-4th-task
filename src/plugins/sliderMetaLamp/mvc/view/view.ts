@@ -1,14 +1,14 @@
-import { sliderViewBar } from './../view/view-bar/view-bar';
-import { sliderViewControl } from
+import { ViewBar } from './../view/view-bar/view-bar';
+import { ViewControl } from
 	'./../view/view-control/view-control';
-import { sliderViewScale } from './../view/view-scale/view-scale';
+import { ViewScale } from './../view/view-scale/view-scale';
 import { Idata, IConf, IFireParms } from '../interface';
 import { Observer } from '../observer';
 
-class sliderView extends Observer {
-	public viewControl: sliderViewControl;
-	public viewScale: sliderViewScale;
-	public viewBar: sliderViewBar;
+class View extends Observer {
+	public viewControl: ViewControl;
+	public viewScale: ViewScale;
+	public viewBar: ViewBar;
 	private root: HTMLElement;
 	public slider: HTMLElement;
 	private track: HTMLElement;
@@ -169,10 +169,10 @@ class sliderView extends Observer {
 	}
 
 	private createSubViews() {
-		this.viewControl = new sliderViewControl(this.slider, this.conf);
+		this.viewControl = new ViewControl(this.slider, this.conf);
 		this.viewScale =
-			new sliderViewScale(this.slider, this.track, this.conf);
-		this.viewBar = new sliderViewBar(this.slider, this.conf);
+			new ViewScale(this.slider, this.track, this.conf);
+		this.viewBar = new ViewBar(this.slider, this.conf);
 	}
 
 	private createListeners() {
@@ -195,5 +195,5 @@ class sliderView extends Observer {
 	}
 }
 
-export { sliderView };
+export { View };
 
