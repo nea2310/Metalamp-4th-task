@@ -1,36 +1,41 @@
-Description
+# Range slider Metalamp
 
-Getting started
+## Getting started
 Download the project from https://github.com/nea2310/Metalamp-4th-task
 
-Usage
+## Usage
 Include styles from /dist/assets/css directory and scripts from /dist/assets/js directory in your project:
-
+  ```
         <link href="[path to the file]/plugin.css" rel="stylesheet" type="text/css">
         <script src="[path to the file]/plugin.js"></script>
-
-Dependency
+  ```
+## Dependency
 jQuery Core 1.2.0+
 
-Initialization
+## Initialization
 <input id = "my-element">
 $('#my-element').Slider([options])
 
 
-Access to an instance of the plugin
+## Access to an instance of the plugin
+  ```
 $('#my-element').data('SliderMetaLamp')
-
-Examples
+  ```
+## Examples
 
 Initialization with min and max values defined in data-attributes:
+  ```
 <input id = "my-element" data-min="-10" data-max="20">
 $('#my-element').Slider()
+  ```
 
 Initialization with min and max values defined in the configuration object:
+  ```
 <input id = "my-element">
 $('#my-element').Slider({min: -10, max: 20})
-
-Using events:
+  ```
+## Using events:
+  ```
 $('#my-element').Slider({
 			onStart: (data) => {
 				console.log(data);
@@ -42,9 +47,9 @@ $('#my-element').Slider({
 				console.log(data);
 			}
 		})
-
-Using API
-
+  ```
+## Using API
+  ```
 // Initialize an instance
 const $rangeSlider = $('#my-element').Slider().data('SliderMetaLamp');
 
@@ -62,9 +67,9 @@ $rangeSlider.enable();
 
 // Destroy the instance
 $rangeSlider.destroy();
+  ```
 
-
-Values validation
+## Values validation
 
 If value of a numeric parameter is passed as a string which can be converted to number, it will be converted to number:
 {min: '10'} -> {min: 10}. In any other case it will be defaulded: {min: '10 deg'} -> {min: 0}.
@@ -80,8 +85,8 @@ If value of a string parameter doesn't match any of its possible values - it wil
 {scalebase: 10} -> {scalebase: 'step'};
 
 
-configuration object interface
-
+## Configuration object interface
+  ```
  {
 	min?: number
 	max?: number
@@ -102,10 +107,10 @@ configuration object interface
 	onChange?: Function
 	onUpdate?: Function
 }
+  ```
 
 
-
-Options
+## Options
 
 min - minimal value of the slider
 Type: number
@@ -242,7 +247,7 @@ Type: function
 Default: null
 
 
-API
+## API
 
 getData()
 Returns configuration object matching configuration object interface
@@ -261,27 +266,37 @@ destroy()
 Deletes an instance of the plugin and removes its elements from DOM
 
 
-Project build 
+## Project build 
 
 Node version v14.18.1
 
 Install dependencies:
+  ```
 npm i
+  ```
 
 Run on a devserver:
+  ```
 npm start
+  ```
 go to http://localhost:8080/
 
 Production build (plugin plus demonstration page):
+  ```
 npm run build
+  ```
 
 Production build (plugin only):
+  ```
 npm run plugin
+  ```
 
 Run testing:
+  ```
 npm run test
-
-UML 
+  ```
+  
+## UML 
 <a href = "./UML/uml.drawio">UML class diagram</a>
 
 
