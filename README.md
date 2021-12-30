@@ -112,7 +112,7 @@ If value of a string parameter doesn't match any of its possible values - it wil
 
 ## Options
 
-min - minimal value of the slider  
+**min** - minimal value of the slider  
 Type: number  
 Can be negative: yes  
 Can be zero: yes  
