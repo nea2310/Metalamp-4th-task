@@ -112,14 +112,15 @@ If value of a string parameter doesn't match any of its possible values - it wil
 
 ## Options
 
-* min - minimal value of the slider
-* Type: number
-* Can be negative: yes
-* Can be zero: yes
-* Can be fractional: yes
-* Default: 0
-* Setting via configuration object: {min: -10}
-* Setting via data-attribute: data-min="-10"
+min - minimal value of the slider  
+Type: number  
+Can be negative: yes  
+Can be zero: yes  
+Can be fractional: yes  
+Default: 0  
+Setting via configuration object: {min: -10}  
+Setting via data-attribute: data-min="-10"  
+
 
 max - maximal value of the slider
 Type: number
@@ -295,7 +296,7 @@ Run testing:
   ```
 npm run test
   ```
-
+  
 ## UML 
 <a href = "./UML/uml.drawio">UML class diagram</a>
 
