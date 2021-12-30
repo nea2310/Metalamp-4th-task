@@ -13,9 +13,10 @@ Include styles from /dist/assets/css directory and scripts from /dist/assets/js 
 jQuery Core 1.2.0+
 
 ## Initialization
+  ```
 <input id = "my-element">
 $('#my-element').Slider([options])
-
+  ```
 
 ## Access to an instance of the plugin
   ```
@@ -77,9 +78,9 @@ $rangeSlider.destroy();
 * If any numeric parameter value (e.g. min, max, etc.) isn't compatible with its dependant parameters values (e.g. max value is smaller than min value {min: 10, max: 0}) - incorrect parameter will be defaulted: {min: 10, max: 0} -> {min: 10, max: 20}.
 
 * If value of a boolean parameter:
-- is passed as 'true' (string), it will be converted to true (boolean): {bar: 'true'} -> {bar: true};
-- is passed as 'false' (string), it will be converted to false (boolean): {bar: 'false'} -> {bar: false};
-- any other non-boolean value will be converted to false (boolean): {bar: 10} -> {bar: false};
+	- is passed as 'true' (string), it will be converted to true (boolean): {bar: 'true'} -> {bar: true};
+	- is passed as 'false' (string), it will be converted to false (boolean): {bar: 'false'} -> {bar: false};
+	- any other non-boolean value will be converted to false (boolean): {bar: 10} -> {bar: false};
 
 * If value of a string parameter doesn't match any of its possible values - it will be defaulted:
 {scalebase: 10} -> {scalebase: 'step'};
@@ -202,7 +203,7 @@ Setting via configuration object: {shiftonkeyhold: 2}
 Setting via data-attribute: data-shiftonkeyhold="2"  
 
 
-**vertical** - vertical or horyzontal view of the slider  
+* **vertical** - vertical or horyzontal view of the slider  
 Type: boolean  
 Default: false  
 Setting via configuration object: {vertical: true}  
@@ -290,7 +291,7 @@ Deletes an instance of the plugin and removes its elements from DOM
   ``` npm i ```
 
 * Run on a devserver:
-  ```npm start```
+  ```npm start```  
 go to http://localhost:8080/
 
 * Production build (plugin plus demonstration page):
