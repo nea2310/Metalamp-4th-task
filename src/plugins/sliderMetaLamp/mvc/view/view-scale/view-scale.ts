@@ -6,7 +6,7 @@ class ViewScale {
 	private slider: HTMLElement;
 	private startWidth: number = 0;
 	private track: HTMLElement;
-	private markList: HTMLElement[];
+	private markList: Element[];
 	private conf: IConf;
 	private lastLabelRemoved: boolean;
 	private scaleMarks: { 'pos'?: number, 'val'?: number }[];
@@ -71,8 +71,7 @@ class ViewScale {
 			}
 
 			this.markList =
-				[...this.track.querySelectorAll<HTMLElement>
-					('.js-rs-metalamp__mark')];
+				[...this.track.querySelectorAll('.js-rs-metalamp__mark')];
 		}
 
 		this.resize();
@@ -95,8 +94,8 @@ class ViewScale {
 	}
 
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
-	private checkScaleLength(markList: HTMLElement[]) {
-		let hideLabels = (markList: HTMLElement[]) => {
+	private checkScaleLength(markList: Element[]) {
+		let hideLabels = (markList: Element[]) => {
 			//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
 			for (let i = 1; i < markList.length; i += 2) {
 				markList[i].firstElementChild.
@@ -108,10 +107,10 @@ class ViewScale {
 
 			}
 			this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
-				[...this.track.
-					querySelectorAll<HTMLElement>
-					// eslint-disable-next-line max-len
-					('.js-rs-metalamp__mark:not(.js-rs-metalamp__mark_no-label)')];
+				// eslint-disable-next-line max-len	
+				[...this.track.querySelectorAll('.js-rs-metalamp__mark:not(.js-rs-metalamp__mark_no-label)')];
+
+
 			// запускаем функцию проверки заново
 			this.lastLabelRemoved = true;
 			this.checkScaleLength(this.markList);

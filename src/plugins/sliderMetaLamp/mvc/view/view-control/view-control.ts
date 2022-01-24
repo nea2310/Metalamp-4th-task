@@ -1,24 +1,46 @@
 import { IConf, Idata } from '../../interface';
 import { Observer } from '../../observer';
 
+interface IElement extends Element {
+	value?: string;
+	readonly offsetHeight?: number;
+	readonly offsetWidth?: number;
+	clickOutsideEvent?(event: MouseEvent): void;
+}
+
+
+
+
+interface ITarget extends Omit<EventTarget, 'addEventListener'> {
+
+	readonly classList?: DOMTokenList;
+	getBoundingClientRect?(): DOMRect;
+	readonly parentElement?: HTMLElement | null;
+	setPointerCapture?(pointerId: number): void;
+	// eslint-disable-next-line max-len
+	addEventListener(type: "pointermove" | "pointerup", callback: (this: HTMLElement, ev: PointerEvent) => any): void;
+}
+
+
 class ViewControl extends Observer {
 	public controlMin: HTMLElement;
 	public controlMax: HTMLElement;
 	public tipMin: HTMLInputElement;
 	public tipMax: HTMLInputElement;
-	public track: HTMLInputElement;
+	public track: IElement;
 
 	private conf: IConf;
 	private slider: HTMLElement;
-	private root: HTMLInputElement;
+	//private root: HTMLInputElement;
+	private root: IElement;
 	private data: Idata;
 	private initDone: boolean;
 
 	constructor(sliderElem: HTMLElement, conf: IConf) {
 		super();
 		this.slider = sliderElem;
-		this.root = sliderElem.previousElementSibling as HTMLInputElement;
-		this.track = sliderElem.firstElementChild as HTMLInputElement;
+		this.root = sliderElem.previousElementSibling;
+		this.track = sliderElem.firstElementChild;
 
 		this.data = {};
 		this.data.thumb = {};
@@ -163,10 +185,10 @@ class ViewControl extends Observer {
 		this.track.append(this.controlMax);
 	}
 
-	private defineControl = (elem: HTMLElement) =>
+	private defineControl = (elem: ITarget) =>
 		elem.classList.contains('rs-metalamp__control-min') ? 'min' : 'max';
 
-	private getMetrics(elem: HTMLElement) {
+	private getMetrics(elem: ITarget) {
 		const scale = elem.parentElement;
 		const T = this.data.thumb;
 		T.top = scale.getBoundingClientRect().top;
@@ -179,7 +201,10 @@ class ViewControl extends Observer {
 	private dragControlMouse() {
 		let pointerDownHandler = (e: PointerEvent) => {
 			e.preventDefault();
-			const target = e.target as HTMLElement;
+			const target = e.target;// as HTMLElement;
+			if (!(target instanceof HTMLElement)) {
+				throw new Error('Cannot handle move outside of DOM');
+			}
 			if (target.classList.contains('rs-metalamp__control')) {
 				target.classList.add('rs-metalamp__control_grabbing');
 			}
@@ -227,7 +252,10 @@ class ViewControl extends Observer {
 	private dragControlTouch() {
 		let pointerDownHandler = (e: TouchEvent) => {
 			e.preventDefault();
-			const target = e.target as HTMLElement;
+			const target = e.target;// as HTMLElement;
+			if (!(target instanceof HTMLElement)) {
+				throw new Error('Cannot handle move outside of DOM');
+			}
 			const T = this.data.thumb;
 			if (target.classList.contains('rs-metalamp__control')) {
 
@@ -256,7 +284,10 @@ class ViewControl extends Observer {
 			const result = arr.indexOf(e.code);
 			if (result != -1) {
 				e.preventDefault();
-				const target = e.target as HTMLElement;
+				const target = e.target;// as HTMLElement;
+				if (!(target instanceof HTMLElement)) {
+					throw new Error('Cannot handle move outside of DOM');
+				}
 				const T = this.data.thumb;
 
 				if (target.classList.contains('rs-metalamp__control')) {
@@ -277,7 +308,10 @@ class ViewControl extends Observer {
 	private clickTrack() {
 		let pointerDownHandler = (e: PointerEvent) => {
 			e.preventDefault();
-			const target = e.target as HTMLElement;
+			const target = e.target;// as HTMLElement;
+			if (!(target instanceof HTMLElement)) {
+				throw new Error('Cannot handle move outside of DOM');
+			}
 			const T = this.data.thumb;
 
 			let arr =
@@ -343,4 +377,15 @@ class ViewControl extends Observer {
 }
 
 export { ViewControl };
+
+
+
+
+
+
+
+
+
+
+
 

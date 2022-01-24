@@ -256,7 +256,14 @@
 <a name='L197'></a><a href='#L197'>197</a>
 <a name='L198'></a><a href='#L198'>198</a>
 <a name='L199'></a><a href='#L199'>199</a>
-<a name='L200'></a><a href='#L200'>200</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -455,6 +462,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { ViewBar } from './../view/view-bar/view-bar';
 import { ViewControl } from
 	'./../view/view-control/view-control';
@@ -462,11 +476,18 @@ import { ViewScale } from './../view/view-scale/view-scale';
 import { Idata, IConf, IFireParms } from '../interface';
 import { Observer } from '../observer';
 &nbsp;
+interface IElement extends Element {
+	value?: string;
+	readonly offsetHeight?: number;
+	readonly offsetWidth?: number;
+	clickOutsideEvent?(event: MouseEvent): void;
+}
+&nbsp;
 class View extends Observer {
 	public viewControl: ViewControl;
 	public viewScale: ViewScale;
 	public viewBar: ViewBar;
-	private root: HTMLElement;
+	private root: IElement;
 	public slider: HTMLElement;
 	private track: HTMLElement;
 	private frame: HTMLElement;
@@ -476,7 +497,7 @@ class View extends Observer {
 	constructor(root: Element, i: number) {
 		super();
 		/*Находим корневой элемент*/
-		this.root = root as HTMLElement;
+		this.root = root;
 		this.render();
 		this.collectParms();
 	}
@@ -524,15 +545,15 @@ class View extends Observer {
 &nbsp;
 	public updateBar(data: Idata, conf: IConf) {
 		this.viewBar.
-			updateBar(data.barPos, data.barWidth, conf.vertical);
-	}
+			u<span class="fstat-no" title="function not covered" >pd</span>ateBar(data.barPos, data.barWidth, conf.vertical);
+	}<span class="cstat-no" title="statement not covered" ></span>
 &nbsp;
 	public switchVertical(conf: IConf) {
 		if (conf.vertical) {
 			this.slider.classList.add('rs-metalamp__wrapper_vert');
 			this.track.classList.add('rs-metalamp__track_vert');
-			t<span class="fstat-no" title="function not covered" >hi</span>s.frame.classList.add('rs-metalamp__frame_vert');
-		} else<span class="cstat-no" title="statement not covered" > {</span>
+			this.frame.classList.add('rs-metalamp__frame_vert');
+		} else {
 			this.slider.classList.remove('rs-metalamp__wrapper_vert');
 			this.track.classList.remove('rs-metalamp__track_vert');
 			this.frame.classList.remove('rs-metalamp__frame_vert');
@@ -567,43 +588,43 @@ class View extends Observer {
 		this.slider.append(this.track);
 		this.frame = document.createElement('div');
 		this.frame.className = 'rs-metalamp__frame';
-		this.slider.append(this.frame);
-	}
-&nbsp;
+		this.slider.append<span class="cstat-no" title="statement not covered" >(this.frame);</span>
+	}<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" ></span>
 	private collectParms() {
 		this.backEndConf = {};
 		let map = new Map();
 		let arr = ['min',
 			'max',<span class="cstat-no" title="statement not covered" ></span>
 			'from',<span class="cstat-no" title="statement not covered" ></span>
-			'to',<span class="cstat-no" title="statement not covered" ></span>
+			'to',
 			'step',
-			'interval',
-			'shiftonkeydown',
+			'interval<span class="cstat-no" title="statement not covered" >',</span>
+			'shiftonkeydo<span class="cstat-no" title="statement not covered" >wn',</span>
 			'shiftonkeyhold',
-			'scalebas<span class="cstat-no" title="statement not covered" >e',</span>
-			'vertical',<span class="cstat-no" title="statement not covered" ></span>
-			'range',
+			'scalebase',
+			'vertical<span class="cstat-no" title="statement not covered" >',</span>
+			'range',<span class="cstat-no" title="statement not covered" ></span>
 			'sticky',
-			'scale',<span class="cstat-no" title="statement not covered" ></span>
+			'scale',
 			'bar',<span class="cstat-no" title="statement not covered" ></span>
-			'tip',
-		];
-		for (let e<span class="cstat-no" title="statement not covered" >lem of this.root.attributes) {</span>
-			let a = elem.<span class="cstat-no" title="statement not covered" >name.replace(/^data-/, ''</span>);
-			if (arr.indexOf(a) != -1) {
-				map.set(a, elem.value);
-			}<span class="cstat-no" title="statement not covered" ></span>
+			'tip',<span class="cstat-no" title="statement not covered" ></span>
+		];<span class="cstat-no" title="statement not covered" ></span>
+		for (let elem of this.root.attributes) {
+			let a = e<span class="cstat-no" title="statement not covered" >lem.name.replace(/^data-/, '');</span>
+			if (arr.index<span class="cstat-no" title="statement not covered" >Of(a) != -1) {</span>
+				map.set(a, e<span class="cstat-no" title="statement not covered" >lem.value);</span>
+			}
 		}<span class="cstat-no" title="statement not covered" ></span>
 		for (let elem <span class="cstat-no" title="statement not covered" >of map) {</span>
-			//если значение содержит только цифры
-			if (/^-?\<span class="cstat-no" title="statement not covered" >d+\.?\d*$/.test(elem[1])) {</span>
-				map.set(elem<span class="cstat-no" title="statement not covered" >[0], parseFloat(elem[1]));</span>
-			}<span class="cstat-no" title="statement not covered" ></span>
+			//если значен<span class="cstat-no" title="statement not covered" >ие содержит только ци</span>фры
+			if (/^-?\d+\.?\d*$/.test(elem[1])) {
+				map.set(elem[0], parseFloat(elem[1]));
+			}
 			//если значение содержит строку 'true'
-			if (elem[<span class="cstat-no" title="statement not covered" >1] == 'true') {</span>
-				map.set(elem<span class="cstat-no" title="statement not covered" >[0], true);</span>
-			}<span class="cstat-no" title="statement not covered" ></span>
+			if (elem[1] == 'true') {
+				map.set(elem[0], true);
+			}
 			//если значение содержит строку 'false'
 			if (elem[1] == 'false') {
 				map.set(elem[0], false);
@@ -661,7 +682,7 @@ export { View };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Dec 23 2021 11:34:24 GMT+0500 (Екатеринбург, стандартное время)
+                at Mon Jan 24 2022 19:09:13 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         </div>
         <script src="../../../prettify.js"></script>

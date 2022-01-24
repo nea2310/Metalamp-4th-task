@@ -259,8 +259,7 @@
 <a name='L200'></a><a href='#L200'>200</a>
 <a name='L201'></a><a href='#L201'>201</a>
 <a name='L202'></a><a href='#L202'>202</a>
-<a name='L203'></a><a href='#L203'>203</a>
-<a name='L204'></a><a href='#L204'>204</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L203'></a><a href='#L203'>203</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -462,7 +461,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
 	IConf,
 } from '../../interface';
@@ -471,7 +469,7 @@ class ViewScale {
 	private slider: HTMLElement;
 	private startWidth: number = 0;
 	private track: HTMLElement;
-	private markList: HTMLElement[];
+	private markList: Element[];
 	private conf: IConf;
 	private lastLabelRemoved: boolean;
 	private scaleMarks: { 'pos'?: number, 'val'?: number }[];
@@ -536,8 +534,7 @@ class ViewScale {
 			}
 &nbsp;
 			this.markList =
-				[...this.track.querySelectorAll&lt;HTMLElement&gt;
-					('.js-rs-metalamp__mark')];
+				[...this.track.querySelectorAll('.js-rs-metalamp__mark')];
 		}
 &nbsp;
 		this.resize();
@@ -560,8 +557,8 @@ class ViewScale {
 	}
 &nbsp;
 	//проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
-	private checkScaleLength(markList: HTMLElement[]) {
-		let hideLabels = (markList: HTMLElement[]) =&gt; {
+	private checkScaleLength(markList: Element[]) {
+		let hideLabels = (markList: Element[]) =&gt; {
 			//скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
 			for (let i = 1; i &lt; markList.length; i += 2) {
 				markList[i].firstElementChild.
@@ -573,10 +570,10 @@ class ViewScale {
 &nbsp;
 			}
 			this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
-				[...this.track.
-					querySelectorAll&lt;HTMLElement&gt;
-					// eslint-disable-next-line max-len
-					('.js-rs-metalamp__mark:not(.js-rs-metalamp__mark_no-label)')];
+				// eslint-disable-next-line max-len	
+				[...this.track.querySelectorAll('.js-rs-metalamp__mark:not(.js-rs-metalamp__mark_no-label)')];
+&nbsp;
+&nbsp;
 			// запускаем функцию проверки заново
 			this.lastLabelRemoved = true;
 			this.checkScaleLength(this.markList);
@@ -586,10 +583,10 @@ class ViewScale {
 			let totalWidth = 0;
 			//вычисляем общую ширину подписей к шагам
 			for (let node of markList) {
-				totalWid<span class="missing-if-branch" title="if path not taken" >I</span>th += node.firstElementChild.
-					getBoundingClientRect().width;
-			}<span class="cstat-no" title="statement not covered" ></span>
-			//если общая ширина подписей к шагам больше ширины шкалы
+				totalWidth += node.firstElementChild.
+					getBoun<span class="missing-if-branch" title="if path not taken" >I</span>dingClientRect().width;
+			}
+			//если общая <span class="cstat-no" title="statement not covered" >ширина подписей к шага</span>м больше ширины шкалы
 			if (totalWidth &gt; this.track.offsetWidth) {
 				//Скрываем подписи
 				hideLabels(markList);
@@ -619,17 +616,17 @@ class ViewScale {
 				}
 				return this.markList;
 			}
-		}<span class="fstat-no" title="function not covered" ></span>
-	}<span class="cstat-no" title="statement not covered" ></span>
+		}
+	}<span class="fstat-no" title="function not covered" ></span>
 <span class="cstat-no" title="statement not covered" ></span>
-	//возвращаем по<span class="cstat-no" title="statement not covered" >дпись у последненего шага и удаляем у предпоследнего подписанного</span>
-	private addLastLabe<span class="cstat-no" title="statement not covered" >l(isRemoved: boolean) {</span>
-		let markLabeledList =
-			// eslint-dis<span class="cstat-no" title="statement not covered" >able-next-line max-len</span>
-			this.track.queryS<span class="cstat-no" title="statement not covered" >electorAll('.js-rs-metalamp__mark:not(.js-rs-m</span>etalamp__mark_no-label)');
-		let lastMarkLabeled = markLabeledList[markLabeledList.length - 1];
-		let lastMark =<span class="cstat-no" title="statement not covered" ></span>
-			this.track.querySelector('.js-rs-metalamp__mark:last-child');
+	//возвращае<span class="cstat-no" title="statement not covered" >м подпись у последненего шага и удаляем у предпоследнего подписанного</span>
+	private addLast<span class="cstat-no" title="statement not covered" >Label(isRemoved: boolean) {</span>
+		let markLabeledLis<span class="cstat-no" title="statement not covered" >t =</span>
+			// eslint-disable-next-line max-len
+			this.track.qu<span class="cstat-no" title="statement not covered" >erySelectorAll('.js-rs-metalamp__mark:not(.js-rs-metalamp__mark_no-label)');</span>
+		let lastMarkLabele<span class="cstat-no" title="statement not covered" >d = markLabeledList[markLabeledList.length - 1</span>];
+		let lastMark =
+			this.track.qu<span class="cstat-no" title="statement not covered" >erySelector('.js-rs-metalamp__</span>mark:last-child');
 		if (isRemoved) {
 			lastMarkLabeled.classList.add('rs-metalamp__mark_no-label');
 			lastMarkLabeled.classList.add('js-rs-metalamp__mark_no-label');
@@ -673,7 +670,7 @@ export { ViewScale };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Dec 23 2021 11:34:24 GMT+0500 (Екатеринбург, стандартное время)
+                at Mon Jan 24 2022 19:09:13 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         </div>
         <script src="../../../../prettify.js"></script>

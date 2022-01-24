@@ -5,11 +5,18 @@ import { ViewScale } from './../view/view-scale/view-scale';
 import { Idata, IConf, IFireParms } from '../interface';
 import { Observer } from '../observer';
 
+interface IElement extends Element {
+	value?: string;
+	readonly offsetHeight?: number;
+	readonly offsetWidth?: number;
+	clickOutsideEvent?(event: MouseEvent): void;
+}
+
 class View extends Observer {
 	public viewControl: ViewControl;
 	public viewScale: ViewScale;
 	public viewBar: ViewBar;
-	private root: HTMLElement;
+	private root: IElement;
 	public slider: HTMLElement;
 	private track: HTMLElement;
 	private frame: HTMLElement;
@@ -19,7 +26,7 @@ class View extends Observer {
 	constructor(root: Element, i: number) {
 		super();
 		/*Находим корневой элемент*/
-		this.root = root as HTMLElement;
+		this.root = root;
 		this.render();
 		this.collectParms();
 	}
