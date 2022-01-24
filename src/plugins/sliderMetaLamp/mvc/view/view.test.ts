@@ -6,6 +6,22 @@ import { ViewScale } from './view-scale/view-scale';
 
 
 const parent = document.createElement('input');
+parent.setAttribute('min', '10');
+parent.setAttribute('max', '100');
+parent.setAttribute('from', '20');
+parent.setAttribute('to', '70');
+parent.setAttribute('vertical', 'false');
+parent.setAttribute('range', 'true');
+parent.setAttribute('bar', 'true');
+parent.setAttribute('tip', 'true');
+parent.setAttribute('scale', 'true');
+parent.setAttribute('scaleBase', 'true');
+parent.setAttribute('step', 'step');
+parent.setAttribute('interval', '0');
+parent.setAttribute('sticky', 'false');
+parent.setAttribute('shiftOnKeyDown', '1');
+parent.setAttribute('shiftOnKeyHold', '1');
+
 document.body.appendChild(parent);
 const conf: IConf = {
 	min: 10,
