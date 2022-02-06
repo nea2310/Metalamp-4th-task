@@ -1,35 +1,35 @@
 interface SliderOptions {
-	min?: number
-	max?: number
-	from?: number
-	to?: number
-	range?: boolean
-	bar?: boolean
-	tip?: boolean
-	scale?: boolean
-	step?: number
-	interval?: number
-	sticky?: boolean
-	shiftOnKeyDown?: number
-	shiftOnKeyHold?: number
-	vertical?: boolean
-	onStart?: Function
-	onUpdate?: Function
-	onChange?: Function
-	scaleBase?: string
+  min?: number
+  max?: number
+  from?: number
+  to?: number
+  range?: boolean
+  bar?: boolean
+  tip?: boolean
+  scale?: boolean
+  step?: number
+  interval?: number
+  sticky?: boolean
+  shiftOnKeyDown?: number
+  shiftOnKeyHold?: number
+  vertical?: boolean
+  onStart?: Function
+  onUpdate?: Function
+  onChange?: Function
+  scaleBase?: string
 }
 
 interface SliderFunction {
-	// eslint-disable-next-line no-unused-vars
-	(options: SliderOptions): JQuery;
+  // eslint-disable-next-line no-unused-vars
+  (options: SliderOptions): JQuery;
 }
 
 
 interface Slider extends
-	SliderFunction { }
+  SliderFunction { }
 
 interface JQuery {
-	Slider: Slider;
+  Slider: Slider;
 }
 
 

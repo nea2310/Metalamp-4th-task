@@ -1,66 +1,66 @@
 @import "@styles/glob.scss";
 .input-field {
-	user-select: none;
+  user-select: none;
 
-	&-wide {
-		width: 320px;
-	}
-	&-medium {
-		width: 266px;
-	}
-	&-narrow {
-		width: 100px;
-	}
+  &-wide {
+    width: 320px;
+  }
+  &-medium {
+    width: 266px;
+  }
+  &-narrow {
+    width: 100px;
+  }
 
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-	&__label {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		height: 60px;
-		//	border: 1px solid red;
-		justify-content: flex-end;
-	}
-	&__label-text {
-		@include font-body;
-	}
-	&__link {
-		position: absolute;
-		bottom: 13px;
-		right: 6px;
-		width: 16px;
-		height: 19px;
-		cursor: pointer;
-		background-color: $colorWhite;
-		border: none;
-		width: 30px;
-		&:focus {
-			outline: solid 1px $colorDarkShade25;
-		}
-	}
+  &__label {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 60px;
+    //	border: 1px solid red;
+    justify-content: flex-end;
+  }
+  &__label-text {
+    @include font-body;
+  }
+  &__link {
+    position: absolute;
+    bottom: 13px;
+    right: 6px;
+    width: 16px;
+    height: 19px;
+    cursor: pointer;
+    background-color: $colorWhite;
+    border: none;
+    width: 30px;
+    &:focus {
+      outline: solid 1px $colorDarkShade25;
+    }
+  }
 
-	&__input {
-		outline: none;
-		&::placeholder {
-			color: $colorDarkShade25;
-		}
-		@include font-body;
-		font-weight: normal;
-		text-indent: 12px;
-		border-radius: 3px;
-		border: 1px solid $colorDarkShade25;
-		margin-top: 4px;
-		width: 100%;
-		&:hover {
-			border-color: $colorDarkShade50;
-		}
-		&:focus {
-			border-color: $colorDarkShade50;
-		}
-		&:disabled {
-			background-color: $colorDarkShade15;
-		}
-	}
+  &__input {
+    outline: none;
+    &::placeholder {
+      color: $colorDarkShade25;
+    }
+    @include font-body;
+    font-weight: normal;
+    text-indent: 12px;
+    border-radius: 3px;
+    border: 1px solid $colorDarkShade25;
+    margin-top: 4px;
+    width: 100%;
+    &:hover {
+      border-color: $colorDarkShade50;
+    }
+    &:focus {
+      border-color: $colorDarkShade50;
+    }
+    &:disabled {
+      background-color: $colorDarkShade15;
+    }
+  }
 }

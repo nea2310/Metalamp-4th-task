@@ -1,22 +1,22 @@
 mixin input(options={})
-	-
-		let elemName='input-field'
-		let width = options.width ?? ''
-		let labelText = options.labelText ?? ''
-		let name = options.name ?? ''
-		let js = options.js ?? ''
-		let placeholder = options.placeholder ?? ''
-		let opType = options.type ?? ''
+  -
+    let elemName='input-field'
+    let width = options.width ?? ''
+    let labelText = options.labelText ?? ''
+    let name = options.name ?? ''
+    let js = options.js ?? ''
+    let placeholder = options.placeholder ?? ''
+    let opType = options.type ?? ''
 
 
-	div(class = elemName +' ' + elemName + '-' + width)
-		label(class = elemName+'__label')
-			if labelText
-				p(class = elemName+'__label-text')=labelText
-			if img
-				button(class = elemName+'__link' aria-label = name)
-					img(class = elemName+'__img', src = require('@com/input-field/img/arrow-forward.svg').default)
-			input(class = elemName + '__input ' + js placeholder = placeholder type = opType value = '')
+  div(class = elemName +' ' + elemName + '-' + width)
+    label(class = elemName+'__label')
+      if labelText
+        p(class = elemName+'__label-text')=labelText
+      if img
+        button(class = elemName+'__link' aria-label = name)
+          img(class = elemName+'__img', src = require('@com/input-field/img/arrow-forward.svg').default)
+      input(class = elemName + '__input ' + js placeholder = placeholder type = opType value = '')
 
 
 

@@ -26,63 +26,63 @@ $gradientGreen: linear-gradient($colorGreen 0%, $colorLightBlue 100%);
 /***** Mixins *****/
 
 @mixin font-h1() {
-	font-family: "Montserrat", Arial, Helvetica, sans-serif;
-	font-weight: bold;
-	font-size: 24px;
-	line-height: 29px;
-	color: $colorDarkShade100;
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 29px;
+  color: $colorDarkShade100;
 }
 
 @mixin font-h2() {
-	font-family: "Montserrat", Arial, Helvetica, sans-serif;
-	font-weight: bold;
-	font-size: 19px;
-	line-height: 23px;
-	color: $colorDarkShade100;
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 19px;
+  line-height: 23px;
+  color: $colorDarkShade100;
 }
 
 @mixin font-h3() {
-	font-family: "Montserrat", Arial, Helvetica, sans-serif;
-	font-weight: bold;
-	font-size: 12px;
-	line-height: 15px;
-	color: $colorDarkShade100;
-	text-transform: uppercase;
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 15px;
+  color: $colorDarkShade100;
+  text-transform: uppercase;
 }
 
 @mixin font-body() {
-	font-family: "Montserrat", Arial, Helvetica, sans-serif;
-	font-weight: normal;
-	font-size: 14px;
-	line-height: 17px;
-	color: rgb(41, 39, 39);
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgb(41, 39, 39);
 }
 
 @mixin media-breakpoint-up($width) {
-	@media (min-width: ($width + 1)) {
-		@content;
-	}
+  @media (min-width: ($width + 1)) {
+    @content;
+  }
 }
 
 @mixin media-breakpoint-down($width) {
-	@media (max-width: $width) {
-		@content;
-	}
+  @media (max-width: $width) {
+    @content;
+  }
 }
 
 @mixin media-breakpoint-between($min-width, $max-width) {
-	@media (min-width: ($min-width + 1)) and (max-width: $max-width) {
-		@content;
-	}
+  @media (min-width: ($min-width + 1)) and (max-width: $max-width) {
+    @content;
+  }
 }
 
 body {
-	display: flex;
-	flex-direction: column;
-	margin: 0;
-	padding: 0;
-	min-height: 100%; /* растягиваем тело сайта на весь экран */
-	width: 100%; /* растягиваем тело сайта на весь экран */
-	background: rgb(255, 255, 255);
-	min-width: 319px;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  min-height: 100%; /* растягиваем тело сайта на весь экран */
+  width: 100%; /* растягиваем тело сайта на весь экран */
+  background: rgb(255, 255, 255);
+  min-width: 319px;
 }

@@ -1,27 +1,27 @@
 include ../panel/panel.pug
 mixin rangeslider(options={})
-	-
-		let elemName='rangeslider'
-		let modif = options.vertical=='true' ? elemName + '_vert':''
-		let modifRS = options.vertical=='true' ? elemName + '__rs_vert':''
-	div(class =elemName + ' ' + modif + ' js-' + elemName)
-		div(class = elemName + '__rs' + ' ' + modifRS + ' js-' + elemName + '__rs')
-			input(class='rs-metalamp js-rs-metalamp' 
-			data-min = options.min
-			data-max = options.max
-			data-from = options.from
-			data-to = options.to
-			data-vertical = options.vertical
-			data-range = options.range
-			data-bar = options.bar
-			data-tip = options.tip
-			data-scale = options.scale
-			data-scalebase = options.scaleBase
-			data-step = options.step
-			data-interval = options.interval
-			data-sticky = options.sticky
-			data-shiftonkeydown = options.shiftOnKeyDown
-			data-shiftonkeyhold = options.shiftOnKeyHold
-			)
-		div(class = elemName + '__panel '+ modif + ' js-' + elemName + '__panel')
-			+panel({radioGroupName: options.radioGroupName, vertical: options.vertical})
+  -
+    let elemName='rangeslider'
+    let modif = options.vertical=='true' ? elemName + '_vert':''
+    let modifRS = options.vertical=='true' ? elemName + '__rs_vert':''
+  div(class =elemName + ' ' + modif + ' js-' + elemName)
+    div(class = elemName + '__rs' + ' ' + modifRS + ' js-' + elemName + '__rs')
+      input(class='rs-metalamp js-rs-metalamp' 
+      data-min = options.min
+      data-max = options.max
+      data-from = options.from
+      data-to = options.to
+      data-vertical = options.vertical
+      data-range = options.range
+      data-bar = options.bar
+      data-tip = options.tip
+      data-scale = options.scale
+      data-scalebase = options.scaleBase
+      data-step = options.step
+      data-interval = options.interval
+      data-sticky = options.sticky
+      data-shiftonkeydown = options.shiftOnKeyDown
+      data-shiftonkeyhold = options.shiftOnKeyHold
+      )
+    div(class = elemName + '__panel '+ modif + ' js-' + elemName + '__panel')
+      +panel({radioGroupName: options.radioGroupName, vertical: options.vertical})

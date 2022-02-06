@@ -3,52 +3,52 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // Он соз�
 //const DP = require('./isDev');
 
 module.exports = {
-	cssLoaders: extra => {
-		const loaders = [
-			MiniCssExtractPlugin.loader,
-			//'cache-loader',
-			{
-				loader: 'css-loader',
-				options: {
-					sourceMap: false,
-				}
-			},
-			{
-				loader: 'postcss-loader',
-				options: {
-					postcssOptions: {
-						plugins: [
-							[
-								"autoprefixer",
-								{
-									// Options
-								},
-								'css-mqpacker',
-								{
-									// Options
-								},
-								'cssnano',
-								{
-									preset: [
-										'default', {
-											discardComments: {
-												removeAll: true,
-											}
-										}
-									]
-								}
-							],
-						],
-					}
-				}
-			}
-		];
+  cssLoaders: extra => {
+    const loaders = [
+      MiniCssExtractPlugin.loader,
+      //'cache-loader',
+      {
+        loader: 'css-loader',
+        options: {
+          sourceMap: false,
+        }
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          postcssOptions: {
+            plugins: [
+              [
+                "autoprefixer",
+                {
+                  // Options
+                },
+                'css-mqpacker',
+                {
+                  // Options
+                },
+                'cssnano',
+                {
+                  preset: [
+                    'default', {
+                      discardComments: {
+                        removeAll: true,
+                      }
+                    }
+                  ]
+                }
+              ],
+            ],
+          }
+        }
+      }
+    ];
 
-		if (extra) {
-			loaders.push(extra);
-		}
+    if (extra) {
+      loaders.push(extra);
+    }
 
-		return loaders;
-	}
+    return loaders;
+  }
 
 };

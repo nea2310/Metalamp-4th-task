@@ -3,130 +3,130 @@ include ../toggle/toggle.pug
 include ../radiobuttons/radiobuttons.pug
 include ../btn/btn.pug
 mixin panel(options={})
-	-
-		let elemName='panel'
-		let modif = options.vertical=='true' ? elemName + '_vert':''
-	div(class = elemName +' ' + modif + ' js-' + elemName)
-		fieldset(class = elemName + '__mainSetup')
-			legend Main
-			div(class = elemName + '__min')
-				+input(
-										{width: 'narrow',
-										labelText: 'min',
-										js: 'js-input-min'} 
-										)
-			div(class = elemName + '__max')
-				+input(
-										{width: 'narrow',
-										labelText: 'max',
-										js: 'js-input-max'} 
-										)
-			div(class = elemName + '__from')
-				+input(
-										{width: 'narrow',
-										labelText: 'from',
-										js: 'js-input-from'} 
-										)
-			div(class = elemName + '__to')
-				+input(
-										{width: 'narrow',
-										labelText: 'to',
-										js: 'js-input-to'} 
-										)
-			div(class = elemName + '__vertical')
-				+toggle(
-										{name: 'vertical',
-										js: ' js-toggle-vertical'}
-										)
-			div(class = elemName + '__range')
-				+toggle(
-										{name: 'range',
-										js: ' js-toggle-range'}
-										)
-			div(class = elemName + '__bar')
-				+toggle(
-										{name: 'bar',
-										js: ' js-toggle-bar'}
-										)
-			div(class = elemName + '__tip')
-				+toggle(
-										{name: 'tip',
-										js: ' js-toggle-tip'}
-										)
-		fieldset(class = elemName + '__scaleSetup')
-			legend Scale
-			div(class = elemName + '__scale')
-				+toggle(
-										{name: 'scale',
-										js: ' js-toggle-scale'}
-										)
-			span scale base
-			div(class = elemName + '__scaleBase' + ' js-' + elemName + '__scaleBase')
-				+radiobuttons({categories:
-								{cat1: {name:'step', js: 'js-radio-step'}, 
-								cat2:{name:'interval', js: 'js-radio-interval'}},
-								radioGroupName: options.radioGroupName})
-			div(class = elemName + '__IntervalStep')
-				div(class = elemName + '__step')
-					+input(
-											{width: 'narrow',
-											labelText: 'step',
-											js: 'js-input-step'} 
-											)
-				div(class = elemName + '__interval')
-					+input(
-											{width: 'narrow',
-											labelText: 'interval',
-											js: 'js-input-interval'} 
-											)
-		fieldset(class = elemName + '__moveSetup')
-			legend Control movement
-			div(class = elemName + '__sticky')
-				+toggle(
-										{name: 'sticky',
-										js: ' js-toggle-sticky'}
-										)
-			div(class = elemName + '__shiftOnKeyDown')
-				+input(
-										{width: 'narrow',
-										labelText: 'shift on key down',
-										js: 'js-input-shiftOnKeyDown'} 
-										)
-			div(class = elemName + '__shiftOnKeyHold')
-				+input(
-										{width: 'narrow',
-										labelText: 'shift on key hold',
-										js: 'js-input-shiftOnKeyHold'} 
-										)
-		fieldset(class = elemName + '__actions')
-			legend Actions
-			div(class = elemName + '__subscribe')
-				+toggle(
-										{name: 'subscribe events',
-										js: ' js-toggle-subscribe' 
-										}
-										)
-			div(class = elemName + '__disable')
-				+toggle(
-										{name: 'disable',
-										js: ' js-toggle-disable' 
-										}
-										)
-			div(class = elemName + '__destroy')
-				+toggle(
-										{name: 'destroy',
-										js: ' js-toggle-destroy' 
-										}
-										)
-		div(class = elemName + '__apply')
-			+btn(
-									{type: 'button',
-									length: 'long',
-									width: 'narrow',
-									color: 'blue',
-									text: 'Apply changes'
-									} 
-									)
+  -
+    let elemName='panel'
+    let modif = options.vertical=='true' ? elemName + '_vert':''
+  div(class = elemName +' ' + modif + ' js-' + elemName)
+    fieldset(class = elemName + '__mainSetup')
+      legend Main
+      div(class = elemName + '__min')
+        +input(
+          {width: 'narrow',
+          labelText: 'min',
+          js: 'js-input-min'} 
+          )
+      div(class = elemName + '__max')
+        +input(
+          {width: 'narrow',
+          labelText: 'max',
+          js: 'js-input-max'} 
+          )
+      div(class = elemName + '__from')
+        +input(
+          {width: 'narrow',
+          labelText: 'from',
+          js: 'js-input-from'} 
+          )
+      div(class = elemName + '__to')
+        +input(
+          {width: 'narrow',
+          labelText: 'to',
+          js: 'js-input-to'} 
+          )
+      div(class = elemName + '__vertical')
+        +toggle(
+          {name: 'vertical',
+          js: ' js-toggle-vertical'}
+          )
+      div(class = elemName + '__range')
+        +toggle(
+          {name: 'range',
+          js: ' js-toggle-range'}
+          )
+      div(class = elemName + '__bar')
+        +toggle(
+          {name: 'bar',
+          js: ' js-toggle-bar'}
+          )
+      div(class = elemName + '__tip')
+        +toggle(
+          {name: 'tip',
+          js: ' js-toggle-tip'}
+          )
+    fieldset(class = elemName + '__scaleSetup')
+      legend Scale
+      div(class = elemName + '__scale')
+        +toggle(
+          {name: 'scale',
+          js: ' js-toggle-scale'}
+          )
+      span scale base
+      div(class = elemName + '__scaleBase' + ' js-' + elemName + '__scaleBase')
+        +radiobuttons({categories:
+          {cat1: {name:'step', js: 'js-radio-step'}, 
+          cat2:{name:'interval', js: 'js-radio-interval'}},
+          radioGroupName: options.radioGroupName})
+      div(class = elemName + '__IntervalStep')
+        div(class = elemName + '__step')
+          +input(
+            {width: 'narrow',
+            labelText: 'step',
+            js: 'js-input-step'} 
+            )
+        div(class = elemName + '__interval')
+          +input(
+            {width: 'narrow',
+            labelText: 'interval',
+            js: 'js-input-interval'} 
+            )
+    fieldset(class = elemName + '__moveSetup')
+      legend Control movement
+      div(class = elemName + '__sticky')
+        +toggle(
+          {name: 'sticky',
+          js: ' js-toggle-sticky'}
+          )
+      div(class = elemName + '__shiftOnKeyDown')
+        +input(
+          {width: 'narrow',
+          labelText: 'shift on key down',
+          js: 'js-input-shiftOnKeyDown'} 
+          )
+      div(class = elemName + '__shiftOnKeyHold')
+        +input(
+          {width: 'narrow',
+          labelText: 'shift on key hold',
+          js: 'js-input-shiftOnKeyHold'} 
+          )
+    fieldset(class = elemName + '__actions')
+      legend Actions
+      div(class = elemName + '__subscribe')
+        +toggle(
+          {name: 'subscribe events',
+          js: ' js-toggle-subscribe' 
+          }
+          )
+      div(class = elemName + '__disable')
+        +toggle(
+          {name: 'disable',
+          js: ' js-toggle-disable' 
+          }
+          )
+      div(class = elemName + '__destroy')
+        +toggle(
+          {name: 'destroy',
+          js: ' js-toggle-destroy' 
+          }
+          )
+    div(class = elemName + '__apply')
+      +btn(
+        {type: 'button',
+        length: 'long',
+        width: 'narrow',
+        color: 'blue',
+        text: 'Apply changes'
+        } 
+        )
 
 
 

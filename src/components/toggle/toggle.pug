@@ -1,15 +1,15 @@
 mixin toggle(options={})
-	-
-		let elemName='toggle'
-		let js = options.js ?? ''
-		let labelText = options.labelText ?? ''
-		let name = options.name ?? ''
-	div(class = elemName)
-		label(class = elemName+'__label')
-			if labelText
-				p(class = elemName+'__label-text')=labelText
-			label(class = elemName + '__wrapper')
-				input(class = elemName + '__checkbox ' + js, type = "checkbox" name = name value = name)
-				span(class = elemName + '__checkmark')
-					span(class = elemName + '__ball')
-				p(class = elemName + '__name')=name
+  -
+    let elemName='toggle'
+    let js = options.js ?? ''
+    let labelText = options.labelText ?? ''
+    let name = options.name ?? ''
+  div(class = elemName)
+    label(class = elemName+'__label')
+      if labelText
+        p(class = elemName+'__label-text')=labelText
+      label(class = elemName + '__wrapper')
+        input(class = elemName + '__checkbox ' + js, type = "checkbox" name = name value = name)
+        span(class = elemName + '__checkmark')
+          span(class = elemName + '__ball')
+        p(class = elemName + '__name')=name

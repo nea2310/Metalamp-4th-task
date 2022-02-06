@@ -2,85 +2,85 @@
 $borderWidth: 2px;
 
 .btn {
-	cursor: pointer;
-	margin: 0;
-	padding: 0;
-	position: relative;
-	@include font-h3;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	box-sizing: border-box;
-	user-select: none;
-	border-radius: 22px;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  @include font-h3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  user-select: none;
+  border-radius: 22px;
 
-	&_length_very-long {
-		width: 100%;
-		max-width: 320px;
-	}
+  &_length_very-long {
+    width: 100%;
+    max-width: 320px;
+  }
 
-	&_length_long {
-		width: 196px;
-	}
+  &_length_long {
+    width: 196px;
+  }
 
-	&_length_short {
-		width: 99px;
-	}
-	&_length_very-short {
-		width: 87px;
-	}
+  &_length_short {
+    width: 99px;
+  }
+  &_length_very-short {
+    width: 87px;
+  }
 
-	&_width_wide {
-		height: 44px;
-	}
+  &_width_wide {
+    height: 44px;
+  }
 
-	&_width_narrow {
-		height: 34px;
-	}
+  &_width_narrow {
+    height: 34px;
+  }
 
-	&_type_plain-text {
-		color: $colorPurple;
-		border: none;
-		background: none;
-		&:hover,
-		&:focus {
-			color: $colorDarkShade50;
-		}
-	}
-	&_color_dark {
-		background: $gradientPurple;
-		color: $colorWhite;
-		&:hover,
-		&:focus {
-			opacity: 0.5;
-		}
-	}
-	&_color_light {
-		background-color: $colorWhite;
-		box-shadow: inset 0px 2px 0px 0px $colorPurple, inset 0px 0px 0px 2px $colorBlue;
-		color: $colorPurple;
+  &_type_plain-text {
+    color: $colorPurple;
+    border: none;
+    background: none;
+    &:hover,
+    &:focus {
+      color: $colorDarkShade50;
+    }
+  }
+  &_color_dark {
+    background: $gradientPurple;
+    color: $colorWhite;
+    &:hover,
+    &:focus {
+      opacity: 0.5;
+    }
+  }
+  &_color_light {
+    background-color: $colorWhite;
+    box-shadow: inset 0px 2px 0px 0px $colorPurple, inset 0px 0px 0px 2px $colorBlue;
+    color: $colorPurple;
 
-		&:hover,
-		&:focus {
-			box-shadow: inset 0px 2px 0px 0px $colorPurpleOpaque, inset 0px 0px 0px 2px $colorBlueOpaque;
-		}
-	}
+    &:hover,
+    &:focus {
+      box-shadow: inset 0px 2px 0px 0px $colorPurpleOpaque, inset 0px 0px 0px 2px $colorBlueOpaque;
+    }
+  }
 
-	&_color_blue {
-		box-sizing: border-box;
-		font-weight: normal;
-		color: rgb(41, 39, 39);
-		background-color: $colorBlue;
-		border-radius: 2px;
-		padding: 0 10px;
-		&:hover {
-			border: 2px solid rgb(41, 39, 39);
-		}
-	}
+  &_color_blue {
+    box-sizing: border-box;
+    font-weight: normal;
+    color: rgb(41, 39, 39);
+    background-color: $colorBlue;
+    border-radius: 2px;
+    padding: 0 10px;
+    &:hover {
+      border: 2px solid rgb(41, 39, 39);
+    }
+  }
 
-	&__img {
-		position: absolute;
-		top: 14px;
-		right: 14px;
-	}
+  &__img {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+  }
 }
