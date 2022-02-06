@@ -41,7 +41,7 @@ const conf: IConf = {
   shiftOnKeyHold: 1,
 };
 
-const testView = new View(parent, 0);
+const testView = new View(parent);
 const initSpy = jest.spyOn(testView, 'init');
 testView.init(conf);
 const testViewControl = testView.viewControl;

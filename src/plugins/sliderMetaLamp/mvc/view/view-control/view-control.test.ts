@@ -69,7 +69,7 @@ const getElem = (selector: string) =>
   document.getElementsByClassName(selector)[0] as HTMLElement;
 
 const testModel = new Model(conf);
-const testView = new View(parent, 0);
+const testView = new View(parent);
 new Controller(testModel, testView);
 const testViewControl = testView.viewControl;
 

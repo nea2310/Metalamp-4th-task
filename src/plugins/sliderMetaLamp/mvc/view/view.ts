@@ -23,7 +23,7 @@ class View extends Observer {
   private conf: IConf;
   public backEndConf: IConf;
 
-  constructor(root: Element, i: number) {
+  constructor(root: Element) {
     super();
     /*Находим корневой элемент*/
     this.root = root;

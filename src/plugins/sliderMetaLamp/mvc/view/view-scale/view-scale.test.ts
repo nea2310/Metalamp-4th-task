@@ -36,7 +36,7 @@ function mockElementDimensions(element: HTMLElement, {
 
 function createMarkList(scaleMarks: { 'pos'?: number, 'val'?: number }[],
   conf: IConf, wrapper: HTMLElement, elemWidth: number, elemHeight: number) {
-  for (let node of scaleMarks) {
+  return scaleMarks.map(() => {
     let elem = document.createElement('div');
     elem.classList.add('js-rs-metalamp__mark');
     let label = document.createElement('div');
@@ -44,8 +44,8 @@ function createMarkList(scaleMarks: { 'pos'?: number, 'val'?: number }[],
     mockElementDimensions(label, { width: elemWidth, height: elemHeight });
     elem.appendChild(label);
     wrapper.appendChild(elem);
-  }
-  return [...wrapper.querySelectorAll<HTMLElement>('.js-rs-metalamp__mark')];
+    return elem;
+  });
 }
 
 

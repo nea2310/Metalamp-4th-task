@@ -5,20 +5,14 @@ interface IElement extends Element {
   value?: string;
   readonly offsetHeight?: number;
   readonly offsetWidth?: number;
-  clickOutsideEvent?(event: MouseEvent): void;
+  clickOutsideEvent?(): void;
 }
-
-
 
 
 interface ITarget extends Omit<EventTarget, 'addEventListener'> {
 
   readonly classList?: DOMTokenList;
-  getBoundingClientRect?(): DOMRect;
   readonly parentElement?: HTMLElement | null;
-  setPointerCapture?(pointerId: number): void;
-  // eslint-disable-next-line max-len
-  addEventListener(type: "pointermove" | "pointerup", callback: (this: HTMLElement, ev: PointerEvent) => any): void;
 }
 
 

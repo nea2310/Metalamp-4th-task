@@ -9,7 +9,7 @@ $.fn.Slider = function (options): JQuery {
         el,
         'SliderMetaLamp',
         new Controller(
-          new Model(options), new View(el, i))
+          new Model(options), new View(el))
       );
     }
   });

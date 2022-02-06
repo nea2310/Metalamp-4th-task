@@ -8,7 +8,7 @@ function prepareInstance(conf: IConf) {
   const parent = document.createElement('input');
   document.body.appendChild(parent);
   const testModel = new Model(conf);
-  const testView = new View(parent, 0);
+  const testView = new View(parent);
   return new Controller(testModel, testView);
 }
 
