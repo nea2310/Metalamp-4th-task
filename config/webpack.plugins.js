@@ -18,11 +18,6 @@ fs.readdirSync(PAGES_DIR).forEach((file) => {
   pages.push(file.split('/', 2));
 });
 
-// const description = 'Лучшие номера для вашей работы,' +
-// 	' отдыха и просто вдохновения';
-// const keywords = 'Номера, Отель';
-// const title = 'booking rooms for TOXIN';
-
 module.exports = {
 
   plugins: [
@@ -42,74 +37,11 @@ module.exports = {
           return {};
         }
       },
-      //	title: title,
       filename: `${fileName}.html`,
       template: `./pages/${fileName}/${fileName}.pug`,
       alwaysWriteToDisk: true,
       inject: 'body',
       hash: true,
-      // meta: {
-      // 	'viewport': {
-      // 		'name': 'viewport',
-      // 		'content':
-      // 			'width=device-width, initial-scale=1',
-
-      // 	},
-      // 	'Content-Type': {
-      // 		'http-equiv': 'Content-Type',
-      // 		'content': 'text/html; charset=utf-8'
-      // 	},
-      // 	'compatible': {
-      // 		'http-equiv': 'x-ua-compatible',
-      // 		'content': 'ie=edge'
-      // 	},
-      // 	'description': {
-      // 		'name': 'description',
-      // 		'content': description
-      // 	},
-      // 	'keywords': {
-      // 		'name': 'keywords',
-      // 		'content': keywords
-      // 	},
-      // 	'twitter-card': {
-      // 		'name': 'twitter:card',
-      // 		'content': 'summary_large_image'
-      // 	},
-      // 	'twitter-title': {
-      // 		'name': 'twitter:title',
-      // 		'content': 'booking rooms for TOXIN'
-      // 	},
-      // 	'twitter-description': {
-      // 		'name': 'twitter:description',
-      // 		'content': 'Лучшие номера для вашей работы,' +
-      // 			' отдыха и просто вдохновения'
-      // 	},
-      // 	'twitter-site': {
-      // 		'name': 'twitter:site',
-      // 		'content': 'https://thylacine.ru/'
-      // 	},
-      // 	'twitter-image': {
-      // 		'name': 'twitter:image',
-      // 		'content': 'https://thylacine.ru/social.webp'
-      // 	},
-      // 	'og-type': {
-      // 		'property': 'og:type',
-      // 		'content': 'website'
-      // 	},
-      // 	'og-title': {
-      // 		'property': 'og:title',
-      // 		'content': 'booking rooms for TOXIN'
-      // 	},
-      // 	'og-description': {
-      // 		'property': 'og:description',
-      // 		'content': 'Лучшие номера для вашей работы,' +
-      // 			' отдыха и просто вдохновения'
-      // 	},
-      // 	'og-image': {
-      // 		'property': 'og:image',
-      // 		'content': 'https://thylacine.ru/social.webp'
-      // 	}
-      // },
     })),
 
 
@@ -122,16 +54,12 @@ module.exports = {
     new FoxFavicon({
       src: `${PATHS.src}${PATHS.assets}images/icon/favicon.png`,
       path: 'assets/favicons/',
-      //pathManifest: '/assets/favicons/',
-      // https://thylacine.ru/
       urlIcon: 'assets/favicons/',
       devMode: DP.isDev,
       appName: 'бронирование номеров в TOXIN отель.',
       appShortName: 'TOXIN',
       appDescription: 'Лучшие номера для вашей работы,' +
         ' отдыха и просто вдохновения',
-      // developerName: 'coder1',
-      // developerURL: 'https://github.com/coder1x/',
       icons: {
         'android': [
           'android-chrome-36x36.png',
