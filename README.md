@@ -1,7 +1,10 @@
 # Range slider Metalamp
 
+## Demo production version
+`https://nea2310.github.io/Metalamp-4th-task/index.html`
+
 ## Getting started
-Download the project from https://github.com/nea2310/Metalamp-4th-task
+Download the project from `https://github.com/nea2310/Metalamp-4th-task`
 
 ## Usage
 Include styles from /dist/assets/css directory and scripts from /dist/assets/js directory in your project:
