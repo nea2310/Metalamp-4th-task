@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-//const CopyPlugin = require("copy-webpack-plugin");
 const path = require('path');
 
 const src = path.join(__dirname, '../src');
@@ -12,10 +11,13 @@ fs.readdirSync(PAGES_DIR).forEach((file) => {
   PAGES.push(file.split('/', 2).join());
 });
 
-
+let entry = `${src}/index-demo.ts`
 let mode = 'development'
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'productionDemo') {
   mode = 'production'
+}
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development') {
+  entry = `${src}/index.ts`
 }
 
 module.exports = {
@@ -40,7 +42,7 @@ module.exports = {
   mode: mode,
   devtool: 'source-map',
   /*настройки точки входа*/
-  entry: `${src}/index.ts`,
+  entry: entry,
   /*настройки директории выходного файла (бандла)*/
   output: {
     /*очищать dist перед очередным запуском npm run build или npm run dev*/

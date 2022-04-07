@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack serve --open --config config/webpack.config.dev.js",
+    "start": "cross-env NODE_ENV=developmentDemo webpack serve --open --config config/webpack.config.dev.js",
     "dev": "cross-env NODE_ENV=development webpack --config config/webpack.config.dev.js",
-    "build": "cross-env NODE_ENV=production webpack --config config/webpack.config.prod.js"
+    "devDemo": "cross-env NODE_ENV=developmentDemo webpack --config config/webpack.config.dev.js",
+    "build": "cross-env NODE_ENV=production webpack --config config/webpack.config.prod.js",
+    "buildDemo": "cross-env NODE_ENV=productionDemo webpack --config config/webpack.config.prod.js"
   },
   "repository": {
     "type": "git",
