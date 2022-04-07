@@ -140,8 +140,6 @@ class View extends Observer {
       'tip',
     ];
     for (let elem of this.root.attributes) {
-      console.log(this.root.attributes);
-
       let a = elem.name.replace(/^data-/, '');
       if (arr.indexOf(a) != -1) {
         map.set(a, elem.value);

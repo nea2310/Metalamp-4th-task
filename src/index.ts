@@ -1,13 +1,12 @@
-// eslint-disable-next-line no-unused-vars
 import $ from 'jquery';
 
 import '@styles/styles';
-import '@plugins/java-import';
+import './plugins/java-import.ts';
 
 function requireAll(requireContext: any) {
-	return requireContext.keys().map(requireContext);
+  return requireContext.keys().map(requireContext);
 }
 
-requireAll(require.context('./components/', true, /^\.\/(?!.*(?:__tests__)).*\.((jsx?)|(tsx?))$/));
-requireAll(require.context('./pages/', true, /^\.\/(?!.*(?:__tests__)).*\.((jsx?)|(tsx?))$/));
+requireAll(require.context('./components/', true, /.*\.(js|ts)$/));
+requireAll(require.context('./pages/', true, /.*\.js$/));
 

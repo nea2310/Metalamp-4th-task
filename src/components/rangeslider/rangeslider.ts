@@ -305,6 +305,7 @@ class RangeSlider {
 
 function renderRangeSliders(selector: string) {
   let rangeSliders = document.querySelectorAll(selector);
+  console.log('INIT SLIDER');
   const mas: RangeSlider[] = [];
   for (let rangeSlider of rangeSliders) {
     mas.push(new RangeSlider(selector, rangeSlider));

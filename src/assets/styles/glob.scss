@@ -1,4 +1,3 @@
-/***** Variables *****/
 $xxs: 320px;
 $xs: 575px;
 $sm: 767px;
@@ -15,15 +14,13 @@ $colorDarkShade15: rgba(31, 32, 65, 0.15);
 $colorDarkShade5: rgba(31, 32, 65, 0.05);
 $colorPurple: #bc9cff;
 $colorPurpleOpaque: rgba(188, 156, 255, 0.5);
-$colorBlue: #75b7ec;
+$colorBlue: #8ba4f9;
 $colorBlueOpaque: rgba(139, 164, 249, 0.5);
 $colorGreen: #6fcf97;
 $colorWhite: #ffffff;
-$colorLightBlue: rgb(137, 226, 247);
+$colorLightBlue: #66d2ea;
 $gradientPurple: linear-gradient($colorPurple 0%, $colorBlue 100%);
 $gradientGreen: linear-gradient($colorGreen 0%, $colorLightBlue 100%);
-
-/***** Mixins *****/
 
 @mixin font-h1() {
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
@@ -54,8 +51,8 @@ $gradientGreen: linear-gradient($colorGreen 0%, $colorLightBlue 100%);
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
   font-weight: normal;
   font-size: 14px;
-  line-height: 17px;
-  color: rgb(41, 39, 39);
+  line-height: 24px;
+  color: $colorDarkShade75;
 }
 
 @mixin media-breakpoint-up($width) {
@@ -76,13 +73,56 @@ $gradientGreen: linear-gradient($colorGreen 0%, $colorLightBlue 100%);
   }
 }
 
+html {
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+}
 body {
   display: flex;
   flex-direction: column;
   margin: 0;
   padding: 0;
-  min-height: 100%; /* растягиваем тело сайта на весь экран */
-  width: 100%; /* растягиваем тело сайта на весь экран */
+  min-height: 100vh;
+  width: 100%;
   background: rgb(255, 255, 255);
   min-width: 319px;
+}
+
+main {
+  flex-grow: 1;
+}
+
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+button {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  height: auto;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
 }
