@@ -1,4 +1,4 @@
-import { _$ as $ } from './sliderMetaLamp';
+//import { _$ as $ } from './sliderMetaLamp';
 import {
   IConf,
 } from './../../plugins/sliderMetaLamp/mvc/interface';
@@ -8,7 +8,7 @@ import { Controller }
 describe('sliderMetaLamp', () => {
   const parent = document.createElement('input');
   document.body.appendChild(parent);
-  const slider = $(parent).Slider({}).data('SliderMetaLamp');
+  const slider = $(parent).SliderMetaLamp({}).data('SliderMetaLamp');
 
   const updateSpy = jest.spyOn(slider, 'update');
   const getDataSpy = jest.spyOn(slider, 'getData');

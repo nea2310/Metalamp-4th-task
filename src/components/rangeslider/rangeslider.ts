@@ -118,7 +118,7 @@ class RangeSlider {
   }
 
   private createSlider(elem: HTMLElement) {
-    const rangeSlider = $(elem).Slider({
+    const rangeSlider = $(elem).SliderMetaLamp({
       onStart: (data: IConf) => {
         this.displayData(data);
       },
@@ -305,7 +305,6 @@ class RangeSlider {
 
 function renderRangeSliders(selector: string) {
   let rangeSliders = document.querySelectorAll(selector);
-  console.log('INIT SLIDER');
   const mas: RangeSlider[] = [];
   for (let rangeSlider of rangeSliders) {
     mas.push(new RangeSlider(selector, rangeSlider));

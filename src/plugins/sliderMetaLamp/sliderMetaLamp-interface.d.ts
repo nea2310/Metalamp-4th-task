@@ -29,7 +29,7 @@ interface Slider extends
   SliderFunction { }
 
 interface JQuery {
-  Slider: Slider;
+  SliderMetaLamp: Slider;
 }
 
 
