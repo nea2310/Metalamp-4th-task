@@ -4,8 +4,6 @@ declare global {
   }
 }
 
-
-import { JQuery } from './sliderMetaLamp-interface';
 import $ from 'jquery';
 import { plugin } from './sliderMetaLamp';
 import {
