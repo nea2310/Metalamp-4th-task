@@ -66,7 +66,7 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
-      'window.jQuery': 'jquery'
+      'window.jQuery': 'jquery',
     }),
   ],
   module: {
@@ -86,7 +86,8 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             //https://runebook.dev/ru/docs/babel/babel-preset-env/index
-            presets: [['@babel/preset-env', { 'targets': '> 0.25%, not dead' }]],
+            presets: [['@babel/preset-env', { 'targets': '> 0.25%, not dead' },],
+              '@babel/preset-typescript',],
             /*Использование кэша для избежания рекомпиляции при каждом запуске*/
             cacheDirectory: true,
           }

@@ -32,6 +32,8 @@ interface JQuery {
   SliderMetaLamp: Slider;
 }
 
+export { JQuery }
+
 
 
 

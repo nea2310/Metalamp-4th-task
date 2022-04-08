@@ -1,11 +1,21 @@
-//import { _$ as $ } from './sliderMetaLamp';
+declare global {
+  interface JQuery {
+    SliderMetaLamp: any;
+  }
+}
+
+
+import { JQuery } from './sliderMetaLamp-interface';
+import $ from 'jquery';
+import { plugin } from './sliderMetaLamp';
 import {
   IConf,
-} from './../../plugins/sliderMetaLamp/mvc/interface';
+} from './mvc/interface';
 import { Controller }
   from './mvc/controller/controller';
 
 describe('sliderMetaLamp', () => {
+  $.fn.SliderMetaLamp = plugin;
   const parent = document.createElement('input');
   document.body.appendChild(parent);
   const slider = $(parent).SliderMetaLamp({}).data('SliderMetaLamp');
