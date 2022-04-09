@@ -11,7 +11,7 @@
     "moduleResolution": "node", // Стратегия, которая будет использоваться для импорта модулей.
     "alwaysStrict": true,
     "noImplicitAny": true,
-    "strictNullChecks": true,
+    //"strictNullChecks": true,
     // "strictPropertyInitialization": true,
     "strictFunctionTypes": true,
     "noImplicitThis": true,

@@ -4,8 +4,8 @@ import { View } from './../view/view';
 import { Observer } from '../observer';
 
 class Controller extends Observer {
-  model: Model | null;
-  view: View | null;
+  model: Model;
+  view: View;
   enabled: boolean;
   constructor(model: Model, view: View) {
     super();
@@ -16,207 +16,150 @@ class Controller extends Observer {
     this.enabled = true;
   }
 
-  public update(conf: IConf): void {
-    if (this.model) {
-      this.model.update(conf)
-    };
+  public update(conf: IConf) {
+    this.model.update(conf);
   }
 
   public getData() {
-    if (this.model) {
-      return this.model.getData();
-    }
+    return this.model.getData();
   }
 
   public disable() {
     this.removeListeners();
     this.enabled = false;
-    if (this.view)
-      this.view.disable();
+    this.view.disable();
   }
 
   public enable() {
     if (!this.enabled) {
       this.createListeners();
-      if (this.view) {
-        this.view.enable();
-      }
+      this.view.enable();
     }
     this.enabled = true;
   }
 
   public destroy() {
-    if (this.view) {
-      this.view.slider.remove();
-    }
+    this.view.slider.remove();
     this.view = null;
     this.model = null;
   }
 
   private init() {
-    if (this.view && this.model) {
-      this.model.getConf(this.view.backEndConf);
-      this.view.init(this.model.conf);
-      this.model.start();
-    }
+    this.model.getConf(this.view.backEndConf);
+    this.view.init(this.model.conf);
+    this.model.start();
   }
 
   private createListeners() {
-    if (this.view && this.model) {
-      this.model.subscribe(this.handleFromPosition);
-      this.model.subscribe(this.handleToPosition);
-      this.model.subscribe(this.handleFromValue);
-      this.model.subscribe(this.handleToValue);
-      this.model.subscribe(this.handleBar);
-      this.model.subscribe(this.handleScale);
-      this.model.subscribe(this.handleIsVertical);
-      this.model.subscribe(this.handleIsRange);
-      this.model.subscribe(this.handleIsScale);
-      this.model.subscribe(this.handleIsBar);
-      this.model.subscribe(this.handleIsTip);
-      this.view.subscribe(this.handleMoveEvent);
-      this.view.subscribe(this.handleKeydownEvent);
-    }
+    this.model.subscribe(this.handleFromPosition);
+    this.model.subscribe(this.handleToPosition);
+    this.model.subscribe(this.handleFromValue);
+    this.model.subscribe(this.handleToValue);
+    this.model.subscribe(this.handleBar);
+    this.model.subscribe(this.handleScale);
+    this.model.subscribe(this.handleIsVertical);
+    this.model.subscribe(this.handleIsRange);
+    this.model.subscribe(this.handleIsScale);
+    this.model.subscribe(this.handleIsBar);
+    this.model.subscribe(this.handleIsTip);
+    this.view.subscribe(this.handleMoveEvent);
+    this.view.subscribe(this.handleKeydownEvent);
   }
 
   private removeListeners() {
-    if (this.view && this.model) {
-      this.model.unsubscribe(this.handleFromPosition);
-      this.model.unsubscribe(this.handleToPosition);
-      this.model.unsubscribe(this.handleFromValue);
-      this.model.unsubscribe(this.handleToValue);
-      this.model.unsubscribe(this.handleBar);
-      this.model.unsubscribe(this.handleScale);
-      this.model.unsubscribe(this.handleIsVertical);
-      this.model.unsubscribe(this.handleIsRange);
-      this.model.unsubscribe(this.handleIsScale);
-      this.model.unsubscribe(this.handleIsBar);
-      this.model.unsubscribe(this.handleIsTip);
-      this.view.unsubscribe(this.handleMoveEvent);
-      this.view.unsubscribe(this.handleKeydownEvent);
-    }
+    this.model.unsubscribe(this.handleFromPosition);
+    this.model.unsubscribe(this.handleToPosition);
+    this.model.unsubscribe(this.handleFromValue);
+    this.model.unsubscribe(this.handleToValue);
+    this.model.unsubscribe(this.handleBar);
+    this.model.unsubscribe(this.handleScale);
+    this.model.unsubscribe(this.handleIsVertical);
+    this.model.unsubscribe(this.handleIsRange);
+    this.model.unsubscribe(this.handleIsScale);
+    this.model.unsubscribe(this.handleIsBar);
+    this.model.unsubscribe(this.handleIsTip);
+    this.view.unsubscribe(this.handleMoveEvent);
+    this.view.unsubscribe(this.handleKeydownEvent);
   }
 
 
   private handleFromPosition =
     (parms: IFireParms) => {
       if (parms.key !== 'FromPosition') return;
-      if (this.view && parms.data && parms.conf) {
-        this.view.updateFromPos(parms.data, parms.conf);
-      }
+      this.view.updateFromPos(parms.data, parms.conf);
     }
   private handleToPosition = (parms: IFireParms) => {
     if (parms.key !== 'ToPosition') return;
-    if (this.view && parms.data && parms.conf) {
-      this.view.updateToPos(parms.data, parms.conf);
-    }
+    this.view.updateToPos(parms.data, parms.conf);
   }
 
   private handleFromValue = (parms: IFireParms) => {
     if (parms.key !== 'FromValue') return;
-    if (this.view && parms.data) {
-      this.view.updateFromVal(parms.data);
-    }
+    this.view.updateFromVal(parms.data);
   }
 
   private handleToValue = (parms: IFireParms) => {
     if (parms.key !== 'ToValue') return;
-    if (this.view && parms.data) {
-      this.view.updateToVal(parms.data);
-    }
+    this.view.updateToVal(parms.data);
   }
 
   private handleScale = (parms: IFireParms) => {
     if (parms.key !== 'Scale') return;
-    if (this.view && parms.data && parms.conf) {
-      this.view.updateScale(parms.data, parms.conf);
-    }
+    this.view.updateScale(parms.data, parms.conf);
   }
 
   private handleBar = (parms: IFireParms) => {
     if (parms.key !== 'Bar') return;
-    if (this.view && parms.data && parms.conf) {
-      this.view.updateBar(parms.data, parms.conf);
-    }
+    this.view.updateBar(parms.data, parms.conf);
   }
 
   private handleIsVertical = (parms: IFireParms) => {
     if (parms.key !== 'IsVertical') return;
-    if (this.view && parms.conf) {
-      this.view.switchVertical(parms.conf);
-    }
+    this.view.switchVertical(parms.conf);
   }
 
   private handleIsRange = (parms: IFireParms) => {
     if (parms.key !== 'IsRange') return;
-    if (this.view && parms.conf) {
-      this.view.switchRange(parms.conf);
-    }
+    this.view.switchRange(parms.conf);
   }
 
   private handleIsScale = (parms: IFireParms) => {
     if (parms.key !== 'IsScale') return;
-    if (this.view && parms.conf) {
-      this.view.switchScale(parms.conf);
-    }
+    this.view.switchScale(parms.conf);
   }
 
   private handleIsBar = (parms: IFireParms) => {
     if (parms.key !== 'IsBar') return;
-    if (this.view && parms.conf) {
-      this.view.switchBar(parms.conf);
-    }
+    this.view.switchBar(parms.conf);
   }
 
 
   private handleIsTip = (parms: IFireParms) => {
     if (parms.key !== 'IsTip') return;
-    if (this.view && parms.conf) {
-      this.view.switchTip(parms.conf);
-    }
+    this.view.switchTip(parms.conf);
   }
 
 
   private handleMoveEvent = (parms: IFireParms) => {
     if (parms.key !== 'MoveEvent') return;
-    if (this.model
-      && parms.data
-      && parms.data.thumb
-      && parms.data.thumb.clientY
-      && parms.data.thumb.clientX
-      && parms.data.thumb.top
-      && parms.data.thumb.left
-      && parms.data.thumb.width
-      && parms.data.thumb.height
-      && parms.data.thumb.shiftBase
-      && parms.data.thumb.moovingControl) {
-      this.model.calcPos(
-        parms.data.thumb.type,
-        parms.data.thumb.clientY,
-        parms.data.thumb.clientX,
-        parms.data.thumb.top,
-        parms.data.thumb.left,
-        parms.data.thumb.width,
-        parms.data.thumb.height,
-        parms.data.thumb.shiftBase,
-        parms.data.thumb.moovingControl);
-    }
+    this.model.calcPos(
+      parms.data.thumb.type,
+      parms.data.thumb.clientY,
+      parms.data.thumb.clientX,
+      parms.data.thumb.top,
+      parms.data.thumb.left,
+      parms.data.thumb.width,
+      parms.data.thumb.height,
+      parms.data.thumb.shiftBase,
+      parms.data.thumb.moovingControl);
   }
 
   private handleKeydownEvent = (parms: IFireParms) => {
     if (parms.key !== 'KeydownEvent') return;
-    if (this.model
-      && parms.data
-      && parms.data.thumb
-      && parms.data.thumb.key
-      && parms.data.thumb.repeat
-      && parms.data.thumb.moovingControl
-    ) {
-      this.model.calcPosKey(
-        parms.data.thumb.key,
-        parms.data.thumb.repeat,
-        parms.data.thumb.moovingControl);
-    }
+    this.model.calcPosKey(
+      parms.data.thumb.key,
+      parms.data.thumb.repeat,
+      parms.data.thumb.moovingControl);
   }
 }
 
