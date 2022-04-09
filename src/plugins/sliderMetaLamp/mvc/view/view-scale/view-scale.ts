@@ -1,5 +1,5 @@
 import {
-  IConf,
+  IConf, IConfFull
 } from '../../interface';
 
 class ViewScale {
@@ -7,7 +7,7 @@ class ViewScale {
   private startWidth: number = 0;
   private track: HTMLElement;
   private markList: Element[];
-  private conf: IConf;
+  private conf: IConfFull;
   private lastLabelRemoved: boolean;
   private scaleMarks: { 'pos'?: number, 'val'?: number }[];
   private calcMarkList: boolean
@@ -15,7 +15,7 @@ class ViewScale {
   constructor(
     slider: HTMLElement,
     track: HTMLElement,
-    conf: IConf,
+    conf: IConfFull,
     markList: HTMLElement[] = []) {
 
     this.conf = conf;
@@ -31,7 +31,7 @@ class ViewScale {
 
   //создаем деления
   public createScale(scaleMarks: { 'pos'?: number, 'val'?: number }[],
-    conf: IConf) {
+    conf: IConfFull) {
     this.conf = conf;
     this.scaleMarks = scaleMarks;
     let steps = this.slider.querySelectorAll('.js-rs-metalamp__mark');
@@ -78,7 +78,7 @@ class ViewScale {
     return this.checkScaleLength(this.markList);
   }
 
-  public switchScale(conf: IConf) {
+  public switchScale(conf: IConfFull) {
     this.conf = conf;
     let stepMarks = this.slider.querySelectorAll('.js-rs-metalamp__mark');
     if (this.conf.scale) {

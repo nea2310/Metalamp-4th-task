@@ -1,4 +1,5 @@
 import {
+  IConfFull,
   IConf,
   IObj,
   Imethods,
@@ -8,7 +9,7 @@ import { Observer } from '../observer';
 
 class Model extends Observer {
   private changeMode: boolean;
-  public conf: IConf;
+  public conf: IConfFull;
   private startConf: IConf;
   private backEndConf: IConf;
   private methods: Imethods;
@@ -61,8 +62,8 @@ class Model extends Observer {
   }
   public getConf(conf: IConf) {
     this.backEndConf = conf;
-    let joinedConf = {};
-    joinedConf = Object.assign(joinedConf,
+    // let joinedConf = {};
+    let joinedConf = Object.assign({},
       this.conf, this.startConf, this.backEndConf);
     //проверим корректность полученных параметров конфигурации и при необходимости - исправим
     return this.conf = this.checkConf(joinedConf);
@@ -363,7 +364,7 @@ class Model extends Observer {
     return result;
   }
 
-  private checkConf(conf: IConf) {
+  private checkConf(conf: IConfFull) {
     //надо проверять на число те параметры, которые вводятся в инпут (т.к. можно ввести строку)
 
     const validNumber =
@@ -470,9 +471,7 @@ class Model extends Observer {
 
   public update(newConf: IConf) {
 
-
-    let conf = {};
-    conf = Object.assign(conf, this.conf, newConf);
+    let conf = Object.assign({}, this.conf, newConf);
     //проверим корректность полученных параметров конфигурации и при необходимости - исправим
     conf = this.checkConf(conf);
     //определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
@@ -502,12 +501,12 @@ class Model extends Observer {
   }
   /*находим изменившийся параметр и меняем соотв-щее св-во объекта this.methods; это нужно чтобы не выполнять одни и те же 
   действия несколько раз, если получаем несколько параметров, требующих запуска одного и того же метода в модели*/
-  private findChangedConf(conf: IConf, newConf: IConf) {
+  private findChangedConf(currentConf: IConfFull, newConf: IConf) {
     // console.log(conf);
     // console.log(newConf);
     let key: keyof IConf;
     for (key in newConf) {
-      if (newConf[key] === conf[key]) {
+      if (newConf[key] === currentConf[key]) {
         continue;
       } else {
         switch (key) {

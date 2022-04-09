@@ -1,4 +1,4 @@
-import { IConf } from './../interface';
+import { IConfFull } from './../interface';
 import { View } from './../view/view';
 import { ViewBar } from './view-bar/view-bar';
 import { ViewControl } from './view-control/view-control';
@@ -23,7 +23,7 @@ parent.setAttribute('shiftOnKeyDown', '1');
 parent.setAttribute('shiftOnKeyHold', '1');
 
 document.body.appendChild(parent);
-const conf: IConf = {
+const conf: IConfFull = {
   min: 10,
   max: 100,
   from: 20,
@@ -39,6 +39,9 @@ const conf: IConf = {
   sticky: false,
   shiftOnKeyDown: 1,
   shiftOnKeyHold: 1,
+  onStart: () => true,
+  onChange: () => true,
+  onUpdate: () => true,
 };
 
 const testView = new View(parent);
@@ -63,14 +66,34 @@ describe('ViewScale', () => {
   });
 
   test('updateFromPos', async () => {
-    const conf = {};
+    // const conf = {};
+    const conf: IConfFull = {
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: false,
+      range: true,
+      bar: true,
+      tip: true,
+      scale: true,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true,
+    };
     const data = { fromPos: 10 };
     testView.updateFromPos(data, conf);
     expect(updatePosSpy).toBeCalledTimes(1);
     expect(updatePosSpy).toBeCalledWith(
       testView.viewControl.controlMin, 10);
     expect(updateInputSpy).toBeCalledTimes(1);
-    expect(updateInputSpy).toBeCalledWith({});
+    expect(updateInputSpy).toBeCalledWith(conf);
 
     updatePosSpy.mockClear();
     updateInputSpy.mockClear();
@@ -95,6 +118,9 @@ describe('ViewScale', () => {
       sticky: false,
       shiftOnKeyDown: 1,
       shiftOnKeyHold: 2,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true,
     };
     const data = { toPos: 10 };
     testView.updateToPos(data, conf);
@@ -125,7 +151,27 @@ describe('ViewScale', () => {
   });
 
   test('updateScale', () => {
-    const conf = { vertical: true, scale: true };
+    // const conf = { vertical: true, scale: true };
+    const conf: IConfFull = {
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: true,
+      range: true,
+      bar: true,
+      tip: true,
+      scale: true,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true,
+    };
     const data = {
       marksArr: [
         { pos: 0, val: 0 },
@@ -144,7 +190,27 @@ describe('ViewScale', () => {
   });
 
   test('updateBar', () => {
-    const conf = { vertical: true, scale: true };
+    //  const conf = { vertical: true, scale: true };
+    const conf: IConfFull = {
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: true,
+      range: true,
+      bar: true,
+      tip: true,
+      scale: true,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true,
+    };
     const data = { barPos: 10, barWidth: 100 };
     const updateBarSpy = jest.spyOn(testViewBar, 'updateBar');
     testView.updateBar(data, conf);
@@ -153,7 +219,27 @@ describe('ViewScale', () => {
   });
 
   test('switchScale', () => {
-    const conf = { vertical: true, scale: true };
+    //  const conf = { vertical: true, scale: true };
+    const conf: IConfFull = {
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: true,
+      range: true,
+      bar: true,
+      tip: true,
+      scale: true,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true,
+    };
     const switchScaleSpy = jest.spyOn(testViewScale, 'switchScale');
     testView.switchScale(conf);
     expect(switchScaleSpy).toBeCalledTimes(1);
@@ -161,7 +247,27 @@ describe('ViewScale', () => {
   });
 
   test('switchBar', () => {
-    const conf = { bar: false };
+    //  const conf = { bar: false };
+    const conf: IConfFull = {
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: false,
+      range: true,
+      bar: false,
+      tip: true,
+      scale: true,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true,
+    };
     const switchBarSpy = jest.spyOn(testViewBar, 'switchBar');
     testView.switchBar(conf);
     expect(switchBarSpy).toBeCalledTimes(1);
@@ -169,7 +275,27 @@ describe('ViewScale', () => {
   });
 
   test('switchTip', async () => {
-    const conf = { tip: true };
+    //  const conf = { tip: true };
+    const conf: IConfFull = {
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: false,
+      range: true,
+      bar: true,
+      tip: false,
+      scale: true,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true,
+    };
     const switchTipSpy = jest.spyOn(testViewControl, 'switchTip');
     testView.switchTip(conf);
     expect(switchTipSpy).toBeCalledTimes(1);

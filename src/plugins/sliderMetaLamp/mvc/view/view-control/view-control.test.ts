@@ -1,5 +1,5 @@
 import { Controller } from './../../controller/controller';
-import { IConf } from './../../interface';
+import { IConfFull } from './../../interface';
 import { Model } from './../../model/model';
 import { View } from './../../view/view';
 
@@ -48,7 +48,7 @@ function mockKeyboardEvent(element: HTMLElement,
 
 const parent = document.createElement('input');
 document.body.appendChild(parent);
-const conf: IConf = {
+const conf: IConfFull = {
   min: 10,
   max: 100,
   from: 20,
@@ -64,6 +64,9 @@ const conf: IConf = {
   sticky: false,
   shiftOnKeyDown: 1,
   shiftOnKeyHold: 1,
+  onStart: () => true,
+  onChange: () => true,
+  onUpdate: () => true,
 };
 const getElem = (selector: string) =>
   document.getElementsByClassName(selector)[0] as HTMLElement;
@@ -122,7 +125,26 @@ describe('apply styles on calling ViewControl method', () => {
 
   test('update input value on calling updateInput method', async () => {
     expect(parent.value).toBe('20, 70');
-    await testViewControl.updateInput({ from: 25, to: 30, range: true });
+    await testViewControl.updateInput({
+      min: 10,
+      max: 100,
+      from: 25,
+      to: 30,
+      vertical: false,
+      range: true,
+      bar: true,
+      tip: true,
+      scale: true,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true
+    });
     expect(parent.value).toBe('25, 30');
   });
 
@@ -136,7 +158,26 @@ describe('apply styles on calling ViewControl method', () => {
       toBe(false);
     expect(tipMax.classList.contains('rs-metalamp__tip_vert')).
       toBe(false);
-    await testViewControl.switchVertical({ vertical: true });
+    await testViewControl.switchVertical({
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: true,
+      range: true,
+      bar: true,
+      tip: true,
+      scale: true,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true
+    });
     expect(controlMin.classList.contains('rs-metalamp__control_vert')).
       toBe(true);
     expect(controlMax.classList.contains('rs-metalamp__control_vert')).
@@ -145,7 +186,26 @@ describe('apply styles on calling ViewControl method', () => {
       toBe(true);
     expect(tipMax.classList.contains('rs-metalamp__tip_vert')).
       toBe(true);
-    await testViewControl.switchVertical({ vertical: false });
+    await testViewControl.switchVertical({
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: false,
+      range: true,
+      bar: true,
+      tip: true,
+      scale: true,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true
+    });
     expect(controlMin.classList.contains('rs-metalamp__control_vert')).
       toBe(false);
     expect(controlMax.classList.contains('rs-metalamp__control_vert')).
@@ -165,7 +225,26 @@ describe('apply styles on calling ViewControl method', () => {
       toBe(false);
     expect(tipMax.classList.contains('rs-metalamp__tip_hidden')).
       toBe(false);
-    await testViewControl.switchRange({ range: false, tip: true });
+    await testViewControl.switchRange({
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: false,
+      range: false,
+      bar: true,
+      tip: true,
+      scale: true,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true
+    });
     expect(controlMin.classList.contains('rs-metalamp__control_hidden')).
       toBe(false);
     expect(controlMax.classList.contains('rs-metalamp__control_hidden')).
@@ -174,7 +253,26 @@ describe('apply styles on calling ViewControl method', () => {
       toBe(false);
     expect(tipMax.classList.contains('rs-metalamp__tip_hidden')).
       toBe(true);
-    await testViewControl.switchRange({ range: true, tip: true });
+    await testViewControl.switchRange({
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: false,
+      range: true,
+      bar: true,
+      tip: true,
+      scale: true,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true
+    });
     expect(controlMin.classList.contains('hidden')).
       toBe(false);
     expect(controlMax.classList.contains('rs-metalamp__control_hidden')).
@@ -190,12 +288,50 @@ describe('apply styles on calling ViewControl method', () => {
       toBe(false);
     expect(tipMax.classList.contains('rs-metalamp__tip_hidden')).
       toBe(false);
-    await testViewControl.switchTip({ range: true, tip: false });
+    await testViewControl.switchTip({
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: false,
+      range: true,
+      bar: true,
+      tip: false,
+      scale: true,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true
+    });
     expect(tipMin.classList.contains('rs-metalamp__tip_hidden')).
       toBe(true);
     expect(tipMax.classList.contains('rs-metalamp__tip_hidden')).
       toBe(true);
-    await testViewControl.switchTip({ range: true, tip: true });
+    await testViewControl.switchTip({
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: false,
+      range: true,
+      bar: true,
+      tip: true,
+      scale: true,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true
+    });
     expect(tipMin.classList.contains('rs-metalamp__tip_hidden')).
       toBe(false);
     expect(tipMax.classList.contains('rs-metalamp__tip_hidden')).

@@ -1,4 +1,4 @@
-import { IConf } from '../../interface';
+import { IConf, IConfFull } from '../../interface';
 import { ViewScale } from './view-scale';
 
 interface IMockElement {
@@ -57,14 +57,30 @@ const marksArr = [
 
 
 const conf = {
+  min: 10,
+  max: 100,
+  from: 20,
+  to: 70,
   vertical: false,
+  range: true,
+  bar: true,
+  tip: true,
   scale: true,
+  scaleBase: 'step',
+  step: 10,
+  interval: 0,
+  sticky: false,
+  shiftOnKeyDown: 1,
+  shiftOnKeyHold: 1,
+  onStart: () => true,
+  onChange: () => true,
+  onUpdate: () => true,
 };
 
 
 function prepareInstance(
   scaleMarks: { 'pos'?: number, 'val'?: number }[],
-  conf: IConf,
+  conf: IConfFull,
   mockDimensions: boolean) {
 
   const root = document.createElement('input');
@@ -83,14 +99,98 @@ function prepareInstance(
     testViewScale = new ViewScale(slider, track, conf);
   }
 
-  function createScale(conf: IConf) {
+  function createScale(conf: IConfFull) {
     testViewScale.createScale(scaleMarks, conf);
   }
+  const conf1: IConfFull = {
+    min: 10,
+    max: 100,
+    from: 20,
+    to: 70,
+    vertical: false,
+    range: true,
+    bar: true,
+    tip: true,
+    scale: true,
+    scaleBase: 'step',
+    step: 10,
+    interval: 0,
+    sticky: false,
+    shiftOnKeyDown: 1,
+    shiftOnKeyHold: 1,
+    onStart: () => true,
+    onChange: () => true,
+    onUpdate: () => true,
+  };
+
+  const conf2: IConfFull = {
+    min: 10,
+    max: 100,
+    from: 20,
+    to: 70,
+    vertical: true,
+    range: true,
+    bar: true,
+    tip: true,
+    scale: true,
+    scaleBase: 'step',
+    step: 10,
+    interval: 0,
+    sticky: false,
+    shiftOnKeyDown: 1,
+    shiftOnKeyHold: 1,
+    onStart: () => true,
+    onChange: () => true,
+    onUpdate: () => true,
+  };
+
+  const conf3: IConfFull = {
+    min: 10,
+    max: 100,
+    from: 20,
+    to: 70,
+    vertical: false,
+    range: true,
+    bar: true,
+    tip: true,
+    scale: false,
+    scaleBase: 'step',
+    step: 10,
+    interval: 0,
+    sticky: false,
+    shiftOnKeyDown: 1,
+    shiftOnKeyHold: 1,
+    onStart: () => true,
+    onChange: () => true,
+    onUpdate: () => true,
+  };
+
+  const conf4: IConfFull = {
+    min: 10,
+    max: 100,
+    from: 20,
+    to: 70,
+    vertical: true,
+    range: true,
+    bar: true,
+    tip: true,
+    scale: false,
+    scaleBase: 'step',
+    step: 10,
+    interval: 0,
+    sticky: false,
+    shiftOnKeyDown: 1,
+    shiftOnKeyHold: 1,
+    onStart: () => true,
+    onChange: () => true,
+    onUpdate: () => true,
+  };
+
   //create scale for each scale / vertical combination
-  createScale({ scale: true, vertical: false });
-  createScale({ scale: true, vertical: true });
-  createScale({ scale: false, vertical: false });
-  createScale({ scale: false, vertical: true });
+  createScale(conf1);
+  createScale(conf2);
+  createScale(conf3);
+  createScale(conf4);
 
   return testViewScale;
 }
@@ -104,8 +204,24 @@ describe('ViewScale', () => {
       marksArr, conf, false
     );
     expect(testViewScale.createScale(marksArr, {
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: false,
+      range: true,
+      bar: true,
+      tip: true,
       scale: true,
-      vertical: false
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true,
     })).
       toHaveLength(3);
   });
@@ -116,8 +232,24 @@ describe('ViewScale', () => {
       marksArr, conf, true
     );
     expect(testViewScale.createScale(marksArr, {
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: false,
+      range: true,
+      bar: true,
+      tip: true,
       scale: true,
-      vertical: false
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true,
     })).
       toHaveLength(1);
   });
@@ -127,12 +259,46 @@ describe('ViewScale', () => {
       marksArr, conf, false
     );
     const a = testViewScale.switchScale({
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: false,
+      range: true,
+      bar: true,
+      tip: true,
       scale: true,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true,
     });
     expect(a[0].classList.contains('rs-metalamp__mark_visually-hidden')).
       toBe(false);
     const b = testViewScale.switchScale({
+      min: 10,
+      max: 100,
+      from: 20,
+      to: 70,
+      vertical: false,
+      range: true,
+      bar: true,
+      tip: true,
       scale: false,
+      scaleBase: 'step',
+      step: 10,
+      interval: 0,
+      sticky: false,
+      shiftOnKeyDown: 1,
+      shiftOnKeyHold: 1,
+      onStart: () => true,
+      onChange: () => true,
+      onUpdate: () => true,
     });
     expect(b[0].classList.contains('rs-metalamp__mark_visually-hidden')).
       toBe(true);

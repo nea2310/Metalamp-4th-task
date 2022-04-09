@@ -1,4 +1,4 @@
-import { IConf, Idata } from '../../interface';
+import { IConf, IConfFull, Idata } from '../../interface';
 import { Observer } from '../../observer';
 
 interface IElement extends Element {
@@ -23,14 +23,14 @@ class ViewControl extends Observer {
   public tipMax: HTMLInputElement;
   public track: IElement;
 
-  private conf: IConf;
+  private conf: IConfFull;
   private slider: HTMLElement;
   //private root: HTMLInputElement;
   private root: IElement;
   private data: Idata;
   private initDone: boolean;
 
-  constructor(sliderElem: HTMLElement, conf: IConf) {
+  constructor(sliderElem: HTMLElement, conf: IConfFull) {
     super();
     this.slider = sliderElem;
     this.root = sliderElem.previousElementSibling;
@@ -75,7 +75,7 @@ class ViewControl extends Observer {
 
 
   // передать значения FROM и TO в инпут
-  public updateInput(conf: IConf) {
+  public updateInput(conf: IConfFull) {
 
     if (this.root.tagName === 'INPUT') {
       this.root.value =
@@ -85,7 +85,7 @@ class ViewControl extends Observer {
   }
 
   //включение / отключение вертикального режима
-  public switchVertical(conf: IConf) {
+  public switchVertical(conf: IConfFull) {
     this.conf = conf;
     if (this.conf.vertical) {
       this.controlMax.classList.add('rs-metalamp__control_vert');
@@ -109,7 +109,7 @@ class ViewControl extends Observer {
   }
 
   //включение / отключение single режима
-  public switchRange(conf: IConf) {
+  public switchRange(conf: IConfFull) {
     this.conf = conf;
     if (this.conf.range) {
       this.controlMax.classList.remove('rs-metalamp__control_hidden');
@@ -123,7 +123,7 @@ class ViewControl extends Observer {
   }
 
   //включение / отключение подсказок
-  public switchTip(conf: IConf) {
+  public switchTip(conf: IConfFull) {
     this.conf = conf;
     if (this.conf.tip) {
       this.tipMax.classList.remove('rs-metalamp__tip_hidden');
@@ -141,7 +141,7 @@ class ViewControl extends Observer {
   }
 
   // Инициализация
-  private init(conf: IConf) {
+  private init(conf: IConfFull) {
     this.conf = conf;
     this.renderLeftControl();
     this.renderRightControl();

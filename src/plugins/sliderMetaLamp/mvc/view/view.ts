@@ -2,7 +2,7 @@ import { ViewBar } from './../view/view-bar/view-bar';
 import { ViewControl } from
   './../view/view-control/view-control';
 import { ViewScale } from './../view/view-scale/view-scale';
-import { Idata, IConf, IFireParms } from '../interface';
+import { Idata, IConf, IFireParms, IConfFull } from '../interface';
 import { Observer } from '../observer';
 
 interface IElement extends Element {
@@ -20,7 +20,7 @@ class View extends Observer {
   public slider: HTMLElement;
   private track: HTMLElement;
   private frame: HTMLElement;
-  private conf: IConf;
+  private conf: IConfFull;
   public backEndConf: IConf;
 
   constructor(root: Element) {
@@ -32,7 +32,7 @@ class View extends Observer {
   }
 
 
-  public init(conf: IConf) {
+  public init(conf: IConfFull) {
     this.conf = conf;
     this.createSubViews();
     this.createListeners();
@@ -47,13 +47,13 @@ class View extends Observer {
     this.slider.classList.remove('rs-metalamp__wrapper_disabled');
   }
 
-  public updateFromPos(data: Idata, conf: IConf) {
+  public updateFromPos(data: Idata, conf: IConfFull) {
     this.viewControl.updatePos(this.viewControl.controlMin,
       data.fromPos);
     this.viewControl.updateInput(conf);
   }
 
-  public updateToPos(data: Idata, conf: IConf) {
+  public updateToPos(data: Idata, conf: IConfFull) {
     this.viewControl.updatePos(this.viewControl.controlMax,
       data.toPos);
     this.viewControl.updateInput(conf);
@@ -67,17 +67,17 @@ class View extends Observer {
     this.viewControl.updateVal(data.toVal, false);
   }
 
-  public updateScale(data: Idata, conf: IConf) {
+  public updateScale(data: Idata, conf: IConfFull) {
     this.viewScale.createScale(data.marksArr, conf);
 
   }
 
-  public updateBar(data: Idata, conf: IConf) {
+  public updateBar(data: Idata, conf: IConfFull) {
     this.viewBar.
       updateBar(data.barPos, data.barWidth, conf.vertical);
   }
 
-  public switchVertical(conf: IConf) {
+  public switchVertical(conf: IConfFull) {
     if (conf.vertical) {
       this.slider.classList.add('rs-metalamp__wrapper_vert');
       this.track.classList.add('rs-metalamp__track_vert');
@@ -91,19 +91,19 @@ class View extends Observer {
     this.viewControl.switchVertical(conf);
   }
 
-  public switchRange(conf: IConf) {
+  public switchRange(conf: IConfFull) {
     this.viewControl.switchRange(conf);
   }
 
-  public switchScale(conf: IConf) {
+  public switchScale(conf: IConfFull) {
     this.viewScale.switchScale(conf);
   }
 
-  public switchBar(conf: IConf) {
+  public switchBar(conf: IConfFull) {
     this.viewBar.switchBar(conf);
   }
 
-  public switchTip(conf: IConf) {
+  public switchTip(conf: IConfFull) {
     this.viewControl.switchTip(conf);
   }
 

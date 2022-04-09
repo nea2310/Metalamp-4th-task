@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.86% </span>
+                <span class="strong">91.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>348/383</span>
+                <span class='fraction'>348/381</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.83% </span>
+                <span class="strong">79.89% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>149/189</span>
+                <span class='fraction'>151/189</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.24% </span>
+                <span class="strong">91.73% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>344/377</span>
+                <span class='fraction'>344/375</span>
             </div>
         
             
@@ -839,8 +839,8 @@
 <a name='L774'></a><a href='#L774'>774</a>
 <a name='L775'></a><a href='#L775'>775</a>
 <a name='L776'></a><a href='#L776'>776</a>
-<a name='L777'></a><a href='#L777'>777</a>
-<a name='L778'></a><a href='#L778'>778</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L777'></a><a href='#L777'>777</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -903,13 +903,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
@@ -919,7 +919,7 @@
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1006,7 +1006,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
@@ -1200,7 +1200,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1312,8 +1312,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-yes">46x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">46x</span>
@@ -1618,6 +1616,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
+  IConfFull,
   IConf,
   IObj,
   Imethods,
@@ -1627,7 +1626,7 @@ import { Observer } from '../observer';
 &nbsp;
 class Model extends Observer {
   private changeMode: boolean;
-  public conf: IConf;
+  public conf: IConfFull;
   private startConf: IConf;
   private backEndConf: IConf;
   private methods: Imethods;
@@ -1680,8 +1679,8 @@ class Model extends Observer {
   }
   public getConf(conf: IConf) {
     this.backEndConf = conf;
-    let joinedConf = {};
-    joinedConf = Object.assign(joinedConf,
+    // let joinedConf = {};
+    let joinedConf = Object.assign({},
       this.conf, this.startConf, this.backEndConf);
     //проверим корректность полученных параметров конфигурации и при необходимости - исправим
     return this.conf = this.checkConf(joinedConf);
@@ -1782,8 +1781,8 @@ class Model extends Observer {
       this.calcVal('normal', newPos, moovingControl);
 &nbsp;
     this.calcBar();
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof this.onChange == 'function') {
-<span class="cstat-no" title="statement not covered" >      this.onChange(this.conf);</span>
+    if (typeof this.onChange == 'function') {
+      this.onChange(this.conf);
     }
 &nbsp;
     return newPos;
@@ -1976,13 +1975,13 @@ class Model extends Observer {
       }
     }
     this.calcBar();
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof this.onChange == 'function') {
-<span class="cstat-no" title="statement not covered" >      this.onChange(this.conf);</span>
+    if (typeof this.onChange == 'function') {
+      this.onChange(this.conf);
     }
     return result;
   }
 &nbsp;
-  private checkConf(conf: IConf) {
+  private checkConf(conf: IConfFull) {
     //надо проверять на число те параметры, которые вводятся в инпут (т.к. можно ввести строку)
 &nbsp;
     const validNumber =
@@ -2089,9 +2088,7 @@ class Model extends Observer {
 &nbsp;
   public update(newConf: IConf) {
 &nbsp;
-&nbsp;
-    let conf = {};
-    conf = Object.assign(conf, this.conf, newConf);
+    let conf = Object.assign({}, this.conf, newConf);
     //проверим корректность полученных параметров конфигурации и при необходимости - исправим
     conf = this.checkConf(conf);
     //определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
@@ -2121,12 +2118,12 @@ class Model extends Observer {
   }
   /*находим изменившийся параметр и меняем соотв-щее св-во объекта this.methods; это нужно чтобы не выполнять одни и те же 
   действия несколько раз, если получаем несколько параметров, требующих запуска одного и того же метода в модели*/
-  private findChangedConf(conf: IConf, newConf: IConf) {
+  private findChangedConf(currentConf: IConfFull, newConf: IConf) {
     // console.log(conf);
     // console.log(newConf);
     let key: keyof IConf;
     for (key in newConf) {
-      if (newConf[key] === conf[key]) {
+      if (newConf[key] === currentConf[key]) {
         continue;
       } else {
         switch (key) {
@@ -2401,7 +2398,7 @@ export { Model };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Fri Apr 08 2022 19:20:03 GMT+0500 (Екатеринбург, стандартное время)
+                at Sat Apr 09 2022 20:42:45 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         <script src="../../../prettify.js"></script>
         <script>
