@@ -386,6 +386,19 @@ describe('model, update API request processing', () => {
       toPos: 50,
       toVal: '50',
       vertical: false,
+      thumb: {
+        clientX: 0,
+        clientY: 0,
+        height: 0,
+        key: "",
+        left: 0,
+        moovingControl: "",
+        repeat: false,
+        shiftBase: 0,
+        top: 0,
+        type: "",
+        width: 0,
+      },
     };
     const testModel = await new Model(conf);
     await testModel.getConf(conf);

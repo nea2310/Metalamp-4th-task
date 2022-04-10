@@ -1,4 +1,4 @@
-import { IConf, IConfFull, Idata } from '../../interface';
+import { IConf, IConfFull, Idata, IdataFull } from '../../interface';
 import { Observer } from '../../observer';
 
 interface IElement extends Element {
@@ -27,7 +27,7 @@ class ViewControl extends Observer {
   private slider: HTMLElement;
   //private root: HTMLInputElement;
   private root: IElement;
-  private data: Idata;
+  private data: IdataFull;
   private initDone: boolean;
 
   constructor(sliderElem: HTMLElement, conf: IConfFull) {
@@ -36,8 +36,32 @@ class ViewControl extends Observer {
     this.root = sliderElem.previousElementSibling;
     this.track = sliderElem.firstElementChild;
 
-    this.data = {};
-    this.data.thumb = {};
+    this.data = {
+      fromPos: 0,
+      toPos: 0,
+      marksArr: [{ 'pos': 0, 'val': 0 }],
+      intervalValue: '',
+      stepValue: '',
+      scaleBase: '',
+      barWidth: 0,
+      barPos: 0,
+      fromVal: '',
+      toVal: '',
+      thumb: {
+        type: '',
+        clientY: 0,
+        clientX: 0,
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0,
+        shiftBase: 0,
+        moovingControl: '',
+        key: '',
+        repeat: false
+      },
+    };
+    //  this.data.thumb = {};
     this.init(conf);
     this.dragControlMouse();
     this.dragControlTouch();

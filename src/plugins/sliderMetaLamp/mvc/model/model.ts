@@ -3,9 +3,11 @@ import {
   IConf,
   IObj,
   Imethods,
-  Idata
+  Idata,
+  IdataFull
 } from './../interface';
 import { Observer } from '../observer';
+import { defaultConf } from '../utils';
 
 class Model extends Observer {
   private changeMode: boolean;
@@ -13,7 +15,7 @@ class Model extends Observer {
   private startConf: IConf;
   private backEndConf: IConf;
   private methods: Imethods;
-  private data: Idata;
+  private data: IdataFull;
   private onStart?: Function | null;
   private onUpdate?: Function | null;
   private onChange?: Function | null;
@@ -22,28 +24,34 @@ class Model extends Observer {
   constructor(conf: IConf) {
     super();
     //дефолтный конфиг
-    this.conf = {
-      min: 0,
-      max: 0,
-      from: 0,
-      to: 0,
-      vertical: false,
-      range: true,
-      bar: true,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
-      step: 0,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 0,
-      shiftOnKeyHold: 0,
-      onStart: null, // null?
-      onChange: null,
-      onUpdate: null,
-    };
+    this.conf = defaultConf;
 
-    this.data = {};
+    //this.data = defaultData;
+    this.data = {
+      fromPos: 0,
+      toPos: 0,
+      marksArr: [{ 'pos': 0, 'val': 0 }],
+      intervalValue: '',
+      stepValue: '',
+      scaleBase: '',
+      barWidth: 0,
+      barPos: 0,
+      fromVal: '',
+      toVal: '',
+      thumb: {
+        type: '',
+        clientY: 0,
+        clientX: 0,
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0,
+        shiftBase: 0,
+        moovingControl: '',
+        key: '',
+        repeat: false
+      },
+    };
 
     this.methods = {
       calcFromPosition: false,
@@ -100,6 +108,8 @@ class Model extends Observer {
     height: number,
     shiftBase: number,
     moovingControl: string) {
+    console.log('this.data>>>', this.data);
+
 
     let newPos = 0;
     if (this.conf.vertical) {
@@ -690,6 +700,8 @@ class Model extends Observer {
 
   // рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
   private calcScale() {
+    console.log('this.data', this.data);
+
     let interval = 1;
     let step = 1;
     let arg = '';

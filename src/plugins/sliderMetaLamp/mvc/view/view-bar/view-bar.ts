@@ -31,8 +31,6 @@ class ViewBar {
 
   // отключение / включение бара
   public switchBar(conf: IConfFull) {
-    console.log(conf);
-
     this.conf = conf;
     const classList = this.progressBar.classList;
     this.conf.bar ? classList.remove('rs-metalamp__progressBar_hidden') :

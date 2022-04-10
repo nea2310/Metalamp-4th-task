@@ -355,7 +355,7 @@ describe('ViewControl event listeners', () => {
       { eventType: 'touchmove' });
     expect(calcPosSpy).toBeCalledTimes(1);
     expect(calcPosSpy).toBeCalledWith(
-      'touchmove', 0, 0, 0, 0, 0, 0, undefined, "max");
+      'touchmove', 0, 0, 0, 0, 0, 0, 0, "max");
   });
 
   test('notifies observer about control mooving made by mouse', () => {

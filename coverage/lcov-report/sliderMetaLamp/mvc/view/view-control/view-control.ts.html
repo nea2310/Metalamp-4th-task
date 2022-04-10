@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.71% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>166/181</span>
+                <span class='fraction'>165/180</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.73% </span>
+                <span class="strong">92.69% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>166/179</span>
+                <span class='fraction'>165/178</span>
             </div>
         
             
@@ -448,7 +448,31 @@
 <a name='L383'></a><a href='#L383'>383</a>
 <a name='L384'></a><a href='#L384'>384</a>
 <a name='L385'></a><a href='#L385'>385</a>
-<a name='L386'></a><a href='#L386'>386</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L386'></a><a href='#L386'>386</a>
+<a name='L387'></a><a href='#L387'>387</a>
+<a name='L388'></a><a href='#L388'>388</a>
+<a name='L389'></a><a href='#L389'>389</a>
+<a name='L390'></a><a href='#L390'>390</a>
+<a name='L391'></a><a href='#L391'>391</a>
+<a name='L392'></a><a href='#L392'>392</a>
+<a name='L393'></a><a href='#L393'>393</a>
+<a name='L394'></a><a href='#L394'>394</a>
+<a name='L395'></a><a href='#L395'>395</a>
+<a name='L396'></a><a href='#L396'>396</a>
+<a name='L397'></a><a href='#L397'>397</a>
+<a name='L398'></a><a href='#L398'>398</a>
+<a name='L399'></a><a href='#L399'>399</a>
+<a name='L400'></a><a href='#L400'>400</a>
+<a name='L401'></a><a href='#L401'>401</a>
+<a name='L402'></a><a href='#L402'>402</a>
+<a name='L403'></a><a href='#L403'>403</a>
+<a name='L404'></a><a href='#L404'>404</a>
+<a name='L405'></a><a href='#L405'>405</a>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a>
+<a name='L409'></a><a href='#L409'>409</a>
+<a name='L410'></a><a href='#L410'>410</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -487,7 +511,31 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -833,7 +881,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { IConf, IConfFull, Idata } from '../../interface';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { IConf, IConfFull, Idata, IdataFull } from '../../interface';
 import { Observer } from '../../observer';
 &nbsp;
 interface IElement extends Element {
@@ -862,7 +910,7 @@ class ViewControl extends Observer {
   private slider: HTMLElement;
   //private root: HTMLInputElement;
   private root: IElement;
-  private data: Idata;
+  private data: IdataFull;
   private initDone: boolean;
 &nbsp;
   constructor(sliderElem: HTMLElement, conf: IConfFull) {
@@ -871,8 +919,32 @@ class ViewControl extends Observer {
     this.root = sliderElem.previousElementSibling;
     this.track = sliderElem.firstElementChild;
 &nbsp;
-    this.data = {};
-    this.data.thumb = {};
+    this.data = {
+      fromPos: 0,
+      toPos: 0,
+      marksArr: [{ 'pos': 0, 'val': 0 }],
+      intervalValue: '',
+      stepValue: '',
+      scaleBase: '',
+      barWidth: 0,
+      barPos: 0,
+      fromVal: '',
+      toVal: '',
+      thumb: {
+        type: '',
+        clientY: 0,
+        clientX: 0,
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0,
+        shiftBase: 0,
+        moovingControl: '',
+        key: '',
+        repeat: false
+      },
+    };
+    //  this.data.thumb = {};
     this.init(conf);
     this.dragControlMouse();
     this.dragControlTouch();
@@ -1225,7 +1297,7 @@ export { ViewControl };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Sat Apr 09 2022 20:42:45 GMT+0500 (Екатеринбург, стандартное время)
+                at Sun Apr 10 2022 14:44:54 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
