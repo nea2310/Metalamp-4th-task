@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.39% </span>
+                <span class="strong">91.83% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>85/93</span>
+                <span class='fraction'>90/98</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.3% </span>
+                <span class="strong">91.75% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>84/92</span>
+                <span class='fraction'>89/97</span>
             </div>
         
             
@@ -264,8 +264,7 @@
 <a name='L199'></a><a href='#L199'>199</a>
 <a name='L200'></a><a href='#L200'>200</a>
 <a name='L201'></a><a href='#L201'>201</a>
-<a name='L202'></a><a href='#L202'>202</a>
-<a name='L203'></a><a href='#L203'>203</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L202'></a><a href='#L202'>202</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -366,7 +365,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -388,7 +387,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">66x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">15x</span>
@@ -406,7 +405,7 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
@@ -426,7 +425,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -435,11 +433,11 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -567,8 +565,8 @@ class ViewScale {
     let hideLabels = (markList: Element[]) =&gt; {
       //скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
       for (let i = 1; i &lt; markList.length; i += 2) {
-        markList[i].firstElementChild.
-          classList.add('rs-metalamp__label_hidden');
+        const child = markList[i].firstElementChild as Element;
+        child.classList.add('rs-metalamp__label_hidden');
         markList[i].
           classList.add('rs-metalamp__mark_no-label');
         markList[i].
@@ -589,8 +587,8 @@ class ViewScale {
       let totalWidth = 0;
       //вычисляем общую ширину подписей к шагам
       for (let node of markList) {
-        totalWidth += node.firstElementChild.
-          getBoundingClientRect().width;
+        const child = node.firstElementChild as Element;
+        totalWidth += child.getBoundingClientRect().width;
       }
       //если общая ширина подписей к шагам больше ширины шкалы
       if (totalWidth &gt; this.track.offsetWidth) {
@@ -607,8 +605,8 @@ class ViewScale {
     } else {//Вертикальный слайдер
       let totalHeight = 0;
       for (let node of markList) {
-        totalHeight += node.firstElementChild.
-          getBoundingClientRect().height;
+        const child = node.firstElementChild as Element;
+        totalHeight += child.getBoundingClientRect().height;
       }
       //если общая высота подписей к шагам больше высоты шкалы
       <span class="missing-if-branch" title="if path not taken" >I</span>if (totalHeight &gt; this.track.offsetHeight) {
@@ -628,20 +626,19 @@ class ViewScale {
   //возвращаем подпись у последненего шага и удаляем у предпоследнего подписанного
   private addLastLabel(isRemoved: boolean) {
     let markLabeledList =
-      // eslint-disable-next-line max-len
       this.track.querySelectorAll('.js-rs-metalamp__mark:not(.js-rs-metalamp__mark_no-label)');
     let lastMarkLabeled = markLabeledList[markLabeledList.length - 1];
     let lastMark =
-      this.track.querySelector('.js-rs-metalamp__mark:last-child');
+      this.track.querySelector('.js-rs-metalamp__mark:last-child') as Element;
     if (isRemoved) {
       lastMarkLabeled.classList.add('rs-metalamp__mark_no-label');
       lastMarkLabeled.classList.add('js-rs-metalamp__mark_no-label');
-      lastMarkLabeled.firstElementChild.
-        classList.add('rs-metalamp__label_hidden');
+      const lastMarkLabeledChild = lastMarkLabeled.firstElementChild as Element;
+      lastMarkLabeledChild.classList.add('rs-metalamp__label_hidden');
       lastMark.classList.remove('rs-metalamp__mark_no-label');
       lastMark.classList.remove('js-rs-metalamp__mark_no-label');
-      lastMark.firstElementChild.
-        classList.remove('rs-metalamp__label_hidden');
+      const lastMarkChild = lastMark.firstElementChild as Element;
+      lastMarkChild.classList.remove('rs-metalamp__label_hidden');
     }
   }
 &nbsp;
@@ -676,7 +673,7 @@ export { ViewScale };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Sun Apr 10 2022 17:52:25 GMT+0500 (Екатеринбург, стандартное время)
+                at Sun Apr 10 2022 19:41:22 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

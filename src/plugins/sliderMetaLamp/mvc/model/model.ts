@@ -87,14 +87,10 @@ class Model extends Observer {
     if (typeof this.onStart == 'function') {
       this.onStart(this.conf);
     }
-    //console.log(this.data);
   }
 
   public getData() {
-    //	if (typeof this.onStart == 'function') {
-    //this.onStart(this.conf);
     return this.conf;
-    //	}
   }
 
   //Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале
@@ -107,8 +103,6 @@ class Model extends Observer {
     height: number,
     shiftBase: number,
     moovingControl: string) {
-    console.log('this.data>>>', this.data);
-
 
     let newPos = 0;
     if (this.conf.vertical) {
@@ -394,12 +388,7 @@ class Model extends Observer {
       return result;
     };
 
-    // console.log('conf.min before validation: ');
-    // console.log(conf.min);
     conf.min = validNumber(conf.min);
-    // console.log('conf.min after validation: ');
-    // console.log(conf.min);
-
     conf.max = validNumber(conf.max);
     conf.from = validNumber(conf.from);
     conf.to = validNumber(conf.to);
@@ -511,8 +500,6 @@ class Model extends Observer {
   /*находим изменившийся параметр и меняем соотв-щее св-во объекта this.methods; это нужно чтобы не выполнять одни и те же 
   действия несколько раз, если получаем несколько параметров, требующих запуска одного и того же метода в модели*/
   private findChangedConf(currentConf: IConfFull, newConf: IConf) {
-    // console.log(conf);
-    // console.log(newConf);
     let key: keyof IConf;
     for (key in newConf) {
       if (newConf[key] === currentConf[key]) {
@@ -532,7 +519,6 @@ class Model extends Observer {
             this.methods.calcFromPosition = true;
             this.methods.calcToPosition = true;
             this.methods.calcBar = true;
-            //console.log(this.data);
             break;
           case 'from':
             this.methods.calcFromPosition = true;
@@ -545,7 +531,6 @@ class Model extends Observer {
           case 'step':
             this.methods.calcScale = true;
             this.methods.updateControlPos = true;
-            //console.log(this.data);
             break;
           case 'interval':
             this.methods.calcScale = true;
@@ -556,7 +541,6 @@ class Model extends Observer {
             break;
           case 'vertical':
             this.methods.switchVertical = true;
-            //(this.data);
             break;
           case 'range':
             this.methods.switchRange = true;
@@ -594,7 +578,6 @@ class Model extends Observer {
         }
       }
     }
-    //	console.log(this.conf);
     return this.methods;
   }
 
@@ -657,8 +640,6 @@ class Model extends Observer {
   }
   // рассчитать позицию From (%) на основании значений from, min и max
   private calcFromPosition() {
-    //console.log('calcFromPosition');
-
     this.data.fromPos = ((this.conf.from -
       this.conf.min) * 100) /
       (this.conf.max - this.conf.min);
@@ -705,8 +686,6 @@ class Model extends Observer {
 
   // рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
   private calcScale() {
-    console.log('this.data', this.data);
-
     let interval = 1;
     let step = 1;
     let arg = '';
@@ -738,9 +717,6 @@ class Model extends Observer {
     for (let i = 0; i < interval; i++) {
       let obj: IObj = { val: 0, pos: 0 };
       val += step;
-      // console.log(val);
-      // console.log(step);
-
       if (val <= this.conf.max) {
         let pos = ((val - this.conf.min) * 100) /
           (this.conf.max - this.conf.min);

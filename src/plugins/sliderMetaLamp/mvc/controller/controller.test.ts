@@ -14,6 +14,9 @@ function prepareInstance(conf: IConf) {
 
 
 /***********************************/
+const onChangeCB = () => true;
+const onStartCB = () => true;
+const onUpdateCB = () => true;
 
 const conf: IConf = {
   min: 10,
@@ -31,7 +34,12 @@ const conf: IConf = {
   sticky: false,
   shiftOnKeyDown: 1,
   shiftOnKeyHold: 1,
+  onChange: onChangeCB,
+  onStart: onStartCB,
+  onUpdate: onUpdateCB,
 };
+
+
 
 const TestController = prepareInstance(conf);
 
@@ -46,9 +54,6 @@ describe('controller', () => {
         interval: 9,
         max: 100,
         min: 10,
-        onChange: null,
-        onStart: null,
-        onUpdate: null,
         range: true,
         scale: true,
         scaleBase: "step",
@@ -59,7 +64,11 @@ describe('controller', () => {
         tip: true,
         to: 70,
         vertical: false,
+        onChange: onChangeCB,
+        onStart: onStartCB,
+        onUpdate: onUpdateCB,
       });
+
       expect(getDataSpy).toBeCalledTimes(1);
     });
 

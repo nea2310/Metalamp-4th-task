@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.66% </span>
+                <span class="strong">91.71% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>165/180</span>
+                <span class='fraction'>166/181</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.11% </span>
+                <span class="strong">71.73% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>32/45</span>
+                <span class='fraction'>33/46</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.69% </span>
+                <span class="strong">92.73% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>165/178</span>
+                <span class='fraction'>166/179</span>
             </div>
         
             
@@ -472,7 +472,9 @@
 <a name='L407'></a><a href='#L407'>407</a>
 <a name='L408'></a><a href='#L408'>408</a>
 <a name='L409'></a><a href='#L409'>409</a>
-<a name='L410'></a><a href='#L410'>410</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L410'></a><a href='#L410'>410</a>
+<a name='L411'></a><a href='#L411'>411</a>
+<a name='L412'></a><a href='#L412'>412</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -679,6 +681,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -916,8 +920,8 @@ class ViewControl extends Observer {
   constructor(sliderElem: HTMLElement, conf: IConfFull) {
     super();
     this.slider = sliderElem;
-    this.root = sliderElem.previousElementSibling;
-    this.track = sliderElem.firstElementChild;
+    this.root = sliderElem.previousElementSibling as Element;
+    this.track = sliderElem.firstElementChild as Element;
 &nbsp;
     this.data = {
       fromPos: 0,
@@ -1074,7 +1078,7 @@ class ViewControl extends Observer {
   private renderLeftControl() {
     this.controlMin = this.renderControl(
       'rs-metalamp__control-min', 'rs-metalamp__tip-min', this.conf.from);
-    this.tipMin = this.controlMin.querySelector('.rs-metalamp__tip');
+    this.tipMin = this.controlMin.querySelector('.rs-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMin);
   }
 &nbsp;
@@ -1082,15 +1086,17 @@ class ViewControl extends Observer {
   private renderRightControl() {
     this.controlMax = this.renderControl(
       'rs-metalamp__control-max', 'rs-metalamp__tip-max', this.conf.to);
-    this.tipMax = this.controlMax.querySelector('.rs-metalamp__tip');
+    this.tipMax = this.controlMax.querySelector('.rs-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMax);
   }
 &nbsp;
-  private defineControl = (elem: ITarget) =&gt;
-    elem.classList.contains('rs-metalamp__control-min') ? 'min' : 'max';
+  private defineControl = (elem: ITarget) =&gt; {
+    if (elem.classList)
+      return elem.classList.contains('rs-metalamp__control-min') ? 'min' : 'max';
+  }
 &nbsp;
   private getMetrics(elem: ITarget) {
-    const scale = elem.parentElement;
+    const scale = elem.parentElement as HTMLElement;
     const T = this.data.thumb;
     T.top = scale.getBoundingClientRect().top;
     T.left = scale.getBoundingClientRect().left;
@@ -1113,7 +1119,7 @@ class ViewControl extends Observer {
       if (target.classList.contains('rs-metalamp__control')) {
 &nbsp;
         //определяем ползунок, за который тянут
-        T.moovingControl = this.defineControl(target);
+        T.moovingControl = String(this.defineControl(target));
         //определяем расстояние между позицией клика и левым краем ползунка
         if (!this.conf.vertical) {
           T.shiftBase = e.clientX -
@@ -1161,7 +1167,7 @@ class ViewControl extends Observer {
       if (target.classList.contains('rs-metalamp__control')) {
 &nbsp;
         //определяем ползунок, за который тянут
-        T.moovingControl = this.defineControl(target);
+        T.moovingControl = String(this.defineControl(target));
         this.getMetrics(target);
 &nbsp;
         const pointerMoveHandler = (e: TouchEvent) =&gt; {
@@ -1246,8 +1252,8 @@ class ViewControl extends Observer {
         T.top = this.track.getBoundingClientRect().top;
         T.left =
           this.track.getBoundingClientRect().left;
-        T.width = this.track.offsetWidth;
-        T.height = this.track.offsetHeight;
+        T.width = Number(this.track.offsetWidth);
+        T.height = Number(this.track.offsetHeight);
         T.type = e.type;
         T.clientX = e.clientX;
         T.clientY = e.clientY;
@@ -1297,7 +1303,7 @@ export { ViewControl };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Sun Apr 10 2022 17:52:25 GMT+0500 (Екатеринбург, стандартное время)
+                at Sun Apr 10 2022 19:41:22 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
