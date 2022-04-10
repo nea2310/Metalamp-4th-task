@@ -28,7 +28,7 @@ class ViewControl extends Observer {
   //private root: HTMLInputElement;
   private root: IElement;
   private data: IdataFull;
-  private initDone: boolean;
+  private initDone: boolean = false;
 
   constructor(sliderElem: HTMLElement, conf: IConfFull) {
     super();
@@ -61,7 +61,20 @@ class ViewControl extends Observer {
         repeat: false
       },
     };
-    //  this.data.thumb = {};
+
+    this.conf = conf;
+    /*Создаем ползунок минимального значения*/
+    this.controlMin = this.renderControl(
+      'rs-metalamp__control-min', 'rs-metalamp__tip-min', this.conf.from);
+    this.tipMin = this.controlMin.querySelector('.rs-metalamp__tip') as HTMLInputElement;
+    this.track.append(this.controlMin);
+
+    /*Создаем ползунок максимального значения*/
+    this.controlMax = this.renderControl(
+      'rs-metalamp__control-max', 'rs-metalamp__tip-max', this.conf.to);
+    this.tipMax = this.controlMax.querySelector('.rs-metalamp__tip') as HTMLInputElement;
+    this.track.append(this.controlMax);
+
     this.init(conf);
     this.dragControlMouse();
     this.dragControlTouch();
@@ -167,8 +180,8 @@ class ViewControl extends Observer {
   // Инициализация
   private init(conf: IConfFull) {
     this.conf = conf;
-    this.renderLeftControl();
-    this.renderRightControl();
+    // this.renderLeftControl();
+    // this.renderRightControl();
     this.switchRange(this.conf);
     this.switchTip(this.conf);
   }

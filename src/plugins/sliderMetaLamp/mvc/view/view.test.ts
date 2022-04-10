@@ -47,9 +47,9 @@ const conf: IConfFull = {
 const testView = new View(parent);
 const initSpy = jest.spyOn(testView, 'init');
 testView.init(conf);
-const testViewControl = testView.viewControl;
-const testViewScale = testView.viewScale;
-const testViewBar = testView.viewBar;
+const testViewControl = testView.viewControl as ViewControl;
+const testViewScale = testView.viewScale as ViewScale;
+const testViewBar = testView.viewBar as ViewBar;
 
 
 
@@ -57,12 +57,13 @@ describe('ViewScale', () => {
   const updatePosSpy = jest.spyOn(testViewControl, 'updatePos');
   const updateInputSpy = jest.spyOn(testViewControl, 'updateInput');
   const updateValSpy = jest.spyOn(testViewControl, 'updateVal');
+  const viewControl = testView.viewControl as ViewControl;
   test('init', () => {
     expect(initSpy).toBeCalledTimes(1);
     expect(testViewControl).toBeInstanceOf(ViewControl);
     expect(testViewScale).toBeInstanceOf(ViewScale);
     expect(testViewBar).toBeInstanceOf(ViewBar);
-    expect(testView.viewControl.observers).toHaveLength(2);
+    expect(viewControl.observers).toHaveLength(2);
   });
 
   test('updateFromPos', async () => {
@@ -112,10 +113,11 @@ describe('ViewScale', () => {
         repeat: false
       },
     };
+    const viewControl = testView.viewControl as ViewControl;
     testView.updateFromPos(data, conf);
     expect(updatePosSpy).toBeCalledTimes(1);
     expect(updatePosSpy).toBeCalledWith(
-      testView.viewControl.controlMin, 10);
+      viewControl.controlMin, 10);
     expect(updateInputSpy).toBeCalledTimes(1);
     expect(updateInputSpy).toBeCalledWith(conf);
 
@@ -171,10 +173,11 @@ describe('ViewScale', () => {
         repeat: false
       },
     };
+    const viewControl = testView.viewControl as ViewControl;
     testView.updateToPos(data, conf);
     expect(updatePosSpy).toBeCalledTimes(1);
     expect(updatePosSpy).toBeCalledWith(
-      testView.viewControl.controlMax, data.toPos);
+      viewControl.controlMax, data.toPos);
     expect(updateInputSpy).toBeCalledTimes(1);
     expect(updateInputSpy).toBeCalledWith(conf);
 

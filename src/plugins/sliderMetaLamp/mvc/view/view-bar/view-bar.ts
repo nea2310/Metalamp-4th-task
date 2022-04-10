@@ -1,25 +1,32 @@
 import {
   IConf, IConfFull
 } from '../../interface';
+import { defaultConf } from '../../utils';
 
 class ViewBar {
   private slider: HTMLElement;
   private track: HTMLElement;
-  private elem: HTMLElement;
+  // private elem: HTMLElement;
   private progressBar: HTMLElement;
-  private controlMin: HTMLElement;
-  private controlMax: HTMLElement;
-  private controlMinDist: number;
-  private controlMaxDist: number;
-  private markList: HTMLElement[];
-  private conf: IConfFull;
-  private scale: HTMLElement;
-  private checkNext: boolean;
-  private lastLabelRemoved: boolean;
+  // private controlMin: HTMLElement;
+  // private controlMax: HTMLElement;
+  private controlMinDist: number = 0;
+  private controlMaxDist: number = 0;
+  private markList: HTMLElement[] = [];
+  private conf: IConfFull = defaultConf;
+  //private scale: HTMLElement;
+  private checkNext: boolean = false;
+  private lastLabelRemoved: boolean = false;
 
   constructor(root: HTMLElement, conf: IConfFull) {
     this.slider = root;
-    this.init(conf);
+    this.conf = conf;
+    this.track = this.slider.querySelector('.rs-metalamp__track') as HTMLElement;
+    this.progressBar = document.createElement('div');
+    this.progressBar.className = 'rs-metalamp__progressBar';
+    this.track.append(this.progressBar);
+    this.switchBar(conf);
+    //  this.init(conf);
   }
 
   // переключение в вертикальный режим
@@ -55,10 +62,10 @@ class ViewBar {
   }
 
   // Инициализация
-  private init(conf: IConfFull) {
-    this.conf = conf;
-    this.renderBar(conf);
-  }
+  // private init(conf: IConfFull) {
+  //   this.conf = conf;
+  //   this.renderBar(conf);
+  // }
   //создание бара
   private renderBar(conf: IConfFull) {
     this.track = this.slider.querySelector('.rs-metalamp__track') as HTMLElement;

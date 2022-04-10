@@ -11,29 +11,29 @@ class RangeSlider {
   sliderWrapper: HTMLElement
   rangeSlider: any //какой здесь должен быть тип?
 
-  min: HTMLInputElement
-  max: HTMLInputElement
-  from: HTMLInputElement
-  to: HTMLInputElement
-  interval: HTMLInputElement
-  step: HTMLInputElement
-  shiftOnKeyDown: HTMLInputElement
-  shiftOnKeyHold: HTMLInputElement
-  vertical: HTMLInputElement
-  range: HTMLInputElement
-  scale: HTMLInputElement
-  bar: HTMLInputElement
-  tip: HTMLInputElement
-  sticky: HTMLInputElement
-  scaleBaseSteps: HTMLInputElement
-  scaleBaseIntervals: HTMLInputElement
+  min: HTMLInputElement | undefined;
+  max: HTMLInputElement | undefined
+  from: HTMLInputElement | undefined;
+  to: HTMLInputElement | undefined;
+  interval: HTMLInputElement | undefined;
+  step: HTMLInputElement | undefined;
+  shiftOnKeyDown: HTMLInputElement | undefined;
+  shiftOnKeyHold: HTMLInputElement | undefined;
+  vertical: HTMLInputElement | undefined;
+  range: HTMLInputElement | undefined;
+  scale: HTMLInputElement | undefined;
+  bar: HTMLInputElement | undefined;
+  tip: HTMLInputElement | undefined;
+  sticky: HTMLInputElement | undefined;
+  scaleBaseSteps: HTMLInputElement | undefined;
+  scaleBaseIntervals: HTMLInputElement | undefined;
   inputsAll: HTMLInputElement[] = []
   selector: string
-  isDestroyed: boolean
-  isDisabled: boolean
-  subscribe: HTMLInputElement
-  destroy: HTMLInputElement
-  disable: HTMLInputElement
+  isDestroyed: boolean | undefined;
+  isDisabled: boolean | undefined;
+  subscribe: HTMLInputElement | undefined;
+  destroy: HTMLInputElement | undefined;
+  disable: HTMLInputElement | undefined;
 
   constructor(selector: string, elem: Element) {
     this.selector = selector;
@@ -66,33 +66,50 @@ class RangeSlider {
   }
 
   private displayData(data: IConf) {
-    const D = data;
-    this.min.value = String(D.min);
-    this.max.value = String(D.max);
-    this.from.value = String(D.from);
-    this.to.value = String(D.to);
-    this.interval.value = String(D.interval);
-    this.step.value = String(D.step);
-    this.shiftOnKeyDown.value = String(D.shiftOnKeyDown);
-    this.shiftOnKeyHold.value = String(D.shiftOnKeyHold);
-    this.vertical.checked = !!D.vertical;
-    this.range.checked = !!D.range;
-    this.scale.checked = !!D.scale;
-    this.bar.checked = !!D.bar;
-    this.tip.checked = !!D.tip;
-    this.sticky.checked = !!D.sticky;
-    this.subscribe.checked = true;
+    if (this.min
+      && this.max
+      && this.from
+      && this.to
+      && this.interval
+      && this.step
+      && this.shiftOnKeyDown
+      && this.shiftOnKeyHold
+      && this.vertical
+      && this.range
+      && this.scale
+      && this.bar
+      && this.tip
+      && this.sticky
+      && this.subscribe
+    ) {
+      const D = data;
+      this.min.value = String(D.min);
+      this.max.value = String(D.max);
+      this.from.value = String(D.from);
+      this.to.value = String(D.to);
+      this.interval.value = String(D.interval);
+      this.step.value = String(D.step);
+      this.shiftOnKeyDown.value = String(D.shiftOnKeyDown);
+      this.shiftOnKeyHold.value = String(D.shiftOnKeyHold);
+      this.vertical.checked = !!D.vertical;
+      this.range.checked = !!D.range;
+      this.scale.checked = !!D.scale;
+      this.bar.checked = !!D.bar;
+      this.tip.checked = !!D.tip;
+      this.sticky.checked = !!D.sticky;
+      this.subscribe.checked = true;
 
-    if (data.scaleBase == 'interval') {
-      this.scaleBaseIntervals.checked = true;
-      this.step.disabled = true;
-    }
+      if (data.scaleBase == 'interval' && this.scaleBaseIntervals) {
+        this.scaleBaseIntervals.checked = true;
+        this.step.disabled = true;
+      }
 
-    if (data.scaleBase == 'step') {
-      this.scaleBaseSteps.checked = true;
-      this.interval.disabled = true;
+      if (data.scaleBase == 'step' && this.scaleBaseSteps) {
+        this.scaleBaseSteps.checked = true;
+        this.interval.disabled = true;
+      }
+      this.to.disabled = D.range ? false : true;
     }
-    this.to.disabled = D.range ? false : true;
   }
 
   private updateData = (data: IConf) => {
@@ -101,20 +118,31 @@ class RangeSlider {
       this.switchVertical();
     }
     const D = data;
-    this.valid(this.from, Number(D.from));
-    this.valid(this.to, Number(D.to));
-    this.valid(this.min, Number(D.min));
-    this.valid(this.max, Number(D.max));
-    this.valid(this.shiftOnKeyDown, Number(D.shiftOnKeyDown));
-    this.valid(this.shiftOnKeyHold, Number(D.shiftOnKeyHold));
-    this.valid(this.interval, Number(D.interval));
-    this.valid(this.step, Number(D.step));
+    if (this.from
+      && this.to
+      && this.min
+      && this.max
+      && this.shiftOnKeyDown
+      && this.shiftOnKeyHold
+      && this.interval
+      && this.step) {
+      this.valid(this.from, Number(D.from));
+      this.valid(this.to, Number(D.to));
+      this.valid(this.min, Number(D.min));
+      this.valid(this.max, Number(D.max));
+      this.valid(this.shiftOnKeyDown, Number(D.shiftOnKeyDown));
+      this.valid(this.shiftOnKeyHold, Number(D.shiftOnKeyHold));
+      this.valid(this.interval, Number(D.interval));
+      this.valid(this.step, Number(D.step));
+    }
   };
 
   private changeData(data: IConf) {
     const D = data;
-    this.valid(this.from, Number(D.from));
-    this.valid(this.to, Number(D.to));
+    if (this.from && this.to) {
+      this.valid(this.from, Number(D.from));
+      this.valid(this.to, Number(D.to));
+    }
   }
 
   private createSlider(elem: HTMLElement) {
@@ -222,16 +250,16 @@ class RangeSlider {
             }
             this.rangeSlider.update({ [elem]: value });
             if (elem == 'scaleBase') {
-              if (value == 'interval') {
+              if (value == 'interval' && this.interval && this.step) {
                 this.interval.disabled = false;
                 this.step.disabled = true;
               }
-              if (value == 'step') {
+              if (value == 'step' && this.interval && this.step) {
                 this.interval.disabled = true;
                 this.step.disabled = false;
               }
             }
-            if (elem == 'range') {
+            if (elem == 'range' && this.to) {
               this.to.disabled = target.checked ? false : true;
             }
             break;
@@ -243,65 +271,73 @@ class RangeSlider {
 
   // API disable
   private disableSlider() {
-    this.disable.addEventListener(
-      'click', () => {
-        if (!this.isDestroyed) {
-          if (this.disable.checked) {
-            this.rangeSlider.disable();
-            for (let elem of this.inputsAll) {
-              elem.disabled = true;
+    if (this.disable) {
+      this.disable.addEventListener(
+        'click', () => {
+          if (!this.isDestroyed && this.disable) {
+            if (this.disable.checked) {
+              this.rangeSlider.disable();
+              for (let elem of this.inputsAll) {
+                elem.disabled = true;
+              }
+              this.isDisabled = true;
             }
-            this.isDisabled = true;
-          }
-          else {
-            this.rangeSlider.enable();
-            for (let elem of this.inputsAll) {
-              elem.disabled = false;
+            else {
+              this.rangeSlider.enable();
+              for (let elem of this.inputsAll) {
+                elem.disabled = false;
+              }
+              const data = this.rangeSlider.getData();
+              this.displayData(data);
+              this.isDisabled = false;
             }
-            const data = this.rangeSlider.getData();
-            this.displayData(data);
-            this.isDisabled = false;
           }
         }
-      }
-    );
+      );
+    }
   }
 
   private subscribeSlider() {
-    this.subscribe.addEventListener(
-      'click', () => {
-        if (!this.isDestroyed) {
-          if (this.subscribe.checked) {
-            this.rangeSlider.update({
-              onChange: (data: IConf) => {
-                this.changeData(data);
-              }
+    if (this.subscribe) {
+      this.subscribe.addEventListener(
+        'click', () => {
+          if (!this.isDestroyed && this.subscribe) {
+            if (this.subscribe.checked) {
+              this.rangeSlider.update({
+                onChange: (data: IConf) => {
+                  this.changeData(data);
+                }
+              });
+            } else this.rangeSlider.update({
+              onChange: null,
             });
-          } else this.rangeSlider.update({
-            onChange: null,
-          });
+          }
         }
-      }
-    );
+      );
+    }
   }
   // API destroy
   private destroySlider(slider: HTMLElement) {
-    this.destroy.addEventListener(
-      'click', () => {
-        if (this.destroy.checked) {
-          this.rangeSlider.destroy();
-          for (let elem of this.inputsAll) {
-            elem.disabled = true;
+    if (this.destroy) {
+      this.destroy.addEventListener(
+        'click', () => {
+          if (this.destroy && this.disable) {
+            if (this.destroy.checked) {
+              this.rangeSlider.destroy();
+              for (let elem of this.inputsAll) {
+                elem.disabled = true;
+              }
+              this.disable.checked = true;
+              this.disable.disabled = true;
+              this.isDestroyed = true;
+              this.destroy.disabled = true;
+              // отвязать объект слайдера от DOM-элемента
+              $.data(slider, 'SliderMetaLamp', null);
+            }
           }
-          this.disable.checked = true;
-          this.disable.disabled = true;
-          this.isDestroyed = true;
-          this.destroy.disabled = true;
-          // отвязать объект слайдера от DOM-элемента
-          $.data(slider, 'SliderMetaLamp', null);
         }
-      }
-    );
+      );
+    }
   }
 }
 

@@ -6,11 +6,11 @@ class ViewScale {
   private slider: HTMLElement;
   private startWidth: number = 0;
   private track: HTMLElement;
-  private markList: Element[];
+  private markList: Element[] = [];
   private conf: IConfFull;
-  private lastLabelRemoved: boolean;
-  private scaleMarks: { 'pos'?: number, 'val'?: number }[];
-  private calcMarkList: boolean
+  private lastLabelRemoved: boolean = false;
+  private scaleMarks: { 'pos'?: number, 'val'?: number }[] = [];
+  private calcMarkList: boolean = false;
 
   constructor(
     slider: HTMLElement,

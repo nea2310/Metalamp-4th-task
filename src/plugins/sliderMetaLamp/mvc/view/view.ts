@@ -4,6 +4,7 @@ import { ViewControl } from
 import { ViewScale } from './../view/view-scale/view-scale';
 import { IdataFull, IConf, IFireParms, IConfFull } from '../interface';
 import { Observer } from '../observer';
+import { defaultConf } from '../utils';
 
 interface IElement extends Element {
   value?: string;
@@ -13,21 +14,33 @@ interface IElement extends Element {
 }
 
 class View extends Observer {
-  public viewControl: ViewControl;
-  public viewScale: ViewScale;
-  public viewBar: ViewBar;
+  public viewControl: ViewControl | undefined;
+  public viewScale: ViewScale | undefined;
+  public viewBar: ViewBar | undefined;
   private root: IElement;
   public slider: HTMLElement;
   private track: HTMLElement;
   private frame: HTMLElement;
-  private conf: IConfFull;
-  public backEndConf: IConf;
+  private conf: IConfFull = defaultConf;
+  public backEndConf: IConf = {};
 
   constructor(root: Element) {
     super();
     /*Находим корневой элемент*/
     this.root = root;
-    this.render();
+    // this.render();
+    // start render
+    this.slider = document.createElement('div');
+    this.slider.className = 'rs-metalamp__wrapper';
+    this.root.after(this.slider);
+    this.track = document.createElement('div');
+
+    this.track.className = 'rs-metalamp__track';
+    this.slider.append(this.track);
+    this.frame = document.createElement('div');
+    this.frame.className = 'rs-metalamp__frame';
+    this.slider.append(this.frame);
+    // finish render
     this.collectParms();
   }
 
@@ -48,33 +61,39 @@ class View extends Observer {
   }
 
   public updateFromPos(data: IdataFull, conf: IConfFull) {
-    this.viewControl.updatePos(this.viewControl.controlMin,
-      data.fromPos);
-    this.viewControl.updateInput(conf);
+    if (this.viewControl) {
+      this.viewControl.updatePos(this.viewControl.controlMin,
+        data.fromPos);
+      this.viewControl.updateInput(conf);
+    }
   }
 
   public updateToPos(data: IdataFull, conf: IConfFull) {
-    this.viewControl.updatePos(this.viewControl.controlMax,
-      data.toPos);
-    this.viewControl.updateInput(conf);
+    if (this.viewControl) {
+      this.viewControl.updatePos(this.viewControl.controlMax,
+        data.toPos);
+      this.viewControl.updateInput(conf);
+    }
   }
 
   public updateFromVal(data: IdataFull) {
-    this.viewControl.updateVal(data.fromVal, true);
+    if (this.viewControl) { this.viewControl.updateVal(data.fromVal, true); }
   }
 
   public updateToVal(data: IdataFull) {
-    this.viewControl.updateVal(data.toVal, false);
+    if (this.viewControl) { this.viewControl.updateVal(data.toVal, false); }
   }
 
   public updateScale(data: IdataFull, conf: IConfFull) {
-    this.viewScale.createScale(data.marksArr, conf);
+    if (this.viewScale) { this.viewScale.createScale(data.marksArr, conf); }
 
   }
 
   public updateBar(data: IdataFull, conf: IConfFull) {
-    this.viewBar.
-      updateBar(data.barPos, data.barWidth, conf.vertical);
+    if (this.viewBar) {
+      this.viewBar.
+        updateBar(data.barPos, data.barWidth, conf.vertical);
+    }
   }
 
   public switchVertical(conf: IConfFull) {
@@ -87,24 +106,32 @@ class View extends Observer {
       this.track.classList.remove('rs-metalamp__track_vert');
       this.frame.classList.remove('rs-metalamp__frame_vert');
     }
-    this.viewBar.switchVertical(conf);
-    this.viewControl.switchVertical(conf);
+    if (this.viewBar && this.viewControl) {
+      this.viewBar.switchVertical(conf);
+      this.viewControl.switchVertical(conf);
+    }
   }
 
   public switchRange(conf: IConfFull) {
-    this.viewControl.switchRange(conf);
+    if (this.viewControl) { this.viewControl.switchRange(conf); }
   }
 
   public switchScale(conf: IConfFull) {
-    this.viewScale.switchScale(conf);
+    if (this.viewScale) {
+      this.viewScale.switchScale(conf);
+    }
   }
 
   public switchBar(conf: IConfFull) {
-    this.viewBar.switchBar(conf);
+    if (this.viewBar) {
+      this.viewBar.switchBar(conf);
+    }
   }
 
   public switchTip(conf: IConfFull) {
-    this.viewControl.switchTip(conf);
+    if (this.viewControl) {
+      this.viewControl.switchTip(conf);
+    }
   }
 
   private render() {
@@ -183,8 +210,10 @@ class View extends Observer {
   }
 
   private createListeners() {
-    this.viewControl.subscribe(this.handleMoveEvent);
-    this.viewControl.subscribe(this.handleKeydownEvent);
+    if (this.viewControl) {
+      this.viewControl.subscribe(this.handleMoveEvent);
+      this.viewControl.subscribe(this.handleKeydownEvent);
+    }
   }
 
   private handleMoveEvent = (parms: IFireParms) => {

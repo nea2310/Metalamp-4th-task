@@ -9,10 +9,10 @@ import { Observer } from '../observer';
 import { defaultConf } from '../utils';
 
 class Model extends Observer {
-  private changeMode: boolean;
+  private changeMode: boolean = false;
   public conf: IConfFull;
   private startConf: IConf;
-  private backEndConf: IConf;
+  private backEndConf: IConf = {};
   private methods: Imethods;
   private data: IdataFull;
   private onStart?: Function | null;

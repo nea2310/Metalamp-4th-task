@@ -1,4 +1,5 @@
 import { Controller } from './../../controller/controller';
+import { ViewControl } from '../view-control/view-control';
 import { IConfFull } from './../../interface';
 import { Model } from './../../model/model';
 import { View } from './../../view/view';
@@ -74,7 +75,7 @@ const getElem = (selector: string) =>
 const testModel = new Model(conf);
 const testView = new View(parent);
 new Controller(testModel, testView);
-const testViewControl = testView.viewControl;
+const testViewControl = testView.viewControl as ViewControl;
 
 const calcPosSpy = jest.spyOn(testModel, 'calcPos');
 const calcPosKeySpy = jest.spyOn(testModel, 'calcPosKey');
