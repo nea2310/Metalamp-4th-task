@@ -25,7 +25,6 @@ class ViewControl extends Observer {
 
   private conf: IConfFull;
   private slider: HTMLElement;
-  //private root: HTMLInputElement;
   private root: IElement;
   private data: IdataFull;
   private initDone: boolean = false;
@@ -180,8 +179,6 @@ class ViewControl extends Observer {
   // Инициализация
   private init(conf: IConfFull) {
     this.conf = conf;
-    // this.renderLeftControl();
-    // this.renderRightControl();
     this.switchRange(this.conf);
     this.switchTip(this.conf);
   }

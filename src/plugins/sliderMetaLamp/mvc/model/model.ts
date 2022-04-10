@@ -24,8 +24,6 @@ class Model extends Observer {
     super();
     //дефолтный конфиг
     this.conf = defaultConf;
-
-    //this.data = defaultData;
     this.data = {
       fromPos: 0,
       toPos: 0,
@@ -69,7 +67,6 @@ class Model extends Observer {
   }
   public getConf(conf: IConf) {
     this.backEndConf = conf;
-    // let joinedConf = {};
     let joinedConf = Object.assign({},
       this.conf, this.startConf, this.backEndConf);
     //проверим корректность полученных параметров конфигурации и при необходимости - исправим
@@ -170,9 +167,7 @@ class Model extends Observer {
     if (typeof this.onChange == 'function') {
       this.onChange(this.conf);
     }
-
     return newPos;
-
 
   }
 
@@ -371,8 +366,7 @@ class Model extends Observer {
     //надо проверять на число те параметры, которые вводятся в инпут (т.к. можно ввести строку)
 
     const validNumber =
-      (value: any) => //typeof +value == 'number' ? +value : 0;
-      {
+      (value: any) => {
         let result = 0;
         if (!isNaN(+value)) {
           result = +value;
@@ -653,7 +647,6 @@ class Model extends Observer {
       this.calcVal('normal', this.data.fromPos, 'min');
     }
     this.fire('FromPosition', this.data, this.conf);
-    //	this.noCalVal = false;
   }
   // рассчитать позицию To (%) на основании значений to, min и max
   private calcToPosition() {

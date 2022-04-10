@@ -107,7 +107,6 @@ class ViewScale {
 
       }
       this.markList = //создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
-        // eslint-disable-next-line max-len	
         [...this.track.querySelectorAll('.js-rs-metalamp__mark:not(.js-rs-metalamp__mark_no-label)')];
 
 

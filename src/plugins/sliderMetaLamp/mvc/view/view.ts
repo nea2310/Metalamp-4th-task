@@ -28,8 +28,6 @@ class View extends Observer {
     super();
     /*Находим корневой элемент*/
     this.root = root;
-    // this.render();
-    // start render
     this.slider = document.createElement('div');
     this.slider.className = 'rs-metalamp__wrapper';
     this.root.after(this.slider);
@@ -40,7 +38,6 @@ class View extends Observer {
     this.frame = document.createElement('div');
     this.frame.className = 'rs-metalamp__frame';
     this.slider.append(this.frame);
-    // finish render
     this.collectParms();
   }
 
@@ -132,19 +129,6 @@ class View extends Observer {
     if (this.viewControl) {
       this.viewControl.switchTip(conf);
     }
-  }
-
-  private render() {
-    this.slider = document.createElement('div');
-    this.slider.className = 'rs-metalamp__wrapper';
-    this.root.after(this.slider);
-    this.track = document.createElement('div');
-
-    this.track.className = 'rs-metalamp__track';
-    this.slider.append(this.track);
-    this.frame = document.createElement('div');
-    this.frame.className = 'rs-metalamp__frame';
-    this.slider.append(this.frame);
   }
 
   private collectParms() {
