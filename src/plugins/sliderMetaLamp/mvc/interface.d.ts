@@ -73,34 +73,6 @@ interface IdataFull {
   thumb: IthumbFull;
 }
 
-interface Idata {
-  fromPos?: number
-  toPos?: number
-  marksArr?: { 'pos'?: number, 'val'?: number }[];
-  intervalValue?: string
-  stepValue?: string
-  scaleBase?: string
-  barWidth?: number
-  barPos?: number
-  fromVal?: string
-  toVal?: string
-  thumb?: Ithumb
-}
-
-interface Ithumb {
-  type?: string;
-  clientY?: number;
-  clientX?: number;
-  top?: number;
-  left?: number;
-  width?: number;
-  height?: number;
-  shiftBase?: number;
-  moovingControl?: string;
-  key?: string;
-  repeat?: boolean;
-}
-
 interface IthumbFull {
   type: string;
   clientY: number;
@@ -125,7 +97,6 @@ export {
   IConf,
   IObj,
   Imethods,
-  Idata,
   IFireParms,
   IConfFull,
   IdataFull,

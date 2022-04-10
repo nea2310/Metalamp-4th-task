@@ -3,7 +3,6 @@ import {
   IConf,
   IObj,
   Imethods,
-  Idata,
   IdataFull
 } from './../interface';
 import { Observer } from '../observer';

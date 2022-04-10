@@ -1,4 +1,4 @@
-import { IConf, IConfFull, Idata, IdataFull } from '../../interface';
+import { IConf, IConfFull, IdataFull } from '../../interface';
 import { Observer } from '../../observer';
 
 interface IElement extends Element {
