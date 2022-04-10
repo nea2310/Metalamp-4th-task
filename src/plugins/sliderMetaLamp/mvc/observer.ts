@@ -1,7 +1,8 @@
 import {
-  IdataFull, IConf
+  IdataFull, IConfFull
 } from './interface';
 
+import { defaultConf } from './utils';
 
 abstract class Observer {
   observers: Function[];
@@ -23,7 +24,7 @@ abstract class Observer {
     return this.observers;
   }
 
-  protected fire(key: string, data: IdataFull, conf: IConf = {}) {
+  protected fire(key: string, data: IdataFull, conf: IConfFull = defaultConf) {
     for (let item of this.observers) {
       item({ key, data, conf });
     }

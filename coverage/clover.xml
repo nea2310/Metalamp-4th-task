@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1649593462876" clover="3.2.0">
-  <project timestamp="1649593462876" name="All files">
-    <metrics statements="864" coveredstatements="803" conditionals="295" coveredconditionals="239" methods="122" coveredmethods="117" elements="1281" coveredelements="1159" complexity="0" loc="864" ncloc="864" packages="8" files="9" classes="9"/>
+<coverage generated="1649594749938" clover="3.2.0">
+  <project timestamp="1649594749938" name="All files">
+    <metrics statements="865" coveredstatements="804" conditionals="295" coveredconditionals="239" methods="122" coveredmethods="117" elements="1282" coveredelements="1160" complexity="0" loc="865" ncloc="865" packages="8" files="9" classes="9"/>
     <package name="sliderMetaLamp">
       <metrics statements="9" coveredstatements="9" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
       <file name="sliderMetaLamp.ts" path="C:\Users\Екатерина\Documents\GIT\Metalamp-4th-task\src\plugins\sliderMetaLamp\sliderMetaLamp.ts">
@@ -18,24 +18,25 @@
       </file>
     </package>
     <package name="sliderMetaLamp.mvc">
-      <metrics statements="12" coveredstatements="12" conditionals="3" coveredconditionals="3" methods="5" coveredmethods="5"/>
+      <metrics statements="13" coveredstatements="13" conditionals="3" coveredconditionals="3" methods="5" coveredmethods="5"/>
       <file name="observer.ts" path="C:\Users\Екатерина\Documents\GIT\Metalamp-4th-task\src\plugins\sliderMetaLamp\mvc\observer.ts">
-        <metrics statements="10" coveredstatements="10" conditionals="3" coveredconditionals="3" methods="5" coveredmethods="5"/>
-        <line num="10" count="31" type="stmt"/>
-        <line num="14" count="78" type="cond" truecount="2" falsecount="0"/>
-        <line num="15" count="77" type="stmt"/>
+        <metrics statements="11" coveredstatements="11" conditionals="3" coveredconditionals="3" methods="5" coveredmethods="5"/>
+        <line num="5" count="6" type="stmt"/>
+        <line num="11" count="31" type="stmt"/>
+        <line num="15" count="78" type="cond" truecount="2" falsecount="0"/>
         <line num="16" count="77" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="22" count="141" type="stmt"/>
-        <line num="23" count="28" type="stmt"/>
-        <line num="27" count="311" type="stmt"/>
-        <line num="28" count="533" type="stmt"/>
-        <line num="33" count="6" type="stmt"/>
+        <line num="17" count="77" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="23" count="141" type="stmt"/>
+        <line num="24" count="28" type="stmt"/>
+        <line num="28" count="311" type="stmt"/>
+        <line num="29" count="533" type="stmt"/>
+        <line num="34" count="6" type="stmt"/>
       </file>
       <file name="utils.ts" path="C:\Users\Екатерина\Documents\GIT\Metalamp-4th-task\src\plugins\sliderMetaLamp\mvc\utils.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="7" count="4" type="stmt"/>
-        <line num="28" count="4" type="stmt"/>
+        <line num="7" count="6" type="stmt"/>
+        <line num="28" count="6" type="stmt"/>
       </file>
     </package>
     <package name="sliderMetaLamp.mvc.controller">
