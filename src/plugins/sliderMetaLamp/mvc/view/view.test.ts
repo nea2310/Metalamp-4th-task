@@ -87,7 +87,31 @@ describe('ViewScale', () => {
       onChange: () => true,
       onUpdate: () => true,
     };
-    const data = { fromPos: 10 };
+    const data = {
+      fromPos: 10,
+      toPos: 0,
+      marksArr: [{ 'pos': 0, 'val': 0 }],
+      intervalValue: '',
+      stepValue: '',
+      scaleBase: '',
+      barWidth: 0,
+      barPos: 0,
+      fromVal: '',
+      toVal: '',
+      thumb: {
+        type: '',
+        clientY: 0,
+        clientX: 0,
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0,
+        shiftBase: 0,
+        moovingControl: '',
+        key: '',
+        repeat: false
+      },
+    };
     testView.updateFromPos(data, conf);
     expect(updatePosSpy).toBeCalledTimes(1);
     expect(updatePosSpy).toBeCalledWith(
@@ -122,7 +146,31 @@ describe('ViewScale', () => {
       onChange: () => true,
       onUpdate: () => true,
     };
-    const data = { toPos: 10 };
+    const data = {
+      fromPos: 0,
+      toPos: 10,
+      marksArr: [{ 'pos': 0, 'val': 0 }],
+      intervalValue: '',
+      stepValue: '',
+      scaleBase: '',
+      barWidth: 0,
+      barPos: 0,
+      fromVal: '',
+      toVal: '',
+      thumb: {
+        type: '',
+        clientY: 0,
+        clientX: 0,
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0,
+        shiftBase: 0,
+        moovingControl: '',
+        key: '',
+        repeat: false
+      },
+    };
     testView.updateToPos(data, conf);
     expect(updatePosSpy).toBeCalledTimes(1);
     expect(updatePosSpy).toBeCalledWith(
@@ -135,7 +183,31 @@ describe('ViewScale', () => {
   });
 
   test('updateFromVal', () => {
-    const data = { fromVal: '10' };
+    const data = {
+      fromPos: 0,
+      toPos: 0,
+      marksArr: [{ 'pos': 0, 'val': 0 }],
+      intervalValue: '',
+      stepValue: '',
+      scaleBase: '',
+      barWidth: 0,
+      barPos: 0,
+      fromVal: '10',
+      toVal: '',
+      thumb: {
+        type: '',
+        clientY: 0,
+        clientX: 0,
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0,
+        shiftBase: 0,
+        moovingControl: '',
+        key: '',
+        repeat: false
+      },
+    };
     testView.updateFromVal(data);
     expect(updateValSpy).toBeCalledTimes(1);
     expect(updateValSpy).toBeCalledWith('10', true);
@@ -143,7 +215,31 @@ describe('ViewScale', () => {
   });
 
   test('updateToVal', () => {
-    const data = { toVal: '10' };
+    const data = {
+      fromPos: 0,
+      toPos: 0,
+      marksArr: [{ 'pos': 0, 'val': 0 }],
+      intervalValue: '',
+      stepValue: '',
+      scaleBase: '',
+      barWidth: 0,
+      barPos: 0,
+      fromVal: '',
+      toVal: '10',
+      thumb: {
+        type: '',
+        clientY: 0,
+        clientX: 0,
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0,
+        shiftBase: 0,
+        moovingControl: '',
+        key: '',
+        repeat: false
+      },
+    };
     testView.updateToVal(data);
     expect(updateValSpy).toBeCalledTimes(1);
     expect(updateValSpy).toBeCalledWith('10', false);
@@ -173,11 +269,34 @@ describe('ViewScale', () => {
       onUpdate: () => true,
     };
     const data = {
+
+      fromPos: 0,
+      toPos: 0,
       marksArr: [
         { pos: 0, val: 0 },
         { pos: 50, val: 5 },
         { pos: 100, val: 10 }
-      ]
+      ],
+      intervalValue: '',
+      stepValue: '',
+      scaleBase: '',
+      barWidth: 0,
+      barPos: 0,
+      fromVal: '',
+      toVal: '',
+      thumb: {
+        type: '',
+        clientY: 0,
+        clientX: 0,
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0,
+        shiftBase: 0,
+        moovingControl: '',
+        key: '',
+        repeat: false
+      },
     };
     const createScaleSpy = jest.spyOn(testViewScale, 'createScale');
     testView.updateScale(data, conf);
@@ -211,7 +330,31 @@ describe('ViewScale', () => {
       onChange: () => true,
       onUpdate: () => true,
     };
-    const data = { barPos: 10, barWidth: 100 };
+    const data = {
+      fromPos: 0,
+      toPos: 0,
+      marksArr: [{ 'pos': 0, 'val': 0 }],
+      intervalValue: '',
+      stepValue: '',
+      scaleBase: '',
+      barWidth: 100,
+      barPos: 10,
+      fromVal: '',
+      toVal: '',
+      thumb: {
+        type: '',
+        clientY: 0,
+        clientX: 0,
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0,
+        shiftBase: 0,
+        moovingControl: '',
+        key: '',
+        repeat: false
+      }
+    };
     const updateBarSpy = jest.spyOn(testViewBar, 'updateBar');
     testView.updateBar(data, conf);
     expect(updateBarSpy).toBeCalledTimes(1);

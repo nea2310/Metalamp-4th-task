@@ -2,7 +2,7 @@ import { ViewBar } from './../view/view-bar/view-bar';
 import { ViewControl } from
   './../view/view-control/view-control';
 import { ViewScale } from './../view/view-scale/view-scale';
-import { Idata, IConf, IFireParms, IConfFull } from '../interface';
+import { IdataFull, IConf, IFireParms, IConfFull } from '../interface';
 import { Observer } from '../observer';
 
 interface IElement extends Element {
@@ -47,32 +47,32 @@ class View extends Observer {
     this.slider.classList.remove('rs-metalamp__wrapper_disabled');
   }
 
-  public updateFromPos(data: Idata, conf: IConfFull) {
+  public updateFromPos(data: IdataFull, conf: IConfFull) {
     this.viewControl.updatePos(this.viewControl.controlMin,
       data.fromPos);
     this.viewControl.updateInput(conf);
   }
 
-  public updateToPos(data: Idata, conf: IConfFull) {
+  public updateToPos(data: IdataFull, conf: IConfFull) {
     this.viewControl.updatePos(this.viewControl.controlMax,
       data.toPos);
     this.viewControl.updateInput(conf);
   }
 
-  public updateFromVal(data: Idata) {
+  public updateFromVal(data: IdataFull) {
     this.viewControl.updateVal(data.fromVal, true);
   }
 
-  public updateToVal(data: Idata) {
+  public updateToVal(data: IdataFull) {
     this.viewControl.updateVal(data.toVal, false);
   }
 
-  public updateScale(data: Idata, conf: IConfFull) {
+  public updateScale(data: IdataFull, conf: IConfFull) {
     this.viewScale.createScale(data.marksArr, conf);
 
   }
 
-  public updateBar(data: Idata, conf: IConfFull) {
+  public updateBar(data: IdataFull, conf: IConfFull) {
     this.viewBar.
       updateBar(data.barPos, data.barWidth, conf.vertical);
   }
