@@ -731,7 +731,7 @@ class Model extends Observer {
     let val = this.conf.min;
 
     for (let i = 0; i < interval; i++) {
-      let obj: IObj = {};
+      let obj: IObj = { val: 0, pos: 0 };
       val += step;
       // console.log(val);
       // console.log(step);

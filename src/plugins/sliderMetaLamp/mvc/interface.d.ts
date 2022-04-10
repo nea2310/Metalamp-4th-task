@@ -41,8 +41,8 @@ interface IConf {
 }
 
 interface IObj {
-  val?: number;
-  pos?: number;
+  val: number;
+  pos: number;
 }
 
 interface Imethods {
@@ -60,17 +60,17 @@ interface Imethods {
 
 
 interface IdataFull {
-  fromPos: number | undefined;
-  toPos: number | undefined;
-  marksArr: { 'pos'?: number, 'val'?: number }[] | undefined;
-  intervalValue: string | undefined;
-  stepValue: string | undefined;
-  scaleBase: string | undefined;
-  barWidth: number | undefined;
-  barPos: number | undefined;
-  fromVal: string | undefined;
-  toVal: string | undefined;
-  thumb: Ithumb | undefined;
+  fromPos: number;
+  toPos: number;
+  marksArr: { 'pos': number, 'val': number }[];
+  intervalValue: string;
+  stepValue: string;
+  scaleBase: string;
+  barWidth: number;
+  barPos: number;
+  fromVal: string;
+  toVal: string;
+  thumb: IthumbFull;
 }
 
 interface Idata {
@@ -102,17 +102,17 @@ interface Ithumb {
 }
 
 interface IthumbFull {
-  type: string | undefined;
-  clientY: number | undefined;
-  clientX: number | undefined;
-  top: number | undefined;
-  left: number | undefined;
-  width: number | undefined;
-  height: number | undefined;
-  shiftBase: number | undefined;
-  moovingControl: string | undefined;
-  key: string | undefined;
-  repeat: boolean | undefined;
+  type: string;
+  clientY: number;
+  clientX: number;
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+  shiftBase: number;
+  moovingControl: string;
+  key: string;
+  repeat: boolean;
 }
 
 interface IFireParms {
