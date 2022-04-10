@@ -279,7 +279,7 @@ class Model extends Observer {
         }
 
         this.data.fromVal = String(newVal);
-        this.conf.from = newVal;
+        this.conf.from = Number(newVal);
         this.calcFromPosition();
         this.fire('FromValue', this.data);
         result = newVal;
@@ -574,16 +574,22 @@ class Model extends Observer {
             this.methods.updateControlPos = true;
             break;
           case 'onStart':
-            this.conf.onStart = newConf.onStart;
-            this.onStart = newConf.onStart;
+            if (newConf.onStart) {
+              this.conf.onStart = newConf.onStart;
+              this.onStart = newConf.onStart;
+            }
             break;
           case 'onChange':
-            this.conf.onChange = newConf.onChange;
-            this.onChange = newConf.onChange;
+            if (newConf.onChange) {
+              this.conf.onChange = newConf.onChange;
+              this.onChange = newConf.onChange;
+            }
             break;
           case 'onUpdate':
-            this.conf.onUpdate = newConf.onUpdate;
-            this.onUpdate = newConf.onUpdate;
+            if (newConf.onUpdate) {
+              this.conf.onUpdate = newConf.onUpdate;
+              this.onUpdate = newConf.onUpdate;
+            }
             break;
         }
       }
