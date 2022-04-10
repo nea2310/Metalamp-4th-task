@@ -38,11 +38,11 @@ class RangeSlider {
   constructor(selector: string, elem: Element) {
     this.selector = selector;
     this.wrapper = elem as HTMLElement;
-    this.panel = this.wrapper.querySelector('.js-panel');
-    this.slider = this.wrapper.querySelector('.js-rs-metalamp');
+    this.panel = this.wrapper.querySelector('.js-panel') as HTMLElement;
+    this.slider = this.wrapper.querySelector('.js-rs-metalamp') as HTMLElement;
     this.panelWrapper =
-      this.wrapper.querySelector(this.selector + '__panel');
-    this.sliderWrapper = this.wrapper.querySelector(this.selector + '__rs');
+      this.wrapper.querySelector(this.selector + '__panel') as HTMLElement;
+    this.sliderWrapper = this.wrapper.querySelector(this.selector + '__rs') as HTMLElement;
     this.renderPanel();
     this.renderSlider(this.slider);
     this.updateSlider();
@@ -75,12 +75,12 @@ class RangeSlider {
     this.step.value = String(D.step);
     this.shiftOnKeyDown.value = String(D.shiftOnKeyDown);
     this.shiftOnKeyHold.value = String(D.shiftOnKeyHold);
-    this.vertical.checked = D.vertical;
-    this.range.checked = D.range;
-    this.scale.checked = D.scale;
-    this.bar.checked = D.bar;
-    this.tip.checked = D.tip;
-    this.sticky.checked = D.sticky;
+    this.vertical.checked = !!D.vertical;
+    this.range.checked = !!D.range;
+    this.scale.checked = !!D.scale;
+    this.bar.checked = !!D.bar;
+    this.tip.checked = !!D.tip;
+    this.sticky.checked = !!D.sticky;
     this.subscribe.checked = true;
 
     if (data.scaleBase == 'interval') {
@@ -101,20 +101,20 @@ class RangeSlider {
       this.switchVertical();
     }
     const D = data;
-    this.valid(this.from, D.from);
-    this.valid(this.to, D.to);
-    this.valid(this.min, D.min);
-    this.valid(this.max, D.max);
-    this.valid(this.shiftOnKeyDown, D.shiftOnKeyDown);
-    this.valid(this.shiftOnKeyHold, D.shiftOnKeyHold);
-    this.valid(this.interval, D.interval);
-    this.valid(this.step, D.step);
+    this.valid(this.from, Number(D.from));
+    this.valid(this.to, Number(D.to));
+    this.valid(this.min, Number(D.min));
+    this.valid(this.max, Number(D.max));
+    this.valid(this.shiftOnKeyDown, Number(D.shiftOnKeyDown));
+    this.valid(this.shiftOnKeyHold, Number(D.shiftOnKeyHold));
+    this.valid(this.interval, Number(D.interval));
+    this.valid(this.step, Number(D.step));
   };
 
   private changeData(data: IConf) {
     const D = data;
-    this.valid(this.from, D.from);
-    this.valid(this.to, D.to);
+    this.valid(this.from, Number(D.from));
+    this.valid(this.to, Number(D.to));
   }
 
   private createSlider(elem: HTMLElement) {
@@ -133,13 +133,15 @@ class RangeSlider {
   }
 
   private renderPanel() {
-    const getElem = (name: string, addToInputsAll: boolean = true) => {
+    const getElem = (name: string, addToInputsAll: boolean = true): HTMLInputElement => {
       const elem = this.panel.querySelector<HTMLInputElement>
         ('.js-' + name);
       if (addToInputsAll) {
-        this.inputsAll.push(elem);
+        if (elem) {
+          this.inputsAll.push(elem);
+        }
       }
-      return elem;
+      return elem as HTMLInputElement;
     };
 
     this.min = getElem('input-min');

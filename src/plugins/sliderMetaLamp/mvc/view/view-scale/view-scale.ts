@@ -98,8 +98,8 @@ class ViewScale {
     let hideLabels = (markList: Element[]) => {
       //скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
       for (let i = 1; i < markList.length; i += 2) {
-        markList[i].firstElementChild.
-          classList.add('rs-metalamp__label_hidden');
+        const child = markList[i].firstElementChild as Element;
+        child.classList.add('rs-metalamp__label_hidden');
         markList[i].
           classList.add('rs-metalamp__mark_no-label');
         markList[i].
@@ -120,8 +120,8 @@ class ViewScale {
       let totalWidth = 0;
       //вычисляем общую ширину подписей к шагам
       for (let node of markList) {
-        totalWidth += node.firstElementChild.
-          getBoundingClientRect().width;
+        const child = node.firstElementChild as Element;
+        totalWidth += child.getBoundingClientRect().width;
       }
       //если общая ширина подписей к шагам больше ширины шкалы
       if (totalWidth > this.track.offsetWidth) {
@@ -138,8 +138,8 @@ class ViewScale {
     } else {//Вертикальный слайдер
       let totalHeight = 0;
       for (let node of markList) {
-        totalHeight += node.firstElementChild.
-          getBoundingClientRect().height;
+        const child = node.firstElementChild as Element;
+        totalHeight += child.getBoundingClientRect().height;
       }
       //если общая высота подписей к шагам больше высоты шкалы
       if (totalHeight > this.track.offsetHeight) {
@@ -159,20 +159,19 @@ class ViewScale {
   //возвращаем подпись у последненего шага и удаляем у предпоследнего подписанного
   private addLastLabel(isRemoved: boolean) {
     let markLabeledList =
-      // eslint-disable-next-line max-len
       this.track.querySelectorAll('.js-rs-metalamp__mark:not(.js-rs-metalamp__mark_no-label)');
     let lastMarkLabeled = markLabeledList[markLabeledList.length - 1];
     let lastMark =
-      this.track.querySelector('.js-rs-metalamp__mark:last-child');
+      this.track.querySelector('.js-rs-metalamp__mark:last-child') as Element;
     if (isRemoved) {
       lastMarkLabeled.classList.add('rs-metalamp__mark_no-label');
       lastMarkLabeled.classList.add('js-rs-metalamp__mark_no-label');
-      lastMarkLabeled.firstElementChild.
-        classList.add('rs-metalamp__label_hidden');
+      const lastMarkLabeledChild = lastMarkLabeled.firstElementChild as Element;
+      lastMarkLabeledChild.classList.add('rs-metalamp__label_hidden');
       lastMark.classList.remove('rs-metalamp__mark_no-label');
       lastMark.classList.remove('js-rs-metalamp__mark_no-label');
-      lastMark.firstElementChild.
-        classList.remove('rs-metalamp__label_hidden');
+      const lastMarkChild = lastMark.firstElementChild as Element;
+      lastMarkChild.classList.remove('rs-metalamp__label_hidden');
     }
   }
 

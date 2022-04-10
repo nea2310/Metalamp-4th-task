@@ -39,7 +39,7 @@ describe('controller', () => {
 
   test('gets data from model on calling API method "getData"',
     async () => {
-      const getDataSpy = jest.spyOn(TestController.model, 'getData');
+      const getDataSpy = jest.spyOn(TestController.model as Model, 'getData');
       await expect(TestController.getData()).toEqual({
         bar: true,
         from: 20,
@@ -65,7 +65,7 @@ describe('controller', () => {
 
 
   test('calls update method in model on calling API method "update"', () => {
-    const updateSpy = jest.spyOn(TestController.model, 'update');
+    const updateSpy = jest.spyOn(TestController.model as Model, 'update');
     TestController.update(conf);
     expect(updateSpy).toBeCalledTimes(1);
     expect(updateSpy).toBeCalledWith(conf);
@@ -73,20 +73,24 @@ describe('controller', () => {
 
   test('removes Observer listeners on calling API method "disable"',
     async () => {
-      expect(TestController.model.observers).toHaveLength(11);
-      expect(TestController.view.observers).toHaveLength(2);
+      const model = TestController.model as Model;
+      const view = TestController.view as View;
+      expect(model.observers).toHaveLength(11);
+      expect(view.observers).toHaveLength(2);
       await TestController.disable();
-      expect(TestController.model.observers).toHaveLength(0);
-      expect(TestController.view.observers).toHaveLength(0);
+      expect(model.observers).toHaveLength(0);
+      expect(view.observers).toHaveLength(0);
     });
 
   test('reverts Observer listeners back on calling API method "enable"',
     async () => {
-      expect(TestController.model.observers).toHaveLength(0);
-      expect(TestController.view.observers).toHaveLength(0);
+      const model = TestController.model as Model;
+      const view = TestController.view as View;
+      expect(model.observers).toHaveLength(0);
+      expect(view.observers).toHaveLength(0);
       await TestController.enable();
-      expect(TestController.model.observers).toHaveLength(11);
-      expect(TestController.view.observers).toHaveLength(2);
+      expect(model.observers).toHaveLength(11);
+      expect(view.observers).toHaveLength(2);
     });
 
   test('destroys slider instance on calling API method "destroy"',

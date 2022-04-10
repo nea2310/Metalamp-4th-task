@@ -33,8 +33,8 @@ class ViewControl extends Observer {
   constructor(sliderElem: HTMLElement, conf: IConfFull) {
     super();
     this.slider = sliderElem;
-    this.root = sliderElem.previousElementSibling;
-    this.track = sliderElem.firstElementChild;
+    this.root = sliderElem.previousElementSibling as Element;
+    this.track = sliderElem.firstElementChild as Element;
 
     this.data = {
       fromPos: 0,
@@ -191,7 +191,7 @@ class ViewControl extends Observer {
   private renderLeftControl() {
     this.controlMin = this.renderControl(
       'rs-metalamp__control-min', 'rs-metalamp__tip-min', this.conf.from);
-    this.tipMin = this.controlMin.querySelector('.rs-metalamp__tip');
+    this.tipMin = this.controlMin.querySelector('.rs-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMin);
   }
 
@@ -199,15 +199,17 @@ class ViewControl extends Observer {
   private renderRightControl() {
     this.controlMax = this.renderControl(
       'rs-metalamp__control-max', 'rs-metalamp__tip-max', this.conf.to);
-    this.tipMax = this.controlMax.querySelector('.rs-metalamp__tip');
+    this.tipMax = this.controlMax.querySelector('.rs-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMax);
   }
 
-  private defineControl = (elem: ITarget) =>
-    elem.classList.contains('rs-metalamp__control-min') ? 'min' : 'max';
+  private defineControl = (elem: ITarget) => {
+    if (elem.classList)
+      return elem.classList.contains('rs-metalamp__control-min') ? 'min' : 'max';
+  }
 
   private getMetrics(elem: ITarget) {
-    const scale = elem.parentElement;
+    const scale = elem.parentElement as HTMLElement;
     const T = this.data.thumb;
     T.top = scale.getBoundingClientRect().top;
     T.left = scale.getBoundingClientRect().left;
@@ -230,7 +232,7 @@ class ViewControl extends Observer {
       if (target.classList.contains('rs-metalamp__control')) {
 
         //определяем ползунок, за который тянут
-        T.moovingControl = this.defineControl(target);
+        T.moovingControl = String(this.defineControl(target));
         //определяем расстояние между позицией клика и левым краем ползунка
         if (!this.conf.vertical) {
           T.shiftBase = e.clientX -
@@ -278,7 +280,7 @@ class ViewControl extends Observer {
       if (target.classList.contains('rs-metalamp__control')) {
 
         //определяем ползунок, за который тянут
-        T.moovingControl = this.defineControl(target);
+        T.moovingControl = String(this.defineControl(target));
         this.getMetrics(target);
 
         const pointerMoveHandler = (e: TouchEvent) => {
@@ -363,8 +365,8 @@ class ViewControl extends Observer {
         T.top = this.track.getBoundingClientRect().top;
         T.left =
           this.track.getBoundingClientRect().left;
-        T.width = this.track.offsetWidth;
-        T.height = this.track.offsetHeight;
+        T.width = Number(this.track.offsetWidth);
+        T.height = Number(this.track.offsetHeight);
         T.type = e.type;
         T.clientX = e.clientX;
         T.clientY = e.clientY;

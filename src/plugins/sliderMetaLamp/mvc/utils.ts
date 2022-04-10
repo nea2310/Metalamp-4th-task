@@ -20,9 +20,9 @@ export const defaultConf: IConfFull = {
   sticky: false,
   shiftOnKeyDown: 0,
   shiftOnKeyHold: 0,
-  onStart: null, // null?
-  onChange: null,
-  onUpdate: null,
+  onStart: () => true, // null?
+  onChange: () => true,
+  onUpdate: () => true,
 };
 
 export const defaultThumb: IthumbFull = {
