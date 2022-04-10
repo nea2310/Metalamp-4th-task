@@ -117,7 +117,7 @@ interface IthumbFull {
 
 interface IFireParms {
   key: string,
-  data: Idata,
+  data: IdataFull,
   conf: IConfFull
 }
 
