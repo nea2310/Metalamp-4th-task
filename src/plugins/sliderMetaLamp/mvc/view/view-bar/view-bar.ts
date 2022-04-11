@@ -25,26 +25,32 @@ export default class ViewBar {
   constructor(root: HTMLElement, conf: IConfFull) {
     this.slider = root;
     this.conf = conf;
-    this.track = this.slider.querySelector('.rs-metalamp__track') as HTMLElement;
+    this.track = ViewBar.getElem(this.slider, '.rs-metalamp__track');
     this.progressBar = document.createElement('div');
     this.progressBar.className = 'rs-metalamp__progressBar';
     this.track.append(this.progressBar);
     this.switchBar(conf);
   }
 
+  static getElem(obj: HTMLElement, selector: string) {
+    return obj.querySelector(selector) as HTMLElement;
+  }
+
   // переключение в вертикальный режим
   public switchVertical(conf: IConfFull) {
     const { classList } = this.progressBar;
-    conf.vertical ? classList.add('rs-metalamp__progressBar_vert')
-      : classList.remove('rs-metalamp__progressBar_vert');
+    if (conf.vertical) {
+      classList.add('rs-metalamp__progressBar_vert');
+    } else { classList.remove('rs-metalamp__progressBar_vert'); }
   }
 
   // отключение / включение бара
   public switchBar(conf: IConfFull) {
     this.conf = conf;
     const { classList } = this.progressBar;
-    this.conf.bar ? classList.remove('rs-metalamp__progressBar_hidden')
-      : classList.add('rs-metalamp__progressBar_hidden');
+    if (this.conf.bar) { classList.remove('rs-metalamp__progressBar_hidden'); } else {
+      classList.add('rs-metalamp__progressBar_hidden');
+    }
   }
 
   // обновление бара при изменении позиций ползунков
