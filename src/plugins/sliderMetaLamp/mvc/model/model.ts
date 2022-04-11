@@ -459,18 +459,22 @@ class Model extends Observer {
     this.findChangedConf(this.conf, conf);
     this.conf = conf;
     // запустим методы, для которых есть изменившиеся параметры
-    let key: keyof Imethods;
-    for (key in this.methods) {
+    const keys = Object.keys(this.methods);
+    for (let i = 0; i < keys.length; i += 1) {
+      const key = keys[i] as keyof Imethods;
       if (this.methods[key]) {
         const method = `this.${key}()`;
         eval(method);
       }
     }
+
     if (typeof this.onUpdate === 'function') {
       this.onUpdate(this.conf);
     }
+
     // вернем исходные значения (false)
-    for (key in this.methods) {
+    for (let i = 0; i < keys.length; i += 1) {
+      const key = keys[i] as keyof Imethods;
       if (this.methods[key]) {
         this.methods[key] = false;
       }
@@ -483,11 +487,13 @@ class Model extends Observer {
   /* находим изменившийся параметр и меняем соотв-щее св-во объекта this.methods; это нужно чтобы не выполнять одни и те же
   действия несколько раз, если получаем несколько параметров, требующих запуска одного и того же метода в модели */
   private findChangedConf(currentConf: IConfFull, newConf: IConf) {
-    let key: keyof IConf;
-    for (key in newConf) {
+    const keys = Object.keys(newConf);
+    for (let i = 0; i < keys.length; i += 1) {
+      const key = keys[i] as keyof IConf;
       if (newConf[key] === currentConf[key]) {
         continue;
-      } else {
+      }
+      else {
         switch (key) {
           case 'min':
             this.noCalVal = false;
