@@ -465,11 +465,17 @@ class Model extends Observer {
     this.conf = conf;
     // запустим методы, для которых есть изменившиеся параметры
     const keys = Object.keys(this.methods);
+    // function runMethod(method: string) {
+    //   this[method]();
+    // }
     for (let i = 0; i < keys.length; i += 1) {
       const key = keys[i] as keyof Imethods;
       if (this.methods[key]) {
-        const method = `this.${key}()`;
-        eval(method);
+        // console.log('this>>>', this);
+        // console.log('Model>>>', Model);
+        // const method = `this.${key}()`;
+        // eval(method);
+        this[key]();
       }
     }
 
