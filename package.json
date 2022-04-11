@@ -29,6 +29,8 @@
     "@types/jest": "^27.4.1",
     "@types/jquery": "^3.5.14",
     "@types/webpack-env": "^1.16.3",
+    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/parser": "^5.18.0",
     "autoprefixer": "^10.4.4",
     "babel-jest": "^27.5.1",
     "babel-loader": "^8.2.4",
@@ -39,8 +41,7 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-fsd": "^1.0.1",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-webpack-plugin": "^3.1.1",
+    "eslint-plugin-import": "^2.26.0",
     "html-webpack-plugin": "^5.5.0",
     "jest": "^27.5.1",
     "mini-css-extract-plugin": "^2.6.0",
@@ -61,8 +62,6 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "air-datepicker": "^3.1.1",
-    "ion-rangeslider": "^2.3.1",
     "jquery": "^3.6.0"
   }
 }
