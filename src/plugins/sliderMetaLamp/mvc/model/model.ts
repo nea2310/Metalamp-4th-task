@@ -79,7 +79,8 @@ class Model extends Observer {
     this.backEndConf = conf;
     const joinedConf = { ...this.conf, ...this.startConf, ...this.backEndConf };
     // проверим корректность полученных параметров конфигурации и при необходимости - исправим
-    return this.conf = this.checkConf(joinedConf);
+    this.conf = Model.checkConf(joinedConf);
+    return this.conf;
   }
 
   public start() {
@@ -99,7 +100,8 @@ class Model extends Observer {
     return this.conf;
   }
 
-  // Рассчитываем положение ползунка при возникновении события перетягивания ползунка или щелчка по шкале
+  /* Рассчитываем положение ползунка при возникновении события перетягивания ползунка или
+  щелчка по шкале */
   public calcPos(
     type: string = 'pointerevent',
     clientY: number,
@@ -110,21 +112,23 @@ class Model extends Observer {
     height: number,
     shiftBase: number,
     moovingControl: string,
+
   ) {
     let newPos = 0;
     if (this.conf.vertical) {
       newPos = 100
-        - ((clientY - top) * 100 / height);
+        - (((clientY - top) * 100) / height);
     } else {
       let shift = 0;
-      if (type == 'pointermove') {
+      if (type === 'pointermove') {
         shift = (shiftBase * 100) / width;
       }
 
-      newPos = ((clientX - left) * 100 / width) - shift;
+      newPos = (((clientX - left) * 100) / width) - shift;
     }
 
-    /* если ползунок должен вставать на позицию ближайшего к нему деления шкалы - скорректировать значение newPos (переместить ползунок
+    /* если ползунок должен вставать на позицию ближайшего к нему деления шкалы - скорректировать
+     значение newPos (переместить ползунок
     к ближайшему делению шкалы) */
     if (this.conf.sticky) {
       newPos = this.setSticky(newPos);
@@ -145,14 +149,14 @@ class Model extends Observer {
 
     /* запрещаем ползункам перепрыгивать друг через друга, если это не single режим */
     if (this.conf.range) {
-      if (moovingControl == 'min') { // двигается min ползунок
+      if (moovingControl === 'min') { // двигается min ползунок
         if (newPos > this.data.toPos) {
           isStop = true;
           this.calcVal('meetMax', 0, moovingControl);
           return 'newPos > toPos';
         }
       }
-      if (moovingControl == 'max') { // двигается max ползунок
+      if (moovingControl === 'max') { // двигается max ползунок
         if (newPos < this.data.fromPos) {
           isStop = true;
           this.calcVal('meetMin', 0, moovingControl);
@@ -161,7 +165,7 @@ class Model extends Observer {
       }
     }
 
-    if (moovingControl == 'min') {
+    if (moovingControl === 'min') {
       this.data.fromPos = newPos;
       this.fire('FromPosition', this.data, this.conf);
     } else {
@@ -222,8 +226,8 @@ class Model extends Observer {
     let result;
     if (!this.conf.sticky) {	// если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
       this.noCalVal = true;
-      if (moovingControl == 'min') { // Ползунок min
-        if (key == 'ArrowRight' || key == 'ArrowUp') { // Увеличение значения
+      if (moovingControl === 'min') { // Ползунок min
+        if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
           /* проверяем, что FROM не стал больше TO или MAX */
           const belowMaxRange = this.conf.range && this.conf.from
             < this.conf.to;
@@ -253,19 +257,18 @@ class Model extends Observer {
           if (aboveMaxNoRange) {
             newVal = this.conf.max;
           }
-        } else { // Уменьшение значения
-          if (this.conf.from > this.conf.min) {
-            newVal = repeat
-              ? this.conf.from
-              - this.conf.shiftOnKeyHold
-              : this.conf.from
-              - this.conf.shiftOnKeyDown;
-            if (newVal < this.conf.min) {
-              newVal = this.conf.min;
-            }
-          } else {
+          // Уменьшение значения
+        } else if (this.conf.from > this.conf.min) {
+          newVal = repeat
+            ? this.conf.from
+            - this.conf.shiftOnKeyHold
+            : this.conf.from
+            - this.conf.shiftOnKeyDown;
+          if (newVal < this.conf.min) {
             newVal = this.conf.min;
           }
+        } else {
+          newVal = this.conf.min;
         }
 
         this.data.fromVal = String(newVal);
@@ -274,7 +277,7 @@ class Model extends Observer {
         this.fire('FromValue', this.data);
         result = newVal;
       } else { // Ползунок max
-        if (key == 'ArrowRight' || key == 'ArrowUp') { // Увеличение значения
+        if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
           if (this.conf.to < this.conf.max) {
             newVal = repeat
               ? this.conf.to
@@ -285,18 +288,18 @@ class Model extends Observer {
               newVal = this.conf.max;
             }
           } else newVal = this.conf.max;
-        } else { // Уменьшение значения
-          if (this.conf.to > this.conf.from) {
-            newVal = repeat
-              ? this.conf.to
-              - this.conf.shiftOnKeyHold
-              : this.conf.to
-              - this.conf.shiftOnKeyDown;
-            if (newVal < this.conf.from) {
-              newVal = this.conf.from;
-            }
-          } else newVal = this.conf.from;
-        }
+          // Уменьшение значения
+        } else if (this.conf.to > this.conf.from) {
+          newVal = repeat
+            ? this.conf.to
+            - this.conf.shiftOnKeyHold
+            : this.conf.to
+            - this.conf.shiftOnKeyDown;
+          if (newVal < this.conf.from) {
+            newVal = this.conf.from;
+          }
+        } else newVal = this.conf.from;
+
         this.data.toVal = String(newVal);
         this.conf.to = newVal;
         this.calcToPosition();
@@ -304,15 +307,13 @@ class Model extends Observer {
         result = newVal;
       }
       this.noCalVal = false; // ??
-    }
-
-    // если ползунок должен вставать на позицию ближайшего к нему деления шкалы
-    else if (moovingControl == 'min') { // ползунок min
+      // если ползунок должен вставать на позицию ближайшего к нему деления шкалы
+    } else if (moovingControl === 'min') { // ползунок min
       const index = this.data.marksArr
-        .findIndex((item) => item.val == this.conf.from);
-      if (key == 'ArrowRight' || key == 'ArrowUp') { // Увеличение значения
+        .findIndex((item) => item.val === this.conf.from);
+      if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = incr(index);
-        if (item == undefined) return 'newPos>100';
+        if (item === undefined) return 'newPos>100';
         if (item.val > this.conf.from
           && (this.conf.range && item.val <= this.conf.to
             || !this.conf.range && item.val
@@ -321,7 +322,7 @@ class Model extends Observer {
         } else result = 'too big newPos';
       } else { // Уменьшение значения
         item = decr(index);
-        if (item == undefined) return 'newPos<0';
+        if (item === undefined) return 'newPos<0';
 
         if (this.conf.range && item.val < this.conf.to
           || !this.conf.range) {
@@ -330,17 +331,17 @@ class Model extends Observer {
       }
     } else { // ползунок max
       const index = this.data.marksArr
-        .findIndex((item) => item.val == this.conf.to);
-      if (key == 'ArrowRight' || key == 'ArrowUp') { // Увеличение значения
+        .findIndex((item) => item.val === this.conf.to);
+      if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = incr(index);
-        if (item == undefined) return 'newPos>100';
+        if (item === undefined) return 'newPos>100';
         if (item && item.val > this.conf.to
           && this.conf.to < this.conf.max) {
           result = changeTo(item);
         } else result = 'too big newPos';
       } else { // Уменьшение значения
         item = decr(index);
-        if (item == undefined) return 'newPos<0';
+        if (item === undefined) return 'newPos<0';
         if (item.val >= this.conf.from
           && this.conf.to > this.conf.from) {
           result = changeTo(item);
@@ -354,9 +355,9 @@ class Model extends Observer {
     return result;
   }
 
-  private checkConf(conf: IConfFull) {
+  static checkConf(config: IConfFull) {
     // надо проверять на число те параметры, которые вводятся в инпут (т.к. можно ввести строку)
-
+    const conf = config;
     const validNumber = (value: any) => {
       let result = 0;
       if (!isNaN(+value)) {
@@ -367,7 +368,7 @@ class Model extends Observer {
 
     const validBoolean = (value: any) => {
       let result = false;
-      if (value == true || value == 'true') {
+      if (value === true || value === 'true') {
         result = true;
       }
       return result;
@@ -389,7 +390,7 @@ class Model extends Observer {
     conf.bar = validBoolean(conf.bar);
     conf.tip = validBoolean(conf.tip);
 
-    if (conf.scaleBase != 'step' && conf.scaleBase != 'interval') {
+    if (conf.scaleBase !== 'step' && conf.scaleBase !== 'interval') {
       conf.scaleBase = 'step';
       // console.log('0');
     }
@@ -453,8 +454,9 @@ class Model extends Observer {
   public update(newConf: IConf) {
     let conf = { ...this.conf, ...newConf };
     // проверим корректность полученных параметров конфигурации и при необходимости - исправим
-    conf = this.checkConf(conf);
-    // определим, какие параметры изменились, и какие методы в модели надо вызвать для пересчета значений
+    conf = Model.checkConf(conf);
+    /* определим, какие параметры изменились, и какие методы в модели надо вызвать для
+    пересчета значений */
     // для этого сравним this.conf (текущая конфигурация) и conf (новая конфигурация)
     this.findChangedConf(this.conf, conf);
     this.conf = conf;
@@ -484,8 +486,10 @@ class Model extends Observer {
     return Object.assign(this.conf, this.data);
   }
 
-  /* находим изменившийся параметр и меняем соотв-щее св-во объекта this.methods; это нужно чтобы не выполнять одни и те же
-  действия несколько раз, если получаем несколько параметров, требующих запуска одного и того же метода в модели */
+  /* находим изменившийся параметр и меняем соотв-щее св-во объекта this.methods;
+  это нужно чтобы не выполнять одни и те же
+  действия несколько раз, если получаем несколько параметров, требующих запуска
+  одного и того же метода в модели */
   private findChangedConf(currentConf: IConfFull, newConf: IConf) {
     const keys = Object.keys(newConf);
     for (let i = 0; i < keys.length; i += 1) {
