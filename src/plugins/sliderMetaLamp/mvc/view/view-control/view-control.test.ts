@@ -1,8 +1,8 @@
 import { Controller } from '../../controller/controller';
-import { ViewControl } from '../view-control/view-control';
+import ViewControl from '../view-control/view-control';
 import { IConfFull } from '../../interface';
-import { Model } from '../../model/model';
-import { View } from '../../view/view';
+import Model from '../../model/model';
+import View from '../../view/view';
 
 function mockPointerEvent(element: HTMLElement, {
   eventType, clientX = 0, clientY = 0,
@@ -419,6 +419,10 @@ describe('ViewControl event listeners', () => {
       { eventType: 'keydown', key: 'ArrowLeft', repeat: false },
     );
     expect(calcPosKeySpy).toBeCalledTimes(1);
-    expect(calcPosKeySpy).toBeCalledWith('ArrowLeft', false, 'max');
+    expect(calcPosKeySpy).toBeCalledWith({
+      key: 'ArrowLeft',
+      repeat: false,
+      moovingControl: 'max'
+    });
   });
 });

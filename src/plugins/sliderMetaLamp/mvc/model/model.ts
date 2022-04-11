@@ -5,10 +5,10 @@ import {
   Imethods,
   IdataFull,
 } from '../interface';
-import { Observer } from '../observer';
+import Observer from '../observer';
 import { defaultConf } from '../utils';
 
-class Model extends Observer {
+export default class Model extends Observer {
   private changeMode: boolean = false;
 
   public conf: IConfFull;
@@ -194,7 +194,13 @@ class Model extends Observer {
   }
 
   // Рассчитывает значение ползунка при нажатии кнопки стрелки на сфокусированном ползунке
-  public calcPosKey(key: string, repeat: boolean, moovingControl: string) {
+  public calcPosKey(data:
+    {
+      key: string,
+      repeat: boolean,
+      moovingControl: string
+    }) {
+    const { key, repeat, moovingControl } = data;
     // поменять позицию и значение FROM
     const changeFrom = (item: IObj) => {
       this.conf.from = item.val;
@@ -782,5 +788,3 @@ class Model extends Observer {
     }
   }
 }
-
-export { Model };

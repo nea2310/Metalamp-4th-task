@@ -1,5 +1,5 @@
-import { IConf, IConfFull, IdataFull } from '../../interface';
-import { Observer } from '../../observer';
+import { IConfFull, IdataFull } from '../../interface';
+import Observer from '../../observer';
 
 interface IElement extends Element {
   value?: string;
@@ -14,7 +14,7 @@ interface ITarget extends Omit<EventTarget, 'addEventListener'> {
   readonly parentElement?: HTMLElement | null;
 }
 
-class ViewControl extends Observer {
+export default class ViewControl extends Observer {
   public controlMin: HTMLElement;
 
   public controlMax: HTMLElement;
@@ -383,4 +383,4 @@ class ViewControl extends Observer {
   }
 }
 
-export { ViewControl };
+

@@ -1,7 +1,7 @@
 import { IConf, IFireParms } from '../interface';
-import { Model } from '../model/model';
-import { View } from '../view/view';
-import { Observer } from '../observer';
+import Model from '../model/model';
+import View from '../view/view';
+import Observer from '../observer';
 
 class Controller extends Observer {
   model: Model | null;
@@ -198,11 +198,11 @@ class Controller extends Observer {
   private handleKeydownEvent = (parms: IFireParms) => {
     if (parms.key !== 'KeydownEvent') return;
     if (this.model) {
-      this.model.calcPosKey(
-        parms.data.thumb.key,
-        parms.data.thumb.repeat,
-        parms.data.thumb.moovingControl,
-      );
+      this.model.calcPosKey({
+        key: parms.data.thumb.key,
+        repeat: parms.data.thumb.repeat,
+        moovingControl: parms.data.thumb.moovingControl,
+      });
     }
   }
 }

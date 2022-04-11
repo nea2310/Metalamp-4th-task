@@ -1,9 +1,9 @@
 import {
-  IConf, IConfFull,
+  IConfFull,
 } from '../../interface';
 import { defaultConf } from '../../utils';
 
-class ViewBar {
+export default class ViewBar {
   private slider: HTMLElement;
 
   private track: HTMLElement;
@@ -63,5 +63,3 @@ class ViewBar {
     }
   }
 }
-
-export { ViewBar };

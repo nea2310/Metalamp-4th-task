@@ -2,7 +2,7 @@ import {
   IConfFull,
 } from '../../interface';
 
-class ViewScale {
+export default class ViewScale {
   private slider: HTMLElement;
 
   private startWidth: number = 0;
@@ -193,4 +193,4 @@ class ViewScale {
   }
 }
 
-export { ViewScale };
+

@@ -4,7 +4,7 @@ import {
 
 import { defaultConf } from './utils';
 
-abstract class Observer {
+export default abstract class Observer {
   observers: Function[];
 
   constructor() {
@@ -30,5 +30,3 @@ abstract class Observer {
     }
   }
 }
-
-export { Observer };
