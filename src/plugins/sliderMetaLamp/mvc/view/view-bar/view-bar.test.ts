@@ -1,4 +1,5 @@
-import { ViewBar } from './../../view/view-bar/view-bar';
+import { ViewBar } from '../../view/view-bar/view-bar';
+
 const root = document.createElement('div');
 document.body.appendChild(root);
 
@@ -25,14 +26,13 @@ const testBar = new ViewBar(root, {
   onChange: () => true,
   onUpdate: () => true,
 });
-const progressBar = document.
-  getElementsByClassName('rs-metalamp__progressBar')[0] as HTMLElement;
+const progressBar = document
+  .getElementsByClassName('rs-metalamp__progressBar')[0] as HTMLElement;
 
 describe('ViewControl', () => {
-
   test('toggle class vert on calling switchVertical method', async () => {
-    expect(progressBar.classList.contains('rs-metalamp__progressBar_vert')).
-      toBe(false);
+    expect(progressBar.classList.contains('rs-metalamp__progressBar_vert'))
+      .toBe(false);
     await testBar.switchVertical({
       min: 10,
       max: 100,
@@ -53,8 +53,8 @@ describe('ViewControl', () => {
       onChange: () => true,
       onUpdate: () => true,
     });
-    expect(progressBar.classList.contains('rs-metalamp__progressBar_vert')).
-      toBe(true);
+    expect(progressBar.classList.contains('rs-metalamp__progressBar_vert'))
+      .toBe(true);
     await testBar.switchVertical({
       min: 10,
       max: 100,
@@ -75,14 +75,14 @@ describe('ViewControl', () => {
       onChange: () => true,
       onUpdate: () => true,
     });
-    expect(progressBar.classList.contains('rs-metalamp__progressBar_vert')).
-      toBe(false);
+    expect(progressBar.classList.contains('rs-metalamp__progressBar_vert'))
+      .toBe(false);
   });
 
   test('toggle class hidden on calling switchBar method', async () => {
-    expect(progressBar.classList.
-      contains('rs-metalamp__progressBar_hidden')).
-      toBe(true);
+    expect(progressBar.classList
+      .contains('rs-metalamp__progressBar_hidden'))
+      .toBe(true);
     await testBar.switchBar({
       min: 10,
       max: 100,
@@ -103,9 +103,9 @@ describe('ViewControl', () => {
       onChange: () => true,
       onUpdate: () => true,
     });
-    expect(progressBar.classList.
-      contains('rs-metalamp__progressBar_hidden')).
-      toBe(false);
+    expect(progressBar.classList
+      .contains('rs-metalamp__progressBar_hidden'))
+      .toBe(false);
     await testBar.switchBar({
       min: 10,
       max: 100,
@@ -126,41 +126,40 @@ describe('ViewControl', () => {
       onChange: () => true,
       onUpdate: () => true,
     });
-    expect(progressBar.classList.
-      contains('rs-metalamp__progressBar_hidden')).
-      toBe(true);
+    expect(progressBar.classList
+      .contains('rs-metalamp__progressBar_hidden'))
+      .toBe(true);
   });
 
   test('apply styles on calling updateBar method', async () => {
-    expect(progressBar).
-      toHaveProperty('style.left', '');
-    expect(progressBar).
-      toHaveProperty('style.width', '');
-    expect(progressBar).
-      toHaveProperty('style.bottom', '');
-    expect(progressBar).
-      toHaveProperty('style.height', '');
+    expect(progressBar)
+      .toHaveProperty('style.left', '');
+    expect(progressBar)
+      .toHaveProperty('style.width', '');
+    expect(progressBar)
+      .toHaveProperty('style.bottom', '');
+    expect(progressBar)
+      .toHaveProperty('style.height', '');
 
     await testBar.updateBar(50, 100, false);
 
-    expect(progressBar).
-      toHaveProperty('style.left', '50%');
-    expect(progressBar).
-      toHaveProperty('style.width', '100%');
-    expect(progressBar).
-      toHaveProperty('style.bottom', '');
-    expect(progressBar).
-      toHaveProperty('style.height', '');
+    expect(progressBar)
+      .toHaveProperty('style.left', '50%');
+    expect(progressBar)
+      .toHaveProperty('style.width', '100%');
+    expect(progressBar)
+      .toHaveProperty('style.bottom', '');
+    expect(progressBar)
+      .toHaveProperty('style.height', '');
     await testBar.updateBar(50, 100, true);
 
-    expect(progressBar).
-      toHaveProperty('style.left', '');
-    expect(progressBar).
-      toHaveProperty('style.width', '');
-    expect(progressBar).
-      toHaveProperty('style.bottom', '50%');
-    expect(progressBar).
-      toHaveProperty('style.height', '100%');
+    expect(progressBar)
+      .toHaveProperty('style.left', '');
+    expect(progressBar)
+      .toHaveProperty('style.width', '');
+    expect(progressBar)
+      .toHaveProperty('style.bottom', '50%');
+    expect(progressBar)
+      .toHaveProperty('style.height', '100%');
   });
 });
-

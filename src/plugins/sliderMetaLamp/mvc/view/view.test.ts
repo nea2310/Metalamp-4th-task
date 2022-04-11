@@ -1,9 +1,8 @@
-import { IConfFull } from './../interface';
-import { View } from './../view/view';
+import { IConfFull } from '../interface';
+import { View } from '../view/view';
 import { ViewBar } from './view-bar/view-bar';
 import { ViewControl } from './view-control/view-control';
 import { ViewScale } from './view-scale/view-scale';
-
 
 const parent = document.createElement('input');
 parent.setAttribute('min', '10');
@@ -51,8 +50,6 @@ const testViewControl = testView.viewControl as ViewControl;
 const testViewScale = testView.viewScale as ViewScale;
 const testViewBar = testView.viewBar as ViewBar;
 
-
-
 describe('ViewScale', () => {
   const updatePosSpy = jest.spyOn(testViewControl, 'updatePos');
   const updateInputSpy = jest.spyOn(testViewControl, 'updateInput');
@@ -91,7 +88,7 @@ describe('ViewScale', () => {
     const data = {
       fromPos: 10,
       toPos: 0,
-      marksArr: [{ 'pos': 0, 'val': 0 }],
+      marksArr: [{ pos: 0, val: 0 }],
       intervalValue: '',
       stepValue: '',
       scaleBase: '',
@@ -110,21 +107,19 @@ describe('ViewScale', () => {
         shiftBase: 0,
         moovingControl: '',
         key: '',
-        repeat: false
+        repeat: false,
       },
     };
     const viewControl = testView.viewControl as ViewControl;
     testView.updateFromPos(data, conf);
     expect(updatePosSpy).toBeCalledTimes(1);
-    expect(updatePosSpy).toBeCalledWith(
-      viewControl.controlMin, 10);
+    expect(updatePosSpy).toBeCalledWith(viewControl.controlMin, 10);
     expect(updateInputSpy).toBeCalledTimes(1);
     expect(updateInputSpy).toBeCalledWith(conf);
 
     updatePosSpy.mockClear();
     updateInputSpy.mockClear();
   });
-
 
   // eslint-disable-next-line max-len
   test('should call updatePos and updateInput methods in view-control on calling updateToPos in view', () => {
@@ -151,7 +146,7 @@ describe('ViewScale', () => {
     const data = {
       fromPos: 0,
       toPos: 10,
-      marksArr: [{ 'pos': 0, 'val': 0 }],
+      marksArr: [{ pos: 0, val: 0 }],
       intervalValue: '',
       stepValue: '',
       scaleBase: '',
@@ -170,14 +165,13 @@ describe('ViewScale', () => {
         shiftBase: 0,
         moovingControl: '',
         key: '',
-        repeat: false
+        repeat: false,
       },
     };
     const viewControl = testView.viewControl as ViewControl;
     testView.updateToPos(data, conf);
     expect(updatePosSpy).toBeCalledTimes(1);
-    expect(updatePosSpy).toBeCalledWith(
-      viewControl.controlMax, data.toPos);
+    expect(updatePosSpy).toBeCalledWith(viewControl.controlMax, data.toPos);
     expect(updateInputSpy).toBeCalledTimes(1);
     expect(updateInputSpy).toBeCalledWith(conf);
 
@@ -189,7 +183,7 @@ describe('ViewScale', () => {
     const data = {
       fromPos: 0,
       toPos: 0,
-      marksArr: [{ 'pos': 0, 'val': 0 }],
+      marksArr: [{ pos: 0, val: 0 }],
       intervalValue: '',
       stepValue: '',
       scaleBase: '',
@@ -208,7 +202,7 @@ describe('ViewScale', () => {
         shiftBase: 0,
         moovingControl: '',
         key: '',
-        repeat: false
+        repeat: false,
       },
     };
     testView.updateFromVal(data);
@@ -221,7 +215,7 @@ describe('ViewScale', () => {
     const data = {
       fromPos: 0,
       toPos: 0,
-      marksArr: [{ 'pos': 0, 'val': 0 }],
+      marksArr: [{ pos: 0, val: 0 }],
       intervalValue: '',
       stepValue: '',
       scaleBase: '',
@@ -240,7 +234,7 @@ describe('ViewScale', () => {
         shiftBase: 0,
         moovingControl: '',
         key: '',
-        repeat: false
+        repeat: false,
       },
     };
     testView.updateToVal(data);
@@ -278,7 +272,7 @@ describe('ViewScale', () => {
       marksArr: [
         { pos: 0, val: 0 },
         { pos: 50, val: 5 },
-        { pos: 100, val: 10 }
+        { pos: 100, val: 10 },
       ],
       intervalValue: '',
       stepValue: '',
@@ -298,7 +292,7 @@ describe('ViewScale', () => {
         shiftBase: 0,
         moovingControl: '',
         key: '',
-        repeat: false
+        repeat: false,
       },
     };
     const createScaleSpy = jest.spyOn(testViewScale, 'createScale');
@@ -307,7 +301,7 @@ describe('ViewScale', () => {
     expect(createScaleSpy).toBeCalledWith([
       { pos: 0, val: 0 },
       { pos: 50, val: 5 },
-      { pos: 100, val: 10 }
+      { pos: 100, val: 10 },
     ], conf);
   });
 
@@ -336,7 +330,7 @@ describe('ViewScale', () => {
     const data = {
       fromPos: 0,
       toPos: 0,
-      marksArr: [{ 'pos': 0, 'val': 0 }],
+      marksArr: [{ pos: 0, val: 0 }],
       intervalValue: '',
       stepValue: '',
       scaleBase: '',
@@ -355,8 +349,8 @@ describe('ViewScale', () => {
         shiftBase: 0,
         moovingControl: '',
         key: '',
-        repeat: false
-      }
+        repeat: false,
+      },
     };
     const updateBarSpy = jest.spyOn(testViewBar, 'updateBar');
     testView.updateBar(data, conf);

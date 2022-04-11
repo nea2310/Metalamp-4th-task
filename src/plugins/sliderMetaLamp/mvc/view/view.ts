@@ -1,8 +1,10 @@
-import { ViewBar } from './../view/view-bar/view-bar';
+import { ViewBar } from '../view/view-bar/view-bar';
 import { ViewControl } from
-  './../view/view-control/view-control';
-import { ViewScale } from './../view/view-scale/view-scale';
-import { IdataFull, IConf, IFireParms, IConfFull } from '../interface';
+  '../view/view-control/view-control';
+import { ViewScale } from '../view/view-scale/view-scale';
+import {
+  IdataFull, IConf, IFireParms, IConfFull,
+} from '../interface';
 import { Observer } from '../observer';
 import { defaultConf } from '../utils';
 
@@ -15,18 +17,26 @@ interface IElement extends Element {
 
 class View extends Observer {
   public viewControl: ViewControl | undefined;
+
   public viewScale: ViewScale | undefined;
+
   public viewBar: ViewBar | undefined;
+
   private root: IElement;
+
   public slider: HTMLElement;
+
   private track: HTMLElement;
+
   private frame: HTMLElement;
+
   private conf: IConfFull = defaultConf;
+
   public backEndConf: IConf = {};
 
   constructor(root: Element) {
     super();
-    /*Находим корневой элемент*/
+    /* Находим корневой элемент */
     this.root = root;
     this.slider = document.createElement('div');
     this.slider.className = 'rs-metalamp__wrapper';
@@ -40,7 +50,6 @@ class View extends Observer {
     this.slider.append(this.frame);
     this.collectParms();
   }
-
 
   public init(conf: IConfFull) {
     this.conf = conf;
@@ -59,16 +68,20 @@ class View extends Observer {
 
   public updateFromPos(data: IdataFull, conf: IConfFull) {
     if (this.viewControl) {
-      this.viewControl.updatePos(this.viewControl.controlMin,
-        data.fromPos);
+      this.viewControl.updatePos(
+        this.viewControl.controlMin,
+        data.fromPos,
+      );
       this.viewControl.updateInput(conf);
     }
   }
 
   public updateToPos(data: IdataFull, conf: IConfFull) {
     if (this.viewControl) {
-      this.viewControl.updatePos(this.viewControl.controlMax,
-        data.toPos);
+      this.viewControl.updatePos(
+        this.viewControl.controlMax,
+        data.toPos,
+      );
       this.viewControl.updateInput(conf);
     }
   }
@@ -83,13 +96,12 @@ class View extends Observer {
 
   public updateScale(data: IdataFull, conf: IConfFull) {
     if (this.viewScale) { this.viewScale.createScale(data.marksArr, conf); }
-
   }
 
   public updateBar(data: IdataFull, conf: IConfFull) {
     if (this.viewBar) {
-      this.viewBar.
-        updateBar(data.barPos, data.barWidth, conf.vertical);
+      this.viewBar
+        .updateBar(data.barPos, data.barWidth, conf.vertical);
     }
   }
 
@@ -133,8 +145,8 @@ class View extends Observer {
 
   private collectParms() {
     this.backEndConf = {};
-    let map = new Map();
-    let arr = ['min',
+    const map = new Map();
+    const arr = ['min',
       'max',
       'from',
       'to',
@@ -150,26 +162,26 @@ class View extends Observer {
       'bar',
       'tip',
     ];
-    for (let elem of this.root.attributes) {
-      let a = elem.name.replace(/^data-/, '');
+    for (const elem of this.root.attributes) {
+      const a = elem.name.replace(/^data-/, '');
       if (arr.indexOf(a) != -1) {
         map.set(a, elem.value);
       }
     }
-    for (let elem of map) {
-      //если значение содержит только цифры
+    for (const elem of map) {
+      // если значение содержит только цифры
       if (/^-?\d+\.?\d*$/.test(elem[1])) {
         map.set(elem[0], parseFloat(elem[1]));
       }
-      //если значение содержит строку 'true'
+      // если значение содержит строку 'true'
       if (elem[1] == 'true') {
         map.set(elem[0], true);
       }
-      //если значение содержит строку 'false'
+      // если значение содержит строку 'false'
       if (elem[1] == 'false') {
         map.set(elem[0], false);
       }
-      //перевод ключей в camelCase
+      // перевод ключей в camelCase
       if (elem[0] == 'shiftonkeydown') {
         map.set('shiftOnKeyDown', elem[1]);
         map.delete(elem[0]);
@@ -188,8 +200,7 @@ class View extends Observer {
 
   private createSubViews() {
     this.viewControl = new ViewControl(this.slider, this.conf);
-    this.viewScale =
-      new ViewScale(this.slider, this.track, this.conf);
+    this.viewScale = new ViewScale(this.slider, this.track, this.conf);
     this.viewBar = new ViewBar(this.slider, this.conf);
   }
 
@@ -202,18 +213,15 @@ class View extends Observer {
 
   private handleMoveEvent = (parms: IFireParms) => {
     if (parms.key !== 'MoveEvent') return;
-    else {
-      this.fire('MoveEvent', parms.data);
-    }
+
+    this.fire('MoveEvent', parms.data);
   }
 
   private handleKeydownEvent = (parms: IFireParms) => {
     if (parms.key !== 'KeydownEvent') return;
-    else {
-      this.fire('KeydownEvent', parms.data);
-    }
+
+    this.fire('KeydownEvent', parms.data);
   }
 }
 
 export { View };
-

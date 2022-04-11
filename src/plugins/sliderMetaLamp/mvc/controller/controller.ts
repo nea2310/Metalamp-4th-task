@@ -1,17 +1,20 @@
-import { IConf, IFireParms } from './../interface';
-import { Model } from './../model/model';
-import { View } from './../view/view';
+import { IConf, IFireParms } from '../interface';
+import { Model } from '../model/model';
+import { View } from '../view/view';
 import { Observer } from '../observer';
 
 class Controller extends Observer {
   model: Model | null;
+
   view: View | null;
+
   enabled: boolean;
+
   constructor(model: Model, view: View) {
     super();
     this.model = model;
     this.view = view;
-    this.createListeners();//срабатывает после инициализации модели
+    this.createListeners();// срабатывает после инициализации модели
     this.init();
     this.enabled = true;
   }
@@ -26,6 +29,7 @@ class Controller extends Observer {
     if (this.model) {
       return this.model.getData();
     }
+    return true;
   }
 
   public disable() {
@@ -96,7 +100,6 @@ class Controller extends Observer {
     }
   }
 
-
   private handleFromPosition =
     (parms: IFireParms) => {
       if (parms.key !== 'FromPosition') return;
@@ -104,6 +107,7 @@ class Controller extends Observer {
         this.view.updateFromPos(parms.data, parms.conf);
       }
     }
+
   private handleToPosition = (parms: IFireParms) => {
     if (parms.key !== 'ToPosition') return;
     if (this.view) {
@@ -167,14 +171,12 @@ class Controller extends Observer {
     }
   }
 
-
   private handleIsTip = (parms: IFireParms) => {
     if (parms.key !== 'IsTip') return;
     if (this.view) {
       this.view.switchTip(parms.conf);
     }
   }
-
 
   private handleMoveEvent = (parms: IFireParms) => {
     if (parms.key !== 'MoveEvent') return;
@@ -188,7 +190,8 @@ class Controller extends Observer {
         parms.data.thumb.width,
         parms.data.thumb.height,
         parms.data.thumb.shiftBase,
-        parms.data.thumb.moovingControl);
+        parms.data.thumb.moovingControl,
+      );
     }
   }
 
@@ -198,10 +201,10 @@ class Controller extends Observer {
       this.model.calcPosKey(
         parms.data.thumb.key,
         parms.data.thumb.repeat,
-        parms.data.thumb.moovingControl);
+        parms.data.thumb.moovingControl,
+      );
     }
   }
 }
 
 export { Model, View, Controller };
-

@@ -32,14 +32,17 @@ function mockElementDimensions(element: HTMLElement, {
   return element;
 }
 
-
-
-function createMarkList(scaleMarks: { 'pos'?: number, 'val'?: number }[],
-  conf: IConf, wrapper: HTMLElement, elemWidth: number, elemHeight: number) {
+function createMarkList(
+  scaleMarks: { 'pos'?: number, 'val'?: number }[],
+  conf: IConf,
+  wrapper: HTMLElement,
+  elemWidth: number,
+  elemHeight: number,
+) {
   return scaleMarks.map(() => {
-    let elem = document.createElement('div');
+    const elem = document.createElement('div');
     elem.classList.add('js-rs-metalamp__mark');
-    let label = document.createElement('div');
+    const label = document.createElement('div');
     mockElementDimensions(elem, { width: elemWidth, height: elemHeight });
     mockElementDimensions(label, { width: elemWidth, height: elemHeight });
     elem.appendChild(label);
@@ -48,13 +51,11 @@ function createMarkList(scaleMarks: { 'pos'?: number, 'val'?: number }[],
   });
 }
 
-
 const marksArr = [
   { pos: 0, val: 0 },
   { pos: 50, val: 5 },
-  { pos: 100, val: 10 }
+  { pos: 100, val: 10 },
 ];
-
 
 const conf = {
   min: 10,
@@ -77,12 +78,11 @@ const conf = {
   onUpdate: () => true,
 };
 
-
 function prepareInstance(
   scaleMarks: { 'pos'?: number, 'val'?: number }[],
   conf: IConfFull,
-  mockDimensions: boolean) {
-
+  mockDimensions: boolean,
+) {
   const root = document.createElement('input');
   const slider = document.createElement('div');
   root.after(slider);
@@ -92,10 +92,8 @@ function prepareInstance(
   if (mockDimensions) {
     mockElementDimensions(track, { width: 100, height: 100 });
     const markList = createMarkList(scaleMarks, conf, track, 100, 100);
-    testViewScale =
-      new ViewScale(slider, track, conf, markList);
-  }
-  else {
+    testViewScale = new ViewScale(slider, track, conf, markList);
+  } else {
     testViewScale = new ViewScale(slider, track, conf);
   }
 
@@ -186,7 +184,7 @@ function prepareInstance(
     onUpdate: () => true,
   };
 
-  //create scale for each scale / vertical combination
+  // create scale for each scale / vertical combination
   createScale(conf1);
   createScale(conf2);
   createScale(conf3);
@@ -195,14 +193,12 @@ function prepareInstance(
   return testViewScale;
 }
 
-/***************************/
+/** ************************ */
 
 describe('ViewScale', () => {
   // eslint-disable-next-line max-len
   test('scale marks are not hidden if their total width (height) is less or equal to slider width (height)', () => {
-    const testViewScale = prepareInstance(
-      marksArr, conf, false
-    );
+    const testViewScale = prepareInstance(marksArr, conf, false);
     expect(testViewScale.createScale(marksArr, {
       min: 10,
       max: 100,
@@ -222,15 +218,13 @@ describe('ViewScale', () => {
       onStart: () => true,
       onChange: () => true,
       onUpdate: () => true,
-    })).
-      toHaveLength(3);
+    }))
+      .toHaveLength(3);
   });
 
   // eslint-disable-next-line max-len
   test('scale marks are hidden if their total width (height) is less or equal to slider width (height)', () => {
-    const testViewScale = prepareInstance(
-      marksArr, conf, true
-    );
+    const testViewScale = prepareInstance(marksArr, conf, true);
     expect(testViewScale.createScale(marksArr, {
       min: 10,
       max: 100,
@@ -250,14 +244,12 @@ describe('ViewScale', () => {
       onStart: () => true,
       onChange: () => true,
       onUpdate: () => true,
-    })).
-      toHaveLength(1);
+    }))
+      .toHaveLength(1);
   });
 
   test('switchScale', () => {
-    const testViewScale = prepareInstance(
-      marksArr, conf, false
-    );
+    const testViewScale = prepareInstance(marksArr, conf, false);
     const a = testViewScale.switchScale({
       min: 10,
       max: 100,
@@ -278,8 +270,8 @@ describe('ViewScale', () => {
       onChange: () => true,
       onUpdate: () => true,
     });
-    expect(a[0].classList.contains('rs-metalamp__mark_visually-hidden')).
-      toBe(false);
+    expect(a[0].classList.contains('rs-metalamp__mark_visually-hidden'))
+      .toBe(false);
     const b = testViewScale.switchScale({
       min: 10,
       max: 100,
@@ -300,9 +292,7 @@ describe('ViewScale', () => {
       onChange: () => true,
       onUpdate: () => true,
     });
-    expect(b[0].classList.contains('rs-metalamp__mark_visually-hidden')).
-      toBe(true);
+    expect(b[0].classList.contains('rs-metalamp__mark_visually-hidden'))
+      .toBe(true);
   });
-
 });
-

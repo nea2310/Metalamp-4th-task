@@ -1,38 +1,65 @@
 import './rangeslider.scss';
 import {
   IConf,
-} from './../../plugins/sliderMetaLamp/mvc/interface';
+} from '../../plugins/sliderMetaLamp/mvc/interface';
 
 class RangeSlider {
   slider: HTMLElement
+
   wrapper: HTMLElement
+
   panel: HTMLElement
+
   panelWrapper: HTMLElement
+
   sliderWrapper: HTMLElement
-  rangeSlider: any //какой здесь должен быть тип?
+
+  rangeSlider: any // какой здесь должен быть тип?
 
   min: HTMLInputElement | undefined;
+
   max: HTMLInputElement | undefined
+
   from: HTMLInputElement | undefined;
+
   to: HTMLInputElement | undefined;
+
   interval: HTMLInputElement | undefined;
+
   step: HTMLInputElement | undefined;
+
   shiftOnKeyDown: HTMLInputElement | undefined;
+
   shiftOnKeyHold: HTMLInputElement | undefined;
+
   vertical: HTMLInputElement | undefined;
+
   range: HTMLInputElement | undefined;
+
   scale: HTMLInputElement | undefined;
+
   bar: HTMLInputElement | undefined;
+
   tip: HTMLInputElement | undefined;
+
   sticky: HTMLInputElement | undefined;
+
   scaleBaseSteps: HTMLInputElement | undefined;
+
   scaleBaseIntervals: HTMLInputElement | undefined;
+
   inputsAll: HTMLInputElement[] = []
+
   selector: string
+
   isDestroyed: boolean | undefined;
+
   isDisabled: boolean | undefined;
+
   subscribe: HTMLInputElement | undefined;
+
   destroy: HTMLInputElement | undefined;
+
   disable: HTMLInputElement | undefined;
 
   constructor(selector: string, elem: Element) {
@@ -40,9 +67,8 @@ class RangeSlider {
     this.wrapper = elem as HTMLElement;
     this.panel = this.wrapper.querySelector('.js-panel') as HTMLElement;
     this.slider = this.wrapper.querySelector('.js-rs-metalamp') as HTMLElement;
-    this.panelWrapper =
-      this.wrapper.querySelector(this.selector + '__panel') as HTMLElement;
-    this.sliderWrapper = this.wrapper.querySelector(this.selector + '__rs') as HTMLElement;
+    this.panelWrapper = this.wrapper.querySelector(`${this.selector}__panel`) as HTMLElement;
+    this.sliderWrapper = this.wrapper.querySelector(`${this.selector}__rs`) as HTMLElement;
     this.renderPanel();
     this.renderSlider(this.slider);
     this.updateSlider();
@@ -53,16 +79,15 @@ class RangeSlider {
 
   private valid(
     item: HTMLInputElement,
-    val: number | string | boolean
+    val: number | string | boolean,
   ) {
-    if (item.value != val)
-      item.value = val as string;
+    if (item.value != val) { item.value = val as string; }
   }
 
   private switchVertical() {
     this.panel.classList.toggle('panel_vert');// .panel
     this.wrapper.classList.toggle('rangeslider_vert'); // .rangeslider
-    this.sliderWrapper.classList.toggle('rangeslider__rs_vert'); //.rangeslider__rs
+    this.sliderWrapper.classList.toggle('rangeslider__rs_vert'); // .rangeslider__rs
   }
 
   private displayData(data: IConf) {
@@ -108,13 +133,13 @@ class RangeSlider {
         this.scaleBaseSteps.checked = true;
         this.interval.disabled = true;
       }
-      this.to.disabled = D.range ? false : true;
+      this.to.disabled = !D.range;
     }
   }
 
   private updateData = (data: IConf) => {
-    if (data.vertical !=
-      this.wrapper.classList.contains('rangeslider_vert')) {
+    if (data.vertical
+      != this.wrapper.classList.contains('rangeslider_vert')) {
       this.switchVertical();
     }
     const D = data;
@@ -155,15 +180,14 @@ class RangeSlider {
       },
       onChange: (data: IConf) => {
         this.changeData(data);
-      }
+      },
     }).data('SliderMetaLamp'); // вернёт объект для одного элемента
     return rangeSlider;
   }
 
   private renderPanel() {
     const getElem = (name: string, addToInputsAll: boolean = true): HTMLInputElement => {
-      const elem = this.panel.querySelector<HTMLInputElement>
-        ('.js-' + name);
+      const elem = this.panel.querySelector<HTMLInputElement>(`.js-${name}`);
       if (addToInputsAll) {
         if (elem) {
           this.inputsAll.push(elem);
@@ -178,10 +202,8 @@ class RangeSlider {
     this.to = getElem('input-to');
     this.interval = getElem('input-interval');
     this.step = getElem('input-step');
-    this.shiftOnKeyDown =
-      getElem('input-shiftOnKeyDown');
-    this.shiftOnKeyHold =
-      getElem('input-shiftOnKeyHold');
+    this.shiftOnKeyDown = getElem('input-shiftOnKeyDown');
+    this.shiftOnKeyHold = getElem('input-shiftOnKeyHold');
 
     this.vertical = getElem('toggle-vertical');
     this.range = getElem('toggle-range');
@@ -196,7 +218,7 @@ class RangeSlider {
     this.scaleBaseSteps = getElem('radio-step');
     this.scaleBaseIntervals = getElem('radio-interval');
 
-    for (let elem of this.inputsAll) {
+    for (const elem of this.inputsAll) {
       elem.addEventListener('change', () => {
         console.log(elem.value);
 
@@ -213,7 +235,7 @@ class RangeSlider {
 
   // API update
   private updateSlider() {
-    let arr = ['min',
+    const arr = ['min',
       'max',
       'from',
       'to',
@@ -229,25 +251,21 @@ class RangeSlider {
       'scale',
       'bar',
       'tip',
-      'scaleBase'
+      'scaleBase',
     ];
     this.panel.addEventListener('change', (e) => {
       if (!this.isDestroyed) {
-        let target = e.target as HTMLInputElement;
-        for (let elem of arr) {
-          if (target.closest('.panel__' + elem)) {
+        const target = e.target as HTMLInputElement;
+        for (const elem of arr) {
+          if (target.closest(`.panel__${elem}`)) {
             let value;
             if (target.type == 'checkbox') {
               value = target.checked;
-            }
-            else if (target.type == 'radio') {
+            } else if (target.type == 'radio') {
               value = target.value;
-            }
-            else {
-              if (!isNaN(+target.value)) {
-                value = parseFloat(target.value);
-              } else value = 0;
-            }
+            } else if (!isNaN(+target.value)) {
+              value = parseFloat(target.value);
+            } else value = 0;
             this.rangeSlider.update({ [elem]: value });
             if (elem == 'scaleBase') {
               if (value == 'interval' && this.interval && this.step) {
@@ -260,7 +278,7 @@ class RangeSlider {
               }
             }
             if (elem == 'range' && this.to) {
-              this.to.disabled = target.checked ? false : true;
+              this.to.disabled = !target.checked;
             }
             break;
           }
@@ -272,87 +290,78 @@ class RangeSlider {
   // API disable
   private disableSlider() {
     if (this.disable) {
-      this.disable.addEventListener(
-        'click', () => {
-          if (!this.isDestroyed && this.disable) {
-            if (this.disable.checked) {
-              this.rangeSlider.disable();
-              for (let elem of this.inputsAll) {
-                elem.disabled = true;
-              }
-              this.isDisabled = true;
+      this.disable.addEventListener('click', () => {
+        if (!this.isDestroyed && this.disable) {
+          if (this.disable.checked) {
+            this.rangeSlider.disable();
+            for (const elem of this.inputsAll) {
+              elem.disabled = true;
             }
-            else {
-              this.rangeSlider.enable();
-              for (let elem of this.inputsAll) {
-                elem.disabled = false;
-              }
-              const data = this.rangeSlider.getData();
-              this.displayData(data);
-              this.isDisabled = false;
+            this.isDisabled = true;
+          } else {
+            this.rangeSlider.enable();
+            for (const elem of this.inputsAll) {
+              elem.disabled = false;
             }
+            const data = this.rangeSlider.getData();
+            this.displayData(data);
+            this.isDisabled = false;
           }
         }
-      );
+      });
     }
   }
 
   private subscribeSlider() {
     if (this.subscribe) {
-      this.subscribe.addEventListener(
-        'click', () => {
-          if (!this.isDestroyed && this.subscribe) {
-            if (this.subscribe.checked) {
-              this.rangeSlider.update({
-                onChange: (data: IConf) => {
-                  this.changeData(data);
-                }
-              });
-            } else this.rangeSlider.update({
+      this.subscribe.addEventListener('click', () => {
+        if (!this.isDestroyed && this.subscribe) {
+          if (this.subscribe.checked) {
+            this.rangeSlider.update({
+              onChange: (data: IConf) => {
+                this.changeData(data);
+              },
+            });
+          } else {
+            this.rangeSlider.update({
               onChange: null,
             });
           }
         }
-      );
+      });
     }
   }
+
   // API destroy
   private destroySlider(slider: HTMLElement) {
     if (this.destroy) {
-      this.destroy.addEventListener(
-        'click', () => {
-          if (this.destroy && this.disable) {
-            if (this.destroy.checked) {
-              this.rangeSlider.destroy();
-              for (let elem of this.inputsAll) {
-                elem.disabled = true;
-              }
-              this.disable.checked = true;
-              this.disable.disabled = true;
-              this.isDestroyed = true;
-              this.destroy.disabled = true;
-              // отвязать объект слайдера от DOM-элемента
-              $.data(slider, 'SliderMetaLamp', null);
+      this.destroy.addEventListener('click', () => {
+        if (this.destroy && this.disable) {
+          if (this.destroy.checked) {
+            this.rangeSlider.destroy();
+            for (const elem of this.inputsAll) {
+              elem.disabled = true;
             }
+            this.disable.checked = true;
+            this.disable.disabled = true;
+            this.isDestroyed = true;
+            this.destroy.disabled = true;
+            // отвязать объект слайдера от DOM-элемента
+            $.data(slider, 'SliderMetaLamp', null);
           }
         }
-      );
+      });
     }
   }
 }
 
 function renderRangeSliders(selector: string) {
-  let rangeSliders = document.querySelectorAll(selector);
+  const rangeSliders = document.querySelectorAll(selector);
   const mas: RangeSlider[] = [];
-  for (let rangeSlider of rangeSliders) {
+  for (const rangeSlider of rangeSliders) {
     mas.push(new RangeSlider(selector, rangeSlider));
   }
   return mas;
 }
 
 renderRangeSliders('.js-rangeslider');
-
-
-
-
-
