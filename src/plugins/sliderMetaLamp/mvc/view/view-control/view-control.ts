@@ -69,13 +69,14 @@ export default class ViewControl extends Observer {
 
     this.conf = conf;
     /* Создаем ползунок минимального значения */
-    this.controlMin = this.renderControl('rs-metalamp__control-min', 'rs-metalamp__tip-min', this.conf.from);
-    this.tipMin = this.controlMin.querySelector('.rs-metalamp__tip') as HTMLInputElement;
+    this.controlMin = ViewControl.renderControl('rs-metalamp__control-min', 'rs-metalamp__tip-min', this.conf.from);
+    // this.tipMin = this.controlMin.querySelector('.rs-metalamp__tip') as HTMLInputElement;
+    this.tipMin = ViewControl.getElem(this.controlMin, '.rs-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMin);
 
     /* Создаем ползунок максимального значения */
-    this.controlMax = this.renderControl('rs-metalamp__control-max', 'rs-metalamp__tip-max', this.conf.to);
-    this.tipMax = this.controlMax.querySelector('.rs-metalamp__tip') as HTMLInputElement;
+    this.controlMax = ViewControl.renderControl('rs-metalamp__control-max', 'rs-metalamp__tip-max', this.conf.to);
+    this.tipMax = ViewControl.getElem(this.controlMax, '.rs-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMax);
 
     this.init(conf);
@@ -85,8 +86,13 @@ export default class ViewControl extends Observer {
     this.clickTrack();
   }
 
+  static getElem(obj: HTMLElement, selector: string) {
+    return obj.querySelector(selector);
+  }
+
   // Обновляем позицию ползунка (вызывается через контроллер)
-  public updatePos(elem: HTMLElement, newPos: number) {
+  public updatePos(element: HTMLElement, newPos: number) {
+    const elem = element;
     if (!this.initDone) {
       this.initDone = true;
     }
@@ -99,16 +105,16 @@ export default class ViewControl extends Observer {
       elem.style.bottom = '';
     }
     // пересчитать ширину подсказок (возможно это надо вынести в отдельный метод)
-    if (this.defineControl(elem) == 'min') {
-      this.tipMin.style.left = this.calcTipPos(this.conf.vertical, this.tipMin);
+    if (this.defineControl(elem) === 'min') {
+      this.tipMin.style.left = ViewControl.calcTipPos(this.conf.vertical, this.tipMin);
     } else {
-      this.tipMax.style.left = this.calcTipPos(this.conf.vertical, this.tipMax);
+      this.tipMax.style.left = ViewControl.calcTipPos(this.conf.vertical, this.tipMax);
     }
   }
 
   // Обновляем значение tip
   public updateVal(val: string, isFrom: boolean) {
-    isFrom ? this.tipMin.innerText = val : this.tipMax.innerText = val;
+    if (isFrom) { this.tipMin.innerText = val; } else { this.tipMax.innerText = val; }
   }
 
   // передать значения FROM и TO в инпут
@@ -164,8 +170,8 @@ export default class ViewControl extends Observer {
       this.tipMax.classList.remove('rs-metalamp__tip_hidden');
       this.tipMin.classList.remove('rs-metalamp__tip_hidden');
       if (this.initDone) {
-        this.tipMax.style.left = this.calcTipPos(conf.vertical, this.tipMax);
-        this.tipMin.style.left = this.calcTipPos(conf.vertical, this.tipMin);
+        this.tipMax.style.left = ViewControl.calcTipPos(conf.vertical, this.tipMax);
+        this.tipMin.style.left = ViewControl.calcTipPos(conf.vertical, this.tipMin);
       }
     } else {
       this.tipMax.classList.add('rs-metalamp__tip_hidden');
@@ -180,7 +186,7 @@ export default class ViewControl extends Observer {
     this.switchTip(this.conf);
   }
 
-  private renderControl(controlClassName: string, tipClassName: string, value: number) {
+  static renderControl(controlClassName: string, tipClassName: string, value: number) {
     const control = document.createElement('button');
     control.className = 'rs-metalamp__control';
     control.classList.add(controlClassName);
@@ -194,20 +200,21 @@ export default class ViewControl extends Observer {
 
   /* Создаем ползунок минимального значения */
   private renderLeftControl() {
-    this.controlMin = this.renderControl('rs-metalamp__control-min', 'rs-metalamp__tip-min', this.conf.from);
+    this.controlMin = ViewControl.renderControl('rs-metalamp__control-min', 'rs-metalamp__tip-min', this.conf.from);
     this.tipMin = this.controlMin.querySelector('.rs-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMin);
   }
 
   /* Создаем ползунок максимального значения */
   private renderRightControl() {
-    this.controlMax = this.renderControl('rs-metalamp__control-max', 'rs-metalamp__tip-max', this.conf.to);
+    this.controlMax = ViewControl.renderControl('rs-metalamp__control-max', 'rs-metalamp__tip-max', this.conf.to);
     this.tipMax = this.controlMax.querySelector('.rs-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMax);
   }
 
   private defineControl = (elem: ITarget) => {
     if (elem.classList) { return elem.classList.contains('rs-metalamp__control-min') ? 'min' : 'max'; }
+    return true;
   }
 
   private getMetrics(elem: ITarget) {
@@ -241,10 +248,10 @@ export default class ViewControl extends Observer {
         }
         this.getMetrics(target);
 
-        const pointerMoveHandler = (e: PointerEvent) => {
-          T.type = e.type;
-          T.clientX = e.clientX;
-          T.clientY = e.clientY;
+        const pointerMoveHandler = (event: PointerEvent) => {
+          T.type = event.type;
+          T.clientX = event.clientX;
+          T.clientY = event.clientY;
           this.fire('MoveEvent', this.data);
         };
 
@@ -256,17 +263,19 @@ export default class ViewControl extends Observer {
             .removeEventListener('pointerup', pointerUpHandler);
         };
         /* elem.setPointerCapture(pointerId) – привязывает события с данным pointerId к elem.
-        После такого вызова все события указателя с таким pointerId будут иметь elem в качестве целевого элемента
+        После такого вызова все события указателя с таким pointerId будут иметь elem в
+        качестве целевого элемента
         (как будто произошли над elem), вне зависимости от того, где в документе они произошли. */
         target.setPointerCapture(e.pointerId);
         target.addEventListener('pointermove', pointerMoveHandler);
         target.addEventListener('pointerup', pointerUpHandler);
       }
     };
+    const dragSelectHandler = () => false;
 
     this.slider.addEventListener('pointerdown', pointerDownHandler);
-    this.slider.addEventListener('dragstart', () => false);
-    this.slider.addEventListener('selectstart', () => false);
+    this.slider.addEventListener('dragstart', dragSelectHandler);
+    this.slider.addEventListener('selectstart', dragSelectHandler);
   }
 
   // Вешаем обработчики события нажатия пальцем на ползунке и перемещения ползунка
@@ -283,10 +292,10 @@ export default class ViewControl extends Observer {
         T.moovingControl = String(this.defineControl(target));
         this.getMetrics(target);
 
-        const pointerMoveHandler = (e: TouchEvent) => {
-          T.type = e.type;
-          T.clientX = e.targetTouches[0] ? e.targetTouches[0].clientX : 0;
-          T.clientY = e.targetTouches[0] ? e.targetTouches[0].clientY : 0;
+        const pointerMoveHandler = (event: TouchEvent) => {
+          T.type = event.type;
+          T.clientX = event.targetTouches[0] ? event.targetTouches[0].clientX : 0;
+          T.clientY = event.targetTouches[0] ? event.targetTouches[0].clientY : 0;
           this.fire('MoveEvent', this.data);
         };
         target.addEventListener('touchmove', pointerMoveHandler);
@@ -300,7 +309,7 @@ export default class ViewControl extends Observer {
     const pointerDownHandler = (e: KeyboardEvent) => {
       const arr = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
       const result = arr.indexOf(e.code);
-      if (result != -1) {
+      if (result !== -1) {
         e.preventDefault();
         const { target } = e;// as HTMLElement;
         if (!(target instanceof HTMLElement)) {
@@ -310,9 +319,8 @@ export default class ViewControl extends Observer {
 
         if (target.classList.contains('rs-metalamp__control')) {
           // определяем ползунок, на который нажимают
-          target.classList.contains('rs-metalamp__control-min')
-            ? T.moovingControl = 'min'
-            : T.moovingControl = 'max';
+          T.moovingControl = target.classList.contains('rs-metalamp__control-min') ? 'min' : 'max';
+
           T.key = e.code;
           T.repeat = e.repeat;
           this.fire('KeydownEvent', this.data);
@@ -326,7 +334,7 @@ export default class ViewControl extends Observer {
   private clickTrack() {
     const pointerDownHandler = (e: PointerEvent) => {
       e.preventDefault();
-      const { target } = e;// as HTMLElement;
+      const { target } = e;
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
       }
@@ -367,9 +375,7 @@ export default class ViewControl extends Observer {
         if (this.controlMax.classList.contains('hidden')) { // Single mode
           T.moovingControl = 'min';
         } else { // Double mode
-          controlMinDist <= controlMaxDist
-            ? T.moovingControl = 'min'
-            : T.moovingControl = 'max';
+          T.moovingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
         }
         this.fire('MoveEvent', this.data);
       }
@@ -377,10 +383,8 @@ export default class ViewControl extends Observer {
     this.slider.addEventListener('pointerdown', pointerDownHandler);
   }
 
-  private calcTipPos(isVertical: boolean, elem: HTMLElement) {
+  static calcTipPos(isVertical: boolean, elem: HTMLElement) {
     if (isVertical) { return `${elem.offsetWidth * (-1) - 5}px`; }
-    return `${elem.offsetWidth / 2 * (-1)}px`;
+    return `${(elem.offsetWidth / 2) * (-1)}px`;
   }
 }
-
-

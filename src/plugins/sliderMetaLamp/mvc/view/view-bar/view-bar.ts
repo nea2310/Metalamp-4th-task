@@ -25,7 +25,7 @@ export default class ViewBar {
   constructor(root: HTMLElement, conf: IConfFull) {
     this.slider = root;
     this.conf = conf;
-    this.track = ViewBar.getElem(this.slider, '.rs-metalamp__track');
+    this.track = ViewBar.getElem(this.slider, '.rs-metalamp__track') as HTMLElement;
     this.progressBar = document.createElement('div');
     this.progressBar.className = 'rs-metalamp__progressBar';
     this.track.append(this.progressBar);
@@ -33,7 +33,7 @@ export default class ViewBar {
   }
 
   static getElem(obj: HTMLElement, selector: string) {
-    return obj.querySelector(selector) as HTMLElement;
+    return obj.querySelector(selector);
   }
 
   // переключение в вертикальный режим
