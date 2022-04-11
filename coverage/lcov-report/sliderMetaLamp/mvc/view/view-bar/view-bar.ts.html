@@ -124,7 +124,13 @@
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
 <a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
@@ -133,11 +139,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -167,7 +181,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">10x</span>
@@ -184,21 +197,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
-  IConf, IConfFull
+  IConf, IConfFull,
 } from '../../interface';
 import { defaultConf } from '../../utils';
 &nbsp;
 class ViewBar {
   private slider: HTMLElement;
+&nbsp;
   private track: HTMLElement;
+&nbsp;
   private progressBar: HTMLElement;
+&nbsp;
   private controlMinDist: number = 0;
+&nbsp;
   private controlMaxDist: number = 0;
+&nbsp;
   private markList: HTMLElement[] = [];
+&nbsp;
   private conf: IConfFull = defaultConf;
+&nbsp;
   private checkNext: boolean = false;
+&nbsp;
   private lastLabelRemoved: boolean = false;
 &nbsp;
   constructor(root: HTMLElement, conf: IConfFull) {
@@ -213,31 +233,30 @@ class ViewBar {
 &nbsp;
   // переключение в вертикальный режим
   public switchVertical(conf: IConfFull) {
-    const classList = this.progressBar.classList;
-    conf.vertical ? classList.add('rs-metalamp__progressBar_vert') :
-      classList.remove('rs-metalamp__progressBar_vert');
+    const { classList } = this.progressBar;
+    conf.vertical ? classList.add('rs-metalamp__progressBar_vert')
+      : classList.remove('rs-metalamp__progressBar_vert');
   }
 &nbsp;
   // отключение / включение бара
   public switchBar(conf: IConfFull) {
     this.conf = conf;
-    const classList = this.progressBar.classList;
-    this.conf.bar ? classList.remove('rs-metalamp__progressBar_hidden') :
-      classList.add('rs-metalamp__progressBar_hidden');
-&nbsp;
+    const { classList } = this.progressBar;
+    this.conf.bar ? classList.remove('rs-metalamp__progressBar_hidden')
+      : classList.add('rs-metalamp__progressBar_hidden');
   }
 &nbsp;
-  //обновление бара при изменении позиций ползунков
+  // обновление бара при изменении позиций ползунков
   public updateBar(pos: number, length: number, isVertical: boolean) {
-    const style = this.progressBar.style;
+    const { style } = this.progressBar;
     if (!isVertical) {
-      style.left = pos + '%';
-      style.width = length + '%';
+      style.left = `${pos}%`;
+      style.width = `${length}%`;
       style.bottom = '';
       style.height = '';
     } else {
-      style.bottom = pos + '%';
-      style.height = length + '%';
+      style.bottom = `${pos}%`;
+      style.height = `${length}%`;
       style.left = '';
       style.width = '';
     }
@@ -245,7 +264,6 @@ class ViewBar {
 }
 &nbsp;
 export { ViewBar };
-&nbsp;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -253,7 +271,7 @@ export { ViewBar };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Sun Apr 10 2022 21:31:29 GMT+0500 (Екатеринбург, стандартное время)
+                at Mon Apr 11 2022 14:57:37 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

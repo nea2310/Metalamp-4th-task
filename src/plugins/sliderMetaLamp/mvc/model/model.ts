@@ -224,7 +224,8 @@ class Model extends Observer {
     let newVal;
     let item;
     let result;
-    if (!this.conf.sticky) {	// если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
+    // если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
+    if (!this.conf.sticky) {
       this.noCalVal = true;
       if (moovingControl === 'min') { // Ползунок min
         if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
@@ -310,33 +311,35 @@ class Model extends Observer {
       // если ползунок должен вставать на позицию ближайшего к нему деления шкалы
     } else if (moovingControl === 'min') { // ползунок min
       const index = this.data.marksArr
-        .findIndex((item) => item.val === this.conf.from);
+        .findIndex((elem) => elem.val === this.conf.from);
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = incr(index);
         if (item === undefined) return 'newPos>100';
-        if (item.val > this.conf.from
-          && (this.conf.range && item.val <= this.conf.to
-            || !this.conf.range && item.val
-            <= this.conf.max)) {
+        const cond = item.val > this.conf.from
+          && ((this.conf.range && item.val <= this.conf.to)
+            || (!this.conf.range && item.val
+              <= this.conf.max));
+        if (cond) {
           result = changeFrom(item);
         } else result = 'too big newPos';
       } else { // Уменьшение значения
         item = decr(index);
         if (item === undefined) return 'newPos<0';
-
-        if (this.conf.range && item.val < this.conf.to
-          || !this.conf.range) {
+        const cond = (this.conf.range && item.val < this.conf.to)
+          || !this.conf.range;
+        if (cond) {
           result = changeFrom(item);
         } else result = 'too small newPos';
       }
     } else { // ползунок max
       const index = this.data.marksArr
-        .findIndex((item) => item.val === this.conf.to);
+        .findIndex((elem) => elem.val === this.conf.to);
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = incr(index);
         if (item === undefined) return 'newPos>100';
-        if (item && item.val > this.conf.to
-          && this.conf.to < this.conf.max) {
+        const cond = item && item.val > this.conf.to
+          && this.conf.to < this.conf.max;
+        if (cond) {
           result = changeTo(item);
         } else result = 'too big newPos';
       } else { // Уменьшение значения
@@ -360,7 +363,7 @@ class Model extends Observer {
     const conf = config;
     const validNumber = (value: any) => {
       let result = 0;
-      if (!isNaN(+value)) {
+      if (!Number.isNaN(+value)) {
         result = +value;
       }
       return result;
@@ -401,7 +404,7 @@ class Model extends Observer {
     }
     if (conf.shiftOnKeyHold <= 0) {
       conf.shiftOnKeyHold = 1;
-      //	console.log('2');
+      // console.log('2');
     }
 
     if (conf.max <= conf.min) {
@@ -494,10 +497,7 @@ class Model extends Observer {
     const keys = Object.keys(newConf);
     for (let i = 0; i < keys.length; i += 1) {
       const key = keys[i] as keyof IConf;
-      if (newConf[key] === currentConf[key]) {
-        continue;
-      }
-      else {
+      if (newConf[key] !== currentConf[key]) {
         switch (key) {
           case 'min':
             this.noCalVal = false;
@@ -568,6 +568,7 @@ class Model extends Observer {
               this.onUpdate = newConf.onUpdate;
             }
             break;
+          default: return true;
         }
       }
     }
@@ -584,10 +585,12 @@ class Model extends Observer {
 
   private async switchRange() {
     await this.fire('IsRange', this.data, this.conf);
-    await this.calcBar(); // ???
+    await this.calcBar();
     if (typeof this.onChange === 'function') {
       await this.onChange(this.conf);
-    } // onChange нужен т.к. после проверки перед возвратом в double режим могут поменяться значения from / to, их нужно отдать наружу
+    }
+    /* onChange нужен т.к. после проверки перед возвратом в double режим могут поменяться
+    значения from / to, их нужно отдать наружу */
   }
 
   private async updateControlPos() {
@@ -596,7 +599,9 @@ class Model extends Observer {
     await this.calcBar();
     if (typeof this.onChange === 'function') {
       await this.onChange(this.conf);
-    } // onChange нужен т.к. после проверки  могут поменяться значения from / to / min / max, их нужно отдать наружу
+    }
+    /* onChange нужен т.к. после проверки  могут поменяться значения from / to / min
+     / max, их нужно отдать наружу */
     await this.fire('IsSticky', this.data, this.conf);
   }
 
@@ -614,11 +619,12 @@ class Model extends Observer {
 
   // корректирует позицию ползунка, устанавливает его на ближайшее деление шкалы при sticky режиме
   private setSticky(controlPos: number) {
-    /* Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из значения newPos
-  до тех пор, пока результат текущей итерации не станет больше результата предыдущей (это значит, что мы нашли деление,
+    /* Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из
+    значения newPos до тех пор, пока результат текущей итерации не станет больше результата
+    предыдущей (это значит, что мы нашли деление,
   ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления */
     let pos = 0;
-    for (let i = 0; i < this.data.marksArr.length; i++) {
+    for (let i = 0; i < this.data.marksArr.length; i += 1) {
       let a = 0;
       if (i < this.data.marksArr.length - 1) {
         a = this.data.marksArr[i + 1].pos;
@@ -638,7 +644,8 @@ class Model extends Observer {
       - this.conf.min) * 100)
       / (this.conf.max - this.conf.min);
 
-    /* если ползунок должен вставать на позицию ближайшего к нему деления шкалы - скорректировать значение newPos (переместить ползунок
+    /* если ползунок должен вставать на позицию ближайшего к нему деления шкалы -
+    скорректировать значение newPos (переместить ползунок
     к ближайшему делению шкалы) */
     if (this.conf.sticky) {
       this.data.fromPos = this.setSticky(this.data.fromPos);
@@ -679,11 +686,11 @@ class Model extends Observer {
   private calcScale() {
     let interval = 1;
     let step = 1;
-    let arg = '';
-    if (this.conf.scaleBase == 'step') { // если рассчитываем шкалу на основе кол-ва шагов
+    // let arg = '';
+    if (this.conf.scaleBase === 'step') { // если рассчитываем шкалу на основе кол-ва шагов
       step = this.conf.step; // находим длину шага
       interval = (this.conf.max - this.conf.min) / step; // находим кол-во интервалов
-      arg = interval % 1 === 0 ? String(interval)
+      const arg = interval % 1 === 0 ? String(interval)
         : String(Math.trunc(interval + 1));
       this.data.scaleBase = 'step';
       this.data.intervalValue = arg;
@@ -691,7 +698,7 @@ class Model extends Observer {
       this.conf.interval = parseFloat(arg);
     }
 
-    if (this.conf.scaleBase == 'interval') { // если рассчитываем шкалу на основе интервалов
+    if (this.conf.scaleBase === 'interval') { // если рассчитываем шкалу на основе интервалов
       interval = this.conf.interval; // находим кол-во интервалов
       step = (this.conf.max - this.conf.min) / interval;// находим ширину (кол-во единиц) в шаге
       const arg = step % 1 === 0 ? String(step)
@@ -702,10 +709,11 @@ class Model extends Observer {
       this.conf.step = parseFloat(arg);
     }
 
-    this.data.marksArr = [{ val: this.conf.min, pos: 0 }]; // первое деление всегда стоит на позиции left = 0% и его значение равно this.conf.min
+    // первое деление всегда стоит на позиции left = 0% и его значение равно this.conf.min
+    this.data.marksArr = [{ val: this.conf.min, pos: 0 }];
     let val = this.conf.min;
 
-    for (let i = 0; i < interval; i++) {
+    for (let i = 0; i < interval; i += 1) {
       const obj: IObj = { val: 0, pos: 0 };
       val += step;
       if (val <= this.conf.max) {
@@ -719,7 +727,8 @@ class Model extends Observer {
     }
     if (this.data.marksArr[this.data.marksArr.length - 1].val
       < this.conf.max) { // если длина шкалы не кратна длине шага
-      this.data.marksArr.push({ val: this.conf.max, pos: 100 });// последнее деление ставим на позицию left = 100% и его значение равно this.conf.max
+      // последнее деление ставим на позицию left = 100% и его значение равно this.conf.max
+      this.data.marksArr.push({ val: this.conf.max, pos: 100 });
     }
     this.fire('Scale', this.data, this.conf);
   }
@@ -731,19 +740,19 @@ class Model extends Observer {
   ) {
     if (!this.changeMode) {
       let newVal = '';
-      if (stopType == 'normal') {
+      if (stopType === 'normal') {
         newVal = (this.conf.min + ((this.conf.max
           - this.conf.min) * pos) / 100).toFixed(0);
-      } else if (stopType == 'min') {
+      } else if (stopType === 'min') {
         newVal = String(this.conf.min);
-      } else if (stopType == 'max') {
+      } else if (stopType === 'max') {
         newVal = String(this.conf.max);
-      } else if (stopType == 'meetMax') {
+      } else if (stopType === 'meetMax') {
         newVal = String(this.conf.to);
-      } else if (stopType == 'meetMin') {
+      } else if (stopType === 'meetMin') {
         newVal = String(this.conf.from);
       }
-      if (moovingControl == 'min') {
+      if (moovingControl === 'min') {
         this.data.fromVal = newVal;
         this.conf.from = parseFloat(newVal);
         this.fire('FromValue', this.data);
