@@ -28,7 +28,7 @@ export default class ViewScale {
     this.conf = conf;
     this.slider = slider;
     this.track = track;
-    if (markList.length == 0) {
+    if (markList.length === 0) {
       this.calcMarkList = true;
     } else {
       this.markList = markList;
@@ -45,11 +45,9 @@ export default class ViewScale {
     const steps = this.slider.querySelectorAll('.js-rs-metalamp__mark');
     if (this.calcMarkList) { // Если это переотрисовка шкалы - удалить существующие деления
       if (steps.length) {
-        for (const elem of steps) {
-          elem.remove();
-        }
+        steps.forEach((elem) => elem.remove());
       }
-      for (const node of scaleMarks) {
+      scaleMarks.forEach((node) => {
         const elem = document.createElement('div');
         elem.classList.add('rs-metalamp__mark');
         elem.classList.add('js-rs-metalamp__mark');
@@ -72,11 +70,11 @@ export default class ViewScale {
         }
         this.track.appendChild(elem);
         if (conf.vertical) {
-          label.style.top = `${label.offsetHeight / 2 * (-1)}px`;
+          label.style.top = `${(label.offsetHeight / 2) * (-1)}px`;
         } else {
-          label.style.left = `${label.offsetWidth / 2 * (-1)}px`;
+          label.style.left = `${(label.offsetWidth / 2) * (-1)}px`;
         }
-      }
+      });
 
       this.markList = [...this.track.querySelectorAll('.js-rs-metalamp__mark')];
     }
@@ -89,19 +87,21 @@ export default class ViewScale {
     this.conf = conf;
     const stepMarks = this.slider.querySelectorAll('.js-rs-metalamp__mark');
     if (this.conf.scale) {
-      for (const elem of stepMarks) {
+      stepMarks.forEach((elem) => {
         elem.classList.remove('rs-metalamp__mark_visually-hidden');
-      }
+      });
     } else {
-      for (const elem of stepMarks) {
+      stepMarks.forEach((elem) => {
         elem.classList.add('rs-metalamp__mark_visually-hidden');
-      }
+      });
     }
     return stepMarks;
   }
 
   // проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
   private checkScaleLength(markList: Element[]) {
+    // деактивируем правило, т.к. это рекурсивная функция
+    // eslint-disable-next-line no-shadow
     const hideLabels = (markList: Element[]) => {
       // скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
       for (let i = 1; i < markList.length; i += 2) {
@@ -112,8 +112,8 @@ export default class ViewScale {
         markList[i]
           .classList.add('js-rs-metalamp__mark_no-label');
       }
-      this.markList = // создаем новый markList из элементов, не имеющих класса "no-label" (т.е. с видимыми подписями)
-        [...this.track.querySelectorAll('.js-rs-metalamp__mark:not(.js-rs-metalamp__mark_no-label)')];
+      // создаем новый markList из элементов, не имеющих класса "no-label" (с видимыми подписями)
+      this.markList = [...this.track.querySelectorAll('.js-rs-metalamp__mark:not(.js-rs-metalamp__mark_no-label)')];
 
       // запускаем функцию проверки заново
       this.lastLabelRemoved = true;
@@ -123,10 +123,10 @@ export default class ViewScale {
     if (!this.conf.vertical) { // Горизонтальный слайдер
       let totalWidth = 0;
       // вычисляем общую ширину подписей к шагам
-      for (const node of markList) {
+      markList.forEach((node) => {
         const child = node.firstElementChild as Element;
         totalWidth += child.getBoundingClientRect().width;
-      }
+      });
       // если общая ширина подписей к шагам больше ширины шкалы
       if (totalWidth > this.track.offsetWidth) {
         // Скрываем подписи
@@ -140,10 +140,10 @@ export default class ViewScale {
       }
     } else { // Вертикальный слайдер
       let totalHeight = 0;
-      for (const node of markList) {
+      markList.forEach((node) => {
         const child = node.firstElementChild as Element;
         totalHeight += child.getBoundingClientRect().height;
-      }
+      });
       // если общая высота подписей к шагам больше высоты шкалы
       if (totalHeight > this.track.offsetHeight) {
         // Скрываем подписи
@@ -156,6 +156,7 @@ export default class ViewScale {
         return this.markList;
       }
     }
+    return true;
   }
 
   // возвращаем подпись у последненего шага и удаляем у предпоследнего подписанного
@@ -176,21 +177,22 @@ export default class ViewScale {
   }
 
   private resize() {
-    this.startWidth = this.slider.offsetWidth; // ----------------- запоминаем ширину враппера до ресайза
+    // запомгим ширину враппера до ресайза
+    this.startWidth = this.slider.offsetWidth;
     const handleResize = () => {
       const totalWidth = this.slider.offsetWidth;
-      if (totalWidth != this.startWidth) { // -------------------------------------------------- если до и после отличается
+      // если до и после отличается
+      if (totalWidth !== this.startWidth) {
         if (totalWidth < this.startWidth) {
           this.checkScaleLength(this.markList);
         }
         if (totalWidth > this.startWidth) {
           this.createScale(this.scaleMarks, this.conf);
         }
-        this.startWidth = totalWidth;// -------------------------------------------------------- запоминаем новую ширину до ресайза
+        // запоминаем новую ширину до ресайза
+        this.startWidth = totalWidth;
       }
     };
     window.addEventListener('resize', handleResize);
   }
 }
-
-
