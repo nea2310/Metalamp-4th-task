@@ -162,39 +162,47 @@ export default class View extends Observer {
       'bar',
       'tip',
     ];
-    for (const elem of this.root.attributes) {
+    // for (const elem of this.root.attributes) {
+    //   const a = elem.name.replace(/^data-/, '');
+    //   if (arr.indexOf(a) != -1) {
+    //     map.set(a, elem.value);
+    //   }
+    // }
+
+    for (let i = 0; i < this.root.attributes.length; i += 1) {
+      const elem = this.root.attributes[i];
       const a = elem.name.replace(/^data-/, '');
-      if (arr.indexOf(a) != -1) {
+      if (arr.indexOf(a) !== -1) {
         map.set(a, elem.value);
       }
     }
-    for (const elem of map) {
+    map.forEach((elem) => {
       // если значение содержит только цифры
       if (/^-?\d+\.?\d*$/.test(elem[1])) {
         map.set(elem[0], parseFloat(elem[1]));
       }
       // если значение содержит строку 'true'
-      if (elem[1] == 'true') {
+      if (elem[1] === 'true') {
         map.set(elem[0], true);
       }
       // если значение содержит строку 'false'
-      if (elem[1] == 'false') {
+      if (elem[1] === 'false') {
         map.set(elem[0], false);
       }
       // перевод ключей в camelCase
-      if (elem[0] == 'shiftonkeydown') {
+      if (elem[0] === 'shiftonkeydown') {
         map.set('shiftOnKeyDown', elem[1]);
         map.delete(elem[0]);
       }
-      if (elem[0] == 'shiftonkeyhold') {
+      if (elem[0] === 'shiftonkeyhold') {
         map.set('shiftOnKeyHold', elem[1]);
         map.delete(elem[0]);
       }
-      if (elem[0] == 'scalebase') {
+      if (elem[0] === 'scalebase') {
         map.set('scaleBase', elem[1]);
         map.delete(elem[0]);
       }
-    }
+    });
     this.backEndConf = Object.fromEntries(map.entries());
   }
 

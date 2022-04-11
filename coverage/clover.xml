@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1649679365406" clover="3.2.0">
-  <project timestamp="1649679365406" name="All files">
-    <metrics statements="929" coveredstatements="854" conditionals="331" coveredconditionals="267" methods="121" coveredmethods="114" elements="1381" coveredelements="1235" complexity="0" loc="929" ncloc="929" packages="8" files="9" classes="9"/>
+<coverage generated="1649680328630" clover="3.2.0">
+  <project timestamp="1649680328630" name="All files">
+    <metrics statements="930" coveredstatements="847" conditionals="331" coveredconditionals="262" methods="122" coveredmethods="115" elements="1383" coveredelements="1224" complexity="0" loc="930" ncloc="930" packages="8" files="9" classes="9"/>
     <package name="sliderMetaLamp">
       <metrics statements="9" coveredstatements="9" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
       <file name="sliderMetaLamp.ts" path="C:\Users\Екатерина\Documents\GIT\Metalamp-4th-task\src\plugins\sliderMetaLamp\sliderMetaLamp.ts">
@@ -556,9 +556,9 @@
       </file>
     </package>
     <package name="sliderMetaLamp.mvc.view">
-      <metrics statements="90" coveredstatements="86" conditionals="25" coveredconditionals="23" methods="20" coveredmethods="19"/>
+      <metrics statements="91" coveredstatements="79" conditionals="25" coveredconditionals="18" methods="21" coveredmethods="20"/>
       <file name="view.ts" path="C:\Users\Екатерина\Documents\GIT\Metalamp-4th-task\src\plugins\sliderMetaLamp\mvc\view\view.ts">
-        <metrics statements="90" coveredstatements="86" conditionals="25" coveredconditionals="23" methods="20" coveredmethods="19"/>
+        <metrics statements="91" coveredstatements="79" conditionals="25" coveredconditionals="18" methods="21" coveredmethods="20"/>
         <line num="1" count="4" type="stmt"/>
         <line num="2" count="4" type="stmt"/>
         <line num="4" count="4" type="stmt"/>
@@ -616,39 +616,40 @@
         <line num="147" count="4" type="stmt"/>
         <line num="148" count="4" type="stmt"/>
         <line num="149" count="4" type="stmt"/>
-        <line num="165" count="4" type="stmt"/>
-        <line num="166" count="15" type="stmt"/>
-        <line num="167" count="15" type="cond" truecount="1" falsecount="0"/>
-        <line num="168" count="15" type="stmt"/>
-        <line num="171" count="4" type="stmt"/>
-        <line num="173" count="18" type="cond" truecount="1" falsecount="0"/>
-        <line num="174" count="9" type="stmt"/>
-        <line num="177" count="18" type="cond" truecount="1" falsecount="0"/>
-        <line num="178" count="6" type="stmt"/>
+        <line num="172" count="4" type="stmt"/>
+        <line num="173" count="15" type="stmt"/>
+        <line num="174" count="15" type="stmt"/>
+        <line num="175" count="15" type="cond" truecount="1" falsecount="0"/>
+        <line num="176" count="15" type="stmt"/>
+        <line num="179" count="4" type="stmt"/>
         <line num="181" count="18" type="cond" truecount="1" falsecount="0"/>
-        <line num="182" count="2" type="stmt"/>
-        <line num="185" count="18" type="cond" truecount="1" falsecount="0"/>
-        <line num="186" count="1" type="stmt"/>
-        <line num="187" count="1" type="stmt"/>
-        <line num="189" count="18" type="cond" truecount="1" falsecount="0"/>
-        <line num="190" count="1" type="stmt"/>
-        <line num="191" count="1" type="stmt"/>
-        <line num="193" count="18" type="cond" truecount="1" falsecount="0"/>
-        <line num="194" count="1" type="stmt"/>
-        <line num="195" count="1" type="stmt"/>
-        <line num="198" count="4" type="stmt"/>
-        <line num="202" count="4" type="stmt"/>
-        <line num="203" count="4" type="stmt"/>
-        <line num="204" count="4" type="stmt"/>
-        <line num="208" count="4" type="cond" truecount="1" falsecount="0"/>
-        <line num="209" count="4" type="stmt"/>
+        <line num="182" count="4" type="stmt"/>
+        <line num="185" count="18" type="cond" truecount="0" falsecount="1"/>
+        <line num="186" count="0" type="stmt"/>
+        <line num="189" count="18" type="cond" truecount="0" falsecount="1"/>
+        <line num="190" count="0" type="stmt"/>
+        <line num="193" count="18" type="cond" truecount="0" falsecount="1"/>
+        <line num="194" count="0" type="stmt"/>
+        <line num="195" count="0" type="stmt"/>
+        <line num="197" count="18" type="cond" truecount="0" falsecount="1"/>
+        <line num="198" count="0" type="stmt"/>
+        <line num="199" count="0" type="stmt"/>
+        <line num="201" count="18" type="cond" truecount="0" falsecount="1"/>
+        <line num="202" count="0" type="stmt"/>
+        <line num="203" count="0" type="stmt"/>
+        <line num="206" count="4" type="stmt"/>
         <line num="210" count="4" type="stmt"/>
-        <line num="214" count="4" type="stmt"/>
-        <line num="215" count="4" type="cond" truecount="1" falsecount="0"/>
-        <line num="217" count="3" type="stmt"/>
-        <line num="220" count="4" type="stmt"/>
-        <line num="221" count="4" type="cond" truecount="1" falsecount="0"/>
-        <line num="223" count="1" type="stmt"/>
+        <line num="211" count="4" type="stmt"/>
+        <line num="212" count="4" type="stmt"/>
+        <line num="216" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="217" count="4" type="stmt"/>
+        <line num="218" count="4" type="stmt"/>
+        <line num="222" count="4" type="stmt"/>
+        <line num="223" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="225" count="3" type="stmt"/>
+        <line num="228" count="4" type="stmt"/>
+        <line num="229" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="231" count="1" type="stmt"/>
       </file>
     </package>
     <package name="sliderMetaLamp.mvc.view.view-bar">

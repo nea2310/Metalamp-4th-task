@@ -27,7 +27,8 @@ describe('model, calcPos and calcPosKey methods', () => {
         height: 10,
         shiftBase: 0.5,
         moovingControl: 'min',
-      }))
+      },
+    ))
       .toBe('newPos < 0');
 
     expect(testModel.calcPos(
@@ -41,7 +42,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         height: 10,
         shiftBase: 0.5,
         moovingControl: 'max',
-      }
+      },
     ))
       .toBe('newPos > 100');
 
@@ -56,7 +57,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         height: 0,
         shiftBase: 0.5,
         moovingControl: 'min',
-      }
+      },
     ))
       .toBe(25);
 
@@ -71,7 +72,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         height: 0,
         shiftBase: 0.5,
         moovingControl: 'max',
-      }
+      },
     ))
       .toBe(50);
 
@@ -86,7 +87,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         height: 0,
         shiftBase: 0.5,
         moovingControl: 'max',
-      }
+      },
     ))
       .toBe('newPos < fromPos');
 
@@ -101,7 +102,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         height: 0,
         shiftBase: 0.5,
         moovingControl: 'min',
-      }
+      },
     ))
       .toBe('newPos > toPos');
   });
@@ -132,7 +133,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         height: 10,
         shiftBase: 0.5,
         moovingControl: 'min',
-      }
+      },
     ))
       .toBe(0);
 
@@ -147,7 +148,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         height: 10,
         shiftBase: 0.5,
         moovingControl: 'max',
-      }
+      },
     ))
       .toBe(100);
 
@@ -162,7 +163,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         height: 0,
         shiftBase: 0.5,
         moovingControl: 'min',
-      }
+      },
     ))
       .toBe(30);
 
@@ -177,7 +178,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         height: 0,
         shiftBase: 0.5,
         moovingControl: 'max',
-      }
+      },
     ))
       .toBe(50);
 
@@ -192,7 +193,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         height: 0,
         shiftBase: 0.5,
         moovingControl: 'max',
-      }
+      },
     ))
       .toBe('newPos < fromPos');
 
@@ -207,7 +208,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         height: 0,
         shiftBase: 0.5,
         moovingControl: 'min',
-      }
+      },
     ))
       .toBe('newPos > toPos');
   });
@@ -235,7 +236,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowLeft',
           repeat: false,
           moovingControl: 'min',
-        }
+        },
       ))
         .toBe(10); // from < min
 
@@ -244,7 +245,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowLeft',
           repeat: true,
           moovingControl: 'min',
-        }))
+        },
+      ))
         .toBe(10); // from < min
 
       expect(testModel.calcPosKey(
@@ -252,7 +254,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowRight',
           repeat: false,
           moovingControl: 'max',
-        }))
+        },
+      ))
         .toBe(100);// to > max
 
       expect(testModel.calcPosKey(
@@ -260,7 +263,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowRight',
           repeat: true,
           moovingControl: 'max',
-        }))
+        },
+      ))
         .toBe(100);// to > max
 
       await testModel.update({ from: 70, to: 70 });
@@ -270,7 +274,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowLeft',
           repeat: false,
           moovingControl: 'max',
-        }))
+        },
+      ))
         .toBe(70); // from<to
 
       expect(testModel.calcPosKey({
@@ -285,7 +290,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowLeft',
           repeat: false,
           moovingControl: 'min',
-        }))
+        },
+      ))
         .toBe(69);
 
       expect(testModel.calcPosKey(
@@ -293,7 +299,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowLeft',
           repeat: true,
           moovingControl: 'min',
-        }))
+        },
+      ))
         .toBe(67);
 
       expect(testModel.calcPosKey(
@@ -301,7 +308,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowRight',
           repeat: false,
           moovingControl: 'max',
-        }))
+        },
+      ))
         .toBe(71);
 
       expect(testModel.calcPosKey(
@@ -309,7 +317,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowRight',
           repeat: true,
           moovingControl: 'max',
-        }))
+        },
+      ))
         .toBe(73);
     },
   );
@@ -336,7 +345,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowLeft',
           repeat: false,
           moovingControl: 'min',
-        }
+        },
       ))
         .toBe('newPos<0'); // from < min
 
@@ -345,7 +354,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowLeft',
           repeat: true,
           moovingControl: 'min',
-        }
+        },
       ))
         .toBe('newPos<0'); // from < min
 
@@ -354,7 +363,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowRight',
           repeat: false,
           moovingControl: 'max',
-        }))
+        },
+      ))
         .toBe('newPos>100');// to > max
 
       expect(testModel.calcPosKey(
@@ -362,7 +372,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowRight',
           repeat: true,
           moovingControl: 'max',
-        }
+        },
       ))
         .toBe('newPos>100');// to > max
 
@@ -373,7 +383,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowLeft',
           repeat: false,
           moovingControl: 'max',
-        }))
+        },
+      ))
         .toBe('too small newPos'); // from<to
 
       expect(testModel.calcPosKey(
@@ -381,7 +392,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowRight',
           repeat: false,
           moovingControl: 'min',
-        }))
+        },
+      ))
         .toBe('too big newPos'); // to>from
 
       expect(testModel.calcPosKey(
@@ -389,7 +401,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowLeft',
           repeat: false,
           moovingControl: 'min',
-        }))
+        },
+      ))
         .toEqual({ newPos: 60, newVal: '64' });
 
       expect(testModel.calcPosKey(
@@ -397,7 +410,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowLeft',
           repeat: true,
           moovingControl: 'min',
-        }))
+        },
+      ))
         .toEqual({ newPos: 40, newVal: '46' });
 
       expect(testModel.calcPosKey(
@@ -405,7 +419,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowRight',
           repeat: false,
           moovingControl: 'max',
-        }))
+        },
+      ))
         .toEqual({ newPos: 80, newVal: '82' });
 
       expect(testModel.calcPosKey(
@@ -413,7 +428,8 @@ describe('model, calcPos and calcPosKey methods', () => {
           key: 'ArrowRight',
           repeat: true,
           moovingControl: 'max',
-        }))
+        },
+      ))
         .toEqual({ newPos: 100, newVal: '100' });
     },
   );

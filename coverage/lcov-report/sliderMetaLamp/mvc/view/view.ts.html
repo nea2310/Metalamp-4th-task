@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.79% </span>
+                <span class="strong">86.73% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>91/96</span>
+                <span class='fraction'>85/98</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92% </span>
+                <span class="strong">72% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>23/25</span>
+                <span class='fraction'>18/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95% </span>
+                <span class="strong">95.23% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>19/20</span>
+                <span class='fraction'>20/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.55% </span>
+                <span class="strong">86.81% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>86/90</span>
+                <span class='fraction'>79/91</span>
             </div>
         
             
@@ -288,7 +288,15 @@
 <a name='L223'></a><a href='#L223'>223</a>
 <a name='L224'></a><a href='#L224'>224</a>
 <a name='L225'></a><a href='#L225'>225</a>
-<a name='L226'></a><a href='#L226'>226</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
@@ -452,37 +460,45 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
@@ -677,39 +693,47 @@ export default class View extends Observer {
       'bar',
       'tip',
     ];
-    for (const elem of this.root.attributes) {
+    // for (const elem of this.root.attributes) {
+    //   const a = elem.name.replace(/^data-/, '');
+    //   if (arr.indexOf(a) != -1) {
+    //     map.set(a, elem.value);
+    //   }
+    // }
+&nbsp;
+    for (let i = 0; i &lt; this.root.attributes.length; i += 1) {
+      const elem = this.root.attributes[i];
       const a = elem.name.replace(/^data-/, '');
-      if (arr.indexOf(a) != -1) {
+      if (arr.indexOf(a) !== -1) {
         map.set(a, elem.value);
       }
     }
-    for (const elem of map) {
+    map.forEach((elem) =&gt; {
       // если значение содержит только цифры
       if (/^-?\d+\.?\d*$/.test(elem[1])) {
         map.set(elem[0], parseFloat(elem[1]));
       }
       // если значение содержит строку 'true'
-      if (elem[1] == 'true') {
-        map.set(elem[0], true);
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (elem[1] === 'true') {
+<span class="cstat-no" title="statement not covered" >        map.set(elem[0], true);</span>
       }
       // если значение содержит строку 'false'
-      if (elem[1] == 'false') {
-        map.set(elem[0], false);
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (elem[1] === 'false') {
+<span class="cstat-no" title="statement not covered" >        map.set(elem[0], false);</span>
       }
       // перевод ключей в camelCase
-      if (elem[0] == 'shiftonkeydown') {
-        map.set('shiftOnKeyDown', elem[1]);
-        map.delete(elem[0]);
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (elem[0] === 'shiftonkeydown') {
+<span class="cstat-no" title="statement not covered" >        map.set('shiftOnKeyDown', elem[1]);</span>
+<span class="cstat-no" title="statement not covered" >        map.delete(elem[0]);</span>
       }
-      if (elem[0] == 'shiftonkeyhold') {
-        map.set('shiftOnKeyHold', elem[1]);
-        map.delete(elem[0]);
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (elem[0] === 'shiftonkeyhold') {
+<span class="cstat-no" title="statement not covered" >        map.set('shiftOnKeyHold', elem[1]);</span>
+<span class="cstat-no" title="statement not covered" >        map.delete(elem[0]);</span>
       }
-      if (elem[0] == 'scalebase') {
-        map.set('scaleBase', elem[1]);
-        map.delete(elem[0]);
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (elem[0] === 'scalebase') {
+<span class="cstat-no" title="statement not covered" >        map.set('scaleBase', elem[1]);</span>
+<span class="cstat-no" title="statement not covered" >        map.delete(elem[0]);</span>
       }
-    }
+    });
     this.backEndConf = Object.fromEntries(map.entries());
   }
 &nbsp;
@@ -745,7 +769,7 @@ export default class View extends Observer {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Mon Apr 11 2022 17:16:05 GMT+0500 (Екатеринбург, стандартное время)
+                at Mon Apr 11 2022 17:32:08 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         <script src="../../../prettify.js"></script>
         <script>
