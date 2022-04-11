@@ -181,17 +181,17 @@ class Controller extends Observer {
   private handleMoveEvent = (parms: IFireParms) => {
     if (parms.key !== 'MoveEvent') return;
     if (this.model) {
-      this.model.calcPos(
-        parms.data.thumb.type,
-        parms.data.thumb.clientY,
-        parms.data.thumb.clientX,
-        parms.data.thumb.top,
-        parms.data.thumb.left,
-        parms.data.thumb.width,
-        parms.data.thumb.height,
-        parms.data.thumb.shiftBase,
-        parms.data.thumb.moovingControl,
-      );
+      this.model.calcPos({
+        type: parms.data.thumb.type,
+        clientY: parms.data.thumb.clientY,
+        clientX: parms.data.thumb.clientX,
+        top: parms.data.thumb.top,
+        left: parms.data.thumb.left,
+        width: parms.data.thumb.width,
+        height: parms.data.thumb.height,
+        shiftBase: parms.data.thumb.shiftBase,
+        moovingControl: parms.data.thumb.moovingControl,
+      });
     }
   }
 

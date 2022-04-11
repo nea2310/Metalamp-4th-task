@@ -103,17 +103,29 @@ class Model extends Observer {
   /* Рассчитываем положение ползунка при возникновении события перетягивания ползунка или
   щелчка по шкале */
   public calcPos(
-    type: string = 'pointerevent',
-    clientY: number,
-    clientX: number,
-    top: number,
-    left: number,
-    width: number,
-    height: number,
-    shiftBase: number,
-    moovingControl: string,
-
+    data: {
+      type: string,
+      clientY: number,
+      clientX: number,
+      top: number,
+      left: number,
+      width: number,
+      height: number,
+      shiftBase: number,
+      moovingControl: string,
+    },
   ) {
+    const {
+      type,
+      clientY,
+      clientX,
+      top,
+      left,
+      width,
+      height,
+      shiftBase,
+      moovingControl,
+    } = data;
     let newPos = 0;
     if (this.conf.vertical) {
       newPos = 100

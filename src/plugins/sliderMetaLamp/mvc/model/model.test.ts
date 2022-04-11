@@ -16,22 +16,93 @@ describe('model, calcPos and calcPosKey methods', () => {
     const testModel = new Model(conf);
     testModel.getConf(conf);
     testModel.start();
-    expect(testModel.calcPos('pointerevent', 50, 50, 100, 100, 10, 10, 0.5, 'min'))
+    expect(testModel.calcPos(
+      {
+        type: 'pointerevent',
+        clientY: 50,
+        clientX: 50,
+        top: 100,
+        left: 100,
+        width: 10,
+        height: 10,
+        shiftBase: 0.5,
+        moovingControl: 'min',
+      }))
       .toBe('newPos < 0');
 
-    expect(testModel.calcPos('pointerevent', 50, 500, 100, 100, 10, 10, 0.5, 'max'))
+    expect(testModel.calcPos(
+      {
+        type: 'pointerevent',
+        clientY: 50,
+        clientX: 500,
+        top: 100,
+        left: 100,
+        width: 10,
+        height: 10,
+        shiftBase: 0.5,
+        moovingControl: 'max',
+      }
+    ))
       .toBe('newPos > 100');
 
-    expect(testModel.calcPos('pointerevent', 0, 100, 0, 50, 200, 0, 0.5, 'min'))
+    expect(testModel.calcPos(
+      {
+        type: 'pointerevent',
+        clientY: 0,
+        clientX: 100,
+        top: 0,
+        left: 50,
+        width: 200,
+        height: 0,
+        shiftBase: 0.5,
+        moovingControl: 'min',
+      }
+    ))
       .toBe(25);
 
-    expect(testModel.calcPos('pointerevent', 0, 150, 0, 50, 200, 0, 0.5, 'max'))
+    expect(testModel.calcPos(
+      {
+        type: 'pointerevent',
+        clientY: 0,
+        clientX: 150,
+        top: 0,
+        left: 50,
+        width: 200,
+        height: 0,
+        shiftBase: 0.5,
+        moovingControl: 'max',
+      }
+    ))
       .toBe(50);
 
-    expect(testModel.calcPos('pointerevent', 0, 50, 0, 50, 200, 0, 0.5, 'max'))
+    expect(testModel.calcPos(
+      {
+        type: 'pointerevent',
+        clientY: 0,
+        clientX: 50,
+        top: 0,
+        left: 50,
+        width: 200,
+        height: 0,
+        shiftBase: 0.5,
+        moovingControl: 'max',
+      }
+    ))
       .toBe('newPos < fromPos');
 
-    expect(testModel.calcPos('pointerevent', 0, 200, 0, 50, 200, 0, 0.5, 'min'))
+    expect(testModel.calcPos(
+      {
+        type: 'pointerevent',
+        clientY: 0,
+        clientX: 200,
+        top: 0,
+        left: 50,
+        width: 200,
+        height: 0,
+        shiftBase: 0.5,
+        moovingControl: 'min',
+      }
+    ))
       .toBe('newPos > toPos');
   });
 
@@ -50,22 +121,94 @@ describe('model, calcPos and calcPosKey methods', () => {
     testModel.getConf(conf);
     testModel.start();
 
-    expect(testModel.calcPos('pointerevent', 50, 50, 100, 100, 10, 10, 0.5, 'min'))
+    expect(testModel.calcPos(
+      {
+        type: 'pointerevent',
+        clientY: 50,
+        clientX: 50,
+        top: 100,
+        left: 100,
+        width: 10,
+        height: 10,
+        shiftBase: 0.5,
+        moovingControl: 'min',
+      }
+    ))
       .toBe(0);
 
-    expect(testModel.calcPos('pointerevent', 50, 500, 100, 100, 10, 10, 0.5, 'max'))
+    expect(testModel.calcPos(
+      {
+        type: 'pointerevent',
+        clientY: 50,
+        clientX: 500,
+        top: 100,
+        left: 100,
+        width: 10,
+        height: 10,
+        shiftBase: 0.5,
+        moovingControl: 'max',
+      }
+    ))
       .toBe(100);
 
-    expect(testModel.calcPos('pointerevent', 0, 100, 0, 50, 200, 0, 0.5, 'min'))
+    expect(testModel.calcPos(
+      {
+        type: 'pointerevent',
+        clientY: 0,
+        clientX: 100,
+        top: 0,
+        left: 50,
+        width: 200,
+        height: 0,
+        shiftBase: 0.5,
+        moovingControl: 'min',
+      }
+    ))
       .toBe(30);
 
-    expect(testModel.calcPos('pointerevent', 0, 150, 0, 50, 200, 0, 0.5, 'max'))
+    expect(testModel.calcPos(
+      {
+        type: 'pointerevent',
+        clientY: 0,
+        clientX: 150,
+        top: 0,
+        left: 50,
+        width: 200,
+        height: 0,
+        shiftBase: 0.5,
+        moovingControl: 'max',
+      }
+    ))
       .toBe(50);
 
-    expect(testModel.calcPos('pointerevent', 0, 50, 0, 50, 200, 0, 0.5, 'max'))
+    expect(testModel.calcPos(
+      {
+        type: 'pointerevent',
+        clientY: 0,
+        clientX: 50,
+        top: 0,
+        left: 50,
+        width: 200,
+        height: 0,
+        shiftBase: 0.5,
+        moovingControl: 'max',
+      }
+    ))
       .toBe('newPos < fromPos');
 
-    expect(testModel.calcPos('pointerevent', 0, 200, 0, 50, 200, 0, 0.5, 'min'))
+    expect(testModel.calcPos(
+      {
+        type: 'pointerevent',
+        clientY: 0,
+        clientX: 200,
+        top: 0,
+        left: 50,
+        width: 200,
+        height: 0,
+        shiftBase: 0.5,
+        moovingControl: 'min',
+      }
+    ))
       .toBe('newPos > toPos');
   });
 
