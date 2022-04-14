@@ -1,1 +1,1 @@
-import '../src/plugins/index';
+import '../src/sliderMetaLamp/index';

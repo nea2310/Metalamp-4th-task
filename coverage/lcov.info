@@ -1,5 +1,5 @@
 TN:
-SF:src\plugins\sliderMetaLamp\sliderMetaLamp.ts
+SF:src\sliderMetaLamp\sliderMetaLamp.ts
 FN:5,plugin
 FN:6,(anonymous_2)
 FNF:2
@@ -22,7 +22,7 @@ BRF:1
 BRH:1
 end_of_record
 TN:
-SF:src\plugins\sliderMetaLamp\mvc\observer.ts
+SF:src\sliderMetaLamp\mvc\observer.ts
 FN:10,(anonymous_0)
 FN:14,(anonymous_1)
 FN:22,(anonymous_2)
@@ -55,7 +55,7 @@ BRF:3
 BRH:3
 end_of_record
 TN:
-SF:src\plugins\sliderMetaLamp\mvc\utils.ts
+SF:src\sliderMetaLamp\mvc\utils.ts
 FN:23,(anonymous_0)
 FN:24,(anonymous_1)
 FN:25,(anonymous_2)
@@ -75,7 +75,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:src\plugins\sliderMetaLamp\mvc\controller\controller.ts
+SF:src\sliderMetaLamp\mvc\controller\controller.ts
 FN:13,(anonymous_1)
 FN:104,(anonymous_2)
 FN:111,(anonymous_3)
@@ -281,7 +281,7 @@ BRF:42
 BRH:37
 end_of_record
 TN:
-SF:src\plugins\sliderMetaLamp\mvc\model\model.ts
+SF:src\sliderMetaLamp\mvc\model\model.ts
 FN:32,(anonymous_8)
 FN:78,(anonymous_9)
 FN:86,(anonymous_10)
@@ -923,7 +923,7 @@ BRF:185
 BRH:145
 end_of_record
 TN:
-SF:src\plugins\sliderMetaLamp\mvc\view\view.ts
+SF:src\sliderMetaLamp\mvc\view\view.ts
 FN:37,(anonymous_1)
 FN:222,(anonymous_2)
 FN:228,(anonymous_3)
@@ -1090,7 +1090,7 @@ BRF:25
 BRH:18
 end_of_record
 TN:
-SF:src\plugins\sliderMetaLamp\mvc\view\view-bar\view-bar.ts
+SF:src\sliderMetaLamp\mvc\view\view-bar\view-bar.ts
 FN:25,(anonymous_0)
 FN:35,(anonymous_1)
 FN:40,(anonymous_2)
@@ -1149,7 +1149,7 @@ BRF:6
 BRH:6
 end_of_record
 TN:
-SF:src\plugins\sliderMetaLamp\mvc\view\view-control\view-control.ts
+SF:src\sliderMetaLamp\mvc\view\view-control\view-control.ts
 FN:38,(anonymous_1)
 FN:214,(anonymous_2)
 FN:88,(anonymous_3)
@@ -1445,7 +1445,7 @@ BRF:45
 BRH:32
 end_of_record
 TN:
-SF:src\plugins\sliderMetaLamp\mvc\view\view-scale\view-scale.ts
+SF:src\sliderMetaLamp\mvc\view\view-scale\view-scale.ts
 FN:22,(anonymous_0)
 FN:39,(anonymous_1)
 FN:48,(anonymous_2)

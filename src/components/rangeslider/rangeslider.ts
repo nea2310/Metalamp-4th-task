@@ -2,7 +2,7 @@ import './rangeslider.scss';
 import $ from 'jquery';
 import {
   IConf,
-} from '../../plugins/sliderMetaLamp/mvc/interface';
+} from '../../sliderMetaLamp/mvc/interface';
 
 class RangeSlider {
   slider: HTMLElement
