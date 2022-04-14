@@ -162,12 +162,6 @@ export default class View extends Observer {
       'bar',
       'tip',
     ];
-    // for (const elem of this.root.attributes) {
-    //   const a = elem.name.replace(/^data-/, '');
-    //   if (arr.indexOf(a) != -1) {
-    //     map.set(a, elem.value);
-    //   }
-    // }
 
     for (let i = 0; i < this.root.attributes.length; i += 1) {
       const elem = this.root.attributes[i];

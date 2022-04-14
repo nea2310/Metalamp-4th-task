@@ -6,7 +6,7 @@ import {
   IdataFull,
 } from '../interface';
 import Observer from '../observer';
-import { defaultConf } from '../utils';
+import { defaultConf, defaultData, defaultThumb } from '../utils';
 
 export default class Model extends Observer {
   private changeMode: boolean = false;
@@ -34,29 +34,7 @@ export default class Model extends Observer {
     // дефолтный конфиг
     this.conf = defaultConf;
     this.data = {
-      fromPos: 0,
-      toPos: 0,
-      marksArr: [{ pos: 0, val: 0 }],
-      intervalValue: '',
-      stepValue: '',
-      scaleBase: '',
-      barWidth: 0,
-      barPos: 0,
-      fromVal: '',
-      toVal: '',
-      thumb: {
-        type: '',
-        clientY: 0,
-        clientX: 0,
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0,
-        shiftBase: 0,
-        moovingControl: '',
-        key: '',
-        repeat: false,
-      },
+      ...defaultData, thumb: { ...defaultThumb },
     };
 
     this.methods = {

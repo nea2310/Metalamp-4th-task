@@ -80,8 +80,6 @@ export default class ViewScale {
     }
 
     this.resize();
-    console.log('this.checkScaleLength(this.markList)>>>', this.checkScaleLength(this.markList));
-
     return this.checkScaleLength(this.markList);
   }
 
@@ -158,7 +156,7 @@ export default class ViewScale {
         return this.markList;
       }
     }
-    return true;
+    return this.markList;
   }
 
   // возвращаем подпись у последненего шага и удаляем у предпоследнего подписанного

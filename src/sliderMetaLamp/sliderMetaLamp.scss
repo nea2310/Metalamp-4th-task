@@ -1,3 +1,5 @@
+@import "@styles/glob.scss";
+
 * {
   box-sizing: border-box;
 }
@@ -42,7 +44,7 @@
     width: 100%;
     position: relative;
     height: 8px;
-    background: #c5c0c0;
+    background: $colorDarkShade15;
     display: flex;
     &_vert {
       height: 100%;
@@ -54,7 +56,7 @@
 
   &__progressBar {
     position: absolute;
-    background: #75b7ec;
+    background: $colorBlue;
     width: 95%;
     border: none;
     height: 8px;
@@ -93,7 +95,7 @@
     }
 
     &::after {
-      background: #75b7ec;
+      background: $colorBlue;
       box-sizing: border-box;
       position: absolute;
       top: 3px;
@@ -137,11 +139,11 @@
   }
   &__mark {
     height: 5px;
-    background-color: #000;
+    background-color: $colorDarkShade100;
     position: absolute;
 
     &_no-label {
-      background-color: grey;
+      background-color: $colorDarkShade50;
     }
 
     &_vert {
@@ -161,8 +163,8 @@
   }
 
   &__label {
-    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-    color: #626066;
+    font-family: "Montserrat", Arial, Helvetica, sans-serif;
+    color: $colorDarkShade50;
     font-size: 10px;
 
     &_horizontal {
@@ -184,16 +186,16 @@
 
   &__tip {
     cursor: default;
-    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+    font-family: "Montserrat", Arial, Helvetica, sans-serif;
     font-size: 10px;
-    color: #626066;
+    color: $colorDarkShade50;
     height: 25px;
     position: absolute;
     border-radius: 3px;
     display: flex;
     align-items: center;
     padding: 0 5px;
-    background: #75b7ec;
+    background: $colorBlue;
     z-index: 1;
 
     &_horizontal {

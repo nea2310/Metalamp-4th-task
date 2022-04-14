@@ -1,4 +1,5 @@
 import { IConfFull, IdataFull } from '../../interface';
+import { defaultData, defaultThumb } from '../../utils';
 import Observer from '../../observer';
 
 interface IElement extends Element {
@@ -42,29 +43,8 @@ export default class ViewControl extends Observer {
     this.track = sliderElem.firstElementChild as Element;
 
     this.data = {
-      fromPos: 0,
-      toPos: 0,
-      marksArr: [{ pos: 0, val: 0 }],
-      intervalValue: '',
-      stepValue: '',
-      scaleBase: '',
-      barWidth: 0,
-      barPos: 0,
-      fromVal: '',
-      toVal: '',
-      thumb: {
-        type: '',
-        clientY: 0,
-        clientX: 0,
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0,
-        shiftBase: 0,
-        moovingControl: '',
-        key: '',
-        repeat: false,
-      },
+      ...defaultData,
+      thumb: { ...defaultThumb },
     };
 
     this.conf = conf;
