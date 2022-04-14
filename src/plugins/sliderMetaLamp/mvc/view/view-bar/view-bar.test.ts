@@ -1,12 +1,6 @@
 import ViewBar from '../../view/view-bar/view-bar';
 
-const root = document.createElement('div');
-document.body.appendChild(root);
-
-const track = document.createElement('div');
-track.className = 'rs-metalamp__track';
-root.appendChild(track);
-const testBar = new ViewBar(root, {
+const conf = {
   min: 10,
   max: 100,
   from: 20,
@@ -25,7 +19,14 @@ const testBar = new ViewBar(root, {
   onStart: () => true,
   onChange: () => true,
   onUpdate: () => true,
-});
+};
+const root = document.createElement('div');
+document.body.appendChild(root);
+
+const track = document.createElement('div');
+track.className = 'rs-metalamp__track';
+root.appendChild(track);
+const testBar = new ViewBar(root, conf);
 const progressBar = document
   .getElementsByClassName('rs-metalamp__progressBar')[0] as HTMLElement;
 
@@ -34,46 +35,15 @@ describe('ViewControl', () => {
     expect(progressBar.classList.contains('rs-metalamp__progressBar_vert'))
       .toBe(false);
     await testBar.switchVertical({
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
+      ...conf,
       vertical: true,
-      range: true,
       bar: true,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
     });
     expect(progressBar.classList.contains('rs-metalamp__progressBar_vert'))
       .toBe(true);
     await testBar.switchVertical({
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: false,
-      range: true,
+      ...conf,
       bar: true,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
     });
     expect(progressBar.classList.contains('rs-metalamp__progressBar_vert'))
       .toBe(false);
@@ -84,48 +54,13 @@ describe('ViewControl', () => {
       .contains('rs-metalamp__progressBar_hidden'))
       .toBe(true);
     await testBar.switchBar({
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: false,
-      range: true,
+      ...conf,
       bar: true,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
     });
     expect(progressBar.classList
       .contains('rs-metalamp__progressBar_hidden'))
       .toBe(false);
-    await testBar.switchBar({
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: false,
-      range: true,
-      bar: false,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
-    });
+    await testBar.switchBar(conf);
     expect(progressBar.classList
       .contains('rs-metalamp__progressBar_hidden'))
       .toBe(true);
