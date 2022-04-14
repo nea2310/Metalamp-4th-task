@@ -43,6 +43,32 @@ const conf: IConfFull = {
   onUpdate: () => true,
 };
 
+const data = {
+  fromPos: 10,
+  toPos: 0,
+  marksArr: [{ pos: 0, val: 0 }],
+  intervalValue: '',
+  stepValue: '',
+  scaleBase: '',
+  barWidth: 0,
+  barPos: 0,
+  fromVal: '',
+  toVal: '',
+  thumb: {
+    type: '',
+    clientY: 0,
+    clientX: 0,
+    top: 0,
+    left: 0,
+    width: 0,
+    height: 0,
+    shiftBase: 0,
+    moovingControl: '',
+    key: '',
+    repeat: false,
+  },
+};
+
 const testView = new View(parent);
 const initSpy = jest.spyOn(testView, 'init');
 testView.init(conf);
@@ -64,53 +90,6 @@ describe('ViewScale', () => {
   });
 
   test('updateFromPos', async () => {
-    // const conf = {};
-    const conf: IConfFull = {
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: false,
-      range: true,
-      bar: true,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
-    };
-    const data = {
-      fromPos: 10,
-      toPos: 0,
-      marksArr: [{ pos: 0, val: 0 }],
-      intervalValue: '',
-      stepValue: '',
-      scaleBase: '',
-      barWidth: 0,
-      barPos: 0,
-      fromVal: '',
-      toVal: '',
-      thumb: {
-        type: '',
-        clientY: 0,
-        clientX: 0,
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0,
-        shiftBase: 0,
-        moovingControl: '',
-        key: '',
-        repeat: false,
-      },
-    };
-    const viewControl = testView.viewControl as ViewControl;
     testView.updateFromPos(data, conf);
     expect(updatePosSpy).toBeCalledTimes(1);
     expect(updatePosSpy).toBeCalledWith(viewControl.controlMin, 10);
@@ -123,322 +102,92 @@ describe('ViewScale', () => {
 
   // eslint-disable-next-line max-len
   test('should call updatePos and updateInput methods in view-control on calling updateToPos in view', () => {
-    const conf = {
+    testView.updateToPos({
+      ...data, fromPos: 0, toPos: 10,
+    }, {
+      ...conf,
       min: 0,
-      max: 100,
       from: 10,
       to: 90,
-      vertical: false,
-      range: true,
-      bar: true,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
       step: 1,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
       shiftOnKeyHold: 2,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
-    };
-    const data = {
-      fromPos: 0,
-      toPos: 10,
-      marksArr: [{ pos: 0, val: 0 }],
-      intervalValue: '',
-      stepValue: '',
-      scaleBase: '',
-      barWidth: 0,
-      barPos: 0,
-      fromVal: '',
-      toVal: '',
-      thumb: {
-        type: '',
-        clientY: 0,
-        clientX: 0,
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0,
-        shiftBase: 0,
-        moovingControl: '',
-        key: '',
-        repeat: false,
-      },
-    };
-    const viewControl = testView.viewControl as ViewControl;
-    testView.updateToPos(data, conf);
+    });
     expect(updatePosSpy).toBeCalledTimes(1);
-    expect(updatePosSpy).toBeCalledWith(viewControl.controlMax, data.toPos);
+    expect(updatePosSpy).toBeCalledWith(viewControl.controlMax, 10);
     expect(updateInputSpy).toBeCalledTimes(1);
-    expect(updateInputSpy).toBeCalledWith(conf);
+    expect(updateInputSpy).toBeCalledWith({
+      ...conf,
+      min: 0,
+      from: 10,
+      to: 90,
+      step: 1,
+      shiftOnKeyHold: 2,
+    });
 
     updatePosSpy.mockClear();
     updateInputSpy.mockClear();
   });
 
   test('updateFromVal', () => {
-    const data = {
-      fromPos: 0,
-      toPos: 0,
-      marksArr: [{ pos: 0, val: 0 }],
-      intervalValue: '',
-      stepValue: '',
-      scaleBase: '',
-      barWidth: 0,
-      barPos: 0,
-      fromVal: '10',
-      toVal: '',
-      thumb: {
-        type: '',
-        clientY: 0,
-        clientX: 0,
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0,
-        shiftBase: 0,
-        moovingControl: '',
-        key: '',
-        repeat: false,
-      },
-    };
-    testView.updateFromVal(data);
+    testView.updateFromVal({ ...data, fromPos: 0, fromVal: '10' });
     expect(updateValSpy).toBeCalledTimes(1);
     expect(updateValSpy).toBeCalledWith('10', true);
     updateValSpy.mockClear();
   });
 
   test('updateToVal', () => {
-    const data = {
-      fromPos: 0,
-      toPos: 0,
-      marksArr: [{ pos: 0, val: 0 }],
-      intervalValue: '',
-      stepValue: '',
-      scaleBase: '',
-      barWidth: 0,
-      barPos: 0,
-      fromVal: '',
-      toVal: '10',
-      thumb: {
-        type: '',
-        clientY: 0,
-        clientX: 0,
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0,
-        shiftBase: 0,
-        moovingControl: '',
-        key: '',
-        repeat: false,
-      },
-    };
-    testView.updateToVal(data);
+    testView.updateToVal({ ...data, fromPos: 0, toVal: '10' });
     expect(updateValSpy).toBeCalledTimes(1);
     expect(updateValSpy).toBeCalledWith('10', false);
     updateValSpy.mockClear();
   });
 
   test('updateScale', () => {
-    // const conf = { vertical: true, scale: true };
-    const conf: IConfFull = {
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: true,
-      range: true,
-      bar: true,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
-    };
-    const data = {
-
+    const createScaleSpy = jest.spyOn(testViewScale, 'createScale');
+    testView.updateScale({
+      ...data,
       fromPos: 0,
-      toPos: 0,
       marksArr: [
         { pos: 0, val: 0 },
         { pos: 50, val: 5 },
         { pos: 100, val: 10 },
       ],
-      intervalValue: '',
-      stepValue: '',
-      scaleBase: '',
-      barWidth: 0,
-      barPos: 0,
-      fromVal: '',
-      toVal: '',
-      thumb: {
-        type: '',
-        clientY: 0,
-        clientX: 0,
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0,
-        shiftBase: 0,
-        moovingControl: '',
-        key: '',
-        repeat: false,
-      },
-    };
-    const createScaleSpy = jest.spyOn(testViewScale, 'createScale');
-    testView.updateScale(data, conf);
+    }, { ...conf, vertical: true });
     expect(createScaleSpy).toBeCalledTimes(1);
     expect(createScaleSpy).toBeCalledWith([
       { pos: 0, val: 0 },
       { pos: 50, val: 5 },
       { pos: 100, val: 10 },
-    ], conf);
+    ], { ...conf, vertical: true });
   });
 
   test('updateBar', () => {
-    //  const conf = { vertical: true, scale: true };
-    const conf: IConfFull = {
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: true,
-      range: true,
-      bar: true,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
-    };
-    const data = {
-      fromPos: 0,
-      toPos: 0,
-      marksArr: [{ pos: 0, val: 0 }],
-      intervalValue: '',
-      stepValue: '',
-      scaleBase: '',
-      barWidth: 100,
-      barPos: 10,
-      fromVal: '',
-      toVal: '',
-      thumb: {
-        type: '',
-        clientY: 0,
-        clientX: 0,
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0,
-        shiftBase: 0,
-        moovingControl: '',
-        key: '',
-        repeat: false,
-      },
-    };
     const updateBarSpy = jest.spyOn(testViewBar, 'updateBar');
-    testView.updateBar(data, conf);
+    testView.updateBar({
+      ...data, fromPos: 0, barWidth: 100, barPos: 10,
+    }, { ...conf, vertical: true });
     expect(updateBarSpy).toBeCalledTimes(1);
     expect(updateBarSpy).toBeCalledWith(10, 100, true);
   });
 
   test('switchScale', () => {
-    //  const conf = { vertical: true, scale: true };
-    const conf: IConfFull = {
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: true,
-      range: true,
-      bar: true,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
-    };
     const switchScaleSpy = jest.spyOn(testViewScale, 'switchScale');
-    testView.switchScale(conf);
+    testView.switchScale({ ...conf, vertical: true });
     expect(switchScaleSpy).toBeCalledTimes(1);
-    expect(switchScaleSpy).toBeCalledWith(conf);
+    expect(switchScaleSpy).toBeCalledWith({ ...conf, vertical: true });
   });
 
   test('switchBar', () => {
-    //  const conf = { bar: false };
-    const conf: IConfFull = {
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: false,
-      range: true,
-      bar: false,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
-    };
     const switchBarSpy = jest.spyOn(testViewBar, 'switchBar');
-    testView.switchBar(conf);
+    testView.switchBar({ ...conf, bar: false });
     expect(switchBarSpy).toBeCalledTimes(1);
-    expect(switchBarSpy).toBeCalledWith(conf);
+    expect(switchBarSpy).toBeCalledWith({ ...conf, bar: false });
   });
 
   test('switchTip', async () => {
-    //  const conf = { tip: true };
-    const conf: IConfFull = {
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: false,
-      range: true,
-      bar: true,
-      tip: false,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
-    };
     const switchTipSpy = jest.spyOn(testViewControl, 'switchTip');
-    testView.switchTip(conf);
+    testView.switchTip({ ...conf, tip: false });
     expect(switchTipSpy).toBeCalledTimes(1);
-    expect(switchTipSpy).toBeCalledWith(conf);
+    expect(switchTipSpy).toBeCalledWith({ ...conf, tip: false });
   });
 });
