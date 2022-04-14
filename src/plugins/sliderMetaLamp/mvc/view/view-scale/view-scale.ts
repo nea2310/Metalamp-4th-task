@@ -80,6 +80,8 @@ export default class ViewScale {
     }
 
     this.resize();
+    console.log('this.checkScaleLength(this.markList)>>>', this.checkScaleLength(this.markList));
+
     return this.checkScaleLength(this.markList);
   }
 

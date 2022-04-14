@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-shadow */
 import { IConf, IConfFull } from '../../interface';
 import ViewScale from './view-scale';
 
@@ -97,99 +99,6 @@ function prepareInstance(
     testViewScale = new ViewScale(slider, track, conf);
   }
 
-  function createScale(conf: IConfFull) {
-    testViewScale.createScale(scaleMarks, conf);
-  }
-  const conf1: IConfFull = {
-    min: 10,
-    max: 100,
-    from: 20,
-    to: 70,
-    vertical: false,
-    range: true,
-    bar: true,
-    tip: true,
-    scale: true,
-    scaleBase: 'step',
-    step: 10,
-    interval: 0,
-    sticky: false,
-    shiftOnKeyDown: 1,
-    shiftOnKeyHold: 1,
-    onStart: () => true,
-    onChange: () => true,
-    onUpdate: () => true,
-  };
-
-  const conf2: IConfFull = {
-    min: 10,
-    max: 100,
-    from: 20,
-    to: 70,
-    vertical: true,
-    range: true,
-    bar: true,
-    tip: true,
-    scale: true,
-    scaleBase: 'step',
-    step: 10,
-    interval: 0,
-    sticky: false,
-    shiftOnKeyDown: 1,
-    shiftOnKeyHold: 1,
-    onStart: () => true,
-    onChange: () => true,
-    onUpdate: () => true,
-  };
-
-  const conf3: IConfFull = {
-    min: 10,
-    max: 100,
-    from: 20,
-    to: 70,
-    vertical: false,
-    range: true,
-    bar: true,
-    tip: true,
-    scale: false,
-    scaleBase: 'step',
-    step: 10,
-    interval: 0,
-    sticky: false,
-    shiftOnKeyDown: 1,
-    shiftOnKeyHold: 1,
-    onStart: () => true,
-    onChange: () => true,
-    onUpdate: () => true,
-  };
-
-  const conf4: IConfFull = {
-    min: 10,
-    max: 100,
-    from: 20,
-    to: 70,
-    vertical: true,
-    range: true,
-    bar: true,
-    tip: true,
-    scale: false,
-    scaleBase: 'step',
-    step: 10,
-    interval: 0,
-    sticky: false,
-    shiftOnKeyDown: 1,
-    shiftOnKeyHold: 1,
-    onStart: () => true,
-    onChange: () => true,
-    onUpdate: () => true,
-  };
-
-  // create scale for each scale / vertical combination
-  createScale(conf1);
-  createScale(conf2);
-  createScale(conf3);
-  createScale(conf4);
-
   return testViewScale;
 }
 
@@ -199,99 +108,24 @@ describe('ViewScale', () => {
   // eslint-disable-next-line max-len
   test('scale marks are not hidden if their total width (height) is less or equal to slider width (height)', () => {
     const testViewScale = prepareInstance(marksArr, conf, false);
-    expect(testViewScale.createScale(marksArr, {
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: false,
-      range: true,
-      bar: true,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
-    }))
+    expect(testViewScale.createScale(marksArr, conf))
       .toHaveLength(3);
   });
 
   // eslint-disable-next-line max-len
   test('scale marks are hidden if their total width (height) is less or equal to slider width (height)', () => {
     const testViewScale = prepareInstance(marksArr, conf, true);
-    expect(testViewScale.createScale(marksArr, {
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: false,
-      range: true,
-      bar: true,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
-    }))
+    expect(testViewScale.createScale(marksArr, conf))
       .toHaveLength(1);
   });
 
   test('switchScale', () => {
     const testViewScale = prepareInstance(marksArr, conf, false);
-    const a = testViewScale.switchScale({
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: false,
-      range: true,
-      bar: true,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
-    });
+    testViewScale.createScale(marksArr, { ...conf, scale: false });
+    const a = testViewScale.switchScale(conf);
     expect(a[0].classList.contains('rs-metalamp__mark_visually-hidden'))
       .toBe(false);
-    const b = testViewScale.switchScale({
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: false,
-      range: true,
-      bar: true,
-      tip: true,
-      scale: false,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
-    });
+    const b = testViewScale.switchScale({ ...conf, scale: false });
     expect(b[0].classList.contains('rs-metalamp__mark_visually-hidden'))
       .toBe(true);
   });

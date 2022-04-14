@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { IConf } from '../interface';
 import Model from '../model/model';
 
