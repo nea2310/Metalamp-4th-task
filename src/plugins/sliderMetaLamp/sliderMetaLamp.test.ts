@@ -1,16 +1,16 @@
-declare global {
-  interface JQuery {
-    SliderMetaLamp: any;
-  }
-}
-
+/* eslint-disable no-unused-vars */
 import $ from 'jquery';
 import { plugin } from './sliderMetaLamp';
 import {
   IConf,
 } from './mvc/interface';
-import { Controller }
-  from './mvc/controller/controller';
+import { Controller } from './mvc/controller/controller';
+
+declare global {
+  interface JQuery {
+    SliderMetaLamp: any;
+  }
+}
 
 describe('sliderMetaLamp', () => {
   $.fn.SliderMetaLamp = plugin;
@@ -46,30 +46,28 @@ describe('sliderMetaLamp', () => {
     expect(slider).toBeInstanceOf(Controller);
   });
 
-  test(' Should call API update', () => {
+  test(' Should call API method "update"', () => {
     slider.update(conf);
     expect(updateSpy).toBeCalledTimes(1);
   });
 
-  test(' Should call API getData', () => {
+  test(' Should call API method "getData"', () => {
     slider.getData();
     expect(getDataSpy).toBeCalledTimes(1);
   });
 
-  test(' Should call API disable', () => {
+  test(' Should call API method "disable"', () => {
     slider.disable();
     expect(disableSpy).toBeCalledTimes(1);
   });
 
-  test(' Should call API enable', () => {
+  test(' Should call API method "enable"', () => {
     slider.enable();
     expect(enableSpy).toBeCalledTimes(1);
   });
 
-  test(' Should call API destroy', () => {
+  test(' Should call API method "destroy"', () => {
     slider.destroy();
     expect(destroySpy).toBeCalledTimes(1);
   });
 });
-
-

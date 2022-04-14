@@ -436,7 +436,7 @@ describe('model, calcPos and calcPosKey methods', () => {
   );
 });
 
-describe('model, values correction on  update API request processing', () => {
+describe('model, values correction on API method "update" processing', () => {
   const conf = {
     min: 0,
     max: 100,
@@ -556,7 +556,7 @@ describe('model, values correction on  update API request processing', () => {
   });
 });
 
-describe('model, update API request processing', () => {
+describe('model, API method "update" processing', () => {
   const onStart = () => true;
   const onChange = () => true;
   const onUpdate = () => true;
