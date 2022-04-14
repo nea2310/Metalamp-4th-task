@@ -70,7 +70,6 @@ export default class ViewControl extends Observer {
     this.conf = conf;
     /* Создаем ползунок минимального значения */
     this.controlMin = ViewControl.renderControl('rs-metalamp__control-min', 'rs-metalamp__tip-min', this.conf.from);
-    // this.tipMin = this.controlMin.querySelector('.rs-metalamp__tip') as HTMLInputElement;
     this.tipMin = ViewControl.getElem(this.controlMin, '.rs-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMin);
 
@@ -311,7 +310,7 @@ export default class ViewControl extends Observer {
       const result = arr.indexOf(e.code);
       if (result !== -1) {
         e.preventDefault();
-        const { target } = e;// as HTMLElement;
+        const { target } = e;
         if (!(target instanceof HTMLElement)) {
           throw new Error('Cannot handle move outside of DOM');
         }

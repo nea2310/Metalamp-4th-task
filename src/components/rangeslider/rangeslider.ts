@@ -1,4 +1,5 @@
 import './rangeslider.scss';
+import $ from 'jquery';
 import {
   IConf,
 } from '../../plugins/sliderMetaLamp/mvc/interface';
@@ -271,15 +272,11 @@ class RangeSlider {
       if (!this.isDestroyed && this.disable) {
         if (this.disable.checked) {
           this.rangeSlider.disable();
-          for (const elem of this.inputsAll) {
-            elem.disabled = true;
-          }
+          this.inputsAll.forEach((elem) => { elem.disabled = true; });
           this.isDisabled = true;
         } else {
           this.rangeSlider.enable();
-          for (const elem of this.inputsAll) {
-            elem.disabled = false;
-          }
+          this.inputsAll.forEach((elem) => { elem.disabled = false; });
           const data = this.rangeSlider.getData();
           this.displayData(data);
           this.isDisabled = false;
@@ -318,9 +315,8 @@ class RangeSlider {
       if (this.destroy && this.disable) {
         if (this.destroy.checked) {
           this.rangeSlider.destroy();
-          for (const elem of this.inputsAll) {
-            elem.disabled = true;
-          }
+          this.inputsAll.forEach((elem) => { elem.disabled = true; });
+
           this.disable.checked = true;
           this.disable.disabled = true;
           this.isDestroyed = true;
