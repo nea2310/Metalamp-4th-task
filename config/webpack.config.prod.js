@@ -1,11 +1,7 @@
 const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const path = require('path');
 const common = require('./webpack.config');
 
-const src = path.join(__dirname, '../src');
-const dist = path.join(__dirname, '../dist');
 let name = '[name].[contenthash]';
 if (process.env.NODE_ENV === 'production') {
   name = 'plugin';
@@ -49,19 +45,6 @@ module.exports = merge(common, {
   plugins: [
     new MiniCssExtractPlugin({
       filename: `assets/css/${name}.css`,
-    }),
-
-    /* копируем файлы фавиконов и манифеста в dist
-    подход 2022г. по созданию фавиконов:
-    * https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs
-    * рекомендации HTML-академии:
-    * https://habr.com/ru/company/htmlacademy/blog/578224/
-*/
-    new CopyPlugin({
-      patterns: [
-        { from: `${src}/assets/favicons/favicon.ico`, to: `${dist}` },
-        { from: `${src}/assets/favicons/`, to: `${dist}/assets/favicons/` },
-      ],
     }),
   ],
   module: {

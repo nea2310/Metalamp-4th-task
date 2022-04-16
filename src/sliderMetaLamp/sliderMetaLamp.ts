@@ -1,4 +1,6 @@
-import $ from 'jquery';
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable no-undef */
+
 import { Model, View, Controller }
   from './mvc/controller/controller';
 
@@ -8,16 +10,11 @@ export function plugin(this: JQuery, options: any): JQuery {
     if (!$element.data('SliderMetaLamp')) {
       $element.data(
         'SliderMetaLamp',
-        new Controller(
-          new Model(options), new View(el))
+        new Controller(new Model(options), new View(el)),
       );
     }
-  })
+  });
   return this;
 }
 
 $.fn.SliderMetaLamp = plugin;
-
-
-
-

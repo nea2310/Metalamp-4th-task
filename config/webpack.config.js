@@ -1,10 +1,11 @@
 const webpack = require('webpack');
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 const src = path.join(__dirname, '../src');
-
+const dist = path.join(__dirname, '../dist');
 const PAGES_DIR = path.join(src, 'pages/');
 
 // const PAGES_DIR = `${src}\\pages\\`;
@@ -15,12 +16,54 @@ fs.readdirSync(PAGES_DIR).forEach((file) => {
 
 let entry = `${src}/index-demo.ts`;
 let mode = 'development';
+let isBuild = false;
+let isPlugin = false;
+let plugins = [];
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'productionDemo') {
   mode = 'production';
+  isBuild = true;
 }
+
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development') {
   entry = `${src}/index.ts`;
+  isPlugin = true;
+}
+
+if (!isPlugin) {
+  plugins = [
+    /* HtmlWebpackPlugin создает index.html в директории с бандлом и автоматически
+    добавляет в него ссылку     на бандл. HtmlWebpackPlugin создаст новый файл
+    index.html в директории dist и добавит в него ссылку на бандл —
+    <script src='main.js'></script> (или  <script src='main.[hash].js'></script>,
+    если это build режим). Мы создаем html файл из каждого pug файла, поэтому обходим
+    циклом массив с названиями всех pug-страниц и для каждой создаем объект HtmlWebpackPlugin
+     */
+    ...PAGES.map((page) => new HtmlWebpackPlugin({
+      template: `${src}/pages/${page}/${page}.pug`,
+      filename: `./${page}.html`,
+      inject: true,
+    })),
+    // Подключение jquery
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+    }),
+
+    /* копируем файлы фавиконов и манифеста в dist
+    подход 2022г. по созданию фавиконов:
+    * https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs
+    * рекомендации HTML-академии:
+    * https://habr.com/ru/company/htmlacademy/blog/578224/
+*/
+    new CopyPlugin({
+      patterns: [
+        { from: `${src}/assets/favicons/favicon.ico`, to: `${dist}` },
+        { from: `${src}/assets/favicons/`, to: `${dist}/assets/favicons/` },
+      ],
+    }),
+  ];
 }
 
 module.exports = {
@@ -42,7 +85,7 @@ module.exports = {
   },
 
   mode,
-  devtool: 'source-map',
+  devtool: isBuild ? false : 'source-map',
   /* настройки точки входа */
   entry,
   /* настройки директории выходного файла (бандла) */
@@ -52,26 +95,7 @@ module.exports = {
   },
   /* В отличие от лоадеров, плагины позволяют выполнять задачи после сборки бандла.
   Эти задачи могут касаться как самого бандла, так и другого кода */
-  plugins: [
-    /* HtmlWebpackPlugin создает index.html в директории с бандлом и автоматически
-    добавляет в него ссылку     на бандл. HtmlWebpackPlugin создаст новый файл
-    index.html в директории dist и добавит в него ссылку на бандл —
-     <script src='main.js'></script> (или  <script src='main.[hash].js'></script>,
-     если это build режим). Мы создаем html файл из каждого pug файла, поэтому обходим
-     циклом массив с названиями всех pug-страниц и для каждой создаем объект HtmlWebpackPlugin
-     */
-    ...PAGES.map((page) => new HtmlWebpackPlugin({
-      template: `${src}/pages/${page}/${page}.pug`,
-      filename: `./${page}.html`,
-      inject: true,
-    })),
-    // Подключение jquery
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery',
-    }),
-  ],
+  plugins,
   module: {
     // module.rules - все лоадеры
     rules: [

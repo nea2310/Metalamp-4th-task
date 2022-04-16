@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1649957897269" clover="3.2.0">
-  <project timestamp="1649957897269" name="All files">
-    <metrics statements="940" coveredstatements="855" conditionals="331" coveredconditionals="261" methods="129" coveredmethods="123" elements="1400" coveredelements="1239" complexity="0" loc="940" ncloc="940" packages="8" files="9" classes="9"/>
+<coverage generated="1650128515257" clover="3.2.0">
+  <project timestamp="1650128515257" name="All files">
+    <metrics statements="939" coveredstatements="854" conditionals="331" coveredconditionals="261" methods="129" coveredmethods="123" elements="1399" coveredelements="1238" complexity="0" loc="939" ncloc="939" packages="8" files="9" classes="9"/>
     <package name="sliderMetaLamp">
-      <metrics statements="9" coveredstatements="9" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
+      <metrics statements="8" coveredstatements="8" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
       <file name="sliderMetaLamp.ts" path="C:\Users\Екатерина\Documents\GIT\Metalamp-4th-task\src\sliderMetaLamp\sliderMetaLamp.ts">
-        <metrics statements="9" coveredstatements="9" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
+        <metrics statements="8" coveredstatements="8" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
+        <line num="4" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
+        <line num="10" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
       </file>
     </package>
     <package name="sliderMetaLamp.mvc">

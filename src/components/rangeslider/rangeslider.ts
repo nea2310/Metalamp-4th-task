@@ -315,7 +315,10 @@ class RangeSlider {
       if (this.destroy && this.disable) {
         if (this.destroy.checked) {
           this.rangeSlider.destroy();
-          this.inputsAll.forEach((elem) => { elem.disabled = true; });
+          this.inputsAll.forEach((elem) => {
+            const input = elem as HTMLInputElement;
+            input.disabled = true;
+          });
 
           this.disable.checked = true;
           this.disable.disabled = true;
