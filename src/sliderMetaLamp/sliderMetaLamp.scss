@@ -8,14 +8,15 @@
   display: none;
 
   &__wrapper {
-    position: relative;
+    padding: 50px;
+      position: relative;
     display: flex;
     width: 100%;
 
     &_vert {
+      padding: 50px;
       width: auto;
       height: 100%;
-      padding: 20px;
       display: inline-block;
     }
     &_disabled {
