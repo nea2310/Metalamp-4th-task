@@ -8,7 +8,6 @@ const src = path.join(__dirname, '../src');
 const dist = path.join(__dirname, '../dist');
 const PAGES_DIR = path.join(src, 'pages/');
 
-// const PAGES_DIR = `${src}\\pages\\`;
 const PAGES = [];
 fs.readdirSync(PAGES_DIR).forEach((file) => {
   PAGES.push(file.split('/', 2).join());
