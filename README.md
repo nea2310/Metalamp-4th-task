@@ -298,10 +298,10 @@ Deletes an instance of the plugin and removes its elements from DOM
 go to http://localhost:8080/
 
 * Production build (plugin plus demonstration page):
-  ```npm run build```
+  ```npm run buildDemo```
 
 * Production build (plugin only):
-  ```npm run plugin```
+  ```npm run build```
 
 * Run testing:
   ```npm run test```

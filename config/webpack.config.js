@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
 
 const src = path.join(__dirname, '../src');
@@ -61,6 +62,9 @@ if (!isPlugin) {
         { from: `${src}/assets/favicons/favicon.ico`, to: `${dist}` },
         { from: `${src}/assets/favicons/`, to: `${dist}/assets/favicons/` },
       ],
+    }),
+    new ESLintPlugin({
+      extensions: ['js', 'ts'],
     }),
   ];
 }
