@@ -1,6 +1,6 @@
 import { IConfFull, IdataFull } from '../../interface';
-import { defaultData, defaultThumb } from '../../utils';
 import Observer from '../../observer';
+import { defaultData, defaultThumb } from '../../utils';
 
 interface IElement extends Element {
   value?: string;
@@ -10,12 +10,11 @@ interface IElement extends Element {
 }
 
 interface ITarget extends Omit<EventTarget, 'addEventListener'> {
-
   readonly classList?: DOMTokenList;
   readonly parentElement?: HTMLElement | null;
 }
 
-export default class ViewControl extends Observer {
+class ViewControl extends Observer {
   public controlMin: HTMLElement;
 
   public controlMax: HTMLElement;
@@ -63,10 +62,6 @@ export default class ViewControl extends Observer {
     this.dragControlTouch();
     this.pressControl();
     this.clickTrack();
-  }
-
-  static getElem(obj: HTMLElement, selector: string) {
-    return obj.querySelector(selector);
   }
 
   // Обновляем позицию ползунка (вызывается через контроллер)
@@ -158,11 +153,13 @@ export default class ViewControl extends Observer {
     }
   }
 
-  // Инициализация
-  private init(conf: IConfFull) {
-    this.conf = conf;
-    this.switchRange(this.conf);
-    this.switchTip(this.conf);
+  static calcTipPos(isVertical: boolean, elem: HTMLElement) {
+    if (isVertical) { return `${elem.offsetWidth * (-1) - 5}px`; }
+    return `${(elem.offsetWidth / 2) * (-1)}px`;
+  }
+
+  static getElem(obj: HTMLElement, selector: string) {
+    return obj.querySelector(selector);
   }
 
   static renderControl(controlClassName: string, tipClassName: string, value: number) {
@@ -175,6 +172,13 @@ export default class ViewControl extends Observer {
     tip.innerText = String(value);
     control.append(tip);
     return control;
+  }
+
+  // Инициализация
+  private init(conf: IConfFull) {
+    this.conf = conf;
+    this.switchRange(this.conf);
+    this.switchTip(this.conf);
   }
 
   /* Создаем ползунок минимального значения */
@@ -207,7 +211,7 @@ export default class ViewControl extends Observer {
 
   // Вешаем обработчики события нажатия мышью на ползунке (захвата ползунка) и перемещения ползунка
   private dragControlMouse() {
-    const pointerDownHandler = (e: PointerEvent) => {
+    const handlePointerStart = (e: PointerEvent) => {
       e.preventDefault();
       const { target } = e;// as HTMLElement;
       if (!(target instanceof HTMLElement)) {
@@ -227,41 +231,41 @@ export default class ViewControl extends Observer {
         }
         this.getMetrics(target);
 
-        const pointerMoveHandler = (event: PointerEvent) => {
+        const handlePointerMove = (event: PointerEvent) => {
           T.type = event.type;
           T.clientX = event.clientX;
           T.clientY = event.clientY;
           this.fire('MoveEvent', this.data);
         };
 
-        const pointerUpHandler = () => {
+        const handlePointerUp = () => {
           target.classList.remove('rs-metalamp__control_grabbing');
           target
-            .removeEventListener('pointermove', pointerMoveHandler);
+            .removeEventListener('pointermove', handlePointerMove);
           target
-            .removeEventListener('pointerup', pointerUpHandler);
+            .removeEventListener('pointerup', handlePointerUp);
         };
         /* elem.setPointerCapture(pointerId) – привязывает события с данным pointerId к elem.
         После такого вызова все события указателя с таким pointerId будут иметь elem в
-        качестве целевого элемента
-        (как будто произошли над elem), вне зависимости от того, где в документе они произошли. */
+        качестве целевого элемента (как будто произошли над elem), вне зависимости от того,
+        где в документе они произошли. */
         target.setPointerCapture(e.pointerId);
-        target.addEventListener('pointermove', pointerMoveHandler);
-        target.addEventListener('pointerup', pointerUpHandler);
+        target.addEventListener('pointermove', handlePointerMove);
+        target.addEventListener('pointerup', handlePointerUp);
       }
     };
-    const dragSelectHandler = () => false;
+    const handleDragSelectStart = () => false;
 
-    this.slider.addEventListener('pointerdown', pointerDownHandler);
-    this.slider.addEventListener('dragstart', dragSelectHandler);
-    this.slider.addEventListener('selectstart', dragSelectHandler);
+    this.slider.addEventListener('pointerdown', handlePointerStart);
+    this.slider.addEventListener('dragstart', handleDragSelectStart);
+    this.slider.addEventListener('selectstart', handleDragSelectStart);
   }
 
   // Вешаем обработчики события нажатия пальцем на ползунке и перемещения ползунка
   private dragControlTouch() {
-    const pointerDownHandler = (e: TouchEvent) => {
+    const handlePointerStart = (e: TouchEvent) => {
       e.preventDefault();
-      const { target } = e;// as HTMLElement;
+      const { target } = e;
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
       }
@@ -271,21 +275,21 @@ export default class ViewControl extends Observer {
         T.moovingControl = String(this.defineControl(target));
         this.getMetrics(target);
 
-        const pointerMoveHandler = (event: TouchEvent) => {
+        const handlePointerMove = (event: TouchEvent) => {
           T.type = event.type;
           T.clientX = event.targetTouches[0] ? event.targetTouches[0].clientX : 0;
           T.clientY = event.targetTouches[0] ? event.targetTouches[0].clientY : 0;
           this.fire('MoveEvent', this.data);
         };
-        target.addEventListener('touchmove', pointerMoveHandler);
+        target.addEventListener('touchmove', handlePointerMove);
       }
     };
-    this.slider.addEventListener('touchstart', pointerDownHandler);
+    this.slider.addEventListener('touchstart', handlePointerStart);
   }
 
   // Вешаем обработчик нажатия стрелок на сфокусированном ползунке
   private pressControl() {
-    const pointerDownHandler = (e: KeyboardEvent) => {
+    const handlePointerStart = (e: KeyboardEvent) => {
       const arr = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
       const result = arr.indexOf(e.code);
       if (result !== -1) {
@@ -306,12 +310,12 @@ export default class ViewControl extends Observer {
         }
       }
     };
-    this.slider.addEventListener('keydown', pointerDownHandler);
+    this.slider.addEventListener('keydown', handlePointerStart);
   }
 
   // Обработчик клика по шкале
   private clickTrack() {
-    const pointerDownHandler = (e: PointerEvent) => {
+    const handlePointerStart = (e: PointerEvent) => {
       e.preventDefault();
       const { target } = e;
       if (!(target instanceof HTMLElement)) {
@@ -359,11 +363,8 @@ export default class ViewControl extends Observer {
         this.fire('MoveEvent', this.data);
       }
     };
-    this.slider.addEventListener('pointerdown', pointerDownHandler);
-  }
-
-  static calcTipPos(isVertical: boolean, elem: HTMLElement) {
-    if (isVertical) { return `${elem.offsetWidth * (-1) - 5}px`; }
-    return `${(elem.offsetWidth / 2) * (-1)}px`;
+    this.slider.addEventListener('pointerdown', handlePointerStart);
   }
 }
+
+export default ViewControl;

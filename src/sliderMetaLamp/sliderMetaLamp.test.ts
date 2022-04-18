@@ -2,9 +2,7 @@
 /* eslint-disable no-unused-vars */
 
 import { plugin } from './sliderMetaLamp';
-import {
-  IConf,
-} from './mvc/interface';
+import { IConf } from './mvc/interface';
 import { Controller } from './mvc/controller/controller';
 
 declare global {

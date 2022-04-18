@@ -432,7 +432,8 @@
 <a name='L367'></a><a href='#L367'>367</a>
 <a name='L368'></a><a href='#L368'>368</a>
 <a name='L369'></a><a href='#L369'>369</a>
-<a name='L370'></a><a href='#L370'>370</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L370'></a><a href='#L370'>370</a>
+<a name='L371'></a><a href='#L371'>371</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -449,7 +450,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -497,10 +497,6 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -593,22 +589,31 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -797,13 +802,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { IConfFull, IdataFull } from '../../interface';
-import { defaultData, defaultThumb } from '../../utils';
 import Observer from '../../observer';
+import { defaultData, defaultThumb } from '../../utils';
 &nbsp;
 interface IElement extends Element {
   value?: string;
@@ -813,12 +815,11 @@ interface IElement extends Element {
 }
 &nbsp;
 interface ITarget extends Omit&lt;EventTarget, 'addEventListener'&gt; {
-&nbsp;
   readonly classList?: DOMTokenList;
   readonly parentElement?: HTMLElement | null;
 }
 &nbsp;
-export default class ViewControl extends Observer {
+class ViewControl extends Observer {
   public controlMin: HTMLElement;
 &nbsp;
   public controlMax: HTMLElement;
@@ -866,10 +867,6 @@ export default class ViewControl extends Observer {
     this.dragControlTouch();
     this.pressControl();
     this.clickTrack();
-  }
-&nbsp;
-  static getElem(obj: HTMLElement, selector: string) {
-    return obj.querySelector(selector);
   }
 &nbsp;
   // Обновляем позицию ползунка (вызывается через контроллер)
@@ -961,11 +958,13 @@ export default class ViewControl extends Observer {
     }
   }
 &nbsp;
-  // Инициализация
-  private init(conf: IConfFull) {
-    this.conf = conf;
-    this.switchRange(this.conf);
-    this.switchTip(this.conf);
+  static calcTipPos(isVertical: boolean, elem: HTMLElement) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (isVertical) { <span class="cstat-no" title="statement not covered" >return `${elem.offsetWidth * (-1) - 5}px`; </span>}
+    return `${(elem.offsetWidth / 2) * (-1)}px`;
+  }
+&nbsp;
+  static getElem(obj: HTMLElement, selector: string) {
+    return obj.querySelector(selector);
   }
 &nbsp;
   static renderControl(controlClassName: string, tipClassName: string, value: number) {
@@ -978,6 +977,13 @@ export default class ViewControl extends Observer {
     tip.innerText = String(value);
     control.append(tip);
     return control;
+  }
+&nbsp;
+  // Инициализация
+  private init(conf: IConfFull) {
+    this.conf = conf;
+    this.switchRange(this.conf);
+    this.switchTip(this.conf);
   }
 &nbsp;
   /* Создаем ползунок минимального значения */
@@ -1010,7 +1016,7 @@ export default class ViewControl extends Observer {
 &nbsp;
   // Вешаем обработчики события нажатия мышью на ползунке (захвата ползунка) и перемещения ползунка
   private dragControlMouse() {
-    const pointerDownHandler = (e: PointerEvent) =&gt; {
+    const handlePointerStart = (e: PointerEvent) =&gt; {
       e.preventDefault();
       const { target } = e;// as HTMLElement;
       <span class="missing-if-branch" title="if path not taken" >I</span>if (!(target instanceof HTMLElement)) {
@@ -1030,41 +1036,41 @@ export default class ViewControl extends Observer {
         }
         this.getMetrics(target);
 &nbsp;
-        const pointerMoveHandler = (event: PointerEvent) =&gt; {
+        const handlePointerMove = (event: PointerEvent) =&gt; {
           T.type = event.type;
           T.clientX = event.clientX;
           T.clientY = event.clientY;
           this.fire('MoveEvent', this.data);
         };
 &nbsp;
-        const pointerUpHandler = <span class="fstat-no" title="function not covered" >() =</span>&gt; {
+        const handlePointerUp = <span class="fstat-no" title="function not covered" >() =</span>&gt; {
 <span class="cstat-no" title="statement not covered" >          target.classList.remove('rs-metalamp__control_grabbing');</span>
 <span class="cstat-no" title="statement not covered" >          target</span>
-            .removeEventListener('pointermove', pointerMoveHandler);
+            .removeEventListener('pointermove', handlePointerMove);
 <span class="cstat-no" title="statement not covered" >          target</span>
-            .removeEventListener('pointerup', pointerUpHandler);
+            .removeEventListener('pointerup', handlePointerUp);
         };
         /* elem.setPointerCapture(pointerId) – привязывает события с данным pointerId к elem.
         После такого вызова все события указателя с таким pointerId будут иметь elem в
-        качестве целевого элемента
-        (как будто произошли над elem), вне зависимости от того, где в документе они произошли. */
+        качестве целевого элемента (как будто произошли над elem), вне зависимости от того,
+        где в документе они произошли. */
         target.setPointerCapture(e.pointerId);
-        target.addEventListener('pointermove', pointerMoveHandler);
-        target.addEventListener('pointerup', pointerUpHandler);
+        target.addEventListener('pointermove', handlePointerMove);
+        target.addEventListener('pointerup', handlePointerUp);
       }
     };
-    const dragSelectHandler = <span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >false;</span>
+    const handleDragSelectStart = <span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >false;</span>
 &nbsp;
-    this.slider.addEventListener('pointerdown', pointerDownHandler);
-    this.slider.addEventListener('dragstart', dragSelectHandler);
-    this.slider.addEventListener('selectstart', dragSelectHandler);
+    this.slider.addEventListener('pointerdown', handlePointerStart);
+    this.slider.addEventListener('dragstart', handleDragSelectStart);
+    this.slider.addEventListener('selectstart', handleDragSelectStart);
   }
 &nbsp;
   // Вешаем обработчики события нажатия пальцем на ползунке и перемещения ползунка
   private dragControlTouch() {
-    const pointerDownHandler = (e: TouchEvent) =&gt; {
+    const handlePointerStart = (e: TouchEvent) =&gt; {
       e.preventDefault();
-      const { target } = e;// as HTMLElement;
+      const { target } = e;
       <span class="missing-if-branch" title="if path not taken" >I</span>if (!(target instanceof HTMLElement)) {
 <span class="cstat-no" title="statement not covered" >        throw new Error('Cannot handle move outside of DOM');</span>
       }
@@ -1074,21 +1080,21 @@ export default class ViewControl extends Observer {
         T.moovingControl = String(this.defineControl(target));
         this.getMetrics(target);
 &nbsp;
-        const pointerMoveHandler = (event: TouchEvent) =&gt; {
+        const handlePointerMove = (event: TouchEvent) =&gt; {
           T.type = event.type;
           T.clientX = event.targetTouches[0] ? <span class="branch-0 cbranch-no" title="branch not covered" >event.targetTouches[0].clientX </span>: 0;
           T.clientY = event.targetTouches[0] ? <span class="branch-0 cbranch-no" title="branch not covered" >event.targetTouches[0].clientY </span>: 0;
           this.fire('MoveEvent', this.data);
         };
-        target.addEventListener('touchmove', pointerMoveHandler);
+        target.addEventListener('touchmove', handlePointerMove);
       }
     };
-    this.slider.addEventListener('touchstart', pointerDownHandler);
+    this.slider.addEventListener('touchstart', handlePointerStart);
   }
 &nbsp;
   // Вешаем обработчик нажатия стрелок на сфокусированном ползунке
   private pressControl() {
-    const pointerDownHandler = (e: KeyboardEvent) =&gt; {
+    const handlePointerStart = (e: KeyboardEvent) =&gt; {
       const arr = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
       const result = arr.indexOf(e.code);
       if (result !== -1) {
@@ -1109,12 +1115,12 @@ export default class ViewControl extends Observer {
         }
       }
     };
-    this.slider.addEventListener('keydown', pointerDownHandler);
+    this.slider.addEventListener('keydown', handlePointerStart);
   }
 &nbsp;
   // Обработчик клика по шкале
   private clickTrack() {
-    const pointerDownHandler = (e: PointerEvent) =&gt; {
+    const handlePointerStart = (e: PointerEvent) =&gt; {
       e.preventDefault();
       const { target } = e;
       <span class="missing-if-branch" title="if path not taken" >I</span>if (!(target instanceof HTMLElement)) {
@@ -1162,14 +1168,11 @@ export default class ViewControl extends Observer {
         this.fire('MoveEvent', this.data);
       }
     };
-    this.slider.addEventListener('pointerdown', pointerDownHandler);
-  }
-&nbsp;
-  static calcTipPos(isVertical: boolean, elem: HTMLElement) {
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (isVertical) { <span class="cstat-no" title="statement not covered" >return `${elem.offsetWidth * (-1) - 5}px`; </span>}
-    return `${(elem.offsetWidth / 2) * (-1)}px`;
+    this.slider.addEventListener('pointerdown', handlePointerStart);
   }
 }
+&nbsp;
+export default ViewControl;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -1177,7 +1180,7 @@ export default class ViewControl extends Observer {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Sat Apr 16 2022 22:01:55 GMT+0500 (Екатеринбург, стандартное время)
+                at Mon Apr 18 2022 12:59:54 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

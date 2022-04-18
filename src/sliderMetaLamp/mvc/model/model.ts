@@ -6,12 +6,16 @@ import {
   IdataFull,
 } from '../interface';
 import Observer from '../observer';
-import { defaultConf, defaultData, defaultThumb } from '../utils';
+import {
+  defaultConf,
+  defaultData,
+  defaultThumb,
+} from '../utils';
 
-export default class Model extends Observer {
-  private changeMode: boolean = false;
-
+class Model extends Observer {
   public conf: IConfFull;
+
+  private changeMode: boolean = false;
 
   private startConf: IConf;
 
@@ -391,54 +395,43 @@ export default class Model extends Observer {
 
     if (conf.scaleBase !== 'step' && conf.scaleBase !== 'interval') {
       conf.scaleBase = 'step';
-      // console.log('0');
     }
 
     if (conf.shiftOnKeyDown <= 0) {
       conf.shiftOnKeyDown = 1;
-      // console.log('1');
     }
     if (conf.shiftOnKeyHold <= 0) {
       conf.shiftOnKeyHold = 1;
-      // console.log('2');
     }
 
     if (conf.max <= conf.min) {
       conf.max = conf.min + 10;
       conf.from = conf.min;
       conf.to = conf.max;
-      // console.log('3');
     }
     if (conf.from < conf.min) {
       conf.from = conf.min;
-      // console.log('4');
     }
 
     if (conf.to < conf.min) {
       conf.to = conf.from;
-      // console.log('5');
     }
     if (!conf.range && conf.to > conf.max) {
       conf.to = conf.from;
-      // console.log('6');
     }
 
     if (conf.range && conf.to > conf.max) {
       conf.to = conf.max;
-      // console.log('7');
     }
     if (conf.range && conf.from > conf.max) {
       conf.from = conf.to;
-      // console.log('8');
     }
 
     if (!conf.range && conf.from > conf.max) {
       conf.from = conf.max;
-      // console.log('8');
     }
     if (conf.range && conf.from > conf.to) {
       conf.from = conf.min;
-      // console.log('9');
     }
 
     if (conf.step <= 0) {
@@ -461,16 +454,9 @@ export default class Model extends Observer {
     this.conf = conf;
     // запустим методы, для которых есть изменившиеся параметры
     const keys = Object.keys(this.methods);
-    // function runMethod(method: string) {
-    //   this[method]();
-    // }
     for (let i = 0; i < keys.length; i += 1) {
       const key = keys[i] as keyof Imethods;
       if (this.methods[key]) {
-        // console.log('this>>>', this);
-        // console.log('Model>>>', Model);
-        // const method = `this.${key}()`;
-        // eval(method);
         this[key]();
       }
     }
@@ -492,7 +478,7 @@ export default class Model extends Observer {
   }
 
   /* находим изменившийся параметр и меняем соотв-щее св-во объекта this.methods;
-  это нужно чтобы не выполнять одни и те же
+  это нужно, чтобы не выполнять одни и те же
   действия несколько раз, если получаем несколько параметров, требующих запуска
   одного и того же метода в модели */
   private findChangedConf(currentConf: IConfFull, newConf: IConf) {
@@ -766,3 +752,5 @@ export default class Model extends Observer {
     }
   }
 }
+
+export default Model;

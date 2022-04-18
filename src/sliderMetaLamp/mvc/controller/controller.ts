@@ -1,7 +1,7 @@
-import { IConf, IFireParms } from '../interface';
 import Model from '../model/model';
 import View from '../view/view';
 import Observer from '../observer';
+import { IConf, IFireParms } from '../interface';
 
 class Controller extends Observer {
   model: Model | null;

@@ -18,7 +18,7 @@ jQuery Core 1.2.0+
 ## Initialization
   ```
 <input id = "my-element">
-$('#my-element').Slider([options])
+$('#my-element').SliderMetaLamp([options])
   ```
 
 ## Access to an instance of the plugin

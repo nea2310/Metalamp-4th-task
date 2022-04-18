@@ -19,26 +19,7 @@ interface IConfFull {
   onUpdate: Function
 }
 
-interface IConf {
-  min?: number
-  max?: number
-  from?: number
-  to?: number
-  vertical?: boolean
-  range?: boolean
-  bar?: boolean
-  tip?: boolean
-  scale?: boolean
-  scaleBase?: string
-  step?: number
-  interval?: number
-  sticky?: boolean
-  shiftOnKeyDown?: number
-  shiftOnKeyHold?: number
-  onStart?: Function
-  onChange?: Function
-  onUpdate?: Function
-}
+type IConf = Partial<IConfFull>
 
 interface IObj {
   val: number;
@@ -58,6 +39,19 @@ interface Imethods {
   updateControlPos: boolean
 }
 
+interface IthumbFull {
+  type: string;
+  clientY: number;
+  clientX: number;
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+  shiftBase: number;
+  moovingControl: string;
+  key: string;
+  repeat: boolean;
+}
 
 interface IdataFull {
   fromPos: number;
@@ -73,20 +67,6 @@ interface IdataFull {
   thumb: IthumbFull;
 }
 
-interface IthumbFull {
-  type: string;
-  clientY: number;
-  clientX: number;
-  top: number;
-  left: number;
-  width: number;
-  height: number;
-  shiftBase: number;
-  moovingControl: string;
-  key: string;
-  repeat: boolean;
-}
-
 interface IFireParms {
   key: string,
   data: IdataFull,
@@ -100,5 +80,5 @@ export {
   IFireParms,
   IConfFull,
   IdataFull,
-  IthumbFull
+  IthumbFull,
 };

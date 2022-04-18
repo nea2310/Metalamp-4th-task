@@ -20,7 +20,7 @@ export const defaultConf: IConfFull = {
   sticky: false,
   shiftOnKeyDown: 0,
   shiftOnKeyHold: 0,
-  onStart: () => true, // null?
+  onStart: () => true,
   onChange: () => true,
   onUpdate: () => true,
 };

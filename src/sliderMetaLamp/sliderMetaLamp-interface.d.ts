@@ -1,29 +1,11 @@
-interface SliderOptions {
-  min?: number
-  max?: number
-  from?: number
-  to?: number
-  range?: boolean
-  bar?: boolean
-  tip?: boolean
-  scale?: boolean
-  step?: number
-  interval?: number
-  sticky?: boolean
-  shiftOnKeyDown?: number
-  shiftOnKeyHold?: number
-  vertical?: boolean
-  onStart?: Function
-  onUpdate?: Function
-  onChange?: Function
-  scaleBase?: string
-}
+/* eslint-disable no-use-before-define */
+
+import { IConf } from './mvc/interface';
 
 interface SliderFunction {
   // eslint-disable-next-line no-unused-vars
-  (options: SliderOptions): JQuery;
+  (options: IConf): JQuery;
 }
-
 
 interface Slider extends
   SliderFunction { }
@@ -31,10 +13,3 @@ interface Slider extends
 interface JQuery {
   SliderMetaLamp: Slider;
 }
-
-export { JQuery }
-
-
-
-
-

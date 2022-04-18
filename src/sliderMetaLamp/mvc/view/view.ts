@@ -1,9 +1,11 @@
 import ViewBar from '../view/view-bar/view-bar';
-import ViewControl from
-  '../view/view-control/view-control';
+import ViewControl from '../view/view-control/view-control';
 import ViewScale from '../view/view-scale/view-scale';
 import {
-  IdataFull, IConf, IFireParms, IConfFull,
+  IdataFull,
+  IConf,
+  IFireParms,
+  IConfFull,
 } from '../interface';
 import Observer from '../observer';
 import { defaultConf } from '../utils';
@@ -15,14 +17,14 @@ interface IElement extends Element {
   clickOutsideEvent?(): void;
 }
 
-export default class View extends Observer {
+class View extends Observer {
   public viewControl: ViewControl | undefined;
 
   public viewScale: ViewScale | undefined;
 
   public viewBar: ViewBar | undefined;
 
-  private root: IElement;
+  public backEndConf: IConf = {};
 
   public slider: HTMLElement;
 
@@ -32,7 +34,7 @@ export default class View extends Observer {
 
   private conf: IConfFull = defaultConf;
 
-  public backEndConf: IConf = {};
+  private root: IElement;
 
   constructor(root: Element) {
     super();
@@ -225,3 +227,5 @@ export default class View extends Observer {
     this.fire('KeydownEvent', parms.data);
   }
 }
+
+export default View;

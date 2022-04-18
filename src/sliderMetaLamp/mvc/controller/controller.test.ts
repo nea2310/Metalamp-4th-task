@@ -11,7 +11,6 @@ function prepareInstance(conf: IConf) {
   return new Controller(testModel, testView);
 }
 
-/** ******************************** */
 const onChangeCB = () => true;
 const onStartCB = () => true;
 const onUpdateCB = () => true;

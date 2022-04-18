@@ -1,8 +1,7 @@
-import './rangeslider.scss';
 import $ from 'jquery';
-import {
-  IConf,
-} from '../../sliderMetaLamp/mvc/interface';
+
+import { IConf } from '../../sliderMetaLamp/mvc/interface';
+import './rangeslider.scss';
 
 class RangeSlider {
   slider: HTMLElement
@@ -15,7 +14,7 @@ class RangeSlider {
 
   sliderWrapper: HTMLElement
 
-  rangeSlider: any // какой здесь должен быть тип?
+  rangeSlider: any;
 
   min: HTMLInputElement | undefined;
 
@@ -66,10 +65,10 @@ class RangeSlider {
   constructor(selector: string, elem: Element) {
     this.selector = selector;
     this.wrapper = elem as HTMLElement;
-    this.panel = RangeSlider.getElem(this.wrapper, '.js-panel') as HTMLElement;
-    this.slider = RangeSlider.getElem(this.wrapper, '.js-rs-metalamp') as HTMLElement;
-    this.panelWrapper = RangeSlider.getElem(this.wrapper, `${this.selector}__panel`) as HTMLElement;
-    this.sliderWrapper = RangeSlider.getElem(this.wrapper, `${this.selector}__rs`) as HTMLElement;
+    this.panel = RangeSlider.getElem(this.wrapper, '.js-panel');
+    this.slider = RangeSlider.getElem(this.wrapper, '.js-rs-metalamp');
+    this.panelWrapper = RangeSlider.getElem(this.wrapper, `${this.selector}__panel`);
+    this.sliderWrapper = RangeSlider.getElem(this.wrapper, `${this.selector}__rs`);
     this.renderPanel();
     this.renderSlider(this.slider);
     this.updateSlider();
@@ -79,14 +78,15 @@ class RangeSlider {
   }
 
   static getElem(obj: HTMLElement, selector: string) {
-    return obj.querySelector(selector);
+    return obj.querySelector(selector) as HTMLElement;
   }
 
   static valid(
     item: HTMLInputElement,
     val: number | string | boolean,
   ) {
-    if (item.value !== val) { item.value = val as string; }
+    const input = item;
+    if (input.value !== val) { input.value = val as string; }
   }
 
   private switchVertical() {
@@ -96,21 +96,20 @@ class RangeSlider {
   }
 
   private displayData(data: IConf) {
-    const D = data;
-    if (this.min) this.min.value = String(D.min);
-    if (this.max) this.max.value = String(D.max);
-    if (this.from) this.from.value = String(D.from);
-    if (this.to) this.to.value = String(D.to);
-    if (this.interval) this.interval.value = String(D.interval);
-    if (this.step) this.step.value = String(D.step);
-    if (this.shiftOnKeyDown) this.shiftOnKeyDown.value = String(D.shiftOnKeyDown);
-    if (this.shiftOnKeyHold) this.shiftOnKeyHold.value = String(D.shiftOnKeyHold);
-    if (this.vertical) this.vertical.checked = !!D.vertical;
-    if (this.range) this.range.checked = !!D.range;
-    if (this.scale) this.scale.checked = !!D.scale;
-    if (this.bar) this.bar.checked = !!D.bar;
-    if (this.tip) this.tip.checked = !!D.tip;
-    if (this.sticky) this.sticky.checked = !!D.sticky;
+    if (this.min) this.min.value = String(data.min);
+    if (this.max) this.max.value = String(data.max);
+    if (this.from) this.from.value = String(data.from);
+    if (this.to) this.to.value = String(data.to);
+    if (this.interval) this.interval.value = String(data.interval);
+    if (this.step) this.step.value = String(data.step);
+    if (this.shiftOnKeyDown) this.shiftOnKeyDown.value = String(data.shiftOnKeyDown);
+    if (this.shiftOnKeyHold) this.shiftOnKeyHold.value = String(data.shiftOnKeyHold);
+    if (this.vertical) this.vertical.checked = !!data.vertical;
+    if (this.range) this.range.checked = !!data.range;
+    if (this.scale) this.scale.checked = !!data.scale;
+    if (this.bar) this.bar.checked = !!data.bar;
+    if (this.tip) this.tip.checked = !!data.tip;
+    if (this.sticky) this.sticky.checked = !!data.sticky;
     if (this.subscribe) this.subscribe.checked = true;
 
     if (data.scaleBase === 'interval' && this.scaleBaseIntervals) {
@@ -122,7 +121,7 @@ class RangeSlider {
       this.scaleBaseSteps.checked = true;
       if (this.interval) this.interval.disabled = true;
     }
-    if (this.to) this.to.disabled = !D.range;
+    if (this.to) this.to.disabled = !data.range;
   }
 
   private updateData = (data: IConf) => {
@@ -130,22 +129,20 @@ class RangeSlider {
       !== this.wrapper.classList.contains('rangeslider_vert')) {
       this.switchVertical();
     }
-    const D = data;
-    if (this.from) RangeSlider.valid(this.from, Number(D.from));
-    if (this.to) RangeSlider.valid(this.to, Number(D.to));
-    if (this.min) RangeSlider.valid(this.min, Number(D.min));
-    if (this.max) RangeSlider.valid(this.max, Number(D.max));
-    if (this.shiftOnKeyDown) RangeSlider.valid(this.shiftOnKeyDown, Number(D.shiftOnKeyDown));
-    if (this.shiftOnKeyHold) RangeSlider.valid(this.shiftOnKeyHold, Number(D.shiftOnKeyHold));
-    if (this.interval) RangeSlider.valid(this.interval, Number(D.interval));
-    if (this.step) RangeSlider.valid(this.step, Number(D.step));
+    if (this.from) RangeSlider.valid(this.from, Number(data.from));
+    if (this.to) RangeSlider.valid(this.to, Number(data.to));
+    if (this.min) RangeSlider.valid(this.min, Number(data.min));
+    if (this.max) RangeSlider.valid(this.max, Number(data.max));
+    if (this.shiftOnKeyDown) RangeSlider.valid(this.shiftOnKeyDown, Number(data.shiftOnKeyDown));
+    if (this.shiftOnKeyHold) RangeSlider.valid(this.shiftOnKeyHold, Number(data.shiftOnKeyHold));
+    if (this.interval) RangeSlider.valid(this.interval, Number(data.interval));
+    if (this.step) RangeSlider.valid(this.step, Number(data.step));
   };
 
   private changeData(data: IConf) {
-    const D = data;
     if (this.from && this.to) {
-      RangeSlider.valid(this.from, Number(D.from));
-      RangeSlider.valid(this.to, Number(D.to));
+      RangeSlider.valid(this.from, Number(data.from));
+      RangeSlider.valid(this.to, Number(data.to));
     }
   }
 
@@ -258,7 +255,6 @@ class RangeSlider {
             if (elem === 'range' && this.to) {
               this.to.disabled = !target.checked;
             }
-            //   break;
           }
         });
       }
@@ -272,11 +268,17 @@ class RangeSlider {
       if (!this.isDestroyed && this.disable) {
         if (this.disable.checked) {
           this.rangeSlider.disable();
-          this.inputsAll.forEach((elem) => { elem.disabled = true; });
+          this.inputsAll.forEach((elem) => {
+            const input = elem as HTMLInputElement;
+            input.disabled = true;
+          });
           this.isDisabled = true;
         } else {
           this.rangeSlider.enable();
-          this.inputsAll.forEach((elem) => { elem.disabled = false; });
+          this.inputsAll.forEach((elem) => {
+            const input = elem as HTMLInputElement;
+            input.disabled = false;
+          });
           const data = this.rangeSlider.getData();
           this.displayData(data);
           this.isDisabled = false;

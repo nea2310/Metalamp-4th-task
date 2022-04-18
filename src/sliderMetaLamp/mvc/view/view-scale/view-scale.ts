@@ -1,8 +1,6 @@
-import {
-  IConfFull,
-} from '../../interface';
+import { IConfFull } from '../../interface';
 
-export default class ViewScale {
+class ViewScale {
   private slider: HTMLElement;
 
   private startWidth: number = 0;
@@ -100,7 +98,7 @@ export default class ViewScale {
 
   // проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
   private checkScaleLength(markList: Element[]) {
-    // деактивируем правило, т.к. это рекурсивная функция
+    // деактивируем правило ESLint, т.к. это рекурсивная функция
     // eslint-disable-next-line no-shadow
     const hideLabels = (markList: Element[]) => {
       // скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
@@ -196,3 +194,5 @@ export default class ViewScale {
     window.addEventListener('resize', handleResize);
   }
 }
+
+export default ViewScale;

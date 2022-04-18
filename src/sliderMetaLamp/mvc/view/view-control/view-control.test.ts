@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-new */
 import { Controller } from '../../controller/controller';
 import ViewControl from '../view-control/view-control';
 import { IConfFull } from '../../interface';
@@ -25,8 +27,7 @@ function mockTouchEvent(
 ): void {
   const touchEvent = new TouchEvent(
     eventType,
-    { /* including in this second parameter of TouchEvent constructor (touchEventInit) any parameter which value is Touch object (touches, targetTouches, changedTouches)
-even with its default value (empty array) ends up with error Touch is not defined in Jest. */
+    {
       bubbles: true,
     },
   );
@@ -95,22 +96,11 @@ describe('apply styles on calling ViewControl method', () => {
       .toHaveProperty('style.left', '66.66666666666667%');
     expect(controlMax)
       .toHaveProperty('style.bottom', '');
-    /*
-    Это не протестируешь, т.к. в расчетах используется offsetWidth
-        expect(tipMax).
-          toHaveProperty('style.left', '0px');
-        expect(tipMax).
-          toHaveProperty('style.bottom', '');
-    */
+
     await testViewControl.updatePos(controlMax, 50);
 
     expect(controlMax).toHaveProperty('style.left', '50%');
     expect(controlMax).toHaveProperty('style.bottom', '');
-    /*
-    Это не протестируешь, т.к. в расчетах используется offsetWidth
-        expect(tipMax).toHaveProperty('style.left', '0px');
-        expect(tipMax).toHaveProperty('style.bottom', '');
-    */
   });
 
   test('change tip inner text on calling updateVal method', async () => {
@@ -363,7 +353,7 @@ describe('ViewControl event listeners', () => {
         height: 0,
         shiftBase: 0,
         moovingControl: 'max',
-      }
+      },
     );
   });
 
@@ -388,7 +378,7 @@ describe('ViewControl event listeners', () => {
         height: 0,
         shiftBase: 100,
         moovingControl: 'max',
-      }
+      },
     );
   });
 
@@ -409,7 +399,7 @@ describe('ViewControl event listeners', () => {
         height: 0,
         shiftBase: 100,
         moovingControl: 'min',
-      }
+      },
     );
   });
 
@@ -422,7 +412,7 @@ describe('ViewControl event listeners', () => {
     expect(calcPosKeySpy).toBeCalledWith({
       key: 'ArrowLeft',
       repeat: false,
-      moovingControl: 'max'
+      moovingControl: 'max',
     });
   });
 });
