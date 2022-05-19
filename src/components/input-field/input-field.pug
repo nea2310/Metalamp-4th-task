@@ -8,10 +8,8 @@ mixin input-field({labelText = '', usage = ''} = {})
     const validUsages = ['min', 'max', 'from', 'to', 'step', 'interval', 'shiftOnKeyDown', 'shiftOnKeyHold']
     usage = getValidValue(validUsages, usage, '')
 
-  div(class = elementName)
-    label(class = `${elementName}__label`)
-      p(class = `${elementName}__label-text`)= labelText
-      input(class = `${elementName}__input js-input-${usage}`)
+  label(class = elementName)= labelText
+    input(class = `${elementName}__input js-input-${usage}`)
 
 
 

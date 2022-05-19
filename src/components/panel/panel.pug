@@ -36,29 +36,29 @@ mixin panel(options={})
       div(class = elemName + '__vertical')
         +toggle(
           {name: 'vertical',
-          js: ' js-toggle-vertical'}
+          usage: 'vertical'}
           )
       div(class = elemName + '__range')
         +toggle(
           {name: 'range',
-          js: ' js-toggle-range'}
+          usage: 'range'}
           )
       div(class = elemName + '__bar')
         +toggle(
           {name: 'bar',
-          js: ' js-toggle-bar'}
+          usage: 'bar'}
           )
       div(class = elemName + '__tip')
         +toggle(
           {name: 'tip',
-          js: ' js-toggle-tip'}
+          usage: 'tip'}
           )
     fieldset(class = elemName + '__scaleSetup')
       legend Scale
       div(class = elemName + '__scale')
         +toggle(
           {name: 'scale',
-          js: ' js-toggle-scale'}
+          usage: 'scale'}
           )
       span scale base
       div(class = elemName + '__scaleBase' + ' js-' + elemName + '__scaleBase')
@@ -77,14 +77,14 @@ mixin panel(options={})
           +input-field(
             {
             labelText: 'interval',
-usage: 'interval'} 
-  )
+            usage: 'interval'} 
+              )
     fieldset(class = elemName + '__moveSetup')
       legend Control movement
       div(class = elemName + '__sticky')
         +toggle(
           {name: 'sticky',
-          js: ' js-toggle-sticky'}
+          usage: 'sticky'}
           )
       div(class = elemName + '__shiftOnKeyDown')
         +input-field(
@@ -103,19 +103,19 @@ usage: 'interval'}
       div(class = elemName + '__subscribe')
         +toggle(
           {name: 'subscribe events',
-          js: ' js-toggle-subscribe' 
+          usage: 'subscribe' 
           }
           )
       div(class = elemName + '__disable')
         +toggle(
           {name: 'disable',
-          js: ' js-toggle-disable' 
+          usage: 'disable' 
           }
           )
       div(class = elemName + '__destroy')
         +toggle(
           {name: 'destroy',
-          js: ' js-toggle-destroy' 
+          usage: 'destroy' 
           }
           )
     div(class = elemName + '__apply')

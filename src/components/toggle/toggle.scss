@@ -2,14 +2,13 @@
   * {
     box-sizing: border-box;
   }
-
+  @include font-body;
   user-select: none;
-  @include font-h3;
-
-  &__wrapper {
-    display: flex;
-    position: relative;
-  }
+  display: inline-flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
+  cursor: pointer;
 
   &__checkbox {
     position: absolute;
@@ -20,6 +19,7 @@
     outline-offset: 12px;
 
     & + .toggle__checkmark {
+      margin: 5px;
       border: 2px solid $colorDarkShade25;
       & > .toggle__ball {
         width: 10px;
@@ -51,14 +51,5 @@
     height: 20px;
     border-radius: 22px;
     background-color: $colorWhite;
-  }
-
-  &__name {
-    margin: 0;
-    cursor: pointer;
-    @include font-body;
-    line-height: 19px;
-    padding-left: 10px;
-    text-transform: none;
   }
 }
