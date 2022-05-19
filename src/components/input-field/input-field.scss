@@ -1,16 +1,7 @@
 .input-field {
   user-select: none;
-
-  &-wide {
-    width: 320px;
-  }
-  &-medium {
-    width: 266px;
-  }
-  &-narrow {
-    width: 100px;
-  }
-
+  width: 100%;
+  max-width: 100px;
   display: flex;
   flex-direction: column;
 
@@ -20,10 +11,12 @@
     flex-direction: column;
     height: 60px;
     justify-content: flex-end;
+
+    &-text {
+      @include font-body;
+    }
   }
-  &__label-text {
-    @include font-body;
-  }
+
   &__link {
     position: absolute;
     bottom: 13px;
@@ -40,20 +33,18 @@
   }
 
   &__input {
-    outline: none;
-    &::placeholder {
-      color: $colorDarkShade25;
-    }
     @include font-body;
+    outline: none;
     font-weight: normal;
     text-indent: 12px;
     border-radius: 3px;
     border: 1px solid $colorDarkShade25;
     margin-top: 4px;
     width: 100%;
-    &:hover {
-      border-color: $colorDarkShade50;
+    &::placeholder {
+      color: $colorDarkShade25;
     }
+    &:hover,
     &:focus {
       border-color: $colorDarkShade50;
     }

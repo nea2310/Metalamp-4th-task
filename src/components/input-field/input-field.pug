@@ -1,22 +1,17 @@
-mixin input(options={})
+mixin input-field({labelText = '', usage = ''} = {})
   -
-    let elemName='input-field'
-    let width = options.width ?? ''
-    let labelText = options.labelText ?? ''
-    let name = options.name ?? ''
-    let js = options.js ?? ''
-    let placeholder = options.placeholder ?? ''
-    let opType = options.type ?? ''
+    function getValidValue (list, value, defaultValue = '') {
+      return value = list.includes(value) ? value : defaultValue
+    }
+    const elementName = 'input-field'
 
+    const validUsages = ['min', 'max', 'from', 'to', 'step', 'interval', 'shiftOnKeyDown', 'shiftOnKeyHold']
+    usage = getValidValue(validUsages, usage, '')
 
-  div(class = elemName +' ' + elemName + '-' + width)
-    label(class = elemName+'__label')
-      if labelText
-        p(class = elemName+'__label-text')=labelText
-      if img
-        button(class = elemName+'__link' aria-label = name)
-          img(class = elemName+'__img', src = require('@com/input-field/img/arrow-forward.svg').default)
-      input(class = elemName + '__input ' + js placeholder = placeholder type = opType value = '')
+  div(class = elementName)
+    label(class = `${elementName}__label`)
+      p(class = `${elementName}__label-text`)= labelText
+      input(class = `${elementName}__input js-input-${usage}`)
 
 
 

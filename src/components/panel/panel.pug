@@ -10,28 +10,28 @@ mixin panel(options={})
     fieldset(class = elemName + '__mainSetup')
       legend Main
       div(class = elemName + '__min')
-        +input(
-          {width: 'narrow',
+        +input-field(
+          {
           labelText: 'min',
-          js: 'js-input-min'} 
+          usage: 'min'} 
           )
       div(class = elemName + '__max')
-        +input(
-          {width: 'narrow',
+        +input-field(
+          {
           labelText: 'max',
-          js: 'js-input-max'} 
+          usage: 'max'} 
           )
       div(class = elemName + '__from')
-        +input(
-          {width: 'narrow',
+        +input-field(
+          {
           labelText: 'from',
-          js: 'js-input-from'} 
+          usage: 'from'} 
           )
       div(class = elemName + '__to')
-        +input(
-          {width: 'narrow',
+        +input-field(
+          {
           labelText: 'to',
-          js: 'js-input-to'} 
+          usage: 'to'} 
           )
       div(class = elemName + '__vertical')
         +toggle(
@@ -68,17 +68,17 @@ mixin panel(options={})
           radioGroupName: options.radioGroupName})
       div(class = elemName + '__IntervalStep')
         div(class = elemName + '__step')
-          +input(
-            {width: 'narrow',
+          +input-field(
+            {
             labelText: 'step',
-            js: 'js-input-step'} 
+            usage: 'step'} 
             )
         div(class = elemName + '__interval')
-          +input(
-            {width: 'narrow',
+          +input-field(
+            {
             labelText: 'interval',
-            js: 'js-input-interval'} 
-            )
+usage: 'interval'} 
+  )
     fieldset(class = elemName + '__moveSetup')
       legend Control movement
       div(class = elemName + '__sticky')
@@ -87,16 +87,16 @@ mixin panel(options={})
           js: ' js-toggle-sticky'}
           )
       div(class = elemName + '__shiftOnKeyDown')
-        +input(
-          {width: 'narrow',
+        +input-field(
+          {
           labelText: 'shift on key down',
-          js: 'js-input-shiftOnKeyDown'} 
+          usage: 'shiftOnKeyDown'} 
           )
       div(class = elemName + '__shiftOnKeyHold')
-        +input(
-          {width: 'narrow',
+        +input-field(
+          {
           labelText: 'shift on key hold',
-          js: 'js-input-shiftOnKeyHold'} 
+          usage: 'shiftOnKeyHold'} 
           )
     fieldset(class = elemName + '__actions')
       legend Actions
