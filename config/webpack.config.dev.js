@@ -1,6 +1,9 @@
 const { merge } = require('webpack-merge');
+const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const common = require('./webpack.config');
+
+const src = path.join(__dirname, '../src');
 
 let name = '[name]';
 if (process.env.NODE_ENV === 'development') {
@@ -43,7 +46,16 @@ module.exports = merge(common, {
       },
       {
         test: /\.scss$/,
-        use: [...processCSS, 'sass-loader'],
+        use: [
+          ...processCSS,
+          'sass-loader', {
+            loader: 'sass-resources-loader',
+            options: {
+              resources: [
+                `${src}/assets/styles/glob.scss`,
+              ],
+            },
+          }],
       },
       {
         test: /\.(ttf|woff|woff2|eot)$/i,

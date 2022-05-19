@@ -1,8 +1,10 @@
-extends ../ui-kit-layout/ui-kit-layout.pug
+include ../../components/head/head.pug
 include ../../components/rangeslider/rangeslider.pug
-block title
+
+html(lang = 'ru')
+head
   title Range Slider
-block content 
+body
   main(class='sliderMetaLamp')
     div(class='sliderMetaLamp__wrapper')
       +rangeslider({

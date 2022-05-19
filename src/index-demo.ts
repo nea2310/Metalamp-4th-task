@@ -8,5 +8,5 @@ function requireAll(requireContext: any) {
   return requireContext.keys().map(requireContext);
 }
 
-requireAll(require.context('./components/', true, /.*\.(js|ts)$/));
-requireAll(require.context('./pages/', true, /.*\.js$/));
+requireAll(require.context('./components/', true, /.*\.(ts|scss)$/));
+requireAll(require.context('./pages/', true, /.*\.scss$/));
