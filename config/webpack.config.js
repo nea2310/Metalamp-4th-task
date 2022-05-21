@@ -108,21 +108,6 @@ module.exports = {
         loader: 'pug-loader',
         exclude: /node_modules/,
       },
-      /* преобразование JavaScript следующего поколения в современный JavaScript с помощью Babel. */
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            // https://runebook.dev/ru/docs/babel/babel-preset-env/index
-            presets: [['@babel/preset-env', { targets: '> 0.25%, not dead' }],
-              '@babel/preset-typescript'],
-            /* Использование кэша для избежания рекомпиляции при каждом запуске */
-            cacheDirectory: true,
-          },
-        },
-      },
       {
         test: /\.ts$/,
         use: {
