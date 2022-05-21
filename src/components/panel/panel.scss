@@ -5,10 +5,6 @@
   border-radius: 2px;
   height: 290px;
   text-align: left;
-  &_vert {
-    height: auto;
-    display: block;
-  }
 
   @include font-body;
   @include media-breakpoint-down($lg) {
@@ -20,7 +16,6 @@
     padding: 0;
     margin: 0;
     border: none;
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -33,7 +28,7 @@
     }
   }
 
-  &__mainSetup {
+  &__main-setup {
     padding: 0;
     margin: 0;
     border: none;
@@ -92,7 +87,7 @@
       grid-row-end: 2;
     }
   }
-  &__vert {
+  &__vertical {
     grid-column-start: 1;
     grid-column-end: 1;
     grid-row-start: 2;
@@ -159,8 +154,6 @@
     margin-right: 10px;
   }
   &__moveSetup {
-    //	padding: 20px 0;
-    //margin: 0;
     border: none;
 
     margin: 5px;

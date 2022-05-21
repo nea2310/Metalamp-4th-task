@@ -1,0 +1,26 @@
+$borderWidth: 2px;
+
+.button {
+  cursor: pointer;
+  @include font-h3;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  user-select: none;
+  border-radius: 22px;
+  width: 196px;
+  height: 34px;
+  box-sizing: border-box;
+  font-weight: normal;
+  color: rgb(41, 39, 39);
+  background-color: $colorBlue;
+  border-radius: 2px;
+  padding: 0 10px;
+  &:hover {
+    border: 2px solid rgb(41, 39, 39);
+  }
+}

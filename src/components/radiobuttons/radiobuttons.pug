@@ -22,6 +22,7 @@ mixin radiobuttons(options = {})
           - const {name = '', checked = false} = value
             li(class = `${elementName}__cat-wrapper`)
               label(class = `${elementName}__cat`)
-                input(class = `${elementName}__cat-checkbox js-radiobuttons_usage_${value.usage}` type = "radio" name = radioGroupName value = name checked = checked)
+                input(class = `${elementName}__cat-checkbox js-radiobuttons_usage_${value.usage}` 
+                  type = "radio" name = radioGroupName value = name checked = checked)
                 span(class = `${elementName}__cat-radiomark`)
                 p(class = `${elementName}__cat-name`)= name

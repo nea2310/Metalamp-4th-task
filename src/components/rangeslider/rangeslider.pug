@@ -1,27 +1,46 @@
 include ../panel/panel.pug
-mixin rangeslider(options={})
+
+mixin rangeslider(options = {})
   -
-    let elemName='rangeslider'
-    let modif = options.vertical=='true' ? elemName + '_vert':''
-    let modifRS = options.vertical=='true' ? elemName + '__rs_vert':''
-  div(class =elemName + ' ' + modif + ' js-' + elemName)
-    div(class = elemName + '__rs' + ' ' + modifRS + ' js-' + elemName + '__rs')
-      input(class='rs-metalamp js-rs-metalamp' 
-      data-min = options.min
-      data-max = options.max
-      data-from = options.from
-      data-to = options.to
-      data-vertical = options.vertical
-      data-range = options.range
-      data-bar = options.bar
-      data-tip = options.tip
-      data-scale = options.scale
-      data-scalebase = options.scaleBase
-      data-step = options.step
-      data-interval = options.interval
-      data-sticky = options.sticky
-      data-shiftonkeydown = options.shiftOnKeyDown
-      data-shiftonkeyhold = options.shiftOnKeyHold
+    const {
+      min,
+      max,
+      from,
+      to,
+      vertical = 'false',
+      range,
+      bar,
+      tip,
+      scale,
+      scaleBase,
+      step,
+      interval,
+      sticky,
+      shiftOnKeyDown,
+      shiftOnKeyHold} = options
+
+    const elementName = 'rangeslider'
+
+    const modifer = vertical === 'true' ? '_orientation_vertical' : ''
+
+  div(class = `${elementName} ${elementName}${modifer} js-${elementName}`)
+    div(class = `${elementName}__rs ${elementName}__rs${modifer} js-${elementName}__rs`)
+      input(class = 'rs-metalamp js-rs-metalamp' 
+      data-min = min
+      data-max = max
+      data-from = from
+      data-to = to
+      data-vertical = vertical
+      data-range = range
+      data-bar = bar
+      data-tip = tip
+      data-scale = scale
+      data-scalebase = scaleBase
+      data-step = step
+      data-interval = interval
+      data-sticky = sticky
+      data-shiftonkeydown = shiftOnKeyDown
+      data-shiftonkeyhold = shiftOnKeyHold
       )
-    div(class = elemName + '__panel '+ modif + ' js-' + elemName + '__panel')
-      +panel({radioGroupName: options.radioGroupName, vertical: options.vertical})
+    div(class = `${elementName}__panel js-${elementName}__panel`)
+      +panel({radioGroupName})

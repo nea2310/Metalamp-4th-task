@@ -90,9 +90,9 @@ class RangeSlider {
   }
 
   private switchVertical() {
-    this.panel.classList.toggle('panel_vert');// .panel
-    this.wrapper.classList.toggle('rangeslider_vert'); // .rangeslider
-    this.sliderWrapper.classList.toggle('rangeslider__rs_vert'); // .rangeslider__rs
+    this.panel.classList.toggle('panel_orientation_vertical');// .panel
+    this.wrapper.classList.toggle('rangeslider_orientation_vertical'); // .rangeslider
+    this.sliderWrapper.classList.toggle('rangeslider__rs_orientation_vertical'); // .rangeslider__rs
   }
 
   private displayData(data: IConf) {
@@ -126,7 +126,7 @@ class RangeSlider {
 
   private updateData = (data: IConf) => {
     if (data.vertical
-      !== this.wrapper.classList.contains('rangeslider_vert')) {
+      !== this.wrapper.classList.contains('rangeslider_orientation_vertical')) {
       this.switchVertical();
     }
     if (this.from) RangeSlider.valid(this.from, Number(data.from));
