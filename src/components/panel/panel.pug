@@ -63,8 +63,8 @@ mixin panel(options={})
       span scale base
       div(class = elemName + '__scaleBase' + ' js-' + elemName + '__scaleBase')
         +radiobuttons({categories:
-          {cat1: {name:'step', js: 'js-radio-step'}, 
-          cat2:{name:'interval', js: 'js-radio-interval'}},
+          [{name:'step', usage: 'step'}, 
+          {name:'interval', usage: 'interval'}],
           radioGroupName: options.radioGroupName})
       div(class = elemName + '__IntervalStep')
         div(class = elemName + '__step')

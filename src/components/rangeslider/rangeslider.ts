@@ -172,27 +172,27 @@ class RangeSlider {
       return elem as HTMLInputElement;
     };
 
-    this.min = getElem('input-min');
-    this.max = getElem('input-max');
-    this.from = getElem('input-from');
-    this.to = getElem('input-to');
-    this.interval = getElem('input-interval');
-    this.step = getElem('input-step');
-    this.shiftOnKeyDown = getElem('input-shiftOnKeyDown');
-    this.shiftOnKeyHold = getElem('input-shiftOnKeyHold');
+    this.min = getElem('input_usage_min');
+    this.max = getElem('input_usage_max');
+    this.from = getElem('input_usage_from');
+    this.to = getElem('input_usage_to');
+    this.interval = getElem('input_usage_interval');
+    this.step = getElem('input_usage_step');
+    this.shiftOnKeyDown = getElem('input_usage_shiftOnKeyDown');
+    this.shiftOnKeyHold = getElem('input_usage_shiftOnKeyHold');
 
-    this.vertical = getElem('toggle-vertical');
-    this.range = getElem('toggle-range');
-    this.scale = getElem('toggle-scale');
-    this.bar = getElem('toggle-bar');
-    this.tip = getElem('toggle-tip');
-    this.sticky = getElem('toggle-sticky');
-    this.subscribe = getElem('toggle-subscribe');
-    this.destroy = getElem('toggle-destroy', false);
-    this.disable = getElem('toggle-disable', false);
+    this.vertical = getElem('toggle_usage_vertical');
+    this.range = getElem('toggle_usage_range');
+    this.scale = getElem('toggle_usage_scale');
+    this.bar = getElem('toggle_usage_bar');
+    this.tip = getElem('toggle_usage_tip');
+    this.sticky = getElem('toggle_usage_sticky');
+    this.subscribe = getElem('toggle_usage_subscribe');
+    this.destroy = getElem('toggle_usage_destroy', false);
+    this.disable = getElem('toggle_usage_disable', false);
 
-    this.scaleBaseSteps = getElem('radio-step');
-    this.scaleBaseIntervals = getElem('radio-interval');
+    this.scaleBaseSteps = getElem('radiobuttons_usage_step');
+    this.scaleBaseIntervals = getElem('radiobuttons_usage_interval');
     const changeHandler = (e: Event) => {
       const input = e.currentTarget as HTMLInputElement;
       if (!input.value) {
@@ -208,7 +208,6 @@ class RangeSlider {
     this.rangeSlider = this.createSlider(slider);
   }
 
-  // API update
   private updateSlider() {
     const arr = ['min',
       'max',
@@ -262,7 +261,6 @@ class RangeSlider {
     this.panel.addEventListener('change', handleChange);
   }
 
-  // API disable
   private disableSlider() {
     const handleClick = () => {
       if (!this.isDestroyed && this.disable) {
@@ -311,7 +309,6 @@ class RangeSlider {
     }
   }
 
-  // API destroy
   private destroySlider(slider: HTMLElement) {
     const handleClick = () => {
       if (this.destroy && this.disable) {
@@ -326,7 +323,6 @@ class RangeSlider {
           this.disable.disabled = true;
           this.isDestroyed = true;
           this.destroy.disabled = true;
-          // отвязать объект слайдера от DOM-элемента
           $.data(slider, 'SliderMetaLamp', null);
         }
       }

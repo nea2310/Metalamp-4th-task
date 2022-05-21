@@ -9,7 +9,7 @@ mixin input-field({labelText = '', usage = ''} = {})
     usage = getValidValue(validUsages, usage, '')
 
   label(class = elementName)= labelText
-    input(class = `${elementName}__input js-input-${usage}`)
+    input(class = `${elementName}__input js-input_usage_${usage}`)
 
 
 
