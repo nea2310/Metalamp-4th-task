@@ -13,7 +13,7 @@ class ViewScale {
 
   private lastLabelRemoved: boolean = false;
 
-  private scaleMarks: { 'pos'?: number, 'val'?: number }[] = [];
+  private scaleMarks: { 'position'?: number, 'val'?: number }[] = [];
 
   private calcMarkList: boolean = false;
 
@@ -35,7 +35,7 @@ class ViewScale {
 
   // создаем деления
   public createScale(
-    scaleMarks: { 'pos'?: number, 'val'?: number }[],
+    scaleMarks: { 'position'?: number, 'val'?: number }[],
     conf: IConfFull,
   ) {
     this.conf = conf;
@@ -57,11 +57,11 @@ class ViewScale {
         if (conf.vertical) {
           elem.classList.add('rs-metalamp__mark_vert');
           label.classList.add('rs-metalamp__label_vert');
-          elem.style.bottom = `${String(node.pos)}%`;
+          elem.style.bottom = `${String(node.position)}%`;
         } else {
           elem.classList.add('rs-metalamp__mark_horizontal');
           label.classList.add('rs-metalamp__label_horizontal');
-          elem.style.left = `${String(node.pos)}%`;
+          elem.style.left = `${String(node.position)}%`;
         }
         if (!conf.scale) {
           elem.classList.add('rs-metalamp__mark_visually-hidden');

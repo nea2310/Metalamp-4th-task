@@ -46,7 +46,7 @@ const conf: IConfFull = {
 const data = {
   fromPosition: 10,
   toPosition: 0,
-  marksArr: [{ pos: 0, val: 0 }],
+  marksArr: [{ position: 0, val: 0 }],
   intervalValue: '',
   stepValue: '',
   scaleBase: '',
@@ -148,16 +148,16 @@ describe('ViewScale', () => {
       ...data,
       fromPosition: 0,
       marksArr: [
-        { pos: 0, val: 0 },
-        { pos: 50, val: 5 },
-        { pos: 100, val: 10 },
+        { position: 0, val: 0 },
+        { position: 50, val: 5 },
+        { position: 100, val: 10 },
       ],
     }, { ...conf, vertical: true });
     expect(createScaleSpy).toBeCalledTimes(1);
     expect(createScaleSpy).toBeCalledWith([
-      { pos: 0, val: 0 },
-      { pos: 50, val: 5 },
-      { pos: 100, val: 10 },
+      { position: 0, val: 0 },
+      { position: 50, val: 5 },
+      { position: 100, val: 10 },
     ], { ...conf, vertical: true });
   });
 

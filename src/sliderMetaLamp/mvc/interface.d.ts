@@ -23,7 +23,7 @@ type IConf = Partial<IConfFull>
 
 interface IObject {
   val: number;
-  pos: number;
+  position: number;
 }
 
 interface Imethods {
@@ -56,7 +56,7 @@ interface IthumbFull {
 interface IdataFull {
   fromPosition: number;
   toPosition: number;
-  marksArr: { 'pos': number, 'val': number }[];
+  marksArr: { 'position': number, 'val': number }[];
   intervalValue: string;
   stepValue: string;
   scaleBase: string;

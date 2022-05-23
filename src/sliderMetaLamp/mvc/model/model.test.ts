@@ -592,13 +592,13 @@ describe('model, API method "update" processing', () => {
       interval: 6,
       intervalValue: '6',
       marksArr: [
-        { val: -100, pos: 0 },
-        { val: -50, pos: 16.666666666666668 },
-        { val: 0, pos: 33.333333333333336 },
-        { val: 50, pos: 50 },
-        { val: 100, pos: 66.66666666666667 },
-        { val: 150, pos: 83.33333333333333 },
-        { val: 200, pos: 100 }],
+        { val: -100, position: 0 },
+        { val: -50, position: 16.666666666666668 },
+        { val: 0, position: 33.333333333333336 },
+        { val: 50, position: 50 },
+        { val: 100, position: 66.66666666666667 },
+        { val: 150, position: 83.33333333333333 },
+        { val: 200, position: 100 }],
       max: 200,
       min: -100,
       onStart,
@@ -691,9 +691,9 @@ describe('model, API method "update" processing', () => {
       .scaleBase).toBe('interval');
     expect(testModel.update({ interval: 2 })
       .marksArr).toEqual([
-        { val: 0, pos: 0 },
-        { val: 50, pos: 50 },
-        { val: 100, pos: 100 }]);
+        { val: 0, position: 0 },
+        { val: 50, position: 50 },
+        { val: 100, position: 100 }]);
   });
 
   test('update isSticky', async () => {

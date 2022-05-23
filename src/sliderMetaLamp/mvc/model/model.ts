@@ -186,21 +186,21 @@ class Model extends Observer {
     // поменять позицию и значение FROM
     const changeFrom = (item: IObject) => {
       this.conf.from = item.val;
-      this.data.fromPosition = item.pos;
+      this.data.fromPosition = item.position;
       this.data.fromVal = String(item.val);
       this.fire('FromPosition', this.data);
       this.fire('FromValue', this.data);
 
-      return { newVal: String(item.val), newPosition: item.pos };
+      return { newVal: String(item.val), newPosition: item.position };
     };
     // поменять позицию и значение TO
     const changeTo = (item: IObject) => {
       this.conf.to = item.val;
-      this.data.toPosition = item.pos;
+      this.data.toPosition = item.position;
       this.data.toVal = String(item.val);
       this.fire('ToPosition', this.data);
       this.fire('ToValue', this.data);
-      return { newVal: String(item.val), newPosition: item.pos };
+      return { newVal: String(item.val), newPosition: item.position };
     };
     // движение в большую сторону
     const incr = (index: number) => {
@@ -611,19 +611,19 @@ class Model extends Observer {
     значения newPosition до тех пор, пока результат текущей итерации не станет больше результата
     предыдущей (это значит, что мы нашли деление,
   ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления */
-    let pos = 0;
+    let position = 0;
     for (let i = 0; i < this.data.marksArr.length; i += 1) {
       let a = 0;
       if (i < this.data.marksArr.length - 1) {
-        a = this.data.marksArr[i + 1].pos;
+        a = this.data.marksArr[i + 1].position;
       }
-      if (Math.abs(controlPos - this.data.marksArr[i].pos)
+      if (Math.abs(controlPos - this.data.marksArr[i].position)
         < Math.abs(controlPos - a)) {
-        pos = this.data.marksArr[i].pos;
+        position = this.data.marksArr[i].position;
         break;
       }
     }
-    return pos;
+    return position;
   }
 
   // рассчитать позицию From (%) на основании значений from, min и max
@@ -697,39 +697,39 @@ class Model extends Observer {
     }
 
     // первое деление всегда стоит на позиции left = 0% и его значение равно this.conf.min
-    this.data.marksArr = [{ val: this.conf.min, pos: 0 }];
+    this.data.marksArr = [{ val: this.conf.min, position: 0 }];
     let val = this.conf.min;
 
     for (let i = 0; i < interval; i += 1) {
-      const obj: IObject = { val: 0, pos: 0 };
+      const obj: IObject = { val: 0, position: 0 };
       val += step;
       if (val <= this.conf.max) {
-        const pos = ((val - this.conf.min) * 100)
+        const position = ((val - this.conf.min) * 100)
           / (this.conf.max - this.conf.min);
 
         obj.val = parseFloat(val.toFixed(2));
-        obj.pos = pos;
+        obj.position = position;
         this.data.marksArr.push(obj);
       }
     }
     if (this.data.marksArr[this.data.marksArr.length - 1].val
       < this.conf.max) { // если длина шкалы не кратна длине шага
       // последнее деление ставим на позицию left = 100% и его значение равно this.conf.max
-      this.data.marksArr.push({ val: this.conf.max, pos: 100 });
+      this.data.marksArr.push({ val: this.conf.max, position: 100 });
     }
     this.fire('Scale', this.data, this.conf);
   }
 
   private calcVal(
     stopType: string,
-    pos: number,
+    position: number,
     moovingControl: string,
   ) {
     if (!this.changeMode) {
       let newVal = '';
       if (stopType === 'normal') {
         newVal = (this.conf.min + ((this.conf.max
-          - this.conf.min) * pos) / 100).toFixed(0);
+          - this.conf.min) * position) / 100).toFixed(0);
       } else if (stopType === 'min') {
         newVal = String(this.conf.min);
       } else if (stopType === 'max') {

@@ -52,15 +52,15 @@ class ViewBar {
   }
 
   // обновление бара при изменении позиций ползунков
-  public updateBar(pos: number, length: number, isVertical: boolean) {
+  public updateBar(position: number, length: number, isVertical: boolean) {
     const { style } = this.progressBar;
     if (!isVertical) {
-      style.left = `${pos}%`;
+      style.left = `${position}%`;
       style.width = `${length}%`;
       style.bottom = '';
       style.height = '';
     } else {
-      style.bottom = `${pos}%`;
+      style.bottom = `${position}%`;
       style.height = `${length}%`;
       style.left = '';
       style.width = '';

@@ -42,7 +42,7 @@ export const defaultThumb: IthumbFull = {
 export const defaultData: IdataFull = {
   fromPosition: 0,
   toPosition: 0,
-  marksArr: [{ pos: 0, val: 0 }],
+  marksArr: [{ position: 0, val: 0 }],
   intervalValue: '',
   stepValue: '',
   scaleBase: '',
