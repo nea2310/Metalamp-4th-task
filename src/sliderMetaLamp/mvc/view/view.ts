@@ -72,7 +72,7 @@ class View extends Observer {
     if (this.viewControl) {
       this.viewControl.updatePos(
         this.viewControl.controlMin,
-        data.fromPos,
+        data.fromPosition,
       );
       this.viewControl.updateInput(conf);
     }

@@ -90,7 +90,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         moovingControl: 'max',
       },
     ))
-      .toBe('newPosition < fromPos');
+      .toBe('newPosition < fromPosition');
 
     expect(testModel.calcPos(
       {
@@ -196,7 +196,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         moovingControl: 'max',
       },
     ))
-      .toBe('newPosition < fromPos');
+      .toBe('newPosition < fromPosition');
 
     expect(testModel.calcPos(
       {
@@ -587,7 +587,7 @@ describe('model, API method "update" processing', () => {
       barPos: 16.666666666666668,
       barWidth: 33.33333333333333,
       from: -50,
-      fromPos: 16.666666666666668,
+      fromPosition: 16.666666666666668,
       fromVal: '-50',
       interval: 6,
       intervalValue: '6',

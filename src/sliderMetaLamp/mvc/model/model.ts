@@ -151,16 +151,16 @@ class Model extends Observer {
         }
       }
       if (moovingControl === 'max') { // двигается max ползунок
-        if (newPosition < this.data.fromPos) {
+        if (newPosition < this.data.fromPosition) {
           isStop = true;
           this.calcVal('meetMin', 0, moovingControl);
-          return 'newPosition < fromPos';
+          return 'newPosition < fromPosition';
         }
       }
     }
 
     if (moovingControl === 'min') {
-      this.data.fromPos = newPosition;
+      this.data.fromPosition = newPosition;
       this.fire('FromPosition', this.data, this.conf);
     } else {
       this.data.toPos = newPosition;
@@ -186,7 +186,7 @@ class Model extends Observer {
     // поменять позицию и значение FROM
     const changeFrom = (item: IObj) => {
       this.conf.from = item.val;
-      this.data.fromPos = item.pos;
+      this.data.fromPosition = item.pos;
       this.data.fromVal = String(item.val);
       this.fire('FromPosition', this.data);
       this.fire('FromValue', this.data);
@@ -628,7 +628,7 @@ class Model extends Observer {
 
   // рассчитать позицию From (%) на основании значений from, min и max
   private calcFromPosition() {
-    this.data.fromPos = ((this.conf.from
+    this.data.fromPosition = ((this.conf.from
       - this.conf.min) * 100)
       / (this.conf.max - this.conf.min);
 
@@ -636,10 +636,10 @@ class Model extends Observer {
     скорректировать значение newPosition (переместить ползунок
     к ближайшему делению шкалы) */
     if (this.conf.sticky) {
-      this.data.fromPos = this.setSticky(this.data.fromPos);
+      this.data.fromPosition = this.setSticky(this.data.fromPosition);
     }
     if (!this.noCalVal) {
-      this.calcVal('normal', this.data.fromPos, 'min');
+      this.calcVal('normal', this.data.fromPosition, 'min');
     }
     this.fire('FromPosition', this.data, this.conf);
   }
@@ -660,12 +660,12 @@ class Model extends Observer {
   /* Рассчитываем ширину и позицию left (top) прогресс-бара */
   private calcBar() {
     if (this.conf.range) { // режим Double
-      this.data.barPos = this.data.fromPos;
+      this.data.barPos = this.data.fromPosition;
       this.data.barWidth = this.data.toPos
-        - this.data.fromPos;
+        - this.data.fromPosition;
     } else { // режим Single
       this.data.barPos = 0;
-      this.data.barWidth = this.data.fromPos;
+      this.data.barWidth = this.data.fromPosition;
     }
     this.fire('Bar', this.data, this.conf);
   }

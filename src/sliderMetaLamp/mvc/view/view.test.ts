@@ -44,7 +44,7 @@ const conf: IConfFull = {
 };
 
 const data = {
-  fromPos: 10,
+  fromPosition: 10,
   toPos: 0,
   marksArr: [{ pos: 0, val: 0 }],
   intervalValue: '',
@@ -103,7 +103,7 @@ describe('ViewScale', () => {
   // eslint-disable-next-line max-len
   test('should call updatePos and updateInput methods in view-control on calling updateToPos in view', () => {
     testView.updateToPos({
-      ...data, fromPos: 0, toPos: 10,
+      ...data, fromPosition: 0, toPos: 10,
     }, {
       ...conf,
       min: 0,
@@ -129,14 +129,14 @@ describe('ViewScale', () => {
   });
 
   test('updateFromVal', () => {
-    testView.updateFromVal({ ...data, fromPos: 0, fromVal: '10' });
+    testView.updateFromVal({ ...data, fromPosition: 0, fromVal: '10' });
     expect(updateValSpy).toBeCalledTimes(1);
     expect(updateValSpy).toBeCalledWith('10', true);
     updateValSpy.mockClear();
   });
 
   test('updateToVal', () => {
-    testView.updateToVal({ ...data, fromPos: 0, toVal: '10' });
+    testView.updateToVal({ ...data, fromPosition: 0, toVal: '10' });
     expect(updateValSpy).toBeCalledTimes(1);
     expect(updateValSpy).toBeCalledWith('10', false);
     updateValSpy.mockClear();
@@ -146,7 +146,7 @@ describe('ViewScale', () => {
     const createScaleSpy = jest.spyOn(testViewScale, 'createScale');
     testView.updateScale({
       ...data,
-      fromPos: 0,
+      fromPosition: 0,
       marksArr: [
         { pos: 0, val: 0 },
         { pos: 50, val: 5 },
@@ -164,7 +164,7 @@ describe('ViewScale', () => {
   test('updateBar', () => {
     const updateBarSpy = jest.spyOn(testViewBar, 'updateBar');
     testView.updateBar({
-      ...data, fromPos: 0, barWidth: 100, barPos: 10,
+      ...data, fromPosition: 0, barWidth: 100, barPos: 10,
     }, { ...conf, vertical: true });
     expect(updateBarSpy).toBeCalledTimes(1);
     expect(updateBarSpy).toBeCalledWith(10, 100, true);
