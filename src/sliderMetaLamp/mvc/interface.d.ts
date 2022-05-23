@@ -21,7 +21,7 @@ interface IConfFull {
 
 type IConf = Partial<IConfFull>
 
-interface IObj {
+interface IObject {
   val: number;
   pos: number;
 }
@@ -29,8 +29,8 @@ interface IObj {
 interface Imethods {
   calcFromPosition: boolean,
   calcToPosition: boolean,
-  calcScale: boolean
-  calcBar: boolean
+  calcScaleMarks: boolean
+  calcBarLength: boolean
   switchVertical: boolean
   switchRange: boolean
   switchScale: boolean
@@ -75,7 +75,7 @@ interface IFireParms {
 
 export {
   IConf,
-  IObj,
+  IObject,
   Imethods,
   IFireParms,
   IConfFull,

@@ -818,8 +818,7 @@
 <a name='L753'></a><a href='#L753'>753</a>
 <a name='L754'></a><a href='#L754'>754</a>
 <a name='L755'></a><a href='#L755'>755</a>
-<a name='L756'></a><a href='#L756'>756</a>
-<a name='L757'></a><a href='#L757'>757</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L756'></a><a href='#L756'>756</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1495,7 +1494,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">29x</span>
 <span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">29x</span>
 <span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-yes">26x</span>
@@ -1578,7 +1576,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
   IConfFull,
   IConf,
-  IObj,
+  IObject,
   Imethods,
   IdataFull,
 } from '../interface';
@@ -1608,7 +1606,7 @@ class Model extends Observer {
 &nbsp;
   private onChange?: Function | null;
 &nbsp;
-  private noCalVal: boolean;
+  private needCalcValue: boolean;
 &nbsp;
   constructor(conf: IConf) {
     super();
@@ -1621,8 +1619,8 @@ class Model extends Observer {
     this.methods = {
       calcFromPosition: false,
       calcToPosition: false,
-      calcScale: false,
-      calcBar: false,
+      calcScaleMarks: false,
+      calcBarLength: false,
       switchVertical: false,
       switchRange: false,
       switchScale: false,
@@ -1631,7 +1629,7 @@ class Model extends Observer {
       updateControlPos: false,
     };
     this.startConf = conf;
-    this.noCalVal = false;
+    this.needCalcValue = true;
   }
 &nbsp;
   public getConf(conf: IConf) {
@@ -1646,10 +1644,10 @@ class Model extends Observer {
     this.onStart = this.conf.onStart;
     this.onUpdate = this.conf.onUpdate;
     this.onChange = this.conf.onChange;
-    this.calcScale();
+    this.calcScaleMarks();
     this.calcFromPosition();
     this.calcToPosition();
-    this.calcBar();
+    this.calcBarLength();
     if (typeof this.onStart === 'function') {
       this.onStart(this.conf);
     }
@@ -1745,7 +1743,7 @@ class Model extends Observer {
     }
     if (!isStop) { this.calcVal('normal', newPosition, moovingControl); }
 &nbsp;
-    this.calcBar();
+    this.calcBarLength();
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
     }
@@ -1761,7 +1759,7 @@ class Model extends Observer {
     }) {
     const { key, repeat, moovingControl } = data;
     // поменять позицию и значение FROM
-    const changeFrom = (item: IObj) =&gt; {
+    const changeFrom = (item: IObject) =&gt; {
       this.conf.from = item.val;
       this.data.fromPosition = item.pos;
       this.data.fromVal = String(item.val);
@@ -1771,7 +1769,7 @@ class Model extends Observer {
       return { newVal: String(item.val), newPosition: item.pos };
     };
     // поменять позицию и значение TO
-    const changeTo = (item: IObj) =&gt; {
+    const changeTo = (item: IObject) =&gt; {
       this.conf.to = item.val;
       this.data.toPosition = item.pos;
       this.data.toVal = String(item.val);
@@ -1803,7 +1801,7 @@ class Model extends Observer {
     let result;
     // если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
     if (!this.conf.sticky) {
-      this.noCalVal = true;
+      this.needCalcValue = false;
       if (moovingControl === 'min') { // Ползунок min
         if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
           /* проверяем, что FROM не стал больше TO или MAX */
@@ -1884,7 +1882,7 @@ class Model extends Observer {
         this.fire('ToValue', this.data);
         result = newVal;
       }
-      this.noCalVal = false; // ??
+      this.needCalcValue = true;
       // если ползунок должен вставать на позицию ближайшего к нему деления шкалы
     } else if (moovingControl === 'min') { // ползунок min
       const index = this.data.marksArr
@@ -1928,7 +1926,7 @@ class Model extends Observer {
         } else result = 'too small newPosition';
       }
     }
-    this.calcBar();
+    this.calcBarLength();
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
     }
@@ -2049,7 +2047,7 @@ class Model extends Observer {
         this.methods[key] = false;
       }
     }
-    this.noCalVal = false;
+    this.needCalcValue = true;
 &nbsp;
     return Object.assign(this.conf, this.data);
   }
@@ -2065,37 +2063,37 @@ class Model extends Observer {
       if (newConf[key] !== currentConf[key]) {
         switch (key) {
           case 'min':
-            this.noCalVal = false;
-            this.methods.calcScale = true;
+            this.needCalcValue = true;
+            this.methods.calcScaleMarks = true;
             this.methods.calcFromPosition = true;
             this.methods.calcToPosition = true;
-            this.methods.calcBar = true;
+            this.methods.calcBarLength = true;
             break;
           case 'max':
-            this.noCalVal = false;
-            this.methods.calcScale = true;
+            this.needCalcValue = true;
+            this.methods.calcScaleMarks = true;
             this.methods.calcFromPosition = true;
             this.methods.calcToPosition = true;
-            this.methods.calcBar = true;
+            this.methods.calcBarLength = true;
             break;
           case 'from':
             this.methods.calcFromPosition = true;
-            this.methods.calcBar = true;
+            this.methods.calcBarLength = true;
             break;
           case 'to':
             this.methods.calcToPosition = true;
-            this.methods.calcBar = true;
+            this.methods.calcBarLength = true;
             break;
           case 'step':
-            this.methods.calcScale = true;
+            this.methods.calcScaleMarks = true;
             this.methods.updateControlPos = true;
             break;
           case 'interval':
-            this.methods.calcScale = true;
+            this.methods.calcScaleMarks = true;
             this.methods.updateControlPos = true;
             break;
           case 'scaleBase':
-            this.methods.calcScale = true;
+            this.methods.calcScaleMarks = true;
             break;
           case 'vertical':
             this.methods.switchVertical = true;
@@ -2144,13 +2142,13 @@ class Model extends Observer {
     await this.fire('IsVertical', this.data, this.conf);
     await this.calcFromPosition();
     await this.calcToPosition();
-    await this.calcBar();
-    await this.calcScale();
+    await this.calcBarLength();
+    await this.calcScaleMarks();
   }
 &nbsp;
   private async switchRange() {
     await this.fire('IsRange', this.data, this.conf);
-    await this.calcBar();
+    await this.calcBarLength();
     if (typeof this.onChange === 'function') {
       await this.onChange(this.conf);
     }
@@ -2161,7 +2159,7 @@ class Model extends Observer {
   private async updateControlPos() {
     await this.calcFromPosition();
     await this.calcToPosition();
-    await this.calcBar();
+    await this.calcBarLength();
     if (typeof this.onChange === 'function') {
       await this.onChange(this.conf);
     }
@@ -2215,7 +2213,7 @@ class Model extends Observer {
     if (this.conf.sticky) {
       this.data.fromPosition = this.setSticky(this.data.fromPosition);
     }
-    if (!this.noCalVal) {
+    if (this.needCalcValue) {
       this.calcVal('normal', this.data.fromPosition, 'min');
     }
     this.fire('FromPosition', this.data, this.conf);
@@ -2228,14 +2226,14 @@ class Model extends Observer {
     if (this.conf.sticky) {
       this.data.toPosition = this.setSticky(this.data.toPosition);
     }
-    if (!this.noCalVal) {
+    if (this.needCalcValue) {
       this.calcVal('normal', this.data.toPosition, 'max');
     }
     this.fire('ToPosition', this.data, this.conf);
   }
 &nbsp;
   /* Рассчитываем ширину и позицию left (top) прогресс-бара */
-  private calcBar() {
+  private calcBarLength() {
     if (this.conf.range) { // режим Double
       this.data.barPos = this.data.fromPosition;
       this.data.barWidth = this.data.toPosition
@@ -2248,10 +2246,9 @@ class Model extends Observer {
   }
 &nbsp;
   // рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
-  private calcScale() {
+  private calcScaleMarks() {
     let interval = 1;
     let step = 1;
-    // let arg = '';
     if (this.conf.scaleBase === 'step') { // если рассчитываем шкалу на основе кол-ва шагов
       step = this.conf.step; // находим длину шага
       interval = (this.conf.max - this.conf.min) / step; // находим кол-во интервалов
@@ -2279,7 +2276,7 @@ class Model extends Observer {
     let val = this.conf.min;
 &nbsp;
     for (let i = 0; i &lt; interval; i += 1) {
-      const obj: IObj = { val: 0, pos: 0 };
+      const obj: IObject = { val: 0, pos: 0 };
       val += step;
       if (val &lt;= this.conf.max) {
         const pos = ((val - this.conf.min) * 100)
@@ -2338,7 +2335,7 @@ export default Model;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Mon May 23 2022 14:08:21 GMT+0500 (Екатеринбург, стандартное время)
+                at Mon May 23 2022 14:30:55 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         <script src="../../../prettify.js"></script>
         <script>

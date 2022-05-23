@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1653296901323" clover="3.2.0">
-  <project timestamp="1653296901323" name="All files">
+<coverage generated="1653298256054" clover="3.2.0">
+  <project timestamp="1653298256054" name="All files">
     <metrics statements="938" coveredstatements="853" conditionals="330" coveredconditionals="260" methods="130" coveredmethods="124" elements="1398" coveredelements="1237" complexity="0" loc="938" ncloc="938" packages="8" files="9" classes="9"/>
     <package name="sliderMetaLamp">
       <metrics statements="8" coveredstatements="8" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
@@ -503,55 +503,55 @@
         <line num="670" count="66" type="stmt"/>
         <line num="675" count="29" type="stmt"/>
         <line num="676" count="29" type="stmt"/>
-        <line num="678" count="29" type="cond" truecount="1" falsecount="0"/>
+        <line num="677" count="29" type="cond" truecount="1" falsecount="0"/>
+        <line num="678" count="26" type="stmt"/>
         <line num="679" count="26" type="stmt"/>
-        <line num="680" count="26" type="stmt"/>
-        <line num="681" count="26" type="cond" truecount="2" falsecount="0"/>
+        <line num="680" count="26" type="cond" truecount="2" falsecount="0"/>
+        <line num="682" count="26" type="stmt"/>
         <line num="683" count="26" type="stmt"/>
         <line num="684" count="26" type="stmt"/>
         <line num="685" count="26" type="stmt"/>
-        <line num="686" count="26" type="stmt"/>
-        <line num="689" count="29" type="cond" truecount="1" falsecount="0"/>
+        <line num="688" count="29" type="cond" truecount="1" falsecount="0"/>
+        <line num="689" count="3" type="stmt"/>
         <line num="690" count="3" type="stmt"/>
-        <line num="691" count="3" type="stmt"/>
-        <line num="692" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="691" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="693" count="3" type="stmt"/>
         <line num="694" count="3" type="stmt"/>
         <line num="695" count="3" type="stmt"/>
         <line num="696" count="3" type="stmt"/>
-        <line num="697" count="3" type="stmt"/>
+        <line num="700" count="29" type="stmt"/>
         <line num="701" count="29" type="stmt"/>
-        <line num="702" count="29" type="stmt"/>
-        <line num="704" count="29" type="stmt"/>
+        <line num="703" count="29" type="stmt"/>
+        <line num="704" count="266" type="stmt"/>
         <line num="705" count="266" type="stmt"/>
-        <line num="706" count="266" type="stmt"/>
-        <line num="707" count="266" type="cond" truecount="1" falsecount="0"/>
-        <line num="708" count="264" type="stmt"/>
+        <line num="706" count="266" type="cond" truecount="1" falsecount="0"/>
+        <line num="707" count="264" type="stmt"/>
+        <line num="710" count="264" type="stmt"/>
         <line num="711" count="264" type="stmt"/>
         <line num="712" count="264" type="stmt"/>
-        <line num="713" count="264" type="stmt"/>
-        <line num="716" count="29" type="cond" truecount="1" falsecount="0"/>
-        <line num="719" count="2" type="stmt"/>
-        <line num="721" count="29" type="stmt"/>
-        <line num="729" count="84" type="cond" truecount="1" falsecount="0"/>
-        <line num="730" count="84" type="stmt"/>
-        <line num="731" count="84" type="cond" truecount="2" falsecount="0"/>
-        <line num="732" count="77" type="stmt"/>
-        <line num="734" count="7" type="cond" truecount="2" falsecount="0"/>
-        <line num="735" count="1" type="stmt"/>
-        <line num="736" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="737" count="2" type="stmt"/>
-        <line num="738" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="739" count="2" type="stmt"/>
-        <line num="740" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="741" count="2" type="stmt"/>
-        <line num="743" count="84" type="cond" truecount="2" falsecount="0"/>
+        <line num="715" count="29" type="cond" truecount="1" falsecount="0"/>
+        <line num="718" count="2" type="stmt"/>
+        <line num="720" count="29" type="stmt"/>
+        <line num="728" count="84" type="cond" truecount="1" falsecount="0"/>
+        <line num="729" count="84" type="stmt"/>
+        <line num="730" count="84" type="cond" truecount="2" falsecount="0"/>
+        <line num="731" count="77" type="stmt"/>
+        <line num="733" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="734" count="1" type="stmt"/>
+        <line num="735" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="736" count="2" type="stmt"/>
+        <line num="737" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="738" count="2" type="stmt"/>
+        <line num="739" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="740" count="2" type="stmt"/>
+        <line num="742" count="84" type="cond" truecount="2" falsecount="0"/>
+        <line num="743" count="40" type="stmt"/>
         <line num="744" count="40" type="stmt"/>
         <line num="745" count="40" type="stmt"/>
-        <line num="746" count="40" type="stmt"/>
+        <line num="747" count="44" type="stmt"/>
         <line num="748" count="44" type="stmt"/>
         <line num="749" count="44" type="stmt"/>
-        <line num="750" count="44" type="stmt"/>
-        <line num="756" count="4" type="stmt"/>
+        <line num="755" count="4" type="stmt"/>
       </file>
     </package>
     <package name="sliderMetaLamp.mvc.view">
