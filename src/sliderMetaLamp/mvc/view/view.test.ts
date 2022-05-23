@@ -46,14 +46,14 @@ const conf: IConfFull = {
 const data = {
   fromPosition: 10,
   toPosition: 0,
-  marksArr: [{ position: 0, val: 0 }],
+  marksArr: [{ position: 0, value: 0 }],
   intervalValue: '',
   stepValue: '',
   scaleBase: '',
   barWidth: 0,
   barPos: 0,
-  fromVal: '',
-  toVal: '',
+  fromValue: '',
+  toValue: '',
   thumb: {
     type: '',
     clientY: 0,
@@ -129,14 +129,14 @@ describe('ViewScale', () => {
   });
 
   test('updateFromVal', () => {
-    testView.updateFromVal({ ...data, fromPosition: 0, fromVal: '10' });
+    testView.updateFromVal({ ...data, fromPosition: 0, fromValue: '10' });
     expect(updateValSpy).toBeCalledTimes(1);
     expect(updateValSpy).toBeCalledWith('10', true);
     updateValSpy.mockClear();
   });
 
   test('updateToVal', () => {
-    testView.updateToVal({ ...data, fromPosition: 0, toVal: '10' });
+    testView.updateToVal({ ...data, fromPosition: 0, toValue: '10' });
     expect(updateValSpy).toBeCalledTimes(1);
     expect(updateValSpy).toBeCalledWith('10', false);
     updateValSpy.mockClear();
@@ -148,16 +148,16 @@ describe('ViewScale', () => {
       ...data,
       fromPosition: 0,
       marksArr: [
-        { position: 0, val: 0 },
-        { position: 50, val: 5 },
-        { position: 100, val: 10 },
+        { position: 0, value: 0 },
+        { position: 50, value: 5 },
+        { position: 100, value: 10 },
       ],
     }, { ...conf, vertical: true });
     expect(createScaleSpy).toBeCalledTimes(1);
     expect(createScaleSpy).toBeCalledWith([
-      { position: 0, val: 0 },
-      { position: 50, val: 5 },
-      { position: 100, val: 10 },
+      { position: 0, value: 0 },
+      { position: 50, value: 5 },
+      { position: 100, value: 10 },
     ], { ...conf, vertical: true });
   });
 

@@ -87,8 +87,8 @@ class ViewControl extends Observer {
   }
 
   // Обновляем значение tip
-  public updateVal(val: string, isFrom: boolean) {
-    if (isFrom) { this.tipMin.innerText = val; } else { this.tipMax.innerText = val; }
+  public updateVal(value: string, isFrom: boolean) {
+    if (isFrom) { this.tipMin.innerText = value; } else { this.tipMax.innerText = value; }
   }
 
   // передать значения FROM и TO в инпут

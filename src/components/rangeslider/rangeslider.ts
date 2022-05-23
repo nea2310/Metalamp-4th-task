@@ -83,10 +83,10 @@ class RangeSlider {
 
   static valid(
     item: HTMLInputElement,
-    val: number | string | boolean,
+    value: number | string | boolean,
   ) {
     const input = item;
-    if (input.value !== val) { input.value = val as string; }
+    if (input.value !== value) { input.value = value as string; }
   }
 
   private switchVertical() {

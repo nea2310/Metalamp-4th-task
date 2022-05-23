@@ -35,7 +35,7 @@ function mockElementDimensions(element: HTMLElement, {
 }
 
 function createMarkList(
-  scaleMarks: { 'position'?: number, 'val'?: number }[],
+  scaleMarks: { 'position'?: number, 'value'?: number }[],
   conf: IConf,
   wrapper: HTMLElement,
   elemWidth: number,
@@ -54,9 +54,9 @@ function createMarkList(
 }
 
 const marksArr = [
-  { position: 0, val: 0 },
-  { position: 50, val: 5 },
-  { position: 100, val: 10 },
+  { position: 0, value: 0 },
+  { position: 50, value: 5 },
+  { position: 100, value: 10 },
 ];
 
 const conf = {
@@ -81,7 +81,7 @@ const conf = {
 };
 
 function prepareInstance(
-  scaleMarks: { 'position'?: number, 'val'?: number }[],
+  scaleMarks: { 'position'?: number, 'value'?: number }[],
   conf: IConfFull,
   mockDimensions: boolean,
 ) {

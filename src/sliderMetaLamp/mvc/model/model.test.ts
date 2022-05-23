@@ -404,7 +404,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           moovingControl: 'min',
         },
       ))
-        .toEqual({ newPosition: 60, newVal: '64' });
+        .toEqual({ newPosition: 60, newValue: '64' });
 
       expect(testModel.calcPosKey(
         {
@@ -413,7 +413,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           moovingControl: 'min',
         },
       ))
-        .toEqual({ newPosition: 40, newVal: '46' });
+        .toEqual({ newPosition: 40, newValue: '46' });
 
       expect(testModel.calcPosKey(
         {
@@ -422,7 +422,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           moovingControl: 'max',
         },
       ))
-        .toEqual({ newPosition: 80, newVal: '82' });
+        .toEqual({ newPosition: 80, newValue: '82' });
 
       expect(testModel.calcPosKey(
         {
@@ -431,7 +431,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           moovingControl: 'max',
         },
       ))
-        .toEqual({ newPosition: 100, newVal: '100' });
+        .toEqual({ newPosition: 100, newValue: '100' });
     },
   );
 });
@@ -588,17 +588,17 @@ describe('model, API method "update" processing', () => {
       barWidth: 33.33333333333333,
       from: -50,
       fromPosition: 16.666666666666668,
-      fromVal: '-50',
+      fromValue: '-50',
       interval: 6,
       intervalValue: '6',
       marksArr: [
-        { val: -100, position: 0 },
-        { val: -50, position: 16.666666666666668 },
-        { val: 0, position: 33.333333333333336 },
-        { val: 50, position: 50 },
-        { val: 100, position: 66.66666666666667 },
-        { val: 150, position: 83.33333333333333 },
-        { val: 200, position: 100 }],
+        { value: -100, position: 0 },
+        { value: -50, position: 16.666666666666668 },
+        { value: 0, position: 33.333333333333336 },
+        { value: 50, position: 50 },
+        { value: 100, position: 66.66666666666667 },
+        { value: 150, position: 83.33333333333333 },
+        { value: 200, position: 100 }],
       max: 200,
       min: -100,
       onStart,
@@ -615,7 +615,7 @@ describe('model, API method "update" processing', () => {
       tip: true,
       to: 50,
       toPosition: 50,
-      toVal: '50',
+      toValue: '50',
       vertical: false,
       thumb: {
         clientX: 0,
@@ -691,9 +691,9 @@ describe('model, API method "update" processing', () => {
       .scaleBase).toBe('interval');
     expect(testModel.update({ interval: 2 })
       .marksArr).toEqual([
-        { val: 0, position: 0 },
-        { val: 50, position: 50 },
-        { val: 100, position: 100 }]);
+        { value: 0, position: 0 },
+        { value: 50, position: 50 },
+        { value: 100, position: 100 }]);
   });
 
   test('update isSticky', async () => {

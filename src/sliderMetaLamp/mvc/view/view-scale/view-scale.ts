@@ -13,7 +13,7 @@ class ViewScale {
 
   private lastLabelRemoved: boolean = false;
 
-  private scaleMarks: { 'position'?: number, 'val'?: number }[] = [];
+  private scaleMarks: { 'position'?: number, 'value'?: number }[] = [];
 
   private calcMarkList: boolean = false;
 
@@ -35,7 +35,7 @@ class ViewScale {
 
   // создаем деления
   public createScale(
-    scaleMarks: { 'position'?: number, 'val'?: number }[],
+    scaleMarks: { 'position'?: number, 'value'?: number }[],
     conf: IConfFull,
   ) {
     this.conf = conf;
@@ -50,7 +50,7 @@ class ViewScale {
         elem.classList.add('rs-metalamp__mark');
         elem.classList.add('js-rs-metalamp__mark');
         const label = document.createElement('div');
-        label.innerText = String(node.val);
+        label.innerText = String(node.value);
         label.classList.add('rs-metalamp__label');
         elem.appendChild(label);
 

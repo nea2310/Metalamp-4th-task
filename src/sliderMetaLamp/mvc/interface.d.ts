@@ -22,7 +22,7 @@ interface IConfFull {
 type IConf = Partial<IConfFull>
 
 interface IObject {
-  val: number;
+  value: number;
   position: number;
 }
 
@@ -56,14 +56,14 @@ interface IthumbFull {
 interface IdataFull {
   fromPosition: number;
   toPosition: number;
-  marksArr: { 'position': number, 'val': number }[];
+  marksArr: { 'position': number, 'value': number }[];
   intervalValue: string;
   stepValue: string;
   scaleBase: string;
   barWidth: number;
   barPos: number;
-  fromVal: string;
-  toVal: string;
+  fromValue: string;
+  toValue: string;
   thumb: IthumbFull;
 }
 

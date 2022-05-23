@@ -185,22 +185,22 @@ class Model extends Observer {
     const { key, repeat, moovingControl } = data;
     // поменять позицию и значение FROM
     const changeFrom = (item: IObject) => {
-      this.conf.from = item.val;
+      this.conf.from = item.value;
       this.data.fromPosition = item.position;
-      this.data.fromVal = String(item.val);
+      this.data.fromValue = String(item.value);
       this.fire('FromPosition', this.data);
       this.fire('FromValue', this.data);
 
-      return { newVal: String(item.val), newPosition: item.position };
+      return { newValue: String(item.value), newPosition: item.position };
     };
     // поменять позицию и значение TO
     const changeTo = (item: IObject) => {
-      this.conf.to = item.val;
+      this.conf.to = item.value;
       this.data.toPosition = item.position;
-      this.data.toVal = String(item.val);
+      this.data.toValue = String(item.value);
       this.fire('ToPosition', this.data);
       this.fire('ToValue', this.data);
-      return { newVal: String(item.val), newPosition: item.position };
+      return { newValue: String(item.value), newPosition: item.position };
     };
     // движение в большую сторону
     const incr = (index: number) => {
@@ -221,7 +221,7 @@ class Model extends Observer {
         - this.conf.shiftOnKeyDown];
     };
 
-    let newVal;
+    let newValue;
     let item;
     let result;
     // если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
@@ -240,84 +240,84 @@ class Model extends Observer {
             && this.conf.from >= this.conf.max;
 
           if (belowMaxRange || belowMaxNoRange) {
-            newVal = repeat
+            newValue = repeat
               ? this.conf.from
               + this.conf.shiftOnKeyHold
               : this.conf.from
               + this.conf.shiftOnKeyDown;
-            if (this.conf.range && newVal > this.conf.to) {
-              newVal = this.conf.to;
+            if (this.conf.range && newValue > this.conf.to) {
+              newValue = this.conf.to;
             }
-            if (!this.conf.range && newVal > this.conf.max) {
-              newVal = this.conf.max;
+            if (!this.conf.range && newValue > this.conf.max) {
+              newValue = this.conf.max;
             }
           }
           if (aboveMaxRange) {
-            newVal = this.conf.to;
+            newValue = this.conf.to;
           }
           if (aboveMaxNoRange) {
-            newVal = this.conf.max;
+            newValue = this.conf.max;
           }
           // Уменьшение значения
         } else if (this.conf.from > this.conf.min) {
-          newVal = repeat
+          newValue = repeat
             ? this.conf.from
             - this.conf.shiftOnKeyHold
             : this.conf.from
             - this.conf.shiftOnKeyDown;
-          if (newVal < this.conf.min) {
-            newVal = this.conf.min;
+          if (newValue < this.conf.min) {
+            newValue = this.conf.min;
           }
         } else {
-          newVal = this.conf.min;
+          newValue = this.conf.min;
         }
 
-        this.data.fromVal = String(newVal);
-        this.conf.from = Number(newVal);
+        this.data.fromValue = String(newValue);
+        this.conf.from = Number(newValue);
         this.calcFromPosition();
         this.fire('FromValue', this.data);
-        result = newVal;
+        result = newValue;
       } else { // Ползунок max
         if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
           if (this.conf.to < this.conf.max) {
-            newVal = repeat
+            newValue = repeat
               ? this.conf.to
               + this.conf.shiftOnKeyHold
               : this.conf.to
               + this.conf.shiftOnKeyDown;
-            if (newVal > this.conf.max) {
-              newVal = this.conf.max;
+            if (newValue > this.conf.max) {
+              newValue = this.conf.max;
             }
-          } else newVal = this.conf.max;
+          } else newValue = this.conf.max;
           // Уменьшение значения
         } else if (this.conf.to > this.conf.from) {
-          newVal = repeat
+          newValue = repeat
             ? this.conf.to
             - this.conf.shiftOnKeyHold
             : this.conf.to
             - this.conf.shiftOnKeyDown;
-          if (newVal < this.conf.from) {
-            newVal = this.conf.from;
+          if (newValue < this.conf.from) {
+            newValue = this.conf.from;
           }
-        } else newVal = this.conf.from;
+        } else newValue = this.conf.from;
 
-        this.data.toVal = String(newVal);
-        this.conf.to = newVal;
+        this.data.toValue = String(newValue);
+        this.conf.to = newValue;
         this.calcToPosition();
         this.fire('ToValue', this.data);
-        result = newVal;
+        result = newValue;
       }
       this.needCalcValue = true;
       // если ползунок должен вставать на позицию ближайшего к нему деления шкалы
     } else if (moovingControl === 'min') { // ползунок min
       const index = this.data.marksArr
-        .findIndex((elem) => elem.val === this.conf.from);
+        .findIndex((elem) => elem.value === this.conf.from);
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = incr(index);
         if (item === undefined) return 'newPosition>100';
-        const cond = item.val > this.conf.from
-          && ((this.conf.range && item.val <= this.conf.to)
-            || (!this.conf.range && item.val
+        const cond = item.value > this.conf.from
+          && ((this.conf.range && item.value <= this.conf.to)
+            || (!this.conf.range && item.value
               <= this.conf.max));
         if (cond) {
           result = changeFrom(item);
@@ -325,7 +325,7 @@ class Model extends Observer {
       } else { // Уменьшение значения
         item = decr(index);
         if (item === undefined) return 'newPosition<0';
-        const cond = (this.conf.range && item.val < this.conf.to)
+        const cond = (this.conf.range && item.value < this.conf.to)
           || !this.conf.range;
         if (cond) {
           result = changeFrom(item);
@@ -333,11 +333,11 @@ class Model extends Observer {
       }
     } else { // ползунок max
       const index = this.data.marksArr
-        .findIndex((elem) => elem.val === this.conf.to);
+        .findIndex((elem) => elem.value === this.conf.to);
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = incr(index);
         if (item === undefined) return 'newPosition>100';
-        const cond = item && item.val > this.conf.to
+        const cond = item && item.value > this.conf.to
           && this.conf.to < this.conf.max;
         if (cond) {
           result = changeTo(item);
@@ -345,7 +345,7 @@ class Model extends Observer {
       } else { // Уменьшение значения
         item = decr(index);
         if (item === undefined) return 'newPosition<0';
-        if (item.val >= this.conf.from
+        if (item.value >= this.conf.from
           && this.conf.to > this.conf.from) {
           result = changeTo(item);
         } else result = 'too small newPosition';
@@ -697,25 +697,25 @@ class Model extends Observer {
     }
 
     // первое деление всегда стоит на позиции left = 0% и его значение равно this.conf.min
-    this.data.marksArr = [{ val: this.conf.min, position: 0 }];
-    let val = this.conf.min;
+    this.data.marksArr = [{ value: this.conf.min, position: 0 }];
+    let value = this.conf.min;
 
     for (let i = 0; i < interval; i += 1) {
-      const obj: IObject = { val: 0, position: 0 };
-      val += step;
-      if (val <= this.conf.max) {
-        const position = ((val - this.conf.min) * 100)
+      const obj: IObject = { value: 0, position: 0 };
+      value += step;
+      if (value <= this.conf.max) {
+        const position = ((value - this.conf.min) * 100)
           / (this.conf.max - this.conf.min);
 
-        obj.val = parseFloat(val.toFixed(2));
+        obj.value = parseFloat(value.toFixed(2));
         obj.position = position;
         this.data.marksArr.push(obj);
       }
     }
-    if (this.data.marksArr[this.data.marksArr.length - 1].val
+    if (this.data.marksArr[this.data.marksArr.length - 1].value
       < this.conf.max) { // если длина шкалы не кратна длине шага
       // последнее деление ставим на позицию left = 100% и его значение равно this.conf.max
-      this.data.marksArr.push({ val: this.conf.max, position: 100 });
+      this.data.marksArr.push({ value: this.conf.max, position: 100 });
     }
     this.fire('Scale', this.data, this.conf);
   }
@@ -726,26 +726,26 @@ class Model extends Observer {
     moovingControl: string,
   ) {
     if (!this.changeMode) {
-      let newVal = '';
+      let newValue = '';
       if (stopType === 'normal') {
-        newVal = (this.conf.min + ((this.conf.max
+        newValue = (this.conf.min + ((this.conf.max
           - this.conf.min) * position) / 100).toFixed(0);
       } else if (stopType === 'min') {
-        newVal = String(this.conf.min);
+        newValue = String(this.conf.min);
       } else if (stopType === 'max') {
-        newVal = String(this.conf.max);
+        newValue = String(this.conf.max);
       } else if (stopType === 'meetMax') {
-        newVal = String(this.conf.to);
+        newValue = String(this.conf.to);
       } else if (stopType === 'meetMin') {
-        newVal = String(this.conf.from);
+        newValue = String(this.conf.from);
       }
       if (moovingControl === 'min') {
-        this.data.fromVal = newVal;
-        this.conf.from = parseFloat(newVal);
+        this.data.fromValue = newValue;
+        this.conf.from = parseFloat(newValue);
         this.fire('FromValue', this.data);
       } else {
-        this.data.toVal = newVal;
-        this.conf.to = parseFloat(newVal);
+        this.data.toValue = newValue;
+        this.conf.to = parseFloat(newValue);
         this.fire('ToValue', this.data);
       }
     }
