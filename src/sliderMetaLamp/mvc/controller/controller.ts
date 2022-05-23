@@ -118,14 +118,14 @@ class Controller extends Observer {
   private handleFromValue = (parms: IFireParms) => {
     if (parms.key !== 'FromValue') return;
     if (this.view) {
-      this.view.updateFromVal(parms.data);
+      this.view.updateFromValue(parms.data);
     }
   }
 
   private handleToValue = (parms: IFireParms) => {
     if (parms.key !== 'ToValue') return;
     if (this.view) {
-      this.view.updateToVal(parms.data);
+      this.view.updateToValue(parms.data);
     }
   }
 

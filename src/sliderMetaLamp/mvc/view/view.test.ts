@@ -128,15 +128,15 @@ describe('ViewScale', () => {
     updateInputSpy.mockClear();
   });
 
-  test('updateFromVal', () => {
-    testView.updateFromVal({ ...data, fromPosition: 0, fromValue: '10' });
+  test('updateFromValue', () => {
+    testView.updateFromValue({ ...data, fromPosition: 0, fromValue: '10' });
     expect(updateValSpy).toBeCalledTimes(1);
     expect(updateValSpy).toBeCalledWith('10', true);
     updateValSpy.mockClear();
   });
 
-  test('updateToVal', () => {
-    testView.updateToVal({ ...data, fromPosition: 0, toValue: '10' });
+  test('updateToValue', () => {
+    testView.updateToValue({ ...data, fromPosition: 0, toValue: '10' });
     expect(updateValSpy).toBeCalledTimes(1);
     expect(updateValSpy).toBeCalledWith('10', false);
     updateValSpy.mockClear();

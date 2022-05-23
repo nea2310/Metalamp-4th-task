@@ -88,11 +88,11 @@ class View extends Observer {
     }
   }
 
-  public updateFromVal(data: IdataFull) {
+  public updateFromValue(data: IdataFull) {
     if (this.viewControl) { this.viewControl.updateVal(data.fromValue, true); }
   }
 
-  public updateToVal(data: IdataFull) {
+  public updateToValue(data: IdataFull) {
     if (this.viewControl) { this.viewControl.updateVal(data.toValue, false); }
   }
 
