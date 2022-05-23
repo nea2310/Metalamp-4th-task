@@ -30,8 +30,8 @@ class ViewBar {
     this.switchBar(conf);
   }
 
-  static getElem(obj: HTMLElement, selector: string) {
-    return obj.querySelector(selector);
+  static getElem(object: HTMLElement, selector: string) {
+    return object.querySelector(selector);
   }
 
   // переключение в вертикальный режим

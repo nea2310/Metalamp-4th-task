@@ -77,8 +77,8 @@ class RangeSlider {
     this.subscribeSlider();
   }
 
-  static getElem(obj: HTMLElement, selector: string) {
-    return obj.querySelector(selector) as HTMLElement;
+  static getElem(object: HTMLElement, selector: string) {
+    return object.querySelector(selector) as HTMLElement;
   }
 
   static valid(
@@ -209,7 +209,7 @@ class RangeSlider {
   }
 
   private updateSlider() {
-    const arr = ['min',
+    const properties = ['min',
       'max',
       'from',
       'to',
@@ -230,7 +230,7 @@ class RangeSlider {
     const handleChange = (e: Event) => {
       if (!this.isDestroyed) {
         const target = e.target as HTMLInputElement;
-        arr.forEach((elem) => {
+        properties.forEach((elem) => {
           if (target.closest(`.panel__${elem}`)) {
             let value;
             if (target.type === 'checkbox') {

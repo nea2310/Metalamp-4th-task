@@ -158,8 +158,8 @@ class ViewControl extends Observer {
     return `${(elem.offsetWidth / 2) * (-1)}px`;
   }
 
-  static getElem(obj: HTMLElement, selector: string) {
-    return obj.querySelector(selector);
+  static getElem(object: HTMLElement, selector: string) {
+    return object.querySelector(selector);
   }
 
   static renderControl(controlClassName: string, tipClassName: string, value: number) {
@@ -290,8 +290,8 @@ class ViewControl extends Observer {
   // Вешаем обработчик нажатия стрелок на сфокусированном ползунке
   private pressControl() {
     const handlePointerStart = (e: KeyboardEvent) => {
-      const arr = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
-      const result = arr.indexOf(e.code);
+      const directions = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
+      const result = directions.indexOf(e.code);
       if (result !== -1) {
         e.preventDefault();
         const { target } = e;

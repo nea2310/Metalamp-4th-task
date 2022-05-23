@@ -148,7 +148,7 @@ class View extends Observer {
   private collectParms() {
     this.backEndConf = {};
     const map = new Map();
-    const arr = ['min',
+    const properties = ['min',
       'max',
       'from',
       'to',
@@ -168,7 +168,7 @@ class View extends Observer {
     for (let i = 0; i < this.root.attributes.length; i += 1) {
       const elem = this.root.attributes[i];
       const a = elem.name.replace(/^data-/, '');
-      if (arr.indexOf(a) !== -1) {
+      if (properties.indexOf(a) !== -1) {
         map.set(a, elem.value);
       }
     }

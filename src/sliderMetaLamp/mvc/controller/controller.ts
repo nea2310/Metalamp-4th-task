@@ -8,7 +8,7 @@ class Controller extends Observer {
 
   view: View | null;
 
-  enabled: boolean;
+  isEnabled: boolean;
 
   constructor(model: Model, view: View) {
     super();
@@ -16,7 +16,7 @@ class Controller extends Observer {
     this.view = view;
     this.createListeners();// срабатывает после инициализации модели
     this.init();
-    this.enabled = true;
+    this.isEnabled = true;
   }
 
   public update(conf: IConf) {
@@ -35,17 +35,17 @@ class Controller extends Observer {
   public disable() {
     if (this.view) {
       this.removeListeners();
-      this.enabled = false;
+      this.isEnabled = false;
       this.view.disable();
     }
   }
 
   public enable() {
-    if (!this.enabled && this.view) {
+    if (!this.isEnabled && this.view) {
       this.createListeners();
       this.view.enable();
     }
-    this.enabled = true;
+    this.isEnabled = true;
   }
 
   public destroy() {

@@ -677,23 +677,23 @@ class Model extends Observer {
     if (this.conf.scaleBase === 'step') { // если рассчитываем шкалу на основе кол-ва шагов
       step = this.conf.step; // находим длину шага
       interval = (this.conf.max - this.conf.min) / step; // находим кол-во интервалов
-      const arg = interval % 1 === 0 ? String(interval)
+      const argument = interval % 1 === 0 ? String(interval)
         : String(Math.trunc(interval + 1));
       this.data.scaleBase = 'step';
-      this.data.intervalValue = arg;
+      this.data.intervalValue = argument;
       this.data.stepValue = String(this.conf.step);
-      this.conf.interval = parseFloat(arg);
+      this.conf.interval = parseFloat(argument);
     }
 
     if (this.conf.scaleBase === 'interval') { // если рассчитываем шкалу на основе интервалов
       interval = this.conf.interval; // находим кол-во интервалов
       step = (this.conf.max - this.conf.min) / interval;// находим ширину (кол-во единиц) в шаге
-      const arg = step % 1 === 0 ? String(step)
+      const argument = step % 1 === 0 ? String(step)
         : String(step.toFixed(2));
       this.data.scaleBase = 'interval';
       this.data.intervalValue = String(interval);
-      this.data.stepValue = arg;
-      this.conf.step = parseFloat(arg);
+      this.data.stepValue = argument;
+      this.conf.step = parseFloat(argument);
     }
 
     // первое деление всегда стоит на позиции left = 0% и его значение равно this.conf.min
@@ -701,15 +701,15 @@ class Model extends Observer {
     let value = this.conf.min;
 
     for (let i = 0; i < interval; i += 1) {
-      const obj: IObject = { value: 0, position: 0 };
+      const object: IObject = { value: 0, position: 0 };
       value += step;
       if (value <= this.conf.max) {
         const position = ((value - this.conf.min) * 100)
           / (this.conf.max - this.conf.min);
 
-        obj.value = parseFloat(value.toFixed(2));
-        obj.position = position;
-        this.data.marksArray.push(obj);
+        object.value = parseFloat(value.toFixed(2));
+        object.position = position;
+        this.data.marksArray.push(object);
       }
     }
     if (this.data.marksArray[this.data.marksArray.length - 1].value
