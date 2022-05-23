@@ -53,7 +53,7 @@ function createMarkList(
   });
 }
 
-const marksArr = [
+const marksArray = [
   { position: 0, value: 0 },
   { position: 50, value: 5 },
   { position: 100, value: 10 },
@@ -107,21 +107,21 @@ function prepareInstance(
 describe('ViewScale', () => {
   // eslint-disable-next-line max-len
   test('scale marks are not hidden if their total width (height) is less or equal to slider width (height)', () => {
-    const testViewScale = prepareInstance(marksArr, conf, false);
-    expect(testViewScale.createScale(marksArr, conf))
+    const testViewScale = prepareInstance(marksArray, conf, false);
+    expect(testViewScale.createScale(marksArray, conf))
       .toHaveLength(3);
   });
 
   // eslint-disable-next-line max-len
   test('scale marks are hidden if their total width (height) is less or equal to slider width (height)', () => {
-    const testViewScale = prepareInstance(marksArr, conf, true);
-    expect(testViewScale.createScale(marksArr, conf))
+    const testViewScale = prepareInstance(marksArray, conf, true);
+    expect(testViewScale.createScale(marksArray, conf))
       .toHaveLength(1);
   });
 
   test('switchScale', () => {
-    const testViewScale = prepareInstance(marksArr, conf, false);
-    testViewScale.createScale(marksArr, { ...conf, scale: false });
+    const testViewScale = prepareInstance(marksArray, conf, false);
+    testViewScale.createScale(marksArray, { ...conf, scale: false });
     const a = testViewScale.switchScale(conf);
     expect(a[0].classList.contains('rs-metalamp__mark_visually-hidden'))
       .toBe(false);

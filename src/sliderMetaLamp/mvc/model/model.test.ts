@@ -591,7 +591,7 @@ describe('model, API method "update" processing', () => {
       fromValue: '-50',
       interval: 6,
       intervalValue: '6',
-      marksArr: [
+      marksArray: [
         { value: -100, position: 0 },
         { value: -50, position: 16.666666666666668 },
         { value: 0, position: 33.333333333333336 },
@@ -690,7 +690,7 @@ describe('model, API method "update" processing', () => {
     expect(testModel.update({ scaleBase: 'interval' })
       .scaleBase).toBe('interval');
     expect(testModel.update({ interval: 2 })
-      .marksArr).toEqual([
+      .marksArray).toEqual([
         { value: 0, position: 0 },
         { value: 50, position: 50 },
         { value: 100, position: 100 }]);

@@ -97,7 +97,7 @@ class View extends Observer {
   }
 
   public updateScale(data: IdataFull, conf: IConfFull) {
-    if (this.viewScale) { this.viewScale.createScale(data.marksArr, conf); }
+    if (this.viewScale) { this.viewScale.createScale(data.marksArray, conf); }
   }
 
   public updateBar(data: IdataFull, conf: IConfFull) {

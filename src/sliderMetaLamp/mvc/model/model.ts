@@ -205,19 +205,19 @@ class Model extends Observer {
     // движение в большую сторону
     const incr = (index: number) => {
       if (repeat) {
-        return this.data.marksArr[index
+        return this.data.marksArray[index
           + this.conf.shiftOnKeyHold];
       }
-      return this.data.marksArr[index
+      return this.data.marksArray[index
         + this.conf.shiftOnKeyDown];
     };
     // движение в меньшую сторону
     const decr = (index: number) => {
       if (repeat) {
-        return this.data.marksArr[index
+        return this.data.marksArray[index
           - this.conf.shiftOnKeyHold];
       }
-      return this.data.marksArr[index
+      return this.data.marksArray[index
         - this.conf.shiftOnKeyDown];
     };
 
@@ -310,7 +310,7 @@ class Model extends Observer {
       this.needCalcValue = true;
       // если ползунок должен вставать на позицию ближайшего к нему деления шкалы
     } else if (moovingControl === 'min') { // ползунок min
-      const index = this.data.marksArr
+      const index = this.data.marksArray
         .findIndex((elem) => elem.value === this.conf.from);
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = incr(index);
@@ -332,7 +332,7 @@ class Model extends Observer {
         } else result = 'too small newPosition';
       }
     } else { // ползунок max
-      const index = this.data.marksArr
+      const index = this.data.marksArray
         .findIndex((elem) => elem.value === this.conf.to);
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = incr(index);
@@ -612,14 +612,14 @@ class Model extends Observer {
     предыдущей (это значит, что мы нашли деление,
   ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления */
     let position = 0;
-    for (let i = 0; i < this.data.marksArr.length; i += 1) {
+    for (let i = 0; i < this.data.marksArray.length; i += 1) {
       let a = 0;
-      if (i < this.data.marksArr.length - 1) {
-        a = this.data.marksArr[i + 1].position;
+      if (i < this.data.marksArray.length - 1) {
+        a = this.data.marksArray[i + 1].position;
       }
-      if (Math.abs(controlPos - this.data.marksArr[i].position)
+      if (Math.abs(controlPos - this.data.marksArray[i].position)
         < Math.abs(controlPos - a)) {
-        position = this.data.marksArr[i].position;
+        position = this.data.marksArray[i].position;
         break;
       }
     }
@@ -697,7 +697,7 @@ class Model extends Observer {
     }
 
     // первое деление всегда стоит на позиции left = 0% и его значение равно this.conf.min
-    this.data.marksArr = [{ value: this.conf.min, position: 0 }];
+    this.data.marksArray = [{ value: this.conf.min, position: 0 }];
     let value = this.conf.min;
 
     for (let i = 0; i < interval; i += 1) {
@@ -709,13 +709,13 @@ class Model extends Observer {
 
         obj.value = parseFloat(value.toFixed(2));
         obj.position = position;
-        this.data.marksArr.push(obj);
+        this.data.marksArray.push(obj);
       }
     }
-    if (this.data.marksArr[this.data.marksArr.length - 1].value
+    if (this.data.marksArray[this.data.marksArray.length - 1].value
       < this.conf.max) { // если длина шкалы не кратна длине шага
       // последнее деление ставим на позицию left = 100% и его значение равно this.conf.max
-      this.data.marksArr.push({ value: this.conf.max, position: 100 });
+      this.data.marksArray.push({ value: this.conf.max, position: 100 });
     }
     this.fire('Scale', this.data, this.conf);
   }

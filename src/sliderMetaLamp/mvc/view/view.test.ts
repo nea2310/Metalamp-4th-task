@@ -46,7 +46,7 @@ const conf: IConfFull = {
 const data = {
   fromPosition: 10,
   toPosition: 0,
-  marksArr: [{ position: 0, value: 0 }],
+  marksArray: [{ position: 0, value: 0 }],
   intervalValue: '',
   stepValue: '',
   scaleBase: '',
@@ -147,7 +147,7 @@ describe('ViewScale', () => {
     testView.updateScale({
       ...data,
       fromPosition: 0,
-      marksArr: [
+      marksArray: [
         { position: 0, value: 0 },
         { position: 50, value: 5 },
         { position: 100, value: 10 },

@@ -1760,43 +1760,43 @@ class Model extends Observer {
     const { key, repeat, moovingControl } = data;
     // поменять позицию и значение FROM
     const changeFrom = (item: IObject) =&gt; {
-      this.conf.from = item.val;
-      this.data.fromPosition = item.pos;
-      this.data.fromVal = String(item.val);
+      this.conf.from = item.value;
+      this.data.fromPosition = item.position;
+      this.data.fromValue = String(item.value);
       this.fire('FromPosition', this.data);
       this.fire('FromValue', this.data);
 &nbsp;
-      return { newVal: String(item.val), newPosition: item.pos };
+      return { newValue: String(item.value), newPosition: item.position };
     };
     // поменять позицию и значение TO
     const changeTo = (item: IObject) =&gt; {
-      this.conf.to = item.val;
-      this.data.toPosition = item.pos;
-      this.data.toVal = String(item.val);
+      this.conf.to = item.value;
+      this.data.toPosition = item.position;
+      this.data.toValue = String(item.value);
       this.fire('ToPosition', this.data);
       this.fire('ToValue', this.data);
-      return { newVal: String(item.val), newPosition: item.pos };
+      return { newValue: String(item.value), newPosition: item.position };
     };
     // движение в большую сторону
     const incr = (index: number) =&gt; {
       if (repeat) {
-        return this.data.marksArr[index
+        return this.data.marksArray[index
           + this.conf.shiftOnKeyHold];
       }
-      return this.data.marksArr[index
+      return this.data.marksArray[index
         + this.conf.shiftOnKeyDown];
     };
     // движение в меньшую сторону
     const decr = (index: number) =&gt; {
       if (repeat) {
-        return this.data.marksArr[index
+        return this.data.marksArray[index
           - this.conf.shiftOnKeyHold];
       }
-      return this.data.marksArr[index
+      return this.data.marksArray[index
         - this.conf.shiftOnKeyDown];
     };
 &nbsp;
-    let newVal;
+    let newValue;
     let item;
     let result;
     // если ползунок НЕ должен вставать на позицию ближайшего к нему деления шкалы
@@ -1815,84 +1815,84 @@ class Model extends Observer {
             &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >this.conf.from &gt;= this.conf.max;</span>
 &nbsp;
           <span class="missing-if-branch" title="if path not taken" >I</span>if (belowMaxRange || belowMaxNoRange) {
-<span class="cstat-no" title="statement not covered" >            newVal = repeat</span>
+<span class="cstat-no" title="statement not covered" >            newValue = repeat</span>
               ? this.conf.from
               + this.conf.shiftOnKeyHold
               : this.conf.from
               + this.conf.shiftOnKeyDown;
-<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (this.conf.range &amp;&amp; newVal &gt; this.conf.to) {</span>
-<span class="cstat-no" title="statement not covered" >              newVal = this.conf.to;</span>
+<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (this.conf.range &amp;&amp; newValue &gt; this.conf.to) {</span>
+<span class="cstat-no" title="statement not covered" >              newValue = this.conf.to;</span>
             }
-<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.conf.range &amp;&amp; newVal &gt; this.conf.max) {</span>
-<span class="cstat-no" title="statement not covered" >              newVal = this.conf.max;</span>
+<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.conf.range &amp;&amp; newValue &gt; this.conf.max) {</span>
+<span class="cstat-no" title="statement not covered" >              newValue = this.conf.max;</span>
             }
           }
           if (aboveMaxRange) {
-            newVal = this.conf.to;
+            newValue = this.conf.to;
           }
           <span class="missing-if-branch" title="if path not taken" >I</span>if (aboveMaxNoRange) {
-<span class="cstat-no" title="statement not covered" >            newVal = this.conf.max;</span>
+<span class="cstat-no" title="statement not covered" >            newValue = this.conf.max;</span>
           }
           // Уменьшение значения
         } else if (this.conf.from &gt; this.conf.min) {
-          newVal = repeat
+          newValue = repeat
             ? this.conf.from
             - this.conf.shiftOnKeyHold
             : this.conf.from
             - this.conf.shiftOnKeyDown;
-          <span class="missing-if-branch" title="if path not taken" >I</span>if (newVal &lt; this.conf.min) {
-<span class="cstat-no" title="statement not covered" >            newVal = this.conf.min;</span>
+          <span class="missing-if-branch" title="if path not taken" >I</span>if (newValue &lt; this.conf.min) {
+<span class="cstat-no" title="statement not covered" >            newValue = this.conf.min;</span>
           }
         } else {
-          newVal = this.conf.min;
+          newValue = this.conf.min;
         }
 &nbsp;
-        this.data.fromVal = String(newVal);
-        this.conf.from = Number(newVal);
+        this.data.fromValue = String(newValue);
+        this.conf.from = Number(newValue);
         this.calcFromPosition();
         this.fire('FromValue', this.data);
-        result = newVal;
+        result = newValue;
       } else { // Ползунок max
         if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
           if (this.conf.to &lt; this.conf.max) {
-            newVal = repeat
+            newValue = repeat
               ? this.conf.to
               + this.conf.shiftOnKeyHold
               : this.conf.to
               + this.conf.shiftOnKeyDown;
-            <span class="missing-if-branch" title="if path not taken" >I</span>if (newVal &gt; this.conf.max) {
-<span class="cstat-no" title="statement not covered" >              newVal = this.conf.max;</span>
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (newValue &gt; this.conf.max) {
+<span class="cstat-no" title="statement not covered" >              newValue = this.conf.max;</span>
             }
-          } else newVal = this.conf.max;
+          } else newValue = this.conf.max;
           // Уменьшение значения
         } else <span class="missing-if-branch" title="if path not taken" >I</span>if (this.conf.to &gt; this.conf.from) {
-<span class="cstat-no" title="statement not covered" >          newVal = repeat</span>
+<span class="cstat-no" title="statement not covered" >          newValue = repeat</span>
             ? this.conf.to
             - this.conf.shiftOnKeyHold
             : this.conf.to
             - this.conf.shiftOnKeyDown;
-<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (newVal &lt; this.conf.from) {</span>
-<span class="cstat-no" title="statement not covered" >            newVal = this.conf.from;</span>
+<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (newValue &lt; this.conf.from) {</span>
+<span class="cstat-no" title="statement not covered" >            newValue = this.conf.from;</span>
           }
-        } else newVal = this.conf.from;
+        } else newValue = this.conf.from;
 &nbsp;
-        this.data.toVal = String(newVal);
-        this.conf.to = newVal;
+        this.data.toValue = String(newValue);
+        this.conf.to = newValue;
         this.calcToPosition();
         this.fire('ToValue', this.data);
-        result = newVal;
+        result = newValue;
       }
       this.needCalcValue = true;
       // если ползунок должен вставать на позицию ближайшего к нему деления шкалы
     } else if (moovingControl === 'min') { // ползунок min
-      const index = this.data.marksArr
-        .findIndex((elem) =&gt; elem.val === this.conf.from);
+      const index = this.data.marksArray
+        .findIndex((elem) =&gt; elem.value === this.conf.from);
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = incr(index);
         <span class="missing-if-branch" title="if path not taken" >I</span>if (item === undefined) <span class="cstat-no" title="statement not covered" >return 'newPosition&gt;100';</span>
-        const cond = item.val &gt; this.conf.from
-          &amp;&amp; ((this.conf.range &amp;&amp; item.val &lt;= this.conf.to)
-            || (!this.conf.range &amp;&amp; <span class="branch-4 cbranch-no" title="branch not covered" >item.val</span>
+        const cond = item.value &gt; this.conf.from
+          &amp;&amp; ((this.conf.range &amp;&amp; item.value &lt;= this.conf.to)
+            || (!this.conf.range &amp;&amp; <span class="branch-4 cbranch-no" title="branch not covered" >item.value</span>
               &lt;= this.conf.max));
         <span class="missing-if-branch" title="if path not taken" >I</span>if (cond) {
 <span class="cstat-no" title="statement not covered" >          result = changeFrom(item);</span>
@@ -1900,19 +1900,19 @@ class Model extends Observer {
       } else { // Уменьшение значения
         item = decr(index);
         if (item === undefined) return 'newPosition&lt;0';
-        const cond = (this.conf.range &amp;&amp; item.val &lt; this.conf.to)
+        const cond = (this.conf.range &amp;&amp; item.value &lt; this.conf.to)
           || <span class="branch-2 cbranch-no" title="branch not covered" >!this.conf.range;</span>
         if (cond) {
           result = changeFrom(item);
         } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="else path not taken" >E</span>result = 'too small newPosition';</span>
       }
     } else { // ползунок max
-      const index = this.data.marksArr
-        .findIndex((elem) =&gt; elem.val === this.conf.to);
+      const index = this.data.marksArray
+        .findIndex((elem) =&gt; elem.value === this.conf.to);
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = incr(index);
         if (item === undefined) return 'newPosition&gt;100';
-        const cond = item &amp;&amp; item.val &gt; this.conf.to
+        const cond = item &amp;&amp; item.value &gt; this.conf.to
           &amp;&amp; this.conf.to &lt; this.conf.max;
         if (cond) {
           result = changeTo(item);
@@ -1920,7 +1920,7 @@ class Model extends Observer {
       } else { // Уменьшение значения
         item = decr(index);
         <span class="missing-if-branch" title="if path not taken" >I</span>if (item === undefined) <span class="cstat-no" title="statement not covered" >return 'newPosition&lt;0';</span>
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (item.val &gt;= this.conf.from
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (item.value &gt;= this.conf.from
           &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >this.conf.to &gt; this.conf.from)</span> {
 <span class="cstat-no" title="statement not covered" >          result = changeTo(item);</span>
         } else result = 'too small newPosition';
@@ -2186,19 +2186,19 @@ class Model extends Observer {
     значения newPosition до тех пор, пока результат текущей итерации не станет больше результата
     предыдущей (это значит, что мы нашли деление,
   ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления */
-    let pos = 0;
-    for (let i = 0; i &lt; this.data.marksArr.length; i += 1) {
+    let position = 0;
+    for (let i = 0; i &lt; this.data.marksArray.length; i += 1) {
       let a = 0;
-      if (i &lt; this.data.marksArr.length - 1) {
-        a = this.data.marksArr[i + 1].pos;
+      if (i &lt; this.data.marksArray.length - 1) {
+        a = this.data.marksArray[i + 1].position;
       }
-      if (Math.abs(controlPos - this.data.marksArr[i].pos)
+      if (Math.abs(controlPos - this.data.marksArray[i].position)
         &lt; Math.abs(controlPos - a)) {
-        pos = this.data.marksArr[i].pos;
+        position = this.data.marksArray[i].position;
         break;
       }
     }
-    return pos;
+    return position;
   }
 &nbsp;
   // рассчитать позицию From (%) на основании значений from, min и max
@@ -2272,55 +2272,55 @@ class Model extends Observer {
     }
 &nbsp;
     // первое деление всегда стоит на позиции left = 0% и его значение равно this.conf.min
-    this.data.marksArr = [{ val: this.conf.min, pos: 0 }];
-    let val = this.conf.min;
+    this.data.marksArray = [{ value: this.conf.min, position: 0 }];
+    let value = this.conf.min;
 &nbsp;
     for (let i = 0; i &lt; interval; i += 1) {
-      const obj: IObject = { val: 0, pos: 0 };
-      val += step;
-      if (val &lt;= this.conf.max) {
-        const pos = ((val - this.conf.min) * 100)
+      const obj: IObject = { value: 0, position: 0 };
+      value += step;
+      if (value &lt;= this.conf.max) {
+        const position = ((value - this.conf.min) * 100)
           / (this.conf.max - this.conf.min);
 &nbsp;
-        obj.val = parseFloat(val.toFixed(2));
-        obj.pos = pos;
-        this.data.marksArr.push(obj);
+        obj.value = parseFloat(value.toFixed(2));
+        obj.position = position;
+        this.data.marksArray.push(obj);
       }
     }
-    if (this.data.marksArr[this.data.marksArr.length - 1].val
+    if (this.data.marksArray[this.data.marksArray.length - 1].value
       &lt; this.conf.max) { // если длина шкалы не кратна длине шага
       // последнее деление ставим на позицию left = 100% и его значение равно this.conf.max
-      this.data.marksArr.push({ val: this.conf.max, pos: 100 });
+      this.data.marksArray.push({ value: this.conf.max, position: 100 });
     }
     this.fire('Scale', this.data, this.conf);
   }
 &nbsp;
   private calcVal(
     stopType: string,
-    pos: number,
+    position: number,
     moovingControl: string,
   ) {
     if (!this.changeMode) {
-      let newVal = '';
+      let newValue = '';
       if (stopType === 'normal') {
-        newVal = (this.conf.min + ((this.conf.max
-          - this.conf.min) * pos) / 100).toFixed(0);
+        newValue = (this.conf.min + ((this.conf.max
+          - this.conf.min) * position) / 100).toFixed(0);
       } else if (stopType === 'min') {
-        newVal = String(this.conf.min);
+        newValue = String(this.conf.min);
       } else if (stopType === 'max') {
-        newVal = String(this.conf.max);
+        newValue = String(this.conf.max);
       } else if (stopType === 'meetMax') {
-        newVal = String(this.conf.to);
+        newValue = String(this.conf.to);
       } else if (stopType === 'meetMin') {
-        newVal = String(this.conf.from);
+        newValue = String(this.conf.from);
       }
       if (moovingControl === 'min') {
-        this.data.fromVal = newVal;
-        this.conf.from = parseFloat(newVal);
+        this.data.fromValue = newValue;
+        this.conf.from = parseFloat(newValue);
         this.fire('FromValue', this.data);
       } else {
-        this.data.toVal = newVal;
-        this.conf.to = parseFloat(newVal);
+        this.data.toValue = newValue;
+        this.conf.to = parseFloat(newValue);
         this.fire('ToValue', this.data);
       }
     }
@@ -2335,7 +2335,7 @@ export default Model;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Mon May 23 2022 14:30:55 GMT+0500 (Екатеринбург, стандартное время)
+                at Mon May 23 2022 18:42:37 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         <script src="../../../prettify.js"></script>
         <script>

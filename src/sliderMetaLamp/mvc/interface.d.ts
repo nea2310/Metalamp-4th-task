@@ -56,7 +56,7 @@ interface IthumbFull {
 interface IdataFull {
   fromPosition: number;
   toPosition: number;
-  marksArr: { 'position': number, 'value': number }[];
+  marksArray: { 'position': number, 'value': number }[];
   intervalValue: string;
   stepValue: string;
   scaleBase: string;
