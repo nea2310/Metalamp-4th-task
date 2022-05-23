@@ -108,9 +108,9 @@ class Model extends Observer {
       shiftBase,
       moovingControl,
     } = data;
-    let newPos = 0;
+    let newPosition = 0;
     if (this.conf.vertical) {
-      newPos = 100
+      newPosition = 100
         - (((clientY - top) * 100) / height);
     } else {
       let shift = 0;
@@ -118,61 +118,61 @@ class Model extends Observer {
         shift = (shiftBase * 100) / width;
       }
 
-      newPos = (((clientX - left) * 100) / width) - shift;
+      newPosition = (((clientX - left) * 100) / width) - shift;
     }
 
     /* если ползунок должен вставать на позицию ближайшего к нему деления шкалы - скорректировать
-     значение newPos (переместить ползунок
+     значение newPosition (переместить ползунок
     к ближайшему делению шкалы) */
     if (this.conf.sticky) {
-      newPos = this.setSticky(newPos);
+      newPosition = this.setSticky(newPosition);
     }
 
     let isStop = false;
     // запрещаем ползункам выходить за границы слайдера
-    if (newPos < 0) {
+    if (newPosition < 0) {
       isStop = true;
       this.calcVal('min', 0, moovingControl);
-      return 'newPos < 0';
+      return 'newPosition < 0';
     }
-    if (newPos > 100) {
+    if (newPosition > 100) {
       isStop = true;
       this.calcVal('max', 0, moovingControl);
-      return 'newPos > 100';
+      return 'newPosition > 100';
     }
 
     /* запрещаем ползункам перепрыгивать друг через друга, если это не single режим */
     if (this.conf.range) {
       if (moovingControl === 'min') { // двигается min ползунок
-        if (newPos > this.data.toPos) {
+        if (newPosition > this.data.toPos) {
           isStop = true;
           this.calcVal('meetMax', 0, moovingControl);
-          return 'newPos > toPos';
+          return 'newPosition > toPos';
         }
       }
       if (moovingControl === 'max') { // двигается max ползунок
-        if (newPos < this.data.fromPos) {
+        if (newPosition < this.data.fromPos) {
           isStop = true;
           this.calcVal('meetMin', 0, moovingControl);
-          return 'newPos < fromPos';
+          return 'newPosition < fromPos';
         }
       }
     }
 
     if (moovingControl === 'min') {
-      this.data.fromPos = newPos;
+      this.data.fromPos = newPosition;
       this.fire('FromPosition', this.data, this.conf);
     } else {
-      this.data.toPos = newPos;
+      this.data.toPos = newPosition;
       this.fire('ToPosition', this.data, this.conf);
     }
-    if (!isStop) { this.calcVal('normal', newPos, moovingControl); }
+    if (!isStop) { this.calcVal('normal', newPosition, moovingControl); }
 
     this.calcBar();
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
     }
-    return newPos;
+    return newPosition;
   }
 
   // Рассчитывает значение ползунка при нажатии кнопки стрелки на сфокусированном ползунке
@@ -191,7 +191,7 @@ class Model extends Observer {
       this.fire('FromPosition', this.data);
       this.fire('FromValue', this.data);
 
-      return { newVal: String(item.val), newPos: item.pos };
+      return { newVal: String(item.val), newPosition: item.pos };
     };
     // поменять позицию и значение TO
     const changeTo = (item: IObj) => {
@@ -200,7 +200,7 @@ class Model extends Observer {
       this.data.toVal = String(item.val);
       this.fire('ToPosition', this.data);
       this.fire('ToValue', this.data);
-      return { newVal: String(item.val), newPos: item.pos };
+      return { newVal: String(item.val), newPosition: item.pos };
     };
     // движение в большую сторону
     const incr = (index: number) => {
@@ -314,41 +314,41 @@ class Model extends Observer {
         .findIndex((elem) => elem.val === this.conf.from);
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = incr(index);
-        if (item === undefined) return 'newPos>100';
+        if (item === undefined) return 'newPosition>100';
         const cond = item.val > this.conf.from
           && ((this.conf.range && item.val <= this.conf.to)
             || (!this.conf.range && item.val
               <= this.conf.max));
         if (cond) {
           result = changeFrom(item);
-        } else result = 'too big newPos';
+        } else result = 'too big newPosition';
       } else { // Уменьшение значения
         item = decr(index);
-        if (item === undefined) return 'newPos<0';
+        if (item === undefined) return 'newPosition<0';
         const cond = (this.conf.range && item.val < this.conf.to)
           || !this.conf.range;
         if (cond) {
           result = changeFrom(item);
-        } else result = 'too small newPos';
+        } else result = 'too small newPosition';
       }
     } else { // ползунок max
       const index = this.data.marksArr
         .findIndex((elem) => elem.val === this.conf.to);
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = incr(index);
-        if (item === undefined) return 'newPos>100';
+        if (item === undefined) return 'newPosition>100';
         const cond = item && item.val > this.conf.to
           && this.conf.to < this.conf.max;
         if (cond) {
           result = changeTo(item);
-        } else result = 'too big newPos';
+        } else result = 'too big newPosition';
       } else { // Уменьшение значения
         item = decr(index);
-        if (item === undefined) return 'newPos<0';
+        if (item === undefined) return 'newPosition<0';
         if (item.val >= this.conf.from
           && this.conf.to > this.conf.from) {
           result = changeTo(item);
-        } else result = 'too small newPos';
+        } else result = 'too small newPosition';
       }
     }
     this.calcBar();
@@ -608,7 +608,7 @@ class Model extends Observer {
   // корректирует позицию ползунка, устанавливает его на ближайшее деление шкалы при sticky режиме
   private setSticky(controlPos: number) {
     /* Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из
-    значения newPos до тех пор, пока результат текущей итерации не станет больше результата
+    значения newPosition до тех пор, пока результат текущей итерации не станет больше результата
     предыдущей (это значит, что мы нашли деление,
   ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления */
     let pos = 0;
@@ -633,7 +633,7 @@ class Model extends Observer {
       / (this.conf.max - this.conf.min);
 
     /* если ползунок должен вставать на позицию ближайшего к нему деления шкалы -
-    скорректировать значение newPos (переместить ползунок
+    скорректировать значение newPosition (переместить ползунок
     к ближайшему делению шкалы) */
     if (this.conf.sticky) {
       this.data.fromPos = this.setSticky(this.data.fromPos);

@@ -30,7 +30,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         moovingControl: 'min',
       },
     ))
-      .toBe('newPos < 0');
+      .toBe('newPosition < 0');
 
     expect(testModel.calcPos(
       {
@@ -45,7 +45,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         moovingControl: 'max',
       },
     ))
-      .toBe('newPos > 100');
+      .toBe('newPosition > 100');
 
     expect(testModel.calcPos(
       {
@@ -90,7 +90,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         moovingControl: 'max',
       },
     ))
-      .toBe('newPos < fromPos');
+      .toBe('newPosition < fromPos');
 
     expect(testModel.calcPos(
       {
@@ -105,7 +105,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         moovingControl: 'min',
       },
     ))
-      .toBe('newPos > toPos');
+      .toBe('newPosition > toPos');
   });
 
   test('calcpos, sticky', async () => {
@@ -196,7 +196,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         moovingControl: 'max',
       },
     ))
-      .toBe('newPos < fromPos');
+      .toBe('newPosition < fromPos');
 
     expect(testModel.calcPos(
       {
@@ -211,7 +211,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         moovingControl: 'min',
       },
     ))
-      .toBe('newPos > toPos');
+      .toBe('newPosition > toPos');
   });
 
   test(
@@ -348,7 +348,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           moovingControl: 'min',
         },
       ))
-        .toBe('newPos<0'); // from < min
+        .toBe('newPosition<0'); // from < min
 
       expect(testModel.calcPosKey(
         {
@@ -357,7 +357,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           moovingControl: 'min',
         },
       ))
-        .toBe('newPos<0'); // from < min
+        .toBe('newPosition<0'); // from < min
 
       expect(testModel.calcPosKey(
         {
@@ -366,7 +366,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           moovingControl: 'max',
         },
       ))
-        .toBe('newPos>100');// to > max
+        .toBe('newPosition>100');// to > max
 
       expect(testModel.calcPosKey(
         {
@@ -375,7 +375,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           moovingControl: 'max',
         },
       ))
-        .toBe('newPos>100');// to > max
+        .toBe('newPosition>100');// to > max
 
       await testModel.update({ from: 70, to: 70 });
 
@@ -386,7 +386,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           moovingControl: 'max',
         },
       ))
-        .toBe('too small newPos'); // from<to
+        .toBe('too small newPosition'); // from<to
 
       expect(testModel.calcPosKey(
         {
@@ -395,7 +395,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           moovingControl: 'min',
         },
       ))
-        .toBe('too big newPos'); // to>from
+        .toBe('too big newPosition'); // to>from
 
       expect(testModel.calcPosKey(
         {
@@ -404,7 +404,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           moovingControl: 'min',
         },
       ))
-        .toEqual({ newPos: 60, newVal: '64' });
+        .toEqual({ newPosition: 60, newVal: '64' });
 
       expect(testModel.calcPosKey(
         {
@@ -413,7 +413,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           moovingControl: 'min',
         },
       ))
-        .toEqual({ newPos: 40, newVal: '46' });
+        .toEqual({ newPosition: 40, newVal: '46' });
 
       expect(testModel.calcPosKey(
         {
@@ -422,7 +422,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           moovingControl: 'max',
         },
       ))
-        .toEqual({ newPos: 80, newVal: '82' });
+        .toEqual({ newPosition: 80, newVal: '82' });
 
       expect(testModel.calcPosKey(
         {
@@ -431,7 +431,7 @@ describe('model, calcPos and calcPosKey methods', () => {
           moovingControl: 'max',
         },
       ))
-        .toEqual({ newPos: 100, newVal: '100' });
+        .toEqual({ newPosition: 100, newVal: '100' });
     },
   );
 });

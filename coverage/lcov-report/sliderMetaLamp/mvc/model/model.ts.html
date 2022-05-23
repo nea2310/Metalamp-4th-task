@@ -1685,9 +1685,9 @@ class Model extends Observer {
       shiftBase,
       moovingControl,
     } = data;
-    let newPos = 0;
+    let newPosition = 0;
     <span class="missing-if-branch" title="if path not taken" >I</span>if (this.conf.vertical) {
-<span class="cstat-no" title="statement not covered" >      newPos = 100</span>
+<span class="cstat-no" title="statement not covered" >      newPosition = 100</span>
         - (((clientY - top) * 100) / height);
     } else {
       let shift = 0;
@@ -1695,61 +1695,61 @@ class Model extends Observer {
         shift = (shiftBase * 100) / width;
       }
 &nbsp;
-      newPos = (((clientX - left) * 100) / width) - shift;
+      newPosition = (((clientX - left) * 100) / width) - shift;
     }
 &nbsp;
     /* если ползунок должен вставать на позицию ближайшего к нему деления шкалы - скорректировать
-     значение newPos (переместить ползунок
+     значение newPosition (переместить ползунок
     к ближайшему делению шкалы) */
     if (this.conf.sticky) {
-      newPos = this.setSticky(newPos);
+      newPosition = this.setSticky(newPosition);
     }
 &nbsp;
     let isStop = false;
     // запрещаем ползункам выходить за границы слайдера
-    if (newPos &lt; 0) {
+    if (newPosition &lt; 0) {
       isStop = true;
       this.calcVal('min', 0, moovingControl);
-      return 'newPos &lt; 0';
+      return 'newPosition &lt; 0';
     }
-    if (newPos &gt; 100) {
+    if (newPosition &gt; 100) {
       isStop = true;
       this.calcVal('max', 0, moovingControl);
-      return 'newPos &gt; 100';
+      return 'newPosition &gt; 100';
     }
 &nbsp;
     /* запрещаем ползункам перепрыгивать друг через друга, если это не single режим */
     if (this.conf.range) {
       if (moovingControl === 'min') { // двигается min ползунок
-        if (newPos &gt; this.data.toPos) {
+        if (newPosition &gt; this.data.toPos) {
           isStop = true;
           this.calcVal('meetMax', 0, moovingControl);
-          return 'newPos &gt; toPos';
+          return 'newPosition &gt; toPos';
         }
       }
       if (moovingControl === 'max') { // двигается max ползунок
-        if (newPos &lt; this.data.fromPos) {
+        if (newPosition &lt; this.data.fromPos) {
           isStop = true;
           this.calcVal('meetMin', 0, moovingControl);
-          return 'newPos &lt; fromPos';
+          return 'newPosition &lt; fromPos';
         }
       }
     }
 &nbsp;
     if (moovingControl === 'min') {
-      this.data.fromPos = newPos;
+      this.data.fromPos = newPosition;
       this.fire('FromPosition', this.data, this.conf);
     } else {
-      this.data.toPos = newPos;
+      this.data.toPos = newPosition;
       this.fire('ToPosition', this.data, this.conf);
     }
-    if (!isStop) { this.calcVal('normal', newPos, moovingControl); }
+    if (!isStop) { this.calcVal('normal', newPosition, moovingControl); }
 &nbsp;
     this.calcBar();
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
     }
-    return newPos;
+    return newPosition;
   }
 &nbsp;
   // Рассчитывает значение ползунка при нажатии кнопки стрелки на сфокусированном ползунке
@@ -1768,7 +1768,7 @@ class Model extends Observer {
       this.fire('FromPosition', this.data);
       this.fire('FromValue', this.data);
 &nbsp;
-      return { newVal: String(item.val), newPos: item.pos };
+      return { newVal: String(item.val), newPosition: item.pos };
     };
     // поменять позицию и значение TO
     const changeTo = (item: IObj) =&gt; {
@@ -1777,7 +1777,7 @@ class Model extends Observer {
       this.data.toVal = String(item.val);
       this.fire('ToPosition', this.data);
       this.fire('ToValue', this.data);
-      return { newVal: String(item.val), newPos: item.pos };
+      return { newVal: String(item.val), newPosition: item.pos };
     };
     // движение в большую сторону
     const incr = (index: number) =&gt; {
@@ -1891,41 +1891,41 @@ class Model extends Observer {
         .findIndex((elem) =&gt; elem.val === this.conf.from);
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = incr(index);
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (item === undefined) <span class="cstat-no" title="statement not covered" >return 'newPos&gt;100';</span>
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (item === undefined) <span class="cstat-no" title="statement not covered" >return 'newPosition&gt;100';</span>
         const cond = item.val &gt; this.conf.from
           &amp;&amp; ((this.conf.range &amp;&amp; item.val &lt;= this.conf.to)
             || (!this.conf.range &amp;&amp; <span class="branch-4 cbranch-no" title="branch not covered" >item.val</span>
               &lt;= this.conf.max));
         <span class="missing-if-branch" title="if path not taken" >I</span>if (cond) {
 <span class="cstat-no" title="statement not covered" >          result = changeFrom(item);</span>
-        } else result = 'too big newPos';
+        } else result = 'too big newPosition';
       } else { // Уменьшение значения
         item = decr(index);
-        if (item === undefined) return 'newPos&lt;0';
+        if (item === undefined) return 'newPosition&lt;0';
         const cond = (this.conf.range &amp;&amp; item.val &lt; this.conf.to)
           || <span class="branch-2 cbranch-no" title="branch not covered" >!this.conf.range;</span>
         if (cond) {
           result = changeFrom(item);
-        } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="else path not taken" >E</span>result = 'too small newPos';</span>
+        } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="else path not taken" >E</span>result = 'too small newPosition';</span>
       }
     } else { // ползунок max
       const index = this.data.marksArr
         .findIndex((elem) =&gt; elem.val === this.conf.to);
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = incr(index);
-        if (item === undefined) return 'newPos&gt;100';
+        if (item === undefined) return 'newPosition&gt;100';
         const cond = item &amp;&amp; item.val &gt; this.conf.to
           &amp;&amp; this.conf.to &lt; this.conf.max;
         if (cond) {
           result = changeTo(item);
-        } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="else path not taken" >E</span>result = 'too big newPos';</span>
+        } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="else path not taken" >E</span>result = 'too big newPosition';</span>
       } else { // Уменьшение значения
         item = decr(index);
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (item === undefined) <span class="cstat-no" title="statement not covered" >return 'newPos&lt;0';</span>
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (item === undefined) <span class="cstat-no" title="statement not covered" >return 'newPosition&lt;0';</span>
         <span class="missing-if-branch" title="if path not taken" >I</span>if (item.val &gt;= this.conf.from
           &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >this.conf.to &gt; this.conf.from)</span> {
 <span class="cstat-no" title="statement not covered" >          result = changeTo(item);</span>
-        } else result = 'too small newPos';
+        } else result = 'too small newPosition';
       }
     }
     this.calcBar();
@@ -2185,7 +2185,7 @@ class Model extends Observer {
   // корректирует позицию ползунка, устанавливает его на ближайшее деление шкалы при sticky режиме
   private setSticky(controlPos: number) {
     /* Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из
-    значения newPos до тех пор, пока результат текущей итерации не станет больше результата
+    значения newPosition до тех пор, пока результат текущей итерации не станет больше результата
     предыдущей (это значит, что мы нашли деление,
   ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления */
     let pos = 0;
@@ -2210,7 +2210,7 @@ class Model extends Observer {
       / (this.conf.max - this.conf.min);
 &nbsp;
     /* если ползунок должен вставать на позицию ближайшего к нему деления шкалы -
-    скорректировать значение newPos (переместить ползунок
+    скорректировать значение newPosition (переместить ползунок
     к ближайшему делению шкалы) */
     if (this.conf.sticky) {
       this.data.fromPos = this.setSticky(this.data.fromPos);
@@ -2338,7 +2338,7 @@ export default Model;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Sat May 21 2022 14:48:02 GMT+0500 (Екатеринбург, стандартное время)
+                at Mon May 23 2022 13:50:25 GMT+0500 (Екатеринбург, стандартное время)
             </div>
         <script src="../../../prettify.js"></script>
         <script>

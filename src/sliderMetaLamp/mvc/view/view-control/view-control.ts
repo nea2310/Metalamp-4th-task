@@ -65,17 +65,17 @@ class ViewControl extends Observer {
   }
 
   // Обновляем позицию ползунка (вызывается через контроллер)
-  public updatePos(element: HTMLElement, newPos: number) {
+  public updatePos(element: HTMLElement, newPosition: number) {
     const elem = element;
     if (!this.initDone) {
       this.initDone = true;
     }
 
     if (this.conf.vertical) {
-      elem.style.bottom = `${newPos}%`;
+      elem.style.bottom = `${newPosition}%`;
       elem.style.left = '';
     } else {
-      elem.style.left = `${newPos}%`;
+      elem.style.left = `${newPosition}%`;
       elem.style.bottom = '';
     }
     // пересчитать ширину подсказок (возможно это надо вынести в отдельный метод)
