@@ -45,7 +45,7 @@ const conf: IConfFull = {
 
 const data = {
   fromPosition: 10,
-  toPos: 0,
+  toPosition: 0,
   marksArr: [{ pos: 0, val: 0 }],
   intervalValue: '',
   stepValue: '',
@@ -103,7 +103,7 @@ describe('ViewScale', () => {
   // eslint-disable-next-line max-len
   test('should call updatePos and updateInput methods in view-control on calling updateToPos in view', () => {
     testView.updateToPos({
-      ...data, fromPosition: 0, toPos: 10,
+      ...data, fromPosition: 0, toPosition: 10,
     }, {
       ...conf,
       min: 0,

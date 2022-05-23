@@ -144,10 +144,10 @@ class Model extends Observer {
     /* запрещаем ползункам перепрыгивать друг через друга, если это не single режим */
     if (this.conf.range) {
       if (moovingControl === 'min') { // двигается min ползунок
-        if (newPosition > this.data.toPos) {
+        if (newPosition > this.data.toPosition) {
           isStop = true;
           this.calcVal('meetMax', 0, moovingControl);
-          return 'newPosition > toPos';
+          return 'newPosition > toPosition';
         }
       }
       if (moovingControl === 'max') { // двигается max ползунок
@@ -163,7 +163,7 @@ class Model extends Observer {
       this.data.fromPosition = newPosition;
       this.fire('FromPosition', this.data, this.conf);
     } else {
-      this.data.toPos = newPosition;
+      this.data.toPosition = newPosition;
       this.fire('ToPosition', this.data, this.conf);
     }
     if (!isStop) { this.calcVal('normal', newPosition, moovingControl); }
@@ -196,7 +196,7 @@ class Model extends Observer {
     // поменять позицию и значение TO
     const changeTo = (item: IObj) => {
       this.conf.to = item.val;
-      this.data.toPos = item.pos;
+      this.data.toPosition = item.pos;
       this.data.toVal = String(item.val);
       this.fire('ToPosition', this.data);
       this.fire('ToValue', this.data);
@@ -646,13 +646,13 @@ class Model extends Observer {
 
   // рассчитать позицию To (%) на основании значений to, min и max
   private calcToPosition() {
-    this.data.toPos = ((this.conf.to - this.conf.min) * 100)
+    this.data.toPosition = ((this.conf.to - this.conf.min) * 100)
       / (this.conf.max - this.conf.min);
     if (this.conf.sticky) {
-      this.data.toPos = this.setSticky(this.data.toPos);
+      this.data.toPosition = this.setSticky(this.data.toPosition);
     }
     if (!this.noCalVal) {
-      this.calcVal('normal', this.data.toPos, 'max');
+      this.calcVal('normal', this.data.toPosition, 'max');
     }
     this.fire('ToPosition', this.data, this.conf);
   }
@@ -661,7 +661,7 @@ class Model extends Observer {
   private calcBar() {
     if (this.conf.range) { // режим Double
       this.data.barPos = this.data.fromPosition;
-      this.data.barWidth = this.data.toPos
+      this.data.barWidth = this.data.toPosition
         - this.data.fromPosition;
     } else { // режим Single
       this.data.barPos = 0;

@@ -105,7 +105,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         moovingControl: 'min',
       },
     ))
-      .toBe('newPosition > toPos');
+      .toBe('newPosition > toPosition');
   });
 
   test('calcpos, sticky', async () => {
@@ -211,7 +211,7 @@ describe('model, calcPos and calcPosKey methods', () => {
         moovingControl: 'min',
       },
     ))
-      .toBe('newPosition > toPos');
+      .toBe('newPosition > toPosition');
   });
 
   test(
@@ -614,7 +614,7 @@ describe('model, API method "update" processing', () => {
       sticky: false,
       tip: true,
       to: 50,
-      toPos: 50,
+      toPosition: 50,
       toVal: '50',
       vertical: false,
       thumb: {
