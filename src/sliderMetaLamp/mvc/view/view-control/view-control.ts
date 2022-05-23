@@ -103,19 +103,19 @@ class ViewControl extends Observer {
   public switchVertical(conf: IConfFull) {
     this.conf = conf;
     if (this.conf.vertical) {
-      this.controlMax.classList.add('rs-metalamp__control_vert');
-      this.tipMax.classList.add('rs-metalamp__tip_vert');
-      this.controlMin.classList.add('rs-metalamp__control_vert');
-      this.tipMin.classList.add('rs-metalamp__tip_vert');
+      this.controlMax.classList.add('rs-metalamp__control__orientation_vertical');
+      this.tipMax.classList.add('rs-metalamp__tip__orientation_vertical');
+      this.controlMin.classList.add('rs-metalamp__control__orientation_vertical');
+      this.tipMin.classList.add('rs-metalamp__tip__orientation_vertical');
       this.controlMax.classList.remove('rs-metalamp__control_horizontal');
       this.tipMax.classList.remove('rs-metalamp__tip_horizontal');
       this.controlMin.classList.remove('rs-metalamp__control_horizontal');
       this.tipMin.classList.remove('rs-metalamp__tip_horizontal');
     } else {
-      this.controlMax.classList.remove('rs-metalamp__control_vert');
-      this.tipMax.classList.remove('rs-metalamp__tip_vert');
-      this.controlMin.classList.remove('rs-metalamp__control_vert');
-      this.tipMin.classList.remove('rs-metalamp__tip_vert');
+      this.controlMax.classList.remove('rs-metalamp__control__orientation_vertical');
+      this.tipMax.classList.remove('rs-metalamp__tip__orientation_vertical');
+      this.controlMin.classList.remove('rs-metalamp__control__orientation_vertical');
+      this.tipMin.classList.remove('rs-metalamp__tip__orientation_vertical');
       this.controlMax.classList.add('rs-metalamp__control_horizontal');
       this.tipMax.classList.add('rs-metalamp__tip_horizontal');
       this.controlMin.classList.add('rs-metalamp__control_horizontal');

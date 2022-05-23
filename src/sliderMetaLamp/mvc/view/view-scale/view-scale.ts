@@ -55,8 +55,8 @@ class ViewScale {
         elem.appendChild(label);
 
         if (conf.vertical) {
-          elem.classList.add('rs-metalamp__mark_vert');
-          label.classList.add('rs-metalamp__label_vert');
+          elem.classList.add('rs-metalamp__mark__orientation_vertical');
+          label.classList.add('rs-metalamp__label__orientation_vertical');
           elem.style.bottom = `${String(node.position)}%`;
         } else {
           elem.classList.add('rs-metalamp__mark_horizontal');

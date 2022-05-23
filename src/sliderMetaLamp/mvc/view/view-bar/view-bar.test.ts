@@ -31,21 +31,21 @@ const progressBar = document
   .getElementsByClassName('rs-metalamp__progressBar')[0] as HTMLElement;
 
 describe('ViewControl', () => {
-  test('toggle class vert on calling switchVertical method', async () => {
-    expect(progressBar.classList.contains('rs-metalamp__progressBar_vert'))
+  test('toggle class _orientation_vertical on calling switchVertical method', async () => {
+    expect(progressBar.classList.contains('rs-metalamp__progressBar__orientation_vertical'))
       .toBe(false);
     await testBar.switchVertical({
       ...conf,
       vertical: true,
       bar: true,
     });
-    expect(progressBar.classList.contains('rs-metalamp__progressBar_vert'))
+    expect(progressBar.classList.contains('rs-metalamp__progressBar__orientation_vertical'))
       .toBe(true);
     await testBar.switchVertical({
       ...conf,
       bar: true,
     });
-    expect(progressBar.classList.contains('rs-metalamp__progressBar_vert'))
+    expect(progressBar.classList.contains('rs-metalamp__progressBar__orientation_vertical'))
       .toBe(false);
   });
 

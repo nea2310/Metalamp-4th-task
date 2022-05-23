@@ -38,8 +38,8 @@ class ViewBar {
   public switchVertical(conf: IConfFull) {
     const { classList } = this.progressBar;
     if (conf.vertical) {
-      classList.add('rs-metalamp__progressBar_vert');
-    } else { classList.remove('rs-metalamp__progressBar_vert'); }
+      classList.add('rs-metalamp__progressBar__orientation_vertical');
+    } else { classList.remove('rs-metalamp__progressBar__orientation_vertical'); }
   }
 
   // отключение / включение бара

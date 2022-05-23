@@ -109,13 +109,13 @@ class View extends Observer {
 
   public switchVertical(conf: IConfFull) {
     if (conf.vertical) {
-      this.slider.classList.add('rs-metalamp__wrapper_vert');
-      this.track.classList.add('rs-metalamp__track_vert');
-      this.frame.classList.add('rs-metalamp__frame_vert');
+      this.slider.classList.add('rs-metalamp__wrapper__orientation_vertical');
+      this.track.classList.add('rs-metalamp__track__orientation_vertical');
+      this.frame.classList.add('rs-metalamp__frame__orientation_vertical');
     } else {
-      this.slider.classList.remove('rs-metalamp__wrapper_vert');
-      this.track.classList.remove('rs-metalamp__track_vert');
-      this.frame.classList.remove('rs-metalamp__frame_vert');
+      this.slider.classList.remove('rs-metalamp__wrapper__orientation_vertical');
+      this.track.classList.remove('rs-metalamp__track__orientation_vertical');
+      this.frame.classList.remove('rs-metalamp__frame__orientation_vertical');
     }
     if (this.viewBar && this.viewControl) {
       this.viewBar.switchVertical(conf);

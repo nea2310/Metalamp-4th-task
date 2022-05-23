@@ -138,13 +138,13 @@ describe('apply styles on calling ViewControl method', () => {
   });
 
   test('toggle classes on calling switchVertical method', async () => {
-    expect(controlMin.classList.contains('rs-metalamp__control_vert'))
+    expect(controlMin.classList.contains('rs-metalamp__control__orientation_vertical'))
       .toBe(false);
-    expect(controlMax.classList.contains('rs-metalamp__control_vert'))
+    expect(controlMax.classList.contains('rs-metalamp__control__orientation_vertical'))
       .toBe(false);
-    expect(tipMin.classList.contains('rs-metalamp__tip_vert'))
+    expect(tipMin.classList.contains('rs-metalamp__tip__orientation_vertical'))
       .toBe(false);
-    expect(tipMax.classList.contains('rs-metalamp__tip_vert'))
+    expect(tipMax.classList.contains('rs-metalamp__tip__orientation_vertical'))
       .toBe(false);
     await testViewControl.switchVertical({
       min: 10,
@@ -166,13 +166,13 @@ describe('apply styles on calling ViewControl method', () => {
       onChange: () => true,
       onUpdate: () => true,
     });
-    expect(controlMin.classList.contains('rs-metalamp__control_vert'))
+    expect(controlMin.classList.contains('rs-metalamp__control__orientation_vertical'))
       .toBe(true);
-    expect(controlMax.classList.contains('rs-metalamp__control_vert'))
+    expect(controlMax.classList.contains('rs-metalamp__control__orientation_vertical'))
       .toBe(true);
-    expect(tipMin.classList.contains('rs-metalamp__tip_vert'))
+    expect(tipMin.classList.contains('rs-metalamp__tip__orientation_vertical'))
       .toBe(true);
-    expect(tipMax.classList.contains('rs-metalamp__tip_vert'))
+    expect(tipMax.classList.contains('rs-metalamp__tip__orientation_vertical'))
       .toBe(true);
     await testViewControl.switchVertical({
       min: 10,
@@ -194,13 +194,13 @@ describe('apply styles on calling ViewControl method', () => {
       onChange: () => true,
       onUpdate: () => true,
     });
-    expect(controlMin.classList.contains('rs-metalamp__control_vert'))
+    expect(controlMin.classList.contains('rs-metalamp__control__orientation_vertical'))
       .toBe(false);
-    expect(controlMax.classList.contains('rs-metalamp__control_vert'))
+    expect(controlMax.classList.contains('rs-metalamp__control__orientation_vertical'))
       .toBe(false);
-    expect(tipMin.classList.contains('rs-metalamp__tip_vert'))
+    expect(tipMin.classList.contains('rs-metalamp__tip__orientation_vertical'))
       .toBe(false);
-    expect(tipMax.classList.contains('rs-metalamp__tip_vert'))
+    expect(tipMax.classList.contains('rs-metalamp__tip__orientation_vertical'))
       .toBe(false);
   });
 

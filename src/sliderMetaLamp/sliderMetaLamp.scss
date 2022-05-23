@@ -9,11 +9,11 @@
 
   &__wrapper {
     padding: 50px;
-      position: relative;
+    position: relative;
     display: flex;
     width: 100%;
 
-    &_vert {
+    &__orientation_vertical {
       padding: 50px;
       width: auto;
       height: 100%;
@@ -32,7 +32,7 @@
     width: 100%;
     opacity: 0.5;
     cursor: default;
-    &_vert {
+    &__orientation_vertical {
       top: 0;
       left: 5px;
       right: 0;
@@ -47,7 +47,7 @@
     height: 8px;
     background: $colorDarkShade15;
     display: flex;
-    &_vert {
+    &__orientation_vertical {
       height: 100%;
       width: 8px;
       flex-direction: column;
@@ -64,7 +64,7 @@
     left: 15px;
     border-radius: 3px;
 
-    &_vert {
+    &__orientation_vertical {
       position: absolute;
       width: 8px;
       border: none;
@@ -107,7 +107,7 @@
       border-radius: 25%;
     }
 
-    &_vert {
+    &__orientation_vertical {
       width: 25px;
       height: 1px;
       left: -9.5px;
@@ -147,7 +147,7 @@
       background-color: $colorDarkShade50;
     }
 
-    &_vert {
+    &__orientation_vertical {
       margin-left: 15px;
       height: 1px;
       width: 5px;
@@ -174,7 +174,7 @@
       padding: 0 5px;
     }
 
-    &_vert {
+    &__orientation_vertical {
       position: absolute;
       left: 10px;
       padding: 5px 0;
@@ -203,7 +203,7 @@
       top: -30px;
     }
 
-    &_vert {
+    &__orientation_vertical {
       top: -12.5px;
     }
 

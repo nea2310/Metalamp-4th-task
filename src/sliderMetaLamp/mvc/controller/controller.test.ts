@@ -89,7 +89,7 @@ describe('controller', () => {
   );
 
   test(
-    'reverts Observer listeners back on calling API method "enable"',
+    're_orientation_verticals Observer listeners back on calling API method "enable"',
     async () => {
       const model = TestController.model as Model;
       const view = TestController.view as View;
