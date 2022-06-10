@@ -8,17 +8,7 @@ class ViewBar {
 
   private progressBar: HTMLElement;
 
-  private controlMinDist: number = 0;
-
-  private controlMaxDist: number = 0;
-
-  private markList: HTMLElement[] = [];
-
   private conf: IConfFull = defaultConf;
-
-  private checkNext: boolean = false;
-
-  private lastLabelRemoved: boolean = false;
 
   constructor(root: HTMLElement, conf: IConfFull) {
     this.slider = root;
