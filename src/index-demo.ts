@@ -2,7 +2,7 @@
 import $ from 'jquery';
 
 import '@styles/styles';
-import './sliderMetaLamp/index.ts';
+import './slider-metalamp/index.ts';
 
 function requireAll(requireContext: any) {
   return requireContext.keys().map(requireContext);

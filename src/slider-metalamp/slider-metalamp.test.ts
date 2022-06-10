@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 
-import { plugin } from './sliderMetaLamp';
+import { plugin } from './slider-metalamp';
 import { IConf } from './mvc/interface';
 import { Controller } from './mvc/controller/controller';
 
@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-describe('sliderMetaLamp', () => {
+describe('slider-metalamp', () => {
   $.fn.SliderMetaLamp = plugin;
   const parent = document.createElement('input');
   document.body.appendChild(parent);

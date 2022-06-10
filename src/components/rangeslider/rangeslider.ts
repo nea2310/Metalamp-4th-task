@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-import { IConf } from '../../sliderMetaLamp/mvc/interface';
+import { IConf } from '../../slider-metalamp/mvc/interface';
 
 class RangeSlider {
   slider: HTMLElement
