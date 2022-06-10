@@ -148,7 +148,8 @@ class View extends Observer {
   private collectParms() {
     this.backEndConf = {};
     const map = new Map();
-    const properties = ['min',
+    const properties = [
+      'min',
       'max',
       'from',
       'to',

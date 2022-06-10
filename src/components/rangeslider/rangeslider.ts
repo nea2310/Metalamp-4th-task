@@ -209,7 +209,8 @@ class RangeSlider {
   }
 
   private updateSlider() {
-    const properties = ['min',
+    const properties = [
+      'min',
       'max',
       'from',
       'to',
