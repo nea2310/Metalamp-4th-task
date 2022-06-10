@@ -43,7 +43,7 @@ function createMarkList(
 ) {
   return scaleMarks.map(() => {
     const elem = document.createElement('div');
-    elem.classList.add('js-rs-metalamp__mark');
+    elem.classList.add('js-slider-metalamp__mark');
     const label = document.createElement('div');
     mockElementDimensions(elem, { width: elemWidth, height: elemHeight });
     mockElementDimensions(label, { width: elemWidth, height: elemHeight });
@@ -123,10 +123,10 @@ describe('ViewScale', () => {
     const testViewScale = prepareInstance(marksArray, conf, false);
     testViewScale.createScale(marksArray, { ...conf, scale: false });
     const a = testViewScale.switchScale(conf);
-    expect(a[0].classList.contains('rs-metalamp__mark_visually-hidden'))
+    expect(a[0].classList.contains('slider-metalamp__mark_visually-hidden'))
       .toBe(false);
     const b = testViewScale.switchScale({ ...conf, scale: false });
-    expect(b[0].classList.contains('rs-metalamp__mark_visually-hidden'))
+    expect(b[0].classList.contains('slider-metalamp__mark_visually-hidden'))
       .toBe(true);
   });
 });

@@ -84,11 +84,11 @@ const testViewControl = testView.viewControl as ViewControl;
 const calcPosSpy = jest.spyOn(testModel, 'calcPos');
 const calcPosKeySpy = jest.spyOn(testModel, 'calcPosKey');
 
-const controlMin = getElem('rs-metalamp__control-min');
-const controlMax = getElem('rs-metalamp__control-max');
-const tipMin = getElem('rs-metalamp__tip-min');
-const tipMax = getElem('rs-metalamp__tip-max');
-const track = getElem('rs-metalamp__track');
+const controlMin = getElem('slider-metalamp__control-min');
+const controlMax = getElem('slider-metalamp__control-max');
+const tipMin = getElem('slider-metalamp__tip-min');
+const tipMax = getElem('slider-metalamp__tip-max');
+const track = getElem('slider-metalamp__track');
 
 describe('apply styles on calling ViewControl method', () => {
   test('updatePos', async () => {
@@ -138,13 +138,13 @@ describe('apply styles on calling ViewControl method', () => {
   });
 
   test('toggle classes on calling switchVertical method', async () => {
-    expect(controlMin.classList.contains('rs-metalamp__control__orientation_vertical'))
+    expect(controlMin.classList.contains('slider-metalamp__control__orientation_vertical'))
       .toBe(false);
-    expect(controlMax.classList.contains('rs-metalamp__control__orientation_vertical'))
+    expect(controlMax.classList.contains('slider-metalamp__control__orientation_vertical'))
       .toBe(false);
-    expect(tipMin.classList.contains('rs-metalamp__tip__orientation_vertical'))
+    expect(tipMin.classList.contains('slider-metalamp__tip__orientation_vertical'))
       .toBe(false);
-    expect(tipMax.classList.contains('rs-metalamp__tip__orientation_vertical'))
+    expect(tipMax.classList.contains('slider-metalamp__tip__orientation_vertical'))
       .toBe(false);
     await testViewControl.switchVertical({
       min: 10,
@@ -166,13 +166,13 @@ describe('apply styles on calling ViewControl method', () => {
       onChange: () => true,
       onUpdate: () => true,
     });
-    expect(controlMin.classList.contains('rs-metalamp__control__orientation_vertical'))
+    expect(controlMin.classList.contains('slider-metalamp__control__orientation_vertical'))
       .toBe(true);
-    expect(controlMax.classList.contains('rs-metalamp__control__orientation_vertical'))
+    expect(controlMax.classList.contains('slider-metalamp__control__orientation_vertical'))
       .toBe(true);
-    expect(tipMin.classList.contains('rs-metalamp__tip__orientation_vertical'))
+    expect(tipMin.classList.contains('slider-metalamp__tip__orientation_vertical'))
       .toBe(true);
-    expect(tipMax.classList.contains('rs-metalamp__tip__orientation_vertical'))
+    expect(tipMax.classList.contains('slider-metalamp__tip__orientation_vertical'))
       .toBe(true);
     await testViewControl.switchVertical({
       min: 10,
@@ -194,24 +194,24 @@ describe('apply styles on calling ViewControl method', () => {
       onChange: () => true,
       onUpdate: () => true,
     });
-    expect(controlMin.classList.contains('rs-metalamp__control__orientation_vertical'))
+    expect(controlMin.classList.contains('slider-metalamp__control__orientation_vertical'))
       .toBe(false);
-    expect(controlMax.classList.contains('rs-metalamp__control__orientation_vertical'))
+    expect(controlMax.classList.contains('slider-metalamp__control__orientation_vertical'))
       .toBe(false);
-    expect(tipMin.classList.contains('rs-metalamp__tip__orientation_vertical'))
+    expect(tipMin.classList.contains('slider-metalamp__tip__orientation_vertical'))
       .toBe(false);
-    expect(tipMax.classList.contains('rs-metalamp__tip__orientation_vertical'))
+    expect(tipMax.classList.contains('slider-metalamp__tip__orientation_vertical'))
       .toBe(false);
   });
 
   test('toggle class hidden on calling switchRange method', async () => {
-    expect(controlMin.classList.contains('rs-metalamp__control_hidden'))
+    expect(controlMin.classList.contains('slider-metalamp__control_hidden'))
       .toBe(false);
-    expect(controlMax.classList.contains('rs-metalamp__control_hidden'))
+    expect(controlMax.classList.contains('slider-metalamp__control_hidden'))
       .toBe(false);
-    expect(tipMin.classList.contains('rs-metalamp__tip_hidden'))
+    expect(tipMin.classList.contains('slider-metalamp__tip_hidden'))
       .toBe(false);
-    expect(tipMax.classList.contains('rs-metalamp__tip_hidden'))
+    expect(tipMax.classList.contains('slider-metalamp__tip_hidden'))
       .toBe(false);
     await testViewControl.switchRange({
       min: 10,
@@ -233,13 +233,13 @@ describe('apply styles on calling ViewControl method', () => {
       onChange: () => true,
       onUpdate: () => true,
     });
-    expect(controlMin.classList.contains('rs-metalamp__control_hidden'))
+    expect(controlMin.classList.contains('slider-metalamp__control_hidden'))
       .toBe(false);
-    expect(controlMax.classList.contains('rs-metalamp__control_hidden'))
+    expect(controlMax.classList.contains('slider-metalamp__control_hidden'))
       .toBe(true);
-    expect(tipMin.classList.contains('rs-metalamp__tip_hidden'))
+    expect(tipMin.classList.contains('slider-metalamp__tip_hidden'))
       .toBe(false);
-    expect(tipMax.classList.contains('rs-metalamp__tip_hidden'))
+    expect(tipMax.classList.contains('slider-metalamp__tip_hidden'))
       .toBe(true);
     await testViewControl.switchRange({
       min: 10,
@@ -263,18 +263,18 @@ describe('apply styles on calling ViewControl method', () => {
     });
     expect(controlMin.classList.contains('hidden'))
       .toBe(false);
-    expect(controlMax.classList.contains('rs-metalamp__control_hidden'))
+    expect(controlMax.classList.contains('slider-metalamp__control_hidden'))
       .toBe(false);
-    expect(tipMin.classList.contains('rs-metalamp__tip_hidden'))
+    expect(tipMin.classList.contains('slider-metalamp__tip_hidden'))
       .toBe(false);
-    expect(tipMax.classList.contains('rs-metalamp__tip_hidden'))
+    expect(tipMax.classList.contains('slider-metalamp__tip_hidden'))
       .toBe(false);
   });
 
   test('toggle class hidden on calling switchTip method', async () => {
-    expect(tipMin.classList.contains('rs-metalamp__tip_hidden'))
+    expect(tipMin.classList.contains('slider-metalamp__tip_hidden'))
       .toBe(false);
-    expect(tipMax.classList.contains('rs-metalamp__tip_hidden'))
+    expect(tipMax.classList.contains('slider-metalamp__tip_hidden'))
       .toBe(false);
     await testViewControl.switchTip({
       min: 10,
@@ -296,9 +296,9 @@ describe('apply styles on calling ViewControl method', () => {
       onChange: () => true,
       onUpdate: () => true,
     });
-    expect(tipMin.classList.contains('rs-metalamp__tip_hidden'))
+    expect(tipMin.classList.contains('slider-metalamp__tip_hidden'))
       .toBe(true);
-    expect(tipMax.classList.contains('rs-metalamp__tip_hidden'))
+    expect(tipMax.classList.contains('slider-metalamp__tip_hidden'))
       .toBe(true);
     await testViewControl.switchTip({
       min: 10,
@@ -320,9 +320,9 @@ describe('apply styles on calling ViewControl method', () => {
       onChange: () => true,
       onUpdate: () => true,
     });
-    expect(tipMin.classList.contains('rs-metalamp__tip_hidden'))
+    expect(tipMin.classList.contains('slider-metalamp__tip_hidden'))
       .toBe(false);
-    expect(tipMax.classList.contains('rs-metalamp__tip_hidden'))
+    expect(tipMax.classList.contains('slider-metalamp__tip_hidden'))
       .toBe(false);
   });
 });

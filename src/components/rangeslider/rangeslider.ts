@@ -1,7 +1,6 @@
 import $ from 'jquery';
 
 import { IConf } from '../../sliderMetaLamp/mvc/interface';
-import './rangeslider.scss';
 
 class RangeSlider {
   slider: HTMLElement
@@ -66,9 +65,9 @@ class RangeSlider {
     this.selector = selector;
     this.wrapper = elem as HTMLElement;
     this.panel = RangeSlider.getElement(this.wrapper, '.js-panel');
-    this.slider = RangeSlider.getElement(this.wrapper, '.js-rs-metalamp');
+    this.slider = RangeSlider.getElement(this.wrapper, '.js-slider-metalamp');
     this.panelWrapper = RangeSlider.getElement(this.wrapper, `${this.selector}__panel`);
-    this.sliderWrapper = RangeSlider.getElement(this.wrapper, `${this.selector}__rs`);
+    this.sliderWrapper = RangeSlider.getElement(this.wrapper, `${this.selector}__slider-metalamp`);
     this.renderPanel();
     this.renderSlider(this.slider);
     this.updateSlider();
@@ -92,7 +91,7 @@ class RangeSlider {
   private switchVertical() {
     this.panel.classList.toggle('panel_orientation_vertical');// .panel
     this.wrapper.classList.toggle('rangeslider_orientation_vertical'); // .rangeslider
-    this.sliderWrapper.classList.toggle('rangeslider__rs_orientation_vertical'); // .rangeslider__rs
+    this.sliderWrapper.classList.toggle('rangeslider__slider-metalamp_orientation_vertical'); // .rangeslider__slider-metalamp
   }
 
   private displayData(data: IConf) {

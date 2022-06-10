@@ -13,9 +13,9 @@ class ViewBar {
   constructor(root: HTMLElement, conf: IConfFull) {
     this.slider = root;
     this.conf = conf;
-    this.track = ViewBar.getElem(this.slider, '.rs-metalamp__track') as HTMLElement;
+    this.track = ViewBar.getElem(this.slider, '.slider-metalamp__track') as HTMLElement;
     this.progressBar = document.createElement('div');
-    this.progressBar.className = 'rs-metalamp__progressBar';
+    this.progressBar.className = 'slider-metalamp__progressBar';
     this.track.append(this.progressBar);
     this.switchBar(conf);
   }
@@ -28,16 +28,16 @@ class ViewBar {
   public switchVertical(conf: IConfFull) {
     const { classList } = this.progressBar;
     if (conf.vertical) {
-      classList.add('rs-metalamp__progressBar__orientation_vertical');
-    } else { classList.remove('rs-metalamp__progressBar__orientation_vertical'); }
+      classList.add('slider-metalamp__progressBar__orientation_vertical');
+    } else { classList.remove('slider-metalamp__progressBar__orientation_vertical'); }
   }
 
   // отключение / включение бара
   public switchBar(conf: IConfFull) {
     this.conf = conf;
     const { classList } = this.progressBar;
-    if (this.conf.bar) { classList.remove('rs-metalamp__progressBar_hidden'); } else {
-      classList.add('rs-metalamp__progressBar_hidden');
+    if (this.conf.bar) { classList.remove('slider-metalamp__progressBar_hidden'); } else {
+      classList.add('slider-metalamp__progressBar_hidden');
     }
   }
 

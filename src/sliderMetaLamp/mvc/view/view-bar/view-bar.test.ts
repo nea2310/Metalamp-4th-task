@@ -24,45 +24,45 @@ const root = document.createElement('div');
 document.body.appendChild(root);
 
 const track = document.createElement('div');
-track.className = 'rs-metalamp__track';
+track.className = 'slider-metalamp__track';
 root.appendChild(track);
 const testBar = new ViewBar(root, conf);
 const progressBar = document
-  .getElementsByClassName('rs-metalamp__progressBar')[0] as HTMLElement;
+  .getElementsByClassName('slider-metalamp__progressBar')[0] as HTMLElement;
 
 describe('ViewControl', () => {
   test('toggle class _orientation_vertical on calling switchVertical method', async () => {
-    expect(progressBar.classList.contains('rs-metalamp__progressBar__orientation_vertical'))
+    expect(progressBar.classList.contains('slider-metalamp__progressBar__orientation_vertical'))
       .toBe(false);
     await testBar.switchVertical({
       ...conf,
       vertical: true,
       bar: true,
     });
-    expect(progressBar.classList.contains('rs-metalamp__progressBar__orientation_vertical'))
+    expect(progressBar.classList.contains('slider-metalamp__progressBar__orientation_vertical'))
       .toBe(true);
     await testBar.switchVertical({
       ...conf,
       bar: true,
     });
-    expect(progressBar.classList.contains('rs-metalamp__progressBar__orientation_vertical'))
+    expect(progressBar.classList.contains('slider-metalamp__progressBar__orientation_vertical'))
       .toBe(false);
   });
 
   test('toggle class hidden on calling switchBar method', async () => {
     expect(progressBar.classList
-      .contains('rs-metalamp__progressBar_hidden'))
+      .contains('slider-metalamp__progressBar_hidden'))
       .toBe(true);
     await testBar.switchBar({
       ...conf,
       bar: true,
     });
     expect(progressBar.classList
-      .contains('rs-metalamp__progressBar_hidden'))
+      .contains('slider-metalamp__progressBar_hidden'))
       .toBe(false);
     await testBar.switchBar(conf);
     expect(progressBar.classList
-      .contains('rs-metalamp__progressBar_hidden'))
+      .contains('slider-metalamp__progressBar_hidden'))
       .toBe(true);
   });
 

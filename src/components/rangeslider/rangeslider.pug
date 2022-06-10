@@ -24,8 +24,8 @@ mixin rangeslider(options = {})
     const modifer = vertical === 'true' ? '_orientation_vertical' : ''
 
   div(class = `${elementName} ${elementName}${modifer} js-${elementName}`)
-    div(class = `${elementName}__rs ${elementName}__rs${modifer} js-${elementName}__rs`)
-      input(class = 'rs-metalamp js-rs-metalamp' 
+    div(class = `${elementName}__slider-metalamp ${elementName}__slider-metalamp${modifer} js-${elementName}__slider-metalamp`)
+      input(class = 'slider-metalamp js-slider-metalamp' 
       data-min = min
       data-max = max
       data-from = from

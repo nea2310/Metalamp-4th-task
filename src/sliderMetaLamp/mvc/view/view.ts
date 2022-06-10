@@ -41,14 +41,14 @@ class View extends Observer {
     /* Находим корневой элемент */
     this.root = root;
     this.slider = document.createElement('div');
-    this.slider.className = 'rs-metalamp__wrapper';
+    this.slider.className = 'slider-metalamp__wrapper';
     this.root.after(this.slider);
     this.track = document.createElement('div');
 
-    this.track.className = 'rs-metalamp__track';
+    this.track.className = 'slider-metalamp__track';
     this.slider.append(this.track);
     this.frame = document.createElement('div');
-    this.frame.className = 'rs-metalamp__frame';
+    this.frame.className = 'slider-metalamp__frame';
     this.slider.append(this.frame);
     this.collectParms();
   }
@@ -61,11 +61,11 @@ class View extends Observer {
   }
 
   public disable() {
-    this.slider.classList.add('rs-metalamp__wrapper_disabled');
+    this.slider.classList.add('slider-metalamp__wrapper_disabled');
   }
 
   public enable() {
-    this.slider.classList.remove('rs-metalamp__wrapper_disabled');
+    this.slider.classList.remove('slider-metalamp__wrapper_disabled');
   }
 
   public updateFromPos(data: IdataFull, conf: IConfFull) {
@@ -109,13 +109,13 @@ class View extends Observer {
 
   public switchVertical(conf: IConfFull) {
     if (conf.vertical) {
-      this.slider.classList.add('rs-metalamp__wrapper__orientation_vertical');
-      this.track.classList.add('rs-metalamp__track__orientation_vertical');
-      this.frame.classList.add('rs-metalamp__frame__orientation_vertical');
+      this.slider.classList.add('slider-metalamp__wrapper__orientation_vertical');
+      this.track.classList.add('slider-metalamp__track__orientation_vertical');
+      this.frame.classList.add('slider-metalamp__frame__orientation_vertical');
     } else {
-      this.slider.classList.remove('rs-metalamp__wrapper__orientation_vertical');
-      this.track.classList.remove('rs-metalamp__track__orientation_vertical');
-      this.frame.classList.remove('rs-metalamp__frame__orientation_vertical');
+      this.slider.classList.remove('slider-metalamp__wrapper__orientation_vertical');
+      this.track.classList.remove('slider-metalamp__track__orientation_vertical');
+      this.frame.classList.remove('slider-metalamp__frame__orientation_vertical');
     }
     if (this.viewBar && this.viewControl) {
       this.viewBar.switchVertical(conf);

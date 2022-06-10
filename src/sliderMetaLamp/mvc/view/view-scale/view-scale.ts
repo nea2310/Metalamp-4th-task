@@ -40,31 +40,31 @@ class ViewScale {
   ) {
     this.conf = conf;
     this.scaleMarks = scaleMarks;
-    const steps = this.slider.querySelectorAll('.js-rs-metalamp__mark');
+    const steps = this.slider.querySelectorAll('.js-slider-metalamp__mark');
     if (this.calcMarkList) { // Если это переотрисовка шкалы - удалить существующие деления
       if (steps.length) {
         steps.forEach((elem) => elem.remove());
       }
       scaleMarks.forEach((node) => {
         const elem = document.createElement('div');
-        elem.classList.add('rs-metalamp__mark');
-        elem.classList.add('js-rs-metalamp__mark');
+        elem.classList.add('slider-metalamp__mark');
+        elem.classList.add('js-slider-metalamp__mark');
         const label = document.createElement('div');
         label.innerText = String(node.value);
-        label.classList.add('rs-metalamp__label');
+        label.classList.add('slider-metalamp__label');
         elem.appendChild(label);
 
         if (conf.vertical) {
-          elem.classList.add('rs-metalamp__mark__orientation_vertical');
-          label.classList.add('rs-metalamp__label__orientation_vertical');
+          elem.classList.add('slider-metalamp__mark__orientation_vertical');
+          label.classList.add('slider-metalamp__label__orientation_vertical');
           elem.style.bottom = `${String(node.position)}%`;
         } else {
-          elem.classList.add('rs-metalamp__mark_horizontal');
-          label.classList.add('rs-metalamp__label_horizontal');
+          elem.classList.add('slider-metalamp__mark_horizontal');
+          label.classList.add('slider-metalamp__label_horizontal');
           elem.style.left = `${String(node.position)}%`;
         }
         if (!conf.scale) {
-          elem.classList.add('rs-metalamp__mark_visually-hidden');
+          elem.classList.add('slider-metalamp__mark_visually-hidden');
         }
         this.track.appendChild(elem);
         if (conf.vertical) {
@@ -74,7 +74,7 @@ class ViewScale {
         }
       });
 
-      this.markList = [...this.track.querySelectorAll('.js-rs-metalamp__mark')];
+      this.markList = [...this.track.querySelectorAll('.js-slider-metalamp__mark')];
     }
 
     this.resize();
@@ -83,14 +83,14 @@ class ViewScale {
 
   public switchScale(conf: IConfFull) {
     this.conf = conf;
-    const stepMarks = this.slider.querySelectorAll('.js-rs-metalamp__mark');
+    const stepMarks = this.slider.querySelectorAll('.js-slider-metalamp__mark');
     if (this.conf.scale) {
       stepMarks.forEach((elem) => {
-        elem.classList.remove('rs-metalamp__mark_visually-hidden');
+        elem.classList.remove('slider-metalamp__mark_visually-hidden');
       });
     } else {
       stepMarks.forEach((elem) => {
-        elem.classList.add('rs-metalamp__mark_visually-hidden');
+        elem.classList.add('slider-metalamp__mark_visually-hidden');
       });
     }
     return stepMarks;
@@ -104,14 +104,14 @@ class ViewScale {
       // скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
       for (let i = 1; i < markList.length; i += 2) {
         const child = markList[i].firstElementChild as Element;
-        child.classList.add('rs-metalamp__label_hidden');
+        child.classList.add('slider-metalamp__label_hidden');
         markList[i]
-          .classList.add('rs-metalamp__mark_no-label');
+          .classList.add('slider-metalamp__mark_no-label');
         markList[i]
-          .classList.add('js-rs-metalamp__mark_no-label');
+          .classList.add('js-slider-metalamp__mark_no-label');
       }
       // создаем новый markList из элементов, не имеющих класса "no-label" (с видимыми подписями)
-      this.markList = [...this.track.querySelectorAll('.js-rs-metalamp__mark:not(.js-rs-metalamp__mark_no-label)')];
+      this.markList = [...this.track.querySelectorAll('.js-slider-metalamp__mark:not(.js-slider-metalamp__mark_no-label)')];
 
       // запускаем функцию проверки заново
       this.lastLabelRemoved = true;
@@ -159,18 +159,18 @@ class ViewScale {
 
   // возвращаем подпись у последненего шага и удаляем у предпоследнего подписанного
   private addLastLabel(isRemoved: boolean) {
-    const markLabeledList = this.track.querySelectorAll('.js-rs-metalamp__mark:not(.js-rs-metalamp__mark_no-label)');
+    const markLabeledList = this.track.querySelectorAll('.js-slider-metalamp__mark:not(.js-slider-metalamp__mark_no-label)');
     const lastMarkLabeled = markLabeledList[markLabeledList.length - 1];
-    const lastMark = this.track.querySelector('.js-rs-metalamp__mark:last-child') as Element;
+    const lastMark = this.track.querySelector('.js-slider-metalamp__mark:last-child') as Element;
     if (isRemoved) {
-      lastMarkLabeled.classList.add('rs-metalamp__mark_no-label');
-      lastMarkLabeled.classList.add('js-rs-metalamp__mark_no-label');
+      lastMarkLabeled.classList.add('slider-metalamp__mark_no-label');
+      lastMarkLabeled.classList.add('js-slider-metalamp__mark_no-label');
       const lastMarkLabeledChild = lastMarkLabeled.firstElementChild as Element;
-      lastMarkLabeledChild.classList.add('rs-metalamp__label_hidden');
-      lastMark.classList.remove('rs-metalamp__mark_no-label');
-      lastMark.classList.remove('js-rs-metalamp__mark_no-label');
+      lastMarkLabeledChild.classList.add('slider-metalamp__label_hidden');
+      lastMark.classList.remove('slider-metalamp__mark_no-label');
+      lastMark.classList.remove('js-slider-metalamp__mark_no-label');
       const lastMarkChild = lastMark.firstElementChild as Element;
-      lastMarkChild.classList.remove('rs-metalamp__label_hidden');
+      lastMarkChild.classList.remove('slider-metalamp__label_hidden');
     }
   }
 

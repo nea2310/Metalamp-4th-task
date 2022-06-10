@@ -48,13 +48,13 @@ class ViewControl extends Observer {
 
     this.conf = conf;
     /* Создаем ползунок минимального значения */
-    this.controlMin = ViewControl.renderControl('rs-metalamp__control-min', 'rs-metalamp__tip-min', this.conf.from);
-    this.tipMin = ViewControl.getElem(this.controlMin, '.rs-metalamp__tip') as HTMLInputElement;
+    this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.conf.from);
+    this.tipMin = ViewControl.getElem(this.controlMin, '.slider-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMin);
 
     /* Создаем ползунок максимального значения */
-    this.controlMax = ViewControl.renderControl('rs-metalamp__control-max', 'rs-metalamp__tip-max', this.conf.to);
-    this.tipMax = ViewControl.getElem(this.controlMax, '.rs-metalamp__tip') as HTMLInputElement;
+    this.controlMax = ViewControl.renderControl('slider-metalamp__control-max', 'slider-metalamp__tip-max', this.conf.to);
+    this.tipMax = ViewControl.getElem(this.controlMax, '.slider-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMax);
 
     this.init(conf);
@@ -103,23 +103,23 @@ class ViewControl extends Observer {
   public switchVertical(conf: IConfFull) {
     this.conf = conf;
     if (this.conf.vertical) {
-      this.controlMax.classList.add('rs-metalamp__control__orientation_vertical');
-      this.tipMax.classList.add('rs-metalamp__tip__orientation_vertical');
-      this.controlMin.classList.add('rs-metalamp__control__orientation_vertical');
-      this.tipMin.classList.add('rs-metalamp__tip__orientation_vertical');
-      this.controlMax.classList.remove('rs-metalamp__control_horizontal');
-      this.tipMax.classList.remove('rs-metalamp__tip_horizontal');
-      this.controlMin.classList.remove('rs-metalamp__control_horizontal');
-      this.tipMin.classList.remove('rs-metalamp__tip_horizontal');
+      this.controlMax.classList.add('slider-metalamp__control__orientation_vertical');
+      this.tipMax.classList.add('slider-metalamp__tip__orientation_vertical');
+      this.controlMin.classList.add('slider-metalamp__control__orientation_vertical');
+      this.tipMin.classList.add('slider-metalamp__tip__orientation_vertical');
+      this.controlMax.classList.remove('slider-metalamp__control_horizontal');
+      this.tipMax.classList.remove('slider-metalamp__tip_horizontal');
+      this.controlMin.classList.remove('slider-metalamp__control_horizontal');
+      this.tipMin.classList.remove('slider-metalamp__tip_horizontal');
     } else {
-      this.controlMax.classList.remove('rs-metalamp__control__orientation_vertical');
-      this.tipMax.classList.remove('rs-metalamp__tip__orientation_vertical');
-      this.controlMin.classList.remove('rs-metalamp__control__orientation_vertical');
-      this.tipMin.classList.remove('rs-metalamp__tip__orientation_vertical');
-      this.controlMax.classList.add('rs-metalamp__control_horizontal');
-      this.tipMax.classList.add('rs-metalamp__tip_horizontal');
-      this.controlMin.classList.add('rs-metalamp__control_horizontal');
-      this.tipMin.classList.add('rs-metalamp__tip_horizontal');
+      this.controlMax.classList.remove('slider-metalamp__control__orientation_vertical');
+      this.tipMax.classList.remove('slider-metalamp__tip__orientation_vertical');
+      this.controlMin.classList.remove('slider-metalamp__control__orientation_vertical');
+      this.tipMin.classList.remove('slider-metalamp__tip__orientation_vertical');
+      this.controlMax.classList.add('slider-metalamp__control_horizontal');
+      this.tipMax.classList.add('slider-metalamp__tip_horizontal');
+      this.controlMin.classList.add('slider-metalamp__control_horizontal');
+      this.tipMin.classList.add('slider-metalamp__tip_horizontal');
     }
   }
 
@@ -127,13 +127,13 @@ class ViewControl extends Observer {
   public switchRange(conf: IConfFull) {
     this.conf = conf;
     if (this.conf.range) {
-      this.controlMax.classList.remove('rs-metalamp__control_hidden');
+      this.controlMax.classList.remove('slider-metalamp__control_hidden');
       if (this.conf.tip) {
-        this.tipMax.classList.remove('rs-metalamp__tip_hidden');
+        this.tipMax.classList.remove('slider-metalamp__tip_hidden');
       }
     } else {
-      this.controlMax.classList.add('rs-metalamp__control_hidden');
-      this.tipMax.classList.add('rs-metalamp__tip_hidden');
+      this.controlMax.classList.add('slider-metalamp__control_hidden');
+      this.tipMax.classList.add('slider-metalamp__tip_hidden');
     }
   }
 
@@ -141,15 +141,15 @@ class ViewControl extends Observer {
   public switchTip(conf: IConfFull) {
     this.conf = conf;
     if (this.conf.tip) {
-      this.tipMax.classList.remove('rs-metalamp__tip_hidden');
-      this.tipMin.classList.remove('rs-metalamp__tip_hidden');
+      this.tipMax.classList.remove('slider-metalamp__tip_hidden');
+      this.tipMin.classList.remove('slider-metalamp__tip_hidden');
       if (this.initDone) {
         this.tipMax.style.left = ViewControl.calcTipPos(conf.vertical, this.tipMax);
         this.tipMin.style.left = ViewControl.calcTipPos(conf.vertical, this.tipMin);
       }
     } else {
-      this.tipMax.classList.add('rs-metalamp__tip_hidden');
-      this.tipMin.classList.add('rs-metalamp__tip_hidden');
+      this.tipMax.classList.add('slider-metalamp__tip_hidden');
+      this.tipMin.classList.add('slider-metalamp__tip_hidden');
     }
   }
 
@@ -164,10 +164,10 @@ class ViewControl extends Observer {
 
   static renderControl(controlClassName: string, tipClassName: string, value: number) {
     const control = document.createElement('button');
-    control.className = 'rs-metalamp__control';
+    control.className = 'slider-metalamp__control';
     control.classList.add(controlClassName);
     const tip = document.createElement('span');
-    tip.className = 'rs-metalamp__tip';
+    tip.className = 'slider-metalamp__tip';
     tip.classList.add(tipClassName);
     tip.innerText = String(value);
     control.append(tip);
@@ -183,20 +183,20 @@ class ViewControl extends Observer {
 
   /* Создаем ползунок минимального значения */
   private renderLeftControl() {
-    this.controlMin = ViewControl.renderControl('rs-metalamp__control-min', 'rs-metalamp__tip-min', this.conf.from);
-    this.tipMin = this.controlMin.querySelector('.rs-metalamp__tip') as HTMLInputElement;
+    this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.conf.from);
+    this.tipMin = this.controlMin.querySelector('.slider-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMin);
   }
 
   /* Создаем ползунок максимального значения */
   private renderRightControl() {
-    this.controlMax = ViewControl.renderControl('rs-metalamp__control-max', 'rs-metalamp__tip-max', this.conf.to);
-    this.tipMax = this.controlMax.querySelector('.rs-metalamp__tip') as HTMLInputElement;
+    this.controlMax = ViewControl.renderControl('slider-metalamp__control-max', 'slider-metalamp__tip-max', this.conf.to);
+    this.tipMax = this.controlMax.querySelector('.slider-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMax);
   }
 
   private defineControl = (elem: ITarget) => {
-    if (elem.classList) { return elem.classList.contains('rs-metalamp__control-min') ? 'min' : 'max'; }
+    if (elem.classList) { return elem.classList.contains('slider-metalamp__control-min') ? 'min' : 'max'; }
     return true;
   }
 
@@ -217,11 +217,11 @@ class ViewControl extends Observer {
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
       }
-      if (target.classList.contains('rs-metalamp__control')) {
-        target.classList.add('rs-metalamp__control_grabbing');
+      if (target.classList.contains('slider-metalamp__control')) {
+        target.classList.add('slider-metalamp__control_grabbing');
       }
       const T = this.data.thumb;
-      if (target.classList.contains('rs-metalamp__control')) {
+      if (target.classList.contains('slider-metalamp__control')) {
         // определяем ползунок, за который тянут
         T.moovingControl = String(this.defineControl(target));
         // определяем расстояние между позицией клика и левым краем ползунка
@@ -239,7 +239,7 @@ class ViewControl extends Observer {
         };
 
         const handlePointerUp = () => {
-          target.classList.remove('rs-metalamp__control_grabbing');
+          target.classList.remove('slider-metalamp__control_grabbing');
           target
             .removeEventListener('pointermove', handlePointerMove);
           target
@@ -270,7 +270,7 @@ class ViewControl extends Observer {
         throw new Error('Cannot handle move outside of DOM');
       }
       const T = this.data.thumb;
-      if (target.classList.contains('rs-metalamp__control')) {
+      if (target.classList.contains('slider-metalamp__control')) {
         // определяем ползунок, за который тянут
         T.moovingControl = String(this.defineControl(target));
         this.getMetrics(target);
@@ -300,9 +300,9 @@ class ViewControl extends Observer {
         }
         const T = this.data.thumb;
 
-        if (target.classList.contains('rs-metalamp__control')) {
+        if (target.classList.contains('slider-metalamp__control')) {
           // определяем ползунок, на который нажимают
-          T.moovingControl = target.classList.contains('rs-metalamp__control-min') ? 'min' : 'max';
+          T.moovingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
 
           T.key = e.code;
           T.repeat = e.repeat;
@@ -323,11 +323,11 @@ class ViewControl extends Observer {
       }
       const T = this.data.thumb;
 
-      const arr = ['rs-metalamp__track',
-        'rs-metalamp__progressBar',
-        'rs-metalamp__label',
-        'rs-metalamp__mark',
-        'rs-metalamp__frame'];
+      const arr = ['slider-metalamp__track',
+        'slider-metalamp__progressBar',
+        'slider-metalamp__label',
+        'slider-metalamp__mark',
+        'slider-metalamp__frame'];
       const result = [...target.classList].some((className) => arr.indexOf(className) !== -1);
       if (result) {
         let controlMinDist = 0;
