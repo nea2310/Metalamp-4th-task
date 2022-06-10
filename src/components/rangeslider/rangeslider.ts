@@ -241,7 +241,7 @@ class RangeSlider {
       if (!this.isDestroyed) {
         const target = e.target as HTMLInputElement;
         properties.forEach((elem) => {
-          if (target.closest(`.panel__${elem}`)) {
+          if (target.closest(`.js-panel__${elem}`)) {
             let value;
             if (target.type === 'checkbox') {
               value = target.checked;

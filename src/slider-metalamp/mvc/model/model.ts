@@ -545,7 +545,7 @@ class Model extends Observer {
             }
             break;
           case 'onChange':
-            if (newConf.onChange) {
+            if (newConf.onChange || newConf.onChange === null) {
               this.conf.onChange = newConf.onChange;
               this.onChange = newConf.onChange;
             }
