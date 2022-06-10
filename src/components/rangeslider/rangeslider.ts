@@ -16,33 +16,33 @@ class RangeSlider {
 
   rangeSlider: any;
 
-  min: HTMLInputElement | undefined;
+  optionMin: HTMLInputElement | undefined;
 
-  max: HTMLInputElement | undefined
+  optionMax: HTMLInputElement | undefined
 
-  from: HTMLInputElement | undefined;
+  optionFrom: HTMLInputElement | undefined;
 
-  to: HTMLInputElement | undefined;
+  optionTo: HTMLInputElement | undefined;
 
-  interval: HTMLInputElement | undefined;
+  optionInterval: HTMLInputElement | undefined;
 
-  step: HTMLInputElement | undefined;
+  optionStep: HTMLInputElement | undefined;
 
-  shiftOnKeyDown: HTMLInputElement | undefined;
+  optionShiftOnKeyDown: HTMLInputElement | undefined;
 
-  shiftOnKeyHold: HTMLInputElement | undefined;
+  optionShiftOnKeyHold: HTMLInputElement | undefined;
 
-  vertical: HTMLInputElement | undefined;
+  optionVertical: HTMLInputElement | undefined;
 
-  range: HTMLInputElement | undefined;
+  optionRange: HTMLInputElement | undefined;
 
-  scale: HTMLInputElement | undefined;
+  optionScale: HTMLInputElement | undefined;
 
-  bar: HTMLInputElement | undefined;
+  optionBar: HTMLInputElement | undefined;
 
-  tip: HTMLInputElement | undefined;
+  optionTip: HTMLInputElement | undefined;
 
-  sticky: HTMLInputElement | undefined;
+  optionSticky: HTMLInputElement | undefined;
 
   scaleBaseSteps: HTMLInputElement | undefined;
 
@@ -56,19 +56,19 @@ class RangeSlider {
 
   isDisabled: boolean | undefined;
 
-  subscribe: HTMLInputElement | undefined;
+  optionSubscribe: HTMLInputElement | undefined;
 
-  destroy: HTMLInputElement | undefined;
+  optionDestroy: HTMLInputElement | undefined;
 
-  disable: HTMLInputElement | undefined;
+  optionDisable: HTMLInputElement | undefined;
 
   constructor(selector: string, elem: Element) {
     this.selector = selector;
     this.wrapper = elem as HTMLElement;
-    this.panel = RangeSlider.getElem(this.wrapper, '.js-panel');
-    this.slider = RangeSlider.getElem(this.wrapper, '.js-rs-metalamp');
-    this.panelWrapper = RangeSlider.getElem(this.wrapper, `${this.selector}__panel`);
-    this.sliderWrapper = RangeSlider.getElem(this.wrapper, `${this.selector}__rs`);
+    this.panel = RangeSlider.getElement(this.wrapper, '.js-panel');
+    this.slider = RangeSlider.getElement(this.wrapper, '.js-rs-metalamp');
+    this.panelWrapper = RangeSlider.getElement(this.wrapper, `${this.selector}__panel`);
+    this.sliderWrapper = RangeSlider.getElement(this.wrapper, `${this.selector}__rs`);
     this.renderPanel();
     this.renderSlider(this.slider);
     this.updateSlider();
@@ -77,7 +77,7 @@ class RangeSlider {
     this.subscribeSlider();
   }
 
-  static getElem(object: HTMLElement, selector: string) {
+  static getElement(object: HTMLElement, selector: string) {
     return object.querySelector(selector) as HTMLElement;
   }
 
@@ -96,32 +96,32 @@ class RangeSlider {
   }
 
   private displayData(data: IConf) {
-    if (this.min) this.min.value = String(data.min);
-    if (this.max) this.max.value = String(data.max);
-    if (this.from) this.from.value = String(data.from);
-    if (this.to) this.to.value = String(data.to);
-    if (this.interval) this.interval.value = String(data.interval);
-    if (this.step) this.step.value = String(data.step);
-    if (this.shiftOnKeyDown) this.shiftOnKeyDown.value = String(data.shiftOnKeyDown);
-    if (this.shiftOnKeyHold) this.shiftOnKeyHold.value = String(data.shiftOnKeyHold);
-    if (this.vertical) this.vertical.checked = !!data.vertical;
-    if (this.range) this.range.checked = !!data.range;
-    if (this.scale) this.scale.checked = !!data.scale;
-    if (this.bar) this.bar.checked = !!data.bar;
-    if (this.tip) this.tip.checked = !!data.tip;
-    if (this.sticky) this.sticky.checked = !!data.sticky;
-    if (this.subscribe) this.subscribe.checked = true;
+    if (this.optionMin) this.optionMin.value = String(data.min);
+    if (this.optionMax) this.optionMax.value = String(data.max);
+    if (this.optionFrom) this.optionFrom.value = String(data.from);
+    if (this.optionTo) this.optionTo.value = String(data.to);
+    if (this.optionInterval) this.optionInterval.value = String(data.interval);
+    if (this.optionStep) this.optionStep.value = String(data.step);
+    if (this.optionShiftOnKeyDown) this.optionShiftOnKeyDown.value = String(data.shiftOnKeyDown);
+    if (this.optionShiftOnKeyHold) this.optionShiftOnKeyHold.value = String(data.shiftOnKeyHold);
+    if (this.optionVertical) this.optionVertical.checked = !!data.vertical;
+    if (this.optionRange) this.optionRange.checked = !!data.range;
+    if (this.optionScale) this.optionScale.checked = !!data.scale;
+    if (this.optionBar) this.optionBar.checked = !!data.bar;
+    if (this.optionTip) this.optionTip.checked = !!data.tip;
+    if (this.optionSticky) this.optionSticky.checked = !!data.sticky;
+    if (this.optionSubscribe) this.optionSubscribe.checked = true;
 
     if (data.scaleBase === 'interval' && this.scaleBaseIntervals) {
       this.scaleBaseIntervals.checked = true;
-      if (this.step) this.step.disabled = true;
+      if (this.optionStep) this.optionStep.disabled = true;
     }
 
     if (data.scaleBase === 'step' && this.scaleBaseSteps) {
       this.scaleBaseSteps.checked = true;
-      if (this.interval) this.interval.disabled = true;
+      if (this.optionInterval) this.optionInterval.disabled = true;
     }
-    if (this.to) this.to.disabled = !data.range;
+    if (this.optionTo) this.optionTo.disabled = !data.range;
   }
 
   private updateData = (data: IConf) => {
@@ -129,20 +129,30 @@ class RangeSlider {
       !== this.wrapper.classList.contains('rangeslider_orientation_vertical')) {
       this.switchVertical();
     }
-    if (this.from) RangeSlider.valid(this.from, Number(data.from));
-    if (this.to) RangeSlider.valid(this.to, Number(data.to));
-    if (this.min) RangeSlider.valid(this.min, Number(data.min));
-    if (this.max) RangeSlider.valid(this.max, Number(data.max));
-    if (this.shiftOnKeyDown) RangeSlider.valid(this.shiftOnKeyDown, Number(data.shiftOnKeyDown));
-    if (this.shiftOnKeyHold) RangeSlider.valid(this.shiftOnKeyHold, Number(data.shiftOnKeyHold));
-    if (this.interval) RangeSlider.valid(this.interval, Number(data.interval));
-    if (this.step) RangeSlider.valid(this.step, Number(data.step));
+    if (this.optionFrom) RangeSlider.valid(this.optionFrom, Number(data.from));
+    if (this.optionTo) RangeSlider.valid(this.optionTo, Number(data.to));
+    if (this.optionMin) RangeSlider.valid(this.optionMin, Number(data.min));
+    if (this.optionMax) RangeSlider.valid(this.optionMax, Number(data.max));
+    if (this.optionShiftOnKeyDown) {
+      RangeSlider.valid(
+        this.optionShiftOnKeyDown,
+        Number(data.shiftOnKeyDown),
+      );
+    }
+    if (this.optionShiftOnKeyHold) {
+      RangeSlider.valid(
+        this.optionShiftOnKeyHold,
+        Number(data.shiftOnKeyHold),
+      );
+    }
+    if (this.optionInterval) RangeSlider.valid(this.optionInterval, Number(data.interval));
+    if (this.optionStep) RangeSlider.valid(this.optionStep, Number(data.step));
   };
 
   private changeData(data: IConf) {
-    if (this.from && this.to) {
-      RangeSlider.valid(this.from, Number(data.from));
-      RangeSlider.valid(this.to, Number(data.to));
+    if (this.optionFrom && this.optionTo) {
+      RangeSlider.valid(this.optionFrom, Number(data.from));
+      RangeSlider.valid(this.optionTo, Number(data.to));
     }
   }
 
@@ -162,7 +172,7 @@ class RangeSlider {
   }
 
   private renderPanel() {
-    const getElem = (name: string, addToInputsAll: boolean = true): HTMLInputElement => {
+    const getElement = (name: string, addToInputsAll: boolean = true): HTMLInputElement => {
       const elem = this.panel.querySelector<HTMLInputElement>(`.js-${name}`);
       if (addToInputsAll) {
         if (elem) {
@@ -172,27 +182,27 @@ class RangeSlider {
       return elem as HTMLInputElement;
     };
 
-    this.min = getElem('input_usage_min');
-    this.max = getElem('input_usage_max');
-    this.from = getElem('input_usage_from');
-    this.to = getElem('input_usage_to');
-    this.interval = getElem('input_usage_interval');
-    this.step = getElem('input_usage_step');
-    this.shiftOnKeyDown = getElem('input_usage_shiftOnKeyDown');
-    this.shiftOnKeyHold = getElem('input_usage_shiftOnKeyHold');
+    this.optionMin = getElement('input_usage_min');
+    this.optionMax = getElement('input_usage_max');
+    this.optionFrom = getElement('input_usage_from');
+    this.optionTo = getElement('input_usage_to');
+    this.optionInterval = getElement('input_usage_interval');
+    this.optionStep = getElement('input_usage_step');
+    this.optionShiftOnKeyDown = getElement('input_usage_shiftOnKeyDown');
+    this.optionShiftOnKeyHold = getElement('input_usage_shiftOnKeyHold');
 
-    this.vertical = getElem('toggle_usage_vertical');
-    this.range = getElem('toggle_usage_range');
-    this.scale = getElem('toggle_usage_scale');
-    this.bar = getElem('toggle_usage_bar');
-    this.tip = getElem('toggle_usage_tip');
-    this.sticky = getElem('toggle_usage_sticky');
-    this.subscribe = getElem('toggle_usage_subscribe');
-    this.destroy = getElem('toggle_usage_destroy', false);
-    this.disable = getElem('toggle_usage_disable', false);
+    this.optionVertical = getElement('toggle_usage_vertical');
+    this.optionRange = getElement('toggle_usage_range');
+    this.optionScale = getElement('toggle_usage_scale');
+    this.optionBar = getElement('toggle_usage_bar');
+    this.optionTip = getElement('toggle_usage_tip');
+    this.optionSticky = getElement('toggle_usage_sticky');
+    this.optionSubscribe = getElement('toggle_usage_subscribe');
+    this.optionDestroy = getElement('toggle_usage_destroy', false);
+    this.optionDisable = getElement('toggle_usage_disable', false);
 
-    this.scaleBaseSteps = getElem('radiobuttons_usage_step');
-    this.scaleBaseIntervals = getElem('radiobuttons_usage_interval');
+    this.scaleBaseSteps = getElement('radiobuttons_usage_step');
+    this.scaleBaseIntervals = getElement('radiobuttons_usage_interval');
     const changeHandler = (e: Event) => {
       const input = e.currentTarget as HTMLInputElement;
       if (!input.value) {
@@ -244,16 +254,16 @@ class RangeSlider {
             this.rangeSlider.update({ [elem]: value });
             if (elem === 'scaleBase') {
               if (value === 'interval') {
-                if (this.interval) this.interval.disabled = false;
-                if (this.step) this.step.disabled = true;
+                if (this.optionInterval) this.optionInterval.disabled = false;
+                if (this.optionStep) this.optionStep.disabled = true;
               }
               if (value === 'step') {
-                if (this.interval) this.interval.disabled = true;
-                if (this.step) this.step.disabled = false;
+                if (this.optionInterval) this.optionInterval.disabled = true;
+                if (this.optionStep) this.optionStep.disabled = false;
               }
             }
-            if (elem === 'range' && this.to) {
-              this.to.disabled = !target.checked;
+            if (elem === 'range' && this.optionTo) {
+              this.optionTo.disabled = !target.checked;
             }
           }
         });
@@ -264,8 +274,8 @@ class RangeSlider {
 
   private disableSlider() {
     const handleClick = () => {
-      if (!this.isDestroyed && this.disable) {
-        if (this.disable.checked) {
+      if (!this.isDestroyed && this.optionDisable) {
+        if (this.optionDisable.checked) {
           this.rangeSlider.disable();
           this.inputsAll.forEach((elem) => {
             const input = elem as HTMLInputElement;
@@ -284,15 +294,15 @@ class RangeSlider {
         }
       }
     };
-    if (this.disable) {
-      this.disable.addEventListener('click', handleClick);
+    if (this.optionDisable) {
+      this.optionDisable.addEventListener('click', handleClick);
     }
   }
 
   private subscribeSlider() {
     const handleClick = () => {
-      if (!this.isDestroyed && this.subscribe) {
-        if (this.subscribe.checked) {
+      if (!this.isDestroyed && this.optionSubscribe) {
+        if (this.optionSubscribe.checked) {
           this.rangeSlider.update({
             onChange: (data: IConf) => {
               this.changeData(data);
@@ -305,31 +315,31 @@ class RangeSlider {
         }
       }
     };
-    if (this.subscribe) {
-      this.subscribe.addEventListener('click', handleClick);
+    if (this.optionSubscribe) {
+      this.optionSubscribe.addEventListener('click', handleClick);
     }
   }
 
   private destroySlider(slider: HTMLElement) {
     const handleClick = () => {
-      if (this.destroy && this.disable) {
-        if (this.destroy.checked) {
+      if (this.optionDestroy && this.optionDisable) {
+        if (this.optionDestroy.checked) {
           this.rangeSlider.destroy();
           this.inputsAll.forEach((elem) => {
             const input = elem as HTMLInputElement;
             input.disabled = true;
           });
 
-          this.disable.checked = true;
-          this.disable.disabled = true;
+          this.optionDisable.checked = true;
+          this.optionDisable.disabled = true;
           this.isDestroyed = true;
-          this.destroy.disabled = true;
+          this.optionDestroy.disabled = true;
           $.data(slider, 'SliderMetaLamp', null);
         }
       }
     };
-    if (this.destroy) {
-      this.destroy.addEventListener('click', handleClick);
+    if (this.optionDestroy) {
+      this.optionDestroy.addEventListener('click', handleClick);
     }
   }
 }
