@@ -5,8 +5,8 @@
   border-radius: 2px;
   height: 290px;
   text-align: left;
-
   @include font-body;
+
   @include media-breakpoint-down($lg) {
     height: auto;
     display: block;
@@ -22,6 +22,7 @@
     margin: 5px;
     padding: 5px;
     border: 1px solid $colorDarkShade25;
+
     @include media-breakpoint-down($lg) {
       flex-direction: row;
       justify-content: space-between;
@@ -32,103 +33,21 @@
     padding: 0;
     margin: 0;
     border: none;
-
     margin: 5px;
     padding: 5px;
-    @include media-breakpoint-down($lg) {
-    }
-
     border: 1px solid $colorDarkShade25;
     display: grid;
     grid-template-columns: repeat(4, 110px);
     grid-template-rows: repeat(2, 50px);
+
     @include media-breakpoint-down($xs) {
       grid-template-columns: repeat(2, 110px);
       grid-template-rows: repeat(4, 50px);
     }
-    & > div {
+
+    &-component {
       display: flex;
       align-items: flex-end;
-    }
-  }
-  &__min {
-    grid-column-start: 1;
-    grid-column-end: 1;
-    grid-row-start: 1;
-    grid-row-end: 1;
-  }
-  &__max {
-    grid-column-start: 2;
-    grid-column-end: 2;
-    grid-row-start: 1;
-    grid-row-end: 1;
-  }
-  &__from {
-    grid-column-start: 3;
-    grid-column-end: 3;
-    grid-row-start: 1;
-    grid-row-end: 1;
-    @include media-breakpoint-down($xs) {
-      grid-column-start: 1;
-      grid-column-end: 1;
-      grid-row-start: 2;
-      grid-row-end: 2;
-    }
-  }
-  &__to {
-    grid-column-start: 4;
-    grid-column-end: 4;
-    grid-row-start: 1;
-    grid-row-end: 1;
-    @include media-breakpoint-down($xs) {
-      grid-column-start: 2;
-      grid-column-end: 2;
-      grid-row-start: 2;
-      grid-row-end: 2;
-    }
-  }
-  &__vertical {
-    grid-column-start: 1;
-    grid-column-end: 1;
-    grid-row-start: 2;
-    grid-row-end: 2;
-    @include media-breakpoint-down($xs) {
-      grid-row-start: 3;
-      grid-row-end: 3;
-    }
-  }
-  &__range {
-    grid-column-start: 2;
-    grid-column-end: 2;
-    grid-row-start: 2;
-    grid-row-end: 2;
-    @include media-breakpoint-down($xs) {
-      grid-row-start: 3;
-      grid-row-end: 3;
-    }
-  }
-  &__bar {
-    grid-column-start: 3;
-    grid-column-end: 3;
-    grid-row-start: 2;
-    grid-row-end: 2;
-    @include media-breakpoint-down($xs) {
-      grid-column-start: 1;
-      grid-column-end: 1;
-      grid-row-start: 4;
-      grid-row-end: 4;
-    }
-  }
-  &__tip {
-    grid-column-start: 4;
-    grid-column-end: 4;
-    grid-row-start: 2;
-    grid-row-end: 2;
-    @include media-breakpoint-down($xs) {
-      grid-column-start: 2;
-      grid-column-end: 2;
-      grid-row-start: 4;
-      grid-row-end: 4;
     }
   }
 
@@ -136,50 +55,51 @@
     padding: 0;
     margin: 0;
     border: none;
-
     margin: 5px;
     padding: 5px;
     border: 1px solid $colorDarkShade25;
+
+    &-component_type {
+      &_scale {
+        margin-bottom: 20px;
+      }
+
+      &_radiobuttons {
+        margin-top: 5px;
+      }
+
+      &_IntervalStep {
+        display: flex;
+      }
+
+      &_step {
+        margin-right: 10px;
+      }
+    }
   }
-  &__scale {
-    margin-bottom: 20px;
-  }
-  &__radiobuttons {
-    margin-top: 5px;
-  }
-  &__IntervalStep {
-    display: flex;
-  }
-  &__step {
-    margin-right: 10px;
-  }
+
   &__moveSetup {
     border: none;
-
     margin: 5px;
     padding: 20px;
-
     border: 1px solid $colorDarkShade25;
     display: flex;
     align-items: center;
-    & > div {
+
+    &-component {
       margin-right: 10px;
       display: flex;
       align-items: flex-end;
     }
   }
+
+  &__actions-component {
+    margin-top: 10px;
+  }
+
   &__apply {
     position: absolute;
     bottom: 18px;
     right: 14px;
-  }
-
-  &__subscribe,
-  &__disable,
-  &__destroy {
-    margin-top: 10px;
-    // @include media-breakpoint-down($lg) {
-    // 	margin-top: 10px;
-    // }
   }
 }

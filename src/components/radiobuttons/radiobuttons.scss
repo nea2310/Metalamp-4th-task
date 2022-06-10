@@ -1,11 +1,11 @@
 .radiobuttons {
-  padding: 0;
-  margin: 0;
-  border: none;
   * {
     box-sizing: border-box;
   }
 
+  padding: 0;
+  margin: 0;
+  border: none;
   padding-left: 0;
   margin-left: 0;
   user-select: none;
@@ -28,6 +28,7 @@
     display: inline-flex;
     position: relative;
   }
+
   &__cat-text {
     margin-left: 9px;
   }

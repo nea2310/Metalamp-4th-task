@@ -2,6 +2,7 @@
   * {
     box-sizing: border-box;
   }
+
   @include font-body;
   user-select: none;
   display: inline-flex;
@@ -21,6 +22,7 @@
     & + .toggle__checkmark {
       margin: 5px;
       border: 2px solid $colorDarkShade25;
+
       & > .toggle__ball {
         width: 10px;
         height: 10px;
@@ -34,6 +36,7 @@
 
     &:checked + .toggle__checkmark {
       border: 2px solid $colorBlue;
+
       & > .toggle__ball {
         background-color: $colorBlue;
         right: 3px;

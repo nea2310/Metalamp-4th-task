@@ -5,89 +5,89 @@ include ../button/button.pug
 
 mixin panel({radioGroupName = ''} = {})
   -
-    const elementName='panel'
+    const elementName = 'panel'
 
   div(class = `${elementName} js-${elementName}`)
     fieldset(class = `${elementName}__main-setup`)
       legend Main
-      div(class = `${elementName}__min`)
+      div(class = `${elementName}__main-setup-component`)
         +input-field({
           labelText: 'min',
           usage: 'min'})
-      div(class = `${elementName}__max`)
+      div(class = `${elementName}__main-setup-component`)
         +input-field({
           labelText: 'max',
           usage: 'max'})
-      div(class = `${elementName}__from`)
+      div(class = `${elementName}__main-setup-component`)
         +input-field({
           labelText: 'from',
           usage: 'from'})
-      div(class = `${elementName}__to`)
+      div(class = `${elementName}__main-setup-component`)
         +input-field({
           labelText: 'to',
           usage: 'to'})
-      div(class = `${elementName}__vertical`)
+      div(class = `${elementName}__main-setup-component`)
         +toggle({
           name: 'vertical',
           usage: 'vertical'})
-      div(class = `${elementName}__range`)
+      div(class = `${elementName}__main-setup-component`)
         +toggle({
           name: 'range',
           usage: 'range'})
-      div(class = `${elementName}__bar`)
+      div(class = `${elementName}__main-setup-component`)
         +toggle({
           name: 'bar',
           usage: 'bar'})
-      div(class = `${elementName}__tip`)
+      div(class = `${elementName}__main-setup-component`)
         +toggle({
           name: 'tip',
           usage: 'tip'})
     fieldset(class = `${elementName}__scaleSetup`)
       legend Scale
-      div(class = `${elementName}__scale`)
+      div(class = `${elementName}__scaleSetup-component ${elementName}__scaleSetup-component_type_scale`)
         +toggle({
           name: 'scale',
           usage: 'scale'})
       span scale base
-      div(class = `${elementName}__scaleBase js-${elementName}__scaleBase`)
+      div(class = `${elementName}__scaleSetup-component ${elementName}__scaleSetup-component_type_scaleBase js-${elementName}__scaleBase`)
         +radiobuttons({
           categories:
           [{name:'step', usage: 'step'}, 
           {name:'interval', usage: 'interval'}],
           radioGroupName})
-      div(class = `${elementName}__IntervalStep`)
-        div(class = `${elementName}__step`)
+      div(class = `${elementName}__scaleSetup-component ${elementName}__scaleSetup-component_type_IntervalStep`)
+        div(class = `${elementName}__scaleSetup-component ${elementName}__scaleSetup-component_type_step`)
           +input-field({
             labelText: 'step',
             usage: 'step'})
-        div(class = `${elementName}__interval`)
+        div(class = `${elementName}__scaleSetup-component  ${elementName}__scaleSetup-component_type_interval`)
           +input-field({
             labelText: 'interval',
             usage: 'interval'})
     fieldset(class = `${elementName}__moveSetup`)
       legend Control movement
-      div(class = `${elementName}__sticky`)
+      div(class = `${elementName}__moveSetup-component`)
         +toggle({name: 'sticky',
           usage: 'sticky'})
-      div(class = `${elementName}__shiftOnKeyDown`)
+      div(class = `${elementName}__moveSetup-component`)
         +input-field({
           labelText: 'shift on key down',
           usage: 'shiftOnKeyDown'})
-      div(class = `${elementName}__shiftOnKeyHold`)
+      div(class = `${elementName}__moveSetup-component`)
         +input-field({
           labelText: 'shift on key hold',
           usage: 'shiftOnKeyHold'})
     fieldset(class = `${elementName}__actions`)
       legend Actions
-      div(class = `${elementName}__subscribe`)
+      div(class = `${elementName}__actions-component`)
         +toggle({
           name: 'subscribe events',
           usage: 'subscribe'})
-      div(class = `${elementName}__disable`)
+      div(class = `${elementName}__actions-component`)
         +toggle({
           name: 'disable',
           usage: 'disable'})
-      div(class = `${elementName}__destroy`)
+      div(class = `${elementName}__actions-component`)
         +toggle({
           name: 'destroy',
           usage: 'destroy'})
