@@ -5,8 +5,8 @@ html(lang = 'ru')
 head
   title Range Slider
 body
-  main(class='sliderMetaLamp')
-    div(class='sliderMetaLamp__wrapper')
+  main(class = 'slider-demo')
+    div(class='slider-demo__wrapper')
       +rangeslider({
         min: '-100',
         max: '100',
@@ -16,7 +16,7 @@ body
         shiftOnKeyHold:'2',
         radioGroupName: 'radio1'
           })
-    div(class='sliderMetaLamp__wrapper')
+    div(class = 'slider-demo__wrapper')
       +rangeslider({
         min: '-150',
         max: '300',
@@ -28,7 +28,7 @@ body
         sticky: 'true', 
         radioGroupName: 'radio2'
           })
-    div(class='sliderMetaLamp__wrapper')
+    div(class = 'slider-demo__wrapper')
       +rangeslider({
         min: '0',
         max: '10',
@@ -41,7 +41,7 @@ body
         sticky: 'true',
         radioGroupName: 'radio3'
           })
-    div(class='sliderMetaLamp__wrapper')
+    div(class = 'slider-demo__wrapper')
       +rangeslider({
         min: '0',
         max: '10',
