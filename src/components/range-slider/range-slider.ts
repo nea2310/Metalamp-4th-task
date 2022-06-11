@@ -1,17 +1,18 @@
+/* eslint-disable max-len */
 import $ from 'jquery';
 
 import { IConf } from '../../slider-metalamp/mvc/interface';
 
 class RangeSlider {
-  slider: HTMLElement
+  slider: HTMLElement | undefined
 
   wrapper: HTMLElement
 
-  panel: HTMLElement
+  panel: HTMLElement | undefined
 
-  panelWrapper: HTMLElement
+  // panelWrapper: HTMLElement
 
-  sliderWrapper: HTMLElement
+  sliderWrapper: HTMLElement | undefined
 
   rangeSlider: any;
 
@@ -64,15 +65,11 @@ class RangeSlider {
   constructor(selector: string, elem: Element) {
     this.selector = selector;
     this.wrapper = elem as HTMLElement;
-    this.panel = RangeSlider.getElement(this.wrapper, '.js-panel');
-    this.slider = RangeSlider.getElement(this.wrapper, '.js-slider-metalamp');
-    this.panelWrapper = RangeSlider.getElement(this.wrapper, `${this.selector}__panel`);
-    this.sliderWrapper = RangeSlider.getElement(this.wrapper, `${this.selector}__slider-metalamp`);
     this.renderPanel();
-    this.renderSlider(this.slider);
+    this.renderSlider();
     this.updateSlider();
     this.disableSlider();
-    this.destroySlider(this.slider);
+    this.destroySlider();
     this.subscribeSlider();
   }
 
@@ -89,9 +86,11 @@ class RangeSlider {
   }
 
   private switchVertical() {
-    this.panel.classList.toggle('panel_orientation_vertical');// .panel
-    this.wrapper.classList.toggle('rangeslider_orientation_vertical'); // .rangeslider
-    this.sliderWrapper.classList.toggle('rangeslider__slider-metalamp_orientation_vertical'); // .rangeslider__slider-metalamp
+    if (this.panel && this.sliderWrapper) {
+      this.panel.classList.toggle('panel_orientation_vertical');// .panel
+      this.sliderWrapper.classList.toggle('range-slider__slider-metalamp_orientation_vertical'); // .range-slider__slider-metalamp
+    }
+    this.wrapper.classList.toggle('range-slider_orientation_vertical'); // .range-slider
   }
 
   private displayData(data: IConf) {
@@ -125,7 +124,7 @@ class RangeSlider {
 
   private updateData = (data: IConf) => {
     if (data.vertical
-      !== this.wrapper.classList.contains('rangeslider_orientation_vertical')) {
+      !== this.wrapper.classList.contains('range-slider_orientation_vertical')) {
       this.switchVertical();
     }
     if (this.optionFrom) RangeSlider.valid(this.optionFrom, Number(data.from));
@@ -171,8 +170,9 @@ class RangeSlider {
   }
 
   private renderPanel() {
+    this.panel = RangeSlider.getElement(this.wrapper, '.js-panel');
     const getElement = (name: string, addToInputsAll: boolean = true): HTMLInputElement => {
-      const elem = this.panel.querySelector<HTMLInputElement>(`.js-${name}`);
+      const elem = this.wrapper.querySelector<HTMLInputElement>(`.js-${name}`);
       if (addToInputsAll) {
         if (elem) {
           this.inputsAll.push(elem);
@@ -213,8 +213,10 @@ class RangeSlider {
     });
   }
 
-  private renderSlider(slider: HTMLElement) {
-    this.rangeSlider = this.createSlider(slider);
+  private renderSlider() {
+    this.slider = RangeSlider.getElement(this.wrapper, '.js-slider-metalamp');
+    this.sliderWrapper = RangeSlider.getElement(this.wrapper, `${this.selector}__slider-metalamp`);
+    this.rangeSlider = this.createSlider(this.slider);
   }
 
   private updateSlider() {
@@ -268,7 +270,9 @@ class RangeSlider {
         });
       }
     };
-    this.panel.addEventListener('change', handleChange);
+    if (this.panel) {
+      this.panel.addEventListener('change', handleChange);
+    }
   }
 
   private disableSlider() {
@@ -319,7 +323,7 @@ class RangeSlider {
     }
   }
 
-  private destroySlider(slider: HTMLElement) {
+  private destroySlider(slider = this.slider) {
     const handleClick = () => {
       if (this.optionDestroy && this.optionDisable) {
         if (this.optionDestroy.checked) {
@@ -333,7 +337,9 @@ class RangeSlider {
           this.optionDisable.disabled = true;
           this.isDestroyed = true;
           this.optionDestroy.disabled = true;
-          $.data(slider, 'SliderMetaLamp', null);
+          if (slider) {
+            $.data(slider, 'SliderMetaLamp', null);
+          }
         }
       }
     };
