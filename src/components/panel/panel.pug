@@ -55,7 +55,7 @@ mixin panel({radioGroupName = ''} = {})
           [{name:'step', usage: 'step', radioGroupName: ''}, 
           {name:'interval', usage: 'interval', radioGroupName: ''}],
           radioGroupName})
-      div(class = `${elementName}__scaleSetup-component ${elementName}__scaleSetup-component_type_IntervalStep`)
+      div(class = `${elementName}__scaleSetup-component ${elementName}__scaleSetup-component_type_interval-step`)
         div(class = `${elementName}__scaleSetup-component ${elementName}__scaleSetup-component_type_step js-${elementName}__step`)
           +input-field({
             labelText: 'step',

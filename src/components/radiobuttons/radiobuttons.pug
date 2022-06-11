@@ -20,9 +20,9 @@ mixin radiobuttons(options = {})
       if Array.isArray(categories) && categories.length
         each value in categories
           - const {name = '', checked = false} = value
-            li(class = `${elementName}__cat-wrapper`)
-              label(class = `${elementName}__cat`)
-                input(class = `${elementName}__cat-checkbox js-radiobuttons_usage_${value.usage}` 
+            li(class = `${elementName}__category-wrapper`)
+              label(class = `${elementName}__category`)
+                input(class = `${elementName}__category-checkbox js-radiobuttons_usage_${value.usage}` 
                   type = "radio" name = radioGroupName value = name checked = checked)
-                span(class = `${elementName}__cat-radiomark`)
-                p(class = `${elementName}__cat-name`)= name
+                span(class = `${elementName}__category-radiomark`)
+                p(class = `${elementName}__category-name`)= name

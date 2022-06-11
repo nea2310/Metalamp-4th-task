@@ -24,50 +24,47 @@
     justify-content: space-between;
   }
 
-  &__cat {
+  &__category {
     display: inline-flex;
     position: relative;
-  }
 
-  &__cat-text {
-    margin-left: 9px;
-  }
-
-  &__cat-checkbox {
-    position: absolute;
-    left: 7px;
-    top: 9px;
-    width: 5px;
-    height: 1px;
-    outline-offset: 12px;
-
-    &:checked + .radiobuttons__cat-radiomark {
-      border: 2px solid $colorBlue;
-      box-shadow: inset 0px 0px 0px 3.5px $colorWhite;
-      background-color: $colorBlue;
+    &-text {
+      margin-left: 9px;
     }
-  }
 
-  &__cat-radiomark {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    border: 2px solid $colorDarkShade25;
-    width: 19px;
-    height: 18px;
-    border-radius: 50%;
-    content: "";
-    display: inline-block;
-    width: 19px;
-    height: 18px;
-    background-color: $colorWhite;
-  }
+    &-checkbox {
+      position: absolute;
+      left: 7px;
+      top: 9px;
+      width: 5px;
+      height: 1px;
+      outline-offset: 12px;
 
-  &__cat-name {
-    margin: 0;
-    cursor: pointer;
-    @include font-body;
-    line-height: 19px;
-    padding-left: 10px;
+      &:checked + .radiobuttons__category-radiomark {
+        border: 2px solid $colorBlue;
+        box-shadow: inset 0px 0px 0px 3.5px $colorWhite;
+        background-color: $colorBlue;
+      }
+    }
+
+    &-radiomark {
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      border: 2px solid $colorDarkShade25;
+      width: 19px;
+      height: 18px;
+      border-radius: 50%;
+      content: "";
+      background-color: $colorWhite;
+    }
+
+    &-name {
+      margin: 0;
+      cursor: pointer;
+      @include font-body;
+      line-height: 19px;
+      padding-left: 10px;
+    }
   }
 }

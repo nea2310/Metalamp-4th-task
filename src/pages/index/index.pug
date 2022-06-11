@@ -1,5 +1,5 @@
 include ../../components/head/head.pug
-include ../../components/rangeslider/rangeslider.pug
+include ../../components/range-slider/range-slider.pug
 
 html(lang = 'ru')
 head
@@ -7,17 +7,17 @@ head
 body
   main(class = 'slider-demo')
     div(class='slider-demo__wrapper')
-      +rangeslider({
+      +range-slider({
         min: '-100',
         max: '100',
         from: '-50',
         to: '50',
         step: '10',
         shiftOnKeyHold:'2',
-        radioGroupName: 'radio1'
+        radioGroupName: 'range-slider1'
           })
     div(class = 'slider-demo__wrapper')
-      +rangeslider({
+      +range-slider({
         min: '-150',
         max: '300',
         from: '0',
@@ -26,10 +26,10 @@ body
         step:'4',
         shiftOnKeyHold:'5',
         sticky: 'true', 
-        radioGroupName: 'radio2'
+        radioGroupName: 'range-slider2'
           })
     div(class = 'slider-demo__wrapper')
-      +rangeslider({
+      +range-slider({
         min: '0',
         max: '10',
         from: '5',
@@ -39,14 +39,14 @@ body
         interval:'30',
         shiftOnKeyHold:'5',
         sticky: 'true',
-        radioGroupName: 'radio3'
+        radioGroupName: 'range-slider3'
           })
     div(class = 'slider-demo__wrapper')
-      +rangeslider({
+      +range-slider({
         min: '0',
         max: '10',
         from: '5',
         range: 'false',
         scale: 'false',
-        radioGroupName: 'radio4'
+        radioGroupName: 'range-slider4'
           })

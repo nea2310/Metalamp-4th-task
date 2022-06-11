@@ -348,4 +348,4 @@ function renderRangeSliders(selector: string) {
   rangeSliders.forEach((rangeSlider) => new RangeSlider(selector, rangeSlider));
 }
 
-renderRangeSliders('.js-rangeslider');
+renderRangeSliders('.js-range-slider');

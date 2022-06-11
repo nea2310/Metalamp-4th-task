@@ -1,0 +1,41 @@
+.range-slider {
+  padding: 50px 40px 0;
+  border-radius: 3px;
+  box-shadow: 0 0 10px $colorDarkShade50;
+
+  &_orientation_vertical {
+    display: flex;
+    height: 740px;
+    align-items: center;
+    justify-content: center;
+
+    @include media-breakpoint-down($sm) {
+      display: block;
+      height: auto;
+    }
+  }
+
+  &__slider-metalamp {
+    min-width: 150px;
+
+    &_orientation_vertical {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+
+      @include media-breakpoint-down($sm) {
+        height: 400px;
+      }
+    }
+  }
+
+  &__panel {
+    @include media-breakpoint-down($lg) {
+      max-width: 540px;
+      margin: 40px auto 0;
+    }
+
+    margin-top: 40px;
+    text-align: center;
+  }
+}
