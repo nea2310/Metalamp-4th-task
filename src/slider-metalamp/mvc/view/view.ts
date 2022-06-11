@@ -173,31 +173,31 @@ class View extends Observer {
         map.set(a, elem.value);
       }
     }
-    map.forEach((elem) => {
+    map.forEach((value, key) => {
       // если значение содержит только цифры
-      if (/^-?\d+\.?\d*$/.test(elem[1])) {
-        map.set(elem[0], parseFloat(elem[1]));
+      if (/^-?\d+\.?\d*$/.test(value)) {
+        map.set(key, parseFloat(value));
       }
       // если значение содержит строку 'true'
-      if (elem[1] === 'true') {
-        map.set(elem[0], true);
+      if (value === 'true') {
+        map.set(key, true);
       }
       // если значение содержит строку 'false'
-      if (elem[1] === 'false') {
-        map.set(elem[0], false);
+      if (value === 'false') {
+        map.set(key, false);
       }
       // перевод ключей в camelCase
-      if (elem[0] === 'shiftonkeydown') {
-        map.set('shiftOnKeyDown', elem[1]);
-        map.delete(elem[0]);
+      if (key === 'shiftonkeydown') {
+        map.set('shiftOnKeyDown', value);
+        map.delete(key);
       }
-      if (elem[0] === 'shiftonkeyhold') {
-        map.set('shiftOnKeyHold', elem[1]);
-        map.delete(elem[0]);
+      if (key === 'shiftonkeyhold') {
+        map.set('shiftOnKeyHold', value);
+        map.delete(key);
       }
-      if (elem[0] === 'scalebase') {
-        map.set('scaleBase', elem[1]);
-        map.delete(elem[0]);
+      if (key === 'scalebase') {
+        map.set('scaleBase', value);
+        map.delete(key);
       }
     });
     this.backEndConf = Object.fromEntries(map.entries());
