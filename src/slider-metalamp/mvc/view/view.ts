@@ -38,18 +38,20 @@ class View extends Observer {
 
   constructor(root: Element) {
     super();
-    /* Находим корневой элемент */
-    this.root = root;
     this.slider = document.createElement('div');
     this.slider.className = 'slider-metalamp__wrapper';
-    this.root.after(this.slider);
-    this.track = document.createElement('div');
 
+    this.track = document.createElement('div');
     this.track.className = 'slider-metalamp__track';
     this.slider.append(this.track);
+
     this.frame = document.createElement('div');
     this.frame.className = 'slider-metalamp__frame';
     this.slider.append(this.frame);
+
+    /* Находим корневой элемент и добавляем слайдер */
+    this.root = root;
+    this.root.after(this.slider);
     this.collectParms();
   }
 
