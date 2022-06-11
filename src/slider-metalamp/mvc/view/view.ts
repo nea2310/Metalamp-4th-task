@@ -1,3 +1,4 @@
+/* eslint-disable fsd/split-conditionals */
 import ViewBar from '../view/view-bar/view-bar';
 import ViewControl from '../view/view-control/view-control';
 import ViewScale from '../view/view-scale/view-scale';
@@ -26,11 +27,11 @@ class View extends Observer {
 
   public backEndConf: IConf = {};
 
-  public slider: HTMLElement;
+  public slider: HTMLElement | undefined;
 
-  private track: HTMLElement;
+  private track: HTMLElement | undefined;
 
-  private frame: HTMLElement;
+  private frame: HTMLElement | undefined;
 
   private conf: IConfFull = defaultConf;
 
@@ -38,6 +39,12 @@ class View extends Observer {
 
   constructor(root: Element) {
     super();
+    this.root = root;
+    this.render();
+    this.collectParms();
+  }
+
+  private render() {
     this.slider = document.createElement('div');
     this.slider.className = 'slider-metalamp__wrapper';
 
@@ -50,9 +57,7 @@ class View extends Observer {
     this.slider.append(this.frame);
 
     /* Находим корневой элемент и добавляем слайдер */
-    this.root = root;
     this.root.after(this.slider);
-    this.collectParms();
   }
 
   public init(conf: IConfFull) {
@@ -63,15 +68,19 @@ class View extends Observer {
   }
 
   public disable() {
-    this.slider.classList.add('slider-metalamp__wrapper_disabled');
+    if (this.slider) {
+      this.slider.classList.add('slider-metalamp__wrapper_disabled');
+    }
   }
 
   public enable() {
-    this.slider.classList.remove('slider-metalamp__wrapper_disabled');
+    if (this.slider) {
+      this.slider.classList.remove('slider-metalamp__wrapper_disabled');
+    }
   }
 
   public updateFromPos(data: IdataFull, conf: IConfFull) {
-    if (this.viewControl) {
+    if (this.viewControl && this.viewControl.controlMin) {
       this.viewControl.updatePos(
         this.viewControl.controlMin,
         data.fromPosition,
@@ -81,7 +90,7 @@ class View extends Observer {
   }
 
   public updateToPos(data: IdataFull, conf: IConfFull) {
-    if (this.viewControl) {
+    if (this.viewControl && this.viewControl.controlMax) {
       this.viewControl.updatePos(
         this.viewControl.controlMax,
         data.toPosition,
@@ -110,14 +119,16 @@ class View extends Observer {
   }
 
   public switchVertical(conf: IConfFull) {
-    if (conf.vertical) {
-      this.slider.classList.add('slider-metalamp__wrapper__orientation_vertical');
-      this.track.classList.add('slider-metalamp__track__orientation_vertical');
-      this.frame.classList.add('slider-metalamp__frame__orientation_vertical');
-    } else {
-      this.slider.classList.remove('slider-metalamp__wrapper__orientation_vertical');
-      this.track.classList.remove('slider-metalamp__track__orientation_vertical');
-      this.frame.classList.remove('slider-metalamp__frame__orientation_vertical');
+    if (this.slider && this.track && this.frame) {
+      if (conf.vertical) {
+        this.slider.classList.add('slider-metalamp__wrapper__orientation_vertical');
+        this.track.classList.add('slider-metalamp__track__orientation_vertical');
+        this.frame.classList.add('slider-metalamp__frame__orientation_vertical');
+      } else {
+        this.slider.classList.remove('slider-metalamp__wrapper__orientation_vertical');
+        this.track.classList.remove('slider-metalamp__track__orientation_vertical');
+        this.frame.classList.remove('slider-metalamp__frame__orientation_vertical');
+      }
     }
     if (this.viewBar && this.viewControl) {
       this.viewBar.switchVertical(conf);
@@ -206,9 +217,11 @@ class View extends Observer {
   }
 
   private createSubViews() {
-    this.viewControl = new ViewControl(this.slider, this.conf);
-    this.viewScale = new ViewScale(this.slider, this.track, this.conf);
-    this.viewBar = new ViewBar(this.slider, this.conf);
+    if (this.slider && this.track) {
+      this.viewControl = new ViewControl(this.slider, this.conf);
+      this.viewScale = new ViewScale(this.slider, this.track, this.conf);
+      this.viewBar = new ViewBar(this.slider, this.conf);
+    }
   }
 
   private createListeners() {

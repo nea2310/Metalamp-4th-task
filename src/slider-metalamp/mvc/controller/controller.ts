@@ -49,7 +49,7 @@ class Controller extends Observer {
   }
 
   public destroy() {
-    if (this.view) {
+    if (this.view && this.view.slider) {
       this.view.slider.remove();
       this.view = null;
       this.model = null;

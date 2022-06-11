@@ -1,3 +1,4 @@
+/* eslint-disable fsd/split-conditionals */
 /* eslint-disable max-len */
 import { IConfFull, IdataFull } from '../../interface';
 import Observer from '../../observer';
@@ -16,31 +17,29 @@ interface ITarget extends Omit<EventTarget, 'addEventListener'> {
 }
 
 class ViewControl extends Observer {
-  public controlMin: HTMLElement;
+  public controlMin: HTMLElement | undefined;
 
-  public controlMax: HTMLElement;
+  public controlMax: HTMLElement | undefined;
 
-  public tipMin: HTMLInputElement;
+  public tipMin: HTMLInputElement | undefined;
 
-  public tipMax: HTMLInputElement;
+  public tipMax: HTMLInputElement | undefined;
 
-  public track: IElement;
+  public track: IElement | undefined;
 
   private conf: IConfFull;
 
   private slider: HTMLElement;
 
-  private root: IElement;
+  private root: IElement | undefined;
 
   private data: IdataFull;
 
   private initDone: boolean = false;
 
-  constructor(sliderElem: HTMLElement, conf: IConfFull) {
+  constructor(sliderElement: HTMLElement, conf: IConfFull) {
     super();
-    this.slider = sliderElem;
-    this.root = sliderElem.previousElementSibling as Element;
-    this.track = sliderElem.firstElementChild as Element;
+    this.slider = sliderElement;
 
     this.data = {
       ...defaultData,
@@ -48,6 +47,19 @@ class ViewControl extends Observer {
     };
 
     this.conf = conf;
+
+    this.render();
+    this.init(conf);
+    this.dragControlMouse();
+    this.dragControlTouch();
+    this.pressControl();
+    this.clickTrack();
+  }
+
+  private render() {
+    this.root = this.slider.previousElementSibling as Element;
+    this.track = this.slider.firstElementChild as Element;
+
     /* Создаем ползунок минимального значения */
     this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.conf.from);
     this.tipMin = ViewControl.getElement(this.controlMin, '.slider-metalamp__tip') as HTMLInputElement;
@@ -57,12 +69,6 @@ class ViewControl extends Observer {
     this.controlMax = ViewControl.renderControl('slider-metalamp__control-max', 'slider-metalamp__tip-max', this.conf.to);
     this.tipMax = ViewControl.getElement(this.controlMax, '.slider-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMax);
-
-    this.init(conf);
-    this.dragControlMouse();
-    this.dragControlTouch();
-    this.pressControl();
-    this.clickTrack();
   }
 
   // Обновляем позицию ползунка (вызывается через контроллер)
@@ -79,22 +85,26 @@ class ViewControl extends Observer {
       elem.style.left = `${newPosition}%`;
       elem.style.bottom = '';
     }
-    // пересчитать ширину подсказок (возможно это надо вынести в отдельный метод)
+    // пересчитать ширину подсказок
+    if (!this.tipMin || !this.tipMax) return false;
     if (this.defineControl(elem) === 'min') {
       this.tipMin.style.left = ViewControl.calcTipPos(this.conf.vertical, this.tipMin);
     } else {
       this.tipMax.style.left = ViewControl.calcTipPos(this.conf.vertical, this.tipMax);
     }
+    return true;
   }
 
   // Обновляем значение tip
   public updateVal(value: string, isFrom: boolean) {
+    if (!this.tipMin || !this.tipMax) return false;
     if (isFrom) { this.tipMin.innerText = value; } else { this.tipMax.innerText = value; }
+    return true;
   }
 
   // передать значения FROM и TO в инпут
   public updateInput(conf: IConfFull) {
-    if (this.root.tagName === 'INPUT') {
+    if (this.root && this.root.tagName === 'INPUT') {
       this.root.value = this.conf.range ? `${conf.from}, ${conf.to}`
         : String(conf.from);
     }
@@ -103,36 +113,38 @@ class ViewControl extends Observer {
   // включение / отключение вертикального режима
   public switchVertical(conf: IConfFull) {
     this.conf = conf;
-    if (this.conf.vertical) {
-      this.controlMax.classList.add('slider-metalamp__control__orientation_vertical');
-      this.tipMax.classList.add('slider-metalamp__tip__orientation_vertical');
-      this.controlMin.classList.add('slider-metalamp__control__orientation_vertical');
-      this.tipMin.classList.add('slider-metalamp__tip__orientation_vertical');
-      this.controlMax.classList.remove('slider-metalamp__control_horizontal');
-      this.tipMax.classList.remove('slider-metalamp__tip_horizontal');
-      this.controlMin.classList.remove('slider-metalamp__control_horizontal');
-      this.tipMin.classList.remove('slider-metalamp__tip_horizontal');
-    } else {
-      this.controlMax.classList.remove('slider-metalamp__control__orientation_vertical');
-      this.tipMax.classList.remove('slider-metalamp__tip__orientation_vertical');
-      this.controlMin.classList.remove('slider-metalamp__control__orientation_vertical');
-      this.tipMin.classList.remove('slider-metalamp__tip__orientation_vertical');
-      this.controlMax.classList.add('slider-metalamp__control_horizontal');
-      this.tipMax.classList.add('slider-metalamp__tip_horizontal');
-      this.controlMin.classList.add('slider-metalamp__control_horizontal');
-      this.tipMin.classList.add('slider-metalamp__tip_horizontal');
+    if (this.controlMax && this.tipMax && this.controlMin && this.tipMin) {
+      if (this.conf.vertical) {
+        this.controlMax.classList.add('slider-metalamp__control__orientation_vertical');
+        this.tipMax.classList.add('slider-metalamp__tip__orientation_vertical');
+        this.controlMin.classList.add('slider-metalamp__control__orientation_vertical');
+        this.tipMin.classList.add('slider-metalamp__tip__orientation_vertical');
+        this.controlMax.classList.remove('slider-metalamp__control_horizontal');
+        this.tipMax.classList.remove('slider-metalamp__tip_horizontal');
+        this.controlMin.classList.remove('slider-metalamp__control_horizontal');
+        this.tipMin.classList.remove('slider-metalamp__tip_horizontal');
+      } else {
+        this.controlMax.classList.remove('slider-metalamp__control__orientation_vertical');
+        this.tipMax.classList.remove('slider-metalamp__tip__orientation_vertical');
+        this.controlMin.classList.remove('slider-metalamp__control__orientation_vertical');
+        this.tipMin.classList.remove('slider-metalamp__tip__orientation_vertical');
+        this.controlMax.classList.add('slider-metalamp__control_horizontal');
+        this.tipMax.classList.add('slider-metalamp__tip_horizontal');
+        this.controlMin.classList.add('slider-metalamp__control_horizontal');
+        this.tipMin.classList.add('slider-metalamp__tip_horizontal');
+      }
     }
   }
 
   // включение / отключение single режима
   public switchRange(conf: IConfFull) {
     this.conf = conf;
-    if (this.conf.range) {
+    if (this.conf.range && this.controlMax) {
       this.controlMax.classList.remove('slider-metalamp__control_hidden');
-      if (this.conf.tip) {
+      if (this.conf.tip && this.tipMax) {
         this.tipMax.classList.remove('slider-metalamp__tip_hidden');
       }
-    } else {
+    } else if (this.controlMax && this.tipMax) {
       this.controlMax.classList.add('slider-metalamp__control_hidden');
       this.tipMax.classList.add('slider-metalamp__tip_hidden');
     }
@@ -141,14 +153,14 @@ class ViewControl extends Observer {
   // включение / отключение подсказок
   public switchTip(conf: IConfFull) {
     this.conf = conf;
-    if (this.conf.tip) {
+    if (this.conf.tip && this.tipMax && this.tipMin) {
       this.tipMax.classList.remove('slider-metalamp__tip_hidden');
       this.tipMin.classList.remove('slider-metalamp__tip_hidden');
       if (this.initDone) {
         this.tipMax.style.left = ViewControl.calcTipPos(conf.vertical, this.tipMax);
         this.tipMin.style.left = ViewControl.calcTipPos(conf.vertical, this.tipMin);
       }
-    } else {
+    } else if (this.tipMax && this.tipMin) {
       this.tipMax.classList.add('slider-metalamp__tip_hidden');
       this.tipMin.classList.add('slider-metalamp__tip_hidden');
     }
@@ -256,16 +268,16 @@ class ViewControl extends Observer {
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
       }
-      const T = this.data.thumb;
+      const { thumb } = this.data;
       if (target.classList.contains('slider-metalamp__control')) {
         // определяем ползунок, за который тянут
-        T.moovingControl = String(this.defineControl(target));
+        thumb.moovingControl = String(this.defineControl(target));
         this.getMetrics(target);
 
         const handlePointerMove = (event: TouchEvent) => {
-          T.type = event.type;
-          T.clientX = event.targetTouches[0] ? event.targetTouches[0].clientX : 0;
-          T.clientY = event.targetTouches[0] ? event.targetTouches[0].clientY : 0;
+          thumb.type = event.type;
+          thumb.clientX = event.targetTouches[0] ? event.targetTouches[0].clientX : 0;
+          thumb.clientY = event.targetTouches[0] ? event.targetTouches[0].clientY : 0;
           this.fire('MoveEvent', this.data);
         };
         target.addEventListener('touchmove', handlePointerMove);
@@ -308,44 +320,47 @@ class ViewControl extends Observer {
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
       }
-      const T = this.data.thumb;
+      const { thumb } = this.data;
 
-      const arr = ['slider-metalamp__track',
+      const array = ['slider-metalamp__track',
         'slider-metalamp__progressBar',
         'slider-metalamp__label',
         'slider-metalamp__mark',
         'slider-metalamp__frame'];
-      const result = [...target.classList].some((className) => arr.indexOf(className) !== -1);
+      const result = [...target.classList].some((className) => array.indexOf(className) !== -1);
       if (result) {
         let controlMinDist = 0;
         let controlMaxDist = 0;
         // определяем расстояние от места клика до каждого из бегунков
-        if (this.conf.vertical) {
-          controlMinDist = Math.abs(this.controlMin.getBoundingClientRect()
-            .bottom - e.clientY);
-          controlMaxDist = Math.abs(this.controlMax
-            .getBoundingClientRect().bottom - e.clientY);
-        } else {
-          controlMinDist = Math.abs(this.controlMin.getBoundingClientRect().left
-            - e.clientX);
-          controlMaxDist = Math.abs(this.controlMax
-            .getBoundingClientRect().left
-            - e.clientX);
+        if (this.controlMin && this.controlMax) {
+          if (this.conf.vertical) {
+            controlMinDist = Math.abs(this.controlMin.getBoundingClientRect()
+              .bottom - e.clientY);
+            controlMaxDist = Math.abs(this.controlMax
+              .getBoundingClientRect().bottom - e.clientY);
+          } else {
+            controlMinDist = Math.abs(this.controlMin.getBoundingClientRect().left
+              - e.clientX);
+            controlMaxDist = Math.abs(this.controlMax
+              .getBoundingClientRect().left
+              - e.clientX);
+          }
+        }
+        if (this.track) {
+          thumb.top = this.track.getBoundingClientRect().top;
+          thumb.left = this.track.getBoundingClientRect().left;
+          thumb.width = Number(this.track.offsetWidth);
+          thumb.height = Number(this.track.offsetHeight);
+          thumb.type = e.type;
+          thumb.clientX = e.clientX;
+          thumb.clientY = e.clientY;
         }
 
-        T.top = this.track.getBoundingClientRect().top;
-        T.left = this.track.getBoundingClientRect().left;
-        T.width = Number(this.track.offsetWidth);
-        T.height = Number(this.track.offsetHeight);
-        T.type = e.type;
-        T.clientX = e.clientX;
-        T.clientY = e.clientY;
-
         // определяем ползунок, находящийся ближе к позиции клика
-        if (this.controlMax.classList.contains('hidden')) { // Single mode
-          T.moovingControl = 'min';
+        if (this.controlMax && this.controlMax.classList.contains('hidden')) { // Single mode
+          thumb.moovingControl = 'min';
         } else { // Double mode
-          T.moovingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
+          thumb.moovingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
         }
         this.fire('MoveEvent', this.data);
       }
