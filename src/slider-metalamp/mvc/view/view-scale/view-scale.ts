@@ -43,30 +43,30 @@ class ViewScale {
     const steps = this.slider.querySelectorAll('.js-slider-metalamp__mark');
     if (this.calcMarkList) { // Если это переотрисовка шкалы - удалить существующие деления
       if (steps.length) {
-        steps.forEach((elem) => elem.remove());
+        steps.forEach((element) => element.remove());
       }
       scaleMarks.forEach((node) => {
-        const elem = document.createElement('div');
-        elem.classList.add('slider-metalamp__mark');
-        elem.classList.add('js-slider-metalamp__mark');
+        const element = document.createElement('div');
+        element.classList.add('slider-metalamp__mark');
+        element.classList.add('js-slider-metalamp__mark');
         const label = document.createElement('div');
         label.innerText = String(node.value);
         label.classList.add('slider-metalamp__label');
-        elem.appendChild(label);
+        element.appendChild(label);
 
         if (conf.vertical) {
-          elem.classList.add('slider-metalamp__mark__orientation_vertical');
+          element.classList.add('slider-metalamp__mark__orientation_vertical');
           label.classList.add('slider-metalamp__label__orientation_vertical');
-          elem.style.bottom = `${String(node.position)}%`;
+          element.style.bottom = `${String(node.position)}%`;
         } else {
-          elem.classList.add('slider-metalamp__mark_horizontal');
+          element.classList.add('slider-metalamp__mark_horizontal');
           label.classList.add('slider-metalamp__label_horizontal');
-          elem.style.left = `${String(node.position)}%`;
+          element.style.left = `${String(node.position)}%`;
         }
         if (!conf.scale) {
-          elem.classList.add('slider-metalamp__mark_visually-hidden');
+          element.classList.add('slider-metalamp__mark_visually-hidden');
         }
-        this.track.appendChild(elem);
+        this.track.appendChild(element);
         if (conf.vertical) {
           label.style.top = `${(label.offsetHeight / 2) * (-1)}px`;
         } else {
@@ -85,12 +85,12 @@ class ViewScale {
     this.conf = conf;
     const stepMarks = this.slider.querySelectorAll('.js-slider-metalamp__mark');
     if (this.conf.scale) {
-      stepMarks.forEach((elem) => {
-        elem.classList.remove('slider-metalamp__mark_visually-hidden');
+      stepMarks.forEach((element) => {
+        element.classList.remove('slider-metalamp__mark_visually-hidden');
       });
     } else {
-      stepMarks.forEach((elem) => {
-        elem.classList.add('slider-metalamp__mark_visually-hidden');
+      stepMarks.forEach((element) => {
+        element.classList.add('slider-metalamp__mark_visually-hidden');
       });
     }
     return stepMarks;

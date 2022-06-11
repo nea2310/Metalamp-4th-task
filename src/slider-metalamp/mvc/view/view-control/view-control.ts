@@ -182,20 +182,6 @@ class ViewControl extends Observer {
     this.switchTip(this.conf);
   }
 
-  // /* Создаем ползунок минимального значения */
-  // private renderLeftControl() {
-  //   this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.conf.from);
-  //   this.tipMin = this.controlMin.querySelector('.slider-metalamp__tip') as HTMLInputElement;
-  //   this.track.append(this.controlMin);
-  // }
-
-  // /* Создаем ползунок максимального значения */
-  // private renderRightControl() {
-  //   this.controlMax = ViewControl.renderControl('slider-metalamp__control-max', 'slider-metalamp__tip-max', this.conf.to);
-  //   this.tipMax = this.controlMax.querySelector('.slider-metalamp__tip') as HTMLInputElement;
-  //   this.track.append(this.controlMax);
-  // }
-
   private defineControl = (elem: ITarget) => {
     if (elem.classList) { return elem.classList.contains('slider-metalamp__control-min') ? 'min' : 'max'; }
     return true;
