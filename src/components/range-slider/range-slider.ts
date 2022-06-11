@@ -62,9 +62,9 @@ class RangeSlider {
 
   optionDisable: HTMLInputElement | undefined;
 
-  constructor(selector: string, elem: Element) {
+  constructor(selector: string, element: Element) {
     this.selector = selector;
-    this.wrapper = elem as HTMLElement;
+    this.wrapper = element as HTMLElement;
     this.renderPanel();
     this.renderSlider();
     this.updateSlider();

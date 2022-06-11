@@ -13,14 +13,14 @@ class ViewBar {
   constructor(root: HTMLElement, conf: IConfFull) {
     this.slider = root;
     this.conf = conf;
-    this.track = ViewBar.getElem(this.slider, '.slider-metalamp__track') as HTMLElement;
+    this.track = ViewBar.getElement(this.slider, '.slider-metalamp__track') as HTMLElement;
     this.progressBar = document.createElement('div');
     this.progressBar.className = 'slider-metalamp__progressBar';
     this.track.append(this.progressBar);
     this.switchBar(conf);
   }
 
-  static getElem(object: HTMLElement, selector: string) {
+  static getElement(object: HTMLElement, selector: string) {
     return object.querySelector(selector);
   }
 

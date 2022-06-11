@@ -50,12 +50,12 @@ class ViewControl extends Observer {
     this.conf = conf;
     /* Создаем ползунок минимального значения */
     this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.conf.from);
-    this.tipMin = ViewControl.getElem(this.controlMin, '.slider-metalamp__tip') as HTMLInputElement;
+    this.tipMin = ViewControl.getElement(this.controlMin, '.slider-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMin);
 
     /* Создаем ползунок максимального значения */
     this.controlMax = ViewControl.renderControl('slider-metalamp__control-max', 'slider-metalamp__tip-max', this.conf.to);
-    this.tipMax = ViewControl.getElem(this.controlMax, '.slider-metalamp__tip') as HTMLInputElement;
+    this.tipMax = ViewControl.getElement(this.controlMax, '.slider-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMax);
 
     this.init(conf);
@@ -159,7 +159,7 @@ class ViewControl extends Observer {
     return `${(elem.offsetWidth / 2) * (-1)}px`;
   }
 
-  static getElem(object: HTMLElement, selector: string) {
+  static getElement(object: HTMLElement, selector: string) {
     return object.querySelector(selector);
   }
 
