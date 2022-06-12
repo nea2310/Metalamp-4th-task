@@ -118,15 +118,6 @@ class ViewControl extends Observer {
   // включение / отключение single режима
   public switchRange(conf: IConfFull) {
     this.conf = conf;
-    if (this.conf.range && this.controlMax) {
-      this.controlMax.classList.remove('slider-metalamp__control_hidden');
-      if (this.conf.tip && this.tipMax) {
-        this.tipMax.classList.remove('slider-metalamp__tip_hidden');
-      }
-    } else if (this.controlMax && this.tipMax) {
-      this.controlMax.classList.add('slider-metalamp__control_hidden');
-      this.tipMax.classList.add('slider-metalamp__tip_hidden');
-    }
   }
 
   // включение / отключение подсказок

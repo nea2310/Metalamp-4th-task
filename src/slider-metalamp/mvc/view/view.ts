@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable fsd/split-conditionals */
 import ViewBar from '../view/view-bar/view-bar';
 import ViewControl from '../view/view-control/view-control';
@@ -65,6 +66,7 @@ class View extends Observer {
     this.createSubViews();
     this.createListeners();
     this.switchVertical(conf);
+    this.switchRange(conf);
   }
 
   public disable() {
@@ -132,7 +134,16 @@ class View extends Observer {
   }
 
   public switchRange(conf: IConfFull) {
-    if (this.viewControl) { this.viewControl.switchRange(conf); }
+    if (this.slider) {
+      if (!conf.range) {
+        this.slider.classList.add('slider-metalamp__wrapper_range-mode_single');
+      } else {
+        this.slider.classList.remove('slider-metalamp__wrapper_range-mode_single');
+      }
+    }
+    if (this.viewControl) {
+      this.viewControl.switchRange(conf);
+    }
   }
 
   public switchScale(conf: IConfFull) {

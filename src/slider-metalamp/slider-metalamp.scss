@@ -11,6 +11,16 @@
     display: flex;
     width: 100%;
 
+    &_range-mode_single {
+      .slider-metalamp {
+        &__control-max {
+          display: none;
+        }
+        // &__tip {
+        // }
+      }
+    }
+
     &_orientation_vertical {
       padding: 50px;
       width: auto;
@@ -147,9 +157,9 @@
       border-radius: 25%;
     }
 
-    &_hidden {
-      display: none;
-    }
+    // &_hidden {
+    //   display: none;
+    // }
   }
 
   &__value {
@@ -205,8 +215,8 @@
     z-index: 1;
     top: -30px;
 
-    &_hidden {
-      display: none;
-    }
+    // &_hidden {
+    //   display: none;
+    // }
   }
 }
