@@ -10,6 +10,6 @@ mixin toggle({name = '', usage = ''} = {})
     usage = getValidValue(validUsages, usage, '')
 
   label(class = elementName)= name
-    input(class = `${elementName}__checkbox js-toggle_usage_${usage}` type = "checkbox" name = name value = name)
+    input(class = `${elementName}__checkbox ${elementName}__checkbox_usage_${usage} js-${elementName}__checkbox_usage_${usage}` type = "checkbox" name = name value = name)
     span(class = `${elementName}__checkmark`)
       span(class = `${elementName}__ball`)

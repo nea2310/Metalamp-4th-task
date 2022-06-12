@@ -22,7 +22,7 @@ mixin radiobuttons(options = {})
           - const {name = '', checked = false} = value
             li(class = `${elementName}__category-wrapper`)
               label(class = `${elementName}__category`)
-                input(class = `${elementName}__category-checkbox js-radiobuttons_usage_${value.usage}` 
+                input(class = `${elementName}__category-checkbox ${elementName}__category-checkbox_usage_${value.usage} js-${elementName}__category-checkbox_usage_${value.usage}` 
                   type = "radio" name = radioGroupName value = name checked = checked)
                 span(class = `${elementName}__category-radiomark`)
                 p(class = `${elementName}__category-name`)= name

@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import $ from 'jquery';
 
 import { IConf } from '../../slider-metalamp/mvc/interface';
@@ -9,8 +8,6 @@ class RangeSlider {
   wrapper: HTMLElement
 
   panel: HTMLElement | undefined
-
-  // panelWrapper: HTMLElement
 
   sliderWrapper: HTMLElement | undefined
 
@@ -171,45 +168,59 @@ class RangeSlider {
 
   private renderPanel() {
     this.panel = RangeSlider.getElement(this.wrapper, '.js-panel');
-    const getElement = (name: string, addToInputsAll: boolean = true): HTMLInputElement => {
-      const elem = this.wrapper.querySelector<HTMLInputElement>(`.js-${name}`);
+    const getElement = (name: string, type = 'input-field', addToInputsAll = true): HTMLInputElement => {
+      let prefix = '';
+      switch (type) {
+        case 'input-field':
+          prefix = `${type}__input_usage_`;
+          break;
+        case 'toggle':
+          prefix = `${type}__checkbox_usage_`;
+          break;
+        case 'radiobuttons':
+          prefix = `${type}__category-checkbox_usage_`;
+          break;
+        default: prefix = '';
+      }
+
+      const element = this.wrapper.querySelector<HTMLInputElement>(`.js-${prefix}${name}`);
       if (addToInputsAll) {
-        if (elem) {
-          this.inputsAll.push(elem);
+        if (element) {
+          this.inputsAll.push(element);
         }
       }
-      return elem as HTMLInputElement;
+      return element as HTMLInputElement;
     };
 
-    this.optionMin = getElement('input_usage_min');
-    this.optionMax = getElement('input_usage_max');
-    this.optionFrom = getElement('input_usage_from');
-    this.optionTo = getElement('input_usage_to');
-    this.optionInterval = getElement('input_usage_interval');
-    this.optionStep = getElement('input_usage_step');
-    this.optionShiftOnKeyDown = getElement('input_usage_shiftOnKeyDown');
-    this.optionShiftOnKeyHold = getElement('input_usage_shiftOnKeyHold');
+    this.optionMin = getElement('min');
+    this.optionMax = getElement('max');
+    this.optionFrom = getElement('from');
+    this.optionTo = getElement('to');
+    this.optionInterval = getElement('interval');
+    this.optionStep = getElement('step');
+    this.optionShiftOnKeyDown = getElement('shiftOnKeyDown');
+    this.optionShiftOnKeyHold = getElement('shiftOnKeyHold');
 
-    this.optionVertical = getElement('toggle_usage_vertical');
-    this.optionRange = getElement('toggle_usage_range');
-    this.optionScale = getElement('toggle_usage_scale');
-    this.optionBar = getElement('toggle_usage_bar');
-    this.optionTip = getElement('toggle_usage_tip');
-    this.optionSticky = getElement('toggle_usage_sticky');
-    this.optionSubscribe = getElement('toggle_usage_subscribe');
-    this.optionDestroy = getElement('toggle_usage_destroy', false);
-    this.optionDisable = getElement('toggle_usage_disable', false);
+    this.optionVertical = getElement('vertical', 'toggle');
+    this.optionRange = getElement('range', 'toggle');
+    this.optionScale = getElement('scale', 'toggle');
+    this.optionBar = getElement('bar', 'toggle');
+    this.optionTip = getElement('tip', 'toggle');
+    this.optionSticky = getElement('sticky', 'toggle');
+    this.optionSubscribe = getElement('subscribe', 'toggle');
+    this.optionDestroy = getElement('destroy', 'toggle', false);
+    this.optionDisable = getElement('disable', 'toggle', false);
 
-    this.scaleBaseSteps = getElement('radiobuttons_usage_step');
-    this.scaleBaseIntervals = getElement('radiobuttons_usage_interval');
+    this.scaleBaseSteps = getElement('step', 'radiobuttons');
+    this.scaleBaseIntervals = getElement('interval', 'radiobuttons');
     const changeHandler = (e: Event) => {
       const input = e.currentTarget as HTMLInputElement;
       if (!input.value) {
         input.value = '0';
       }
     };
-    this.inputsAll.forEach((elem) => {
-      elem.addEventListener('change', changeHandler);
+    this.inputsAll.forEach((element) => {
+      element.addEventListener('change', changeHandler);
     });
   }
 
@@ -239,11 +250,16 @@ class RangeSlider {
       'tip',
       'scaleBase',
     ];
-    const handleChange = (e: Event) => {
+    const handleChange = (event: Event) => {
       if (!this.isDestroyed) {
-        const target = e.target as HTMLInputElement;
-        properties.forEach((elem) => {
-          if (target.closest(`.js-panel__${elem}`)) {
+        const target = event.target as HTMLInputElement;
+        const block = '.js-panel__';
+        const modifier = '-setup-component_type_';
+        properties.forEach((element) => {
+          const condition = (target.closest(`${block}main${modifier}${element}`)
+            || target.closest(`${block}scale${modifier}${element}`)
+            || target.closest(`${block}move${modifier}${element}`));
+          if (condition) {
             let value;
             if (target.type === 'checkbox') {
               value = target.checked;
@@ -252,8 +268,8 @@ class RangeSlider {
             } else if (!Number.isNaN(+target.value)) {
               value = parseFloat(target.value);
             } else value = 0;
-            this.rangeSlider.update({ [elem]: value });
-            if (elem === 'scaleBase') {
+            this.rangeSlider.update({ [element]: value });
+            if (element === 'scaleBase') {
               if (value === 'interval') {
                 if (this.optionInterval) this.optionInterval.disabled = false;
                 if (this.optionStep) this.optionStep.disabled = true;
@@ -263,7 +279,7 @@ class RangeSlider {
                 if (this.optionStep) this.optionStep.disabled = false;
               }
             }
-            if (elem === 'range' && this.optionTo) {
+            if (element === 'range' && this.optionTo) {
               this.optionTo.disabled = !target.checked;
             }
           }
