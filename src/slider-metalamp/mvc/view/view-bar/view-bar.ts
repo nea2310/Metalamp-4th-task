@@ -19,7 +19,7 @@ class ViewBar {
   private render() {
     this.track = ViewBar.getElement(this.slider, '.slider-metalamp__track') as HTMLElement;
     this.progressBar = document.createElement('div');
-    this.progressBar.className = 'slider-metalamp__progressBar';
+    this.progressBar.className = 'slider-metalamp__progress-bar';
     this.track.append(this.progressBar);
   }
 

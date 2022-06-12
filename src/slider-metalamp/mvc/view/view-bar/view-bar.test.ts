@@ -28,7 +28,7 @@ track.className = 'slider-metalamp__track';
 root.appendChild(track);
 const testBar = new ViewBar(root, conf);
 const progressBar = document
-  .getElementsByClassName('slider-metalamp__progressBar')[0] as HTMLElement;
+  .getElementsByClassName('slider-metalamp__progress-bar')[0] as HTMLElement;
 
 describe('ViewControl', () => {
   test('apply styles on calling updateBar method', async () => {
