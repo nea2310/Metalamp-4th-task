@@ -67,6 +67,8 @@ class View extends Observer {
     this.createListeners();
     this.switchVertical(conf);
     this.switchRange(conf);
+    this.switchTip(conf);
+    this.switchScale(conf);
   }
 
   public disable() {
@@ -147,6 +149,13 @@ class View extends Observer {
   }
 
   public switchScale(conf: IConfFull) {
+    if (this.slider) {
+      if (!conf.scale) {
+        this.slider.classList.add('slider-metalamp__wrapper_scale-mode_hidden');
+      } else {
+        this.slider.classList.remove('slider-metalamp__wrapper_scale-mode_hidden');
+      }
+    }
     if (this.viewScale) {
       this.viewScale.switchScale(conf);
     }
@@ -159,6 +168,13 @@ class View extends Observer {
   }
 
   public switchTip(conf: IConfFull) {
+    if (this.slider) {
+      if (!conf.tip) {
+        this.slider.classList.add('slider-metalamp__wrapper_tip-mode_hidden');
+      } else {
+        this.slider.classList.remove('slider-metalamp__wrapper_tip-mode_hidden');
+      }
+    }
     if (this.viewControl) {
       this.viewControl.switchTip(conf);
     }

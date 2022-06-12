@@ -135,61 +135,6 @@ describe('apply styles on calling ViewControl method', () => {
     });
     expect(parent.value).toBe('25, 30');
   });
-
-  test('toggle class hidden on calling switchTip method', async () => {
-    expect(tipMin.classList.contains('slider-metalamp__tip_hidden'))
-      .toBe(false);
-    expect(tipMax.classList.contains('slider-metalamp__tip_hidden'))
-      .toBe(false);
-    await testViewControl.switchTip({
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: false,
-      range: true,
-      bar: true,
-      tip: false,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
-    });
-    expect(tipMin.classList.contains('slider-metalamp__tip_hidden'))
-      .toBe(true);
-    expect(tipMax.classList.contains('slider-metalamp__tip_hidden'))
-      .toBe(true);
-    await testViewControl.switchTip({
-      min: 10,
-      max: 100,
-      from: 20,
-      to: 70,
-      vertical: false,
-      range: true,
-      bar: true,
-      tip: true,
-      scale: true,
-      scaleBase: 'step',
-      step: 10,
-      interval: 0,
-      sticky: false,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-      onStart: () => true,
-      onChange: () => true,
-      onUpdate: () => true,
-    });
-    expect(tipMin.classList.contains('slider-metalamp__tip_hidden'))
-      .toBe(false);
-    expect(tipMax.classList.contains('slider-metalamp__tip_hidden'))
-      .toBe(false);
-  });
 });
 
 describe('ViewControl event listeners', () => {

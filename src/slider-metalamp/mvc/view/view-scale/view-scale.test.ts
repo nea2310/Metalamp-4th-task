@@ -118,15 +118,4 @@ describe('ViewScale', () => {
     expect(testViewScale.createScale(marksArray, conf))
       .toHaveLength(1);
   });
-
-  test('switchScale', () => {
-    const testViewScale = prepareInstance(marksArray, conf, false);
-    testViewScale.createScale(marksArray, { ...conf, scale: false });
-    const a = testViewScale.switchScale(conf);
-    expect(a[0].classList.contains('slider-metalamp__mark_visually-hidden'))
-      .toBe(false);
-    const b = testViewScale.switchScale({ ...conf, scale: false });
-    expect(b[0].classList.contains('slider-metalamp__mark_visually-hidden'))
-      .toBe(true);
-  });
 });

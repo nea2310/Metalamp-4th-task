@@ -1,4 +1,3 @@
-/* eslint-disable fsd/split-conditionals */
 /* eslint-disable max-len */
 import { IConfFull, IdataFull } from '../../interface';
 import Observer from '../../observer';
@@ -123,16 +122,11 @@ class ViewControl extends Observer {
   // включение / отключение подсказок
   public switchTip(conf: IConfFull) {
     this.conf = conf;
-    if (this.conf.tip && this.tipMax && this.tipMin) {
-      this.tipMax.classList.remove('slider-metalamp__tip_hidden');
-      this.tipMin.classList.remove('slider-metalamp__tip_hidden');
+    if (this.tipMax && this.tipMin) {
       if (this.initDone) {
         this.tipMax.style.left = ViewControl.calcTipPos(conf.vertical, this.tipMax);
         this.tipMin.style.left = ViewControl.calcTipPos(conf.vertical, this.tipMin);
       }
-    } else if (this.tipMax && this.tipMin) {
-      this.tipMax.classList.add('slider-metalamp__tip_hidden');
-      this.tipMin.classList.add('slider-metalamp__tip_hidden');
     }
   }
 

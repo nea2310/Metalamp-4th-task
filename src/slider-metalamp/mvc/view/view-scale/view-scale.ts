@@ -79,17 +79,6 @@ class ViewScale {
 
   public switchScale(conf: IConfFull) {
     this.conf = conf;
-    const stepMarks = this.slider.querySelectorAll('.js-slider-metalamp__mark');
-    if (this.conf.scale) {
-      stepMarks.forEach((element) => {
-        element.classList.remove('slider-metalamp__mark_visually-hidden');
-      });
-    } else {
-      stepMarks.forEach((element) => {
-        element.classList.add('slider-metalamp__mark_visually-hidden');
-      });
-    }
-    return stepMarks;
   }
 
   // проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую

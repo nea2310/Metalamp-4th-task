@@ -16,8 +16,22 @@
         &__control-max {
           display: none;
         }
-        // &__tip {
-        // }
+      }
+    }
+
+    &_tip-mode_hidden {
+      .slider-metalamp {
+        &__tip {
+          display: none;
+        }
+      }
+    }
+
+    &_scale-mode_hidden {
+      .slider-metalamp {
+        &__mark {
+          opacity: 0;
+        }
       }
     }
 
@@ -156,10 +170,6 @@
       height: 25px;
       border-radius: 25%;
     }
-
-    // &_hidden {
-    //   display: none;
-    // }
   }
 
   &__value {
@@ -181,9 +191,9 @@
       background-color: $colorDarkShade50;
     }
 
-    &_visually-hidden {
-      opacity: 0;
-    }
+    // &_visually-hidden {
+    //   opacity: 0;
+    // }
   }
 
   &__label {
