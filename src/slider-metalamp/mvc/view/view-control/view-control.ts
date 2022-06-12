@@ -165,9 +165,9 @@ class ViewControl extends Observer {
 
   // Вешаем обработчики события нажатия мышью на ползунке (захвата ползунка) и перемещения ползунка
   private dragControlMouse() {
-    const handlePointerStart = (e: PointerEvent) => {
-      e.preventDefault();
-      const { target } = e;// as HTMLElement;
+    const handlePointerStart = (event: PointerEvent) => {
+      event.preventDefault();
+      const { target } = event;// as HTMLElement;
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
       }
@@ -180,15 +180,15 @@ class ViewControl extends Observer {
         thumb.moovingControl = String(this.defineControl(target));
         // определяем расстояние между позицией клика и левым краем ползунка
         if (!this.conf.vertical) {
-          thumb.shiftBase = e.clientX
+          thumb.shiftBase = event.clientX
             - target.getBoundingClientRect().left;
         }
         this.getMetrics(target);
 
-        const handlePointerMove = (event: PointerEvent) => {
-          thumb.type = event.type;
-          thumb.clientX = event.clientX;
-          thumb.clientY = event.clientY;
+        const handlePointerMove = (innerEvent: PointerEvent) => {
+          thumb.type = innerEvent.type;
+          thumb.clientX = innerEvent.clientX;
+          thumb.clientY = innerEvent.clientY;
           this.fire('MoveEvent', this.data);
         };
 
@@ -203,7 +203,7 @@ class ViewControl extends Observer {
         После такого вызова все события указателя с таким pointerId будут иметь elem в
         качестве целевого элемента (как будто произошли над elem), вне зависимости от того,
         где в документе они произошли. */
-        target.setPointerCapture(e.pointerId);
+        target.setPointerCapture(event.pointerId);
         target.addEventListener('pointermove', handlePointerMove);
         target.addEventListener('pointerup', handlePointerUp);
       }
@@ -217,9 +217,9 @@ class ViewControl extends Observer {
 
   // Вешаем обработчики события нажатия пальцем на ползунке и перемещения ползунка
   private dragControlTouch() {
-    const handlePointerStart = (e: TouchEvent) => {
-      e.preventDefault();
-      const { target } = e;
+    const handlePointerStart = (event: TouchEvent) => {
+      event.preventDefault();
+      const { target } = event;
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
       }
@@ -229,10 +229,10 @@ class ViewControl extends Observer {
         thumb.moovingControl = String(this.defineControl(target));
         this.getMetrics(target);
 
-        const handlePointerMove = (event: TouchEvent) => {
-          thumb.type = event.type;
-          thumb.clientX = event.targetTouches[0] ? event.targetTouches[0].clientX : 0;
-          thumb.clientY = event.targetTouches[0] ? event.targetTouches[0].clientY : 0;
+        const handlePointerMove = (innerEvent: TouchEvent) => {
+          thumb.type = innerEvent.type;
+          thumb.clientX = innerEvent.targetTouches[0] ? innerEvent.targetTouches[0].clientX : 0;
+          thumb.clientY = innerEvent.targetTouches[0] ? innerEvent.targetTouches[0].clientY : 0;
           this.fire('MoveEvent', this.data);
         };
         target.addEventListener('touchmove', handlePointerMove);
@@ -243,12 +243,12 @@ class ViewControl extends Observer {
 
   // Вешаем обработчик нажатия стрелок на сфокусированном ползунке
   private pressControl() {
-    const handlePointerStart = (e: KeyboardEvent) => {
+    const handlePointerStart = (event: KeyboardEvent) => {
       const directions = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
-      const result = directions.indexOf(e.code);
+      const result = directions.indexOf(event.code);
       if (result !== -1) {
-        e.preventDefault();
-        const { target } = e;
+        event.preventDefault();
+        const { target } = event;
         if (!(target instanceof HTMLElement)) {
           throw new Error('Cannot handle move outside of DOM');
         }
@@ -258,8 +258,8 @@ class ViewControl extends Observer {
           // определяем ползунок, на который нажимают
           T.moovingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
 
-          T.key = e.code;
-          T.repeat = e.repeat;
+          T.key = event.code;
+          T.repeat = event.repeat;
           this.fire('KeydownEvent', this.data);
         }
       }
@@ -269,9 +269,9 @@ class ViewControl extends Observer {
 
   // Обработчик клика по шкале
   private clickTrack() {
-    const handlePointerStart = (e: PointerEvent) => {
-      e.preventDefault();
-      const { target } = e;
+    const handlePointerStart = (event: PointerEvent) => {
+      event.preventDefault();
+      const { target } = event;
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
       }
@@ -290,15 +290,15 @@ class ViewControl extends Observer {
         if (this.controlMin && this.controlMax) {
           if (this.conf.vertical) {
             controlMinDist = Math.abs(this.controlMin.getBoundingClientRect()
-              .bottom - e.clientY);
+              .bottom - event.clientY);
             controlMaxDist = Math.abs(this.controlMax
-              .getBoundingClientRect().bottom - e.clientY);
+              .getBoundingClientRect().bottom - event.clientY);
           } else {
             controlMinDist = Math.abs(this.controlMin.getBoundingClientRect().left
-              - e.clientX);
+              - event.clientX);
             controlMaxDist = Math.abs(this.controlMax
               .getBoundingClientRect().left
-              - e.clientX);
+              - event.clientX);
           }
         }
         if (this.track) {
@@ -306,9 +306,9 @@ class ViewControl extends Observer {
           thumb.left = this.track.getBoundingClientRect().left;
           thumb.width = Number(this.track.offsetWidth);
           thumb.height = Number(this.track.offsetHeight);
-          thumb.type = e.type;
-          thumb.clientX = e.clientX;
-          thumb.clientY = e.clientY;
+          thumb.type = event.type;
+          thumb.clientX = event.clientX;
+          thumb.clientY = event.clientY;
         }
 
         // определяем ползунок, находящийся ближе к позиции клика

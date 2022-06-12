@@ -132,12 +132,12 @@ class Model extends Observer {
     // запрещаем ползункам выходить за границы слайдера
     if (newPosition < 0) {
       isStop = true;
-      this.calcVal('min', 0, moovingControl);
+      this.calcValue('min', 0, moovingControl);
       return 'newPosition < 0';
     }
     if (newPosition > 100) {
       isStop = true;
-      this.calcVal('max', 0, moovingControl);
+      this.calcValue('max', 0, moovingControl);
       return 'newPosition > 100';
     }
 
@@ -146,14 +146,14 @@ class Model extends Observer {
       if (moovingControl === 'min') { // двигается min ползунок
         if (newPosition > this.data.toPosition) {
           isStop = true;
-          this.calcVal('meetMax', 0, moovingControl);
+          this.calcValue('meetMax', 0, moovingControl);
           return 'newPosition > toPosition';
         }
       }
       if (moovingControl === 'max') { // двигается max ползунок
         if (newPosition < this.data.fromPosition) {
           isStop = true;
-          this.calcVal('meetMin', 0, moovingControl);
+          this.calcValue('meetMin', 0, moovingControl);
           return 'newPosition < fromPosition';
         }
       }
@@ -166,7 +166,7 @@ class Model extends Observer {
       this.data.toPosition = newPosition;
       this.fire('ToPosition', this.data, this.conf);
     }
-    if (!isStop) { this.calcVal('normal', newPosition, moovingControl); }
+    if (!isStop) { this.calcValue('normal', newPosition, moovingControl); }
 
     this.calcBarLength();
     if (typeof this.onChange === 'function') {
@@ -613,12 +613,12 @@ class Model extends Observer {
   ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления */
     let position = 0;
     for (let i = 0; i < this.data.marksArray.length; i += 1) {
-      let a = 0;
+      let temporaryPosition = 0;
       if (i < this.data.marksArray.length - 1) {
-        a = this.data.marksArray[i + 1].position;
+        temporaryPosition = this.data.marksArray[i + 1].position;
       }
       if (Math.abs(controlPos - this.data.marksArray[i].position)
-        < Math.abs(controlPos - a)) {
+        < Math.abs(controlPos - temporaryPosition)) {
         position = this.data.marksArray[i].position;
         break;
       }
@@ -639,7 +639,7 @@ class Model extends Observer {
       this.data.fromPosition = this.setSticky(this.data.fromPosition);
     }
     if (this.needCalcValue) {
-      this.calcVal('normal', this.data.fromPosition, 'min');
+      this.calcValue('normal', this.data.fromPosition, 'min');
     }
     this.fire('FromPosition', this.data, this.conf);
   }
@@ -652,7 +652,7 @@ class Model extends Observer {
       this.data.toPosition = this.setSticky(this.data.toPosition);
     }
     if (this.needCalcValue) {
-      this.calcVal('normal', this.data.toPosition, 'max');
+      this.calcValue('normal', this.data.toPosition, 'max');
     }
     this.fire('ToPosition', this.data, this.conf);
   }
@@ -720,7 +720,7 @@ class Model extends Observer {
     this.fire('Scale', this.data, this.conf);
   }
 
-  private calcVal(
+  private calcValue(
     stopType: string,
     position: number,
     moovingControl: string,

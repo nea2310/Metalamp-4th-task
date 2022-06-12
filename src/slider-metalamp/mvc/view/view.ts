@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
 /* eslint-disable fsd/split-conditionals */
 import ViewBar from '../view/view-bar/view-bar';
