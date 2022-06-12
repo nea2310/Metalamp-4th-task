@@ -1,0 +1,42 @@
+{
+  "demoHorizontal": {
+    "min": "-100",
+    "max": "100",
+    "from": "-50",
+    "to": "50",
+    "step": "10",
+    "shiftOnKeyHold": "2",
+    "radioGroupName": "demoHorizontal"
+  },
+  "demoVertical": {
+    "min": "-150",
+    "max": "300",
+    "from": "0",
+    "to": "150",
+    "vertical": "true",
+    "step": "10",
+    "shiftOnKeyHold": "5",
+    "sticky": "true",
+    "radioGroupName": "demoVertical"
+  },
+  "demoSingle": {
+    "min": "0",
+    "max": "10",
+    "from": "5",
+    "range": "false",
+    "tip": "false",
+    "scaleBase": "interval",
+    "interval": "20",
+    "shiftOnKeyHold": "5",
+    "sticky": "true",
+    "radioGroupName": "demoSingle"
+  },
+  "demoNoTip": {
+    "min": "0",
+    "max": "10",
+    "from": "5",
+    "range": "false",
+    "scale": "false",
+    "radioGroupName": "demoNoTip"
+  }
+}

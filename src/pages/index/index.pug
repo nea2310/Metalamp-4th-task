@@ -1,52 +1,24 @@
 include ../../components/head/head.pug
 include ../../components/range-slider/range-slider.pug
 
+-
+  const {
+  demoHorizontal,
+  demoVertical,
+  demoSingle,
+  demoNoTip,
+    } = require('@pag/index/index.json')
+
 html(lang = 'ru')
 head
   title Range Slider
 body
   main(class = 'slider-demo')
     div(class='slider-demo__wrapper')
-      +range-slider({
-        min: '-100',
-        max: '100',
-        from: '-50',
-        to: '50',
-        step: '10',
-        shiftOnKeyHold:'2',
-        radioGroupName: 'range-slider1'
-          })
+      +range-slider(demoHorizontal)
     div(class = 'slider-demo__wrapper')
-      +range-slider({
-        min: '-150',
-        max: '300',
-        from: '0',
-        to: '150',
-        vertical: 'true',
-        step:'10',
-        shiftOnKeyHold:'5',
-        sticky: 'true', 
-        radioGroupName: 'range-slider2'
-          })
+      +range-slider(demoVertical)
     div(class = 'slider-demo__wrapper')
-      +range-slider({
-        min: '0',
-        max: '10',
-        from: '5',
-        range: 'false',
-        tip: 'false',
-        scaleBase: 'interval',
-        interval:'20',
-        shiftOnKeyHold:'5',
-        sticky: 'true',
-        radioGroupName: 'range-slider3'
-          })
+      +range-slider(demoSingle)
     div(class = 'slider-demo__wrapper')
-      +range-slider({
-        min: '0',
-        max: '10',
-        from: '5',
-        range: 'false',
-        scale: 'false',
-        radioGroupName: 'range-slider4'
-          })
+      +range-slider(demoNoTip)
