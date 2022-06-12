@@ -1,6 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-console */
-/* eslint-disable fsd/split-conditionals */
 import ViewBar from '../view/view-bar/view-bar';
 import ViewControl from '../view/view-control/view-control';
 import ViewScale from '../view/view-scale/view-scale';
