@@ -29,10 +29,6 @@ class ViewBar {
   // отключение / включение бара
   public switchBar(conf: IConfFull) {
     this.conf = conf;
-    const { classList } = this.progressBar;
-    if (this.conf.bar) { classList.remove('slider-metalamp__progressBar_hidden'); } else {
-      classList.add('slider-metalamp__progressBar_hidden');
-    }
   }
 
   // обновление бара при изменении позиций ползунков

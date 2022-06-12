@@ -69,6 +69,7 @@ class View extends Observer {
     this.switchRange(conf);
     this.switchTip(conf);
     this.switchScale(conf);
+    this.switchBar(conf);
   }
 
   public disable() {
@@ -162,6 +163,13 @@ class View extends Observer {
   }
 
   public switchBar(conf: IConfFull) {
+    if (this.slider) {
+      if (!conf.bar) {
+        this.slider.classList.add('slider-metalamp__wrapper_bar-mode_hidden');
+      } else {
+        this.slider.classList.remove('slider-metalamp__wrapper_bar-mode_hidden');
+      }
+    }
     if (this.viewBar) {
       this.viewBar.switchBar(conf);
     }

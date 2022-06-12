@@ -35,6 +35,14 @@
       }
     }
 
+    &_bar-mode_hidden {
+      .slider-metalamp {
+        &__progressBar {
+          display: none;
+        }
+      }
+    }
+
     &_orientation_vertical {
       padding: 50px;
       width: auto;
@@ -132,10 +140,6 @@
     height: 8px;
     left: 15px;
     border-radius: 3px;
-
-    &_hidden {
-      display: none;
-    }
   }
 
   &__control {
@@ -190,10 +194,6 @@
     &_no-label {
       background-color: $colorDarkShade50;
     }
-
-    // &_visually-hidden {
-    //   opacity: 0;
-    // }
   }
 
   &__label {
@@ -224,9 +224,5 @@
     background: $colorBlue;
     z-index: 1;
     top: -30px;
-
-    // &_hidden {
-    //   display: none;
-    // }
   }
 }

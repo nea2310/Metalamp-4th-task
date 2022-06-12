@@ -31,23 +31,6 @@ const progressBar = document
   .getElementsByClassName('slider-metalamp__progressBar')[0] as HTMLElement;
 
 describe('ViewControl', () => {
-  test('toggle class hidden on calling switchBar method', async () => {
-    expect(progressBar.classList
-      .contains('slider-metalamp__progressBar_hidden'))
-      .toBe(true);
-    await testBar.switchBar({
-      ...conf,
-      bar: true,
-    });
-    expect(progressBar.classList
-      .contains('slider-metalamp__progressBar_hidden'))
-      .toBe(false);
-    await testBar.switchBar(conf);
-    expect(progressBar.classList
-      .contains('slider-metalamp__progressBar_hidden'))
-      .toBe(true);
-  });
-
   test('apply styles on calling updateBar method', async () => {
     expect(progressBar)
       .toHaveProperty('style.left', '');
