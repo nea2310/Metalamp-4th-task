@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1655036532210" clover="3.2.0">
-  <project timestamp="1655036532210" name="All files">
-    <metrics statements="887" coveredstatements="819" conditionals="343" coveredconditionals="275" methods="125" coveredmethods="122" elements="1355" coveredelements="1216" complexity="0" loc="887" ncloc="887" packages="8" files="9" classes="9"/>
+<coverage generated="1655037811395" clover="3.2.0">
+  <project timestamp="1655037811395" name="All files">
+    <metrics statements="889" coveredstatements="821" conditionals="344" coveredconditionals="276" methods="126" coveredmethods="123" elements="1359" coveredelements="1220" complexity="0" loc="889" ncloc="889" packages="8" files="9" classes="9"/>
     <package name="slider-metalamp">
       <metrics statements="8" coveredstatements="8" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
       <file name="slider-metalamp.ts" path="C:\Users\Екатерина\Documents\GIT\Metalamp-4th-task\src\slider-metalamp\slider-metalamp.ts">
@@ -657,29 +657,31 @@
       </file>
     </package>
     <package name="slider-metalamp.mvc.view.view-bar">
-      <metrics statements="20" coveredstatements="20" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="3"/>
+      <metrics statements="22" coveredstatements="22" conditionals="3" coveredconditionals="3" methods="4" coveredmethods="4"/>
       <file name="view-bar.ts" path="C:\Users\Екатерина\Documents\GIT\Metalamp-4th-task\src\slider-metalamp\mvc\view\view-bar\view-bar.ts">
-        <metrics statements="20" coveredstatements="20" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="3"/>
+        <metrics statements="22" coveredstatements="22" conditionals="3" coveredconditionals="3" methods="4" coveredmethods="4"/>
         <line num="2" count="5" type="stmt"/>
         <line num="11" count="5" type="stmt"/>
         <line num="14" count="5" type="stmt"/>
         <line num="15" count="5" type="stmt"/>
         <line num="16" count="5" type="stmt"/>
-        <line num="17" count="5" type="stmt"/>
-        <line num="18" count="5" type="stmt"/>
-        <line num="19" count="5" type="stmt"/>
+        <line num="20" count="5" type="stmt"/>
+        <line num="21" count="5" type="stmt"/>
+        <line num="22" count="5" type="stmt"/>
         <line num="23" count="5" type="stmt"/>
-        <line num="28" count="12" type="stmt"/>
-        <line num="29" count="12" type="cond" truecount="2" falsecount="0"/>
-        <line num="30" count="10" type="stmt"/>
-        <line num="31" count="10" type="stmt"/>
-        <line num="32" count="10" type="stmt"/>
-        <line num="33" count="10" type="stmt"/>
-        <line num="35" count="2" type="stmt"/>
-        <line num="36" count="2" type="stmt"/>
-        <line num="37" count="2" type="stmt"/>
-        <line num="38" count="2" type="stmt"/>
-        <line num="43" count="5" type="stmt"/>
+        <line num="27" count="5" type="stmt"/>
+        <line num="32" count="12" type="cond" truecount="1" falsecount="0"/>
+        <line num="33" count="12" type="stmt"/>
+        <line num="34" count="12" type="cond" truecount="2" falsecount="0"/>
+        <line num="35" count="10" type="stmt"/>
+        <line num="36" count="10" type="stmt"/>
+        <line num="37" count="10" type="stmt"/>
+        <line num="38" count="10" type="stmt"/>
+        <line num="40" count="2" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="49" count="5" type="stmt"/>
       </file>
     </package>
     <package name="slider-metalamp.mvc.view.view-control">
