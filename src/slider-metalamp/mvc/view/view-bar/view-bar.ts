@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable class-methods-use-this */
 import { IConfFull } from '../../interface';
 import { defaultConf } from '../../utils';
 
@@ -19,16 +17,10 @@ class ViewBar {
     this.progressBar = document.createElement('div');
     this.progressBar.className = 'slider-metalamp__progressBar';
     this.track.append(this.progressBar);
-    this.switchBar(conf);
   }
 
   static getElement(object: HTMLElement, selector: string) {
     return object.querySelector(selector);
-  }
-
-  // отключение / включение бара
-  public switchBar(conf: IConfFull) {
-    this.conf = conf;
   }
 
   // обновление бара при изменении позиций ползунков

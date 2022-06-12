@@ -170,19 +170,19 @@ describe('ViewScale', () => {
     expect(updateBarSpy).toBeCalledWith(10, 100, true);
   });
 
-  test('switchScale', () => {
-    const switchScaleSpy = jest.spyOn(testViewScale, 'switchScale');
-    testView.switchScale({ ...conf, vertical: true });
-    expect(switchScaleSpy).toBeCalledTimes(1);
-    expect(switchScaleSpy).toBeCalledWith({ ...conf, vertical: true });
-  });
+  // test('switchScale', () => {
+  //   const switchScaleSpy = jest.spyOn(testViewScale, 'switchScale');
+  //   testView.switchScale({ ...conf, vertical: true });
+  //   expect(switchScaleSpy).toBeCalledTimes(1);
+  //   expect(switchScaleSpy).toBeCalledWith({ ...conf, vertical: true });
+  // });
 
-  test('switchBar', () => {
-    const switchBarSpy = jest.spyOn(testViewBar, 'switchBar');
-    testView.switchBar({ ...conf, bar: false });
-    expect(switchBarSpy).toBeCalledTimes(1);
-    expect(switchBarSpy).toBeCalledWith({ ...conf, bar: false });
-  });
+  // test('switchBar', () => {
+  //   const switchBarSpy = jest.spyOn(testViewBar, 'switchBar');
+  //   testView.switchBar({ ...conf, bar: false });
+  //   expect(switchBarSpy).toBeCalledTimes(1);
+  //   expect(switchBarSpy).toBeCalledWith({ ...conf, bar: false });
+  // });
 
   test('switchTip', async () => {
     const switchTipSpy = jest.spyOn(testViewControl, 'switchTip');

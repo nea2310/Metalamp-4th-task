@@ -124,67 +124,39 @@ class View extends Observer {
   }
 
   public switchVertical(conf: IConfFull) {
-    if (this.slider) {
-      if (conf.vertical) {
-        this.slider.classList.add('slider-metalamp__wrapper_orientation_vertical');
-      } else {
-        this.slider.classList.remove('slider-metalamp__wrapper_orientation_vertical');
-      }
-    }
+    this.changeMode(conf.vertical, 'orientation_vertical');
     if (this.viewControl) {
       this.viewControl.switchVertical(conf);
     }
   }
 
   public switchRange(conf: IConfFull) {
-    if (this.slider) {
-      if (!conf.range) {
-        this.slider.classList.add('slider-metalamp__wrapper_range-mode_single');
-      } else {
-        this.slider.classList.remove('slider-metalamp__wrapper_range-mode_single');
-      }
-    }
-    if (this.viewControl) {
-      this.viewControl.switchRange(conf);
-    }
+    this.changeMode(!conf.range, 'range-mode_single');
   }
 
   public switchScale(conf: IConfFull) {
-    if (this.slider) {
-      if (!conf.scale) {
-        this.slider.classList.add('slider-metalamp__wrapper_scale-mode_hidden');
-      } else {
-        this.slider.classList.remove('slider-metalamp__wrapper_scale-mode_hidden');
-      }
-    }
-    if (this.viewScale) {
-      this.viewScale.switchScale(conf);
-    }
+    this.changeMode(!conf.scale, 'scale-mode_hidden');
   }
 
   public switchBar(conf: IConfFull) {
-    if (this.slider) {
-      if (!conf.bar) {
-        this.slider.classList.add('slider-metalamp__wrapper_bar-mode_hidden');
-      } else {
-        this.slider.classList.remove('slider-metalamp__wrapper_bar-mode_hidden');
-      }
-    }
-    if (this.viewBar) {
-      this.viewBar.switchBar(conf);
-    }
+    this.changeMode(!conf.bar, 'bar-mode_hidden');
   }
 
   public switchTip(conf: IConfFull) {
-    if (this.slider) {
-      if (!conf.tip) {
-        this.slider.classList.add('slider-metalamp__wrapper_tip-mode_hidden');
-      } else {
-        this.slider.classList.remove('slider-metalamp__wrapper_tip-mode_hidden');
-      }
-    }
+    this.changeMode(!conf.tip, 'tip-mode_hidden');
     if (this.viewControl) {
       this.viewControl.switchTip(conf);
+    }
+  }
+
+  private changeMode(parameter: any, modifier: string) {
+    const className = `slider-metalamp__wrapper_${modifier}`;
+    if (this.slider) {
+      if (parameter) {
+        this.slider.classList.add(className);
+      } else {
+        this.slider.classList.remove(className);
+      }
     }
   }
 

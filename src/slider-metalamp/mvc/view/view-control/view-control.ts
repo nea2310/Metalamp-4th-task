@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { IConfFull, IdataFull } from '../../interface';
 import Observer from '../../observer';
 import { defaultData, defaultThumb } from '../../utils';
@@ -114,14 +113,8 @@ class ViewControl extends Observer {
     this.conf = conf;
   }
 
-  // включение / отключение single режима
-  public switchRange(conf: IConfFull) {
-    this.conf = conf;
-  }
-
   // включение / отключение подсказок
   public switchTip(conf: IConfFull) {
-    this.conf = conf;
     if (this.tipMax && this.tipMin) {
       if (this.initDone) {
         this.tipMax.style.left = ViewControl.calcTipPos(conf.vertical, this.tipMax);
@@ -154,8 +147,6 @@ class ViewControl extends Observer {
   // Инициализация
   private init(conf: IConfFull) {
     this.conf = conf;
-    this.switchRange(this.conf);
-    this.switchTip(this.conf);
   }
 
   private defineControl = (elem: ITarget) => {
@@ -165,11 +156,11 @@ class ViewControl extends Observer {
 
   private getMetrics(elem: ITarget) {
     const scale = elem.parentElement as HTMLElement;
-    const T = this.data.thumb;
-    T.top = scale.getBoundingClientRect().top;
-    T.left = scale.getBoundingClientRect().left;
-    T.width = scale.offsetWidth;
-    T.height = scale.offsetHeight;
+    const { thumb } = this.data;
+    thumb.top = scale.getBoundingClientRect().top;
+    thumb.left = scale.getBoundingClientRect().left;
+    thumb.width = scale.offsetWidth;
+    thumb.height = scale.offsetHeight;
   }
 
   // Вешаем обработчики события нажатия мышью на ползунке (захвата ползунка) и перемещения ползунка
@@ -183,21 +174,21 @@ class ViewControl extends Observer {
       if (target.classList.contains('slider-metalamp__control')) {
         target.classList.add('slider-metalamp__control_grabbing');
       }
-      const T = this.data.thumb;
+      const { thumb } = this.data;
       if (target.classList.contains('slider-metalamp__control')) {
         // определяем ползунок, за который тянут
-        T.moovingControl = String(this.defineControl(target));
+        thumb.moovingControl = String(this.defineControl(target));
         // определяем расстояние между позицией клика и левым краем ползунка
         if (!this.conf.vertical) {
-          T.shiftBase = e.clientX
+          thumb.shiftBase = e.clientX
             - target.getBoundingClientRect().left;
         }
         this.getMetrics(target);
 
         const handlePointerMove = (event: PointerEvent) => {
-          T.type = event.type;
-          T.clientX = event.clientX;
-          T.clientY = event.clientY;
+          thumb.type = event.type;
+          thumb.clientX = event.clientX;
+          thumb.clientY = event.clientY;
           this.fire('MoveEvent', this.data);
         };
 

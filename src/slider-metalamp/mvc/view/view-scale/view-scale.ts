@@ -77,10 +77,6 @@ class ViewScale {
     return this.checkScaleLength(this.markList);
   }
 
-  public switchScale(conf: IConfFull) {
-    this.conf = conf;
-  }
-
   // проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
   private checkScaleLength(markList: Element[]) {
     // деактивируем правило ESLint, т.к. это рекурсивная функция
@@ -160,7 +156,7 @@ class ViewScale {
   }
 
   private resize() {
-    // запомгим ширину враппера до ресайза
+    // запомним ширину враппера до ресайза
     this.startWidth = this.slider.offsetWidth;
     const handleResize = () => {
       const totalWidth = this.slider.offsetWidth;
