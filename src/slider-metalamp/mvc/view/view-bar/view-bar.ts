@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable class-methods-use-this */
 import { IConfFull } from '../../interface';
 import { defaultConf } from '../../utils';
 
@@ -22,14 +24,6 @@ class ViewBar {
 
   static getElement(object: HTMLElement, selector: string) {
     return object.querySelector(selector);
-  }
-
-  // переключение в вертикальный режим
-  public switchVertical(conf: IConfFull) {
-    const { classList } = this.progressBar;
-    if (conf.vertical) {
-      classList.add('slider-metalamp__progressBar__orientation_vertical');
-    } else { classList.remove('slider-metalamp__progressBar__orientation_vertical'); }
   }
 
   // отключение / включение бара

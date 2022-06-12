@@ -119,19 +119,14 @@ class View extends Observer {
   }
 
   public switchVertical(conf: IConfFull) {
-    if (this.slider && this.track && this.frame) {
+    if (this.slider) {
       if (conf.vertical) {
-        this.slider.classList.add('slider-metalamp__wrapper__orientation_vertical');
-        this.track.classList.add('slider-metalamp__track__orientation_vertical');
-        this.frame.classList.add('slider-metalamp__frame__orientation_vertical');
+        this.slider.classList.add('slider-metalamp__wrapper_orientation_vertical');
       } else {
-        this.slider.classList.remove('slider-metalamp__wrapper__orientation_vertical');
-        this.track.classList.remove('slider-metalamp__track__orientation_vertical');
-        this.frame.classList.remove('slider-metalamp__frame__orientation_vertical');
+        this.slider.classList.remove('slider-metalamp__wrapper_orientation_vertical');
       }
     }
-    if (this.viewBar && this.viewControl) {
-      this.viewBar.switchVertical(conf);
+    if (this.viewControl) {
       this.viewControl.switchVertical(conf);
     }
   }

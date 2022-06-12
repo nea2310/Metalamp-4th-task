@@ -113,27 +113,6 @@ class ViewControl extends Observer {
   // включение / отключение вертикального режима
   public switchVertical(conf: IConfFull) {
     this.conf = conf;
-    if (this.controlMax && this.tipMax && this.controlMin && this.tipMin) {
-      if (this.conf.vertical) {
-        this.controlMax.classList.add('slider-metalamp__control__orientation_vertical');
-        this.tipMax.classList.add('slider-metalamp__tip__orientation_vertical');
-        this.controlMin.classList.add('slider-metalamp__control__orientation_vertical');
-        this.tipMin.classList.add('slider-metalamp__tip__orientation_vertical');
-        this.controlMax.classList.remove('slider-metalamp__control_horizontal');
-        this.tipMax.classList.remove('slider-metalamp__tip_horizontal');
-        this.controlMin.classList.remove('slider-metalamp__control_horizontal');
-        this.tipMin.classList.remove('slider-metalamp__tip_horizontal');
-      } else {
-        this.controlMax.classList.remove('slider-metalamp__control__orientation_vertical');
-        this.tipMax.classList.remove('slider-metalamp__tip__orientation_vertical');
-        this.controlMin.classList.remove('slider-metalamp__control__orientation_vertical');
-        this.tipMin.classList.remove('slider-metalamp__tip__orientation_vertical');
-        this.controlMax.classList.add('slider-metalamp__control_horizontal');
-        this.tipMax.classList.add('slider-metalamp__tip_horizontal');
-        this.controlMin.classList.add('slider-metalamp__control_horizontal');
-        this.tipMin.classList.add('slider-metalamp__tip_horizontal');
-      }
-    }
   }
 
   // включение / отключение single режима

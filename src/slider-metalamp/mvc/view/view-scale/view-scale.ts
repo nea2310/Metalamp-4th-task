@@ -55,12 +55,8 @@ class ViewScale {
         element.appendChild(label);
 
         if (conf.vertical) {
-          element.classList.add('slider-metalamp__mark__orientation_vertical');
-          label.classList.add('slider-metalamp__label__orientation_vertical');
           element.style.bottom = `${String(node.position)}%`;
         } else {
-          element.classList.add('slider-metalamp__mark_horizontal');
-          label.classList.add('slider-metalamp__label_horizontal');
           element.style.left = `${String(node.position)}%`;
         }
         if (!conf.scale) {

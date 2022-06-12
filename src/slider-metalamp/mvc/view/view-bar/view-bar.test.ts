@@ -31,24 +31,6 @@ const progressBar = document
   .getElementsByClassName('slider-metalamp__progressBar')[0] as HTMLElement;
 
 describe('ViewControl', () => {
-  test('toggle class _orientation_vertical on calling switchVertical method', async () => {
-    expect(progressBar.classList.contains('slider-metalamp__progressBar__orientation_vertical'))
-      .toBe(false);
-    await testBar.switchVertical({
-      ...conf,
-      vertical: true,
-      bar: true,
-    });
-    expect(progressBar.classList.contains('slider-metalamp__progressBar__orientation_vertical'))
-      .toBe(true);
-    await testBar.switchVertical({
-      ...conf,
-      bar: true,
-    });
-    expect(progressBar.classList.contains('slider-metalamp__progressBar__orientation_vertical'))
-      .toBe(false);
-  });
-
   test('toggle class hidden on calling switchBar method', async () => {
     expect(progressBar.classList
       .contains('slider-metalamp__progressBar_hidden'))
