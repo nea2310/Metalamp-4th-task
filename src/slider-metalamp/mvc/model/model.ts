@@ -19,7 +19,7 @@ class Model extends Observer {
 
   private startConf: IConf;
 
-  private backEndConf: IConf = {};
+  private dataAttributesConf: IConf = {};
 
   private methods: Imethods;
 
@@ -58,8 +58,8 @@ class Model extends Observer {
   }
 
   public getConf(conf: IConf) {
-    this.backEndConf = conf;
-    const joinedConf = { ...this.conf, ...this.startConf, ...this.backEndConf };
+    this.dataAttributesConf = conf;
+    const joinedConf = { ...this.conf, ...this.startConf, ...this.dataAttributesConf };
     // проверим корректность полученных параметров конфигурации и при необходимости - исправим
     this.conf = Model.checkConf(joinedConf);
     return this.conf;

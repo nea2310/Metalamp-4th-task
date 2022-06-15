@@ -58,7 +58,7 @@ class Controller extends Observer {
 
   private init() {
     if (this.view && this.model) {
-      this.model.getConf(this.view.backEndConf);
+      this.model.getConf(this.view.dataAttributesConf);
       this.view.init(this.model.conf);
       this.model.start();
     }

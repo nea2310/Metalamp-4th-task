@@ -24,7 +24,7 @@ class View extends Observer {
 
   public viewBar: ViewBar | undefined;
 
-  public backEndConf: IConf = {};
+  public dataAttributesConf: IConf = {};
 
   public slider: HTMLElement | undefined;
 
@@ -159,7 +159,7 @@ class View extends Observer {
   }
 
   private collectParms() {
-    this.backEndConf = {};
+    this.dataAttributesConf = {};
     const map = new Map();
     const properties = [
       'min',
@@ -213,7 +213,7 @@ class View extends Observer {
         map.delete(key);
       }
     });
-    this.backEndConf = Object.fromEntries(map.entries());
+    this.dataAttributesConf = Object.fromEntries(map.entries());
   }
 
   private createSubViews() {
