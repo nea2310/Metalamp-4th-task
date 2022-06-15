@@ -48,8 +48,7 @@ class ViewControl extends Observer {
 
     this.render();
     this.init(conf);
-    this.dragControlMouse();
-    this.dragControlTouch();
+    this.dragControl();
     this.pressControl();
     this.clickTrack();
   }
@@ -163,11 +162,11 @@ class ViewControl extends Observer {
     thumb.height = scale.offsetHeight;
   }
 
-  // Вешаем обработчики события нажатия мышью на ползунке (захвата ползунка) и перемещения ползунка
-  private dragControlMouse() {
+  // Вешаем обработчики события нажатия на ползунке (захвата ползунка) и перемещения ползунка
+  private dragControl() {
     const handlePointerStart = (event: PointerEvent) => {
       event.preventDefault();
-      const { target } = event;// as HTMLElement;
+      const { target } = event;
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
       }
@@ -213,32 +212,6 @@ class ViewControl extends Observer {
     this.slider.addEventListener('pointerdown', handlePointerStart);
     this.slider.addEventListener('dragstart', handleDragSelectStart);
     this.slider.addEventListener('selectstart', handleDragSelectStart);
-  }
-
-  // Вешаем обработчики события нажатия пальцем на ползунке и перемещения ползунка
-  private dragControlTouch() {
-    const handlePointerStart = (event: TouchEvent) => {
-      event.preventDefault();
-      const { target } = event;
-      if (!(target instanceof HTMLElement)) {
-        throw new Error('Cannot handle move outside of DOM');
-      }
-      const { thumb } = this.data;
-      if (target.classList.contains('slider-metalamp__control')) {
-        // определяем ползунок, за который тянут
-        thumb.moovingControl = String(this.defineControl(target));
-        this.getMetrics(target);
-
-        const handlePointerMove = (innerEvent: TouchEvent) => {
-          thumb.type = innerEvent.type;
-          thumb.clientX = innerEvent.targetTouches[0] ? innerEvent.targetTouches[0].clientX : 0;
-          thumb.clientY = innerEvent.targetTouches[0] ? innerEvent.targetTouches[0].clientY : 0;
-          this.fire('MoveEvent', this.data);
-        };
-        target.addEventListener('touchmove', handlePointerMove);
-      }
-    };
-    this.slider.addEventListener('touchstart', handlePointerStart);
   }
 
   // Вешаем обработчик нажатия стрелок на сфокусированном ползунке

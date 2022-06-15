@@ -10,6 +10,7 @@
     position: relative;
     display: flex;
     width: 100%;
+    touch-action: none;
 
     &_range-mode_single {
       .slider-metalamp__control-max {

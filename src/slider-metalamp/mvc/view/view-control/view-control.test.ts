@@ -21,19 +21,6 @@ function mockPointerEvent(element: HTMLElement, {
   element.dispatchEvent(pointerEvent);
 }
 
-function mockTouchEvent(
-  element: HTMLElement,
-  { eventType }: { eventType: string },
-): void {
-  const touchEvent = new TouchEvent(
-    eventType,
-    {
-      bubbles: true,
-    },
-  );
-  element.dispatchEvent(touchEvent);
-}
-
 function mockKeyboardEvent(
   element: HTMLElement,
   { eventType, key = 'ArrowLeft', repeat = false }:
@@ -140,31 +127,6 @@ describe('apply styles on calling ViewControl method', () => {
 describe('ViewControl event listeners', () => {
   afterEach(() => {
     calcPosSpy.mockClear();
-  });
-
-  test('notifies observer about control mooving made by touching', () => {
-    mockTouchEvent(
-      controlMax,
-      { eventType: 'touchstart' },
-    );
-    mockTouchEvent(
-      controlMax,
-      { eventType: 'touchmove' },
-    );
-    expect(calcPosSpy).toBeCalledTimes(1);
-    expect(calcPosSpy).toBeCalledWith(
-      {
-        type: 'touchmove',
-        clientY: 0,
-        clientX: 0,
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0,
-        shiftBase: 0,
-        moovingControl: 'max',
-      },
-    );
   });
 
   test('notifies observer about control mooving made by mouse', () => {
