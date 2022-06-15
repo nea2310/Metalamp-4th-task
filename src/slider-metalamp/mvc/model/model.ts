@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   IConfFull,
   IConf,
@@ -454,24 +455,25 @@ class Model extends Observer {
     this.conf = conf;
     // запустим методы, для которых есть изменившиеся параметры
     const keys = Object.keys(this.methods);
-    for (let i = 0; i < keys.length; i += 1) {
-      const key = keys[i] as keyof Imethods;
+
+    keys.forEach((element: string) => {
+      const key = element as keyof Imethods;
       if (this.methods[key]) {
         this[key]();
       }
-    }
+    });
 
     if (typeof this.onUpdate === 'function') {
       this.onUpdate(this.conf);
     }
 
     // вернем исходные значения (false)
-    for (let i = 0; i < keys.length; i += 1) {
-      const key = keys[i] as keyof Imethods;
+    keys.forEach((element: string) => {
+      const key = element as keyof Imethods;
       if (this.methods[key]) {
         this.methods[key] = false;
       }
-    }
+    });
     this.needCalcValue = true;
 
     return Object.assign(this.conf, this.data);
@@ -483,8 +485,8 @@ class Model extends Observer {
   одного и того же метода в модели */
   private findChangedConf(currentConf: IConfFull, newConf: IConf) {
     const keys = Object.keys(newConf);
-    for (let i = 0; i < keys.length; i += 1) {
-      const key = keys[i] as keyof IConf;
+    keys.forEach((element: string) => {
+      const key = element as keyof IConf;
       if (newConf[key] !== currentConf[key]) {
         switch (key) {
           case 'min':
@@ -559,7 +561,8 @@ class Model extends Observer {
           default: return true;
         }
       }
-    }
+      return true;
+    });
     return this.methods;
   }
 
