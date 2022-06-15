@@ -84,7 +84,7 @@ class Model extends Observer {
 
   /* Рассчитываем положение ползунка при возникновении события перетягивания ползунка или
   щелчка по шкале */
-  public calcPos(
+  public calcPositionSetByPointer(
     data: {
       type: string,
       clientY: number,
@@ -176,7 +176,7 @@ class Model extends Observer {
   }
 
   // Рассчитывает значение ползунка при нажатии кнопки стрелки на сфокусированном ползунке
-  public calcPosKey(data:
+  public calcPositionSetByKey(data:
     {
       key: string,
       repeat: boolean,

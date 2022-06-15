@@ -68,8 +68,8 @@ const testView = new View(parent);
 new Controller(testModel, testView);
 const testViewControl = testView.viewControl as ViewControl;
 
-const calcPosSpy = jest.spyOn(testModel, 'calcPos');
-const calcPosKeySpy = jest.spyOn(testModel, 'calcPosKey');
+const calcPositionSpy = jest.spyOn(testModel, 'calcPositionSetByPointer');
+const calcPositionSetByKeySpy = jest.spyOn(testModel, 'calcPositionSetByKey');
 
 const controlMax = getElem('slider-metalamp__control-max');
 const tipMin = getElem('slider-metalamp__tip-min');
@@ -126,7 +126,7 @@ describe('apply styles on calling ViewControl method', () => {
 
 describe('ViewControl event listeners', () => {
   afterEach(() => {
-    calcPosSpy.mockClear();
+    calcPositionSpy.mockClear();
   });
 
   test('notifies observer about control mooving made by mouse', () => {
@@ -138,8 +138,8 @@ describe('ViewControl event listeners', () => {
       controlMax,
       { eventType: 'pointermove', clientY: 100, clientX: 1000 },
     );
-    expect(calcPosSpy).toBeCalledTimes(1);
-    expect(calcPosSpy).toBeCalledWith(
+    expect(calcPositionSpy).toBeCalledTimes(1);
+    expect(calcPositionSpy).toBeCalledWith(
       {
         type: 'pointermove',
         clientY: 100,
@@ -159,8 +159,8 @@ describe('ViewControl event listeners', () => {
       track,
       { eventType: 'pointerdown', clientY: 100, clientX: 100 },
     );
-    expect(calcPosSpy).toBeCalledTimes(1);
-    expect(calcPosSpy).toBeCalledWith(
+    expect(calcPositionSpy).toBeCalledTimes(1);
+    expect(calcPositionSpy).toBeCalledWith(
       {
         type: 'pointerdown',
         clientY: 100,
@@ -180,8 +180,8 @@ describe('ViewControl event listeners', () => {
       controlMax,
       { eventType: 'keydown', key: 'ArrowLeft', repeat: false },
     );
-    expect(calcPosKeySpy).toBeCalledTimes(1);
-    expect(calcPosKeySpy).toBeCalledWith({
+    expect(calcPositionSetByKeySpy).toBeCalledTimes(1);
+    expect(calcPositionSetByKeySpy).toBeCalledWith({
       key: 'ArrowLeft',
       repeat: false,
       moovingControl: 'max',

@@ -181,7 +181,7 @@ class Controller extends Observer {
   private handleMoveEvent = (parms: IFireParms) => {
     if (parms.key !== 'MoveEvent') return;
     if (this.model) {
-      this.model.calcPos({
+      this.model.calcPositionSetByPointer({
         type: parms.data.thumb.type,
         clientY: parms.data.thumb.clientY,
         clientX: parms.data.thumb.clientX,
@@ -198,7 +198,7 @@ class Controller extends Observer {
   private handleKeydownEvent = (parms: IFireParms) => {
     if (parms.key !== 'KeydownEvent') return;
     if (this.model) {
-      this.model.calcPosKey({
+      this.model.calcPositionSetByKey({
         key: parms.data.thumb.key,
         repeat: parms.data.thumb.repeat,
         moovingControl: parms.data.thumb.moovingControl,

@@ -2,8 +2,8 @@
 import { IConf } from '../interface';
 import Model from '../model/model';
 
-describe('model, calcPos and calcPosKey methods', () => {
-  test('calcPos, no Sticky', async () => {
+describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () => {
+  test('calcPositionSetByPointer, no Sticky', async () => {
     const conf: IConf = {
       min: 10,
       max: 100,
@@ -17,7 +17,7 @@ describe('model, calcPos and calcPosKey methods', () => {
     const testModel = new Model(conf);
     testModel.getConf(conf);
     testModel.start();
-    expect(testModel.calcPos(
+    expect(testModel.calcPositionSetByPointer(
       {
         type: 'pointerevent',
         clientY: 50,
@@ -32,7 +32,7 @@ describe('model, calcPos and calcPosKey methods', () => {
     ))
       .toBe('newPosition < 0');
 
-    expect(testModel.calcPos(
+    expect(testModel.calcPositionSetByPointer(
       {
         type: 'pointerevent',
         clientY: 50,
@@ -47,7 +47,7 @@ describe('model, calcPos and calcPosKey methods', () => {
     ))
       .toBe('newPosition > 100');
 
-    expect(testModel.calcPos(
+    expect(testModel.calcPositionSetByPointer(
       {
         type: 'pointerevent',
         clientY: 0,
@@ -62,7 +62,7 @@ describe('model, calcPos and calcPosKey methods', () => {
     ))
       .toBe(25);
 
-    expect(testModel.calcPos(
+    expect(testModel.calcPositionSetByPointer(
       {
         type: 'pointerevent',
         clientY: 0,
@@ -77,7 +77,7 @@ describe('model, calcPos and calcPosKey methods', () => {
     ))
       .toBe(50);
 
-    expect(testModel.calcPos(
+    expect(testModel.calcPositionSetByPointer(
       {
         type: 'pointerevent',
         clientY: 0,
@@ -92,7 +92,7 @@ describe('model, calcPos and calcPosKey methods', () => {
     ))
       .toBe('newPosition < fromPosition');
 
-    expect(testModel.calcPos(
+    expect(testModel.calcPositionSetByPointer(
       {
         type: 'pointerevent',
         clientY: 0,
@@ -123,7 +123,7 @@ describe('model, calcPos and calcPosKey methods', () => {
     testModel.getConf(conf);
     testModel.start();
 
-    expect(testModel.calcPos(
+    expect(testModel.calcPositionSetByPointer(
       {
         type: 'pointerevent',
         clientY: 50,
@@ -138,7 +138,7 @@ describe('model, calcPos and calcPosKey methods', () => {
     ))
       .toBe(0);
 
-    expect(testModel.calcPos(
+    expect(testModel.calcPositionSetByPointer(
       {
         type: 'pointerevent',
         clientY: 50,
@@ -153,7 +153,7 @@ describe('model, calcPos and calcPosKey methods', () => {
     ))
       .toBe(100);
 
-    expect(testModel.calcPos(
+    expect(testModel.calcPositionSetByPointer(
       {
         type: 'pointerevent',
         clientY: 0,
@@ -168,7 +168,7 @@ describe('model, calcPos and calcPosKey methods', () => {
     ))
       .toBe(30);
 
-    expect(testModel.calcPos(
+    expect(testModel.calcPositionSetByPointer(
       {
         type: 'pointerevent',
         clientY: 0,
@@ -183,7 +183,7 @@ describe('model, calcPos and calcPosKey methods', () => {
     ))
       .toBe(50);
 
-    expect(testModel.calcPos(
+    expect(testModel.calcPositionSetByPointer(
       {
         type: 'pointerevent',
         clientY: 0,
@@ -198,7 +198,7 @@ describe('model, calcPos and calcPosKey methods', () => {
     ))
       .toBe('newPosition < fromPosition');
 
-    expect(testModel.calcPos(
+    expect(testModel.calcPositionSetByPointer(
       {
         type: 'pointerevent',
         clientY: 0,
@@ -215,7 +215,7 @@ describe('model, calcPos and calcPosKey methods', () => {
   });
 
   test(
-    'calcPosKey, no Sticky',
+    'calcPositionSetByKey, no Sticky',
 
     async () => {
       const conf: IConf = {
@@ -232,7 +232,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       await testModel.getConf(conf);
       await testModel.start();
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowLeft',
           repeat: false,
@@ -241,7 +241,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toBe(10); // from < min
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowLeft',
           repeat: true,
@@ -250,7 +250,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toBe(10); // from < min
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowRight',
           repeat: false,
@@ -259,7 +259,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toBe(100);// to > max
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowRight',
           repeat: true,
@@ -270,7 +270,7 @@ describe('model, calcPos and calcPosKey methods', () => {
 
       await testModel.update({ from: 70, to: 70 });
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowLeft',
           repeat: false,
@@ -279,14 +279,14 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toBe(70); // from<to
 
-      expect(testModel.calcPosKey({
+      expect(testModel.calcPositionSetByKey({
         key: 'ArrowRight',
         repeat: false,
         moovingControl: 'min',
       }))
         .toBe(70); // to>from
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowLeft',
           repeat: false,
@@ -295,7 +295,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toBe(69);
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowLeft',
           repeat: true,
@@ -304,7 +304,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toBe(67);
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowRight',
           repeat: false,
@@ -313,7 +313,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toBe(71);
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowRight',
           repeat: true,
@@ -325,7 +325,7 @@ describe('model, calcPos and calcPosKey methods', () => {
   );
 
   test(
-    'calcPosKey, Sticky',
+    'calcPositionSetByKey, Sticky',
     async () => {
       const conf: IConf = {
         min: 10,
@@ -341,7 +341,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       testModel.getConf(conf);
       testModel.start();
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowLeft',
           repeat: false,
@@ -350,7 +350,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toBe('newPosition<0'); // from < min
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowLeft',
           repeat: true,
@@ -359,7 +359,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toBe('newPosition<0'); // from < min
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowRight',
           repeat: false,
@@ -368,7 +368,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toBe('newPosition>100');// to > max
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowRight',
           repeat: true,
@@ -379,7 +379,7 @@ describe('model, calcPos and calcPosKey methods', () => {
 
       await testModel.update({ from: 70, to: 70 });
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowLeft',
           repeat: false,
@@ -388,7 +388,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toBe('too small newPosition'); // from<to
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowRight',
           repeat: false,
@@ -397,7 +397,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toBe('too big newPosition'); // to>from
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowLeft',
           repeat: false,
@@ -406,7 +406,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toEqual({ newPosition: 60, newValue: '64' });
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowLeft',
           repeat: true,
@@ -415,7 +415,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toEqual({ newPosition: 40, newValue: '46' });
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowRight',
           repeat: false,
@@ -424,7 +424,7 @@ describe('model, calcPos and calcPosKey methods', () => {
       ))
         .toEqual({ newPosition: 80, newValue: '82' });
 
-      expect(testModel.calcPosKey(
+      expect(testModel.calcPositionSetByKey(
         {
           key: 'ArrowRight',
           repeat: true,
