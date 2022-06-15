@@ -1,6 +1,3 @@
-import { IConfFull } from '../../interface';
-import { defaultConf } from '../../utils';
-
 class ViewBar {
   private slider: HTMLElement;
 
@@ -8,11 +5,8 @@ class ViewBar {
 
   private progressBar: HTMLElement | undefined;;
 
-  private conf: IConfFull = defaultConf;
-
-  constructor(root: HTMLElement, conf: IConfFull) {
+  constructor(root: HTMLElement) {
     this.slider = root;
-    this.conf = conf;
     this.render();
   }
 

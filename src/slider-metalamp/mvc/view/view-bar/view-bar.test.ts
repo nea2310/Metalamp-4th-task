@@ -1,32 +1,12 @@
 import ViewBar from '../../view/view-bar/view-bar';
 
-const conf = {
-  min: 10,
-  max: 100,
-  from: 20,
-  to: 70,
-  vertical: false,
-  range: true,
-  bar: false,
-  tip: true,
-  scale: true,
-  scaleBase: 'step',
-  step: 10,
-  interval: 0,
-  sticky: false,
-  shiftOnKeyDown: 1,
-  shiftOnKeyHold: 1,
-  onStart: () => true,
-  onChange: () => true,
-  onUpdate: () => true,
-};
 const root = document.createElement('div');
 document.body.appendChild(root);
 
 const track = document.createElement('div');
 track.className = 'slider-metalamp__track';
 root.appendChild(track);
-const testBar = new ViewBar(root, conf);
+const testBar = new ViewBar(root);
 const progressBar = document
   .getElementsByClassName('slider-metalamp__progress-bar')[0] as HTMLElement;
 

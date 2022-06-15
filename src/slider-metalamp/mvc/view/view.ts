@@ -220,7 +220,7 @@ class View extends Observer {
     if (this.slider && this.track) {
       this.viewControl = new ViewControl(this.slider, this.conf);
       this.viewScale = new ViewScale(this.slider, this.track, this.conf);
-      this.viewBar = new ViewBar(this.slider, this.conf);
+      this.viewBar = new ViewBar(this.slider);
     }
   }
 
