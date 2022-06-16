@@ -1,7 +1,7 @@
 import Model from '../model/model';
 import View from '../view/view';
 import Observer from '../observer';
-import { IConf, IFireParms } from '../interface';
+import { IConf, INotifyParameters } from '../interface';
 
 class Controller extends Observer {
   model: Model | null;
@@ -101,84 +101,84 @@ class Controller extends Observer {
   }
 
   private handleFromPosition =
-    (parms: IFireParms) => {
+    (parms: INotifyParameters) => {
       if (parms.key !== 'FromPosition') return;
       if (this.view) {
         this.view.updateFromPos(parms.data, parms.conf);
       }
     }
 
-  private handleToPosition = (parms: IFireParms) => {
+  private handleToPosition = (parms: INotifyParameters) => {
     if (parms.key !== 'ToPosition') return;
     if (this.view) {
       this.view.updateToPos(parms.data, parms.conf);
     }
   }
 
-  private handleFromValue = (parms: IFireParms) => {
+  private handleFromValue = (parms: INotifyParameters) => {
     if (parms.key !== 'FromValue') return;
     if (this.view) {
       this.view.updateFromValue(parms.data);
     }
   }
 
-  private handleToValue = (parms: IFireParms) => {
+  private handleToValue = (parms: INotifyParameters) => {
     if (parms.key !== 'ToValue') return;
     if (this.view) {
       this.view.updateToValue(parms.data);
     }
   }
 
-  private handleScale = (parms: IFireParms) => {
+  private handleScale = (parms: INotifyParameters) => {
     if (parms.key !== 'Scale') return;
     if (this.view) {
       this.view.updateScale(parms.data, parms.conf);
     }
   }
 
-  private handleBar = (parms: IFireParms) => {
+  private handleBar = (parms: INotifyParameters) => {
     if (parms.key !== 'Bar') return;
     if (this.view) {
       this.view.updateBar(parms.data, parms.conf);
     }
   }
 
-  private handleIsVertical = (parms: IFireParms) => {
+  private handleIsVertical = (parms: INotifyParameters) => {
     if (parms.key !== 'IsVertical') return;
     if (this.view) {
       this.view.switchVertical(parms.conf);
     }
   }
 
-  private handleIsRange = (parms: IFireParms) => {
+  private handleIsRange = (parms: INotifyParameters) => {
     if (parms.key !== 'IsRange') return;
     if (this.view) {
       this.view.switchRange(parms.conf);
     }
   }
 
-  private handleIsScale = (parms: IFireParms) => {
+  private handleIsScale = (parms: INotifyParameters) => {
     if (parms.key !== 'IsScale') return;
     if (this.view) {
       this.view.switchScale(parms.conf);
     }
   }
 
-  private handleIsBar = (parms: IFireParms) => {
+  private handleIsBar = (parms: INotifyParameters) => {
     if (parms.key !== 'IsBar') return;
     if (this.view) {
       this.view.switchBar(parms.conf);
     }
   }
 
-  private handleIsTip = (parms: IFireParms) => {
+  private handleIsTip = (parms: INotifyParameters) => {
     if (parms.key !== 'IsTip') return;
     if (this.view) {
       this.view.switchTip(parms.conf);
     }
   }
 
-  private handleMoveEvent = (parms: IFireParms) => {
+  private handleMoveEvent = (parms: INotifyParameters) => {
     if (parms.key !== 'MoveEvent') return;
     if (this.model) {
       this.model.calcPositionSetByPointer({
@@ -195,7 +195,7 @@ class Controller extends Observer {
     }
   }
 
-  private handleKeydownEvent = (parms: IFireParms) => {
+  private handleKeydownEvent = (parms: INotifyParameters) => {
     if (parms.key !== 'KeydownEvent') return;
     if (this.model) {
       this.model.calcPositionSetByKey({

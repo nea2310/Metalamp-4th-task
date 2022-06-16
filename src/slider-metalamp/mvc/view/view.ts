@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 import ViewBar from '../view/view-bar/view-bar';
 import ViewControl from '../view/view-control/view-control';
 import ViewScale from '../view/view-scale/view-scale';
 import {
   IdataFull,
   IConf,
-  IFireParms,
+  INotifyParameters,
   IConfFull,
 } from '../interface';
 import Observer from '../observer';
@@ -179,13 +180,15 @@ class View extends Observer {
       'tip',
     ];
 
-    for (let i = 0; i < this.root.attributes.length; i += 1) {
-      const elem = this.root.attributes[i];
-      const a = elem.name.replace(/^data-/, '');
+    const attributesArray = Array.from(this.root.attributes);
+
+    attributesArray.forEach((element: Attr) => {
+      const a = element.name.replace(/^data-/, '');
       if (properties.indexOf(a) !== -1) {
-        map.set(a, elem.value);
+        map.set(a, element.value);
       }
-    }
+    });
+
     map.forEach((value, key) => {
       // если значение содержит только цифры
       if (/^-?\d+\.?\d*$/.test(value)) {
@@ -231,16 +234,16 @@ class View extends Observer {
     }
   }
 
-  private handleMoveEvent = (parms: IFireParms) => {
+  private handleMoveEvent = (parms: INotifyParameters) => {
     if (parms.key !== 'MoveEvent') return;
 
-    this.fire('MoveEvent', parms.data);
+    this.notify('MoveEvent', parms.data);
   }
 
-  private handleKeydownEvent = (parms: IFireParms) => {
+  private handleKeydownEvent = (parms: INotifyParameters) => {
     if (parms.key !== 'KeydownEvent') return;
 
-    this.fire('KeydownEvent', parms.data);
+    this.notify('KeydownEvent', parms.data);
   }
 }
 

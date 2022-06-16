@@ -162,10 +162,10 @@ class Model extends Observer {
 
     if (moovingControl === 'min') {
       this.data.fromPosition = newPosition;
-      this.fire('FromPosition', this.data, this.conf);
+      this.notify('FromPosition', this.data, this.conf);
     } else {
       this.data.toPosition = newPosition;
-      this.fire('ToPosition', this.data, this.conf);
+      this.notify('ToPosition', this.data, this.conf);
     }
     if (!isStop) { this.calcValue('normal', newPosition, moovingControl); }
 
@@ -189,8 +189,8 @@ class Model extends Observer {
       this.conf.from = item.value;
       this.data.fromPosition = item.position;
       this.data.fromValue = String(item.value);
-      this.fire('FromPosition', this.data);
-      this.fire('FromValue', this.data);
+      this.notify('FromPosition', this.data);
+      this.notify('FromValue', this.data);
 
       return { newValue: String(item.value), newPosition: item.position };
     };
@@ -199,8 +199,8 @@ class Model extends Observer {
       this.conf.to = item.value;
       this.data.toPosition = item.position;
       this.data.toValue = String(item.value);
-      this.fire('ToPosition', this.data);
-      this.fire('ToValue', this.data);
+      this.notify('ToPosition', this.data);
+      this.notify('ToValue', this.data);
       return { newValue: String(item.value), newPosition: item.position };
     };
     // движение в большую сторону
@@ -276,7 +276,7 @@ class Model extends Observer {
         this.data.fromValue = String(newValue);
         this.conf.from = Number(newValue);
         this.calcFromPosition();
-        this.fire('FromValue', this.data);
+        this.notify('FromValue', this.data);
         result = newValue;
       } else { // Ползунок max
         if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
@@ -305,7 +305,7 @@ class Model extends Observer {
         this.data.toValue = String(newValue);
         this.conf.to = newValue;
         this.calcToPosition();
-        this.fire('ToValue', this.data);
+        this.notify('ToValue', this.data);
         result = newValue;
       }
       this.needCalcValue = true;
@@ -567,45 +567,46 @@ class Model extends Observer {
   }
 
   private async switchVertical() {
-    await this.fire('IsVertical', this.data, this.conf);
-    await this.calcFromPosition();
-    await this.calcToPosition();
-    await this.calcBarLength();
-    await this.calcScaleMarks();
+    await this.notify('IsVertical', this.data, this.conf);
+    this.calcFromPosition();
+    this.calcToPosition();
+    this.calcBarLength();
+    this.calcScaleMarks();
   }
 
-  private async switchRange() {
-    await this.fire('IsRange', this.data, this.conf);
-    await this.calcBarLength();
+  private switchRange() {
+    this.notify('IsRange', this.data, this.conf);
+    this.calcBarLength();
     if (typeof this.onChange === 'function') {
-      await this.onChange(this.conf);
+      this.onChange(this.conf);
     }
     /* onChange нужен т.к. после проверки перед возвратом в double режим могут поменяться
     значения from / to, их нужно отдать наружу */
   }
 
-  private async updateControlPos() {
-    await this.calcFromPosition();
-    await this.calcToPosition();
-    await this.calcBarLength();
+  private updateControlPos() {
+    console.log('updateControlPos');
+    this.calcFromPosition();
+    this.calcToPosition();
+    this.calcBarLength();
     if (typeof this.onChange === 'function') {
-      await this.onChange(this.conf);
+      this.onChange(this.conf);
     }
     /* onChange нужен т.к. после проверки  могут поменяться значения from / to / min
      / max, их нужно отдать наружу */
-    await this.fire('IsSticky', this.data, this.conf);
+    this.notify('IsSticky', this.data, this.conf);
   }
 
   private switchScale() {
-    this.fire('IsScale', this.data, this.conf);
+    this.notify('IsScale', this.data, this.conf);
   }
 
   private switchBar() {
-    this.fire('IsBar', this.data, this.conf);
+    this.notify('IsBar', this.data, this.conf);
   }
 
   private switchTip() {
-    this.fire('IsTip', this.data, this.conf);
+    this.notify('IsTip', this.data, this.conf);
   }
 
   // корректирует позицию ползунка, устанавливает его на ближайшее деление шкалы при sticky режиме
@@ -645,7 +646,7 @@ class Model extends Observer {
     if (this.needCalcValue) {
       this.calcValue('normal', this.data.fromPosition, 'min');
     }
-    this.fire('FromPosition', this.data, this.conf);
+    this.notify('FromPosition', this.data, this.conf);
   }
 
   // рассчитать позицию To (%) на основании значений to, min и max
@@ -658,7 +659,7 @@ class Model extends Observer {
     if (this.needCalcValue) {
       this.calcValue('normal', this.data.toPosition, 'max');
     }
-    this.fire('ToPosition', this.data, this.conf);
+    this.notify('ToPosition', this.data, this.conf);
   }
 
   /* Рассчитываем ширину и позицию left (top) прогресс-бара */
@@ -671,7 +672,7 @@ class Model extends Observer {
       this.data.barPos = 0;
       this.data.barWidth = this.data.fromPosition;
     }
-    this.fire('Bar', this.data, this.conf);
+    this.notify('Bar', this.data, this.conf);
   }
 
   // рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
@@ -721,7 +722,7 @@ class Model extends Observer {
       // последнее деление ставим на позицию left = 100% и его значение равно this.conf.max
       this.data.marksArray.push({ value: this.conf.max, position: 100 });
     }
-    this.fire('Scale', this.data, this.conf);
+    this.notify('Scale', this.data, this.conf);
   }
 
   private calcValue(
@@ -746,11 +747,11 @@ class Model extends Observer {
       if (moovingControl === 'min') {
         this.data.fromValue = newValue;
         this.conf.from = parseFloat(newValue);
-        this.fire('FromValue', this.data);
+        this.notify('FromValue', this.data);
       } else {
         this.data.toValue = newValue;
         this.conf.to = parseFloat(newValue);
-        this.fire('ToValue', this.data);
+        this.notify('ToValue', this.data);
       }
     }
   }

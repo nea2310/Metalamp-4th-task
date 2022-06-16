@@ -21,7 +21,7 @@ export default abstract class Observer {
     return this.observers;
   }
 
-  protected fire(key: string, data: IdataFull, conf: IConfFull = defaultConf) {
+  protected notify(key: string, data: IdataFull, conf: IConfFull = defaultConf) {
     this.observers.forEach((item) => item({ key, data, conf }));
   }
 }

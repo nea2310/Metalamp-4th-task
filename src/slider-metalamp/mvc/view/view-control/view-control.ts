@@ -188,7 +188,7 @@ class ViewControl extends Observer {
           thumb.type = innerEvent.type;
           thumb.clientX = innerEvent.clientX;
           thumb.clientY = innerEvent.clientY;
-          this.fire('MoveEvent', this.data);
+          this.notify('MoveEvent', this.data);
         };
 
         const handlePointerUp = () => {
@@ -233,7 +233,7 @@ class ViewControl extends Observer {
 
           T.key = event.code;
           T.repeat = event.repeat;
-          this.fire('KeydownEvent', this.data);
+          this.notify('KeydownEvent', this.data);
         }
       }
     };
@@ -290,7 +290,7 @@ class ViewControl extends Observer {
         } else { // Double mode
           thumb.moovingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
         }
-        this.fire('MoveEvent', this.data);
+        this.notify('MoveEvent', this.data);
       }
     };
     this.slider.addEventListener('pointerdown', handlePointerStart);

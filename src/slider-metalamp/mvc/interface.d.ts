@@ -67,7 +67,7 @@ interface IdataFull {
   thumb: IthumbFull;
 }
 
-interface IFireParms {
+interface INotifyParameters {
   key: string,
   data: IdataFull,
   conf: IConfFull
@@ -77,7 +77,7 @@ export {
   IConf,
   IObject,
   Imethods,
-  IFireParms,
+  INotifyParameters,
   IConfFull,
   IdataFull,
   IthumbFull,
