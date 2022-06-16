@@ -609,24 +609,25 @@ class Model extends Observer {
   }
 
   // корректирует позицию ползунка, устанавливает его на ближайшее деление шкалы при sticky режиме
-  private setSticky(controlPos: number) {
+  private setSticky(controlPosition: number) {
     /* Перебираем массив с позициями и значениями делений шкалы и вычитаем позицию деления из
     значения newPosition до тех пор, пока результат текущей итерации не станет больше результата
     предыдущей (это значит, что мы нашли деление,
   ближайшее к позиции ползунка и ползунок надо переместить на позицию этого деления */
-    let position = 0;
-    for (let i = 0; i < this.data.marksArray.length; i += 1) {
+
+    let goal = this.data.marksArray.find((element: IObject, item: number, array: IObject[]) => {
       let temporaryPosition = 0;
-      if (i < this.data.marksArray.length - 1) {
-        temporaryPosition = this.data.marksArray[i + 1].position;
+      if (item < array.length - 1) {
+        temporaryPosition = array[item + 1].position;
       }
-      if (Math.abs(controlPos - this.data.marksArray[i].position)
-        < Math.abs(controlPos - temporaryPosition)) {
-        position = this.data.marksArray[i].position;
-        break;
-      }
+      return Math.abs(controlPosition - element.position)
+        < Math.abs(controlPosition - temporaryPosition);
+    });
+
+    if (!goal) {
+      goal = { value: 0, position: 0 };
     }
-    return position;
+    return goal.position;
   }
 
   // рассчитать позицию From (%) на основании значений from, min и max
