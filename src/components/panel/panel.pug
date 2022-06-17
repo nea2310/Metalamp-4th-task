@@ -2,12 +2,14 @@ include ../input-field/input-field.pug
 include ../toggle/toggle.pug
 include ../radiobuttons/radiobuttons.pug
 include ../button/button.pug
+include ./main-setup/main-setup.pug
 
 mixin panel({radioGroupName = ''} = {})
   -
     const elementName = 'panel'
 
   div(class = `${elementName} js-${elementName}`)
+    +main-setup()
     fieldset(class = `${elementName}__main-setup`)
       legend Main
       div(class = `${elementName}__main-setup-component ${elementName}__main-setup-component_type_min js-${elementName}__main-setup-component_type_min`)

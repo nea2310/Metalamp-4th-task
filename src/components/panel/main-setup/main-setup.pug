@@ -1,0 +1,41 @@
+include ../../input-field/input-field.pug
+include ../../toggle/toggle.pug
+
+mixin main-setup()
+  -
+    const elementName = 'main-setup'
+
+  fieldset(class = `${elementName} js-${elementName}`)
+    legend Main
+    div(class = `${elementName}__component ${elementName}__component_type_min js-${elementName}__component_type_min`)
+      +input-field({
+        labelText: 'min',
+        usage: 'min'})
+    div(class = `${elementName}__component ${elementName}__component_type_max js-${elementName}__component_type_max`)
+      +input-field({
+        labelText: 'max',
+        usage: 'max'})
+    div(class = `${elementName}__component ${elementName}__component_type_from js-${elementName}__component_type_from`)
+      +input-field({
+        labelText: 'from',
+        usage: 'from'})
+    div(class = `${elementName}__component ${elementName}__component_type_to js-${elementName}__component_type_to`)
+      +input-field({
+        labelText: 'to',
+        usage: 'to'})
+    div(class = `${elementName}__component ${elementName}__component_type_vertical js-${elementName}__component_type_vertical`)
+      +toggle({
+        name: 'vertical',
+        usage: 'vertical'})
+    div(class = `${elementName}__component ${elementName}__component_type_range js-${elementName}__component_type_range`)
+      +toggle({
+        name: 'range',
+        usage: 'range'})
+    div(class = `${elementName}__component ${elementName}__component_type_bar js-${elementName}__component_type_bar`)
+      +toggle({
+        name: 'bar',
+        usage: 'bar'})
+    div(class = `${elementName}__component ${elementName}__component_type_tip js-${elementName}__component_type_tip`)
+      +toggle({
+        name: 'tip',
+        usage: 'tip'})

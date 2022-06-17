@@ -1,8 +1,16 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable no-console */
 import $ from 'jquery';
 
 import { IConf } from '../../slider-metalamp/mvc/interface';
 
+import Panel from '../panel/panel';
+
 class RangeSlider {
+  panelTest: Panel | null = null;
+
+  panelWrapper: HTMLElement | null = null;
+
   slider: HTMLElement | undefined
 
   wrapper: HTMLElement
@@ -62,12 +70,31 @@ class RangeSlider {
   constructor(selector: string, element: Element) {
     this.selector = selector;
     this.wrapper = element as HTMLElement;
+    this.createPanel();
     this.renderPanel();
     this.renderSlider();
     this.updateSlider();
     this.disableSlider();
     this.destroySlider();
     this.subscribeSlider();
+    this.handlePanelChange = this.handlePanelChange.bind(this);
+    this.createPanel = this.createPanel.bind(this);
+  }
+
+  private createPanel() {
+    this.panelWrapper = this.wrapper.querySelector(`${this.selector}__panel`);
+    if (!this.panelWrapper) return false;
+    this.panelTest = new Panel(this.panelWrapper);
+    this.panelTest.subscribe(this.handlePanelChange);
+    console.log('this!>>', this);
+    return true;
+  }
+
+  handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
+    console.log('this>>', this);
+
+    console.log('handlePanelChange>>', parameters);
+    this.rangeSlider.update({ [parameters.key]: parameters.data });
   }
 
   static getElement(object: HTMLElement, selector: string) {
