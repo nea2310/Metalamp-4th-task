@@ -1,2 +1,21 @@
 .main-setup {
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid $colorDarkShade25;
+  display: grid;
+  grid-template-columns: repeat(4, 110px);
+  grid-template-rows: repeat(2, 100px);
+
+  @include media-breakpoint-down($xs) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 70px);
+    justify-items: center;
+  }
+
+  &__component {
+    @include media-breakpoint-down($xs) {
+      width: 100%;
+      padding-left: 23%;
+    }
+  }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
 import $ from 'jquery';
@@ -71,7 +72,7 @@ class RangeSlider {
     this.selector = selector;
     this.wrapper = element as HTMLElement;
     this.createPanel();
-    this.renderPanel();
+    // this.renderPanel();
     this.renderSlider();
     this.updateSlider();
     this.disableSlider();
@@ -86,15 +87,15 @@ class RangeSlider {
     if (!this.panelWrapper) return false;
     this.panelTest = new Panel(this.panelWrapper);
     this.panelTest.subscribe(this.handlePanelChange);
-    console.log('this!>>', this);
     return true;
   }
 
   handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
-    console.log('this>>', this);
-
-    console.log('handlePanelChange>>', parameters);
     this.rangeSlider.update({ [parameters.key]: parameters.data });
+    /* после ввода данных в панель конфигурирования и обновления слайдера нужно получить данные из модели и обновить панель,
+    т.к. в панель могли быть введены недопустимые данные, которые были затем изменены в модели при валидации. Их надо скорректировать и в панели */
+    const data = this.rangeSlider.getData();
+    if (this.panelTest) this.panelTest.update(data);
   }
 
   static getElement(object: HTMLElement, selector: string) {
@@ -118,6 +119,7 @@ class RangeSlider {
   }
 
   private displayData(data: IConf) {
+    if (this.panelTest) this.panelTest.update(data);
     if (this.optionMin) this.optionMin.value = String(data.min);
     if (this.optionMax) this.optionMax.value = String(data.max);
     if (this.optionFrom) this.optionFrom.value = String(data.from);
@@ -176,6 +178,7 @@ class RangeSlider {
       RangeSlider.valid(this.optionFrom, Number(data.from));
       RangeSlider.valid(this.optionTo, Number(data.to));
     }
+    if (this.panelTest) this.panelTest.update(data);
   }
 
   private createSlider(elem: HTMLElement) {
@@ -193,63 +196,63 @@ class RangeSlider {
     return rangeSlider;
   }
 
-  private renderPanel() {
-    this.panel = RangeSlider.getElement(this.wrapper, '.js-panel');
-    const getElement = (name: string, type = 'input-field', addToInputsAll = true): HTMLInputElement => {
-      let prefix = '';
-      switch (type) {
-        case 'input-field':
-          prefix = `${type}__input_usage_`;
-          break;
-        case 'toggle':
-          prefix = `${type}__checkbox_usage_`;
-          break;
-        case 'radiobuttons':
-          prefix = `${type}__category-checkbox_usage_`;
-          break;
-        default: prefix = '';
-      }
+  // private renderPanel() {
+  //   this.panel = RangeSlider.getElement(this.wrapper, '.js-panel');
+  //   const getElement = (name: string, type = 'input-field', addToInputsAll = true): HTMLInputElement => {
+  //     let prefix = '';
+  //     switch (type) {
+  //       case 'input-field':
+  //         prefix = `${type}__input_usage_`;
+  //         break;
+  //       case 'toggle':
+  //         prefix = `${type}__checkbox_usage_`;
+  //         break;
+  //       case 'radiobuttons':
+  //         prefix = `${type}__category-checkbox_usage_`;
+  //         break;
+  //       default: prefix = '';
+  //     }
 
-      const element = this.wrapper.querySelector<HTMLInputElement>(`.js-${prefix}${name}`);
-      if (addToInputsAll) {
-        if (element) {
-          this.inputsAll.push(element);
-        }
-      }
-      return element as HTMLInputElement;
-    };
+  //     const element = this.wrapper.querySelector<HTMLInputElement>(`.js-${prefix}${name}`);
+  //     if (addToInputsAll) {
+  //       if (element) {
+  //         this.inputsAll.push(element);
+  //       }
+  //     }
+  //     return element as HTMLInputElement;
+  //   };
 
-    this.optionMin = getElement('min');
-    this.optionMax = getElement('max');
-    this.optionFrom = getElement('from');
-    this.optionTo = getElement('to');
-    this.optionInterval = getElement('interval');
-    this.optionStep = getElement('step');
-    this.optionShiftOnKeyDown = getElement('shiftOnKeyDown');
-    this.optionShiftOnKeyHold = getElement('shiftOnKeyHold');
+  //   this.optionMin = getElement('min');
+  //   this.optionMax = getElement('max');
+  //   this.optionFrom = getElement('from');
+  //   this.optionTo = getElement('to');
+  //   this.optionInterval = getElement('interval');
+  //   this.optionStep = getElement('step');
+  //   this.optionShiftOnKeyDown = getElement('shiftOnKeyDown');
+  //   this.optionShiftOnKeyHold = getElement('shiftOnKeyHold');
 
-    this.optionVertical = getElement('vertical', 'toggle');
-    this.optionRange = getElement('range', 'toggle');
-    this.optionScale = getElement('scale', 'toggle');
-    this.optionBar = getElement('bar', 'toggle');
-    this.optionTip = getElement('tip', 'toggle');
-    this.optionSticky = getElement('sticky', 'toggle');
-    this.optionSubscribe = getElement('subscribe', 'toggle');
-    this.optionDestroy = getElement('destroy', 'toggle', false);
-    this.optionDisable = getElement('disable', 'toggle', false);
+  //   this.optionVertical = getElement('vertical', 'toggle');
+  //   this.optionRange = getElement('range', 'toggle');
+  //   this.optionScale = getElement('scale', 'toggle');
+  //   this.optionBar = getElement('bar', 'toggle');
+  //   this.optionTip = getElement('tip', 'toggle');
+  //   this.optionSticky = getElement('sticky', 'toggle');
+  //   this.optionSubscribe = getElement('subscribe', 'toggle');
+  //   this.optionDestroy = getElement('destroy', 'toggle', false);
+  //   this.optionDisable = getElement('disable', 'toggle', false);
 
-    this.scaleBaseSteps = getElement('step', 'radiobuttons');
-    this.scaleBaseIntervals = getElement('interval', 'radiobuttons');
-    const changeHandler = (e: Event) => {
-      const input = e.currentTarget as HTMLInputElement;
-      if (!input.value) {
-        input.value = '0';
-      }
-    };
-    this.inputsAll.forEach((element) => {
-      element.addEventListener('change', changeHandler);
-    });
-  }
+  //   this.scaleBaseSteps = getElement('step', 'radiobuttons');
+  //   this.scaleBaseIntervals = getElement('interval', 'radiobuttons');
+  //   const changeHandler = (e: Event) => {
+  //     const input = e.currentTarget as HTMLInputElement;
+  //     if (!input.value) {
+  //       input.value = '0';
+  //     }
+  //   };
+  //   this.inputsAll.forEach((element) => {
+  //     element.addEventListener('change', changeHandler);
+  //   });
+  // }
 
   private renderSlider() {
     this.slider = RangeSlider.getElement(this.wrapper, '.js-slider-metalamp');
