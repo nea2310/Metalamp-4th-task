@@ -84,6 +84,7 @@ class RangeSlider {
 
   private createPanel() {
     this.panelWrapper = this.wrapper.querySelector(`${this.selector}__panel`);
+    console.log(this.panelWrapper);
     if (!this.panelWrapper) return false;
     this.panelTest = new Panel(this.panelWrapper);
     this.panelTest.subscribe(this.handlePanelChange);
@@ -111,8 +112,7 @@ class RangeSlider {
   }
 
   private switchVertical() {
-    if (this.panel && this.sliderWrapper) {
-      this.panel.classList.toggle('panel_orientation_vertical');// .panel
+    if (this.sliderWrapper) {
       this.sliderWrapper.classList.toggle('range-slider__slider-metalamp_orientation_vertical'); // .range-slider__slider-metalamp
     }
     this.wrapper.classList.toggle('range-slider_orientation_vertical'); // .range-slider
