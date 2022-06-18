@@ -1,0 +1,26 @@
+.scale-setup {
+  padding: 0;
+  margin: 0;
+  border: none;
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid $colorDarkShade25;
+
+  &__component_type {
+    &_scale {
+      margin-bottom: 20px;
+    }
+
+    &_radiobuttons {
+      margin-top: 5px;
+    }
+
+    &_interval-step {
+      display: flex;
+    }
+
+    &_step {
+      margin-right: 10px;
+    }
+  }
+}
