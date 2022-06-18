@@ -19,7 +19,8 @@
   border-radius: 2px;
   padding: 0 10px;
 
-  &:hover {
+  &:hover,
+  &:focus {
     border: 2px solid rgb(41, 39, 39);
   }
 }

@@ -38,12 +38,15 @@
       top: 9px;
       width: 5px;
       height: 1px;
-      outline-offset: 12px;
 
       &:checked + .radiobuttons__category-radiomark {
         border: 2px solid $colorBlue;
         box-shadow: inset 0px 0px 0px 3.5px $colorWhite;
         background-color: $colorBlue;
+      }
+      &:focus {
+        outline-offset: 12px;
+        outline: 2px solid black;
       }
     }
 

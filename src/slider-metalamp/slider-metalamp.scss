@@ -145,8 +145,11 @@
     height: 25px;
     position: absolute;
     z-index: 30;
-    outline-offset: 12px;
     top: -12.5px;
+    &:focus {
+      outline-offset: 12px;
+      outline: 2px solid black;
+    }
 
     &:hover {
       cursor: grab;
