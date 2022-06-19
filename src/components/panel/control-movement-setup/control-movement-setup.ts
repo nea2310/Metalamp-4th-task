@@ -56,6 +56,16 @@ class ControlMovementSetup extends PanelObserver {
     return true;
   }
 
+  public disable(isDisabled = false) {
+    if (!this.optionObjects) return false;
+    this.optionObjects.forEach((optionObject) => {
+      if (!optionObject) return false;
+      optionObject.disabled = isDisabled;
+      return true;
+    });
+    return true;
+  }
+
   private render() {
     this.optionShiftOnKeyDown = this.getElement('shiftOnKeyDown');
     this.optionShiftOnKeyHold = this.getElement('shiftOnKeyHold');

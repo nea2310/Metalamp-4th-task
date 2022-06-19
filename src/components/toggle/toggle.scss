@@ -49,6 +49,16 @@
         left: auto;
       }
     }
+
+    &:disabled + .toggle__checkmark {
+      border: 2px solid $colorDarkShade25;
+
+      & > .toggle__ball {
+        background-color: $colorDarkShade25;
+        right: 3px;
+        left: auto;
+      }
+    }
   }
 
   &__checkmark {

@@ -1,4 +1,4 @@
-mixin toggle({name = '', usage = ''} = {})
+mixin toggle({name = '', usage = '', isChecked = false} = {})
   -
     function getValidValue (list, value, defaultValue = '') {
     return value = list.includes(value) ? value : defaultValue
@@ -10,6 +10,6 @@ mixin toggle({name = '', usage = ''} = {})
     usage = getValidValue(validUsages, usage, '')
 
   label(class = elementName)= name
-    input(class = `${elementName}__checkbox ${elementName}__checkbox_usage_${usage} js-${elementName}__checkbox_usage_${usage}` type = "checkbox" name = name value = name)
+    input(class = `${elementName}__checkbox ${elementName}__checkbox_usage_${usage} js-${elementName}__checkbox_usage_${usage}` type = "checkbox" name = name value = name checked = isChecked)
     span(class = `${elementName}__checkmark`)
       span(class = `${elementName}__ball`)

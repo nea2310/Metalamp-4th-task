@@ -1,0 +1,22 @@
+include ../../toggle/toggle.pug
+
+mixin actions-setup()
+  -
+    const elementName = 'actions-setup'
+
+  fieldset(class = `${elementName} js-${elementName}`)
+    legend Actions
+    div(class = `${elementName}__component`)
+      +toggle({
+        name: 'subscribe events',
+        usage: 'subscribe',
+        isChecked: true})
+    div(class = `${elementName}__component`)
+      +toggle({
+        name: 'disable',
+        usage: 'disable'})
+    div(class = `${elementName}__component`)
+      +toggle({
+        name: 'destroy',
+        usage: 'destroy'})
+

@@ -5,6 +5,7 @@ include ../button/button.pug
 include ./main-setup/main-setup.pug
 include ./scale-setup/scale-setup.pug
 include ./control-movement-setup/control-movement-setup.pug
+include ./actions-setup/actions-setup.pug
 
 mixin panel(options = {})
   -
@@ -15,22 +16,8 @@ mixin panel(options = {})
     +main-setup()
     +scale-setup({radioGroupName})
     +control-movement-setup()
-    fieldset(class = `${elementName}__actions`)
-      legend Actions
-      div(class = `${elementName}__actions-component`)
-        +toggle({
-          name: 'subscribe events',
-          usage: 'subscribe'})
-      div(class = `${elementName}__actions-component`)
-        +toggle({
-          name: 'disable',
-          usage: 'disable'})
-      div(class = `${elementName}__actions-component`)
-        +toggle({
-          name: 'destroy',
-          usage: 'destroy'})
-    div(class = `${elementName}__apply`)
-      +button({text: 'Apply changes'})
+    +actions-setup()
+    +button({text: 'Apply changes'})
 
 
 

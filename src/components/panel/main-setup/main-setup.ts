@@ -80,6 +80,16 @@ class MainSetup extends PanelObserver {
     return true;
   }
 
+  public disable(isDisabled = false) {
+    if (!this.optionObjects) return false;
+    this.optionObjects.forEach((optionObject) => {
+      if (!optionObject) return false;
+      optionObject.disabled = isDisabled;
+      return true;
+    });
+    return true;
+  }
+
   private render() {
     this.optionMin = this.getElement('min');
     this.optionMax = this.getElement('max');

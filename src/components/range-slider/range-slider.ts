@@ -8,15 +8,13 @@ import { IConf } from '../../slider-metalamp/mvc/interface';
 import Panel from '../panel/panel';
 
 class RangeSlider {
-  panelTest: Panel | null = null;
+  panel: Panel | null = null;
 
   panelWrapper: HTMLElement | null = null;
 
   slider: HTMLElement | undefined
 
   wrapper: HTMLElement
-
-  panel: HTMLElement | undefined
 
   sliderWrapper: HTMLElement | undefined
 
@@ -39,34 +37,8 @@ class RangeSlider {
   constructor(selector: string, element: Element) {
     this.selector = selector;
     this.wrapper = element as HTMLElement;
-    this.createPanel();
-    this.renderSlider();
-    this.disableSlider();
-    this.destroySlider();
+    this.render();
     this.subscribeSlider();
-    this.handlePanelChange = this.handlePanelChange.bind(this);
-    this.createPanel = this.createPanel.bind(this);
-  }
-
-  private createPanel() {
-    this.panelWrapper = this.wrapper.querySelector(`${this.selector}__panel`);
-    if (!this.panelWrapper) return false;
-    this.panelTest = new Panel(this.panelWrapper);
-    this.panelTest.subscribe(this.handlePanelChange);
-    return true;
-  }
-
-  handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
-    this.rangeSlider.update({ [parameters.key]: parameters.data });
-
-    /* после ввода данных в панель конфигурирования и обновления слайдера нужно получить данные из модели и обновить панель,
-      т.к. в панель могли быть введены недопустимые данные, которые были затем изменены в модели при валидации. Их надо скорректировать и в панели */
-    const data = this.rangeSlider.getData();
-    if (this.panelTest) this.panelTest.update(data);
-  }
-
-  static getElement(object: HTMLElement, selector: string) {
-    return object.querySelector(selector) as HTMLElement;
   }
 
   // static valid(
@@ -77,26 +49,15 @@ class RangeSlider {
   //   if (input.value !== value) { input.value = value as string; }
   // }
 
-  private switchVertical() {
-    if (this.sliderWrapper) {
-      this.sliderWrapper.classList.toggle('range-slider__slider-metalamp_orientation_vertical'); // .range-slider__slider-metalamp
-    }
-    this.wrapper.classList.toggle('range-slider_orientation_vertical'); // .range-slider
-  }
-
-  private displayData(data: IConf) {
-    if (this.panelTest) this.panelTest.update(data);
-  }
-
-  private updateData = (data: IConf) => {
-    if (data.vertical
-      !== this.wrapper.classList.contains('range-slider_orientation_vertical')) {
-      this.switchVertical();
-    }
-  };
-
-  private changeData(data: IConf) {
-    if (this.panelTest) this.panelTest.update(data);
+  private render() {
+    this.slider = RangeSlider.getElement(this.wrapper, '.js-slider-metalamp');
+    this.sliderWrapper = RangeSlider.getElement(this.wrapper, `${this.selector}__slider-metalamp`);
+    this.panelWrapper = this.wrapper.querySelector(`${this.selector}__panel`);
+    if (!this.panelWrapper) return false;
+    this.panel = new Panel(this.panelWrapper);
+    this.panel.subscribe(this.handlePanelChange);
+    this.rangeSlider = this.createSlider(this.slider);
+    return true;
   }
 
   private createSlider(elem: HTMLElement) {
@@ -114,83 +75,104 @@ class RangeSlider {
     return rangeSlider;
   }
 
-  private renderSlider() {
-    this.slider = RangeSlider.getElement(this.wrapper, '.js-slider-metalamp');
-    this.sliderWrapper = RangeSlider.getElement(this.wrapper, `${this.selector}__slider-metalamp`);
-    this.rangeSlider = this.createSlider(this.slider);
+  private displayData(data: IConf) {
+    if (this.panel) this.panel.update(data);
   }
 
-  private disableSlider() {
-    const handleClick = () => {
-      if (!this.isDestroyed && this.optionDisable) {
-        if (this.optionDisable.checked) {
-          this.rangeSlider.disable();
-          this.inputsAll.forEach((elem) => {
-            const input = elem as HTMLInputElement;
-            input.disabled = true;
-          });
-          this.isDisabled = true;
-        } else {
-          this.rangeSlider.enable();
-          this.inputsAll.forEach((elem) => {
-            const input = elem as HTMLInputElement;
-            input.disabled = false;
-          });
-          const data = this.rangeSlider.getData();
-          this.displayData(data);
-          this.isDisabled = false;
-        }
-      }
-    };
-    if (this.optionDisable) {
-      this.optionDisable.addEventListener('click', handleClick);
+  private updateData = (data: IConf) => {
+    if (data.vertical
+      !== this.wrapper.classList.contains('range-slider_orientation_vertical')) {
+      this.switchVertical();
     }
+  };
+
+  private changeData(data: IConf) {
+    if (this.panel) this.panel.update(data);
   }
 
-  private subscribeSlider() {
-    const handleClick = () => {
-      if (!this.isDestroyed && this.optionSubscribe) {
-        if (this.optionSubscribe.checked) {
-          this.rangeSlider.update({
-            onChange: (data: IConf) => {
-              this.changeData(data);
-            },
-          });
-        } else {
-          this.rangeSlider.update({
-            onChange: null,
-          });
+  private handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
+    switch (parameters.key) {
+      case 'subscribe': {
+        if (typeof parameters.data === 'boolean') {
+          this.subscribeSlider(parameters.data);
         }
+        break;
       }
-    };
-    if (this.optionSubscribe) {
-      this.optionSubscribe.addEventListener('click', handleClick);
-    }
-  }
-
-  private destroySlider(slider = this.slider) {
-    const handleClick = () => {
-      if (this.optionDestroy && this.optionDisable) {
-        if (this.optionDestroy.checked) {
-          this.rangeSlider.destroy();
-          this.inputsAll.forEach((elem) => {
-            const input = elem as HTMLInputElement;
-            input.disabled = true;
-          });
-
-          this.optionDisable.checked = true;
-          this.optionDisable.disabled = true;
-          this.isDestroyed = true;
-          this.optionDestroy.disabled = true;
-          if (slider) {
-            $.data(slider, 'SliderMetaLamp', null);
+      case 'disable': {
+        if (typeof parameters.data === 'boolean') {
+          this.disableSlider(parameters.data);
+          if (this.panel) {
+            this.panel.disable(parameters.data);
           }
         }
+        break;
       }
-    };
-    if (this.optionDestroy) {
-      this.optionDestroy.addEventListener('click', handleClick);
+      case 'destroy': {
+        if (typeof parameters.data === 'boolean') {
+          this.destroySlider(parameters.data);
+        }
+        break;
+      }
+      default: {
+        this.rangeSlider.update({ [parameters.key]: parameters.data });
+        /* после ввода данных в панель конфигурирования и обновления слайдера нужно получить данные из модели и обновить панель,
+     т.к. в панель могли быть введены недопустимые данные, которые были затем изменены в модели при валидации. Их надо скорректировать и в панели */
+        const data = this.rangeSlider.getData();
+        if (this.panel) this.panel.update(data);
+      }
     }
+  }
+
+  private subscribeSlider(isSubscribed = true) {
+    if (isSubscribed) {
+      this.rangeSlider.update({
+        onChange: (data: IConf) => {
+          this.changeData(data);
+        },
+      });
+    } else {
+      this.rangeSlider.update({
+        onChange: null,
+      });
+    }
+  }
+
+  private async disableSlider(isDisabled = false) {
+    if (isDisabled) {
+      this.rangeSlider.disable();
+    } else {
+      this.rangeSlider.enable();
+      /* дожидаемся, когда вернется объект data из модели, иначе update вызывается с некорректными данными */
+      const data = await this.rangeSlider.getData();
+      if (this.panel) this.panel.update(data);
+    }
+  }
+
+  private destroySlider(isDestroyed = false, slider = this.slider) {
+    if (isDestroyed) {
+      this.rangeSlider.destroy();
+      if (this.panel) {
+        this.panel.destroy();
+      }
+      if (slider) {
+        $.data(slider, 'SliderMetaLamp', null);
+      }
+      if (this.sliderWrapper) {
+        this.sliderWrapper.classList.remove('range-slider__slider-metalamp_orientation_vertical');
+      }
+      this.wrapper.classList.remove('range-slider_orientation_vertical');
+    }
+  }
+
+  private switchVertical() {
+    if (this.sliderWrapper) {
+      this.sliderWrapper.classList.toggle('range-slider__slider-metalamp_orientation_vertical'); // .range-slider__slider-metalamp
+    }
+    this.wrapper.classList.toggle('range-slider_orientation_vertical'); // .range-slider
+  }
+
+  private static getElement(object: HTMLElement, selector: string) {
+    return object.querySelector(selector) as HTMLElement;
   }
 }
 

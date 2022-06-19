@@ -82,6 +82,16 @@ class ScaleSetup extends PanelObserver {
     return true;
   }
 
+  public disable(isDisabled = false) {
+    if (!this.optionObjects) return false;
+    this.optionObjects.forEach((optionObject) => {
+      if (!optionObject) return false;
+      optionObject.disabled = isDisabled;
+      return true;
+    });
+    return true;
+  }
+
   private render() {
     this.optionScale = this.getElement('scale', 'toggle');
     this.optionInterval = this.getElement('interval');
@@ -93,6 +103,8 @@ class ScaleSetup extends PanelObserver {
       this.optionScale,
       this.optionInterval,
       this.optionStep,
+      this.scaleBaseSteps,
+      this.scaleBaseIntervals,
     ];
   }
 
