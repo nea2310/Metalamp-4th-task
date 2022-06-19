@@ -73,6 +73,10 @@ class MainSetup extends PanelObserver {
       optionObject.value = String(data[type]);
       return true;
     });
+
+    if (this.optionTo) {
+      this.optionTo.disabled = !data.range;
+    }
     return true;
   }
 
