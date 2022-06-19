@@ -1,0 +1,21 @@
+include ../../input-field/input-field.pug
+include ../../toggle/toggle.pug
+
+mixin control-movement-setup()
+  -
+    const elementName = 'control-movement-setup'
+
+  fieldset(class = `${elementName} js-${elementName}`)
+    legend Control movement
+    div(class = `${elementName}__component ${elementName}__component_type_sticky js-${elementName}__component_type_sticky`)
+      +toggle({name: 'sticky',
+        usage: 'sticky'})
+    div(class = `${elementName}__component ${elementName}__component_type_shiftOnKeyDown js-${elementName}__component_type_shiftOnKeyDown`)
+      +input-field({
+        labelText: 'shift on key down',
+        usage: 'shiftOnKeyDown'})
+    div(class = `${elementName}__component ${elementName}__component_type_shiftOnKeyHold js-${elementName}__component_type_shiftOnKeyHold`)
+      +input-field({
+        labelText: 'shift on key hold',
+        usage: 'shiftOnKeyHold'})
+

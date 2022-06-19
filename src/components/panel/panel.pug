@@ -4,6 +4,7 @@ include ../radiobuttons/radiobuttons.pug
 include ../button/button.pug
 include ./main-setup/main-setup.pug
 include ./scale-setup/scale-setup.pug
+include ./control-movement-setup/control-movement-setup.pug
 
 mixin panel(options = {})
   -
@@ -13,19 +14,7 @@ mixin panel(options = {})
   div(class = `${elementName} js-${elementName}`)
     +main-setup()
     +scale-setup({radioGroupName})
-    fieldset(class = `${elementName}__move-setup`)
-      legend Control movement
-      div(class = `${elementName}__move-setup-component ${elementName}__move-setup-component_type_sticky js-${elementName}__move-setup-component_type_sticky`)
-        +toggle({name: 'sticky',
-          usage: 'sticky'})
-      div(class = `${elementName}__move-setup-component ${elementName}__move-setup-component_type_shiftOnKeyDown js-${elementName}__move-setup-component_type_shiftOnKeyDown`)
-        +input-field({
-          labelText: 'shift on key down',
-          usage: 'shiftOnKeyDown'})
-      div(class = `${elementName}__move-setup-component ${elementName}__move-setup-component_type_shiftOnKeyHold js-${elementName}__move-setup-component_type_shiftOnKeyHold`)
-        +input-field({
-          labelText: 'shift on key hold',
-          usage: 'shiftOnKeyHold'})
+    +control-movement-setup()
     fieldset(class = `${elementName}__actions`)
       legend Actions
       div(class = `${elementName}__actions-component`)
