@@ -5,13 +5,14 @@ include ../button/button.pug
 include ./main-setup/main-setup.pug
 include ./scale-setup/scale-setup.pug
 
-mixin panel({radioGroupName = ''} = {})
+mixin panel(options = {})
   -
     const elementName = 'panel'
+    const {radioGroupName} = options
 
   div(class = `${elementName} js-${elementName}`)
     +main-setup()
-    +scale-setup()
+    +scale-setup({radioGroupName})
     fieldset(class = `${elementName}__move-setup`)
       legend Control movement
       div(class = `${elementName}__move-setup-component ${elementName}__move-setup-component_type_sticky js-${elementName}__move-setup-component_type_sticky`)

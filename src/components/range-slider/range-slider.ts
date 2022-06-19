@@ -84,7 +84,6 @@ class RangeSlider {
 
   private createPanel() {
     this.panelWrapper = this.wrapper.querySelector(`${this.selector}__panel`);
-    console.log(this.panelWrapper);
     if (!this.panelWrapper) return false;
     this.panelTest = new Panel(this.panelWrapper);
     this.panelTest.subscribe(this.handlePanelChange);
@@ -93,8 +92,9 @@ class RangeSlider {
 
   handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
     this.rangeSlider.update({ [parameters.key]: parameters.data });
+
     /* после ввода данных в панель конфигурирования и обновления слайдера нужно получить данные из модели и обновить панель,
-    т.к. в панель могли быть введены недопустимые данные, которые были затем изменены в модели при валидации. Их надо скорректировать и в панели */
+      т.к. в панель могли быть введены недопустимые данные, которые были затем изменены в модели при валидации. Их надо скорректировать и в панели */
     const data = this.rangeSlider.getData();
     if (this.panelTest) this.panelTest.update(data);
   }
@@ -120,31 +120,32 @@ class RangeSlider {
 
   private displayData(data: IConf) {
     if (this.panelTest) this.panelTest.update(data);
-    if (this.optionMin) this.optionMin.value = String(data.min);
-    if (this.optionMax) this.optionMax.value = String(data.max);
-    if (this.optionFrom) this.optionFrom.value = String(data.from);
-    if (this.optionTo) this.optionTo.value = String(data.to);
-    if (this.optionInterval) this.optionInterval.value = String(data.interval);
-    if (this.optionStep) this.optionStep.value = String(data.step);
-    if (this.optionShiftOnKeyDown) this.optionShiftOnKeyDown.value = String(data.shiftOnKeyDown);
-    if (this.optionShiftOnKeyHold) this.optionShiftOnKeyHold.value = String(data.shiftOnKeyHold);
-    if (this.optionVertical) this.optionVertical.checked = !!data.vertical;
-    if (this.optionRange) this.optionRange.checked = !!data.range;
-    if (this.optionScale) this.optionScale.checked = !!data.scale;
-    if (this.optionBar) this.optionBar.checked = !!data.bar;
-    if (this.optionTip) this.optionTip.checked = !!data.tip;
-    if (this.optionSticky) this.optionSticky.checked = !!data.sticky;
-    if (this.optionSubscribe) this.optionSubscribe.checked = true;
 
-    if (data.scaleBase === 'interval' && this.scaleBaseIntervals) {
-      this.scaleBaseIntervals.checked = true;
-      if (this.optionStep) this.optionStep.disabled = true;
-    }
+    // if (this.optionMin) this.optionMin.value = String(data.min);
+    // if (this.optionMax) this.optionMax.value = String(data.max);
+    // if (this.optionFrom) this.optionFrom.value = String(data.from);
+    // if (this.optionTo) this.optionTo.value = String(data.to);
+    // if (this.optionInterval) this.optionInterval.value = String(data.interval);
+    // if (this.optionStep) this.optionStep.value = String(data.step);
+    // if (this.optionShiftOnKeyDown) this.optionShiftOnKeyDown.value = String(data.shiftOnKeyDown);
+    // if (this.optionShiftOnKeyHold) this.optionShiftOnKeyHold.value = String(data.shiftOnKeyHold);
+    // if (this.optionVertical) this.optionVertical.checked = !!data.vertical;
+    // if (this.optionRange) this.optionRange.checked = !!data.range;
+    // if (this.optionScale) this.optionScale.checked = !!data.scale;
+    // if (this.optionBar) this.optionBar.checked = !!data.bar;
+    // if (this.optionTip) this.optionTip.checked = !!data.tip;
+    // if (this.optionSticky) this.optionSticky.checked = !!data.sticky;
+    // if (this.optionSubscribe) this.optionSubscribe.checked = true;
 
-    if (data.scaleBase === 'step' && this.scaleBaseSteps) {
-      this.scaleBaseSteps.checked = true;
-      if (this.optionInterval) this.optionInterval.disabled = true;
-    }
+    // if (data.scaleBase === 'interval' && this.scaleBaseIntervals) {
+    //   this.scaleBaseIntervals.checked = true;
+    //   if (this.optionStep) this.optionStep.disabled = true;
+    // }
+
+    // if (data.scaleBase === 'step' && this.scaleBaseSteps) {
+    //   this.scaleBaseSteps.checked = true;
+    //   if (this.optionInterval) this.optionInterval.disabled = true;
+    // }
     if (this.optionTo) this.optionTo.disabled = !data.range;
   }
 

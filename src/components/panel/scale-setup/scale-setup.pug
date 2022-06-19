@@ -2,9 +2,10 @@ include ../../input-field/input-field.pug
 include ../../toggle/toggle.pug
 include ../../radiobuttons/radiobuttons.pug
 
-mixin scale-setup()
+mixin scale-setup(options = {})
   -
     const elementName = 'scale-setup'
+    const {radioGroupName} = options
 
   fieldset(class = `${elementName} js-${elementName}`)
     legend Scale
@@ -16,8 +17,8 @@ mixin scale-setup()
     div(class = `${elementName}__component ${elementName}__component_type_scaleBase js-${elementName}__component_type_scaleBase`)
       +radiobuttons({
         categories:
-        [{name:'step', usage: 'step', radioGroupName: ''}, 
-        {name:'interval', usage: 'interval', radioGroupName: ''}],
+        [{name:'step', usage: 'scaleBaseStep'}, 
+        {name:'interval', usage: 'scaleBaseInterval'}],
         radioGroupName})
     div(class = `${elementName}__component ${elementName}__component_type_interval-step`)
       div(class = `${elementName}__component ${elementName}__component_type_step js-${elementName}__component_type_step`)

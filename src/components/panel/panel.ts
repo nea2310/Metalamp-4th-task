@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
 import MainSetup from './main-setup/main-setup';
 
@@ -53,10 +54,16 @@ class Panel extends PanelObserver {
   private createListeners() {
     if (!this.mainSetup) return false;
     this.mainSetup.subscribe(this.handleMainSetupChange);
+    if (!this.scaleSetup) return false;
+    this.scaleSetup.subscribe(this.handleScaleSetupChange);
     return true;
   }
 
   private handleMainSetupChange = (parameters: { key: string, data: string | boolean }) => {
+    this.notify(parameters.key, parameters.data);
+  }
+
+  private handleScaleSetupChange = (parameters: { key: string, data: string | boolean }) => {
     this.notify(parameters.key, parameters.data);
   }
 }

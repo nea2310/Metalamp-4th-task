@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-console */
+
 import PanelObserver from '../panel-observer';
 
 import { IConf } from '../../../slider-metalamp/mvc/interface';
@@ -33,31 +34,51 @@ class ScaleSetup extends PanelObserver {
     this.wrapper = element;
     this.render();
     this.handleInputChange = this.handleInputChange.bind(this);
-
     this.bindEventListeners();
   }
 
   public update(data: IConfAdvanced) {
+    const switchOption = (option: 'step' | 'interval' = 'step') => {
+      if (!this.optionStep || !this.optionInterval) return false;
+      if (option === 'step') {
+        this.optionStep.disabled = false;
+        this.optionInterval.disabled = true;
+      } else {
+        this.optionStep.disabled = true;
+        this.optionInterval.disabled = false;
+      }
+      return true;
+    };
+
     if (!this.optionObjects) return false;
 
     this.optionObjects.forEach((optionObject) => {
-      console.log('optionObject>>>', optionObject);
-      console.log('optionObject.className>>>', optionObject?.className);
+      if (!optionObject) return false;
 
-      // if (!optionObject) return false;
+      const usageType = optionObject.className.match(/usage_\S*/);
+      if (!usageType) return false;
 
-      // const usageType = optionObject.className.match(/usage_\S*/);
-      // if (!usageType) return false;
+      const type = usageType[0].replace('usage_', '');
 
-      // const type = usageType[0].replace('usage_', '');
+      if (/toggle/.test(optionObject.className)) {
+        optionObject.checked = !!data[type];
+        return true;
+      }
 
-      // if (/toggle/.test(optionObject.className)) {
-      //   optionObject.checked = !!data[type];
-      //   return true;
-      // }
-      // optionObject.value = String(data[type]);
-      // return true;
+      optionObject.value = String(data[type]);
+      return true;
     });
+
+    if (data.scaleBase === 'interval' && this.scaleBaseIntervals) {
+      this.scaleBaseIntervals.checked = true;
+      switchOption('interval');
+      return true;
+    }
+
+    if (data.scaleBase === 'step' && this.scaleBaseSteps) {
+      this.scaleBaseSteps.checked = true;
+      switchOption();
+    }
     return true;
   }
 
@@ -65,15 +86,13 @@ class ScaleSetup extends PanelObserver {
     this.optionScale = this.getElement('scale', 'toggle');
     this.optionInterval = this.getElement('interval');
     this.optionStep = this.getElement('step');
-    this.scaleBaseSteps = this.getElement('step', 'radiobuttons');
-    this.scaleBaseIntervals = this.getElement('interval', 'radiobuttons');
+    this.scaleBaseSteps = this.getElement('scaleBaseStep', 'radiobuttons');
+    this.scaleBaseIntervals = this.getElement('scaleBaseInterval', 'radiobuttons');
 
     this.optionObjects = [
       this.optionScale,
       this.optionInterval,
       this.optionStep,
-      this.scaleBaseSteps,
-      this.scaleBaseIntervals,
     ];
   }
 
@@ -81,6 +100,9 @@ class ScaleSetup extends PanelObserver {
     if (!this.wrapper) return null;
     if (type === 'input') {
       return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
+    }
+    if (type === 'radiobuttons') {
+      return this.wrapper.querySelector(`.js-${type}__category-checkbox_usage_${selector}`) as HTMLInputElement;
     }
     return this.wrapper.querySelector(`.js-${type}__checkbox_usage_${selector}`) as HTMLInputElement;
   }
@@ -91,11 +113,18 @@ class ScaleSetup extends PanelObserver {
 
   private handleInputChange(e: Event) {
     const target = e.target as HTMLInputElement;
-    const notificationText = target.type === 'checkbox' ? target.checked : target.value;
+
+    const notificationText = (target.type === 'text') ? target.value : target.checked;
     const usageType = target.className.match(/usage_\S*/);
-    if (usageType) {
-      this.notify(usageType[0].replace('usage_', ''), notificationText);
+
+    if (!usageType) return false;
+    const type = usageType[0].replace('usage_', '');
+    if (type === 'scaleBaseInterval' || type === 'scaleBaseStep') {
+      this.notify('scaleBase', type.substr(9).toLowerCase());
+      return true;
     }
+    this.notify(type, notificationText);
+    return true;
   }
 }
 
