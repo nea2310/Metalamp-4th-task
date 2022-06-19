@@ -1,6 +1,4 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-console */
 
 import { IConf } from '../../../slider-metalamp/mvc/interface';
 
@@ -11,8 +9,6 @@ interface IConfAdvanced extends IConf {
 }
 
 class MainSetup extends PanelObserver {
-  private elementName: string;
-
   private wrapper: HTMLElement;
 
   private optionObjects: (HTMLInputElement | null)[] | null = null;
@@ -33,26 +29,12 @@ class MainSetup extends PanelObserver {
 
   private optionTip: HTMLInputElement | null = null;
 
-  constructor(elementName: string, element: HTMLElement) {
+  constructor(element: HTMLElement) {
     super();
-    this.elementName = elementName.replace(/^.js-/, '');
     this.wrapper = element;
     this.render();
     this.handleInputChange = this.handleInputChange.bind(this);
     this.bindEventListeners();
-  }
-
-  private bindEventListeners() {
-    this.wrapper.addEventListener('change', this.handleInputChange);
-  }
-
-  private handleInputChange(e: Event) {
-    const target = e.target as HTMLInputElement;
-    const notificationText = target.type === 'checkbox' ? target.checked : target.value;
-    const usageType = target.className.match(/usage_\S*/);
-    if (usageType) {
-      this.notify(usageType[0].replace('usage_', ''), notificationText);
-    }
   }
 
   public update(data: IConfAdvanced) {
@@ -111,6 +93,19 @@ class MainSetup extends PanelObserver {
       this.optionTip,
     ];
     return true;
+  }
+
+  private bindEventListeners() {
+    this.wrapper.addEventListener('change', this.handleInputChange);
+  }
+
+  private handleInputChange(e: Event) {
+    const target = e.target as HTMLInputElement;
+    const notificationText = target.type === 'checkbox' ? target.checked : target.value;
+    const usageType = target.className.match(/usage_\S*/);
+    if (usageType) {
+      this.notify(usageType[0].replace('usage_', ''), notificationText);
+    }
   }
 
   private getElement(selector: string, type: 'input' | 'toggle' = 'input') {

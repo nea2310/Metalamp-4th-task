@@ -1,7 +1,4 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
-/* eslint-disable class-methods-use-this */
 
 import PanelObserver from '../panel-observer';
 
@@ -14,8 +11,6 @@ interface IConfAdvanced extends IConf {
 class ControlMovementSetup extends PanelObserver {
   private optionObjects: (HTMLInputElement | null)[] | null = null;
 
-  private elementName: string;
-
   private wrapper: HTMLElement;
 
   private optionShiftOnKeyDown: HTMLInputElement | null = null;
@@ -24,9 +19,8 @@ class ControlMovementSetup extends PanelObserver {
 
   private optionSticky: HTMLInputElement | null = null;
 
-  constructor(elementName: string, element: HTMLElement) {
+  constructor(element: HTMLElement) {
     super();
-    this.elementName = elementName.replace(/^.js-/, '');
     this.wrapper = element;
     this.render();
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -78,14 +72,6 @@ class ControlMovementSetup extends PanelObserver {
     ];
   }
 
-  private getElement(selector: string, type: 'input' | 'toggle' = 'input') {
-    if (!this.wrapper) return null;
-    if (type === 'input') {
-      return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
-    }
-    return this.wrapper.querySelector(`.js-${type}__checkbox_usage_${selector}`) as HTMLInputElement;
-  }
-
   private bindEventListeners() {
     this.wrapper.addEventListener('change', this.handleInputChange);
   }
@@ -100,6 +86,14 @@ class ControlMovementSetup extends PanelObserver {
     const type = usageType[0].replace('usage_', '');
     this.notify(type, notificationText);
     return true;
+  }
+
+  private getElement(selector: string, type: 'input' | 'toggle' = 'input') {
+    if (!this.wrapper) return null;
+    if (type === 'input') {
+      return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
+    }
+    return this.wrapper.querySelector(`.js-${type}__checkbox_usage_${selector}`) as HTMLInputElement;
   }
 }
 

@@ -1,7 +1,4 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
-/* eslint-disable class-methods-use-this */
 
 import PanelObserver from '../panel-observer';
 
@@ -13,8 +10,6 @@ interface IConfAdvanced extends IConf {
 
 class ScaleSetup extends PanelObserver {
   private optionObjects: (HTMLInputElement | null)[] | null = null;
-
-  private elementName: string;
 
   private wrapper: HTMLElement;
 
@@ -28,9 +23,8 @@ class ScaleSetup extends PanelObserver {
 
   private scaleBaseIntervals: HTMLInputElement | null = null;
 
-  constructor(elementName: string, element: HTMLElement) {
+  constructor(element: HTMLElement) {
     super();
-    this.elementName = elementName.replace(/^.js-/, '');
     this.wrapper = element;
     this.render();
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -108,17 +102,6 @@ class ScaleSetup extends PanelObserver {
     ];
   }
 
-  private getElement(selector: string, type: 'input' | 'toggle' | 'radiobuttons' = 'input') {
-    if (!this.wrapper) return null;
-    if (type === 'input') {
-      return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
-    }
-    if (type === 'radiobuttons') {
-      return this.wrapper.querySelector(`.js-${type}__category-checkbox_usage_${selector}`) as HTMLInputElement;
-    }
-    return this.wrapper.querySelector(`.js-${type}__checkbox_usage_${selector}`) as HTMLInputElement;
-  }
-
   private bindEventListeners() {
     this.wrapper.addEventListener('change', this.handleInputChange);
   }
@@ -137,6 +120,17 @@ class ScaleSetup extends PanelObserver {
     }
     this.notify(type, notificationText);
     return true;
+  }
+
+  private getElement(selector: string, type: 'input' | 'toggle' | 'radiobuttons' = 'input') {
+    if (!this.wrapper) return null;
+    if (type === 'input') {
+      return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
+    }
+    if (type === 'radiobuttons') {
+      return this.wrapper.querySelector(`.js-${type}__category-checkbox_usage_${selector}`) as HTMLInputElement;
+    }
+    return this.wrapper.querySelector(`.js-${type}__checkbox_usage_${selector}`) as HTMLInputElement;
   }
 }
 

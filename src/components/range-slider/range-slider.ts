@@ -1,6 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-console */
 import $ from 'jquery';
 
 import { IConf } from '../../slider-metalamp/mvc/interface';
@@ -8,31 +5,19 @@ import { IConf } from '../../slider-metalamp/mvc/interface';
 import Panel from '../panel/panel';
 
 class RangeSlider {
-  panel: Panel | null = null;
+  private wrapper: HTMLElement;
 
-  panelWrapper: HTMLElement | null = null;
+  private panel: Panel | null = null;
 
-  slider: HTMLElement | undefined
+  private panelWrapper: HTMLElement | null = null;
 
-  wrapper: HTMLElement
+  private slider: HTMLElement | undefined;
 
-  sliderWrapper: HTMLElement | undefined
+  private sliderWrapper: HTMLElement | undefined;
 
-  rangeSlider: any;
+  private rangeSlider: any;
 
-  inputsAll: HTMLInputElement[] = []
-
-  selector: string
-
-  isDestroyed: boolean | undefined;
-
-  isDisabled: boolean | undefined;
-
-  optionSubscribe: HTMLInputElement | undefined;
-
-  optionDestroy: HTMLInputElement | undefined;
-
-  optionDisable: HTMLInputElement | undefined;
+  private selector: string;
 
   constructor(selector: string, element: Element) {
     this.selector = selector;
@@ -115,8 +100,9 @@ class RangeSlider {
       }
       default: {
         this.rangeSlider.update({ [parameters.key]: parameters.data });
-        /* после ввода данных в панель конфигурирования и обновления слайдера нужно получить данные из модели и обновить панель,
-     т.к. в панель могли быть введены недопустимые данные, которые были затем изменены в модели при валидации. Их надо скорректировать и в панели */
+        /* после ввода данных в панель конфигурирования и обновления слайдера нужно получить данные
+        из модели и обновить панель, т.к. в панель могли быть введены недопустимые данные, которые
+         были затем изменены в модели при валидации. Их надо скорректировать и в панели */
         const data = this.rangeSlider.getData();
         if (this.panel) this.panel.update(data);
       }
@@ -142,7 +128,8 @@ class RangeSlider {
       this.rangeSlider.disable();
     } else {
       this.rangeSlider.enable();
-      /* дожидаемся, когда вернется объект data из модели, иначе update вызывается с некорректными данными */
+      /* дожидаемся, когда вернется объект data из модели, иначе update вызывается
+      с некорректными данными */
       const data = await this.rangeSlider.getData();
       if (this.panel) this.panel.update(data);
     }
