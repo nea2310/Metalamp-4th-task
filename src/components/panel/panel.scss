@@ -1,41 +1,22 @@
 .panel {
   position: relative;
-  padding: 5px 10px 60px 10px;
-  display: inline-flex;
-  border-radius: 2px;
-  height: 290px;
-  text-align: left;
-  @include font-body;
-
-  @include media-breakpoint-down($lg) {
-    height: auto;
-    display: block;
-  }
-
-  &__actions {
-    padding: 0;
-    margin: 0;
-    border: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 5px;
-    padding: 5px;
-    border: 1px solid $colorDarkShade25;
-
-    &-component {
-      margin-top: 10px;
-    }
+  &__blocks {
+    padding: 5px 10px 60px 10px;
+    display: inline-flex;
+    border-radius: 2px;
+    height: 290px;
+    text-align: left;
+    @include font-body;
 
     @include media-breakpoint-down($lg) {
-      flex-direction: row;
-      justify-content: space-between;
+      height: auto;
+      display: block;
     }
   }
 
-  &__apply {
+  &__apply-button {
     position: absolute;
     bottom: 18px;
-    right: 14px;
+    right: 0;
   }
 }

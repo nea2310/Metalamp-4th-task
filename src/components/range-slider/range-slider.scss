@@ -5,7 +5,7 @@
 
   &_orientation_vertical {
     display: flex;
-    height: 740px;
+    height: 840px;
     align-items: center;
     justify-content: center;
 
@@ -30,12 +30,12 @@
   }
 
   &__panel {
+    margin-top: 40px;
+    text-align: center;
+
     @include media-breakpoint-down($lg) {
       max-width: 540px;
       margin: 40px auto 0;
     }
-
-    margin-top: 40px;
-    text-align: center;
   }
 }

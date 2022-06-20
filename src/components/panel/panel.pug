@@ -13,11 +13,13 @@ mixin panel(options = {})
     const {radioGroupName} = options
 
   div(class = `${elementName} js-${elementName}`)
-    +main-setup()
-    +scale-setup({radioGroupName})
-    +control-movement-setup()
-    +actions-setup()
-    +button({text: 'Apply changes'})
+    div(class =`${elementName}__blocks`)
+      +main-setup()
+      +scale-setup({radioGroupName})
+      +control-movement-setup()
+      +actions-setup()
+    div(class =`${elementName}__apply-button`)
+      +button({text: 'Apply changes'})
 
 
 
