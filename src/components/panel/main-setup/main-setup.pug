@@ -7,35 +7,35 @@ mixin main-setup()
 
   fieldset(class = `${elementName} js-${elementName}`)
     legend Main
-    div(class = `${elementName}__component ${elementName}__component_type_min js-${elementName}__component_type_min`)
+    div(class = `${elementName}__component`)
       +input-field({
         labelText: 'min',
         usage: 'min'})
-    div(class = `${elementName}__component ${elementName}__component_type_max js-${elementName}__component_type_max`)
+    div(class = `${elementName}__component`)
       +input-field({
         labelText: 'max',
         usage: 'max'})
-    div(class = `${elementName}__component ${elementName}__component_type_from js-${elementName}__component_type_from`)
+    div(class = `${elementName}__component`)
       +input-field({
         labelText: 'from',
         usage: 'from'})
-    div(class = `${elementName}__component ${elementName}__component_type_to js-${elementName}__component_type_to`)
+    div(class = `${elementName}__component`)
       +input-field({
         labelText: 'to',
         usage: 'to'})
-    div(class = `${elementName}__component ${elementName}__component_type_vertical js-${elementName}__component_type_vertical`)
+    div(class = `${elementName}__component`)
       +toggle({
         name: 'vertical',
         usage: 'vertical'})
-    div(class = `${elementName}__component ${elementName}__component_type_range js-${elementName}__component_type_range`)
+    div(class = `${elementName}__component`)
       +toggle({
         name: 'range',
         usage: 'range'})
-    div(class = `${elementName}__component ${elementName}__component_type_bar js-${elementName}__component_type_bar`)
+    div(class = `${elementName}__component`)
       +toggle({
         name: 'bar',
         usage: 'bar'})
-    div(class = `${elementName}__component ${elementName}__component_type_tip js-${elementName}__component_type_tip`)
+    div(class = `${elementName}__component`)
       +toggle({
         name: 'tip',
         usage: 'tip'})

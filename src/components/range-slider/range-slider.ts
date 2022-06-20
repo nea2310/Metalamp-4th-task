@@ -26,14 +26,6 @@ class RangeSlider {
     this.subscribeSlider();
   }
 
-  // static valid(
-  //   item: HTMLInputElement,
-  //   value: number | string | boolean,
-  // ) {
-  //   const input = item;
-  //   if (input.value !== value) { input.value = value as string; }
-  // }
-
   private render() {
     this.slider = RangeSlider.getElement(this.wrapper, '.js-slider-metalamp');
     this.sliderWrapper = RangeSlider.getElement(this.wrapper, `${this.selector}__slider-metalamp`);
@@ -45,8 +37,8 @@ class RangeSlider {
     return true;
   }
 
-  private createSlider(elem: HTMLElement) {
-    const rangeSlider = $(elem).SliderMetaLamp({
+  private createSlider(element: HTMLElement) {
+    const rangeSlider = $(element).SliderMetaLamp({
       onStart: (data: IConf) => {
         this.displayData(data);
       },
@@ -56,7 +48,7 @@ class RangeSlider {
       onChange: (data: IConf) => {
         this.changeData(data);
       },
-    }).data('SliderMetaLamp'); // вернёт объект для одного элемента
+    }).data('SliderMetaLamp');
     return rangeSlider;
   }
 
@@ -76,35 +68,36 @@ class RangeSlider {
   }
 
   private handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
-    switch (parameters.key) {
+    const { key, data } = parameters;
+    switch (key) {
       case 'subscribe': {
-        if (typeof parameters.data === 'boolean') {
-          this.subscribeSlider(parameters.data);
+        if (typeof data === 'boolean') {
+          this.subscribeSlider(data);
         }
         break;
       }
       case 'disable': {
-        if (typeof parameters.data === 'boolean') {
-          this.disableSlider(parameters.data);
+        if (typeof data === 'boolean') {
+          this.disableSlider(data);
           if (this.panel) {
-            this.panel.disable(parameters.data);
+            this.panel.disable(data);
           }
         }
         break;
       }
       case 'destroy': {
-        if (typeof parameters.data === 'boolean') {
-          this.destroySlider(parameters.data);
+        if (typeof data === 'boolean') {
+          this.destroySlider(data);
         }
         break;
       }
       default: {
-        this.rangeSlider.update({ [parameters.key]: parameters.data });
+        this.rangeSlider.update({ [key]: data });
         /* после ввода данных в панель конфигурирования и обновления слайдера нужно получить данные
         из модели и обновить панель, т.к. в панель могли быть введены недопустимые данные, которые
          были затем изменены в модели при валидации. Их надо скорректировать и в панели */
-        const data = this.rangeSlider.getData();
-        if (this.panel) this.panel.update(data);
+        const dataObject = this.rangeSlider.getData();
+        if (this.panel) this.panel.update(dataObject);
       }
     }
   }
@@ -153,9 +146,9 @@ class RangeSlider {
 
   private switchVertical() {
     if (this.sliderWrapper) {
-      this.sliderWrapper.classList.toggle('range-slider__slider-metalamp_orientation_vertical'); // .range-slider__slider-metalamp
+      this.sliderWrapper.classList.toggle('range-slider__slider-metalamp_orientation_vertical');
     }
-    this.wrapper.classList.toggle('range-slider_orientation_vertical'); // .range-slider
+    this.wrapper.classList.toggle('range-slider_orientation_vertical');
   }
 
   private static getElement(object: HTMLElement, selector: string) {
