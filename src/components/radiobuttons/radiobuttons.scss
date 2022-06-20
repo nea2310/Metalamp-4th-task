@@ -48,10 +48,6 @@
         border: 2px solid $colorDarkShade25;
         background-color: $colorDarkShade25;
       }
-      &:focus {
-        outline-offset: 12px;
-        outline: 2px solid black;
-      }
     }
 
     &-radiomark {
