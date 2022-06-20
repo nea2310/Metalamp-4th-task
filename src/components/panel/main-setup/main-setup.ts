@@ -11,7 +11,7 @@ interface IConfAdvanced extends IConf {
 class MainSetup extends PanelObserver {
   private wrapper: HTMLElement;
 
-  private optionObjects: (HTMLInputElement | null)[] | null = null;
+  private optionObjects: Array<HTMLInputElement | null> = [];
 
   private optionMin: HTMLInputElement | null = null;
 
@@ -73,26 +73,14 @@ class MainSetup extends PanelObserver {
   }
 
   private render() {
-    this.optionMin = this.getElement('min');
-    this.optionMax = this.getElement('max');
-    this.optionFrom = this.getElement('from');
-    this.optionTo = this.getElement('to');
-    this.optionVertical = this.getElement('vertical', 'toggle');
-    this.optionRange = this.getElement('range', 'toggle');
-    this.optionBar = this.getElement('bar', 'toggle');
-    this.optionTip = this.getElement('tip', 'toggle');
-
-    this.optionObjects = [
-      this.optionMin,
-      this.optionMax,
-      this.optionFrom,
-      this.optionTo,
-      this.optionVertical,
-      this.optionRange,
-      this.optionBar,
-      this.optionTip,
-    ];
-    return true;
+    this.optionMin = this.prepareElement('min');
+    this.optionMax = this.prepareElement('max');
+    this.optionFrom = this.prepareElement('from');
+    this.optionTo = this.prepareElement('to');
+    this.optionVertical = this.prepareElement('vertical', 'toggle');
+    this.optionRange = this.prepareElement('range', 'toggle');
+    this.optionBar = this.prepareElement('bar', 'toggle');
+    this.optionTip = this.prepareElement('tip', 'toggle');
   }
 
   private bindEventListeners() {
@@ -108,12 +96,20 @@ class MainSetup extends PanelObserver {
     }
   }
 
-  private getElement(selector: string, type: 'input' | 'toggle' = 'input') {
+  private getElement(selector: string, type: string) {
     if (!this.wrapper) return null;
     if (type === 'input') {
       return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
     }
     return this.wrapper.querySelector(`.js-${type}__checkbox_usage_${selector}`) as HTMLInputElement;
+  }
+
+  private prepareElement = (selector: string, type: 'input' | 'toggle' = 'input') => {
+    const object = this.getElement(selector, type);
+    if (object) {
+      this.optionObjects.push(object);
+    }
+    return object;
   }
 }
 

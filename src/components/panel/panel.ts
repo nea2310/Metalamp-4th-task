@@ -1,3 +1,7 @@
+/* eslint-disable max-len */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 import MainSetup from './main-setup/main-setup';
 
 import ScaleSetup from './scale-setup/scale-setup';
@@ -14,7 +18,11 @@ interface IConfAdvanced extends IConf {
   [value: string]: boolean | number | string | Function | undefined
 }
 
+interface test<T, U> { }
+
 class Panel extends PanelObserver {
+  private optionObjects: Array<MainSetup | ScaleSetup | ControlMovementSetup | ActionsSetup> = [];
+
   private mainSetup: MainSetup | null = null;
 
   private scaleSetup: ScaleSetup | null = null;
@@ -40,32 +48,19 @@ class Panel extends PanelObserver {
   }
 
   public update(data: IConfAdvanced) {
-    if (!this.mainSetup) return false;
-    this.mainSetup.update(data);
-    if (!this.scaleSetup) return false;
-    this.scaleSetup.update(data);
-    if (!this.controlMovementSetup) return false;
-    this.controlMovementSetup.update(data);
-    return true;
+    this.optionObjects.forEach((option: any) => {
+      if (!(option instanceof ActionsSetup)) {
+        option.update(data);
+      }
+    });
   }
 
   public disable(isDisabled = false) {
-    if (!this.mainSetup) return false;
-    this.mainSetup.disable(isDisabled);
-    if (!this.scaleSetup) return false;
-    this.scaleSetup.disable(isDisabled);
-    if (!this.controlMovementSetup) return false;
-    this.controlMovementSetup.disable(isDisabled);
-    if (!this.actionsSetup) return false;
-    this.actionsSetup.disable(isDisabled);
-    return true;
+    this.optionObjects.forEach((option: any) => option.disable(isDisabled));
   }
 
   public destroy() {
-    this.mainSetup = null;
-    this.scaleSetup = null;
-    this.controlMovementSetup = null;
-    this.actionsSetup = null;
+    this.optionObjects.forEach((option: any) => { option = null; });
     const panelChildren = this.wrapper.childNodes;
     panelChildren.forEach((element) => {
       element.remove();
@@ -73,32 +68,32 @@ class Panel extends PanelObserver {
   }
 
   private render() {
-    this.mainSetupElement = this.wrapper.querySelector('.js-main-setup');
-    this.scaleSetupElement = this.wrapper.querySelector('.js-scale-setup');
-    this.controlMovementSetupElement = this.wrapper.querySelector('.js-control-movement-setup');
-    this.actionsSetupElement = this.wrapper.querySelector('.js-actions-setup');
-
-    if (!this.mainSetupElement) return false;
-    this.mainSetup = new MainSetup(this.mainSetupElement);
-    this.mainSetup.subscribe(this.handlePanelChange);
-
-    if (!this.scaleSetupElement) return false;
-    this.scaleSetup = new ScaleSetup(this.scaleSetupElement);
-    this.scaleSetup.subscribe(this.handlePanelChange);
-
-    if (!this.controlMovementSetupElement) return false;
-    this.controlMovementSetup = new ControlMovementSetup(this.controlMovementSetupElement);
-    this.controlMovementSetup.subscribe(this.handlePanelChange);
-
-    if (!this.actionsSetupElement) return false;
-    this.actionsSetup = new ActionsSetup(this.actionsSetupElement);
-    this.actionsSetup.subscribe(this.handlePanelChange);
-
-    return true;
+    this.mainSetup = this.prepareObject<typeof MainSetup>('main', MainSetup);
+    this.scaleSetup = this.prepareObject<typeof ScaleSetup>('scale', ScaleSetup);
+    this.controlMovementSetup = this.prepareObject<typeof ControlMovementSetup>('control-movement', ControlMovementSetup);
+    this.actionsSetup = this.prepareObject<typeof ActionsSetup>('actions', ActionsSetup);
   }
 
   private handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
     this.notify(parameters.key, parameters.data);
+  }
+
+  private getElement(selector: string) {
+    return this.wrapper.querySelector(`.js-${selector}-setup`) as HTMLElement;
+  }
+
+  private prepareObject<T extends class>(
+    selector: string,
+    ClassName: T,
+  ) {
+    const DOMElement = this.getElement(selector);
+    const object = new ClassName(DOMElement);
+
+    if (object) {
+      object.subscribe(this.handlePanelChange);
+      this.optionObjects.push(object);
+    }
+    return object;
   }
 }
 

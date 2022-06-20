@@ -9,7 +9,7 @@ interface IConfAdvanced extends IConf {
 }
 
 class ControlMovementSetup extends PanelObserver {
-  private optionObjects: (HTMLInputElement | null)[] | null = null;
+  private optionObjects: Array<HTMLInputElement | null> = [];
 
   private wrapper: HTMLElement;
 
@@ -61,15 +61,9 @@ class ControlMovementSetup extends PanelObserver {
   }
 
   private render() {
-    this.optionShiftOnKeyDown = this.getElement('shiftOnKeyDown');
-    this.optionShiftOnKeyHold = this.getElement('shiftOnKeyHold');
-    this.optionSticky = this.getElement('sticky', 'toggle');
-
-    this.optionObjects = [
-      this.optionShiftOnKeyDown,
-      this.optionShiftOnKeyHold,
-      this.optionSticky,
-    ];
+    this.optionShiftOnKeyDown = this.prepareElement('shiftOnKeyDown');
+    this.optionShiftOnKeyHold = this.prepareElement('shiftOnKeyHold');
+    this.optionSticky = this.prepareElement('sticky', 'toggle');
   }
 
   private bindEventListeners() {
@@ -88,12 +82,20 @@ class ControlMovementSetup extends PanelObserver {
     return true;
   }
 
-  private getElement(selector: string, type: 'input' | 'toggle' = 'input') {
+  private getElement(selector: string, type: string) {
     if (!this.wrapper) return null;
     if (type === 'input') {
       return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
     }
     return this.wrapper.querySelector(`.js-${type}__checkbox_usage_${selector}`) as HTMLInputElement;
+  }
+
+  private prepareElement = (selector: string, type: 'input' | 'toggle' = 'input') => {
+    const object = this.getElement(selector, type);
+    if (object) {
+      this.optionObjects.push(object);
+    }
+    return object;
   }
 }
 
