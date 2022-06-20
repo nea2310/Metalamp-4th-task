@@ -1,3 +1,7 @@
+/* eslint-disable space-before-function-paren */
+/* eslint-disable fsd/split-conditionals */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable no-use-before-define */
 /* eslint-disable max-len */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
@@ -68,10 +72,10 @@ class Panel extends PanelObserver {
   }
 
   private render() {
-    this.mainSetup = this.prepareObject<typeof MainSetup>('main', MainSetup);
-    this.scaleSetup = this.prepareObject<typeof ScaleSetup>('scale', ScaleSetup);
-    this.controlMovementSetup = this.prepareObject<typeof ControlMovementSetup>('control-movement', ControlMovementSetup);
-    this.actionsSetup = this.prepareObject<typeof ActionsSetup>('actions', ActionsSetup);
+    this.mainSetup = this.prepareObject<typeof MainSetup, MainSetup>('main', MainSetup);
+    this.scaleSetup = this.prepareObject<typeof ScaleSetup, ScaleSetup>('scale', ScaleSetup);
+    this.controlMovementSetup = this.prepareObject<typeof ControlMovementSetup, ControlMovementSetup>('control-movement', ControlMovementSetup);
+    this.actionsSetup = this.prepareObject<typeof ActionsSetup, ActionsSetup>('actions', ActionsSetup);
   }
 
   private handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
@@ -82,14 +86,12 @@ class Panel extends PanelObserver {
     return this.wrapper.querySelector(`.js-${selector}-setup`) as HTMLElement;
   }
 
-  private prepareObject<T extends class>(
-    selector: string,
-    ClassName: T,
-  ) {
+  private prepareObject<T extends new (arg: HTMLElement) => Y, Y>(
+    selector: string, ClassName: T) {
     const DOMElement = this.getElement(selector);
     const object = new ClassName(DOMElement);
 
-    if (object) {
+    if (object instanceof MainSetup || object instanceof ScaleSetup || object instanceof ControlMovementSetup || object instanceof ActionsSetup) {
       object.subscribe(this.handlePanelChange);
       this.optionObjects.push(object);
     }
