@@ -9,7 +9,7 @@ mixin toggle({name = '', usage = '', isChecked = false} = {})
     const validUsages = ['vertical', 'range', 'bar', 'tip', 'scale', 'sticky', 'subscribe', 'disable', 'destroy']
     usage = getValidValue(validUsages, usage, '')
 
-  label(class = elementName)= name
-    input(class = `${elementName}__checkbox ${elementName}__checkbox_usage_${usage} js-${elementName}__checkbox_usage_${usage}` type = "checkbox" name = name value = name checked = isChecked)
-    span(class = `${elementName}__checkmark`)
+  label(class = `${elementName} js-${elementName}`)= name
+    input(class = `${elementName}__checkbox js-${elementName}__checkbox ${elementName}__checkbox_usage_${usage} js-${elementName}__checkbox_usage_${usage}` type = "checkbox" name = name value = name checked = isChecked tabindex = "-1")
+    span(class = `${elementName}__checkmark js-${elementName}__checkmark`  tabindex = "0")
       span(class = `${elementName}__ball`)
