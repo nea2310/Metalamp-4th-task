@@ -9,7 +9,7 @@ interface IConfAdvanced extends IConf {
 }
 
 class ScaleSetup extends PanelObserver {
-  private optionObjects: (HTMLInputElement | null)[] | null = null;
+  private optionObjects: Array<HTMLInputElement | null> = [];
 
   private wrapper: HTMLElement;
 
@@ -87,19 +87,11 @@ class ScaleSetup extends PanelObserver {
   }
 
   private render() {
-    this.optionScale = this.getElement('scale', 'toggle');
-    this.optionInterval = this.getElement('interval');
-    this.optionStep = this.getElement('step');
-    this.scaleBaseSteps = this.getElement('scaleBaseStep', 'radiobuttons');
-    this.scaleBaseIntervals = this.getElement('scaleBaseInterval', 'radiobuttons');
-
-    this.optionObjects = [
-      this.optionScale,
-      this.optionInterval,
-      this.optionStep,
-      this.scaleBaseSteps,
-      this.scaleBaseIntervals,
-    ];
+    this.optionScale = this.prepareElement('scale', 'toggle');
+    this.optionInterval = this.prepareElement('interval');
+    this.optionStep = this.prepareElement('step');
+    this.scaleBaseSteps = this.prepareElement('scaleBaseStep', 'radiobuttons');
+    this.scaleBaseIntervals = this.prepareElement('scaleBaseInterval', 'radiobuttons');
   }
 
   private bindEventListeners() {
@@ -122,7 +114,7 @@ class ScaleSetup extends PanelObserver {
     return true;
   }
 
-  private getElement(selector: string, type: 'input' | 'toggle' | 'radiobuttons' = 'input') {
+  private getElement(selector: string, type: string) {
     if (!this.wrapper) return null;
     if (type === 'input') {
       return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
@@ -131,6 +123,14 @@ class ScaleSetup extends PanelObserver {
       return this.wrapper.querySelector(`.js-${type}__category-checkbox_usage_${selector}`) as HTMLInputElement;
     }
     return this.wrapper.querySelector(`.js-${type}__checkbox_usage_${selector}`) as HTMLInputElement;
+  }
+
+  private prepareElement = (selector: string, type: 'input' | 'toggle' | 'radiobuttons' = 'input') => {
+    const object = this.getElement(selector, type);
+    if (object) {
+      this.optionObjects.push(object);
+    }
+    return object;
   }
 }
 
