@@ -80,7 +80,7 @@ describe('controller', () => {
     async () => {
       const model = TestController.model as Model;
       const view = TestController.view as View;
-      expect(model.observers).toHaveLength(11);
+      expect(model.observers).toHaveLength(10);
       expect(view.observers).toHaveLength(2);
       await TestController.disable();
       expect(model.observers).toHaveLength(0);
@@ -96,7 +96,7 @@ describe('controller', () => {
       expect(model.observers).toHaveLength(0);
       expect(view.observers).toHaveLength(0);
       await TestController.enable();
-      expect(model.observers).toHaveLength(11);
+      expect(model.observers).toHaveLength(10);
       expect(view.observers).toHaveLength(2);
     },
   );

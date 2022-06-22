@@ -49,7 +49,7 @@ class Model extends Observer {
       calcFromPosition: false,
       calcToPosition: false,
       calcScaleMarks: false,
-      calcBarLength: false,
+      // calcBarLength: false,
       switchVertical: false,
       switchRange: false,
       switchScale: false,
@@ -76,7 +76,7 @@ class Model extends Observer {
     this.calcScaleMarks();
     this.calcFromPosition();
     this.calcToPosition();
-    this.calcBarLength();
+    // this.calcBarLength();
     if (typeof this.onStart === 'function') {
       this.onStart(this.conf);
     }
@@ -172,7 +172,7 @@ class Model extends Observer {
     }
     if (!isStop) { this.calcValue('normal', newPosition, moovingControl); }
 
-    this.calcBarLength();
+    //  this.calcBarLength();
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
     }
@@ -355,7 +355,7 @@ class Model extends Observer {
         } else result = 'too small newPosition';
       }
     }
-    this.calcBarLength();
+    // this.calcBarLength();
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
     }
@@ -519,7 +519,7 @@ class Model extends Observer {
       this.methods.calcScaleMarks = true;
       this.methods.calcFromPosition = true;
       this.methods.calcToPosition = true;
-      this.methods.calcBarLength = true;
+      //  this.methods.calcBarLength = true;
     };
     keys.forEach((element: string) => {
       const key = element as keyof IConf;
@@ -533,11 +533,11 @@ class Model extends Observer {
             break;
           case 'from':
             this.methods.calcFromPosition = true;
-            this.methods.calcBarLength = true;
+            //  this.methods.calcBarLength = true;
             break;
           case 'to':
             this.methods.calcToPosition = true;
-            this.methods.calcBarLength = true;
+            //  this.methods.calcBarLength = true;
             break;
           case 'step':
             this.methods.calcScaleMarks = true;
@@ -598,13 +598,13 @@ class Model extends Observer {
     await this.notify('IsVertical', this.data, this.conf);
     this.calcFromPosition();
     this.calcToPosition();
-    this.calcBarLength();
+    //  this.calcBarLength();
     this.calcScaleMarks();
   }
 
   private switchRange() {
     this.notify('IsRange', this.data, this.conf);
-    this.calcBarLength();
+    // this.calcBarLength();
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
     }
@@ -616,7 +616,7 @@ class Model extends Observer {
     console.log('updateControlPos');
     this.calcFromPosition();
     this.calcToPosition();
-    this.calcBarLength();
+    // this.calcBarLength();
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
     }
@@ -690,18 +690,18 @@ class Model extends Observer {
     this.notify('ToPosition', this.data, this.conf);
   }
 
-  /* Рассчитываем ширину и позицию left (top) прогресс-бара */
-  private calcBarLength() {
-    if (this.conf.range) { // режим Double
-      this.data.barPos = this.data.fromPosition;
-      this.data.barWidth = this.data.toPosition
-        - this.data.fromPosition;
-    } else { // режим Single
-      this.data.barPos = 0;
-      this.data.barWidth = this.data.fromPosition;
-    }
-    this.notify('Bar', this.data, this.conf);
-  }
+  // /* Рассчитываем ширину и позицию left (top) прогресс-бара */
+  // private calcBarLength() {
+  //   if (this.conf.range) { // режим Double
+  //     this.data.barPos = this.data.fromPosition;
+  //     this.data.barWidth = this.data.toPosition
+  //       - this.data.fromPosition;
+  //   } else { // режим Single
+  //     this.data.barPos = 0;
+  //     this.data.barWidth = this.data.fromPosition;
+  //   }
+  //   this.notify('Bar', this.data, this.conf);
+  // }
 
   // рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
   private calcScaleMarks() {

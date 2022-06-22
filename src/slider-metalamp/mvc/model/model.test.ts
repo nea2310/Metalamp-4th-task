@@ -584,8 +584,6 @@ describe('model, API method "update" processing', () => {
   test('update min, max, from, to, step', async () => {
     const dataEnd = {
       bar: true,
-      barPos: 16.666666666666668,
-      barWidth: 33.33333333333333,
       from: -50,
       fromPosition: 16.666666666666668,
       fromValue: '-50',

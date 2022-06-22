@@ -21,8 +21,18 @@ class ViewBar {
     return object.querySelector(selector);
   }
 
-  // обновление бара при изменении позиций ползунков
-  public updateBar(position: number, length: number, isVertical: boolean) {
+  public updateBar(
+    fromPosition: number,
+    toPosition: number,
+    isRange: boolean,
+    isVertical: boolean,
+  ) { // режим Single
+    let position = 0;
+    let length = fromPosition;
+    if (isRange) { // режим Double
+      position = fromPosition;
+      length = toPosition - fromPosition;
+    }
     if (this.progressBar) {
       const { style } = this.progressBar;
       if (!isVertical) {

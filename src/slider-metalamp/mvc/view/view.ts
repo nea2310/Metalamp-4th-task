@@ -90,6 +90,10 @@ class View extends Observer {
         data.fromPosition,
       );
       this.viewControl.updateInput(conf);
+      if (this.viewBar) {
+        this.viewBar
+          .updateBar(data.fromPosition, data.toPosition, conf.range, conf.vertical);
+      }
     }
   }
 
@@ -100,6 +104,10 @@ class View extends Observer {
         data.toPosition,
       );
       this.viewControl.updateInput(conf);
+    }
+    if (this.viewBar) {
+      this.viewBar
+        .updateBar(data.fromPosition, data.toPosition, conf.range, conf.vertical);
     }
   }
 
@@ -113,13 +121,6 @@ class View extends Observer {
 
   public updateScale(data: IdataFull, conf: IConfFull) {
     if (this.viewScale) { this.viewScale.createScale(data.marksArray, conf); }
-  }
-
-  public updateBar(data: IdataFull, conf: IConfFull) {
-    if (this.viewBar) {
-      this.viewBar
-        .updateBar(data.barPos, data.barWidth, conf.vertical);
-    }
   }
 
   public switchVertical(conf: IConfFull) {

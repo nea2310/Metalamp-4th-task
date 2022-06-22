@@ -46,8 +46,6 @@ export const defaultData: IdataFull = {
   intervalValue: '',
   stepValue: '',
   scaleBase: '',
-  barWidth: 0,
-  barPos: 0,
   fromValue: '',
   toValue: '',
   thumb: defaultThumb,

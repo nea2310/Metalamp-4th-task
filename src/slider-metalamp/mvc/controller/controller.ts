@@ -70,7 +70,6 @@ class Controller extends Observer {
       this.model.subscribe(this.handleToPosition);
       this.model.subscribe(this.handleFromValue);
       this.model.subscribe(this.handleToValue);
-      this.model.subscribe(this.handleBar);
       this.model.subscribe(this.handleScale);
       this.model.subscribe(this.handleIsVertical);
       this.model.subscribe(this.handleIsRange);
@@ -88,7 +87,6 @@ class Controller extends Observer {
       this.model.unsubscribe(this.handleToPosition);
       this.model.unsubscribe(this.handleFromValue);
       this.model.unsubscribe(this.handleToValue);
-      this.model.unsubscribe(this.handleBar);
       this.model.unsubscribe(this.handleScale);
       this.model.unsubscribe(this.handleIsVertical);
       this.model.unsubscribe(this.handleIsRange);
@@ -133,13 +131,6 @@ class Controller extends Observer {
     if (parms.key !== 'Scale') return;
     if (this.view) {
       this.view.updateScale(parms.data, parms.conf);
-    }
-  }
-
-  private handleBar = (parms: INotifyParameters) => {
-    if (parms.key !== 'Bar') return;
-    if (this.view) {
-      this.view.updateBar(parms.data, parms.conf);
     }
   }
 

@@ -161,14 +161,14 @@ describe('ViewScale', () => {
     ], { ...conf, vertical: true });
   });
 
-  test('updateBar', () => {
-    const updateBarSpy = jest.spyOn(testViewBar, 'updateBar');
-    testView.updateBar({
-      ...data, fromPosition: 0, barWidth: 100, barPos: 10,
-    }, { ...conf, vertical: true });
-    expect(updateBarSpy).toBeCalledTimes(1);
-    expect(updateBarSpy).toBeCalledWith(10, 100, true);
-  });
+  // test('updateBar', () => {
+  //   const updateBarSpy = jest.spyOn(testViewBar, 'updateBar');
+  //   testView.updateBar({
+  //     ...data, fromPosition: 0, barWidth: 100, barPos: 10,
+  //   }, { ...conf, vertical: true });
+  //   expect(updateBarSpy).toBeCalledTimes(1);
+  //   expect(updateBarSpy).toBeCalledWith(10, 100, true);
+  // });
 
   test('switchTip', async () => {
     const switchTipSpy = jest.spyOn(testViewControl, 'switchTip');

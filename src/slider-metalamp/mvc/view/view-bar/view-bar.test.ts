@@ -21,17 +21,17 @@ describe('ViewControl', () => {
     expect(progressBar)
       .toHaveProperty('style.height', '');
 
-    await testBar.updateBar(50, 100, false);
+    await testBar.updateBar(50, 100, true, false);
 
     expect(progressBar)
       .toHaveProperty('style.left', '50%');
     expect(progressBar)
-      .toHaveProperty('style.width', '100%');
+      .toHaveProperty('style.width', '50%');
     expect(progressBar)
       .toHaveProperty('style.bottom', '');
     expect(progressBar)
       .toHaveProperty('style.height', '');
-    await testBar.updateBar(50, 100, true);
+    await testBar.updateBar(50, 100, true, true);
 
     expect(progressBar)
       .toHaveProperty('style.left', '');
@@ -40,6 +40,6 @@ describe('ViewControl', () => {
     expect(progressBar)
       .toHaveProperty('style.bottom', '50%');
     expect(progressBar)
-      .toHaveProperty('style.height', '100%');
+      .toHaveProperty('style.height', '50%');
   });
 });

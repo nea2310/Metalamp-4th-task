@@ -34,7 +34,6 @@ interface Imethods {
   calcFromPosition: boolean,
   calcToPosition: boolean,
   calcScaleMarks: boolean
-  calcBarLength: boolean
   switchVertical: boolean
   switchRange: boolean
   switchScale: boolean
@@ -64,8 +63,6 @@ interface IdataFull {
   intervalValue: string;
   stepValue: string;
   scaleBase: string;
-  barWidth: number;
-  barPos: number;
   fromValue: string;
   toValue: string;
   thumb: IthumbFull;
