@@ -514,23 +514,22 @@ class Model extends Observer {
   одного и того же метода в модели */
   private findChangedConf(currentConf: IConfFull, newConf: IConf) {
     const keys = Object.keys(newConf);
+    const caseMinOrMax = () => {
+      this.needCalcValue = true;
+      this.methods.calcScaleMarks = true;
+      this.methods.calcFromPosition = true;
+      this.methods.calcToPosition = true;
+      this.methods.calcBarLength = true;
+    };
     keys.forEach((element: string) => {
       const key = element as keyof IConf;
       if (newConf[key] !== currentConf[key]) {
         switch (key) {
           case 'min':
-            this.needCalcValue = true;
-            this.methods.calcScaleMarks = true;
-            this.methods.calcFromPosition = true;
-            this.methods.calcToPosition = true;
-            this.methods.calcBarLength = true;
+            caseMinOrMax();
             break;
           case 'max':
-            this.needCalcValue = true;
-            this.methods.calcScaleMarks = true;
-            this.methods.calcFromPosition = true;
-            this.methods.calcToPosition = true;
-            this.methods.calcBarLength = true;
+            caseMinOrMax();
             break;
           case 'from':
             this.methods.calcFromPosition = true;
