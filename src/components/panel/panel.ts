@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable space-before-function-paren */
 /* eslint-disable fsd/split-conditionals */
 /* eslint-disable class-methods-use-this */
@@ -6,6 +7,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
+
 import MainSetup from './main-setup/main-setup';
 
 import ScaleSetup from './scale-setup/scale-setup';
@@ -22,10 +24,12 @@ interface IConfAdvanced extends IConf {
   [value: string]: boolean | number | string | Function | undefined
 }
 
-interface test<T, U> { }
+type IPanelComponents = MainSetup | ScaleSetup | ControlMovementSetup | ActionsSetup;
 
 class Panel extends PanelObserver {
-  private optionObjects: Array<MainSetup | ScaleSetup | ControlMovementSetup | ActionsSetup> = [];
+  private optionObjects: Array<IPanelComponents | null> = [];
+
+  private wrapper: HTMLElement;
 
   private mainSetup: MainSetup | null = null;
 
@@ -35,16 +39,6 @@ class Panel extends PanelObserver {
 
   private actionsSetup: ActionsSetup | null = null;
 
-  private wrapper: HTMLElement;
-
-  private mainSetupElement: HTMLElement | null = null;
-
-  private scaleSetupElement: HTMLElement | null = null;
-
-  private controlMovementSetupElement: HTMLElement | null = null;
-
-  private actionsSetupElement: HTMLElement | null = null;
-
   constructor(element: HTMLElement) {
     super();
     this.wrapper = element;
@@ -52,19 +46,25 @@ class Panel extends PanelObserver {
   }
 
   public update(data: IConfAdvanced) {
-    this.optionObjects.forEach((option: any) => {
+    this.optionObjects.forEach((option) => {
       if (!(option instanceof ActionsSetup)) {
+        if (!option) return false;
         option.update(data);
       }
+      return true;
     });
   }
 
   public disable(isDisabled = false) {
-    this.optionObjects.forEach((option: any) => option.disable(isDisabled));
+    this.optionObjects.forEach((option) => {
+      if (!option) return false;
+      option.disable(isDisabled);
+      return true;
+    });
   }
 
   public destroy() {
-    this.optionObjects.forEach((option: any) => { option = null; });
+    this.optionObjects.forEach((option) => { option = null; });
     const panelChildren = this.wrapper.childNodes;
     panelChildren.forEach((element) => {
       element.remove();
@@ -72,10 +72,17 @@ class Panel extends PanelObserver {
   }
 
   private render() {
-    this.mainSetup = this.prepareObject<typeof MainSetup, MainSetup>('main', MainSetup);
-    this.scaleSetup = this.prepareObject<typeof ScaleSetup, ScaleSetup>('scale', ScaleSetup);
-    this.controlMovementSetup = this.prepareObject<typeof ControlMovementSetup, ControlMovementSetup>('control-movement', ControlMovementSetup);
-    this.actionsSetup = this.prepareObject<typeof ActionsSetup, ActionsSetup>('actions', ActionsSetup);
+    const types = new Map();
+
+    types
+      .set('main', MainSetup)
+      .set('scale', ScaleSetup)
+      .set('control-movement', ControlMovementSetup)
+      .set('actions', ActionsSetup);
+
+    types.forEach((value, key) => {
+      this.prepareObject<typeof value, InstanceType<typeof value>>(key, value);
+    });
   }
 
   private handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
@@ -86,12 +93,12 @@ class Panel extends PanelObserver {
     return this.wrapper.querySelector(`.js-${selector}-setup`) as HTMLElement;
   }
 
-  private prepareObject<T extends new (arg: HTMLElement) => Y, Y>(
+  private prepareObject<T extends new (arg: HTMLElement) => Y, Y extends IPanelComponents>(
     selector: string, ClassName: T) {
     const DOMElement = this.getElement(selector);
     const object = new ClassName(DOMElement);
 
-    if (object instanceof MainSetup || object instanceof ScaleSetup || object instanceof ControlMovementSetup || object instanceof ActionsSetup) {
+    if (object) {
       object.subscribe(this.handlePanelChange);
       this.optionObjects.push(object);
     }
