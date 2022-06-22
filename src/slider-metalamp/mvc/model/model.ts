@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
 import {
   IConfFull,
@@ -361,8 +364,8 @@ class Model extends Observer {
 
   static checkConf(config: IConfFull) {
     // надо проверять на число те параметры, которые вводятся в инпут (т.к. можно ввести строку)
-    const conf = config;
-    const validNumber = (value: any) => {
+    let conf = config;
+    const validateNumber = (value: any) => {
       let result = 0;
       if (!Number.isNaN(+value)) {
         result = +value;
@@ -370,7 +373,7 @@ class Model extends Observer {
       return result;
     };
 
-    const validBoolean = (value: any) => {
+    const validateBoolean = (value: any) => {
       let result = false;
       if (value === true || value === 'true') {
         result = true;
@@ -378,69 +381,95 @@ class Model extends Observer {
       return result;
     };
 
-    conf.min = validNumber(conf.min);
-    conf.max = validNumber(conf.max);
-    conf.from = validNumber(conf.from);
-    conf.to = validNumber(conf.to);
-    conf.step = validNumber(conf.step);
-    conf.interval = validNumber(conf.interval);
-    conf.shiftOnKeyDown = validNumber(conf.shiftOnKeyDown);
-    conf.shiftOnKeyHold = validNumber(conf.shiftOnKeyHold);
+    const numbers = ['min', 'max', 'from', 'to', 'step', 'interval', 'shiftOnKeyDown', 'shiftOnKeyHold'];
+    const booleans = ['vertical', 'range', 'sticky', 'scale', 'bar', 'tip'];
 
-    conf.vertical = validBoolean(conf.vertical);
-    conf.range = validBoolean(conf.range);
-    conf.sticky = validBoolean(conf.sticky);
-    conf.scale = validBoolean(conf.scale);
-    conf.bar = validBoolean(conf.bar);
-    conf.tip = validBoolean(conf.tip);
+    const temporaryArray = Object.entries(conf);
 
-    if (conf.scaleBase !== 'step' && conf.scaleBase !== 'interval') {
-      conf.scaleBase = 'step';
-    }
+    const validatePropertyValue = (
+      key: string,
+      value: string | number | boolean | Function,
+      validationFunction: typeof validateNumber | typeof validateBoolean,
+    ) => {
+      value = validationFunction(value);
+      const obj = { [key]: value };
+      conf = {
+        ...conf, ...obj,
+      };
+    };
 
-    if (conf.shiftOnKeyDown <= 0) {
-      conf.shiftOnKeyDown = 1;
-    }
-    if (conf.shiftOnKeyHold <= 0) {
-      conf.shiftOnKeyHold = 1;
-    }
+    temporaryArray.forEach((element) => {
+      if (numbers.indexOf(element[0]) !== -1) {
+        validatePropertyValue(element[0], element[1], validateNumber);
+        return true;
+      }
+      if (booleans.indexOf(element[0]) !== -1) {
+        validatePropertyValue(element[0], element[1], validateBoolean);
+        return true;
+      }
+      return true;
+    });
 
-    if (conf.max <= conf.min) {
-      conf.max = conf.min + 10;
-      conf.from = conf.min;
-      conf.to = conf.max;
-    }
-    if (conf.from < conf.min) {
-      conf.from = conf.min;
-    }
+    const checkValue = (type: string, value: number) => {
+      if (value <= 0) {
+        switch (type) {
+          case 'step':
+            return (conf.max - conf.min) / 2;
+          case 'interval':
+            return 2;
+          default:
+            return 1;
+        }
+      }
+      return value;
+    };
 
-    if (conf.to < conf.min) {
-      conf.to = conf.from;
-    }
-    if (!conf.range && conf.to > conf.max) {
-      conf.to = conf.from;
-    }
+    const checkMin = () => {
+      if (conf.max <= conf.min) {
+        conf.max = conf.min + 10; // эта строка приводит к зависанию тестов
+        conf.from = conf.min;
+        conf.to = conf.max;
+      }
+      if (conf.from < conf.min) {
+        conf.from = conf.min;
+      }
+    };
 
-    if (conf.range && conf.to > conf.max) {
-      conf.to = conf.max;
-    }
-    if (conf.range && conf.from > conf.max) {
-      conf.from = conf.to;
-    }
+    const checkFrom = () => {
+      if (conf.from > conf.max) {
+        conf.max = conf.range ? conf.to : conf.max;
+      }
+      if (conf.range && conf.from > conf.to) {
+        conf.from = conf.min;
+      }
+    };
 
-    if (!conf.range && conf.from > conf.max) {
-      conf.from = conf.max;
-    }
-    if (conf.range && conf.from > conf.to) {
-      conf.from = conf.min;
-    }
+    const checkTo = () => {
+      if (conf.to < conf.min) {
+        conf.to = conf.from;
+      }
+      if (conf.to > conf.max) {
+        conf.to = conf.range ? conf.max : conf.from;
+      }
+    };
 
-    if (conf.step <= 0) {
-      conf.step = (conf.max - conf.min) / 2;
-    }
-    if (conf.interval <= 0) {
-      conf.interval = 2;
-    }
+    const checkScaleBase = () => {
+      if (conf.scaleBase !== 'step' && conf.scaleBase !== 'interval') {
+        conf.scaleBase = 'step';
+      }
+    };
+
+    conf.shiftOnKeyDown = checkValue('shiftOnKeyDown', conf.shiftOnKeyDown);
+    conf.shiftOnKeyHold = checkValue('shiftOnKeyHold', conf.shiftOnKeyHold);
+    conf.step = checkValue('step', conf.step);
+    conf.interval = checkValue('interval', conf.interval);
+
+    checkScaleBase();
+    /* последовательность вызовов 1-2-3 менять нельзя */
+    checkMin(); // 1
+    checkTo(); // 2
+    checkFrom();// 3
+
     return conf;
   }
 
