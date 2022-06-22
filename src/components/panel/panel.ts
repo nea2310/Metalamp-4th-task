@@ -20,7 +20,7 @@ import PanelObserver from './panel-observer';
 
 import { IConf } from '../../slider-metalamp/mvc/interface';
 
-interface IConfAdvanced extends IConf {
+interface IConfIndexed extends IConf {
   [value: string]: boolean | number | string | Function | undefined
 }
 
@@ -45,7 +45,7 @@ class Panel extends PanelObserver {
     this.render();
   }
 
-  public update(data: IConfAdvanced) {
+  public update(data: IConfIndexed) {
     this.optionObjects.forEach((option) => {
       if (!(option instanceof ActionsSetup)) {
         if (!option) return false;

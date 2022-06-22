@@ -19,6 +19,10 @@ interface IConfFull {
   onUpdate: Function
 }
 
+interface IConfFullIndexed extends IConfFull {
+  [value: string]: boolean | number | string | Function
+}
+
 type IConf = Partial<IConfFull>
 
 interface IObject {
@@ -79,6 +83,7 @@ export {
   Imethods,
   INotifyParameters,
   IConfFull,
+  IConfFullIndexed,
   IdataFull,
   IthumbFull,
 };
