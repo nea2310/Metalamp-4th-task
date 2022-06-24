@@ -458,17 +458,14 @@ class Model extends Observer {
         conf.scaleBase = 'step';
       }
     };
-
+    checkScaleBase();
     conf.shiftOnKeyDown = checkValue('shiftOnKeyDown', conf.shiftOnKeyDown);
     conf.shiftOnKeyHold = checkValue('shiftOnKeyHold', conf.shiftOnKeyHold);
+    checkMin();
+    checkTo();
+    checkFrom();
     conf.step = checkValue('step', conf.step);
     conf.interval = checkValue('interval', conf.interval);
-
-    checkScaleBase();
-    /* последовательность вызовов 1-2-3 менять нельзя */
-    checkMin(); // 1
-    checkTo(); // 2
-    checkFrom();// 3
 
     return conf;
   }
