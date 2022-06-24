@@ -424,46 +424,57 @@ class Model extends Observer {
       return value;
     };
 
-    const checkMin = () => {
+    const checkMax = () => {
       if (conf.max <= conf.min) {
-        conf.max = conf.min + 10; // эта строка приводит к зависанию тестов
-        conf.from = conf.min;
-        conf.to = conf.max;
+        return conf.min + 10;
       }
-      if (conf.from < conf.min) {
-        conf.from = conf.min;
-      }
+      return conf.max;
     };
 
     const checkFrom = () => {
+      if (conf.max <= conf.min) {
+        console.log('conf.max <= conf.min');
+        return conf.min;
+      }
+      if (conf.from < conf.min) {
+        console.log('conf.from <= conf.min');
+        return conf.min;
+      }
       if (conf.from > conf.max) {
-        conf.max = conf.range ? conf.to : conf.max;
+        return conf.range ? conf.to - 10 : conf.max;
       }
       if (conf.range && conf.from > conf.to) {
-        conf.from = conf.min;
+        console.log('conf.range && conf.from > conf.to');
+        return conf.min;
       }
+      return conf.from;
     };
 
     const checkTo = () => {
+      if (conf.max <= conf.min) {
+        return conf.min + 10;
+      }
       if (conf.to < conf.min) {
-        conf.to = conf.from;
+        return conf.from;
       }
       if (conf.to > conf.max) {
-        conf.to = conf.range ? conf.max : conf.from;
+        return conf.range ? conf.max : conf.from;
       }
+      return conf.to;
     };
 
     const checkScaleBase = () => {
       if (conf.scaleBase !== 'step' && conf.scaleBase !== 'interval') {
-        conf.scaleBase = 'step';
+        return 'step';
       }
+      return conf.scaleBase;
     };
-    checkScaleBase();
+    conf.scaleBase = checkScaleBase();
     conf.shiftOnKeyDown = checkValue('shiftOnKeyDown', conf.shiftOnKeyDown);
     conf.shiftOnKeyHold = checkValue('shiftOnKeyHold', conf.shiftOnKeyHold);
-    checkMin();
-    checkTo();
-    checkFrom();
+    conf.max = checkMax();
+    conf.to = checkTo();
+    conf.from = checkFrom();
     conf.step = checkValue('step', conf.step);
     conf.interval = checkValue('interval', conf.interval);
 
