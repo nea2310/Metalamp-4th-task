@@ -1,7 +1,3 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-console */
 import {
   IConfFull,
   IConf,
@@ -49,7 +45,6 @@ class Model extends Observer {
       calcFromPosition: false,
       calcToPosition: false,
       calcScaleMarks: false,
-      // calcBarLength: false,
       switchVertical: false,
       switchRange: false,
       switchScale: false,
@@ -76,7 +71,6 @@ class Model extends Observer {
     this.calcScaleMarks();
     this.calcFromPosition();
     this.calcToPosition();
-    // this.calcBarLength();
     if (typeof this.onStart === 'function') {
       this.onStart(this.conf);
     }
@@ -171,8 +165,6 @@ class Model extends Observer {
       this.notify('ToPosition', this.data, this.conf);
     }
     if (!isStop) { this.calcValue('normal', newPosition, moovingControl); }
-
-    //  this.calcBarLength();
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
     }
@@ -391,6 +383,7 @@ class Model extends Observer {
       value: string | number | boolean | Function,
       validationFunction: typeof validateNumber | typeof validateBoolean,
     ) => {
+      // eslint-disable-next-line no-param-reassign
       value = validationFunction(value);
       const obj = { [key]: value };
       conf = {
@@ -433,18 +426,15 @@ class Model extends Observer {
 
     const checkFrom = () => {
       if (conf.max <= conf.min) {
-        console.log('conf.max <= conf.min');
         return conf.min;
       }
       if (conf.from < conf.min) {
-        console.log('conf.from <= conf.min');
         return conf.min;
       }
       if (conf.from > conf.max) {
         return conf.range ? conf.to - 10 : conf.max;
       }
       if (conf.range && conf.from > conf.to) {
-        console.log('conf.range && conf.from > conf.to');
         return conf.min;
       }
       return conf.from;
@@ -477,7 +467,6 @@ class Model extends Observer {
     conf.from = checkFrom();
     conf.step = checkValue('step', conf.step);
     conf.interval = checkValue('interval', conf.interval);
-
     return conf;
   }
 
@@ -512,8 +501,7 @@ class Model extends Observer {
       }
     });
     this.needCalcValue = true;
-
-    return Object.assign(this.conf, this.data);
+    return { ...this.conf, ...this.data };
   }
 
   /* находим изменившийся параметр и меняем соотв-щее св-во объекта this.methods;
@@ -527,7 +515,6 @@ class Model extends Observer {
       this.methods.calcScaleMarks = true;
       this.methods.calcFromPosition = true;
       this.methods.calcToPosition = true;
-      //  this.methods.calcBarLength = true;
     };
     keys.forEach((element: string) => {
       const key = element as keyof IConf;
@@ -541,11 +528,9 @@ class Model extends Observer {
             break;
           case 'from':
             this.methods.calcFromPosition = true;
-            //  this.methods.calcBarLength = true;
             break;
           case 'to':
             this.methods.calcToPosition = true;
-            //  this.methods.calcBarLength = true;
             break;
           case 'step':
             this.methods.calcScaleMarks = true;
@@ -606,13 +591,11 @@ class Model extends Observer {
     await this.notify('IsVertical', this.data, this.conf);
     this.calcFromPosition();
     this.calcToPosition();
-    //  this.calcBarLength();
     this.calcScaleMarks();
   }
 
   private switchRange() {
     this.notify('IsRange', this.data, this.conf);
-    // this.calcBarLength();
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
     }
@@ -621,10 +604,8 @@ class Model extends Observer {
   }
 
   private updateControlPos() {
-    console.log('updateControlPos');
     this.calcFromPosition();
     this.calcToPosition();
-    // this.calcBarLength();
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
     }
@@ -697,19 +678,6 @@ class Model extends Observer {
     }
     this.notify('ToPosition', this.data, this.conf);
   }
-
-  // /* Рассчитываем ширину и позицию left (top) прогресс-бара */
-  // private calcBarLength() {
-  //   if (this.conf.range) { // режим Double
-  //     this.data.barPos = this.data.fromPosition;
-  //     this.data.barWidth = this.data.toPosition
-  //       - this.data.fromPosition;
-  //   } else { // режим Single
-  //     this.data.barPos = 0;
-  //     this.data.barWidth = this.data.fromPosition;
-  //   }
-  //   this.notify('Bar', this.data, this.conf);
-  // }
 
   // рассчитываем деления шкалы (создаем массив объектов {значение:, позиция:})
   private calcScaleMarks() {

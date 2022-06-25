@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import ViewBar from '../view/view-bar/view-bar';
 import ViewControl from '../view/view-control/view-control';
 import ViewScale from '../view/view-scale/view-scale';
@@ -130,8 +129,12 @@ class View extends Observer {
     }
   }
 
-  public switchRange(conf: IConfFull) {
+  public switchRange(conf: IConfFull, data: IdataFull | {} = {}) {
     this.changeMode(!conf.range, 'range-mode_single');
+    if ('fromPosition' in data && this.viewBar) {
+      this.viewBar
+        .updateBar(data.fromPosition, data.toPosition, conf.range, conf.vertical);
+    }
   }
 
   public switchScale(conf: IConfFull) {

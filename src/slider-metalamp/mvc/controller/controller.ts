@@ -144,7 +144,7 @@ class Controller extends Observer {
   private handleIsRange = (parms: INotifyParameters) => {
     if (parms.key !== 'IsRange') return;
     if (this.view) {
-      this.view.switchRange(parms.conf);
+      this.view.switchRange(parms.conf, parms.data);
     }
   }
 

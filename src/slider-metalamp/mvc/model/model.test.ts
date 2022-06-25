@@ -500,7 +500,7 @@ describe('model, values correction on API method "update" processing', () => {
     expect(testModel.update({ to: 20, max: 10, range: false }).from)
       .toBe(20);
     expect(testModel.update({ to: 20, max: 10, range: false }).to)
-      .toBe(30);
+      .toBe(20);
     expect(testModel.update({ to: 20, max: 10, range: false }).max)
       .toBe(30);
   });
@@ -509,7 +509,7 @@ describe('model, values correction on API method "update" processing', () => {
     expect(testModel.update({ to: 20, max: 10, range: true }).from)
       .toBe(20);
     expect(testModel.update({ to: 20, max: 10, range: true }).to)
-      .toBe(30);
+      .toBe(20);
     expect(testModel.update({ to: 20, max: 10, range: true }).max)
       .toBe(30);
   });
@@ -518,7 +518,7 @@ describe('model, values correction on API method "update" processing', () => {
     expect(testModel.update({ from: 20, max: 10, range: true }).from)
       .toBe(20);
     expect(testModel.update({ from: 20, max: 10, range: true }).to)
-      .toBe(30);
+      .toBe(20);
     expect(testModel.update({ from: 20, max: 10, range: true }).max)
       .toBe(30);
   });
@@ -527,7 +527,7 @@ describe('model, values correction on API method "update" processing', () => {
     expect(testModel.update({ from: 20, max: 10, range: false }).from)
       .toBe(20);
     expect(testModel.update({ from: 20, max: 10, range: false }).to)
-      .toBe(30);
+      .toBe(20);
     expect(testModel.update({ from: 20, max: 10, range: false }).max)
       .toBe(30);
   });
