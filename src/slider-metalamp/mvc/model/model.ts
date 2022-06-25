@@ -199,7 +199,7 @@ class Model extends Observer {
       return { newValue: String(item.value), newPosition: item.position };
     };
     // движение в большую сторону
-    const incr = (index: number) => {
+    const increment = (index: number) => {
       if (repeat) {
         return this.data.marksArray[index
           + this.conf.shiftOnKeyHold];
@@ -208,7 +208,7 @@ class Model extends Observer {
         + this.conf.shiftOnKeyDown];
     };
     // движение в меньшую сторону
-    const decr = (index: number) => {
+    const decrement = (index: number) => {
       if (repeat) {
         return this.data.marksArray[index
           - this.conf.shiftOnKeyHold];
@@ -309,7 +309,7 @@ class Model extends Observer {
       const index = this.data.marksArray
         .findIndex((elem) => elem.value === this.conf.from);
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
-        item = incr(index);
+        item = increment(index);
         if (item === undefined) return 'newPosition>100';
         const cond = item.value > this.conf.from
           && ((this.conf.range && item.value <= this.conf.to)
@@ -319,7 +319,7 @@ class Model extends Observer {
           result = changeFrom(item);
         } else result = 'too big newPosition';
       } else { // Уменьшение значения
-        item = decr(index);
+        item = decrement(index);
         if (item === undefined) return 'newPosition<0';
         const cond = (this.conf.range && item.value < this.conf.to)
           || !this.conf.range;
@@ -331,7 +331,7 @@ class Model extends Observer {
       const index = this.data.marksArray
         .findIndex((elem) => elem.value === this.conf.to);
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
-        item = incr(index);
+        item = increment(index);
         if (item === undefined) return 'newPosition>100';
         const cond = item && item.value > this.conf.to
           && this.conf.to < this.conf.max;
@@ -339,7 +339,7 @@ class Model extends Observer {
           result = changeTo(item);
         } else result = 'too big newPosition';
       } else { // Уменьшение значения
-        item = decr(index);
+        item = decrement(index);
         if (item === undefined) return 'newPosition<0';
         if (item.value >= this.conf.from
           && this.conf.to > this.conf.from) {
