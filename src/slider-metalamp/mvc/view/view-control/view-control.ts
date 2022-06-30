@@ -148,9 +148,10 @@ class ViewControl extends Observer {
     this.conf = conf;
   }
 
-  private defineControl = (elem: ITarget) => {
-    if (elem.classList) { return elem.classList.contains('slider-metalamp__control-min') ? 'min' : 'max'; }
-    return true;
+  private defineControl = (elem: ITarget): 'min' | 'max' | false => {
+    if (!elem.classList) return false;
+
+    return elem.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
   }
 
   private getMetrics(elem: ITarget) {
@@ -176,7 +177,10 @@ class ViewControl extends Observer {
       const { thumb } = this.data;
       if (target.classList.contains('slider-metalamp__control')) {
         // определяем ползунок, за который тянут
-        thumb.moovingControl = String(this.defineControl(target));
+        const moovingControl = this.defineControl(target);
+        if (typeof moovingControl === 'string') {
+          thumb.moovingControl = moovingControl;
+        }
         // определяем расстояние между позицией клика и левым краем ползунка
         if (!this.conf.vertical) {
           thumb.shiftBase = event.clientX

@@ -51,7 +51,7 @@ interface IthumbFull {
   width: number;
   height: number;
   shiftBase: number;
-  moovingControl: string;
+  moovingControl: 'min' | 'max';
   key: string;
   repeat: boolean;
 }

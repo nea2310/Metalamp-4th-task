@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   IConfFull,
   IConf,
@@ -92,9 +93,11 @@ class Model extends Observer {
       width: number,
       height: number,
       shiftBase: number,
-      moovingControl: string,
+      moovingControl: 'min' | 'max',
     },
   ) {
+    console.log(data);
+
     const {
       type,
       clientY,
@@ -729,9 +732,9 @@ class Model extends Observer {
   }
 
   private calcValue(
-    stopType: string,
+    stopType: 'normal' | 'min' | 'max' | 'meetMin' | 'meetMax',
     position: number,
-    moovingControl: string,
+    moovingControl: 'min' | 'max',
   ) {
     if (!this.changeMode) {
       let newValue = '';

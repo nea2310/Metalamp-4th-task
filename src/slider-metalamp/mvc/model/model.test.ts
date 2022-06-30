@@ -621,7 +621,7 @@ describe('model, API method "update" processing', () => {
         height: 0,
         key: '',
         left: 0,
-        moovingControl: '',
+        moovingControl: 'min',
         repeat: false,
         shiftBase: 0,
         top: 0,

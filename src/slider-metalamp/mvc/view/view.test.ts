@@ -1,4 +1,4 @@
-import { IConfFull } from '../interface';
+import { IConfFull, IdataFull } from '../interface';
 import View from '../view/view';
 import ViewBar from './view-bar/view-bar';
 import ViewControl from './view-control/view-control';
@@ -43,15 +43,13 @@ const conf: IConfFull = {
   onUpdate: () => true,
 };
 
-const data = {
+const data: IdataFull = {
   fromPosition: 10,
   toPosition: 0,
   marksArray: [{ position: 0, value: 0 }],
   intervalValue: '',
   stepValue: '',
   scaleBase: '',
-  barWidth: 0,
-  barPos: 0,
   fromValue: '',
   toValue: '',
   thumb: {
@@ -63,7 +61,7 @@ const data = {
     width: 0,
     height: 0,
     shiftBase: 0,
-    moovingControl: '',
+    moovingControl: 'min',
     key: '',
     repeat: false,
   },
@@ -160,15 +158,6 @@ describe('ViewScale', () => {
       { position: 100, value: 10 },
     ], { ...conf, vertical: true });
   });
-
-  // test('updateBar', () => {
-  //   const updateBarSpy = jest.spyOn(testViewBar, 'updateBar');
-  //   testView.updateBar({
-  //     ...data, fromPosition: 0, barWidth: 100, barPos: 10,
-  //   }, { ...conf, vertical: true });
-  //   expect(updateBarSpy).toBeCalledTimes(1);
-  //   expect(updateBarSpy).toBeCalledWith(10, 100, true);
-  // });
 
   test('switchTip', async () => {
     const switchTipSpy = jest.spyOn(testViewControl, 'switchTip');
