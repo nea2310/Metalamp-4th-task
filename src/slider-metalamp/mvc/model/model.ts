@@ -736,20 +736,17 @@ class Model extends Observer {
     position: number,
     moovingControl: 'min' | 'max',
   ) {
+    const stopTypes = {
+      normal: (this.conf.min + ((this.conf.max
+        - this.conf.min) * position) / 100).toFixed(0),
+      min: String(this.conf.min),
+      max: String(this.conf.min),
+      meetMax: String(this.conf.to),
+      meetMin: String(this.conf.from),
+    };
     if (!this.changeMode) {
-      let newValue = '';
-      if (stopType === 'normal') {
-        newValue = (this.conf.min + ((this.conf.max
-          - this.conf.min) * position) / 100).toFixed(0);
-      } else if (stopType === 'min') {
-        newValue = String(this.conf.min);
-      } else if (stopType === 'max') {
-        newValue = String(this.conf.max);
-      } else if (stopType === 'meetMax') {
-        newValue = String(this.conf.to);
-      } else if (stopType === 'meetMin') {
-        newValue = String(this.conf.from);
-      }
+      const newValue = stopTypes[stopType];
+
       if (moovingControl === 'min') {
         this.data.fromValue = newValue;
         this.conf.from = parseFloat(newValue);
