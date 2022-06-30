@@ -311,19 +311,19 @@ class Model extends Observer {
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = increment(index);
         if (item === undefined) return 'newPosition>100';
-        const cond = item.value > this.conf.from
+        const isValueAscending = item.value > this.conf.from
           && ((this.conf.range && item.value <= this.conf.to)
             || (!this.conf.range && item.value
               <= this.conf.max));
-        if (cond) {
+        if (isValueAscending) {
           result = changeFrom(item);
         } else result = 'too big newPosition';
       } else { // Уменьшение значения
         item = decrement(index);
         if (item === undefined) return 'newPosition<0';
-        const cond = (this.conf.range && item.value < this.conf.to)
+        const isValueDescending = (this.conf.range && item.value < this.conf.to)
           || !this.conf.range;
-        if (cond) {
+        if (isValueDescending) {
           result = changeFrom(item);
         } else result = 'too small newPosition';
       }
@@ -333,9 +333,9 @@ class Model extends Observer {
       if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
         item = increment(index);
         if (item === undefined) return 'newPosition>100';
-        const cond = item && item.value > this.conf.to
+        const isValueAscending = item && item.value > this.conf.to
           && this.conf.to < this.conf.max;
-        if (cond) {
+        if (isValueAscending) {
           result = changeTo(item);
         } else result = 'too big newPosition';
       } else { // Уменьшение значения
