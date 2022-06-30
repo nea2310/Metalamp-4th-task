@@ -347,7 +347,6 @@ class Model extends Observer {
         } else result = 'too small newPosition';
       }
     }
-    // this.calcBarLength();
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
     }
