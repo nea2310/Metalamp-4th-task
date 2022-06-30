@@ -8,30 +8,30 @@ interface IConfAdvanced extends IConf {
   [value: string]: boolean | number | string | Function | undefined
 }
 
-class MainSetup extends PanelObserver {
-  private wrapper: HTMLElement;
+type allowedTypes = 'input' | 'toggle';
 
+class MainSetup extends PanelObserver {
   private optionObjects: Array<HTMLInputElement | null> = [];
 
-  private optionMin: HTMLInputElement | null = null;
+  private options: Array<[string, 'input' | 'toggle']> | null = null
 
-  private optionMax: HTMLInputElement | null = null;
-
-  private optionFrom: HTMLInputElement | null = null;
+  private wrapper: HTMLElement;
 
   private optionTo: HTMLInputElement | null = null;
-
-  private optionVertical: HTMLInputElement | null = null;
-
-  private optionRange: HTMLInputElement | null = null;
-
-  private optionBar: HTMLInputElement | null = null;
-
-  private optionTip: HTMLInputElement | null = null;
 
   constructor(element: HTMLElement) {
     super();
     this.wrapper = element;
+    this.options = [
+      ['min', 'input'],
+      ['max', 'input'],
+      ['from', 'input'],
+      ['to', 'input'],
+      ['vertical', 'toggle'],
+      ['range', 'toggle'],
+      ['bar', 'toggle'],
+      ['tip', 'toggle'],
+    ];
     this.render();
     this.handleInputChange = this.handleInputChange.bind(this);
     this.bindEventListeners();
@@ -73,14 +73,13 @@ class MainSetup extends PanelObserver {
   }
 
   private render() {
-    this.optionMin = this.prepareElement('min');
-    this.optionMax = this.prepareElement('max');
-    this.optionFrom = this.prepareElement('from');
-    this.optionTo = this.prepareElement('to');
-    this.optionVertical = this.prepareElement('vertical', 'toggle');
-    this.optionRange = this.prepareElement('range', 'toggle');
-    this.optionBar = this.prepareElement('bar', 'toggle');
-    this.optionTip = this.prepareElement('tip', 'toggle');
+    this.optionTo = this.getElement('to');
+    if (!this.options) return false;
+    this.options.forEach((option) => {
+      const [key, value] = option;
+      this.prepareElement(key, value);
+    });
+    return true;
   }
 
   private bindEventListeners() {
@@ -96,7 +95,7 @@ class MainSetup extends PanelObserver {
     }
   }
 
-  private getElement(selector: string, type: string) {
+  private getElement(selector: string, type: allowedTypes = 'input') {
     if (!this.wrapper) return null;
     if (type === 'input') {
       return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
@@ -104,12 +103,11 @@ class MainSetup extends PanelObserver {
     return this.wrapper.querySelector(`.js-${type}__checkbox_usage_${selector}`) as HTMLInputElement;
   }
 
-  private prepareElement = (selector: string, type: 'input' | 'toggle' = 'input') => {
+  private prepareElement = (selector: string, type: allowedTypes = 'input') => {
     const object = this.getElement(selector, type);
     if (object) {
       this.optionObjects.push(object);
     }
-    return object;
   }
 }
 

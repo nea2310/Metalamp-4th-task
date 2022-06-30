@@ -8,12 +8,14 @@ interface IConfAdvanced extends IConf {
   [value: string]: boolean | number | string | Function | undefined
 }
 
+type allowedTypes = 'input' | 'toggle' | 'radiobuttons';
+
 class ScaleSetup extends PanelObserver {
   private optionObjects: Array<HTMLInputElement | null> = [];
 
-  private wrapper: HTMLElement;
+  private options: Array<[string, 'input' | 'toggle' | 'radiobuttons']> | null = null;
 
-  private optionScale: HTMLInputElement | null = null;
+  private wrapper: HTMLElement;
 
   private optionInterval: HTMLInputElement | null = null;
 
@@ -26,6 +28,19 @@ class ScaleSetup extends PanelObserver {
   constructor(element: HTMLElement) {
     super();
     this.wrapper = element;
+    this.options = [
+      ['scale', 'toggle'],
+      ['interval', 'input'],
+      ['step', 'input'],
+      ['scaleBaseStep', 'radiobuttons'],
+      ['scaleBaseInterval', 'radiobuttons'],
+    ];
+
+    this.optionInterval = this.getElement('interval');
+    this.optionStep = this.getElement('step');
+    this.scaleBaseSteps = this.getElement('scaleBaseStep', 'radiobuttons');
+    this.scaleBaseIntervals = this.getElement('scaleBaseInterval', 'radiobuttons');
+
     this.render();
     this.handleInputChange = this.handleInputChange.bind(this);
     this.bindEventListeners();
@@ -87,11 +102,17 @@ class ScaleSetup extends PanelObserver {
   }
 
   private render() {
-    this.optionScale = this.prepareElement('scale', 'toggle');
-    this.optionInterval = this.prepareElement('interval');
-    this.optionStep = this.prepareElement('step');
-    this.scaleBaseSteps = this.prepareElement('scaleBaseStep', 'radiobuttons');
-    this.scaleBaseIntervals = this.prepareElement('scaleBaseInterval', 'radiobuttons');
+    this.optionInterval = this.getElement('interval');
+    this.optionStep = this.getElement('step');
+    this.scaleBaseSteps = this.getElement('scaleBaseStep', 'radiobuttons');
+    this.scaleBaseIntervals = this.getElement('scaleBaseInterval', 'radiobuttons');
+
+    if (!this.options) return false;
+    this.options.forEach((option) => {
+      const [key, value] = option;
+      this.prepareElement(key, value);
+    });
+    return true;
   }
 
   private bindEventListeners() {
@@ -114,7 +135,7 @@ class ScaleSetup extends PanelObserver {
     return true;
   }
 
-  private getElement(selector: string, type: string) {
+  private getElement(selector: string, type: allowedTypes = 'input') {
     if (!this.wrapper) return null;
     if (type === 'input') {
       return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
@@ -125,12 +146,11 @@ class ScaleSetup extends PanelObserver {
     return this.wrapper.querySelector(`.js-${type}__checkbox_usage_${selector}`) as HTMLInputElement;
   }
 
-  private prepareElement = (selector: string, type: 'input' | 'toggle' | 'radiobuttons' = 'input') => {
+  private prepareElement = (selector: string, type: allowedTypes = 'input') => {
     const object = this.getElement(selector, type);
     if (object) {
       this.optionObjects.push(object);
     }
-    return object;
   }
 }
 
