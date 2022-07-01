@@ -361,21 +361,8 @@ class Model extends Observer {
   static checkConf(config: IConfFull) {
     // надо проверять на число те параметры, которые вводятся в инпут (т.к. можно ввести строку)
     let conf = config;
-    const validateNumber = (value: any) => {
-      let result = 0;
-      if (!Number.isNaN(+value)) {
-        result = +value;
-      }
-      return result;
-    };
-
-    const validateBoolean = (value: any) => {
-      let result = false;
-      if (value === true || value === 'true') {
-        result = true;
-      }
-      return result;
-    };
+    const validateNumber = (value: any) => (Number.isNaN(+value) ? 0 : +value);
+    const validateBoolean = (value: any) => value === true || value === 'true';
 
     const numbers = ['min', 'max', 'from', 'to', 'step', 'interval', 'shiftOnKeyDown', 'shiftOnKeyHold'];
     const booleans = ['vertical', 'range', 'sticky', 'scale', 'bar', 'tip'];
