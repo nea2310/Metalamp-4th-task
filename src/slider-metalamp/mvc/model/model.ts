@@ -179,7 +179,7 @@ class Model extends Observer {
     {
       key: string,
       repeat: boolean,
-      moovingControl: string
+      moovingControl: 'min' | 'max',
     }) {
     const { key, repeat, moovingControl } = data;
     // поменять позицию и значение FROM
