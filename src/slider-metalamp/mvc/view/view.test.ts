@@ -49,7 +49,7 @@ const data: IdataFull = {
   marksArray: [{ position: 0, value: 0 }],
   intervalValue: '',
   stepValue: '',
-  scaleBase: '',
+  scaleBase: 'step',
   fromValue: '',
   toValue: '',
   thumb: {
@@ -62,7 +62,7 @@ const data: IdataFull = {
     height: 0,
     shiftBase: 0,
     moovingControl: 'min',
-    key: '',
+    direction: 'ArrowLeft',
     repeat: false,
   },
 };

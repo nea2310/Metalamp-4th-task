@@ -35,7 +35,7 @@ export const defaultThumb: IthumbFull = {
   height: 0,
   shiftBase: 0,
   moovingControl: 'min',
-  key: '',
+  direction: 'ArrowLeft',
   repeat: false,
 };
 
@@ -45,7 +45,7 @@ export const defaultData: IdataFull = {
   marksArray: [{ position: 0, value: 0 }],
   intervalValue: '',
   stepValue: '',
-  scaleBase: '',
+  scaleBase: 'step',
   fromValue: '',
   toValue: '',
   thumb: defaultThumb,

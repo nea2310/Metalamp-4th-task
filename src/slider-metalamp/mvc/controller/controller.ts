@@ -190,7 +190,7 @@ class Controller extends Observer {
     if (parms.key !== 'KeydownEvent') return;
     if (this.model) {
       this.model.calcPositionSetByKey({
-        key: parms.data.thumb.key,
+        key: parms.data.thumb.direction,
         repeat: parms.data.thumb.repeat,
         moovingControl: parms.data.thumb.moovingControl,
       });

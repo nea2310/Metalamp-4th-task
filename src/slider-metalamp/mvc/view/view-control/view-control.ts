@@ -1,4 +1,4 @@
-import { IConfFull, IdataFull } from '../../interface';
+import { IConfFull, IdataFull, TDirections } from '../../interface';
 import Observer from '../../observer';
 import { defaultData, defaultThumb } from '../../utils';
 
@@ -189,7 +189,7 @@ class ViewControl extends Observer {
         this.getMetrics(target);
 
         const handlePointerMove = (innerEvent: PointerEvent) => {
-          thumb.type = innerEvent.type;
+          thumb.type = 'pointermove';
           thumb.clientX = innerEvent.clientX;
           thumb.clientY = innerEvent.clientY;
           this.notify('MoveEvent', this.data);
@@ -229,14 +229,15 @@ class ViewControl extends Observer {
         if (!(target instanceof HTMLElement)) {
           throw new Error('Cannot handle move outside of DOM');
         }
-        const T = this.data.thumb;
+        const { thumb } = this.data;
 
         if (target.classList.contains('slider-metalamp__control')) {
           // определяем ползунок, на который нажимают
-          T.moovingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
-
-          T.key = event.code;
-          T.repeat = event.repeat;
+          thumb.moovingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
+          /* выше проверили, что event.code входит в массив значений directions,
+          поэтому здесь утверждаем тип event.code as TDirections, чтобы избежать лишних if-ов */
+          thumb.direction = event.code as TDirections;
+          thumb.repeat = event.repeat;
           this.notify('KeydownEvent', this.data);
         }
       }
@@ -283,7 +284,7 @@ class ViewControl extends Observer {
           thumb.left = this.track.getBoundingClientRect().left;
           thumb.width = Number(this.track.offsetWidth);
           thumb.height = Number(this.track.offsetHeight);
-          thumb.type = event.type;
+          thumb.type = 'pointerdown';
           thumb.clientX = event.clientX;
           thumb.clientY = event.clientY;
         }

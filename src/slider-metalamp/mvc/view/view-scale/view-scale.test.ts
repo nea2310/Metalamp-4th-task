@@ -59,7 +59,7 @@ const marksArray = [
   { position: 100, value: 10 },
 ];
 
-const conf = {
+const conf: IConfFull = {
   min: 10,
   max: 100,
   from: 20,

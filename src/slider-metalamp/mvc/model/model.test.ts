@@ -437,7 +437,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 });
 
 describe('model, values correction on API method "update" processing', () => {
-  const conf = {
+  const conf: IConf = {
     min: 0,
     max: 100,
     from: 10,
@@ -560,7 +560,7 @@ describe('model, API method "update" processing', () => {
   const onStart = () => true;
   const onChange = () => true;
   const onUpdate = () => true;
-  const conf = {
+  const conf: IConf = {
     min: 0,
     max: 100,
     from: 10,
@@ -619,7 +619,7 @@ describe('model, API method "update" processing', () => {
         clientX: 0,
         clientY: 0,
         height: 0,
-        key: '',
+        direction: 'ArrowLeft',
         left: 0,
         moovingControl: 'min',
         repeat: false,

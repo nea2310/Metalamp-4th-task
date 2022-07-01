@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {
   IConfFull,
   IConf,
@@ -26,11 +25,14 @@ class Model extends Observer {
 
   private data: IdataFull;
 
-  private onStart?: Function | null;
+  // eslint-disable-next-line no-unused-vars
+  private onStart?: (data: IConf) => unknown | null;
 
-  private onUpdate?: Function | null;
+  // eslint-disable-next-line no-unused-vars
+  private onUpdate?: (data: IConf) => unknown | null;
 
-  private onChange?: Function | null;
+  // eslint-disable-next-line no-unused-vars
+  private onChange?: (data: IConf) => unknown | null;
 
   private needCalcValue: boolean;
 
@@ -96,8 +98,6 @@ class Model extends Observer {
       moovingControl: 'min' | 'max',
     },
   ) {
-    console.log(data);
-
     const {
       type,
       clientY,

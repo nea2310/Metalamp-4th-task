@@ -1,22 +1,24 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-use-before-define */
 interface IConfFull {
-  min: number
-  max: number
-  from: number
-  to: number
-  vertical: boolean
-  range: boolean
-  bar: boolean
-  tip: boolean
-  scale: boolean
-  scaleBase: string
-  step: number
-  interval: number
-  sticky: boolean
-  shiftOnKeyDown: number
-  shiftOnKeyHold: number
-  onStart: Function
-  onChange: Function
-  onUpdate: Function
+  min: number;
+  max: number;
+  from: number;
+  to: number;
+  vertical: boolean;
+  range: boolean;
+  bar: boolean;
+  tip: boolean;
+  scale: boolean;
+  scaleBase: 'step' | 'interval';
+  step: number;
+  interval: number;
+  sticky: boolean;
+  shiftOnKeyDown: number;
+  shiftOnKeyHold: number;
+  onStart: (data: IConf) => unknown;
+  onChange: (data: IConf) => unknown;
+  onUpdate: (data: IConf) => unknown;
 }
 
 interface IConfFullIndexed extends IConfFull {
@@ -31,19 +33,21 @@ interface IObject {
 }
 
 interface Imethods {
-  calcFromPosition: boolean,
-  calcToPosition: boolean,
-  calcScaleMarks: boolean
-  switchVertical: boolean
-  switchRange: boolean
-  switchScale: boolean
-  switchBar: boolean
-  switchTip: boolean
-  updateControlPos: boolean
+  calcFromPosition: boolean;
+  calcToPosition: boolean;
+  calcScaleMarks: boolean;
+  switchVertical: boolean;
+  switchRange: boolean;
+  switchScale: boolean;
+  switchBar: boolean;
+  switchTip: boolean;
+  updateControlPos: boolean;
 }
 
+type TDirections = 'ArrowLeft' | 'ArrowDown' | 'ArrowRight' | 'ArrowUp';
+
 interface IthumbFull {
-  type: string;
+  type: 'pointerdown' | 'pointermove' | '';
   clientY: number;
   clientX: number;
   top: number;
@@ -52,7 +56,7 @@ interface IthumbFull {
   height: number;
   shiftBase: number;
   moovingControl: 'min' | 'max';
-  key: string;
+  direction: TDirections;
   repeat: boolean;
 }
 
@@ -62,16 +66,30 @@ interface IdataFull {
   marksArray: { 'position': number, 'value': number }[];
   intervalValue: string;
   stepValue: string;
-  scaleBase: string;
+  scaleBase: 'step' | 'interval';
   fromValue: string;
   toValue: string;
   thumb: IthumbFull;
 }
 
+type TKeys = 'FromPosition'
+  | 'ToPosition'
+  | 'FromValue'
+  | 'ToValue'
+  | 'IsVertical'
+  | 'IsRange'
+  | 'IsSticky'
+  | 'IsScale'
+  | 'IsBar'
+  | 'IsTip'
+  | 'Scale'
+  | 'MoveEvent'
+  | 'KeydownEvent';
+
 interface INotifyParameters {
-  key: string,
-  data: IdataFull,
-  conf: IConfFull
+  key: TKeys;
+  data: IdataFull;
+  conf: IConfFull;
 }
 
 export {
@@ -83,4 +101,6 @@ export {
   IConfFullIndexed,
   IdataFull,
   IthumbFull,
+  TKeys,
+  TDirections,
 };
