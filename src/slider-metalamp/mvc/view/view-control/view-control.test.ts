@@ -144,6 +144,8 @@ describe('ViewControl event listeners', () => {
         type: 'pointermove',
         clientY: 100,
         clientX: 1000,
+        direction: 'ArrowLeft',
+        repeat: false,
         top: 0,
         left: 0,
         width: 0,
@@ -171,6 +173,8 @@ describe('ViewControl event listeners', () => {
         height: 0,
         shiftBase: 100,
         moovingControl: 'min',
+        direction: 'ArrowLeft',
+        repeat: false,
       },
     );
   });
@@ -182,6 +186,14 @@ describe('ViewControl event listeners', () => {
     );
     expect(calcPositionSetByKeySpy).toBeCalledTimes(1);
     expect(calcPositionSetByKeySpy).toBeCalledWith({
+      clientX: 100,
+      clientY: 100,
+      height: 0,
+      left: 0,
+      shiftBase: 100,
+      top: 0,
+      type: 'pointerdown',
+      width: 0,
       direction: 'ArrowLeft',
       repeat: false,
       moovingControl: 'max',

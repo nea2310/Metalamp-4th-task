@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Model from '../model/model';
 import View from '../view/view';
 import Observer from '../observer';
@@ -172,28 +173,14 @@ class Controller extends Observer {
   private handleMoveEvent = (parms: INotifyParameters) => {
     if (parms.key !== 'MoveEvent') return;
     if (this.model) {
-      this.model.calcPositionSetByPointer({
-        type: parms.data.thumb.type,
-        clientY: parms.data.thumb.clientY,
-        clientX: parms.data.thumb.clientX,
-        top: parms.data.thumb.top,
-        left: parms.data.thumb.left,
-        width: parms.data.thumb.width,
-        height: parms.data.thumb.height,
-        shiftBase: parms.data.thumb.shiftBase,
-        moovingControl: parms.data.thumb.moovingControl,
-      });
+      this.model.calcPositionSetByPointer(parms.data.thumb);
     }
   }
 
   private handleKeydownEvent = (parms: INotifyParameters) => {
     if (parms.key !== 'KeydownEvent') return;
     if (this.model) {
-      this.model.calcPositionSetByKey({
-        direction: parms.data.thumb.direction,
-        repeat: parms.data.thumb.repeat,
-        moovingControl: parms.data.thumb.moovingControl,
-      });
+      this.model.calcPositionSetByKey(parms.data.thumb);
     }
   }
 }
