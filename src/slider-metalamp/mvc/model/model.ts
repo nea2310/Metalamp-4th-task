@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   IConfFull,
   IConf,
@@ -383,12 +384,13 @@ class Model extends Observer {
     };
 
     temporaryArray.forEach((element) => {
-      if (numbers.indexOf(element[0]) !== -1) {
-        validatePropertyValue(element[0], element[1], validateNumber);
+      const [key, value] = element;
+      if (numbers.includes(key)) {
+        validatePropertyValue(key, value, validateNumber);
         return true;
       }
-      if (booleans.indexOf(element[0]) !== -1) {
-        validatePropertyValue(element[0], element[1], validateBoolean);
+      if (booleans.includes(key)) {
+        validatePropertyValue(key, value, validateBoolean);
         return true;
       }
       return true;
