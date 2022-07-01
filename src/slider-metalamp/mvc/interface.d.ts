@@ -46,8 +46,10 @@ interface Imethods {
 
 type TDirections = 'ArrowLeft' | 'ArrowDown' | 'ArrowRight' | 'ArrowUp';
 
+type TMoveTypes = 'pointerdown' | 'pointermove' | '';
+
 interface IthumbFull {
-  type: 'pointerdown' | 'pointermove' | '';
+  type: TMoveTypes;
   clientY: number;
   clientX: number;
   top: number;
@@ -103,4 +105,5 @@ export {
   IthumbFull,
   TKeys,
   TDirections,
+  TMoveTypes,
 };

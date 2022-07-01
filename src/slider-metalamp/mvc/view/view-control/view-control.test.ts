@@ -23,13 +23,13 @@ function mockPointerEvent(element: HTMLElement, {
 
 function mockKeyboardEvent(
   element: HTMLElement,
-  { eventType, key = 'ArrowLeft', repeat = false }:
-    { eventType: string, key: string, repeat: boolean },
+  { eventType, direction = 'ArrowLeft', repeat = false }:
+    { eventType: string, direction: string, repeat: boolean },
 ): void {
   const keyboardEvent = new KeyboardEvent(
     eventType,
     {
-      code: key,
+      code: direction,
       repeat,
       bubbles: true,
     },
@@ -178,11 +178,11 @@ describe('ViewControl event listeners', () => {
   test('notifies observer about pressing on a focused control', () => {
     mockKeyboardEvent(
       controlMax,
-      { eventType: 'keydown', key: 'ArrowLeft', repeat: false },
+      { eventType: 'keydown', direction: 'ArrowLeft', repeat: false },
     );
     expect(calcPositionSetByKeySpy).toBeCalledTimes(1);
     expect(calcPositionSetByKeySpy).toBeCalledWith({
-      key: 'ArrowLeft',
+      direction: 'ArrowLeft',
       repeat: false,
       moovingControl: 'max',
     });

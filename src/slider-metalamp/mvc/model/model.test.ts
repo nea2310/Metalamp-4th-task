@@ -19,7 +19,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
     testModel.start();
     expect(testModel.calcPositionSetByPointer(
       {
-        type: 'pointerevent',
+        type: '',
         clientY: 50,
         clientX: 50,
         top: 100,
@@ -34,7 +34,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
     expect(testModel.calcPositionSetByPointer(
       {
-        type: 'pointerevent',
+        type: '',
         clientY: 50,
         clientX: 500,
         top: 100,
@@ -49,7 +49,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
     expect(testModel.calcPositionSetByPointer(
       {
-        type: 'pointerevent',
+        type: '',
         clientY: 0,
         clientX: 100,
         top: 0,
@@ -64,7 +64,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
     expect(testModel.calcPositionSetByPointer(
       {
-        type: 'pointerevent',
+        type: '',
         clientY: 0,
         clientX: 150,
         top: 0,
@@ -79,7 +79,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
     expect(testModel.calcPositionSetByPointer(
       {
-        type: 'pointerevent',
+        type: '',
         clientY: 0,
         clientX: 50,
         top: 0,
@@ -94,7 +94,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
     expect(testModel.calcPositionSetByPointer(
       {
-        type: 'pointerevent',
+        type: '',
         clientY: 0,
         clientX: 200,
         top: 0,
@@ -125,7 +125,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
     expect(testModel.calcPositionSetByPointer(
       {
-        type: 'pointerevent',
+        type: '',
         clientY: 50,
         clientX: 50,
         top: 100,
@@ -140,7 +140,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
     expect(testModel.calcPositionSetByPointer(
       {
-        type: 'pointerevent',
+        type: '',
         clientY: 50,
         clientX: 500,
         top: 100,
@@ -155,7 +155,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
     expect(testModel.calcPositionSetByPointer(
       {
-        type: 'pointerevent',
+        type: '',
         clientY: 0,
         clientX: 100,
         top: 0,
@@ -170,7 +170,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
     expect(testModel.calcPositionSetByPointer(
       {
-        type: 'pointerevent',
+        type: '',
         clientY: 0,
         clientX: 150,
         top: 0,
@@ -185,7 +185,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
     expect(testModel.calcPositionSetByPointer(
       {
-        type: 'pointerevent',
+        type: '',
         clientY: 0,
         clientX: 50,
         top: 0,
@@ -200,7 +200,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
     expect(testModel.calcPositionSetByPointer(
       {
-        type: 'pointerevent',
+        type: '',
         clientY: 0,
         clientX: 200,
         top: 0,
@@ -234,7 +234,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowLeft',
+          direction: 'ArrowLeft',
           repeat: false,
           moovingControl: 'min',
         },
@@ -243,7 +243,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowLeft',
+          direction: 'ArrowLeft',
           repeat: true,
           moovingControl: 'min',
         },
@@ -252,7 +252,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowRight',
+          direction: 'ArrowRight',
           repeat: false,
           moovingControl: 'max',
         },
@@ -261,7 +261,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowRight',
+          direction: 'ArrowRight',
           repeat: true,
           moovingControl: 'max',
         },
@@ -272,7 +272,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowLeft',
+          direction: 'ArrowLeft',
           repeat: false,
           moovingControl: 'max',
         },
@@ -280,7 +280,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         .toBe(70); // from<to
 
       expect(testModel.calcPositionSetByKey({
-        key: 'ArrowRight',
+        direction: 'ArrowRight',
         repeat: false,
         moovingControl: 'min',
       }))
@@ -288,7 +288,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowLeft',
+          direction: 'ArrowLeft',
           repeat: false,
           moovingControl: 'min',
         },
@@ -297,7 +297,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowLeft',
+          direction: 'ArrowLeft',
           repeat: true,
           moovingControl: 'min',
         },
@@ -306,7 +306,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowRight',
+          direction: 'ArrowRight',
           repeat: false,
           moovingControl: 'max',
         },
@@ -315,7 +315,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowRight',
+          direction: 'ArrowRight',
           repeat: true,
           moovingControl: 'max',
         },
@@ -343,7 +343,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowLeft',
+          direction: 'ArrowLeft',
           repeat: false,
           moovingControl: 'min',
         },
@@ -352,7 +352,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowLeft',
+          direction: 'ArrowLeft',
           repeat: true,
           moovingControl: 'min',
         },
@@ -361,7 +361,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowRight',
+          direction: 'ArrowRight',
           repeat: false,
           moovingControl: 'max',
         },
@@ -370,7 +370,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowRight',
+          direction: 'ArrowRight',
           repeat: true,
           moovingControl: 'max',
         },
@@ -381,7 +381,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowLeft',
+          direction: 'ArrowLeft',
           repeat: false,
           moovingControl: 'max',
         },
@@ -390,7 +390,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowRight',
+          direction: 'ArrowRight',
           repeat: false,
           moovingControl: 'min',
         },
@@ -399,7 +399,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowLeft',
+          direction: 'ArrowLeft',
           repeat: false,
           moovingControl: 'min',
         },
@@ -408,7 +408,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowLeft',
+          direction: 'ArrowLeft',
           repeat: true,
           moovingControl: 'min',
         },
@@ -417,7 +417,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowRight',
+          direction: 'ArrowRight',
           repeat: false,
           moovingControl: 'max',
         },
@@ -426,7 +426,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
       expect(testModel.calcPositionSetByKey(
         {
-          key: 'ArrowRight',
+          direction: 'ArrowRight',
           repeat: true,
           moovingControl: 'max',
         },

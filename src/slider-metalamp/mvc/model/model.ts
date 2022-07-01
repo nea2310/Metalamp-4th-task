@@ -4,6 +4,8 @@ import {
   IObject,
   Imethods,
   IdataFull,
+  TMoveTypes,
+  TDirections,
 } from '../interface';
 import Observer from '../observer';
 import {
@@ -87,7 +89,7 @@ class Model extends Observer {
   щелчка по шкале */
   public calcPositionSetByPointer(
     data: {
-      type: string,
+      type: TMoveTypes,
       clientY: number,
       clientX: number,
       top: number,
@@ -177,11 +179,11 @@ class Model extends Observer {
   // Рассчитывает значение ползунка при нажатии кнопки стрелки на сфокусированном ползунке
   public calcPositionSetByKey(data:
     {
-      key: string,
+      direction: TDirections,
       repeat: boolean,
       moovingControl: 'min' | 'max',
     }) {
-    const { key, repeat, moovingControl } = data;
+    const { direction, repeat, moovingControl } = data;
     // поменять позицию и значение FROM
     const changeFrom = (item: IObject) => {
       this.conf.from = item.value;
@@ -227,7 +229,7 @@ class Model extends Observer {
     if (!this.conf.sticky) {
       this.needCalcValue = false;
       if (moovingControl === 'min') { // Ползунок min
-        if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
+        if (direction === 'ArrowRight' || direction === 'ArrowUp') { // Увеличение значения
           /* проверяем, что FROM не стал больше TO или MAX */
           const belowMaxRange = this.conf.range && this.conf.from
             < this.conf.to;
@@ -277,7 +279,7 @@ class Model extends Observer {
         this.notify('FromValue', this.data);
         result = newValue;
       } else { // Ползунок max
-        if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
+        if (direction === 'ArrowRight' || direction === 'ArrowUp') { // Увеличение значения
           if (this.conf.to < this.conf.max) {
             newValue = repeat
               ? this.conf.to
@@ -311,7 +313,7 @@ class Model extends Observer {
     } else if (moovingControl === 'min') { // ползунок min
       const index = this.data.marksArray
         .findIndex((elem) => elem.value === this.conf.from);
-      if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
+      if (direction === 'ArrowRight' || direction === 'ArrowUp') { // Увеличение значения
         item = increment(index);
         if (item === undefined) return 'newPosition>100';
         const isValueAscending = item.value > this.conf.from
@@ -333,7 +335,7 @@ class Model extends Observer {
     } else { // ползунок max
       const index = this.data.marksArray
         .findIndex((elem) => elem.value === this.conf.to);
-      if (key === 'ArrowRight' || key === 'ArrowUp') { // Увеличение значения
+      if (direction === 'ArrowRight' || direction === 'ArrowUp') { // Увеличение значения
         item = increment(index);
         if (item === undefined) return 'newPosition>100';
         const isValueAscending = item && item.value > this.conf.to
@@ -484,7 +486,7 @@ class Model extends Observer {
     // запустим методы, для которых есть изменившиеся параметры
     const keys = Object.keys(this.methods);
 
-    keys.forEach((element: string) => {
+    keys.forEach((element) => {
       const key = element as keyof Imethods;
       if (this.methods[key]) {
         this[key]();
@@ -496,7 +498,7 @@ class Model extends Observer {
     }
 
     // вернем исходные значения (false)
-    keys.forEach((element: string) => {
+    keys.forEach((element) => {
       const key = element as keyof Imethods;
       if (this.methods[key]) {
         this.methods[key] = false;
@@ -518,7 +520,7 @@ class Model extends Observer {
       this.methods.calcFromPosition = true;
       this.methods.calcToPosition = true;
     };
-    keys.forEach((element: string) => {
+    keys.forEach((element) => {
       const key = element as keyof IConf;
       if (newConf[key] !== currentConf[key]) {
         switch (key) {
