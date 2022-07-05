@@ -521,9 +521,6 @@ class Model extends Observer {
             this.methods.calcToPosition = true;
             break;
           case 'step':
-            this.methods.calcScaleMarks = true;
-            this.methods.updateControlPos = true;
-            break;
           case 'interval':
             this.methods.calcScaleMarks = true;
             this.methods.updateControlPos = true;
