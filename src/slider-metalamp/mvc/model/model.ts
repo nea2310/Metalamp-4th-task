@@ -726,7 +726,7 @@ class Model extends Observer {
       normal: (this.conf.min + ((this.conf.max
         - this.conf.min) * position) / 100).toFixed(0),
       min: String(this.conf.min),
-      max: String(this.conf.min),
+      max: String(this.conf.max),
       meetMax: String(this.conf.to),
       meetMin: String(this.conf.from),
     };
