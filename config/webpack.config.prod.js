@@ -1,5 +1,7 @@
 const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 const common = require('./webpack.config');
 
@@ -10,16 +12,6 @@ if (process.env.NODE_ENV === 'production') {
   name = 'plugin';
 }
 
-/*
- * css-loader - импортировать CSS-файлы
- * style-loader - поместить CSS-код в тег <style> (мы его не используем)
- * MiniCssExtractPlugin - извлечь CSS в отдельный файл
- * не исключаем node-modules, т.к. оттуда берутся файлы стилей плагинов
- * postcss-loader - инструмент пост-обработки CSS
- * postcss-preset-env - набор расширений для эмуляции функций из незаконченных черновиков
- * CSS-спецификаций
- * cssnano — уменьшает размер CSS-кода, убирая пробелы и переписывая код в сжатой форме
- */
 const processCSS = [
   MiniCssExtractPlugin.loader,
   'css-loader',
@@ -44,6 +36,11 @@ module.exports = merge(common, {
   mode: 'production',
   output: {
     filename: `assets/js/${name}.js`,
+  },
+  optimization: {
+    minimizer: [
+      new CssMinimizerPlugin(), new TerserPlugin(),
+    ],
   },
   plugins: [
     new MiniCssExtractPlugin({
