@@ -27,6 +27,7 @@ const processCSS = [
 module.exports = merge(common, {
   // Set the mode to development
   mode: 'development',
+  devtool: 'source-map',
   output: {
     filename: `assets/js/${name}.js`,
   },
