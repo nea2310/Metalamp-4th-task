@@ -32,7 +32,6 @@ const processCSS = [
 ];
 
 module.exports = merge(common, {
-  // Set the mode to production
   mode: 'production',
   output: {
     filename: `assets/js/${name}.js`,
@@ -48,7 +47,6 @@ module.exports = merge(common, {
     }),
   ],
   module: {
-    // module.rules - все лоадеры
     rules: [
       {
         test: /\.css$/i,

@@ -2,7 +2,7 @@
   "name": "webpack-package",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=developmentDemo webpack serve --open --config config/webpack.config.dev.js",
     "dev": "cross-env NODE_ENV=development webpack --config config/webpack.config.dev.js",
