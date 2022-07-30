@@ -1,8 +1,4 @@
 .toggle {
-  * {
-    box-sizing: border-box;
-  }
-
   @include font-body;
   user-select: none;
   display: inline-flex;
@@ -12,6 +8,16 @@
   cursor: pointer;
   position: relative;
 
+  &__ball {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    position: absolute;
+    background-color: $colorBorder;
+  }
+
   &__checkbox {
     position: absolute;
     left: 10px;
@@ -20,55 +26,43 @@
     z-index: 0;
     border: 0;
     padding: 0;
-    // &:focus {
-    //   outline-offset: 12px;
-    //   outline: 2px solid black;
-    // }
+  }
 
-    & + .toggle__checkmark {
-      margin: 5px;
-      border: 2px solid $colorDarkShade25;
+  &__checkmark {
+    margin: 5px;
+    border: 2px solid $colorBorder;
+    box-sizing: border-box;
+  }
 
-      & > .toggle__ball {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        top: 3px;
-        left: 3px;
-        position: absolute;
-        background-color: $colorDarkShade25;
-      }
-    }
+  &__checkbox:checked + &__checkmark {
+    border: 2px solid $colorMain;
+  }
 
-    &:checked + .toggle__checkmark {
-      border: 2px solid $colorBlue;
+  &__checkbox:checked + &__checkmark &__ball {
+    background-color: $colorMain;
+    right: 3px;
+    left: auto;
+  }
 
-      & > .toggle__ball {
-        background-color: $colorBlue;
-        right: 3px;
-        left: auto;
-      }
-    }
+  &__checkbox:disabled + &__checkmark {
+    border: 2px solid $colorBorder;
+  }
 
-    &:disabled + .toggle__checkmark {
-      border: 2px solid $colorDarkShade25;
-
-      & > .toggle__ball {
-        background-color: $colorDarkShade25;
-        right: 3px;
-        left: auto;
-      }
-    }
+  &__checkbox:disabled + &__checkmark &__ball {
+    background-color: $colorBorder;
+    right: 3px;
+    left: auto;
   }
 
   &__checkmark {
     cursor: pointer;
     display: inline-block;
     position: relative;
-    border: 1px solid $colorDarkShade25;
+    border: 1px solid $colorBorder;
     width: 38px;
     height: 20px;
     border-radius: 22px;
-    background-color: $colorWhite;
+    background-color: $colorBackgroundLight;
   }
 }
+

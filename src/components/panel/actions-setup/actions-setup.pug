@@ -9,14 +9,20 @@ mixin actions-setup()
     div(class = `${elementName}__component`)
       +toggle({
         name: 'subscribe events',
+        value: 'subscribe',
         usage: 'subscribe',
-        isChecked: true})
+        isChecked: true,
+      })
     div(class = `${elementName}__component`)
       +toggle({
         name: 'disable',
-        usage: 'disable'})
+        value: 'disable',
+        usage: 'disable',
+      })
     div(class = `${elementName}__component`)
       +toggle({
         name: 'destroy',
-        usage: 'destroy'})
+        value: 'destroy',
+        usage: 'destroy',
+      })
 

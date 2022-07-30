@@ -25,4 +25,4 @@ mixin radiobuttons(options = {})
                 input(class = `${elementName}__category-checkbox js-${elementName}__category-checkbox ${elementName}__category-checkbox_usage_${value.usage} js-${elementName}__category-checkbox_usage_${value.usage}` 
                   type = "radio" name = radioGroupName value = name checked = checked tabindex = "-1")
                 span(class = `${elementName}__category-radiomark js-${elementName}__category-radiomark` tabindex = "0")
-                p(class = `${elementName}__category-name`)= name
+                span(class = `${elementName}__category-name`)= name

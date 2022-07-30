@@ -1,6 +1,6 @@
 .button {
+  @include font-header;
   cursor: pointer;
-  @include font-h3;
   margin: 0;
   padding: 0;
   position: relative;
@@ -15,7 +15,7 @@
   box-sizing: border-box;
   font-weight: normal;
   color: rgb(41, 39, 39);
-  background-color: $colorBlue;
+  background-color: $colorMain;
   border-radius: 2px;
   padding: 0 10px;
 

@@ -1,9 +1,83 @@
-* {
-  box-sizing: border-box;
-}
 
 .slider-metalamp {
   display: none;
+
+  &__wrapper_range-mode_single &__control-max {
+      display: none;
+    }
+
+  &__wrapper_tip-mode_hidden &__tip {
+      display: none;
+    }
+
+  &__wrapper_scale-mode_hidden &__mark {
+      opacity: 0;
+    }
+
+
+  &__wrapper_bar-mode_hidden &__progress-bar {
+      display: none;
+    }
+
+  &__wrapper_orientation_vertical &{
+      &__frame {
+        top: 0;
+        left: 5px;
+        right: 0;
+        width: 120%;
+      }
+
+      &__track {
+        height: 100%;
+        width: 8px;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      &__progress-bar {
+        position: absolute;
+        width: 8px;
+        border: none;
+        left: 0px;
+      }
+
+      &__control {
+        width: 25px;
+        height: 1px;
+        left: -9.5px;
+        top: initial;
+
+        &::after {
+          box-sizing: border-box;
+          position: absolute;
+          top: -7px;
+          left: 1px;
+          content: "";
+          width: 25px;
+          height: 14px;
+        }
+      }
+
+      &__tip {
+        top: -12.5px;
+      }
+
+      &__mark {
+        margin-top: initial;
+        margin-left: 15px;
+        height: 1px;
+        width: 5px;
+      }
+
+      &__label {
+        position: absolute;
+        top: initial;
+        left: 10px;
+        padding: 5px 0;
+      }
+  }
+
+
 
   &__wrapper {
     padding: 50px;
@@ -11,94 +85,13 @@
     display: flex;
     width: 100%;
     touch-action: none;
-
-    &_range-mode_single {
-      .slider-metalamp__control-max {
-        display: none;
-      }
-    }
-
-    &_tip-mode_hidden {
-      .slider-metalamp__tip {
-        display: none;
-      }
-    }
-
-    &_scale-mode_hidden {
-      .slider-metalamp__mark {
-        opacity: 0;
-      }
-    }
-
-    &_bar-mode_hidden {
-      .slider-metalamp__progress-bar {
-        display: none;
-      }
-    }
+    box-sizing: border-box;
 
     &_orientation_vertical {
       padding: 50px;
       width: auto;
       height: 100%;
       display: inline-block;
-
-      .slider-metalamp {
-        &__frame {
-          top: 0;
-          left: 5px;
-          right: 0;
-          width: 120%;
-        }
-
-        &__track {
-          height: 100%;
-          width: 8px;
-          flex-direction: column;
-          justify-content: center;
-        }
-
-        &__progress-bar {
-          position: absolute;
-          width: 8px;
-          border: none;
-          left: 0px;
-        }
-
-        &__control {
-          width: 25px;
-          height: 1px;
-          left: -9.5px;
-          top: initial;
-
-          &::after {
-            box-sizing: border-box;
-            position: absolute;
-            top: -7px;
-            left: 1px;
-            content: "";
-            width: 25px;
-            height: 14px;
-          }
-        }
-
-        &__tip {
-          top: -12.5px;
-        }
-
-        &__mark {
-          margin-top: initial;
-          margin-left: 15px;
-          height: 1px;
-          width: 5px;
-        }
-
-        &__label {
-          position: absolute;
-          top: initial;
-          left: 10px;
-          padding: 5px 0;
-        }
-      }
     }
 
     &_disabled {
@@ -121,13 +114,13 @@
     width: 100%;
     position: relative;
     height: 8px;
-    background: $colorDarkShade15;
+    background: $colorBackground;
     display: flex;
   }
 
   &__progress-bar {
     position: absolute;
-    background: $colorBlue;
+    background: $colorMain;
     width: 95%;
     border: none;
     height: 8px;
@@ -146,9 +139,10 @@
     position: absolute;
     z-index: 30;
     top: -12.5px;
+    
     &:focus {
       outline-offset: 12px;
-      outline: 2px solid black;
+      outline: 2px solid $colorTextHeader;
     }
 
     &:hover {
@@ -160,7 +154,7 @@
     }
 
     &::after {
-      background: $colorBlue;
+      background: $colorMain;
       box-sizing: border-box;
       position: absolute;
       top: 3px;
@@ -181,20 +175,19 @@
 
   &__mark {
     height: 5px;
-    background-color: $colorDarkShade100;
+    background-color: $colorTextHeader;
     position: absolute;
-
     margin-top: 15px;
     width: 1px;
 
     &_no-label {
-      background-color: $colorDarkShade50;
+      background-color: $colorLabel;
     }
   }
 
   &__label {
-    font-family: "Montserrat", Arial, Helvetica, sans-serif;
-    color: $colorDarkShade50;
+    font-family: $fontMain;
+    color: $colorLabel;
     font-size: 10px;
     position: absolute;
     top: 10px;
@@ -207,16 +200,16 @@
 
   &__tip {
     cursor: default;
-    font-family: "Montserrat", Arial, Helvetica, sans-serif;
+    font-family: $fontMain;
     font-size: 10px;
-    color: $colorDarkShade50;
+    color: $colorLabel;
     height: 25px;
     position: absolute;
     border-radius: 3px;
     display: flex;
     align-items: center;
     padding: 0 5px;
-    background: $colorBlue;
+    background: $colorMain;
     z-index: 1;
     top: -30px;
   }

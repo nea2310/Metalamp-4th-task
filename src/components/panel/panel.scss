@@ -1,12 +1,12 @@
 .panel {
   position: relative;
   &__blocks {
+    @include font-body;
     padding: 5px 10px 60px 10px;
     display: inline-flex;
     border-radius: 2px;
     height: 290px;
     text-align: left;
-    @include font-body;
 
     @include media-breakpoint-down($lg) {
       height: auto;

@@ -10,32 +10,44 @@ mixin main-setup()
     div(class = `${elementName}__component`)
       +input-field({
         labelText: 'min',
-        usage: 'min'})
+        usage: 'min',
+      })
     div(class = `${elementName}__component`)
       +input-field({
         labelText: 'max',
-        usage: 'max'})
+        usage: 'max',
+      })
     div(class = `${elementName}__component`)
       +input-field({
         labelText: 'from',
-        usage: 'from'})
+        usage: 'from',
+      })
     div(class = `${elementName}__component`)
       +input-field({
         labelText: 'to',
-        usage: 'to'})
+        usage: 'to',
+      })
     div(class = `${elementName}__component`)
       +toggle({
         name: 'vertical',
-        usage: 'vertical'})
+        value: 'vertical',
+        usage: 'vertical',
+      })
     div(class = `${elementName}__component`)
       +toggle({
         name: 'range',
-        usage: 'range'})
+        value: 'range',
+        usage: 'range',
+      })
     div(class = `${elementName}__component`)
       +toggle({
         name: 'bar',
-        usage: 'bar'})
+        value: 'bar',
+        usage: 'bar',
+      })
     div(class = `${elementName}__component`)
       +toggle({
         name: 'tip',
-        usage: 'tip'})
+        value: 'tip',
+        usage: 'tip',
+      })
