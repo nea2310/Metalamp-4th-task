@@ -1,4 +1,3 @@
-include ../../components/head/head.pug
 include ../../components/range-slider/range-slider.pug
 
 -
@@ -9,16 +8,32 @@ include ../../components/range-slider/range-slider.pug
   demoNoTip,
     } = require('@pag/index/index.json')
 
+doctype html
 html(lang = 'ru')
-head
-  title Range Slider
-body
-  main(class = 'slider-demo')
-    div(class='slider-demo__wrapper')
-      +range-slider(demoHorizontal)
-    div(class = 'slider-demo__wrapper')
-      +range-slider(demoVertical)
-    div(class = 'slider-demo__wrapper')
-      +range-slider(demoSingle)
-    div(class = 'slider-demo__wrapper')
-      +range-slider(demoNoTip)
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="initial-scale=1.0, width=device-width")
+    meta(name="keywords" content="slider, plugin")
+    meta(name="description" content="plugin slider")
+    meta(property="og:title" content="Slider")
+    meta(property="og:description" content="plugin slider")
+    meta(property="og:image" content="https://nea2310.github.io/Metalamp-4th-task/_social/social-img.svg")
+    meta(property="og:url" content="https://nea2310.github.io/Metalamp-4th-task/index.html")
+    meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width")
+    link(rel="icon" href= './favicon.ico' sizes="any")
+    link(rel="icon" href='./assets/favicons/icon.svg' type="image/svg+xml")
+    link(rel="apple-touch-icon" href='./assets/favicons/apple-touch-icon.png')
+    link(rel="manifest" href='./assets/favicons/manifest.json')
+    title Range Slider
+  body
+    main(class = 'slider-demo')
+      div(class='slider-demo__wrapper')
+        +range-slider(demoHorizontal)
+      div(class = 'slider-demo__wrapper')
+        +range-slider(demoVertical)
+      div(class = 'slider-demo__wrapper')
+        +range-slider(demoSingle)
+      div(class = 'slider-demo__wrapper')
+        +range-slider(demoNoTip)
