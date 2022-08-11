@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable space-before-function-paren */
 import MainSetup from './main-setup/main-setup';
 
 import ScaleSetup from './scale-setup/scale-setup';
@@ -22,14 +20,6 @@ class Panel extends PanelObserver {
   private optionObjects: Array<IPanelComponents | null> = [];
 
   private wrapper: HTMLElement;
-
-  private mainSetup: MainSetup | null = null;
-
-  private scaleSetup: ScaleSetup | null = null;
-
-  private controlMovementSetup: ControlMovementSetup | null = null;
-
-  private actionsSetup: ActionsSetup | null = null;
 
   constructor(element: HTMLElement) {
     super();
@@ -56,7 +46,7 @@ class Panel extends PanelObserver {
   }
 
   public destroy() {
-    // eslint-disable-next-line no-param-reassign
+    // eslint-disable-next-line no-param-reassign, no-unused-vars
     this.optionObjects.forEach((option) => { option = null; });
     const panelChildren = this.wrapper.childNodes;
     panelChildren.forEach((element) => {
@@ -86,8 +76,8 @@ class Panel extends PanelObserver {
     return this.wrapper.querySelector(`.js-${selector}-setup`) as HTMLElement;
   }
 
-  // eslint-disable-next-line no-use-before-define
-  private prepareObject<T extends new (arg: HTMLElement) => Y, Y extends IPanelComponents>(
+  // eslint-disable-next-line no-unused-vars
+  private prepareObject<Y extends IPanelComponents, T extends new(arg: HTMLElement) => Y>(
     selector: string, ClassName: T) {
     const DOMElement = this.getElement(selector);
     const object = new ClassName(DOMElement);
