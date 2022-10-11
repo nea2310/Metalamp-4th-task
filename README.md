@@ -76,7 +76,7 @@ $rangeSlider.destroy();
 ## Values validation
 
 * If value of a numeric parameter is passed as a string which can be converted to number, it will be converted to number:  
-{min: '10'} -> {min: 10}. In any other case it will be defaulded: {min: '10 deg'} -> {min: 0}.
+{min: '10'} -> {min: 10}. In any other case it will be defaulted: {min: '10 deg'} -> {min: 0}.
 
 * If any numeric parameter value (e.g. min, max, etc.) isn't compatible with its dependant parameters values (e.g. max value is smaller than min value {min: 10, max: 0}) - incorrect parameter will be defaulted: {min: 10, max: 0} -> {min: 10, max: 20}.
 

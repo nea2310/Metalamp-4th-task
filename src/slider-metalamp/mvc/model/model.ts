@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {
   IConfFull,
   IConf,
@@ -137,11 +136,17 @@ class Model extends Observer {
     if (newPosition < 0) {
       isStop = true;
       this.calcValue('min', 0, moovingControl);
+      if (typeof this.onChange === 'function') {
+        this.onChange(this.conf);
+      }
       return 'newPosition < 0';
     }
     if (newPosition > 100) {
       isStop = true;
       this.calcValue('max', 0, moovingControl);
+      if (typeof this.onChange === 'function') {
+        this.onChange(this.conf);
+      }
       return 'newPosition > 100';
     }
 
