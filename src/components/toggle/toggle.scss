@@ -15,7 +15,7 @@
     top: 3px;
     left: 3px;
     position: absolute;
-    background-color: $colorBorder;
+    background-color: $color-border;
   }
 
   &__checkbox {
@@ -30,26 +30,26 @@
 
   &__checkmark {
     margin: 5px;
-    border: 2px solid $colorBorder;
+    border: 2px solid $color-border;
     box-sizing: border-box;
   }
 
   &__checkbox:checked + &__checkmark {
-    border: 2px solid $colorMain;
+    border: 2px solid $color-main;
   }
 
   &__checkbox:checked + &__checkmark &__ball {
-    background-color: $colorMain;
+    background-color: $color-main;
     right: 3px;
     left: auto;
   }
 
   &__checkbox:disabled + &__checkmark {
-    border: 2px solid $colorBorder;
+    border: 2px solid $color-border;
   }
 
   &__checkbox:disabled + &__checkmark &__ball {
-    background-color: $colorBorder;
+    background-color: $color-border;
     right: 3px;
     left: auto;
   }
@@ -58,11 +58,11 @@
     cursor: pointer;
     display: inline-block;
     position: relative;
-    border: 1px solid $colorBorder;
+    border: 1px solid $color-border;
     width: 38px;
     height: 20px;
     border-radius: 22px;
-    background-color: $colorBackgroundLight;
+    background-color: $color-background-light;
   }
 }
 

@@ -6,13 +6,13 @@ $lg: 1199px;
 $xl: 1440px;
 $xxl: 1920px;
 
-$colorTextHeader: #1f2041;
-$colorTextMain: rgba(31, 32, 65, 0.75);
-$colorLabel: rgba(31, 32, 65, 0.5);
-$colorBorder: rgb(222 222 227);
-$colorBackground: rgba(31, 32, 65, 0.15);
-$colorMain: #75b7ec;
-$colorBackgroundLight: #ffffff;
+$color-text-header: #1f2041;
+$color-text-main: rgba(31, 32, 65, 0.75);
+$color-label: rgba(31, 32, 65, 0.5);
+$color-border: rgb(222 222 227);
+$color-background: rgba(31, 32, 65, 0.15);
+$color-main: #75b7ec;
+$color-background-light: #ffffff;
 
 $fontMain: 
 'Montserrat', 
@@ -25,7 +25,7 @@ sans-serif;
   font-weight: bold;
   font-size: 12px;
   line-height: 15px;
-  color: $colorTextHeader;
+  color: $color-text-header;
   text-transform: uppercase;
 }
 
@@ -34,7 +34,7 @@ sans-serif;
   font-weight: normal;
   font-size: 14px;
   line-height: 24px;
-  color: $colorTextMain;
+  color: $color-text-main;
 }
 
 @mixin media-breakpoint-up($width) {

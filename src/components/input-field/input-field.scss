@@ -11,21 +11,21 @@
     font-weight: normal;
     text-indent: 12px;
     border-radius: 3px;
-    border: 1px solid $colorBorder;
+    border: 1px solid $color-border;
     margin-top: 4px;
     width: 100%;
 
     &::placeholder {
-      color: $colorBorder;
+      color: $color-border;
     }
 
     &:hover,
     &:focus {
-      border-color: $colorLabel;
+      border-color: $color-label;
     }
 
     &:disabled {
-      background-color: $colorBackground;
+      background-color: $color-background;
     }
   }
 }

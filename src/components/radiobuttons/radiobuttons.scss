@@ -37,14 +37,14 @@
     }
 
     &-checkbox:checked + &-radiomark {
-      border: 2px solid $colorMain;
-      box-shadow: inset 0px 0px 0px 3.5px $colorBackgroundLight;
-      background-color: $colorMain;
+      border: 2px solid $color-main;
+      box-shadow: inset 0px 0px 0px 3.5px $color-background-light;
+      background-color: $color-main;
     }
     
     &-checkbox:disabled + &-radiomark {
-      border: 2px solid $colorBackground;
-      background-color: $colorBackground;
+      border: 2px solid $color-background;
+      background-color: $color-background;
     }
 
     &-radiomark {
@@ -52,11 +52,11 @@
       cursor: pointer;
       display: inline-block;
       position: relative;
-      border: 2px solid $colorBackground;
+      border: 2px solid $color-background;
       width: 19px;
       height: 18px;
       border-radius: 50%;
-      background-color: $colorBackgroundLight;
+      background-color: $color-background-light;
     }
 
     &-name {

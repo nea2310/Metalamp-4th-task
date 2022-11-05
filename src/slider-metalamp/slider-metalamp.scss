@@ -114,13 +114,13 @@
     width: 100%;
     position: relative;
     height: 8px;
-    background: $colorBackground;
+    background: $color-background;
     display: flex;
   }
 
   &__progress-bar {
     position: absolute;
-    background: $colorMain;
+    background: $color-main;
     width: 95%;
     border: none;
     height: 8px;
@@ -142,7 +142,7 @@
     
     &:focus {
       outline-offset: 12px;
-      outline: 2px solid $colorTextHeader;
+      outline: 2px solid $color-text-header;
     }
 
     &:hover {
@@ -154,7 +154,7 @@
     }
 
     &::after {
-      background: $colorMain;
+      background: $color-main;
       box-sizing: border-box;
       position: absolute;
       top: 3px;
@@ -175,19 +175,19 @@
 
   &__mark {
     height: 5px;
-    background-color: $colorTextHeader;
+    background-color: $color-text-header;
     position: absolute;
     margin-top: 15px;
     width: 1px;
 
     &_no-label {
-      background-color: $colorLabel;
+      background-color: $color-label;
     }
   }
 
   &__label {
     font-family: $fontMain;
-    color: $colorLabel;
+    color: $color-label;
     font-size: 10px;
     position: absolute;
     top: 10px;
@@ -202,14 +202,14 @@
     cursor: default;
     font-family: $fontMain;
     font-size: 10px;
-    color: $colorLabel;
+    color: $color-label;
     height: 25px;
     position: absolute;
     border-radius: 3px;
     display: flex;
     align-items: center;
     padding: 0 5px;
-    background: $colorMain;
+    background: $color-main;
     z-index: 1;
     top: -30px;
   }
