@@ -1,15 +1,13 @@
 mixin toggle({name = '', value = '', usage = '', isChecked = false} = {})
   -
-    function getValidValue (list, value, defaultValue = '') {
-    return value = list.includes(value) ? value : defaultValue
-    }
+    const prepareOptions = require ('@com/toggle/toggle-utils.js').default;
 
-    const elementName = 'toggle'
-
-    const validUsages = ['vertical', 'range', 'bar', 'tip', 'scale', 'sticky', 'subscribe', 'disable', 'destroy']
-    usage = getValidValue(validUsages, usage, '')
+    const{
+      elementName,
+      usageChecked
+    } = prepareOptions({usage});
 
   label(class = `${elementName} js-${elementName}`)= value
-    input(class = `${elementName}__checkbox js-${elementName}__checkbox ${elementName}__checkbox_usage_${usage} js-${elementName}__checkbox_usage_${usage}` type = "checkbox" name = name value = value checked = isChecked tabindex = "-1")
+    input(class = `${elementName}__checkbox js-${elementName}__checkbox ${elementName}__checkbox_usage_${usageChecked} js-${elementName}__checkbox_usage_${usageChecked}` type = "checkbox" name = name value = value checked = isChecked tabindex = "-1")
     span(class = `${elementName}__checkmark js-${elementName}__checkmark` tabindex = "0")
       span(class = `${elementName}__ball`)

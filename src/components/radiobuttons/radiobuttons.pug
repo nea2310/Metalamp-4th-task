@@ -1,28 +1,20 @@
 mixin radiobuttons(options = {})
   -
-    function getValidValue (list, value, defaultValue = '') {
-    return value = list.includes(value) ? value : defaultValue
-    }
-
     const {
       labelText = '',
       categories = [],
       radioGroupName = ''} = options
-    let { usage = ''} = options
-
+ 
     const elementName = 'radiobuttons'
-    const validUsages = ['step', 'interval']
-
-    usage = getValidValue(validUsages, usage, '')
 
   fieldset(class = `${elementName} js-${elementName}`)= labelText
     ul(class = `${elementName}__list`)
       if Array.isArray(categories) && categories.length
         each value in categories
-          - const {name = '', checked = false} = value
+          - const {name = '', usage = '', checked = false} = value
             li(class = `${elementName}__category-wrapper`)
               label(class = `${elementName}__category js-${elementName}__category`)
-                input(class = `${elementName}__category-checkbox js-${elementName}__category-checkbox ${elementName}__category-checkbox_usage_${value.usage} js-${elementName}__category-checkbox_usage_${value.usage}` 
+                input(class = `${elementName}__category-checkbox js-${elementName}__category-checkbox ${elementName}__category-checkbox_usage_${usage} js-${elementName}__category-checkbox_usage_${usage}` 
                   type = "radio" name = radioGroupName value = name checked = checked tabindex = "-1")
                 span(class = `${elementName}__category-radiomark js-${elementName}__category-radiomark` tabindex = "0")
                 span(class = `${elementName}__category-name`)= name
