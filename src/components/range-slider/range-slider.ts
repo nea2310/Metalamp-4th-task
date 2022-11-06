@@ -17,19 +17,25 @@ class RangeSlider {
 
   private rangeSlider: any;
 
-  private selector: string;
+  private sliderSelector: string;
 
-  constructor(selector: string, element: Element) {
-    this.selector = selector;
+  private rootSelector: string;
+
+  private isVerticalModifier: string;
+
+  constructor(element: Element) {
+    this.rootSelector = 'range-slider';
+    this.sliderSelector = 'slider-metalamp';
+    this.isVerticalModifier = 'orientation_vertical';
     this.wrapper = element as HTMLElement;
     this.render();
     this.subscribeSlider();
   }
 
   private render() {
-    this.slider = RangeSlider.getElement(this.wrapper, '.js-slider-metalamp');
-    this.sliderWrapper = RangeSlider.getElement(this.wrapper, `${this.selector}__slider-metalamp`);
-    this.panelWrapper = this.wrapper.querySelector(`${this.selector}__panel`);
+    this.slider = RangeSlider.getElement(this.wrapper, `.js-${this.sliderSelector}`);
+    this.sliderWrapper = RangeSlider.getElement(this.wrapper, `.js-${this.rootSelector}__${this.sliderSelector}`);
+    this.panelWrapper = this.wrapper.querySelector(`.js-${this.rootSelector}__panel`);
     if (!this.panelWrapper) return false;
     this.panel = new Panel(this.panelWrapper);
     this.panel.subscribe(this.handlePanelChange);
@@ -58,7 +64,7 @@ class RangeSlider {
 
   private updateData = (data: IConf) => {
     if (data.vertical
-      !== this.wrapper.classList.contains('range-slider_orientation_vertical')) {
+      !== this.wrapper.classList.contains(`${this.rootSelector}_${this.isVerticalModifier}`)) {
       this.switchVertical();
     }
   };
@@ -138,17 +144,17 @@ class RangeSlider {
         $.data(slider, 'SliderMetaLamp', null);
       }
       if (this.sliderWrapper) {
-        this.sliderWrapper.classList.remove('range-slider__slider-metalamp_orientation_vertical');
+        this.sliderWrapper.classList.remove(`${this.rootSelector}__${this.sliderSelector}_${this.isVerticalModifier}`);
       }
-      this.wrapper.classList.remove('range-slider_orientation_vertical');
+      this.wrapper.classList.remove(`${this.rootSelector}_${this.isVerticalModifier}`);
     }
   }
 
   private switchVertical() {
     if (this.sliderWrapper) {
-      this.sliderWrapper.classList.toggle('range-slider__slider-metalamp_orientation_vertical');
+      this.sliderWrapper.classList.toggle(`${this.rootSelector}__${this.sliderSelector}_${this.isVerticalModifier}`);
     }
-    this.wrapper.classList.toggle('range-slider_orientation_vertical');
+    this.wrapper.classList.toggle(`${this.rootSelector}_${this.isVerticalModifier}`);
   }
 
   private static getElement(object: HTMLElement, selector: string) {
@@ -158,7 +164,7 @@ class RangeSlider {
 
 function renderRangeSliders(selector: string) {
   const rangeSliders = document.querySelectorAll(selector);
-  rangeSliders.forEach((rangeSlider) => new RangeSlider(selector, rangeSlider));
+  rangeSliders.forEach((rangeSlider) => new RangeSlider(rangeSlider));
 }
 
 renderRangeSliders('.js-range-slider');
