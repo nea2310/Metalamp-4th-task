@@ -195,7 +195,7 @@ class Model extends Observer {
       this.conf.from = item.value;
       this.data.fromPosition = item.position;
       this.data.fromValue = String(item.value);
-      this.notify('FromPosition', this.data);
+      this.notify('FromPosition', this.data, this.conf);
       this.notify('FromValue', this.data);
 
       return { newValue: String(item.value), newPosition: item.position };
@@ -205,7 +205,7 @@ class Model extends Observer {
       this.conf.to = item.value;
       this.data.toPosition = item.position;
       this.data.toValue = String(item.value);
-      this.notify('ToPosition', this.data);
+      this.notify('ToPosition', this.data, this.conf);
       this.notify('ToValue', this.data);
       return { newValue: String(item.value), newPosition: item.position };
     };
