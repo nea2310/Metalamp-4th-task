@@ -380,9 +380,8 @@ class Model extends Observer {
       value: string | number | boolean | Function,
       validationFunction: typeof validateNumber | typeof validateBoolean,
     ) => {
-      // eslint-disable-next-line no-param-reassign
-      value = validationFunction(value);
-      const obj = { [key]: value };
+      const checkedValue = validationFunction(value);
+      const obj = { [key]: checkedValue };
       conf = {
         ...conf, ...obj,
       };

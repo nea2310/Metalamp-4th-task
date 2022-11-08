@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-new */
 import { Controller } from '../../controller/controller';
 import ViewControl from '../view-control/view-control';
 import { IConfFull } from '../../interface';
@@ -16,9 +14,12 @@ function mockPointerEvent(element: HTMLElement, {
     clientX,
     clientY,
   });
-  element.setPointerCapture = jest.fn(element.setPointerCapture);
-  element.releasePointerCapture = jest.fn(element.releasePointerCapture);
-  element.dispatchEvent(pointerEvent);
+
+  const targetElement = element;
+
+  targetElement.setPointerCapture = jest.fn(targetElement.setPointerCapture);
+  targetElement.releasePointerCapture = jest.fn(targetElement.releasePointerCapture);
+  targetElement.dispatchEvent(pointerEvent);
 }
 
 function mockKeyboardEvent(
@@ -34,9 +35,12 @@ function mockKeyboardEvent(
       bubbles: true,
     },
   );
-  element.setPointerCapture = jest.fn(element.setPointerCapture);
-  element.releasePointerCapture = jest.fn(element.releasePointerCapture);
-  element.dispatchEvent(keyboardEvent);
+
+  const targetElement = element;
+
+  targetElement.setPointerCapture = jest.fn(targetElement.setPointerCapture);
+  targetElement.releasePointerCapture = jest.fn(targetElement.releasePointerCapture);
+  targetElement.dispatchEvent(keyboardEvent);
 }
 
 const parent = document.createElement('input');
@@ -65,6 +69,8 @@ const getElem = (selector: string) => document.getElementsByClassName(selector)[
 
 const testModel = new Model(conf);
 const testView = new View(parent);
+
+// eslint-disable-next-line no-new
 new Controller(testModel, testView);
 const testViewControl = testView.viewControl as ViewControl;
 

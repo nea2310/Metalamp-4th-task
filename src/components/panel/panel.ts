@@ -46,8 +46,11 @@ class Panel extends PanelObserver {
   }
 
   public destroy() {
-    // eslint-disable-next-line no-param-reassign, no-unused-vars
-    this.optionObjects.forEach((option) => { option = null; });
+    this.optionObjects.forEach((option) => {
+      let item = option;
+      item = null;
+      return item;
+    });
     const panelChildren = this.wrapper.childNodes;
     panelChildren.forEach((element) => {
       element.remove();

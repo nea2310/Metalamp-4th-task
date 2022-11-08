@@ -79,16 +79,14 @@ class ViewScale {
 
   // проверяем, не налезают ли подписи друг на друга и если да - то удаляем каждую вторую
   private checkScaleLength(markList: Element[]) {
-    // деактивируем правило ESLint, т.к. это рекурсивная функция
-    // eslint-disable-next-line no-shadow
-    const hideLabels = (markList: Element[]) => {
+    const hideLabels = (markListNew: Element[]) => {
       // скрываем подпись каждого второго эл-та шага, а самому эл-ту добавляем класс "no-label"
-      for (let i = 1; i < markList.length; i += 2) {
-        const child = markList[i].firstElementChild as Element;
+      for (let i = 1; i < markListNew.length; i += 2) {
+        const child = markListNew[i].firstElementChild as Element;
         child.classList.add('slider-metalamp__label_hidden');
-        markList[i]
+        markListNew[i]
           .classList.add('slider-metalamp__mark_no-label');
-        markList[i]
+        markListNew[i]
           .classList.add('js-slider-metalamp__mark_no-label');
       }
       // создаем новый markList из элементов, не имеющих класса "no-label" (с видимыми подписями)

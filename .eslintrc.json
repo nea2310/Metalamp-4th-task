@@ -25,5 +25,10 @@
     "fsd/split-conditionals": "error",
     "import/no-unresolved": "off",
     "import/extensions": "off"
-  }
+  },
+  "globals": {
+    "JQuery": "readonly",
+    "$": "readonly",
+    "NodeListOf": "readonly"
+}
 }

@@ -1,11 +1,9 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
-
-import { plugin } from './slider-metalamp';
+import plugin from './slider-metalamp';
 import { IConf } from './mvc/interface';
 import { Controller } from './mvc/controller/controller';
 
 declare global {
+  // eslint-disable-next-line no-unused-vars
   interface JQuery {
     SliderMetaLamp: any;
   }

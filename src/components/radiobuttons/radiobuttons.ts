@@ -1,10 +1,7 @@
-/* eslint-disable no-undef */
 class Radiobuttons {
   private elementName: string;
 
   private wrapper: HTMLElement;
-
-  private radiobuttonsHidden: NodeListOf<HTMLInputElement> | null = null;
 
   private radioMarks: NodeListOf<HTMLInputElement> | null = null;
 
@@ -16,7 +13,6 @@ class Radiobuttons {
   }
 
   private render() {
-    this.radiobuttonsHidden = this.wrapper.querySelectorAll(`${this.elementName}__category-checkbox`) as NodeListOf<HTMLInputElement>;
     this.radioMarks = this.wrapper.querySelectorAll(`${this.elementName}__category-radiomark`) as NodeListOf<HTMLInputElement>;
   }
 

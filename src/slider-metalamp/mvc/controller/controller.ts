@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import Model from '../model/model';
 import View from '../view/view';
 import Observer from '../observer';

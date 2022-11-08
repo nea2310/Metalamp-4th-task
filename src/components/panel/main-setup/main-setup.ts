@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 import { IConf } from '../../../slider-metalamp/mvc/interface';
 
 import PanelObserver from '../panel-observer';
@@ -43,16 +41,18 @@ class MainSetup extends PanelObserver {
     this.optionObjects.forEach((optionObject) => {
       if (!optionObject) return false;
 
+      const item = optionObject;
+
       const usageType = optionObject.className.match(/usage_\S*/);
       if (!usageType) return false;
 
       const type = usageType[0].replace('usage_', '');
 
       if (/toggle/.test(optionObject.className)) {
-        optionObject.checked = !!data[type];
+        item.checked = !!data[type];
         return true;
       }
-      optionObject.value = String(data[type]);
+      item.value = String(data[type]);
       return true;
     });
 
@@ -66,7 +66,10 @@ class MainSetup extends PanelObserver {
     if (!this.optionObjects) return false;
     this.optionObjects.forEach((optionObject) => {
       if (!optionObject) return false;
-      optionObject.disabled = isDisabled;
+
+      const item = optionObject;
+
+      item.disabled = isDisabled;
       return true;
     });
     return true;

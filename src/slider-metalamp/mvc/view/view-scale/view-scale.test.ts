@@ -1,6 +1,4 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-shadow */
-import { IConf, IConfFull } from '../../interface';
+import { IConfFull } from '../../interface';
 import ViewScale from './view-scale';
 
 interface IMockElement {
@@ -14,7 +12,9 @@ interface IMockElement {
 function mockElementDimensions(element: HTMLElement, {
   width, height, padding = 0, x = 0, y = 0,
 }: IMockElement) {
-  element.getBoundingClientRect = jest.fn(() => {
+  const targetElement = element;
+
+  targetElement.getBoundingClientRect = jest.fn(() => {
     const rect = {
       x,
       y,
@@ -27,16 +27,15 @@ function mockElementDimensions(element: HTMLElement, {
     };
     return { ...rect, toJSON: () => rect };
   });
-  Object.defineProperties(element, {
+  Object.defineProperties(targetElement, {
     offsetWidth: { value: width + 2 * padding },
     offsetHeight: { value: height + 2 * padding },
   });
-  return element;
+  return targetElement;
 }
 
 function createMarkList(
   scaleMarks: { 'position'?: number, 'value'?: number }[],
-  conf: IConf,
   wrapper: HTMLElement,
   elemWidth: number,
   elemHeight: number,
@@ -82,7 +81,7 @@ const conf: IConfFull = {
 
 function prepareInstance(
   scaleMarks: { 'position'?: number, 'value'?: number }[],
-  conf: IConfFull,
+  config: IConfFull,
   mockDimensions: boolean,
 ) {
   const root = document.createElement('input');
@@ -93,10 +92,10 @@ function prepareInstance(
   let testViewScale: ViewScale;
   if (mockDimensions) {
     mockElementDimensions(track, { width: 100, height: 100 });
-    const markList = createMarkList(scaleMarks, conf, track, 100, 100);
-    testViewScale = new ViewScale(slider, track, conf, markList);
+    const markList = createMarkList(scaleMarks, track, 100, 100);
+    testViewScale = new ViewScale(slider, track, config, markList);
   } else {
-    testViewScale = new ViewScale(slider, track, conf);
+    testViewScale = new ViewScale(slider, track, config);
   }
 
   return testViewScale;
@@ -105,14 +104,12 @@ function prepareInstance(
 /** ************************ */
 
 describe('ViewScale', () => {
-  // eslint-disable-next-line max-len
   test('scale marks are not hidden if their total width (height) is less or equal to slider width (height)', () => {
     const testViewScale = prepareInstance(marksArray, conf, false);
     expect(testViewScale.createScale(marksArray, conf))
       .toHaveLength(3);
   });
 
-  // eslint-disable-next-line max-len
   test('scale marks are hidden if their total width (height) is less or equal to slider width (height)', () => {
     const testViewScale = prepareInstance(marksArray, conf, true);
     expect(testViewScale.createScale(marksArray, conf))

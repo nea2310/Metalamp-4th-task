@@ -98,7 +98,6 @@ describe('ViewScale', () => {
     updateInputSpy.mockClear();
   });
 
-  // eslint-disable-next-line max-len
   test('should call updatePos and updateInput methods in view-control on calling updateToPos in view', () => {
     testView.updateToPos({
       ...data, fromPosition: 0, toPosition: 10,
