@@ -1,4 +1,4 @@
-import PanelObserver from '../panel-observer';
+import PanelObserver from '../PanelObserver';
 
 import { IConf } from '../../../slider-metalamp/mvc/interface';
 

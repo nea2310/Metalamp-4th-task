@@ -9,4 +9,4 @@ function requireAll(requireContext: any) {
 }
 
 requireAll(require.context('./components/', true, /.*\.(ts|scss)$/));
-requireAll(require.context('./pages/', true, /.*\.scss$/));
+requireAll(require.context('./pages/', true, /.*\.(ts|scss)$/));

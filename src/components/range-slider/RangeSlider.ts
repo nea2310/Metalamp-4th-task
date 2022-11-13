@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 import { IConf } from '../../slider-metalamp/mvc/interface';
 
-import Panel from '../panel/panel';
+import Panel from '../panel/Panel';
 
 class RangeSlider {
   private wrapper: HTMLElement;
@@ -162,9 +162,4 @@ class RangeSlider {
   }
 }
 
-function renderRangeSliders(selector: string) {
-  const rangeSliders = document.querySelectorAll(selector);
-  rangeSliders.forEach((rangeSlider) => new RangeSlider(rangeSlider));
-}
-
-renderRangeSliders('.js-range-slider');
+export default RangeSlider;

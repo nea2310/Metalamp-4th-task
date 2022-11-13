@@ -1,4 +1,4 @@
-import PanelObserver from '../panel-observer';
+import PanelObserver from '../PanelObserver';
 
 class ActionsSetup extends PanelObserver {
   private wrapper: HTMLElement;

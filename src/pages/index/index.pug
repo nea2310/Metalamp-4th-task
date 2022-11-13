@@ -6,10 +6,10 @@ include ../../components/range-slider/range-slider.pug
   demoVertical,
   demoSingle,
   demoNoTip,
-    } = require('@pag/index/index.json')
+    } = require("@pag/index/index.json")
 
 doctype html
-html(lang = 'ru')
+html(lang = "ru")
   head
     meta(charset="utf-8")
     meta(name="viewport" content="initial-scale=1.0, width=device-width")
@@ -22,18 +22,18 @@ html(lang = 'ru')
     meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
     meta(http-equiv="X-UA-Compatible" content="IE=edge")
     meta(name="viewport" content="width=device-width")
-    link(rel="icon" href= './favicon.ico' sizes="any")
-    link(rel="icon" href='./assets/favicons/icon.svg' type="image/svg+xml")
-    link(rel="apple-touch-icon" href='./assets/favicons/apple-touch-icon.png')
-    link(rel="manifest" href='./assets/favicons/manifest.json')
+    link(rel="icon" href= "./favicon.ico" sizes="any")
+    link(rel="icon" href="./assets/favicons/icon.svg" type="image/svg+xml")
+    link(rel="apple-touch-icon" href="./assets/favicons/apple-touch-icon.png")
+    link(rel="manifest" href="./assets/favicons/manifest.json")
     title Range Slider
   body
-    main(class = 'slider-demo')
-      div(class='slider-demo__wrapper')
+    main(class = "index js-index")
+      div(class = "js-index__range-slider")
         +range-slider(demoHorizontal)
-      div(class = 'slider-demo__wrapper')
+      div(class = "js-index__range-slider")
         +range-slider(demoVertical)
-      div(class = 'slider-demo__wrapper')
+      div(class = "js-index__range-slider")
         +range-slider(demoSingle)
-      div(class = 'slider-demo__wrapper')
+      div(class = "js-index__range-slider")
         +range-slider(demoNoTip)

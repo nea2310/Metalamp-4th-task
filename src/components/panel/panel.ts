@@ -1,12 +1,12 @@
-import MainSetup from './main-setup/main-setup';
+import MainSetup from './main-setup/MainSetup';
 
-import ScaleSetup from './scale-setup/scale-setup';
+import ScaleSetup from './scale-setup/ScaleSetup';
 
-import ControlMovementSetup from './control-movement-setup/control-movement-setup';
+import ControlMovementSetup from './control-movement-setup/ControlMovementSetup';
 
-import ActionsSetup from './actions-setup/actions-setup';
+import ActionsSetup from './actions-setup/ActionsSetup';
 
-import PanelObserver from './panel-observer';
+import PanelObserver from './PanelObserver';
 
 import { IConf } from '../../slider-metalamp/mvc/interface';
 

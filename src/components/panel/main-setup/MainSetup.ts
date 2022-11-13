@@ -1,6 +1,6 @@
 import { IConf } from '../../../slider-metalamp/mvc/interface';
 
-import PanelObserver from '../panel-observer';
+import PanelObserver from '../PanelObserver';
 
 interface IConfAdvanced extends IConf {
   [value: string]: boolean | number | string | Function | undefined
