@@ -57,18 +57,15 @@ class ViewControl extends Observer {
     this.root = this.slider.previousElementSibling as Element;
     this.track = this.slider.firstElementChild as Element;
 
-    /* Создаем ползунок минимального значения */
     this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.conf.from);
     this.tipMin = ViewControl.getElement(this.controlMin, '.slider-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMin);
 
-    /* Создаем ползунок максимального значения */
     this.controlMax = ViewControl.renderControl('slider-metalamp__control-max', 'slider-metalamp__tip-max', this.conf.to);
     this.tipMax = ViewControl.getElement(this.controlMax, '.slider-metalamp__tip') as HTMLInputElement;
     this.track.append(this.controlMax);
   }
 
-  // Обновляем позицию ползунка (вызывается через контроллер)
   public updatePos(element: HTMLElement, newPosition: number) {
     const elem = element;
     if (!this.initDone) {
@@ -82,7 +79,7 @@ class ViewControl extends Observer {
       elem.style.left = `${newPosition}%`;
       elem.style.bottom = '';
     }
-    // пересчитать ширину подсказок
+
     if (!this.tipMin || !this.tipMax) return false;
     if (this.defineControl(elem) === 'min') {
       this.tipMin.style.left = ViewControl.calcTipPos(this.conf.vertical, this.tipMin);
@@ -92,14 +89,12 @@ class ViewControl extends Observer {
     return true;
   }
 
-  // Обновляем значение tip
   public updateVal(value: string, isFrom: boolean) {
     if (!this.tipMin || !this.tipMax) return false;
     if (isFrom) { this.tipMin.innerText = value; } else { this.tipMax.innerText = value; }
     return true;
   }
 
-  // передать значения FROM и TO в инпут
   public updateInput(conf: IConfFull) {
     if (this.root && this.root.tagName === 'INPUT') {
       this.root.value = this.conf.range ? `${conf.from}, ${conf.to}`
@@ -107,12 +102,10 @@ class ViewControl extends Observer {
     }
   }
 
-  // включение / отключение вертикального режима
   public switchVertical(conf: IConfFull) {
     this.conf = conf;
   }
 
-  // включение / отключение подсказок
   public switchTip(conf: IConfFull) {
     if (this.tipMax && this.tipMin) {
       if (this.initDone) {
@@ -143,7 +136,6 @@ class ViewControl extends Observer {
     return control;
   }
 
-  // Инициализация
   private init(conf: IConfFull) {
     this.conf = conf;
   }
@@ -163,7 +155,6 @@ class ViewControl extends Observer {
     thumb.height = scale.offsetHeight;
   }
 
-  // Вешаем обработчики события нажатия на ползунке (захвата ползунка) и перемещения ползунка
   private dragControl() {
     const handlePointerStart = (event: PointerEvent) => {
       event.preventDefault();
@@ -176,12 +167,11 @@ class ViewControl extends Observer {
       }
       const { thumb } = this.data;
       if (target.classList.contains('slider-metalamp__control')) {
-        // определяем ползунок, за который тянут
         const moovingControl = this.defineControl(target);
         if (typeof moovingControl === 'string') {
           thumb.moovingControl = moovingControl;
         }
-        // определяем расстояние между позицией клика и левым краем ползунка
+
         if (!this.conf.vertical) {
           thumb.shiftBase = event.clientX
             - target.getBoundingClientRect().left;
@@ -202,10 +192,7 @@ class ViewControl extends Observer {
           target
             .removeEventListener('pointerup', handlePointerUp);
         };
-        /* elem.setPointerCapture(pointerId) – привязывает события с данным pointerId к elem.
-        После такого вызова все события указателя с таким pointerId будут иметь elem в
-        качестве целевого элемента (как будто произошли над elem), вне зависимости от того,
-        где в документе они произошли. */
+
         target.setPointerCapture(event.pointerId);
         target.addEventListener('pointermove', handlePointerMove);
         target.addEventListener('pointerup', handlePointerUp);
@@ -218,7 +205,6 @@ class ViewControl extends Observer {
     this.slider.addEventListener('selectstart', handleDragSelectStart);
   }
 
-  // Вешаем обработчик нажатия стрелок на сфокусированном ползунке
   private pressControl() {
     const handlePointerStart = (event: KeyboardEvent) => {
       const directions = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
@@ -232,10 +218,8 @@ class ViewControl extends Observer {
         const { thumb } = this.data;
 
         if (target.classList.contains('slider-metalamp__control')) {
-          // определяем ползунок, на который нажимают
           thumb.moovingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
-          /* выше проверили, что event.code входит в массив значений directions,
-          поэтому здесь утверждаем тип event.code as TDirections, чтобы избежать лишних if-ов */
+
           thumb.direction = event.code as TDirections;
           thumb.repeat = event.repeat;
           this.notify('KeydownEvent', this.data);
@@ -245,7 +229,6 @@ class ViewControl extends Observer {
     this.slider.addEventListener('keydown', handlePointerStart);
   }
 
-  // Обработчик клика по шкале
   private clickTrack() {
     const handlePointerStart = (event: PointerEvent) => {
       event.preventDefault();
@@ -264,7 +247,7 @@ class ViewControl extends Observer {
       if (result) {
         let controlMinDist = 0;
         let controlMaxDist = 0;
-        // определяем расстояние от места клика до каждого из бегунков
+
         if (this.controlMin && this.controlMax) {
           if (this.conf.vertical) {
             controlMinDist = Math.abs(this.controlMin.getBoundingClientRect()
@@ -289,10 +272,9 @@ class ViewControl extends Observer {
           thumb.clientY = event.clientY;
         }
 
-        // определяем ползунок, находящийся ближе к позиции клика
-        if (this.controlMax && this.controlMax.classList.contains('hidden')) { // Single mode
+        if (this.controlMax && this.controlMax.classList.contains('hidden')) {
           thumb.moovingControl = 'min';
-        } else { // Double mode
+        } else {
           thumb.moovingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
         }
         this.notify('MoveEvent', this.data);

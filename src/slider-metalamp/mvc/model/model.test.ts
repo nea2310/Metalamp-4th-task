@@ -238,7 +238,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           moovingControl: 'min',
         },
       ))
-        .toBe(10); // from < min
+        .toBe(10);
 
       expect(testModel.calcPositionSetByKey(
         {
@@ -247,7 +247,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           moovingControl: 'min',
         },
       ))
-        .toBe(10); // from < min
+        .toBe(10);
 
       expect(testModel.calcPositionSetByKey(
         {
@@ -256,7 +256,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           moovingControl: 'max',
         },
       ))
-        .toBe(100);// to > max
+        .toBe(100);
 
       expect(testModel.calcPositionSetByKey(
         {
@@ -265,7 +265,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           moovingControl: 'max',
         },
       ))
-        .toBe(100);// to > max
+        .toBe(100);
 
       await testModel.update({ from: 70, to: 70 });
 
@@ -276,14 +276,14 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           moovingControl: 'max',
         },
       ))
-        .toBe(70); // from<to
+        .toBe(70);
 
       expect(testModel.calcPositionSetByKey({
         direction: 'ArrowRight',
         repeat: false,
         moovingControl: 'min',
       }))
-        .toBe(70); // to>from
+        .toBe(70);
 
       expect(testModel.calcPositionSetByKey(
         {
@@ -347,7 +347,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           moovingControl: 'min',
         },
       ))
-        .toBe('newPosition<0'); // from < min
+        .toBe('newPosition<0');
 
       expect(testModel.calcPositionSetByKey(
         {
@@ -356,7 +356,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           moovingControl: 'min',
         },
       ))
-        .toBe('newPosition<0'); // from < min
+        .toBe('newPosition<0');
 
       expect(testModel.calcPositionSetByKey(
         {
@@ -365,7 +365,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           moovingControl: 'max',
         },
       ))
-        .toBe('newPosition>100');// to > max
+        .toBe('newPosition>100');
 
       expect(testModel.calcPositionSetByKey(
         {
@@ -374,7 +374,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           moovingControl: 'max',
         },
       ))
-        .toBe('newPosition>100');// to > max
+        .toBe('newPosition>100');
 
       await testModel.update({ from: 70, to: 70 });
 
@@ -385,7 +385,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           moovingControl: 'max',
         },
       ))
-        .toBe('too small newPosition'); // from<to
+        .toBe('too small newPosition');
 
       expect(testModel.calcPositionSetByKey(
         {
@@ -394,7 +394,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           moovingControl: 'min',
         },
       ))
-        .toBe('too big newPosition'); // to>from
+        .toBe('too big newPosition');
 
       expect(testModel.calcPositionSetByKey(
         {

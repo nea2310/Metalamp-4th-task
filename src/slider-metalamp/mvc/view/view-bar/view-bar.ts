@@ -26,10 +26,10 @@ class ViewBar {
     toPosition: number,
     isRange: boolean,
     isVertical: boolean,
-  ) { // режим Single
+  ) {
     let position = 0;
     let length = fromPosition;
-    if (isRange) { // режим Double
+    if (isRange) {
       position = fromPosition;
       length = toPosition - fromPosition;
     }

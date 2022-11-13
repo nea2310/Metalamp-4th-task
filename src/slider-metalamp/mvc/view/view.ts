@@ -55,7 +55,6 @@ class View extends Observer {
     this.frame.className = 'slider-metalamp__frame';
     this.slider.append(this.frame);
 
-    /* Находим корневой элемент и добавляем слайдер */
     this.root.after(this.slider);
   }
 
@@ -194,19 +193,18 @@ class View extends Observer {
     });
 
     map.forEach((value, key) => {
-      // если значение содержит только цифры
       if (/^-?\d+\.?\d*$/.test(value)) {
         map.set(key, parseFloat(value));
       }
-      // если значение содержит строку 'true'
+
       if (value === 'true') {
         map.set(key, true);
       }
-      // если значение содержит строку 'false'
+
       if (value === 'false') {
         map.set(key, false);
       }
-      // перевод ключей в camelCase
+
       if (key === 'shiftonkeydown') {
         map.set('shiftOnKeyDown', value);
         map.delete(key);

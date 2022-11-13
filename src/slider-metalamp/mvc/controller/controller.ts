@@ -14,7 +14,7 @@ class Controller extends Observer {
     super();
     this.model = model;
     this.view = view;
-    this.createListeners();// срабатывает после инициализации модели
+    this.createListeners();
     this.init();
     this.isEnabled = true;
   }

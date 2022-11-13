@@ -101,8 +101,6 @@ function prepareInstance(
   return testViewScale;
 }
 
-/** ************************ */
-
 describe('ViewScale', () => {
   test('scale marks are not hidden if their total width (height) is less or equal to slider width (height)', () => {
     const testViewScale = prepareInstance(marksArray, conf, false);
