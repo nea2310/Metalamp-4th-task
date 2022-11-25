@@ -144,7 +144,7 @@ class ViewControl extends Observer {
     if (!elem.classList) return false;
 
     return elem.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
-  }
+  };
 
   private getMetrics(elem: ITarget) {
     const scale = elem.parentElement as HTMLElement;

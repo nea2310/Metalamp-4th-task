@@ -174,11 +174,11 @@ class Model extends Observer {
   }
 
   public calcPositionSetByKey(data:
-    {
-      direction: TDirections,
-      repeat: boolean,
-      moovingControl: 'min' | 'max',
-    }) {
+  {
+    direction: TDirections,
+    repeat: boolean,
+    moovingControl: 'min' | 'max',
+  }) {
     const { direction, repeat, moovingControl } = data;
 
     const changeFrom = (item: IObject) => {

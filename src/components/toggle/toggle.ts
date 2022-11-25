@@ -32,7 +32,7 @@ class Toggle {
         this.checkboxHidden.click();
       }
     }
-  }
+  };
 }
 
 function renderToggles(selector: string) {

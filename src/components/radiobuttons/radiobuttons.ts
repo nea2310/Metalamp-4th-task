@@ -34,7 +34,7 @@ class Radiobuttons {
       }
     }
     return true;
-  }
+  };
 }
 
 function renderRadiobuttons(selector: string) {

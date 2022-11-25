@@ -1,5 +1,5 @@
 import { IConfFull, IdataFull } from '../interface';
-import View from '../view/view';
+import View from './view';
 import ViewBar from './view-bar/view-bar';
 import ViewControl from './view-control/view-control';
 import ViewScale from './view-scale/view-scale';

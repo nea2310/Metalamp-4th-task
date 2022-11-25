@@ -73,7 +73,7 @@ class Panel extends PanelObserver {
 
   private handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
     this.notify(parameters.key, parameters.data);
-  }
+  };
 
   private getElement(selector: string) {
     return this.wrapper.querySelector(`.js-${selector}-setup`) as HTMLElement;

@@ -30,5 +30,21 @@
     "JQuery": "readonly",
     "$": "readonly",
     "NodeListOf": "readonly"
-}
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "extends": [
+        "airbnb-base",
+        "airbnb-typescript/base"
+      ],
+      "parserOptions": {
+        "project": [
+          "tsconfig.json"
+        ]
+      }
+    }
+  ]
 }

@@ -1,8 +1,8 @@
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 import $ from 'jquery';
 
 import '@styles/styles';
-import './slider-metalamp/index.ts';
+import './slider-metalamp/index';
 
 function requireAll(requireContext: any) {
   return requireContext.keys().map(requireContext);

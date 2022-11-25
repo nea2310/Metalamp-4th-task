@@ -6,12 +6,12 @@ interface IConfAdvanced extends IConf {
   [value: string]: boolean | number | string | Function | undefined
 }
 
-type allowedTypes = 'input' | 'toggle';
+type AllowedTypes = 'input' | 'toggle';
 
 class MainSetup extends PanelObserver {
   private optionObjects: Array<HTMLInputElement | null> = [];
 
-  private options: Array<[string, 'input' | 'toggle']> | null = null
+  private options: Array<[string, 'input' | 'toggle']> | null = null;
 
   private wrapper: HTMLElement;
 
@@ -98,7 +98,7 @@ class MainSetup extends PanelObserver {
     }
   }
 
-  private getElement(selector: string, type: allowedTypes = 'input') {
+  private getElement(selector: string, type: AllowedTypes = 'input') {
     if (!this.wrapper) return null;
     if (type === 'input') {
       return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
@@ -106,12 +106,12 @@ class MainSetup extends PanelObserver {
     return this.wrapper.querySelector(`.js-${type}__checkbox_usage_${selector}`) as HTMLInputElement;
   }
 
-  private prepareElement = (selector: string, type: allowedTypes = 'input') => {
+  private prepareElement = (selector: string, type: AllowedTypes = 'input') => {
     const object = this.getElement(selector, type);
     if (object) {
       this.optionObjects.push(object);
     }
-  }
+  };
 }
 
 export default MainSetup;

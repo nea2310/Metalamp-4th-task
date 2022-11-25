@@ -99,89 +99,89 @@ class Controller extends Observer {
   }
 
   private handleFromPosition =
-    (parms: INotifyParameters) => {
-      if (parms.key !== 'FromPosition') return;
-      if (this.view) {
-        this.view.updateFromPos(parms.data, parms.conf);
-      }
+  (parms: INotifyParameters) => {
+    if (parms.key !== 'FromPosition') return;
+    if (this.view) {
+      this.view.updateFromPos(parms.data, parms.conf);
     }
+  };
 
   private handleToPosition = (parms: INotifyParameters) => {
     if (parms.key !== 'ToPosition') return;
     if (this.view) {
       this.view.updateToPos(parms.data, parms.conf);
     }
-  }
+  };
 
   private handleFromValue = (parms: INotifyParameters) => {
     if (parms.key !== 'FromValue') return;
     if (this.view) {
       this.view.updateFromValue(parms.data);
     }
-  }
+  };
 
   private handleToValue = (parms: INotifyParameters) => {
     if (parms.key !== 'ToValue') return;
     if (this.view) {
       this.view.updateToValue(parms.data);
     }
-  }
+  };
 
   private handleScale = (parms: INotifyParameters) => {
     if (parms.key !== 'Scale') return;
     if (this.view) {
       this.view.updateScale(parms.data, parms.conf);
     }
-  }
+  };
 
   private handleIsVertical = (parms: INotifyParameters) => {
     if (parms.key !== 'IsVertical') return;
     if (this.view) {
       this.view.switchVertical(parms.conf);
     }
-  }
+  };
 
   private handleIsRange = (parms: INotifyParameters) => {
     if (parms.key !== 'IsRange') return;
     if (this.view) {
       this.view.switchRange(parms.conf, parms.data);
     }
-  }
+  };
 
   private handleIsScale = (parms: INotifyParameters) => {
     if (parms.key !== 'IsScale') return;
     if (this.view) {
       this.view.switchScale(parms.conf);
     }
-  }
+  };
 
   private handleIsBar = (parms: INotifyParameters) => {
     if (parms.key !== 'IsBar') return;
     if (this.view) {
       this.view.switchBar(parms.conf);
     }
-  }
+  };
 
   private handleIsTip = (parms: INotifyParameters) => {
     if (parms.key !== 'IsTip') return;
     if (this.view) {
       this.view.switchTip(parms.conf);
     }
-  }
+  };
 
   private handleMoveEvent = (parms: INotifyParameters) => {
     if (parms.key !== 'MoveEvent') return;
     if (this.model) {
       this.model.calcPositionSetByPointer(parms.data.thumb);
     }
-  }
+  };
 
   private handleKeydownEvent = (parms: INotifyParameters) => {
     if (parms.key !== 'KeydownEvent') return;
     if (this.model) {
       this.model.calcPositionSetByKey(parms.data.thumb);
     }
-  }
+  };
 }
 
 export { Model, View, Controller };

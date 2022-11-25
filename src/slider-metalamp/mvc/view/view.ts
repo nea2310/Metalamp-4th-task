@@ -1,6 +1,6 @@
-import ViewBar from '../view/view-bar/view-bar';
-import ViewControl from '../view/view-control/view-control';
-import ViewScale from '../view/view-scale/view-scale';
+import ViewBar from './view-bar/view-bar';
+import ViewControl from './view-control/view-control';
+import ViewScale from './view-scale/view-scale';
 import {
   IdataFull,
   IConf,
@@ -240,13 +240,13 @@ class View extends Observer {
     if (parms.key !== 'MoveEvent') return;
 
     this.notify('MoveEvent', parms.data);
-  }
+  };
 
   private handleKeydownEvent = (parms: INotifyParameters) => {
     if (parms.key !== 'KeydownEvent') return;
 
     this.notify('KeydownEvent', parms.data);
-  }
+  };
 }
 
 export default View;

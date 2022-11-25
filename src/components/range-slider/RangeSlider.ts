@@ -106,7 +106,7 @@ class RangeSlider {
         if (this.panel) this.panel.update(dataObject);
       }
     }
-  }
+  };
 
   private subscribeSlider(isSubscribed = true) {
     if (isSubscribed) {

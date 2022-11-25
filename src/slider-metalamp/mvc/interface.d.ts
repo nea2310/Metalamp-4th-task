@@ -29,7 +29,7 @@ interface IConfFullIndexed extends IConfFull {
   [value: string]: boolean | number | string | Function
 }
 
-type IConf = Partial<IConfFull>
+type IConf = Partial<IConfFull>;
 
 interface IObject {
   value: number;
@@ -79,18 +79,18 @@ interface IdataFull {
 }
 
 type TKeys = 'FromPosition'
-  | 'ToPosition'
-  | 'FromValue'
-  | 'ToValue'
-  | 'IsVertical'
-  | 'IsRange'
-  | 'IsSticky'
-  | 'IsScale'
-  | 'IsBar'
-  | 'IsTip'
-  | 'Scale'
-  | 'MoveEvent'
-  | 'KeydownEvent';
+| 'ToPosition'
+| 'FromValue'
+| 'ToValue'
+| 'IsVertical'
+| 'IsRange'
+| 'IsSticky'
+| 'IsScale'
+| 'IsBar'
+| 'IsTip'
+| 'Scale'
+| 'MoveEvent'
+| 'KeydownEvent';
 
 interface INotifyParameters {
   key: TKeys;

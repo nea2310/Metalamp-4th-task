@@ -1,1 +1,1 @@
-import './slider-metalamp/index.ts';
+import './slider-metalamp/index';

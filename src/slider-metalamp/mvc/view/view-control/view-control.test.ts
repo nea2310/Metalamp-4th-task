@@ -1,8 +1,8 @@
 import { Controller } from '../../controller/controller';
-import ViewControl from '../view-control/view-control';
+import ViewControl from './view-control';
 import { IConfFull } from '../../interface';
 import Model from '../../model/model';
-import View from '../../view/view';
+import View from '../view';
 
 function mockPointerEvent(element: HTMLElement, {
   eventType, clientX = 0, clientY = 0,
@@ -25,7 +25,7 @@ function mockPointerEvent(element: HTMLElement, {
 function mockKeyboardEvent(
   element: HTMLElement,
   { eventType, direction = 'ArrowLeft', repeat = false }:
-    { eventType: string, direction: string, repeat: boolean },
+  { eventType: string, direction: string, repeat: boolean },
 ): void {
   const keyboardEvent = new KeyboardEvent(
     eventType,
