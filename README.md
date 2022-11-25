@@ -17,7 +17,7 @@ Include styles from /dist/assets/css directory and scripts from /dist/assets/js 
 
 ## Initialization
   ```
-<input id = "my-element">
+<input id="my-element">
 $('#my-element').SliderMetaLamp([options])
   ```
 
@@ -29,28 +29,28 @@ $('#my-element').data('SliderMetaLamp')
 
 Initialization with min and max values defined in data-attributes:
   ```
-<input id = "my-element" data-min="-10" data-max="20">
+<input id="my-element" data-min="-10" data-max="20">
 $('#my-element').Slider()
   ```
 
 Initialization with min and max values defined in the configuration object:
   ```
-<input id = "my-element">
+<input id="my-element">
 $('#my-element').Slider({min: -10, max: 20})
   ```
 ## Using events:
   ```
 $('#my-element').Slider({
-			onStart: (data) => {
-				console.log(data);
-			},
-			onUpdate: (data) => {
-				console.log(data);
-			},
-			onChange: (data) => {
-				console.log(data);
-			}
-		})
+  onStart: (data) => {
+    console.log(data);
+  },
+  onUpdate: (data) => {
+    console.log(data);
+  },
+  onChange: (data) => {
+    console.log(data);
+  }
+})
   ```
 ## Using API
   ```
@@ -307,6 +307,6 @@ go to http://localhost:8080/
   ```npm run test```
   
 ## UML 
-<a href = "./UML/uml.png">UML class diagram</a>
+<a href="./UML/uml.png">UML class diagram</a>
 
 
