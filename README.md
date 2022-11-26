@@ -66,15 +66,15 @@ $('#my-element').Slider({min: -10, max: 20})
 ## Using events:
   ```
 $('#my-element').Slider({
-  onStart: (data) => {
-    console.log(data);
-  },
-  onUpdate: (data) => {
-    console.log(data);
-  },
-  onChange: (data) => {
-    console.log(data);
-  }
+    onStart: (data) => {
+      console.log(data);
+    },
+    onUpdate: (data) => {
+      console.log(data);
+    },
+    onChange: (data) => {
+      console.log(data);
+    }
 })
   ```
 ## Using API
