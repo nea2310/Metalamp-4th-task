@@ -33,7 +33,7 @@ go to http://localhost:8080/
 
 ## Usage
 Include styles from /dist/assets/css directory and, Jquery and scripts from /dist/assets/js directory in your project. 
-Jquery should be included before Range slider:
+Jquery should be included before the plugin:
   ```
     <link href="[path to the file]/plugin.css" rel="stylesheet" type="text/css">
     <script src="[path to the file]/jquery-[version].js"></script>
