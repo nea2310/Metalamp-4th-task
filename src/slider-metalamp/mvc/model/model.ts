@@ -27,13 +27,10 @@ class Model extends Observer {
 
   private data: IdataFull;
 
-  // eslint-disable-next-line no-unused-vars
   private onStart?: (data: IConf) => unknown | null;
 
-  // eslint-disable-next-line no-unused-vars
   private onUpdate?: (data: IConf) => unknown | null;
 
-  // eslint-disable-next-line no-unused-vars
   private onChange?: (data: IConf) => unknown | null;
 
   private needCalcValue: boolean;

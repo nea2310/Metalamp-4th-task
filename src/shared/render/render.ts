@@ -26,6 +26,8 @@ function render(page: Element, pageSelector: string) {
           });
         })
         .catch((error) => {
+          /* правило деактивировано, т.к. применяется стандартный
+          способ обработки ошибки - вывод сообщения в консоль */
           // eslint-disable-next-line no-console
           console.warn(error, `: could not load component ${componentSelector}`);
         });

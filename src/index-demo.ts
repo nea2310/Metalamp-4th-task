@@ -1,6 +1,3 @@
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-import $ from 'jquery';
-
 import '@styles/styles';
 import './slider-metalamp/index';
 

@@ -3,7 +3,6 @@ import { IConf } from './mvc/interface';
 import { Controller } from './mvc/controller/controller';
 
 declare global {
-  // eslint-disable-next-line no-unused-vars
   interface JQuery {
     SliderMetaLamp: any;
   }

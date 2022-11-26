@@ -1,6 +1,4 @@
 import $ from 'jquery';
-// eslint-disable-next-line import/no-relative-packages
-import JQueryStatic from './node_modules/@types/jquery';
 
 interface WindowJQ extends Window {
   $?: JQueryStatic,

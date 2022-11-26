@@ -14,14 +14,8 @@ interface IConfFull {
   sticky: boolean;
   shiftOnKeyDown: number;
   shiftOnKeyHold: number;
-
-  // eslint-disable-next-line no-unused-vars, no-use-before-define
   onStart: (data: IConf) => unknown;
-
-  // eslint-disable-next-line no-unused-vars, no-use-before-define
   onChange: (data: IConf) => unknown;
-
-  // eslint-disable-next-line no-unused-vars, no-use-before-define
   onUpdate: (data: IConf) => unknown;
 }
 
