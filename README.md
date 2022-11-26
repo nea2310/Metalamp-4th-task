@@ -6,14 +6,39 @@ https://nea2310.github.io/Metalamp-4th-task/index.html
 ## Getting started
 Download the project from https://github.com/nea2310/Metalamp-4th-task
 
-## Usage
-Include styles from /dist/assets/css directory and scripts from /dist/assets/js directory in your project:
-  ```
-        <link href="[path to the file]/plugin.css" rel="stylesheet" type="text/css">
-        <script src="[path to the file]/plugin.js"></script>
-  ```
+## Install dependencies 
+
+* Node version v14.18.1
+
+* Install npm packages:
+  ``` npm i ```
+
+## Project build 
+
+* Run on a devserver:
+  ```npm start```  
+go to http://localhost:8080/
+
+* Production build (plugin plus demonstration page):
+  ```npm run buildDemo```
+
+* Production build (plugin only):
+  ```npm run build```
+
+* Run testing:
+  ```npm run test```
+
 ## Dependency
 [jQuery](https://jquery.com/)<br>
+
+## Usage
+Include styles from /dist/assets/css directory and, Jquery and scripts from /dist/assets/js directory in your project. 
+Jquery should be included before Range slider:
+  ```
+    <link href="[path to the file]/plugin.css" rel="stylesheet" type="text/css">
+    <script src="[path to the file]/jquery-[version].js"></script>
+    <script src="[path to the file]/plugin.js"></script>
+  ```
 
 ## Initialization
   ```
@@ -285,27 +310,6 @@ Unblocks previously blocked plugin
 * **destroy()**
 Deletes an instance of the plugin and removes its elements from DOM
 
-
-## Project build 
-
-* Node version v14.18.1
-
-* Install dependencies:
-  ``` npm i ```
-
-* Run on a devserver:
-  ```npm start```  
-go to http://localhost:8080/
-
-* Production build (plugin plus demonstration page):
-  ```npm run buildDemo```
-
-* Production build (plugin only):
-  ```npm run build```
-
-* Run testing:
-  ```npm run test```
-  
 ## UML 
 <a href="./UML/uml.png">UML class diagram</a>
 
