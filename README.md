@@ -8,7 +8,7 @@ Download the project from https://github.com/nea2310/Metalamp-4th-task
 
 ## Install dependencies 
 
-* Node version v14.18.1
+* Node version v14.21.1
 
 * Install npm packages:
   ``` npm i ```
