@@ -35,9 +35,9 @@ go to http://localhost:8080/
 Include styles from /dist/assets/css directory and, Jquery and scripts from /dist/assets/js directory in your project. 
 Jquery is a mandatory dependency and should be included before the plugin:
   ```
-    <link href="[path to the file]/plugin.css" rel="stylesheet" type="text/css">
-    <script src="[path to the file]/jquery-[version].js"></script>
-    <script src="[path to the file]/plugin.js"></script>
+  <link href="[path to the file]/plugin.css" rel="stylesheet" type="text/css">
+  <script src="[path to the file]/jquery-[version].js"></script>
+  <script src="[path to the file]/plugin.js"></script>
   ```
 
 ## Initialization
@@ -66,15 +66,15 @@ $('#my-element').Slider({min: -10, max: 20})
 ## Using events:
   ```
 $('#my-element').Slider({
-    onStart: (data) => {
-      console.log(data);
-    },
-    onUpdate: (data) => {
-      console.log(data);
-    },
-    onChange: (data) => {
-      console.log(data);
-    }
+  onStart: (data) => {
+    console.log(data);
+  },
+  onUpdate: (data) => {
+    console.log(data);
+  },
+  onChange: (data) => {
+    console.log(data);
+  }
 })
   ```
 ## Using API
@@ -106,9 +106,9 @@ $rangeSlider.destroy();
 * If any numeric parameter value (e.g. min, max, etc.) isn't compatible with its dependant parameters values (e.g. max value is smaller than min value {min: 10, max: 0}) - incorrect parameter will be defaulted: {min: 10, max: 0} -> {min: 10, max: 20}.
 
 * If value of a boolean parameter:
-	- is passed as 'true' (string), it will be converted to true (boolean): {bar: 'true'} -> {bar: true};
-	- is passed as 'false' (string), it will be converted to false (boolean): {bar: 'false'} -> {bar: false};
-	- any other non-boolean value will be converted to false (boolean): {bar: 10} -> {bar: false};
+- is passed as 'true' (string), it will be converted to true (boolean): {bar: 'true'} -> {bar: true};
+- is passed as 'false' (string), it will be converted to false (boolean): {bar: 'false'} -> {bar: false};
+- any other non-boolean value will be converted to false (boolean): {bar: 10} -> {bar: false};
 
 * If value of a string parameter doesn't match any of its possible values - it will be defaulted:
 {scalebase: 10} -> {scalebase: 'step'};
@@ -116,25 +116,25 @@ $rangeSlider.destroy();
 
 ## Configuration object interface
   ```
- {
-	min?: number
-	max?: number
-	from?: number
-	to?: number
-	vertical?: boolean
-	range?: boolean
-	bar?: boolean
-	tip?: boolean
-	scale?: boolean
-	scaleBase?: string
-	step?: number
-	interval?: number
-	sticky?: boolean
-	shiftOnKeyDown?: number
-	shiftOnKeyHold?: number
-	onStart?: Function
-	onChange?: Function
-	onUpdate?: Function
+{
+  min?: number
+  max?: number
+  from?: number
+  to?: number
+  vertical?: boolean
+  range?: boolean
+  bar?: boolean
+  tip?: boolean
+  scale?: boolean
+  scaleBase?: string
+  step?: number
+  interval?: number
+  sticky?: boolean
+  shiftOnKeyDown?: number
+  shiftOnKeyHold?: number
+  onStart?: Function
+  onChange?: Function
+  onUpdate?: Function
 }
   ```
 
