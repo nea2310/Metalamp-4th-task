@@ -117,7 +117,7 @@ $rangeSlider.destroy();
 ## Configuration object interface
   ```
 {
-  min?: number
+    min?: number
   max?: number
   from?: number
   to?: number
