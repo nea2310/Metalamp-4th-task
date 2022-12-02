@@ -118,23 +118,23 @@ $rangeSlider.destroy();
   ```
 {
     min?: number
-  max?: number
-  from?: number
-  to?: number
-  vertical?: boolean
-  range?: boolean
-  bar?: boolean
-  tip?: boolean
-  scale?: boolean
-  scaleBase?: string
-  step?: number
-  interval?: number
-  sticky?: boolean
-  shiftOnKeyDown?: number
-  shiftOnKeyHold?: number
-  onStart?: Function
-  onChange?: Function
-  onUpdate?: Function
+    max?: number
+    from?: number
+    to?: number
+    vertical?: boolean
+    range?: boolean
+    bar?: boolean
+    tip?: boolean
+    scale?: boolean
+    scaleBase?: string
+    step?: number
+    interval?: number
+    sticky?: boolean
+    shiftOnKeyDown?: number
+    shiftOnKeyHold?: number
+    onStart?: Function
+    onChange?: Function
+    onUpdate?: Function
 }
   ```
 
