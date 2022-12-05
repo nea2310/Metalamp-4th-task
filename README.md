@@ -184,8 +184,8 @@ Setting via data-attribute: data-to="10"
 * **scalebase** - the approach of scale breaking into gaps  
 Type: string  
 Possible values:  
-- "step" - scale is broken into gaps where each gap is equal to the amount of units set in the parameter "step"  
-- "interval" - scale is brogen into amount of gaps set in the parameter "interval"  
+  - "step" - scale is broken into gaps where each gap is equal to the amount of units set in the parameter "step"  
+  - "interval" - scale is brogen into amount of gaps set in the parameter "interval"  
 Default: "step"  
 
 
