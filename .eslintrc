@@ -1,7 +1,10 @@
 {
+  "parser": "@typescript-eslint/parser",
   "env": {
     "browser": true,
     "es2021": true,
+    "node": true,
+    "commonjs": true,
     "jest": true
   },
   "extends": [
@@ -9,7 +12,12 @@
     "airbnb-typescript/base"
   ],
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "ecmaVersion": "latest",
+    "ecmaFeatures": {
+      "ts": true
+    },
+    "sourceType": "module",
+    "project": "./tsconfig.eslint.json"
   },
   "plugins": [
     "@typescript-eslint",
@@ -23,7 +31,8 @@
     "fsd/no-function-declaration-in-event-listener": "error",
     "fsd/split-conditionals": "error",
     "import/no-unresolved": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "import/no-extraneous-dependencies": "off"
   },
   "globals": {
     "JQuery": "readonly",

@@ -29,7 +29,7 @@ class Controller extends Observer {
     if (this.model) {
       return this.model.getData();
     }
-    return true;
+    return {};
   }
 
   public disable() {

@@ -151,7 +151,7 @@ class View extends Observer {
     }
   }
 
-  private changeMode(parameter: any, modifier: string) {
+  private changeMode(parameter: boolean, modifier: string) {
     const className = `slider-metalamp__wrapper_${modifier}`;
     if (this.slider) {
       if (parameter) {

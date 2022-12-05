@@ -1,7 +1,7 @@
 import '@styles/styles';
 import './slider-metalamp/index';
 
-function requireAll(requireContext: any) {
+function requireAll(requireContext: __WebpackModuleApi.RequireContext) {
   return requireContext.keys().map(requireContext);
 }
 

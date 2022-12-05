@@ -4,6 +4,8 @@ import { IConf } from '../../slider-metalamp/mvc/interface';
 
 import Panel from '../panel/Panel';
 
+import { Controller } from '../../slider-metalamp/mvc/controller/controller';
+
 class RangeSlider {
   private wrapper: HTMLElement;
 
@@ -15,7 +17,7 @@ class RangeSlider {
 
   private sliderWrapper: HTMLElement | undefined;
 
-  private rangeSlider: any;
+  private rangeSlider: Controller | undefined;
 
   private sliderSelector: string;
 
@@ -98,45 +100,53 @@ class RangeSlider {
         break;
       }
       default: {
-        this.rangeSlider.update({ [key]: data });
+        if (this.rangeSlider) {
+          this.rangeSlider.update({ [key]: data });
+        }
         /* после ввода данных в панель конфигурирования и обновления слайдера нужно получить данные
         из модели и обновить панель, т.к. в панель могли быть введены недопустимые данные, которые
          были затем изменены в модели при валидации. Их надо скорректировать и в панели */
-        const dataObject = this.rangeSlider.getData();
+        const dataObject = this.rangeSlider ? this.rangeSlider.getData() : {};
         if (this.panel) this.panel.update(dataObject);
       }
     }
   };
 
   private subscribeSlider(isSubscribed = true) {
-    if (isSubscribed) {
-      this.rangeSlider.update({
-        onChange: (data: IConf) => {
-          this.changeData(data);
-        },
-      });
-    } else {
-      this.rangeSlider.update({
-        onChange: null,
-      });
+    if (this.rangeSlider) {
+      if (isSubscribed) {
+        this.rangeSlider.update({
+          onChange: (data: IConf) => {
+            this.changeData(data);
+          },
+        });
+      } else {
+        this.rangeSlider.update({
+          onChange: undefined,
+        });
+      }
     }
   }
 
   private async disableSlider(isDisabled = false) {
-    if (isDisabled) {
-      this.rangeSlider.disable();
-    } else {
-      this.rangeSlider.enable();
-      /* дожидаемся, когда вернется объект data из модели, иначе update вызывается
-      с некорректными данными */
-      const data = await this.rangeSlider.getData();
-      if (this.panel) this.panel.update(data);
+    if (this.rangeSlider) {
+      if (isDisabled) {
+        this.rangeSlider.disable();
+      } else {
+        this.rangeSlider.enable();
+        /* дожидаемся, когда вернется объект data из модели, иначе update вызывается
+        с некорректными данными */
+        const data = await this.rangeSlider.getData();
+        if (this.panel) this.panel.update(data);
+      }
     }
   }
 
   private destroySlider(isDestroyed = false, slider = this.slider) {
     if (isDestroyed) {
-      this.rangeSlider.destroy();
+      if (this.rangeSlider) {
+        this.rangeSlider.destroy();
+      }
       if (this.panel) {
         this.panel.destroy();
       }

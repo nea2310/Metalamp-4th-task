@@ -349,6 +349,9 @@ class Model extends Observer {
 
   static checkConf(config: IConfFull) {
     let conf = config;
+
+    /* предполагаем, что может прийти любой тип, который мы будем проверять
+    на число или булево значение, поэтому тип параметра - any */
     const validateNumber = (value: any) => (Number.isNaN(+value) ? 0 : +value);
     const validateBoolean = (value: any) => value === true || value === 'true';
 

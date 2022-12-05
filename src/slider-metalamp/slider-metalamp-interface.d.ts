@@ -7,8 +7,8 @@ interface SliderFunction {
 interface Slider extends
   SliderFunction { }
 
-interface JQuery {
-  SliderMetaLamp: Slider;
+declare global {
+  interface JQuery {
+    SliderMetaLamp: Slider;
+  }
 }
-
-export { JQuery, Slider };

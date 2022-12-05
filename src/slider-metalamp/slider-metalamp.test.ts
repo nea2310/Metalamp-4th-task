@@ -2,12 +2,6 @@ import plugin from './slider-metalamp';
 import { IConf } from './mvc/interface';
 import { Controller } from './mvc/controller/controller';
 
-declare global {
-  interface JQuery {
-    SliderMetaLamp: any;
-  }
-}
-
 describe('slider-metalamp', () => {
   $.fn.SliderMetaLamp = plugin;
   const parent = document.createElement('input');

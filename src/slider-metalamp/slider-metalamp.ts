@@ -1,7 +1,9 @@
 import { Model, View, Controller }
   from './mvc/controller/controller';
 
-function plugin(this: JQuery, options: any): JQuery {
+import { IConf } from './mvc/interface';
+
+function plugin(this: JQuery, options: IConf): JQuery {
   this.each((_, el: Element) => {
     const $element = $(el);
     if (!$element.data('SliderMetaLamp')) {

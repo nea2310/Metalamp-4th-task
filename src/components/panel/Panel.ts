@@ -79,7 +79,7 @@ class Panel extends PanelObserver {
     return this.wrapper.querySelector(`.js-${selector}-setup`) as HTMLElement;
   }
 
-  private prepareObject<Y extends IPanelComponents, T extends new(arg: HTMLElement) => Y>(
+  private prepareObject<Y extends IPanelComponents, T extends new (arg: HTMLElement) => Y>(
     selector: string, ClassName: T) {
     const DOMElement = this.getElement(selector);
     const object = new ClassName(DOMElement);
