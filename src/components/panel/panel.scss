@@ -1,12 +1,13 @@
 .panel {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 20px;
 
   &__blocks {
     @include font-body;
-    padding: 5px 10px 60px 10px;
     display: inline-flex;
     border-radius: 2px;
-    height: 290px;
     text-align: left;
 
     @include media-breakpoint-down($lg) {
@@ -16,8 +17,6 @@
   }
 
   &__apply-button {
-    position: absolute;
-    bottom: 18px;
-    right: 15px;
+    padding: 5px;
   }
 }
