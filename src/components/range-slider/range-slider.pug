@@ -1,82 +1,81 @@
 include ../panel/panel.pug
 
 mixin range-slider(options = {})
-  -
-    const {
-      min,
-      max,
-      from,
-      to,
-      vertical = 'false',
-      range,
-      bar,
-      tip,
-      scale,
-      scaleBase,
-      step,
-      interval,
-      sticky,
-      shiftOnKeyDown,
-      shiftOnKeyHold,
-      radioGroupName
-    } = options
+  include range-slider-utils.pug
+    -
+      const {
+        min,
+        max,
+        from,
+        to,
+        vertical = 'false',
+        range,
+        bar,
+        tip,
+        scale,
+        scaleBase,
+        step,
+        interval,
+        sticky,
+        shiftOnKeyDown,
+        shiftOnKeyHold,
+        radioGroupName
+      } = options
 
-    const prepareOptions = require ('@com/range-slider/range-slider-utils.js').default;
+      const {
+        elementName,
+        verticalChecked,
+        rangeChecked,
+        barChecked,
+        tipChecked,
+        scaleChecked,
+        stickyChecked,
+        minChecked,
+        maxChecked,
+        fromChecked,
+        toChecked,
+        stepChecked,
+        intervalChecked,
+        shiftOnKeyDownChecked,
+        shiftOnKeyHoldChecked,
+        scaleBaseChecked,
+        modifier
+      } = prepareOptions({
+        min,
+        max,
+        from,
+        to,
+        vertical,
+        range,
+        bar,
+        tip,
+        scale,
+        scaleBase,
+        step,
+        interval,
+        sticky,
+        shiftOnKeyDown,
+        shiftOnKeyHold
+      });
 
-    const {
-      elementName,
-      verticalChecked,
-      rangeChecked,
-      barChecked,
-      tipChecked,
-      scaleChecked,
-      stickyChecked,
-      minChecked,
-      maxChecked,
-      fromChecked,
-      toChecked,
-      stepChecked,
-      intervalChecked,
-      shiftOnKeyDownChecked,
-      shiftOnKeyHoldChecked,
-      scaleBaseChecked,
-      modifier
-    } = prepareOptions({
-      min,
-      max,
-      from,
-      to,
-      vertical,
-      range,
-      bar,
-      tip,
-      scale,
-      scaleBase,
-      step,
-      interval,
-      sticky,
-      shiftOnKeyDown,
-      shiftOnKeyHold
-    });
-
-  div(class = `${elementName} ${elementName}${modifier} js-${elementName}`)
-    div(class = `${elementName}__slider-metalamp ${elementName}__slider-metalamp${modifier} js-${elementName}__slider-metalamp`)
-      input(class = 'slider-metalamp js-slider-metalamp' 
-      data-min = minChecked
-      data-max = maxChecked
-      data-from = fromChecked
-      data-to = toChecked
-      data-vertical = verticalChecked
-      data-range = rangeChecked
-      data-bar = barChecked
-      data-tip = tipChecked
-      data-scale = scaleChecked
-      data-scalebase = scaleBaseChecked
-      data-step = stepChecked
-      data-interval = intervalChecked
-      data-sticky = stickyChecked
-      data-shiftonkeydown = shiftOnKeyDownChecked
-      data-shiftonkeyhold = shiftOnKeyHoldChecked
-      )
-    div(class = `${elementName}__panel js-${elementName}__panel`)
-      +panel({radioGroupName})
+    div(class = `${elementName} ${elementName}${modifier} js-${elementName}`)
+      div(class = `${elementName}__slider-metalamp ${elementName}__slider-metalamp${modifier} js-${elementName}__slider-metalamp`)
+        input(class = 'slider-metalamp js-slider-metalamp' 
+        data-min = minChecked
+        data-max = maxChecked
+        data-from = fromChecked
+        data-to = toChecked
+        data-vertical = verticalChecked
+        data-range = rangeChecked
+        data-bar = barChecked
+        data-tip = tipChecked
+        data-scale = scaleChecked
+        data-scalebase = scaleBaseChecked
+        data-step = stepChecked
+        data-interval = intervalChecked
+        data-sticky = stickyChecked
+        data-shiftonkeydown = shiftOnKeyDownChecked
+        data-shiftonkeyhold = shiftOnKeyHoldChecked
+        )
+      div(class = `${elementName}__panel js-${elementName}__panel`)
+        +panel({radioGroupName})

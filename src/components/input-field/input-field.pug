@@ -1,14 +1,13 @@
 mixin input-field({labelText = '', usage = ''} = {})
-  -
-    const prepareOptions = require ('@com/input-field/input-field-utils.js').default;
-    
-    const{
+  include input-field-utils.pug
+    -
+      const{
       elementName,
       usageChecked
-    } = prepareOptions({usage});
+        } = prepareOptions({usage});
 
-  label(class = elementName)= labelText
-    input(class = `${elementName}__input ${elementName}__input_usage_${usageChecked} js-${elementName}__input_usage_${usageChecked}` name = usageChecked)
+    label(class = elementName)= labelText
+      input(class = `${elementName}__input ${elementName}__input_usage_${usage} js-${elementName}__input_usage_${usage}` name = usage)
 
 
 

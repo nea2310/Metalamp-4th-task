@@ -1,7 +1,7 @@
 mixin toggle({name = '', value = '', usage = '', isChecked = false} = {})
+  include toggle-utils.pug
+    -
   -
-    const prepareOptions = require ('@com/toggle/toggle-utils.js').default;
-
     const{
       elementName,
       usageChecked
