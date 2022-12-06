@@ -42,15 +42,12 @@
     }
 
     &__control {
-      width: 25px;
+      width: 1px;
       height: 1px;
-      left: -9.5px;
       top: initial;
 
       &::after {
         position: absolute;
-        top: -7px;
-        left: 1px;
         content: "";
         width: 25px;
         height: 14px;
@@ -58,7 +55,7 @@
     }
 
     &__tip {
-      top: -12.5px;
+      bottom: initial;
     }
 
     &__mark {
@@ -129,10 +126,13 @@
     margin: 0;
     padding: 0;
     width: 1px;
-    height: 25px;
+    height: 1px;
     position: absolute;
     z-index: 30;
-    top: -12.5px;
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:focus {
       outline-offset: 12px;
@@ -150,20 +150,11 @@
     &::after {
       background: $color-main;
       position: absolute;
-      top: 3px;
-      left: -7px;
       content: "";
       width: 14px;
       height: 25px;
       border-radius: 25%;
     }
-  }
-
-  &__value {
-    position: absolute;
-    top: -30px;
-    font-size: 14px;
-    width: 30px;
   }
 
   &__mark {
@@ -205,6 +196,6 @@
     padding: 0 5px;
     background: $color-main;
     z-index: 1;
-    top: -30px;
+    bottom: 25px;
   }
 }

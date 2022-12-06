@@ -116,7 +116,7 @@ class ViewControl extends Observer {
   }
 
   static calcTipPos(isVertical: boolean, elem: HTMLElement) {
-    if (isVertical) { return `${elem.offsetWidth * (-1) - 5}px`; }
+    if (isVertical) { return `${elem.offsetWidth * (-1) - 20}px`; }
     return `${(elem.offsetWidth / 2) * (-1)}px`;
   }
 
