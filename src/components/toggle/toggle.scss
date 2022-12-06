@@ -31,7 +31,6 @@
   &__checkmark {
     margin: 5px;
     border: 2px solid $color-border;
-    box-sizing: border-box;
   }
 
   &__checkbox:checked + &__checkmark {
