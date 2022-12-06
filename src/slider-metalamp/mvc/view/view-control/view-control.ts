@@ -239,7 +239,7 @@ class ViewControl extends Observer {
       const { thumb } = this.data;
 
       const array = ['slider-metalamp__track',
-        'slider-metalamp__progressBar',
+        'slider-metalamp__progress-bar',
         'slider-metalamp__label',
         'slider-metalamp__mark',
         'slider-metalamp__frame'];
