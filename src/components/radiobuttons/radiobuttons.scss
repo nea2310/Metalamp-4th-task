@@ -2,8 +2,6 @@
   padding: 0;
   margin: 0;
   border: none;
-  padding-left: 0;
-  margin-left: 0;
   user-select: none;
   width: 220px;
 
@@ -41,7 +39,7 @@
       box-shadow: inset 0px 0px 0px 3.5px $color-background-light;
       background-color: $color-main;
     }
-    
+
     &-checkbox:disabled + &-radiomark {
       border: 2px solid $color-background;
       background-color: $color-background;

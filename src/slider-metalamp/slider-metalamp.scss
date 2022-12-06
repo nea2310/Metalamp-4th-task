@@ -1,82 +1,78 @@
-
 .slider-metalamp {
   display: none;
 
   &__wrapper_range-mode_single &__control-max {
-      display: none;
-    }
-
-  &__wrapper_tip-mode_hidden &__tip {
-      display: none;
-    }
-
-  &__wrapper_scale-mode_hidden &__mark {
-      opacity: 0;
-    }
-
-
-  &__wrapper_bar-mode_hidden &__progress-bar {
-      display: none;
-    }
-
-  &__wrapper_orientation_vertical &{
-      &__frame {
-        top: 0;
-        left: 5px;
-        right: 0;
-        width: 120%;
-      }
-
-      &__track {
-        height: 100%;
-        width: 8px;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      &__progress-bar {
-        position: absolute;
-        width: 8px;
-        border: none;
-        left: 0px;
-      }
-
-      &__control {
-        width: 25px;
-        height: 1px;
-        left: -9.5px;
-        top: initial;
-
-        &::after {
-          position: absolute;
-          top: -7px;
-          left: 1px;
-          content: '';
-          width: 25px;
-          height: 14px;
-        }
-      }
-
-      &__tip {
-        top: -12.5px;
-      }
-
-      &__mark {
-        margin-top: initial;
-        margin-left: 15px;
-        height: 1px;
-        width: 5px;
-      }
-
-      &__label {
-        position: absolute;
-        top: initial;
-        left: 10px;
-        padding: 5px 0;
-      }
+    display: none;
   }
 
+  &__wrapper_tip-mode_hidden &__tip {
+    display: none;
+  }
 
+  &__wrapper_scale-mode_hidden &__mark {
+    opacity: 0;
+  }
+
+  &__wrapper_bar-mode_hidden &__progress-bar {
+    display: none;
+  }
+
+  &__wrapper_orientation_vertical & {
+    &__frame {
+      top: 0;
+      left: 5px;
+      right: 0;
+      width: 120%;
+    }
+
+    &__track {
+      height: 100%;
+      width: 8px;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    &__progress-bar {
+      position: absolute;
+      width: 8px;
+      border: none;
+      left: 0px;
+    }
+
+    &__control {
+      width: 25px;
+      height: 1px;
+      left: -9.5px;
+      top: initial;
+
+      &::after {
+        position: absolute;
+        top: -7px;
+        left: 1px;
+        content: "";
+        width: 25px;
+        height: 14px;
+      }
+    }
+
+    &__tip {
+      top: -12.5px;
+    }
+
+    &__mark {
+      margin-top: initial;
+      margin-left: 15px;
+      height: 1px;
+      width: 5px;
+    }
+
+    &__label {
+      position: absolute;
+      top: initial;
+      left: 10px;
+      padding: 5px 0;
+    }
+  }
 
   &__wrapper {
     padding: 50px;
@@ -136,7 +132,7 @@
     position: absolute;
     z-index: 30;
     top: -12.5px;
-    
+
     &:focus {
       outline-offset: 12px;
       outline: 2px solid $color-text-header;
@@ -155,7 +151,7 @@
       position: absolute;
       top: 3px;
       left: -7px;
-      content: '';
+      content: "";
       width: 14px;
       height: 25px;
       border-radius: 25%;

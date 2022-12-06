@@ -2,20 +2,18 @@
   @include font-header;
   cursor: pointer;
   margin: 0;
-  padding: 0;
+  padding: 0 10px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   user-select: none;
-  border-radius: 22px;
   width: 196px;
   height: 34px;
   font-weight: normal;
   color: rgb(41, 39, 39);
   background-color: $color-main;
   border-radius: 2px;
-  padding: 0 10px;
 
   &:hover,
   &:focus {

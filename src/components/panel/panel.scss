@@ -1,5 +1,6 @@
 .panel {
   position: relative;
+
   &__blocks {
     @include font-body;
     padding: 5px 10px 60px 10px;
