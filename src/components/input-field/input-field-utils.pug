@@ -3,12 +3,14 @@ include ../../shared/helpers/getValidValue.pug
     function prepareOptions(options) {
       const {
         usage,
+        labelText
       } = options;
 
       const validUsages = ['min', 'max', 'from', 'to', 'step', 'interval', 'shiftOnKeyDown', 'shiftOnKeyHold'];
+      const usageChecked = getValidValue(validUsages, usage, '');
 
       return {
         elementName: 'input-field',
-        usageChecked: getValidValue(validUsages, usage, ''),
+        labelTextChecked: labelText ? labelText : usageChecked
       };
     }

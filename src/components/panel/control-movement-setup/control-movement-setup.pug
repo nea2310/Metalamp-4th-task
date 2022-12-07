@@ -3,24 +3,31 @@ include ../../toggle/toggle.pug
 
 mixin control-movement-setup()
   -
-    const elementName = 'control-movement-setup'
+    const elementName = 'control-movement-setup';
+
+    const elements = [{ 
+      type: 'toggle',
+      parameters:{ 
+        usage: 'sticky',
+        }},
+      { 
+      parameters: {
+        labelText: 'shift on key down',
+        usage: 'shiftOnKeyDown'
+        }},
+      { 
+      parameters: {
+        labelText: 'shift on key hold',
+        usage: 'shiftOnKeyHold'
+        }}];
 
   fieldset(class = `${elementName} js-${elementName}`)
     legend Control movement
-    div(class = `${elementName}__component`)
-      +toggle({
-        name: 'sticky',
-        value: 'sticky',
-        usage: 'sticky'
-      })
-    div(class = `${elementName}__component`)
-      +input-field({
-        labelText: 'shift on key down',
-        usage: 'shiftOnKeyDown'
-      })
-    div(class = `${elementName}__component`)
-      +input-field({
-        labelText: 'shift on key hold',
-        usage: 'shiftOnKeyHold'
-      })
+    each element in elements
+      - const {type, parameters} = element
+        div(class = `${elementName}__component`)
+          if type === 'toggle'
+            +toggle(parameters)
+          else
+            +input-field(parameters)
 

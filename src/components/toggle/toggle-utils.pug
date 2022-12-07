@@ -3,12 +3,17 @@ include ../../shared/helpers/getValidValue.pug
     function prepareOptions(options) {
       const {
         usage,
+        value, 
+        name
       } = options;
 
       const validUsages = ['vertical', 'range', 'bar', 'tip', 'scale', 'sticky', 'subscribe', 'disable', 'destroy'];
+      const usageChecked = getValidValue(validUsages, usage, '');
 
       return {
         elementName: 'toggle',
-        usageChecked: getValidValue(validUsages, usage, ''),
+        usageChecked,
+        valueChecked: value ? value : usageChecked,
+        nameChecked: name ? name : usageChecked
       };
-    }
+      }

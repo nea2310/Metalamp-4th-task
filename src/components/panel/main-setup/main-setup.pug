@@ -3,51 +3,51 @@ include ../../toggle/toggle.pug
 
 mixin main-setup()
   -
-    const elementName = 'main-setup'
+    const elementName = 'main-setup';
+
+    const elements = [{ 
+      parameters: {
+        usage: 'min'
+          }},
+      { 
+      parameters: {
+        usage: 'max'
+        }},
+      { 
+      parameters: {
+        usage: 'from'
+        }},
+      { 
+      parameters: {
+        usage: 'to'
+        }},
+      { 
+      type: 'toggle',
+      parameters:{ 
+        usage: 'vertical',
+          }},
+      { 
+      type: 'toggle',
+      parameters:{ 
+        usage: 'range',
+          }},
+      { 
+      type: 'toggle',
+      parameters:{ 
+        usage: 'bar',
+          }},
+      { 
+      type: 'toggle',
+      parameters:{ 
+        usage: 'tip',
+        }}];
 
   fieldset(class = `${elementName} js-${elementName}`)
     legend Main
-    div(class = `${elementName}__component`)
-      +input-field({
-        labelText: 'min',
-        usage: 'min',
-      })
-    div(class = `${elementName}__component`)
-      +input-field({
-        labelText: 'max',
-        usage: 'max',
-      })
-    div(class = `${elementName}__component`)
-      +input-field({
-        labelText: 'from',
-        usage: 'from',
-      })
-    div(class = `${elementName}__component`)
-      +input-field({
-        labelText: 'to',
-        usage: 'to',
-      })
-    div(class = `${elementName}__component`)
-      +toggle({
-        name: 'vertical',
-        value: 'vertical',
-        usage: 'vertical',
-      })
-    div(class = `${elementName}__component`)
-      +toggle({
-        name: 'range',
-        value: 'range',
-        usage: 'range',
-      })
-    div(class = `${elementName}__component`)
-      +toggle({
-        name: 'bar',
-        value: 'bar',
-        usage: 'bar',
-      })
-    div(class = `${elementName}__component`)
-      +toggle({
-        name: 'tip',
-        value: 'tip',
-        usage: 'tip',
-      })
+    each element in elements
+      - const {type, parameters} = element
+        div(class = `${elementName}__component`)
+          if type === 'toggle'
+            +toggle(parameters)
+          else
+            +input-field(parameters)

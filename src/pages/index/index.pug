@@ -1,12 +1,7 @@
 include ../../components/range-slider/range-slider.pug
 
 -
-  const {
-  demoHorizontal,
-  demoVertical,
-  demoSingle,
-  demoNoTip,
-    } = require("@pag/index/index.json")
+  const options = require("@pag/index/index.json");
 
 doctype html
 html(lang = "ru")
@@ -29,11 +24,6 @@ html(lang = "ru")
     title Range Slider
   body
     main(class = "index js-index")
-      div(class = "index__range-slider js-index__range-slider")
-        +range-slider(demoHorizontal)
-      div(class = "index__range-slider js-index__range-slider")
-        +range-slider(demoVertical)
-      div(class = "index__range-slider js-index__range-slider")
-        +range-slider(demoSingle)
-      div(class = "index__range-slider js-index__range-slider")
-        +range-slider(demoNoTip)
+      each value, key in options
+        div(class = "index__range-slider js-index__range-slider")
+          +range-slider(value)
