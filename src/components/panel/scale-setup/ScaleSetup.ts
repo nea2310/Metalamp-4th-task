@@ -142,7 +142,7 @@ class ScaleSetup extends PanelObserver {
       return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
     }
     if (type === 'radiobuttons') {
-      return this.wrapper.querySelector(`.js-${type}__category-checkbox_usage_${selector}`) as HTMLInputElement;
+      return this.wrapper.querySelector(`.js-category-checkbox_usage_${selector}`) as HTMLInputElement;
     }
     return this.wrapper.querySelector(`.js-${type}__checkbox_usage_${selector}`) as HTMLInputElement;
   }

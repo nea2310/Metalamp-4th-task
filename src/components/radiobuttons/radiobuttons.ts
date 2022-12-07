@@ -13,7 +13,7 @@ class Radiobuttons {
   }
 
   private render() {
-    this.radioMarks = this.wrapper.querySelectorAll(`${this.elementName}__category-radiomark`) as NodeListOf<HTMLInputElement>;
+    this.radioMarks = this.wrapper.querySelectorAll('.js-category-radiomark') as NodeListOf<HTMLInputElement>;
   }
 
   private bindEventListeners() {
@@ -24,9 +24,9 @@ class Radiobuttons {
 
   private handleCheckMarkKeydown = (event: KeyboardEvent) => {
     const target = event.target as HTMLInputElement;
-    const parent = target.closest(`${this.elementName}__category`);
+    const parent = target.closest('.category');
     if (!parent) return false;
-    const radiobuttonHidden = parent.querySelector(`${this.elementName}__category-checkbox`) as HTMLInputElement;
+    const radiobuttonHidden = parent.querySelector('.category-checkbox') as HTMLInputElement;
     if (event.code !== 'Tab') {
       event.preventDefault();
       if (event.code === 'Space' && target.previousElementSibling) {
