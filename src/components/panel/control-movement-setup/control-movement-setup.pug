@@ -4,22 +4,7 @@ include ../../toggle/toggle.pug
 mixin control-movement-setup()
   -
     const elementName = 'control-movement-setup';
-
-    const elements = [{ 
-      type: 'toggle',
-      parameters:{ 
-        usage: 'sticky',
-        }},
-      { 
-      parameters: {
-        labelText: 'shift on key down',
-        usage: 'shiftOnKeyDown'
-        }},
-      { 
-      parameters: {
-        labelText: 'shift on key hold',
-        usage: 'shiftOnKeyHold'
-        }}];
+    const {elements} = require('@com/panel/control-movement-setup/control-movement-setup.json');
 
   fieldset(class = `${elementName} js-${elementName}`)
     legend Control movement

@@ -1,0 +1,48 @@
+{
+  "elements": [
+    {
+      "parameters": {
+        "usage": "min"
+      }
+    },
+    {
+      "parameters": {
+        "usage": "max"
+      }
+    },
+    {
+      "parameters": {
+        "usage": "from"
+      }
+    },
+    {
+      "parameters": {
+        "usage": "to"
+      }
+    },
+    {
+      "type": "toggle",
+      "parameters": {
+        "usage": "vertical"
+      }
+    },
+    {
+      "type": "toggle",
+      "parameters": {
+        "usage": "range"
+      }
+    },
+    {
+      "type": "toggle",
+      "parameters": {
+        "usage": "bar"
+      }
+    },
+    {
+      "type": "toggle",
+      "parameters": {
+        "usage": "tip"
+      }
+    }
+  ]
+}

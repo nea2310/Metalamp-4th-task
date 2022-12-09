@@ -2,18 +2,8 @@ include ../../toggle/toggle.pug
 
 mixin actions-setup()
   -
-    const elementName = 'actions-setup'
-    const elements = [{ 
-      name: 'subscribe events',
-      usage: 'subscribe',
-      isChecked: true
-      },
-      { 
-      usage: 'disable'
-      },
-      { 
-      usage: 'destroy'
-      }]
+    const elementName = 'actions-setup';
+    const {elements} = require('@com/panel/actions-setup/actions-setup.json');
 
   fieldset(class = `${elementName} js-${elementName}`)
     legend Actions

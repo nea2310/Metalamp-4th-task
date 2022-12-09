@@ -4,43 +4,7 @@ include ../../toggle/toggle.pug
 mixin main-setup()
   -
     const elementName = 'main-setup';
-
-    const elements = [{ 
-      parameters: {
-        usage: 'min'
-          }},
-      { 
-      parameters: {
-        usage: 'max'
-        }},
-      { 
-      parameters: {
-        usage: 'from'
-        }},
-      { 
-      parameters: {
-        usage: 'to'
-        }},
-      { 
-      type: 'toggle',
-      parameters:{ 
-        usage: 'vertical',
-          }},
-      { 
-      type: 'toggle',
-      parameters:{ 
-        usage: 'range',
-          }},
-      { 
-      type: 'toggle',
-      parameters:{ 
-        usage: 'bar',
-          }},
-      { 
-      type: 'toggle',
-      parameters:{ 
-        usage: 'tip',
-        }}];
+    const {elements} = require('@com/panel/main-setup/main-setup.json');
 
   fieldset(class = `${elementName} js-${elementName}`)
     legend Main
