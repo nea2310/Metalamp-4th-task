@@ -10,9 +10,7 @@ mixin scale-setup(options = {})
   fieldset(class = `${elementName} js-${elementName}`)
     legend Scale
     div(class = `${elementName}__component ${elementName}__component_type_scale`)
-      +toggle({
-        usage: 'scale'
-      })
+      +toggle({usage: 'scale'})
     span scale base
     div(class = `${elementName}__component ${elementName}__component_type_scaleBase`)
       +radiobuttons({
@@ -24,10 +22,6 @@ mixin scale-setup(options = {})
       })
     div(class = `${elementName}__component ${elementName}__component_type_interval-step`)
       div(class = `${elementName}__component ${elementName}__component_type_step`)
-        +input-field({
-          usage: 'step'
-        })
+        +input-field({usage: 'step'})
       div(class = `${elementName}__component ${elementName}__component_type_interval`)
-        +input-field({
-          usage: 'interval'
-        })
+        +input-field({usage: 'interval'})
