@@ -1,6 +1,6 @@
-import plugin from './slider-metalamp';
-import { IConf } from './mvc/interface';
 import { Controller } from './mvc/controller/controller';
+import { IConf } from './mvc/interface';
+import plugin from './slider-metalamp';
 
 describe('slider-metalamp', () => {
   $.fn.SliderMetaLamp = plugin;

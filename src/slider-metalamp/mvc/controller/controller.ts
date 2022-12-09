@@ -1,5 +1,5 @@
-import Model from '../model/model';
 import View from '../view/view';
+import Model from '../model/model';
 import Observer from '../observer';
 import { IConf, INotifyParameters } from '../interface';
 

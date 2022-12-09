@@ -1,4 +1,10 @@
 import {
+  defaultConf,
+  defaultData,
+  defaultThumb,
+} from '../utils';
+import Observer from '../observer';
+import {
   IConfFull,
   IConf,
   IObject,
@@ -8,12 +14,6 @@ import {
   TDirections,
   TValueType,
 } from '../interface';
-import Observer from '../observer';
-import {
-  defaultConf,
-  defaultData,
-  defaultThumb,
-} from '../utils';
 
 class Model extends Observer {
   public conf: IConfFull;

@@ -1,5 +1,4 @@
 import { IConfIndexed } from '../../../slider-metalamp/mvc/interface';
-
 import PanelObserver from '../PanelObserver';
 
 type AllowedTypes = 'input' | 'toggle';

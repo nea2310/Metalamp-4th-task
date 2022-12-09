@@ -1,14 +1,9 @@
-import MainSetup from './main-setup/MainSetup';
-
-import ScaleSetup from './scale-setup/ScaleSetup';
-
-import ControlMovementSetup from './control-movement-setup/ControlMovementSetup';
-
-import ActionsSetup from './actions-setup/ActionsSetup';
-
-import PanelObserver from './PanelObserver';
-
 import { IConfIndexed } from '../../slider-metalamp/mvc/interface';
+import ScaleSetup from './scale-setup/ScaleSetup';
+import MainSetup from './main-setup/MainSetup';
+import ControlMovementSetup from './control-movement-setup/ControlMovementSetup';
+import ActionsSetup from './actions-setup/ActionsSetup';
+import PanelObserver from './PanelObserver';
 
 type IPanelComponents = MainSetup | ScaleSetup | ControlMovementSetup | ActionsSetup;
 

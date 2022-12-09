@@ -1,12 +1,9 @@
 class Radiobuttons {
-  private elementName: string;
-
   private wrapper: HTMLElement;
 
   private radioMarks: NodeListOf<HTMLInputElement> | null = null;
 
   constructor(elementName: string, element: Element) {
-    this.elementName = elementName;
     this.wrapper = element as HTMLElement;
     this.render();
     this.bindEventListeners();

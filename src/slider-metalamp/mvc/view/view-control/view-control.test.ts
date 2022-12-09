@@ -1,8 +1,8 @@
-import { Controller } from '../../controller/controller';
-import ViewControl from './view-control';
-import { IConfFull } from '../../interface';
 import Model from '../../model/model';
+import { Controller } from '../../controller/controller';
+import { IConfFull } from '../../interface';
 import View from '../view';
+import ViewControl from './view-control';
 
 function mockPointerEvent(element: HTMLElement, {
   eventType, clientX = 0, clientY = 0,

@@ -1,10 +1,8 @@
 import $ from 'jquery';
 
-import { IConf } from '../../slider-metalamp/mvc/interface';
-
-import Panel from '../panel/Panel';
-
 import { Controller } from '../../slider-metalamp/mvc/controller/controller';
+import { IConf } from '../../slider-metalamp/mvc/interface';
+import Panel from '../panel/Panel';
 
 class RangeSlider {
   private wrapper: HTMLElement;

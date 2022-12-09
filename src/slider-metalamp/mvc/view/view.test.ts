@@ -1,8 +1,8 @@
 import { IConfFull, IdataFull } from '../interface';
-import View from './view';
-import ViewBar from './view-bar/view-bar';
-import ViewControl from './view-control/view-control';
 import ViewScale from './view-scale/view-scale';
+import ViewControl from './view-control/view-control';
+import ViewBar from './view-bar/view-bar';
+import View from './view';
 
 const parent = document.createElement('input');
 parent.setAttribute('min', '10');

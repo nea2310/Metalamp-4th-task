@@ -1,6 +1,6 @@
-import { IConfFull, IdataFull, TDirections } from '../../interface';
-import Observer from '../../observer';
 import { defaultData, defaultThumb } from '../../utils';
+import Observer from '../../observer';
+import { IConfFull, IdataFull, TDirections } from '../../interface';
 
 interface IElement extends Element {
   value?: string;

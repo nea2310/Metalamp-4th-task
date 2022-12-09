@@ -1,14 +1,14 @@
-import ViewBar from './view-bar/view-bar';
-import ViewControl from './view-control/view-control';
-import ViewScale from './view-scale/view-scale';
+import { defaultConf } from '../utils';
+import Observer from '../observer';
 import {
   IdataFull,
   IConf,
   INotifyParameters,
   IConfFull,
 } from '../interface';
-import Observer from '../observer';
-import { defaultConf } from '../utils';
+import ViewScale from './view-scale/view-scale';
+import ViewControl from './view-control/view-control';
+import ViewBar from './view-bar/view-bar';
 
 interface IElement extends Element {
   value?: string;

@@ -1,6 +1,6 @@
-import { IConf } from '../interface';
-import Model from '../model/model';
 import View from '../view/view';
+import Model from '../model/model';
+import { IConf } from '../interface';
 import { Controller } from './controller';
 
 function prepareInstance(conf: IConf) {

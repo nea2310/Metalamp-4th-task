@@ -1,2 +1,3 @@
-import './fonts.scss';
 import 'normalize.css';
+
+import './fonts.scss';

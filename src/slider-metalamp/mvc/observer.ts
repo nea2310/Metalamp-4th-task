@@ -1,5 +1,5 @@
-import { IdataFull, IConfFull } from './interface';
 import { defaultConf } from './utils';
+import { IdataFull, IConfFull } from './interface';
 
 export default abstract class Observer {
   observers: Function[];
