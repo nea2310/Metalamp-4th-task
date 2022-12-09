@@ -11,7 +11,7 @@ type AllowedTypes = 'input' | 'toggle' | 'radiobuttons';
 class ScaleSetup extends PanelObserver {
   private optionObjects: Array<HTMLInputElement | null> = [];
 
-  private options: Array<[string, 'input' | 'toggle' | 'radiobuttons']> | null = null;
+  private options: Array<[string, AllowedTypes]> | null = null;
 
   private wrapper: HTMLElement;
 
