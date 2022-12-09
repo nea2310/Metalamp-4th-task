@@ -48,7 +48,7 @@
 
       &::after {
         position: absolute;
-        content: "";
+        content: '';
         width: 25px;
         height: 14px;
       }
@@ -150,7 +150,7 @@
     &::after {
       background: $color-main;
       position: absolute;
-      content: "";
+      content: '';
       width: 14px;
       height: 25px;
       border-radius: 25%;

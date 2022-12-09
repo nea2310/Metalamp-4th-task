@@ -14,7 +14,7 @@ $color-main: #75b7ec;
 $color-main-active: #4caeff;
 $color-background-light: #ffffff;
 
-$fontMain: "Montserrat", Arial, Helvetica, sans-serif;
+$fontMain: 'Montserrat', Arial, Helvetica, sans-serif;
 
 @mixin font-header() {
   font-family: $fontMain;
