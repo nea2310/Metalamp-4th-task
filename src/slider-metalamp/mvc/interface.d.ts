@@ -92,6 +92,8 @@ interface INotifyParameters {
   conf: IConfFull;
 }
 
+type TValueType = string | number | boolean | Function;
+
 export {
   IConf,
   IObject,
@@ -104,4 +106,5 @@ export {
   TKeys,
   TDirections,
   TMoveTypes,
+  TValueType,
 };

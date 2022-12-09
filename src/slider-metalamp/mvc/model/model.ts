@@ -6,6 +6,7 @@ import {
   IdataFull,
   TMoveTypes,
   TDirections,
+  TValueType,
 } from '../interface';
 import Observer from '../observer';
 import {
@@ -350,10 +351,8 @@ class Model extends Observer {
   static checkConf(config: IConfFull) {
     let conf = config;
 
-    /* предполагаем, что может прийти любой тип, который мы будем проверять
-    на число или булево значение, поэтому тип параметра - any */
-    const validateNumber = (value: any) => (Number.isNaN(+value) ? 0 : +value);
-    const validateBoolean = (value: any) => value === true || value === 'true';
+    const validateNumber = (value: TValueType) => (Number.isNaN(+value) ? 0 : +value);
+    const validateBoolean = (value: TValueType) => value === true || value === 'true';
 
     const numbers = ['min', 'max', 'from', 'to', 'step', 'interval', 'shiftOnKeyDown', 'shiftOnKeyHold'];
     const booleans = ['vertical', 'range', 'sticky', 'scale', 'bar', 'tip'];
@@ -362,7 +361,7 @@ class Model extends Observer {
 
     const validatePropertyValue = (
       key: string,
-      value: string | number | boolean | Function,
+      value: TValueType,
       validationFunction: typeof validateNumber | typeof validateBoolean,
     ) => {
       const checkedValue = validationFunction(value);
