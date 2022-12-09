@@ -8,11 +8,7 @@ import ActionsSetup from './actions-setup/ActionsSetup';
 
 import PanelObserver from './PanelObserver';
 
-import { IConf } from '../../slider-metalamp/mvc/interface';
-
-interface IConfIndexed extends IConf {
-  [value: string]: boolean | number | string | Function | undefined
-}
+import { IConfIndexed } from '../../slider-metalamp/mvc/interface';
 
 type IPanelComponents = MainSetup | ScaleSetup | ControlMovementSetup | ActionsSetup;
 

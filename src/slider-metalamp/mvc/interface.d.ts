@@ -20,7 +20,11 @@ interface IConfFull {
 }
 
 interface IConfFullIndexed extends IConfFull {
-  [value: string]: boolean | number | string | Function
+  [key: string]: boolean | number | string | Function
+}
+
+interface IConfIndexed extends IConf {
+  [key: string]: unknown
 }
 
 type IConf = Partial<IConfFull>;
@@ -107,4 +111,5 @@ export {
   TDirections,
   TMoveTypes,
   TValueType,
+  IConfIndexed
 };

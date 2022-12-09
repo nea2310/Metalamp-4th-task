@@ -1,17 +1,13 @@
 import PanelObserver from '../PanelObserver';
 
-import { IConf } from '../../../slider-metalamp/mvc/interface';
-
-interface IConfAdvanced extends IConf {
-  [value: string]: boolean | number | string | Function | undefined
-}
+import { IConfIndexed } from '../../../slider-metalamp/mvc/interface';
 
 type AllowedTypes = 'input' | 'toggle';
 
 class ControlMovementSetup extends PanelObserver {
   private optionObjects: Array<HTMLInputElement | null> = [];
 
-  private options: Array<[string, 'input' | 'toggle']> | null = null;
+  private options: Array<[string, AllowedTypes]> | null = null;
 
   private wrapper: HTMLElement;
 
@@ -28,7 +24,7 @@ class ControlMovementSetup extends PanelObserver {
     this.bindEventListeners();
   }
 
-  public update(data: IConfAdvanced) {
+  public update(data: IConfIndexed) {
     if (!this.optionObjects) return false;
 
     this.optionObjects.forEach((optionObject) => {
