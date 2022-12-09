@@ -1,0 +1,23 @@
+{
+  "scale": {
+    "usage": "scale"
+  },
+  "radiobuttons": {
+    "categories": [
+      {
+        "name": "step",
+        "usage": "scaleBaseStep"
+      },
+      {
+        "name": "interval",
+        "usage": "scaleBaseInterval"
+      }
+    ]
+  },
+  "step": {
+    "usage": "step"
+  },
+  "interval": {
+    "usage": "interval"
+  }
+}

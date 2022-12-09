@@ -6,22 +6,22 @@ mixin scale-setup(options = {})
   -
     const elementName = 'scale-setup';
     const {radioGroupName} = options;
+    const {
+      scale,
+      radiobuttons,
+      step,
+      interval
+    } = require('@com/panel/scale-setup/scale-setup.json');
 
   fieldset(class = `${elementName} js-${elementName}`)
     legend Scale
     div(class = `${elementName}__component ${elementName}__component_type_scale`)
-      +toggle({usage: 'scale'})
+      +toggle(scale)
     span scale base
-    div(class = `${elementName}__component ${elementName}__component_type_scaleBase`)
-      +radiobuttons({
-        categories:[
-        {name:'step', usage: 'scaleBaseStep'}, 
-        {name:'interval', usage: 'scaleBaseInterval'}
-        ],
-        radioGroupName
-      })
+    div(class = `${elementName}__component ${elementName}__component_type_scale-base`)
+      +radiobuttons({...radiobuttons, radioGroupName})
     div(class = `${elementName}__component ${elementName}__component_type_interval-step`)
       div(class = `${elementName}__component ${elementName}__component_type_step`)
-        +input-field({usage: 'step'})
+        +input-field(step)
       div(class = `${elementName}__component ${elementName}__component_type_interval`)
-        +input-field({usage: 'interval'})
+        +input-field(interval)
