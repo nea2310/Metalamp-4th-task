@@ -10,9 +10,10 @@ import {
   IObject,
   Imethods,
   IdataFull,
-  TMoveTypes,
   TDirections,
   TValueType,
+  IData,
+  TStopType,
 } from '../interface';
 
 class Model extends Observer {
@@ -81,19 +82,7 @@ class Model extends Observer {
     return this.conf;
   }
 
-  public calcPositionSetByPointer(
-    data: {
-      type: TMoveTypes,
-      clientY: number,
-      clientX: number,
-      top: number,
-      left: number,
-      width: number,
-      height: number,
-      shiftBase: number,
-      moovingControl: 'min' | 'max',
-    },
-  ) {
+  public calcPositionSetByPointer(data: IData) {
     const {
       type,
       clientY,
@@ -105,16 +94,12 @@ class Model extends Observer {
       shiftBase,
       moovingControl,
     } = data;
+
     let newPosition = 0;
     if (this.conf.vertical) {
-      newPosition = 100
-        - (((clientY - top) * 100) / height);
+      newPosition = 100 - (((clientY - top) * 100) / height);
     } else {
-      let shift = 0;
-      if (type === 'pointermove') {
-        shift = (shiftBase * 100) / width;
-      }
-
+      const shift = (type === 'pointermove') ? (shiftBase * 100) / width : 0;
       newPosition = (((clientX - left) * 100) / width) - shift;
     }
 
@@ -123,38 +108,31 @@ class Model extends Observer {
     }
 
     let isStop = false;
+    const updatePosition = (returnValue = '', needChange = false, stopType: TStopType = 'min') => {
+      isStop = true;
+      this.calcValue(stopType, 0, moovingControl);
+      if (needChange && typeof this.onChange === 'function') {
+        this.onChange(this.conf);
+      }
+      return returnValue;
+    };
+
     if (newPosition < 0) {
-      isStop = true;
-      this.calcValue('min', 0, moovingControl);
-      if (typeof this.onChange === 'function') {
-        this.onChange(this.conf);
-      }
-      return 'newPosition < 0';
-    }
-    if (newPosition > 100) {
-      isStop = true;
-      this.calcValue('max', 0, moovingControl);
-      if (typeof this.onChange === 'function') {
-        this.onChange(this.conf);
-      }
-      return 'newPosition > 100';
+      return updatePosition('newPosition < 0', true);
     }
 
-    if (this.conf.range) {
-      if (moovingControl === 'min') {
-        if (newPosition > this.data.toPosition) {
-          isStop = true;
-          this.calcValue('meetMax', 0, moovingControl);
-          return 'newPosition > toPosition';
-        }
-      }
-      if (moovingControl === 'max') {
-        if (newPosition < this.data.fromPosition) {
-          isStop = true;
-          this.calcValue('meetMin', 0, moovingControl);
-          return 'newPosition < fromPosition';
-        }
-      }
+    if (newPosition > 100) {
+      return updatePosition('newPosition > 100', true, 'max');
+    }
+
+    const isBeyondToPosition = this.conf.range && moovingControl === 'min' && newPosition > this.data.toPosition;
+    if (isBeyondToPosition) {
+      return updatePosition('newPosition > toPosition', false, 'meetMax');
+    }
+
+    const isBelowFromPosition = this.conf.range && moovingControl === 'max' && newPosition < this.data.fromPosition;
+    if (isBelowFromPosition) {
+      return updatePosition('newPosition < fromPosition', false, 'meetMin');
     }
 
     if (moovingControl === 'min') {
@@ -164,7 +142,9 @@ class Model extends Observer {
       this.data.toPosition = newPosition;
       this.notify('ToPosition', this.data, this.conf);
     }
-    if (!isStop) { this.calcValue('normal', newPosition, moovingControl); }
+    if (!isStop) {
+      this.calcValue('normal', newPosition, moovingControl);
+    }
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
     }
@@ -677,7 +657,7 @@ class Model extends Observer {
   }
 
   private calcValue(
-    stopType: 'normal' | 'min' | 'max' | 'meetMin' | 'meetMax',
+    stopType: TStopType,
     position: number,
     moovingControl: 'min' | 'max',
   ) {

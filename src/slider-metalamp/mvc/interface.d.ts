@@ -1,3 +1,15 @@
+interface IData {
+  type: TMoveTypes;
+  clientY: number;
+  clientX: number;
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+  shiftBase: number;
+  moovingControl: 'min' | 'max';
+}
+
 interface IConfFull {
   min: number;
   max: number;
@@ -98,6 +110,8 @@ interface INotifyParameters {
 
 type TValueType = string | number | boolean | Function;
 
+type TStopType = 'normal' | 'min' | 'max' | 'meetMin' | 'meetMax';
+
 export {
   IConf,
   IObject,
@@ -111,5 +125,7 @@ export {
   TDirections,
   TMoveTypes,
   TValueType,
-  IConfIndexed
+  IConfIndexed,
+  IData,
+  TStopType
 };
