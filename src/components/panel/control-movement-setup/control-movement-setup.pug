@@ -6,11 +6,11 @@ mixin control-movement-setup()
     const elementName = 'control-movement-setup';
     const {elements} = require('@com/panel/control-movement-setup/control-movement-setup.json');
 
-  fieldset(class = `${elementName} js-${elementName}`)
+  fieldset(class=`${elementName} js-${elementName}`)
     legend Control movement
     each element in elements
       - const {type, parameters} = element
-        div(class = `${elementName}__component`)
+        div(class=`${elementName}__component`)
           if type === 'toggle'
             +toggle(parameters)
           else

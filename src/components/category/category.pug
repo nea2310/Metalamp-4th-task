@@ -9,10 +9,10 @@ mixin category(options = {})
 
     const elementName = 'category';
 
-  li(class = `${elementName}-wrapper`)
-    label(class = `${elementName} js-${elementName}`)
-      input(class = `${elementName}-checkbox js-${elementName}-checkbox ${elementName}-checkbox_usage_${usage} 
+  li(class=`${elementName}-wrapper`)
+    label(class=`${elementName} js-${elementName}`)
+      input(class=`${elementName}-checkbox js-${elementName}-checkbox ${elementName}-checkbox_usage_${usage} 
       js-${elementName}-checkbox_usage_${usage}` 
-        type = "radio" name = radioGroupName value = name checked = checked tabindex = "-1")
-      span(class = `${elementName}-radiomark js-${elementName}-radiomark` tabindex = "0")
-      span(class = `${elementName}-name`)= name
+        type="radio" name=radioGroupName value=name checked=checked tabindex="-1")
+      span(class=`${elementName}-radiomark js-${elementName}-radiomark` tabindex="0")
+      span(class=`${elementName}-name`)= name

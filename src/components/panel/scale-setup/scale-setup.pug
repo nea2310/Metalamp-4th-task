@@ -13,15 +13,15 @@ mixin scale-setup(options = {})
       interval
     } = require('@com/panel/scale-setup/scale-setup.json');
 
-  fieldset(class = `${elementName} js-${elementName}`)
+  fieldset(class=`${elementName} js-${elementName}`)
     legend Scale
-    div(class = `${elementName}__component ${elementName}__component_type_scale`)
+    div(class=`${elementName}__component ${elementName}__component_type_scale`)
       +toggle(scale)
     span scale base
-    div(class = `${elementName}__component ${elementName}__component_type_scale-base`)
+    div(class=`${elementName}__component ${elementName}__component_type_scale-base`)
       +radiobuttons({...radiobuttons, radioGroupName})
-    div(class = `${elementName}__component ${elementName}__component_type_interval-step`)
-      div(class = `${elementName}__component ${elementName}__component_type_step`)
+    div(class=`${elementName}__component ${elementName}__component_type_interval-step`)
+      div(class=`${elementName}__component ${elementName}__component_type_step`)
         +input-field(step)
-      div(class = `${elementName}__component ${elementName}__component_type_interval`)
+      div(class=`${elementName}__component ${elementName}__component_type_interval`)
         +input-field(interval)

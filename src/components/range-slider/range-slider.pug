@@ -58,25 +58,25 @@ mixin range-slider(options = {})
         shiftOnKeyHold
       });
 
-    div(class = `${elementName} ${elementName}${modifier} js-${elementName}`)
-      div(class = `${elementName}__slider-metalamp ${elementName}__slider-metalamp${modifier} 
+    div(class=`${elementName} ${elementName}${modifier} js-${elementName}`)
+      div(class=`${elementName}__slider-metalamp ${elementName}__slider-metalamp${modifier} 
         js-${elementName}__slider-metalamp`)
-        input(class = 'slider-metalamp js-slider-metalamp' 
-        data-min = minChecked
-        data-max = maxChecked
-        data-from = fromChecked
-        data-to = toChecked
-        data-vertical = verticalChecked
-        data-range = rangeChecked
-        data-bar = barChecked
-        data-tip = tipChecked
-        data-scale = scaleChecked
-        data-scalebase = scaleBaseChecked
-        data-step = stepChecked
-        data-interval = intervalChecked
-        data-sticky = stickyChecked
-        data-shiftonkeydown = shiftOnKeyDownChecked
-        data-shiftonkeyhold = shiftOnKeyHoldChecked
+        input(class='slider-metalamp js-slider-metalamp' 
+        data-min=minChecked
+        data-max=maxChecked
+        data-from=fromChecked
+        data-to=toChecked
+        data-vertical=verticalChecked
+        data-range=rangeChecked
+        data-bar=barChecked
+        data-tip=tipChecked
+        data-scale=scaleChecked
+        data-scalebase=scaleBaseChecked
+        data-step=stepChecked
+        data-interval=intervalChecked
+        data-sticky=stickyChecked
+        data-shiftonkeydown=shiftOnKeyDownChecked
+        data-shiftonkeyhold=shiftOnKeyHoldChecked
         )
-      div(class = `${elementName}__panel js-${elementName}__panel`)
+      div(class=`${elementName}__panel js-${elementName}__panel`)
         +panel({radioGroupName})

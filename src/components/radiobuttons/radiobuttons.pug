@@ -10,8 +10,8 @@ mixin radiobuttons(options = {})
 
     const elementName = 'radiobuttons';
 
-  fieldset(class = `${elementName} js-${elementName}`)= labelText
-    ul(class = `${elementName}__list`)
+  fieldset(class=`${elementName} js-${elementName}`)= labelText
+    ul(class=`${elementName}__list`)
       if Array.isArray(categories) && categories.length
         each value in categories
           +category({...value, radioGroupName})

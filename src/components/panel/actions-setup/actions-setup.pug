@@ -5,8 +5,8 @@ mixin actions-setup()
     const elementName = 'actions-setup';
     const {elements} = require('@com/panel/actions-setup/actions-setup.json');
 
-  fieldset(class = `${elementName} js-${elementName}`)
+  fieldset(class=`${elementName} js-${elementName}`)
     legend Actions
     each element in elements
-      div(class = `${elementName}__component`)
+      div(class=`${elementName}__component`)
         +toggle(element)

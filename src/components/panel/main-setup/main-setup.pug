@@ -6,11 +6,11 @@ mixin main-setup()
     const elementName = 'main-setup';
     const {elements} = require('@com/panel/main-setup/main-setup.json');
 
-  fieldset(class = `${elementName} js-${elementName}`)
+  fieldset(class=`${elementName} js-${elementName}`)
     legend Main
     each element in elements
       - const {type, parameters} = element
-        div(class = `${elementName}__component`)
+        div(class=`${elementName}__component`)
           if type === 'toggle'
             +toggle(parameters)
           else

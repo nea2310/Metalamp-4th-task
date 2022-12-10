@@ -3,7 +3,7 @@ include ../../components/range-slider/range-slider.pug
   const options = require('@pag/index/index.json');
 
 doctype html
-html(lang = "ru")
+html(lang="ru")
   head
     meta(charset="utf-8")
     meta(name="viewport" content="initial-scale=1.0, width=device-width")
@@ -22,7 +22,7 @@ html(lang = "ru")
     link(rel="manifest" href="./assets/favicons/manifest.json")
     title Range Slider
   body
-    main(class = "index js-index")
+    main(class="index js-index")
       each value, key in options
-        div(class = "index__range-slider js-index__range-slider")
+        div(class="index__range-slider js-index__range-slider")
           +range-slider(value)

@@ -7,9 +7,9 @@ mixin input-field({labelText = '', usage = ''} = {})
       labelTextChecked
         } = prepareOptions({usage, labelText});
 
-    label(class = elementName)= labelTextChecked
-      input(class = `${elementName}__input ${elementName}__input_usage_${usage} js-${elementName}__input_usage_${usage}` 
-      name = usage)
+    label(class=elementName)= labelTextChecked
+      input(class=`${elementName}__input ${elementName}__input_usage_${usage} js-${elementName}__input_usage_${usage}` 
+      name=usage)
 
 
 
