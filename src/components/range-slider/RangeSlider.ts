@@ -77,24 +77,21 @@ class RangeSlider {
     const { key, data } = parameters;
     switch (key) {
       case 'subscribe': {
-        if (typeof data === 'boolean') {
-          this.subscribeSlider(data);
-        }
+        if (typeof data !== 'boolean') return;
+        this.subscribeSlider(data);
         break;
       }
       case 'disable': {
-        if (typeof data === 'boolean') {
-          this.disableSlider(data);
-          if (this.panel) {
-            this.panel.disable(data);
-          }
+        if (typeof data !== 'boolean') return;
+        this.disableSlider(data);
+        if (this.panel) {
+          this.panel.disable(data);
         }
         break;
       }
       case 'destroy': {
-        if (typeof data === 'boolean') {
-          this.destroySlider(data);
-        }
+        if (typeof data !== 'boolean') return;
+        this.destroySlider(data);
         break;
       }
       default: {
@@ -111,51 +108,48 @@ class RangeSlider {
   };
 
   private subscribeSlider(isSubscribed = true) {
-    if (this.rangeSlider) {
-      if (isSubscribed) {
-        this.rangeSlider.update({
-          onChange: (data: IConf) => {
-            this.changeData(data);
-          },
-        });
-      } else {
-        this.rangeSlider.update({
-          onChange: undefined,
-        });
-      }
+    if (!this.rangeSlider) return;
+    if (isSubscribed) {
+      this.rangeSlider.update({
+        onChange: (data: IConf) => {
+          this.changeData(data);
+        },
+      });
+    } else {
+      this.rangeSlider.update({
+        onChange: undefined,
+      });
     }
   }
 
   private async disableSlider(isDisabled = false) {
-    if (this.rangeSlider) {
-      if (isDisabled) {
-        this.rangeSlider.disable();
-      } else {
-        this.rangeSlider.enable();
-        /* дожидаемся, когда вернется объект data из модели, иначе update вызывается
-        с некорректными данными */
-        const data = await this.rangeSlider.getData();
-        if (this.panel) this.panel.update(data);
-      }
+    if (!this.rangeSlider) return;
+    if (isDisabled) {
+      this.rangeSlider.disable();
+      return;
     }
+    this.rangeSlider.enable();
+    /* дожидаемся, когда вернется объект data из модели, иначе update вызывается
+    с некорректными данными */
+    const data = await this.rangeSlider.getData();
+    if (this.panel) this.panel.update(data);
   }
 
   private destroySlider(isDestroyed = false, slider = this.slider) {
-    if (isDestroyed) {
-      if (this.rangeSlider) {
-        this.rangeSlider.destroy();
-      }
-      if (this.panel) {
-        this.panel.destroy();
-      }
-      if (slider) {
-        $.data(slider, 'SliderMetaLamp', null);
-      }
-      if (this.sliderWrapper) {
-        this.sliderWrapper.classList.remove(`${this.rootSelector}__${this.sliderSelector}_${this.isVerticalModifier}`);
-      }
-      this.wrapper.classList.remove(`${this.rootSelector}_${this.isVerticalModifier}`);
+    if (!isDestroyed) return;
+    if (this.rangeSlider) {
+      this.rangeSlider.destroy();
     }
+    if (this.panel) {
+      this.panel.destroy();
+    }
+    if (slider) {
+      $.data(slider, 'SliderMetaLamp', null);
+    }
+    if (this.sliderWrapper) {
+      this.sliderWrapper.classList.remove(`${this.rootSelector}__${this.sliderSelector}_${this.isVerticalModifier}`);
+    }
+    this.wrapper.classList.remove(`${this.rootSelector}_${this.isVerticalModifier}`);
   }
 
   private switchVertical() {

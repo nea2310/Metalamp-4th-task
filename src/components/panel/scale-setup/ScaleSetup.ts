@@ -4,19 +4,19 @@ import PanelObserver from '../PanelObserver';
 type AllowedTypes = 'input' | 'toggle' | 'radiobuttons';
 
 class ScaleSetup extends PanelObserver {
-  private optionObjects: Array<HTMLInputElement | null> = [];
+  private optionObjects: Array<HTMLInputElement> = [];
 
-  private options: Array<[string, AllowedTypes]> | null = null;
+  private options: Array<[string, AllowedTypes]>;
 
   private wrapper: HTMLElement;
 
-  private optionInterval: HTMLInputElement | null = null;
+  private optionInterval: HTMLInputElement;
 
-  private optionStep: HTMLInputElement | null = null;
+  private optionStep: HTMLInputElement;
 
-  private scaleBaseSteps: HTMLInputElement | null = null;
+  private scaleBaseSteps: HTMLInputElement;
 
-  private scaleBaseIntervals: HTMLInputElement | null = null;
+  private scaleBaseIntervals: HTMLInputElement;
 
   constructor(element: HTMLElement) {
     super();
@@ -41,7 +41,6 @@ class ScaleSetup extends PanelObserver {
 
   public update(data: IConfIndexed) {
     const switchOption = (option: 'step' | 'interval' = 'step') => {
-      if (!this.optionStep || !this.optionInterval) return false;
       if (option === 'step') {
         this.optionStep.disabled = false;
         this.optionInterval.disabled = true;
@@ -49,52 +48,32 @@ class ScaleSetup extends PanelObserver {
         this.optionStep.disabled = true;
         this.optionInterval.disabled = false;
       }
-      return true;
     };
 
-    if (!this.optionObjects) return false;
-
     this.optionObjects.forEach((optionObject) => {
-      if (!optionObject) return false;
-
       const usageType = optionObject.className.match(/usage_\S*/);
-      if (!usageType) return false;
-
-      const type = usageType[0].replace('usage_', '');
+      const type = usageType ? usageType[0].replace('usage_', '') : '';
       const item = optionObject;
-
-      if (/toggle/.test(optionObject.className)) {
-        item.checked = !!data[type];
-        return true;
-      }
-
+      item.checked = /toggle/.test(optionObject.className) ? !!data[type] : false;
       item.value = String(data[type]);
-      return true;
     });
 
-    if (data.scaleBase === 'interval' && this.scaleBaseIntervals) {
+    if (data.scaleBase === 'interval') {
       this.scaleBaseIntervals.checked = true;
       switchOption('interval');
-      return true;
     }
 
-    if (data.scaleBase === 'step' && this.scaleBaseSteps) {
+    if (data.scaleBase === 'step') {
       this.scaleBaseSteps.checked = true;
       switchOption();
     }
-    return true;
   }
 
   public disable(isDisabled = false) {
-    if (!this.optionObjects) return false;
     this.optionObjects.forEach((optionObject) => {
-      if (!optionObject) return false;
-
       const item = optionObject;
       item.disabled = isDisabled;
-      return true;
     });
-    return true;
   }
 
   private render() {
@@ -102,37 +81,29 @@ class ScaleSetup extends PanelObserver {
     this.optionStep = this.getElement('step');
     this.scaleBaseSteps = this.getElement('scaleBaseStep', 'radiobuttons');
     this.scaleBaseIntervals = this.getElement('scaleBaseInterval', 'radiobuttons');
-
-    if (!this.options) return false;
     this.options.forEach((option) => {
       const [key, value] = option;
       this.prepareElement(key, value);
     });
-    return true;
   }
 
   private bindEventListeners() {
     this.wrapper.addEventListener('change', this.handleInputChange);
   }
 
-  private handleInputChange(e: Event) {
-    const target = e.target as HTMLInputElement;
-
+  private handleInputChange(event: Event) {
+    const target = event.target as HTMLInputElement;
     const notificationText = (target.type === 'text') ? target.value : target.checked;
     const usageType = target.className.match(/usage_\S*/);
-
-    if (!usageType) return false;
-    const type = usageType[0].replace('usage_', '');
+    const type = usageType ? usageType[0].replace('usage_', '') : '';
     if (type === 'scaleBaseInterval' || type === 'scaleBaseStep') {
       this.notify('scaleBase', type.substr(9).toLowerCase());
-      return true;
+      return;
     }
     this.notify(type, notificationText);
-    return true;
   }
 
   private getElement(selector: string, type: AllowedTypes = 'input') {
-    if (!this.wrapper) return null;
     if (type === 'input') {
       return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
     }
@@ -144,9 +115,7 @@ class ScaleSetup extends PanelObserver {
 
   private prepareElement = (selector: string, type: AllowedTypes = 'input') => {
     const object = this.getElement(selector, type);
-    if (object) {
-      this.optionObjects.push(object);
-    }
+    this.optionObjects.push(object);
   };
 }
 

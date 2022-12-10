@@ -24,7 +24,6 @@ class ActionsSetup extends PanelObserver {
   }
 
   private getElement(selector: string) {
-    if (!this.wrapper) return null;
     return this.wrapper.querySelector(`.js-toggle__checkbox_usage_${selector}`) as HTMLInputElement;
   }
 
@@ -32,8 +31,8 @@ class ActionsSetup extends PanelObserver {
     this.wrapper.addEventListener('change', this.handleInputChange);
   }
 
-  private handleInputChange(e: Event) {
-    const target = e.target as HTMLInputElement;
+  private handleInputChange(event: Event) {
+    const target = event.target as HTMLInputElement;
     const usageType = target.className.match(/usage_\S*/);
 
     if (!usageType) return false;

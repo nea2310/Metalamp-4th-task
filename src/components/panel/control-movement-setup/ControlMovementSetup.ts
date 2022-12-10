@@ -4,9 +4,9 @@ import PanelObserver from '../PanelObserver';
 type AllowedTypes = 'input' | 'toggle';
 
 class ControlMovementSetup extends PanelObserver {
-  private optionObjects: Array<HTMLInputElement | null> = [];
+  private optionObjects: Array<HTMLInputElement> = [];
 
-  private options: Array<[string, AllowedTypes]> | null = null;
+  private options: Array<[string, AllowedTypes]>;
 
   private wrapper: HTMLElement;
 
@@ -24,55 +24,35 @@ class ControlMovementSetup extends PanelObserver {
   }
 
   public update(data: IConfIndexed) {
-    if (!this.optionObjects) return false;
-
     this.optionObjects.forEach((optionObject) => {
-      if (!optionObject) return false;
       const item = optionObject;
-
       const usageType = optionObject.className.match(/usage_\S*/);
-      if (!usageType) return false;
-
-      const type = usageType[0].replace('usage_', '');
-
-      if (/toggle/.test(optionObject.className)) {
-        item.checked = !!data[type];
-        return true;
-      }
-
+      const type = usageType ? usageType[0].replace('usage_', '') : '';
+      item.checked = /toggle/.test(optionObject.className) ? !!data[type] : false;
       item.value = String(data[type]);
-      return true;
     });
-
-    return true;
   }
 
   public disable(isDisabled = false) {
-    if (!this.optionObjects) return false;
     this.optionObjects.forEach((optionObject) => {
-      if (!optionObject) return false;
       const item = optionObject;
       item.disabled = isDisabled;
-      return true;
     });
-    return true;
   }
 
   private render() {
-    if (!this.options) return false;
     this.options.forEach((option) => {
       const [key, value] = option;
       this.prepareElement(key, value);
     });
-    return true;
   }
 
   private bindEventListeners() {
     this.wrapper.addEventListener('change', this.handleInputChange);
   }
 
-  private handleInputChange(e: Event) {
-    const target = e.target as HTMLInputElement;
+  private handleInputChange(event: Event) {
+    const target = event.target as HTMLInputElement;
 
     const notificationText = (target.type === 'text') ? target.value : target.checked;
     const usageType = target.className.match(/usage_\S*/);
@@ -84,7 +64,6 @@ class ControlMovementSetup extends PanelObserver {
   }
 
   private getElement(selector: string, type: AllowedTypes = 'input') {
-    if (!this.wrapper) return null;
     if (type === 'input') {
       return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
     }

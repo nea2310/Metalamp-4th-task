@@ -26,11 +26,10 @@ class Toggle {
   }
 
   private handleCheckMarkKeydown = (event: KeyboardEvent) => {
-    if (event.code !== 'Tab') {
-      event.preventDefault();
-      if (event.code === 'Space' && this.checkboxHidden) {
-        this.checkboxHidden.click();
-      }
+    if (event.code === 'Tab') return;
+    event.preventDefault();
+    if (event.code === 'Space' && this.checkboxHidden) {
+      this.checkboxHidden.click();
     }
   };
 }

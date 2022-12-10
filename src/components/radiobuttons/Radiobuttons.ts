@@ -22,13 +22,11 @@ class Radiobuttons {
   private handleCheckMarkKeydown = (event: KeyboardEvent) => {
     const target = event.target as HTMLInputElement;
     const parent = target.closest('.category');
-    if (!parent) return false;
+    if (!parent || event.code === 'Tab') return false;
     const radiobuttonHidden = parent.querySelector('.category-checkbox') as HTMLInputElement;
-    if (event.code !== 'Tab') {
-      event.preventDefault();
-      if (event.code === 'Space' && target.previousElementSibling) {
-        radiobuttonHidden.click();
-      }
+    event.preventDefault();
+    if (event.code === 'Space' && target.previousElementSibling) {
+      radiobuttonHidden.click();
     }
     return true;
   };

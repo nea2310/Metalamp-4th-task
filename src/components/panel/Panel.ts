@@ -8,9 +8,13 @@ import PanelObserver from './PanelObserver';
 type IPanelComponents = MainSetup | ScaleSetup | ControlMovementSetup | ActionsSetup;
 
 class Panel extends PanelObserver {
-  private optionObjects: Array<IPanelComponents | null> = [];
+  private optionObjects: Array<IPanelComponents> = [];
 
   private wrapper: HTMLElement;
+
+  private isSubscribed: boolean = true;
+
+  private isDestroyed: boolean = false;
 
   constructor(element: HTMLElement) {
     super();
@@ -19,9 +23,9 @@ class Panel extends PanelObserver {
   }
 
   public update(data: IConfIndexed) {
+    if (!this.isSubscribed || this.isDestroyed) return;
     this.optionObjects.forEach((option) => {
       if (!(option instanceof ActionsSetup)) {
-        if (!option) return false;
         option.update(data);
       }
       return true;
@@ -30,18 +34,13 @@ class Panel extends PanelObserver {
 
   public disable(isDisabled = false) {
     this.optionObjects.forEach((option) => {
-      if (!option) return false;
       option.disable(isDisabled);
-      return true;
     });
   }
 
   public destroy() {
-    this.optionObjects.forEach((option) => {
-      let item = option;
-      item = null;
-      return item;
-    });
+    this.isDestroyed = true;
+    this.optionObjects = [];
     const panelChildren = this.wrapper.childNodes;
     panelChildren.forEach((element) => {
       element.remove();
@@ -63,14 +62,18 @@ class Panel extends PanelObserver {
   }
 
   private handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
-    this.notify(parameters.key, parameters.data);
+    const { key, data } = parameters;
+    if (key === 'subscribe') {
+      this.isSubscribed = !!data;
+    }
+    this.notify(key, data);
   };
 
   private getElement(selector: string) {
     return this.wrapper.querySelector(`.js-${selector}-setup`) as HTMLElement;
   }
 
-  private prepareObject<Y extends IPanelComponents, T extends new (arg: HTMLElement) => Y>(
+  private prepareObject<Y extends IPanelComponents, T extends new(arg: HTMLElement) => Y>(
     selector: string, ClassName: T) {
     const DOMElement = this.getElement(selector);
     const object = new ClassName(DOMElement);
