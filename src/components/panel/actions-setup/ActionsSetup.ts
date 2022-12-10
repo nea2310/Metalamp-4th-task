@@ -10,7 +10,7 @@ class ActionsSetup extends PanelObserver {
     this.wrapper = element;
     this.render();
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.bindEventListeners();
+    this.addEventListeners();
   }
 
   public disable(isDisabled = false) {
@@ -27,18 +27,15 @@ class ActionsSetup extends PanelObserver {
     return this.wrapper.querySelector(`.js-toggle__checkbox_usage_${selector}`) as HTMLInputElement;
   }
 
-  private bindEventListeners() {
+  private addEventListeners() {
     this.wrapper.addEventListener('change', this.handleInputChange);
   }
 
   private handleInputChange(event: Event) {
     const target = event.target as HTMLInputElement;
     const usageType = target.className.match(/usage_\S*/);
-
-    if (!usageType) return false;
-    const type = usageType[0].replace('usage_', '');
+    const type = usageType ? usageType[0].replace('usage_', '') : '';
     this.notify(type, target.checked);
-    return true;
   }
 }
 

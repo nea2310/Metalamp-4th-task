@@ -36,7 +36,7 @@ class ScaleSetup extends PanelObserver {
 
     this.render();
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.bindEventListeners();
+    this.addEventListeners();
   }
 
   public update(data: IConfIndexed) {
@@ -87,18 +87,18 @@ class ScaleSetup extends PanelObserver {
     });
   }
 
-  private bindEventListeners() {
+  private addEventListeners() {
     this.wrapper.addEventListener('change', this.handleInputChange);
   }
 
   private handleInputChange(event: Event) {
     const target = event.target as HTMLInputElement;
-    const notificationText = (target.type === 'text') ? target.value : target.checked;
+    let notificationText = (target.type === 'text') ? target.value : target.checked;
     const usageType = target.className.match(/usage_\S*/);
-    const type = usageType ? usageType[0].replace('usage_', '') : '';
+    let type = usageType ? usageType[0].replace('usage_', '') : '';
     if (type === 'scaleBaseInterval' || type === 'scaleBaseStep') {
-      this.notify('scaleBase', type.substr(9).toLowerCase());
-      return;
+      notificationText = type.substr(9).toLowerCase();
+      type = 'scaleBase';
     }
     this.notify(type, notificationText);
   }

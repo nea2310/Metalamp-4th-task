@@ -1,4 +1,6 @@
 import { IConfIndexed } from '../../slider-metalamp/mvc/interface';
+import Toggle from '../toggle/Toggle';
+import Radiobuttons from '../radiobuttons/Radiobuttons';
 import ScaleSetup from './scale-setup/ScaleSetup';
 import MainSetup from './main-setup/MainSetup';
 import ControlMovementSetup from './control-movement-setup/ControlMovementSetup';
@@ -6,6 +8,8 @@ import ActionsSetup from './actions-setup/ActionsSetup';
 import PanelObserver from './PanelObserver';
 
 type IPanelComponents = MainSetup | ScaleSetup | ControlMovementSetup | ActionsSetup;
+
+type IPanelElements = Radiobuttons | Toggle;
 
 class Panel extends PanelObserver {
   private optionObjects: Array<IPanelComponents> = [];
@@ -48,6 +52,15 @@ class Panel extends PanelObserver {
   }
 
   private render() {
+    const renderElements = <
+    Y extends IPanelElements, T extends new(arg: Element) => Y>(selector: string, ClassName: T) => {
+      const elements = this.wrapper.querySelectorAll(selector);
+      elements.forEach((element) => new ClassName(element));
+    };
+
+    renderElements('.js-radiobuttons', Radiobuttons);
+    renderElements('.js-toggle', Toggle);
+
     const types = new Map();
 
     types

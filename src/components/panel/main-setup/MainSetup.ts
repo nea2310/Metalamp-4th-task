@@ -27,7 +27,7 @@ class MainSetup extends PanelObserver {
     ];
     this.render();
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.bindEventListeners();
+    this.addEventListeners();
   }
 
   public update(data: IConfIndexed) {
@@ -59,17 +59,16 @@ class MainSetup extends PanelObserver {
     });
   }
 
-  private bindEventListeners() {
+  private addEventListeners() {
     this.wrapper.addEventListener('change', this.handleInputChange);
   }
 
-  private handleInputChange(e: Event) {
-    const target = e.target as HTMLInputElement;
+  private handleInputChange(event: Event) {
+    const target = event.target as HTMLInputElement;
     const notificationText = target.type === 'checkbox' ? target.checked : target.value;
     const usageType = target.className.match(/usage_\S*/);
-    if (usageType) {
-      this.notify(usageType[0].replace('usage_', ''), notificationText);
-    }
+    const type = usageType ? usageType[0].replace('usage_', '') : '';
+    this.notify(type, notificationText);
   }
 
   private getElement(selector: string, type: AllowedTypes = 'input') {
@@ -81,9 +80,7 @@ class MainSetup extends PanelObserver {
 
   private prepareElement = (selector: string, type: AllowedTypes = 'input') => {
     const object = this.getElement(selector, type);
-    if (object) {
-      this.optionObjects.push(object);
-    }
+    this.optionObjects.push(object);
   };
 }
 

@@ -3,17 +3,17 @@ class Radiobuttons {
 
   private radioMarks: NodeListOf<HTMLInputElement> | null = null;
 
-  constructor(elementName: string, element: Element) {
+  constructor(element: Element) {
     this.wrapper = element as HTMLElement;
     this.render();
-    this.bindEventListeners();
+    this.addEventListeners();
   }
 
   private render() {
     this.radioMarks = this.wrapper.querySelectorAll('.js-category-radiomark') as NodeListOf<HTMLInputElement>;
   }
 
-  private bindEventListeners() {
+  private addEventListeners() {
     if (!this.radioMarks) return false;
     this.radioMarks.forEach((radioMark) => radioMark.addEventListener('keydown', this.handleCheckMarkKeydown));
     return true;
@@ -32,8 +32,4 @@ class Radiobuttons {
   };
 }
 
-function renderRadiobuttons(selector: string) {
-  const radiobuttons = document.querySelectorAll(selector);
-  radiobuttons.forEach((radiobutton) => new Radiobuttons(selector, radiobutton));
-}
-renderRadiobuttons('.js-radiobuttons');
+export default Radiobuttons;

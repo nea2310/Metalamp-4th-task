@@ -20,7 +20,7 @@ class ControlMovementSetup extends PanelObserver {
     ];
     this.render();
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.bindEventListeners();
+    this.addEventListeners();
   }
 
   public update(data: IConfIndexed) {
@@ -47,20 +47,16 @@ class ControlMovementSetup extends PanelObserver {
     });
   }
 
-  private bindEventListeners() {
+  private addEventListeners() {
     this.wrapper.addEventListener('change', this.handleInputChange);
   }
 
   private handleInputChange(event: Event) {
     const target = event.target as HTMLInputElement;
-
     const notificationText = (target.type === 'text') ? target.value : target.checked;
     const usageType = target.className.match(/usage_\S*/);
-
-    if (!usageType) return false;
-    const type = usageType[0].replace('usage_', '');
+    const type = usageType ? usageType[0].replace('usage_', '') : '';
     this.notify(type, notificationText);
-    return true;
   }
 
   private getElement(selector: string, type: AllowedTypes = 'input') {
@@ -72,9 +68,7 @@ class ControlMovementSetup extends PanelObserver {
 
   private prepareElement = (selector: string, type: AllowedTypes = 'input') => {
     const object = this.getElement(selector, type);
-    if (object) {
-      this.optionObjects.push(object);
-    }
+    this.optionObjects.push(object);
     return object;
   };
 }
