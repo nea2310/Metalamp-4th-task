@@ -705,6 +705,10 @@ class Model extends Observer {
     position: number,
     moovingControl: 'min' | 'max',
   ) {
+    if (this.changeMode) {
+      return;
+    }
+
     const stopTypes = {
       normal: (this.conf.min + ((this.conf.max
         - this.conf.min) * position) / 100).toFixed(0),
@@ -714,21 +718,17 @@ class Model extends Observer {
       meetMin: String(this.conf.from),
     };
 
-    const triggerNotification = (control: 'min' | 'max', newValue: string) => {
-      if (control === 'min') {
-        this.data.fromValue = newValue;
-        this.conf.from = parseFloat(newValue);
-        this.notify('FromValue', this.data);
-        return;
-      }
-      this.data.toValue = newValue;
-      this.conf.to = parseFloat(newValue);
-      this.notify('ToValue', this.data);
-    };
+    const newValue = stopTypes[stopType];
 
-    if (!this.changeMode) {
-      triggerNotification(moovingControl, stopTypes[stopType]);
+    if (moovingControl === 'min') {
+      this.data.fromValue = newValue;
+      this.conf.from = parseFloat(newValue);
+      this.notify('FromValue', this.data);
+      return;
     }
+    this.data.toValue = newValue;
+    this.conf.to = parseFloat(newValue);
+    this.notify('ToValue', this.data);
   }
 }
 
