@@ -46,6 +46,11 @@ interface IObject {
   position: number;
 }
 
+interface INewObject {
+  newValue: string;
+  newPosition: number;
+}
+
 interface Imethods {
   calcFromPosition: boolean;
   calcToPosition: boolean;
@@ -127,5 +132,6 @@ export {
   TValueType,
   IConfIndexed,
   IData,
-  TStopType
+  TStopType,
+  INewObject
 };

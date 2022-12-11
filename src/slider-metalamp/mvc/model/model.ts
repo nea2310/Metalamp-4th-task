@@ -14,6 +14,7 @@ import {
   TValueType,
   IData,
   TStopType,
+  INewObject,
 } from '../interface';
 
 class Model extends Observer {
@@ -57,275 +58,6 @@ class Model extends Observer {
     };
     this.startConf = conf;
     this.needCalcValue = true;
-  }
-
-  public getConf(conf: IConf) {
-    this.dataAttributesConf = conf;
-    const joinedConf = { ...this.conf, ...this.startConf, ...this.dataAttributesConf };
-    this.conf = Model.checkConf(joinedConf);
-    return this.conf;
-  }
-
-  public start() {
-    this.onStart = this.conf.onStart;
-    this.onUpdate = this.conf.onUpdate;
-    this.onChange = this.conf.onChange;
-    this.calcScaleMarks();
-    this.calcFromPosition();
-    this.calcToPosition();
-    if (typeof this.onStart === 'function') {
-      this.onStart(this.conf);
-    }
-  }
-
-  public getData() {
-    return this.conf;
-  }
-
-  public calcPositionSetByPointer(data: IData) {
-    const {
-      type,
-      clientY,
-      clientX,
-      top,
-      left,
-      width,
-      height,
-      shiftBase,
-      moovingControl,
-    } = data;
-
-    let newPosition = 0;
-    if (this.conf.vertical) {
-      newPosition = 100 - (((clientY - top) * 100) / height);
-    } else {
-      const shift = (type === 'pointermove') ? (shiftBase * 100) / width : 0;
-      newPosition = (((clientX - left) * 100) / width) - shift;
-    }
-
-    if (this.conf.sticky) {
-      newPosition = this.setSticky(newPosition);
-    }
-
-    let isStop = false;
-    const updatePosition = (returnValue = '', needChange = false, stopType: TStopType = 'min') => {
-      isStop = true;
-      this.calcValue(stopType, 0, moovingControl);
-      if (needChange && typeof this.onChange === 'function') {
-        this.onChange(this.conf);
-      }
-      return returnValue;
-    };
-
-    if (newPosition < 0) {
-      return updatePosition('newPosition < 0', true);
-    }
-
-    if (newPosition > 100) {
-      return updatePosition('newPosition > 100', true, 'max');
-    }
-
-    const isBeyondToPosition = this.conf.range && moovingControl === 'min' && newPosition > this.data.toPosition;
-    if (isBeyondToPosition) {
-      return updatePosition('newPosition > toPosition', false, 'meetMax');
-    }
-
-    const isBelowFromPosition = this.conf.range && moovingControl === 'max' && newPosition < this.data.fromPosition;
-    if (isBelowFromPosition) {
-      return updatePosition('newPosition < fromPosition', false, 'meetMin');
-    }
-
-    if (moovingControl === 'min') {
-      this.data.fromPosition = newPosition;
-      this.notify('FromPosition', this.data, this.conf);
-    } else {
-      this.data.toPosition = newPosition;
-      this.notify('ToPosition', this.data, this.conf);
-    }
-    if (!isStop) {
-      this.calcValue('normal', newPosition, moovingControl);
-    }
-    if (typeof this.onChange === 'function') {
-      this.onChange(this.conf);
-    }
-    return newPosition;
-  }
-
-  public calcPositionSetByKey(data:
-  {
-    direction: TDirections,
-    repeat: boolean,
-    moovingControl: 'min' | 'max',
-  }) {
-    const { direction, repeat, moovingControl } = data;
-
-    const changeFrom = (item: IObject) => {
-      this.conf.from = item.value;
-      this.data.fromPosition = item.position;
-      this.data.fromValue = String(item.value);
-      this.notify('FromPosition', this.data, this.conf);
-      this.notify('FromValue', this.data);
-
-      return { newValue: String(item.value), newPosition: item.position };
-    };
-
-    const changeTo = (item: IObject) => {
-      this.conf.to = item.value;
-      this.data.toPosition = item.position;
-      this.data.toValue = String(item.value);
-      this.notify('ToPosition', this.data, this.conf);
-      this.notify('ToValue', this.data);
-      return { newValue: String(item.value), newPosition: item.position };
-    };
-
-    const increment = (index: number) => {
-      if (repeat) {
-        return this.data.marksArray[index
-          + this.conf.shiftOnKeyHold];
-      }
-      return this.data.marksArray[index
-        + this.conf.shiftOnKeyDown];
-    };
-
-    const decrement = (index: number) => {
-      if (repeat) {
-        return this.data.marksArray[index
-          - this.conf.shiftOnKeyHold];
-      }
-      return this.data.marksArray[index
-        - this.conf.shiftOnKeyDown];
-    };
-
-    let newValue;
-    let item;
-    let result;
-
-    if (!this.conf.sticky) {
-      this.needCalcValue = false;
-      if (moovingControl === 'min') {
-        if (direction === 'ArrowRight' || direction === 'ArrowUp') {
-          const belowMaxRange = this.conf.range && this.conf.from
-            < this.conf.to;
-          const belowMaxNoRange = !this.conf.range
-            && this.conf.from < this.conf.max;
-          const aboveMaxRange = this.conf.range
-            && this.conf.from >= this.conf.to;
-          const aboveMaxNoRange = !this.conf.range
-            && this.conf.from >= this.conf.max;
-
-          if (belowMaxRange || belowMaxNoRange) {
-            newValue = repeat
-              ? this.conf.from
-              + this.conf.shiftOnKeyHold
-              : this.conf.from
-              + this.conf.shiftOnKeyDown;
-            if (this.conf.range && newValue > this.conf.to) {
-              newValue = this.conf.to;
-            }
-            if (!this.conf.range && newValue > this.conf.max) {
-              newValue = this.conf.max;
-            }
-          }
-          if (aboveMaxRange) {
-            newValue = this.conf.to;
-          }
-          if (aboveMaxNoRange) {
-            newValue = this.conf.max;
-          }
-        } else if (this.conf.from > this.conf.min) {
-          newValue = repeat
-            ? this.conf.from
-            - this.conf.shiftOnKeyHold
-            : this.conf.from
-            - this.conf.shiftOnKeyDown;
-          if (newValue < this.conf.min) {
-            newValue = this.conf.min;
-          }
-        } else {
-          newValue = this.conf.min;
-        }
-
-        this.data.fromValue = String(newValue);
-        this.conf.from = Number(newValue);
-        this.calcFromPosition();
-        this.notify('FromValue', this.data);
-        result = newValue;
-      } else {
-        if (direction === 'ArrowRight' || direction === 'ArrowUp') {
-          if (this.conf.to < this.conf.max) {
-            newValue = repeat
-              ? this.conf.to
-              + this.conf.shiftOnKeyHold
-              : this.conf.to
-              + this.conf.shiftOnKeyDown;
-            if (newValue > this.conf.max) {
-              newValue = this.conf.max;
-            }
-          } else newValue = this.conf.max;
-        } else if (this.conf.to > this.conf.from) {
-          newValue = repeat
-            ? this.conf.to
-            - this.conf.shiftOnKeyHold
-            : this.conf.to
-            - this.conf.shiftOnKeyDown;
-          if (newValue < this.conf.from) {
-            newValue = this.conf.from;
-          }
-        } else newValue = this.conf.from;
-
-        this.data.toValue = String(newValue);
-        this.conf.to = newValue;
-        this.calcToPosition();
-        this.notify('ToValue', this.data);
-        result = newValue;
-      }
-      this.needCalcValue = true;
-    } else if (moovingControl === 'min') {
-      const index = this.data.marksArray
-        .findIndex((elem) => elem.value === this.conf.from);
-      if (direction === 'ArrowRight' || direction === 'ArrowUp') {
-        item = increment(index);
-        if (item === undefined) return 'newPosition>100';
-        const isValueAscending = item.value > this.conf.from
-          && ((this.conf.range && item.value <= this.conf.to)
-            || (!this.conf.range && item.value
-              <= this.conf.max));
-        if (isValueAscending) {
-          result = changeFrom(item);
-        } else result = 'too big newPosition';
-      } else {
-        item = decrement(index);
-        if (item === undefined) return 'newPosition<0';
-        const isValueDescending = (this.conf.range && item.value < this.conf.to)
-          || !this.conf.range;
-        if (isValueDescending) {
-          result = changeFrom(item);
-        } else result = 'too small newPosition';
-      }
-    } else {
-      const index = this.data.marksArray
-        .findIndex((elem) => elem.value === this.conf.to);
-      if (direction === 'ArrowRight' || direction === 'ArrowUp') {
-        item = increment(index);
-        if (item === undefined) return 'newPosition>100';
-        const isValueAscending = item && item.value > this.conf.to
-          && this.conf.to < this.conf.max;
-        if (isValueAscending) {
-          result = changeTo(item);
-        } else result = 'too big newPosition';
-      } else {
-        item = decrement(index);
-        if (item === undefined) return 'newPosition<0';
-        if (item.value >= this.conf.from
-          && this.conf.to > this.conf.from) {
-          result = changeTo(item);
-        } else result = 'too small newPosition';
-      }
-    }
-    if (typeof this.onChange === 'function') {
-      this.onChange(this.conf);
-    }
-    return result;
   }
 
   static checkConf(config: IConfFull) {
@@ -431,6 +163,29 @@ class Model extends Observer {
     return conf;
   }
 
+  public getConf(conf: IConf) {
+    this.dataAttributesConf = conf;
+    const joinedConf = { ...this.conf, ...this.startConf, ...this.dataAttributesConf };
+    this.conf = Model.checkConf(joinedConf);
+    return this.conf;
+  }
+
+  public start() {
+    this.onStart = this.conf.onStart;
+    this.onUpdate = this.conf.onUpdate;
+    this.onChange = this.conf.onChange;
+    this.calcScaleMarks();
+    this.calcFromPosition();
+    this.calcToPosition();
+    if (typeof this.onStart === 'function') {
+      this.onStart(this.conf);
+    }
+  }
+
+  public getData() {
+    return this.conf;
+  }
+
   public update(newConf: IConf) {
     let conf = { ...this.conf, ...newConf };
 
@@ -459,6 +214,295 @@ class Model extends Observer {
     });
     this.needCalcValue = true;
     return { ...this.conf, ...this.data };
+  }
+
+  public calcPositionSetByPointer(data: IData) {
+    const {
+      type,
+      clientY,
+      clientX,
+      top,
+      left,
+      width,
+      height,
+      shiftBase,
+      moovingControl,
+    } = data;
+
+    let newPosition = 0;
+    if (this.conf.vertical) {
+      newPosition = 100 - (((clientY - top) * 100) / height);
+    } else {
+      const shift = (type === 'pointermove') ? (shiftBase * 100) / width : 0;
+      newPosition = (((clientX - left) * 100) / width) - shift;
+    }
+
+    if (this.conf.sticky) {
+      newPosition = this.setSticky(newPosition);
+    }
+
+    let isStop = false;
+    const updatePosition = (returnValue = '', needChange = false, stopType: TStopType = 'min') => {
+      isStop = true;
+      this.calcValue(stopType, 0, moovingControl);
+      if (needChange && typeof this.onChange === 'function') {
+        this.onChange(this.conf);
+      }
+      return returnValue;
+    };
+
+    if (newPosition < 0) {
+      return updatePosition('newPosition < 0', true);
+    }
+
+    if (newPosition > 100) {
+      return updatePosition('newPosition > 100', true, 'max');
+    }
+
+    const isBeyondToPosition = this.conf.range && moovingControl === 'min' && newPosition > this.data.toPosition;
+    if (isBeyondToPosition) {
+      return updatePosition('newPosition > toPosition', false, 'meetMax');
+    }
+
+    const isBelowFromPosition = this.conf.range && moovingControl === 'max' && newPosition < this.data.fromPosition;
+    if (isBelowFromPosition) {
+      return updatePosition('newPosition < fromPosition', false, 'meetMin');
+    }
+
+    if (moovingControl === 'min') {
+      this.data.fromPosition = newPosition;
+      this.notify('FromPosition', this.data, this.conf);
+    } else {
+      this.data.toPosition = newPosition;
+      this.notify('ToPosition', this.data, this.conf);
+    }
+    if (!isStop) {
+      this.calcValue('normal', newPosition, moovingControl);
+    }
+    if (typeof this.onChange === 'function') {
+      this.onChange(this.conf);
+    }
+    return newPosition;
+  }
+
+  // Рассчитывает значение ползунка при нажатии кнопки стрелки на сфокусированном ползунке
+  public calcPositionSetByKey(data:
+  {
+    direction: TDirections,
+    repeat: boolean,
+    moovingControl: 'min' | 'max',
+  }) {
+    const { direction, repeat, moovingControl } = data;
+
+    const isIncreasing = direction === 'ArrowRight' || direction === 'ArrowUp';
+    const isDecreasing = direction === 'ArrowLeft' || direction === 'ArrowDown';
+
+    const isMin = moovingControl === 'min';
+    const isMax = moovingControl === 'max';
+
+    const isIncreasingNoSticky = isIncreasing && !this.conf.sticky;
+    const isDecreasingNoSticky = isDecreasing && !this.conf.sticky;
+
+    const isMinIncreasingNoSticky = isMin && isIncreasingNoSticky;
+    const isMinDecreasingNoSticky = isMin && isDecreasingNoSticky;
+    const isMaxIncreasingNoSticky = isMax && isIncreasingNoSticky;
+    const isMaxDecreasingNoSticky = isMax && isDecreasingNoSticky;
+
+    const isIncreasingSticky = isIncreasing && this.conf.sticky;
+    const isDecreasingSticky = isDecreasing && this.conf.sticky;
+
+    const isMinIncreasingSticky = isMin && isIncreasingSticky;
+    const isMinDecreasingSticky = isMin && isDecreasingSticky;
+    const isMaxIncreasingSticky = isMax && isIncreasingSticky;
+    const isMaxDecreasingSticky = isMax && isDecreasingSticky;
+
+    // ===================================не sticky====================
+
+    if (isMinIncreasingNoSticky) { // min, Увеличение значения, не sticky
+      return this.getNewValueNoSticky('MinIncreasingNoSticky', repeat);
+    }
+
+    // min, Уменьшение значения, не sticky
+    if (isMinDecreasingNoSticky) {
+      return this.getNewValueNoSticky('MinDecreasingNoSticky', repeat);
+    }
+
+    if (isMaxIncreasingNoSticky) { // max, Увеличение значения, не sticky
+      return this.getNewValueNoSticky('MaxIncreasingNoSticky', repeat);
+    } // max, Уменьшение значения, не sticky
+
+    if (isMaxDecreasingNoSticky) {
+      return this.getNewValueNoSticky('MaxDecreasingNoSticky', repeat);
+    }
+    // ====================================== sticky ========================
+
+    const value = moovingControl === 'min' ? this.conf.from : this.conf.to;
+    const index = this.data.marksArray.findIndex((elem) => elem.value === value);
+    const shift = this.getShift(repeat);
+    const indexToSearch = isIncreasing ? index + shift : index - shift;
+    const item = this.data.marksArray[indexToSearch];
+
+    if (isMinIncreasingSticky) { // min, Увеличение значения, sticky
+      return this.getNewValueSticky('MinIncreasingSticky', item);
+    }
+
+    if (isMinDecreasingSticky) { // min, Уменьшение значения, sticky
+      return this.getNewValueSticky('MinDecreasingSticky', item);
+    }
+
+    if (isMaxIncreasingSticky) { // max, Увеличение значения, sticky
+      return this.getNewValueSticky('MaxIncreasingSticky', item);
+    }
+
+    if (isMaxDecreasingSticky) { // max, Уменьшение значения, sticky
+      return this.getNewValueSticky('MaxDecreasingSticky', item);
+    }
+
+    return null;
+  }
+
+  private calcControlPosition(res: number, isControlFrom = true) {
+    if (isControlFrom) {
+      this.data.fromValue = String(res);
+      this.conf.from = res;
+      this.calcFromPosition();
+      this.notify('FromValue', this.data);
+    } else {
+      this.data.toValue = String(res);
+      this.conf.to = res;
+      this.calcToPosition();
+      this.notify('ToValue', this.data);
+    }
+    return this.triggerControlPositionChange(res);
+  }
+
+  private triggerControlPositionChange = (result: number | string | INewObject) => {
+    if (typeof this.onChange === 'function') {
+      this.onChange(this.conf);
+    }
+    return result;
+  };
+
+  private getShift(isRepeating: boolean) {
+    return isRepeating ? this.conf.shiftOnKeyHold : this.conf.shiftOnKeyDown;
+  }
+
+  private getNewValueNoSticky(condition: string, isRepeating: boolean) {
+    const shift = this.getShift(isRepeating);
+    switch (condition) {
+      case 'MinIncreasingNoSticky':
+      /* проверяем, что FROM не стал больше TO или MAX */
+      { const isBelowMax = (this.conf.range && this.conf.from < this.conf.to)
+          || (!this.conf.range && this.conf.from < this.conf.max);
+      const isAboveMaxRange = this.conf.range && this.conf.from >= this.conf.to;
+      const isAboveMaxNoRange = !this.conf.range && this.conf.from >= this.conf.max;
+
+      let newValue = 0;
+      if (isBelowMax) {
+        const limit = this.conf.range ? this.conf.to : this.conf.max;
+        newValue = this.conf.from + shift;
+        newValue = (newValue > limit) ? limit : newValue;
+      }
+      if (isAboveMaxRange) {
+        newValue = this.conf.to;
+      }
+      if (isAboveMaxNoRange) {
+        newValue = this.conf.max;
+      }
+      return this.calcControlPosition(newValue);
+      }
+
+      case 'MinDecreasingNoSticky':
+      { let newValue = 0;
+        if (this.conf.from > this.conf.min) {
+          newValue = this.conf.from - shift;
+          newValue = newValue < this.conf.min ? this.conf.min : newValue;
+        } else {
+          newValue = this.conf.min;
+        }
+        return this.calcControlPosition(newValue); }
+
+      case 'MaxIncreasingNoSticky':
+      { let newValue = 0;
+        if (this.conf.to < this.conf.max) { // если TO меньше MAX
+          newValue = this.conf.to + shift;
+          newValue = newValue > this.conf.max ? this.conf.max : newValue;
+        } else newValue = this.conf.max; // если TO стал больше или равен MAX
+        return this.calcControlPosition(newValue, false); }
+
+      case 'MaxDecreasingNoSticky':
+      { let newValue = 0;
+        if (this.conf.to > this.conf.from) { // если TO больше FROM
+          newValue = this.conf.to - shift;
+          newValue = newValue < this.conf.from ? this.conf.from : newValue;
+        } else newValue = this.conf.from; // если TO меньше или равен FROM
+        return this.calcControlPosition(newValue, false); }
+
+      default: return 0;
+    }
+  }
+
+  private getNewValueSticky(condition: string, item: IObject) {
+    // поменять позицию и значение FROM
+    const changeFrom = (values: IObject) => {
+      this.conf.from = values.value;
+      this.data.fromPosition = values.position;
+      this.data.fromValue = String(values.value);
+      this.notify('FromPosition', this.data, this.conf);
+      this.notify('FromValue', this.data);
+      return { newValue: String(values.value), newPosition: values.position };
+    };
+
+    // поменять позицию и значение TO
+    const changeTo = (values: IObject) => {
+      this.conf.to = values.value;
+      this.data.toPosition = values.position;
+      this.data.toValue = String(values.value);
+      this.notify('ToPosition', this.data, this.conf);
+      this.notify('ToValue', this.data);
+      return { newValue: String(values.value), newPosition: values.position };
+    };
+
+    switch (condition) {
+      case 'MinIncreasingSticky':
+      { // min, Увеличение значения, sticky
+        if (item === undefined) return 'newPosition>100';
+        const isValueAscending = item.value > this.conf.from
+          && ((this.conf.range && item.value <= this.conf.to)
+            || (!this.conf.range && item.value
+              <= this.conf.max));
+        const result = isValueAscending ? changeFrom(item) : 'too big newPosition';
+        return this.triggerControlPositionChange(result);
+      }
+
+      case 'MinDecreasingSticky':
+      { // min, Уменьшение значения, sticky
+        if (item === undefined) return 'newPosition<0';
+        const isValueDescending = (this.conf.range && item.value < this.conf.to)
+          || !this.conf.range;
+        const result = isValueDescending ? changeFrom(item) : 'too small newPosition';
+        return this.triggerControlPositionChange(result);
+      }
+
+      case 'MaxIncreasingSticky':
+      { // max, Увеличение значения, sticky
+        if (item === undefined) return 'newPosition>100';
+        const isValueAscending = item && item.value > this.conf.to
+          && this.conf.to < this.conf.max;
+        const result = isValueAscending ? changeTo(item) : 'too big newPosition';
+        return this.triggerControlPositionChange(result);
+      }
+
+      case 'MaxDecreasingSticky':
+      { // max, Уменьшение значения, sticky
+        if (item === undefined) return 'newPosition<0';
+        const isValueDescending = item.value >= this.conf.from
+        && this.conf.to > this.conf.from;
+        const result = isValueDescending ? changeTo(item) : 'too small newPosition';
+        return this.triggerControlPositionChange(result);
+      }
+      default: return 0;
+    }
   }
 
   private findChangedConf(currentConf: IConfFull, newConf: IConf) {
