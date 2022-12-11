@@ -713,18 +713,21 @@ class Model extends Observer {
       meetMax: String(this.conf.to),
       meetMin: String(this.conf.from),
     };
-    if (!this.changeMode) {
-      const newValue = stopTypes[stopType];
 
-      if (moovingControl === 'min') {
+    const triggerNotification = (control: 'min' | 'max', newValue: string) => {
+      if (control === 'min') {
         this.data.fromValue = newValue;
         this.conf.from = parseFloat(newValue);
         this.notify('FromValue', this.data);
-      } else {
-        this.data.toValue = newValue;
-        this.conf.to = parseFloat(newValue);
-        this.notify('ToValue', this.data);
+        return;
       }
+      this.data.toValue = newValue;
+      this.conf.to = parseFloat(newValue);
+      this.notify('ToValue', this.data);
+    };
+
+    if (!this.changeMode) {
+      triggerNotification(moovingControl, stopTypes[stopType]);
     }
   }
 }
