@@ -41,9 +41,7 @@ class ViewScale {
     this.scaleMarks = scaleMarks;
     const steps = this.slider.querySelectorAll('.js-slider-metalamp__mark');
     if (this.calcMarkList) {
-      if (steps.length) {
-        steps.forEach((element) => element.remove());
-      }
+      steps.forEach((element) => element.remove());
       scaleMarks.forEach((node) => {
         const element = document.createElement('div');
         element.classList.add('slider-metalamp__mark');
@@ -53,20 +51,15 @@ class ViewScale {
         label.classList.add('slider-metalamp__label');
         element.appendChild(label);
 
-        if (conf.vertical) {
-          element.style.bottom = `${String(node.position)}%`;
-        } else {
-          element.style.left = `${String(node.position)}%`;
-        }
-        if (!conf.scale) {
-          element.classList.add('slider-metalamp__mark_visually-hidden');
-        }
+        const modifier = !conf.scale ? 'slider-metalamp__mark_visually-hidden' : 'slider-metalamp__mark';
+        element.classList.add(modifier);
+
         this.track.appendChild(element);
-        if (conf.vertical) {
-          label.style.top = `${(label.offsetHeight / 2) * (-1)}px`;
-        } else {
-          label.style.left = `${(label.offsetWidth / 2) * (-1)}px`;
-        }
+        const elementStyle = conf.vertical ? 'bottom' : 'left';
+        const labelStyle = conf.vertical ? 'top' : 'left';
+        const value = conf.vertical ? label.offsetHeight : label.offsetWidth;
+        element.style[elementStyle] = `${String(node.position)}%`;
+        label.style[labelStyle] = `${(value / 2) * (-1)}px`;
       });
 
       this.markList = [...this.track.querySelectorAll('.js-slider-metalamp__mark')];
@@ -81,10 +74,8 @@ class ViewScale {
       for (let i = 1; i < markListNew.length; i += 2) {
         const child = markListNew[i].firstElementChild as Element;
         child.classList.add('slider-metalamp__label_hidden');
-        markListNew[i]
-          .classList.add('slider-metalamp__mark_no-label');
-        markListNew[i]
-          .classList.add('js-slider-metalamp__mark_no-label');
+        markListNew[i].classList.add('slider-metalamp__mark_no-label');
+        markListNew[i].classList.add('js-slider-metalamp__mark_no-label');
       }
       this.markList = [...this.track.querySelectorAll('.js-slider-metalamp__mark:not(.js-slider-metalamp__mark_no-label)')];
 
@@ -92,34 +83,20 @@ class ViewScale {
       this.checkScaleLength(this.markList);
     };
 
-    if (!this.conf.vertical) {
-      let totalWidth = 0;
-      markList.forEach((node) => {
-        const child = node.firstElementChild as Element;
-        totalWidth += child.getBoundingClientRect().width;
-      });
-      if (totalWidth > this.track.offsetWidth) {
-        hideLabels(markList);
-      } else {
-        if (this.lastLabelRemoved) {
-          this.addLastLabel(this.lastLabelRemoved);
-        }
-        return this.markList;
-      }
-    } else {
-      let totalHeight = 0;
-      markList.forEach((node) => {
-        const child = node.firstElementChild as Element;
-        totalHeight += child.getBoundingClientRect().height;
-      });
-      if (totalHeight > this.track.offsetHeight) {
-        hideLabels(markList);
-      } else {
-        if (this.lastLabelRemoved) {
-          this.addLastLabel(this.lastLabelRemoved);
-        }
-        return this.markList;
-      }
+    const size = this.conf.vertical ? 'height' : 'width';
+    const offsetSize = this.conf.vertical ? 'offsetHeight' : 'offsetWidth';
+
+    let totalSize = 0;
+    markList.forEach((node) => {
+      const child = node.firstElementChild as Element;
+      totalSize += child.getBoundingClientRect()[size];
+    });
+    if (totalSize > this.track[offsetSize]) {
+      hideLabels(markList);
+      return this.markList;
+    }
+    if (this.lastLabelRemoved) {
+      this.addLastLabel(this.lastLabelRemoved);
     }
     return this.markList;
   }
@@ -144,15 +121,12 @@ class ViewScale {
     this.startWidth = this.slider.offsetWidth;
     const handleResize = () => {
       const totalWidth = this.slider.offsetWidth;
-
-      if (totalWidth !== this.startWidth) {
-        if (totalWidth < this.startWidth) {
-          this.checkScaleLength(this.markList);
-        }
-        if (totalWidth > this.startWidth) {
-          this.createScale(this.scaleMarks, this.conf);
-        }
-
+      if (totalWidth < this.startWidth) {
+        this.checkScaleLength(this.markList);
+        this.startWidth = totalWidth;
+      }
+      if (totalWidth > this.startWidth) {
+        this.createScale(this.scaleMarks, this.conf);
         this.startWidth = totalWidth;
       }
     };

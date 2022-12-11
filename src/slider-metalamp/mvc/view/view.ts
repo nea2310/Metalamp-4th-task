@@ -70,70 +70,85 @@ class View extends Observer {
   }
 
   public disable() {
-    if (this.slider) {
-      this.slider.classList.add('slider-metalamp__wrapper_disabled');
+    if (!this.slider) {
+      return;
     }
+    this.slider.classList.add('slider-metalamp__wrapper_disabled');
   }
 
   public enable() {
-    if (this.slider) {
-      this.slider.classList.remove('slider-metalamp__wrapper_disabled');
+    if (!this.slider) {
+      return;
     }
+    this.slider.classList.remove('slider-metalamp__wrapper_disabled');
   }
 
   public updateFromPos(data: IdataFull, conf: IConfFull) {
-    if (this.viewControl && this.viewControl.controlMin) {
-      this.viewControl.updatePos(
-        this.viewControl.controlMin,
-        data.fromPosition,
-      );
-      this.viewControl.updateInput(conf);
-      if (this.viewBar) {
-        this.viewBar
-          .updateBar(data.fromPosition, data.toPosition, conf.range, conf.vertical);
-      }
+    if (!this.viewControl || !this.viewControl.controlMin) {
+      return;
     }
+    this.viewControl.updatePos(
+      this.viewControl.controlMin,
+      data.fromPosition,
+    );
+    this.viewControl.updateInput(conf);
+    if (!this.viewBar) {
+      return;
+    }
+    this.viewBar
+      .updateBar(data.fromPosition, data.toPosition, conf.range, conf.vertical);
   }
 
   public updateToPos(data: IdataFull, conf: IConfFull) {
-    if (this.viewControl && this.viewControl.controlMax) {
-      this.viewControl.updatePos(
-        this.viewControl.controlMax,
-        data.toPosition,
-      );
-      this.viewControl.updateInput(conf);
+    if (!this.viewControl || !this.viewControl.controlMax) {
+      return;
     }
-    if (this.viewBar) {
-      this.viewBar
-        .updateBar(data.fromPosition, data.toPosition, conf.range, conf.vertical);
+    this.viewControl.updatePos(
+      this.viewControl.controlMax,
+      data.toPosition,
+    );
+    this.viewControl.updateInput(conf);
+    if (!this.viewBar) {
+      return;
     }
+    this.viewBar.updateBar(data.fromPosition, data.toPosition, conf.range, conf.vertical);
   }
 
   public updateFromValue(data: IdataFull) {
-    if (this.viewControl) { this.viewControl.updateVal(data.fromValue, true); }
+    if (!this.viewControl) {
+      return;
+    }
+    this.viewControl.updateVal(data.fromValue, true);
   }
 
   public updateToValue(data: IdataFull) {
-    if (this.viewControl) { this.viewControl.updateVal(data.toValue, false); }
+    if (!this.viewControl) {
+      return;
+    }
+    this.viewControl.updateVal(data.toValue, false);
   }
 
   public updateScale(data: IdataFull, conf: IConfFull) {
-    if (this.viewScale) { this.viewScale.createScale(data.marksArray, conf); }
+    if (!this.viewScale) {
+      return;
+    }
+    this.viewScale.createScale(data.marksArray, conf);
   }
 
   public switchVertical(conf: IConfFull) {
     this.changeMode(conf.vertical, 'orientation_vertical');
-    if (this.viewControl) {
-      this.viewControl.switchVertical(conf);
+    if (!this.viewControl) {
+      return;
     }
+    this.viewControl.switchVertical(conf);
   }
 
   public switchRange(conf: IConfFull, data: IdataFull | {} = {}) {
     this.changeMode(!conf.range, 'range-mode_single');
-    if ('fromPosition' in data && this.viewBar) {
-      this.viewBar
-        .updateBar(data.fromPosition, data.toPosition, conf.range, conf.vertical);
+    if (!('fromPosition' in data) || !this.viewBar) {
+      return;
     }
+    this.viewBar.updateBar(data.fromPosition, data.toPosition, conf.range, conf.vertical);
   }
 
   public switchScale(conf: IConfFull) {
@@ -146,20 +161,22 @@ class View extends Observer {
 
   public switchTip(conf: IConfFull) {
     this.changeMode(!conf.tip, 'tip-mode_hidden');
-    if (this.viewControl) {
-      this.viewControl.switchTip(conf);
+    if (!this.viewControl) {
+      return;
     }
+    this.viewControl.switchTip(conf);
   }
 
   private changeMode(parameter: boolean, modifier: string) {
     const className = `slider-metalamp__wrapper_${modifier}`;
-    if (this.slider) {
-      if (parameter) {
-        this.slider.classList.add(className);
-      } else {
-        this.slider.classList.remove(className);
-      }
+    if (!this.slider) {
+      return;
     }
+    if (parameter) {
+      this.slider.classList.add(className);
+      return;
+    }
+    this.slider.classList.remove(className);
   }
 
   private collectParms() {
@@ -186,10 +203,11 @@ class View extends Observer {
     const attributesArray = Array.from(this.root.attributes);
 
     attributesArray.forEach((element: Attr) => {
-      const a = element.name.replace(/^data-/, '');
-      if (properties.indexOf(a) !== -1) {
-        map.set(a, element.value);
+      const name = element.name.replace(/^data-/, '');
+      if (properties.indexOf(name) === -1) {
+        return;
       }
+      map.set(name, element.value);
     });
 
     map.forEach((value, key) => {
@@ -222,29 +240,33 @@ class View extends Observer {
   }
 
   private createSubViews() {
-    if (this.slider && this.track) {
-      this.viewControl = new ViewControl(this.slider, this.conf);
-      this.viewScale = new ViewScale(this.slider, this.track, this.conf);
-      this.viewBar = new ViewBar(this.slider);
+    if (!this.slider || !this.track) {
+      return;
     }
+    this.viewControl = new ViewControl(this.slider, this.conf);
+    this.viewScale = new ViewScale(this.slider, this.track, this.conf);
+    this.viewBar = new ViewBar(this.slider);
   }
 
   private createListeners() {
-    if (this.viewControl) {
-      this.viewControl.subscribe(this.handleMoveEvent);
-      this.viewControl.subscribe(this.handleKeydownEvent);
+    if (!this.viewControl) {
+      return;
     }
+    this.viewControl.subscribe(this.handleMoveEvent);
+    this.viewControl.subscribe(this.handleKeydownEvent);
   }
 
   private handleMoveEvent = (parms: INotifyParameters) => {
-    if (parms.key !== 'MoveEvent') return;
-
+    if (parms.key !== 'MoveEvent') {
+      return;
+    }
     this.notify('MoveEvent', parms.data);
   };
 
   private handleKeydownEvent = (parms: INotifyParameters) => {
-    if (parms.key !== 'KeydownEvent') return;
-
+    if (parms.key !== 'KeydownEvent') {
+      return;
+    }
     this.notify('KeydownEvent', parms.data);
   };
 }
