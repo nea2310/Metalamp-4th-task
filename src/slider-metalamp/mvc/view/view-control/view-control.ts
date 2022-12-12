@@ -166,16 +166,12 @@ class ViewControl extends Observer {
         target.classList.add('slider-metalamp__control_grabbing');
       }
       const { thumb } = this.data;
-      if (target.classList.contains('slider-metalamp__control')) {
-        const moovingControl = this.defineControl(target);
-        if (typeof moovingControl === 'string') {
-          thumb.moovingControl = moovingControl;
-        }
+      const moovingControl = this.defineControl(target);
+      if (target.classList.contains('slider-metalamp__control') && moovingControl) {
+        thumb.moovingControl = moovingControl;
 
-        if (!this.conf.vertical) {
-          thumb.shiftBase = event.clientX
-            - target.getBoundingClientRect().left;
-        }
+        thumb.shiftBase = this.conf.vertical ? 0
+          : event.clientX - target.getBoundingClientRect().left;
         this.getMetrics(target);
 
         const handlePointerMove = (innerEvent: PointerEvent) => {
@@ -209,21 +205,22 @@ class ViewControl extends Observer {
     const handlePointerStart = (event: KeyboardEvent) => {
       const directions = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
       const result = directions.indexOf(event.code);
-      if (result !== -1) {
-        event.preventDefault();
-        const { target } = event;
-        if (!(target instanceof HTMLElement)) {
-          throw new Error('Cannot handle move outside of DOM');
-        }
-        const { thumb } = this.data;
+      if (result === -1) {
+        return;
+      }
+      event.preventDefault();
+      const { target } = event;
+      if (!(target instanceof HTMLElement)) {
+        throw new Error('Cannot handle move outside of DOM');
+      }
+      const { thumb } = this.data;
 
-        if (target.classList.contains('slider-metalamp__control')) {
-          thumb.moovingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
+      if (target.classList.contains('slider-metalamp__control')) {
+        thumb.moovingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
 
-          thumb.direction = event.code as TDirections;
-          thumb.repeat = event.repeat;
-          this.notify('KeydownEvent', this.data);
-        }
+        thumb.direction = event.code as TDirections;
+        thumb.repeat = event.repeat;
+        this.notify('KeydownEvent', this.data);
       }
     };
     this.slider.addEventListener('keydown', handlePointerStart);
@@ -244,41 +241,37 @@ class ViewControl extends Observer {
         'slider-metalamp__mark',
         'slider-metalamp__frame'];
       const result = [...target.classList].some((className) => array.indexOf(className) !== -1);
-      if (result) {
-        let controlMinDist = 0;
-        let controlMaxDist = 0;
-
-        if (this.controlMin && this.controlMax) {
-          if (this.conf.vertical) {
-            controlMinDist = Math.abs(this.controlMin.getBoundingClientRect()
-              .bottom - event.clientY);
-            controlMaxDist = Math.abs(this.controlMax
-              .getBoundingClientRect().bottom - event.clientY);
-          } else {
-            controlMinDist = Math.abs(this.controlMin.getBoundingClientRect().left
-              - event.clientX);
-            controlMaxDist = Math.abs(this.controlMax
-              .getBoundingClientRect().left
-              - event.clientX);
-          }
-        }
-        if (this.track) {
-          thumb.top = this.track.getBoundingClientRect().top;
-          thumb.left = this.track.getBoundingClientRect().left;
-          thumb.width = Number(this.track.offsetWidth);
-          thumb.height = Number(this.track.offsetHeight);
-          thumb.type = 'pointerdown';
-          thumb.clientX = event.clientX;
-          thumb.clientY = event.clientY;
-        }
-
-        if (this.controlMax && this.controlMax.classList.contains('hidden')) {
-          thumb.moovingControl = 'min';
-        } else {
-          thumb.moovingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
-        }
-        this.notify('MoveEvent', this.data);
+      if (!result) {
+        return;
       }
+      let controlMinDist = 0;
+      let controlMaxDist = 0;
+      const property = this.conf.vertical ? 'bottom' : 'left';
+      const parameter = this.conf.vertical ? 'clientY' : 'clientX';
+
+      if (this.controlMin && this.controlMax) {
+        controlMinDist = Math.abs(this.controlMin
+          .getBoundingClientRect()[property] - event[parameter]);
+        controlMaxDist = Math.abs(this.controlMax
+          .getBoundingClientRect()[property] - event[parameter]);
+      }
+
+      if (this.track) {
+        thumb.top = this.track.getBoundingClientRect().top;
+        thumb.left = this.track.getBoundingClientRect().left;
+        thumb.width = Number(this.track.offsetWidth);
+        thumb.height = Number(this.track.offsetHeight);
+        thumb.type = 'pointerdown';
+        thumb.clientX = event.clientX;
+        thumb.clientY = event.clientY;
+      }
+
+      if (this.controlMax && this.controlMax.classList.contains('hidden')) {
+        thumb.moovingControl = 'min';
+      } else {
+        thumb.moovingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
+      }
+      this.notify('MoveEvent', this.data);
     };
     this.slider.addEventListener('pointerdown', handlePointerStart);
   }

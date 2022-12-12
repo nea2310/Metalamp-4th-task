@@ -10,13 +10,6 @@ class ViewBar {
     this.render();
   }
 
-  private render() {
-    this.track = ViewBar.getElement(this.slider, '.slider-metalamp__track') as HTMLElement;
-    this.progressBar = document.createElement('div');
-    this.progressBar.className = 'slider-metalamp__progress-bar';
-    this.track.append(this.progressBar);
-  }
-
   static getElement(object: HTMLElement, selector: string) {
     return object.querySelector(selector);
   }
@@ -29,24 +22,28 @@ class ViewBar {
   ) {
     let position = 0;
     let length = fromPosition;
+
     if (isRange) {
       position = fromPosition;
       length = toPosition - fromPosition;
     }
-    if (this.progressBar) {
-      const { style } = this.progressBar;
-      if (!isVertical) {
-        style.left = `${position}%`;
-        style.width = `${length}%`;
-        style.bottom = '';
-        style.height = '';
-      } else {
-        style.bottom = `${position}%`;
-        style.height = `${length}%`;
-        style.left = '';
-        style.width = '';
-      }
+
+    if (!this.progressBar) {
+      return;
     }
+
+    const { style } = this.progressBar;
+    style.left = isVertical ? '' : `${position}%`;
+    style.width = isVertical ? '' : `${length}%`;
+    style.bottom = isVertical ? `${position}%` : '';
+    style.height = isVertical ? `${length}%` : '';
+  }
+
+  private render() {
+    this.track = ViewBar.getElement(this.slider, '.slider-metalamp__track') as HTMLElement;
+    this.progressBar = document.createElement('div');
+    this.progressBar.className = 'slider-metalamp__progress-bar';
+    this.track.append(this.progressBar);
   }
 }
 

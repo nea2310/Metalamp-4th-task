@@ -55,11 +55,11 @@ class ViewScale {
         element.classList.add(modifier);
 
         this.track.appendChild(element);
-        const elementStyle = conf.vertical ? 'bottom' : 'left';
-        const labelStyle = conf.vertical ? 'top' : 'left';
+        const elementProperty = conf.vertical ? 'bottom' : 'left';
+        const labelProperty = conf.vertical ? 'top' : 'left';
         const value = conf.vertical ? label.offsetHeight : label.offsetWidth;
-        element.style[elementStyle] = `${String(node.position)}%`;
-        label.style[labelStyle] = `${(value / 2) * (-1)}px`;
+        element.style[elementProperty] = `${String(node.position)}%`;
+        label.style[labelProperty] = `${(value / 2) * (-1)}px`;
       });
 
       this.markList = [...this.track.querySelectorAll('.js-slider-metalamp__mark')];
