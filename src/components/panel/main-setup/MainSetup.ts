@@ -1,4 +1,4 @@
-import { IConfIndexed } from '../../../slider-metalamp/mvc/interface';
+import { IConf } from '../../../slider-metalamp/mvc/interface';
 import PanelObserver from '../PanelObserver';
 
 type AllowedTypes = 'input' | 'toggle';
@@ -30,7 +30,7 @@ class MainSetup extends PanelObserver {
     this.addEventListeners();
   }
 
-  public update(data: IConfIndexed) {
+  public update(data: { [key: string]: unknown } & IConf) {
     this.optionObjects.forEach((optionObject) => {
       const item = optionObject;
       const usageType = optionObject.className.match(/usage_\S*/);

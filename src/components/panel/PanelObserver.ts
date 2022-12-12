@@ -6,11 +6,11 @@ export default abstract class PanelObserver {
   }
 
   public subscribe(observer: Function) {
-    if (!this.observers.includes(observer)) {
-      this.observers.push(observer);
-      return this.observers;
+    if (this.observers.includes(observer)) {
+      return undefined;
     }
-    return false;
+    this.observers.push(observer);
+    return this.observers;
   }
 
   public unsubscribe(observer: Function) {

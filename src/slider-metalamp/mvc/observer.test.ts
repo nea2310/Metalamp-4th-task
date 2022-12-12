@@ -9,7 +9,7 @@ describe('Observer - subscribe, unsubscribe, fire', () => {
     const cb2 = () => true;
     expect(ob.subscribe(cb1)).toEqual([cb1]);
     expect(ob.subscribe(cb2)).toEqual([cb1, cb2]);
-    expect(ob.subscribe(cb2)).toBe(false);
+    expect(ob.subscribe(cb2)).toBe(null);
   });
 
   test('unsubscribe', () => {

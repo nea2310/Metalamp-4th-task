@@ -1,4 +1,4 @@
-import { IConfIndexed } from '../../slider-metalamp/mvc/interface';
+import { IConf } from '../../slider-metalamp/mvc/interface';
 import Toggle from '../toggle/Toggle';
 import Radiobuttons from '../radiobuttons/Radiobuttons';
 import ScaleSetup from './scale-setup/ScaleSetup';
@@ -26,13 +26,12 @@ class Panel extends PanelObserver {
     this.render();
   }
 
-  public update(data: IConfIndexed) {
+  public update(data: IConf) {
     if (!this.isSubscribed || this.isDestroyed) return;
     this.optionObjects.forEach((option) => {
       if (!(option instanceof ActionsSetup)) {
         option.update(data);
       }
-      return true;
     });
   }
 

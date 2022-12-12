@@ -80,19 +80,21 @@ class ViewControl extends Observer {
       elem.style.bottom = '';
     }
 
-    if (!this.tipMin || !this.tipMax) return false;
+    if (!this.tipMin || !this.tipMax) {
+      return;
+    }
     if (this.defineControl(elem) === 'min') {
       this.tipMin.style.left = ViewControl.calcTipPos(this.conf.vertical, this.tipMin);
     } else {
       this.tipMax.style.left = ViewControl.calcTipPos(this.conf.vertical, this.tipMax);
     }
-    return true;
   }
 
   public updateVal(value: string, isFrom: boolean) {
-    if (!this.tipMin || !this.tipMax) return false;
+    if (!this.tipMin || !this.tipMax) {
+      return;
+    }
     if (isFrom) { this.tipMin.innerText = value; } else { this.tipMax.innerText = value; }
-    return true;
   }
 
   public updateInput(conf: IConfFull) {
@@ -140,9 +142,10 @@ class ViewControl extends Observer {
     this.conf = conf;
   }
 
-  private defineControl = (elem: ITarget): 'min' | 'max' | false => {
-    if (!elem.classList) return false;
-
+  private defineControl = (elem: ITarget): 'min' | 'max' | null => {
+    if (!elem.classList) {
+      return null;
+    }
     return elem.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
   };
 

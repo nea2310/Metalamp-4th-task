@@ -17,21 +17,23 @@ class Radiobuttons {
   }
 
   private addEventListeners() {
-    if (!this.radioMarks) return false;
+    if (!this.radioMarks) {
+      return;
+    }
     this.radioMarks.forEach((radioMark) => radioMark.addEventListener('keydown', this.handleCheckMarkKeydown));
-    return true;
   }
 
   private handleCheckMarkKeydown = (event: KeyboardEvent) => {
     const target = event.target as HTMLInputElement;
     const parent = target.closest(`.js-${this.elementName}__category`);
-    if (!parent || event.code === 'Tab') return false;
+    if (!parent || event.code === 'Tab') {
+      return;
+    }
     const radiobuttonHidden = parent.querySelector(`.js-${this.elementName}__category-checkbox`) as HTMLInputElement;
     event.preventDefault();
     if (event.code === 'Space' && target.previousElementSibling) {
       radiobuttonHidden.click();
     }
-    return true;
   };
 }
 

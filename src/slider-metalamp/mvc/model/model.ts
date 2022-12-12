@@ -87,13 +87,10 @@ class Model extends Observer {
       const [key, value] = element;
       if (numbers.includes(key)) {
         validatePropertyValue(key, value, validateNumber);
-        return true;
       }
       if (booleans.includes(key)) {
         validatePropertyValue(key, value, validateBoolean);
-        return true;
       }
-      return true;
     });
 
     const checkValue = (type: string, value: number) => {
@@ -568,10 +565,10 @@ class Model extends Observer {
               this.onUpdate = newConf.onUpdate;
             }
             break;
-          default: return true;
+          default: return null;
         }
       }
-      return true;
+      return null;
     });
     return this.methods;
   }

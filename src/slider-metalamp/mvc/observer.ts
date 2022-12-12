@@ -9,11 +9,11 @@ export default abstract class Observer {
   }
 
   public subscribe(observer: Function) {
-    if (!this.observers.includes(observer)) {
-      this.observers.push(observer);
-      return this.observers;
+    if (this.observers.includes(observer)) {
+      return null;
     }
-    return false;
+    this.observers.push(observer);
+    return this.observers;
   }
 
   public unsubscribe(observer: Function) {

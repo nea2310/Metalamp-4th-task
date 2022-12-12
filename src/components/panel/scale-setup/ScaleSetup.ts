@@ -1,4 +1,4 @@
-import { IConfIndexed } from '../../../slider-metalamp/mvc/interface';
+import { IConf } from '../../../slider-metalamp/mvc/interface';
 import PanelObserver from '../PanelObserver';
 
 type AllowedTypes = 'input' | 'toggle' | 'radiobuttons';
@@ -39,7 +39,7 @@ class ScaleSetup extends PanelObserver {
     this.addEventListeners();
   }
 
-  public update(data: IConfIndexed) {
+  public update(data: { [key: string]: unknown } & IConf) {
     const switchOption = (option: 'step' | 'interval' = 'step') => {
       if (option === 'step') {
         this.optionStep.disabled = false;

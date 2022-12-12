@@ -36,11 +36,12 @@ class RangeSlider {
     this.slider = RangeSlider.getElement(this.wrapper, `.js-${this.sliderSelector}`);
     this.sliderWrapper = RangeSlider.getElement(this.wrapper, `.js-${this.rootSelector}__${this.sliderSelector}`);
     this.panelWrapper = this.wrapper.querySelector(`.js-${this.rootSelector}__panel`);
-    if (!this.panelWrapper) return false;
+    if (!this.panelWrapper) {
+      return;
+    }
     this.panel = new Panel(this.panelWrapper);
     this.panel.subscribe(this.handlePanelChange);
     this.rangeSlider = this.createSlider(this.slider);
-    return true;
   }
 
   private createSlider(element: HTMLElement) {
@@ -102,7 +103,7 @@ class RangeSlider {
         из модели и обновить панель, т.к. в панель могли быть введены недопустимые данные, которые
          были затем изменены в модели при валидации. Их надо скорректировать и в панели */
         const dataObject = this.rangeSlider ? this.rangeSlider.getData() : {};
-        if (this.panel) this.panel.update(dataObject);
+        if (this.panel && dataObject) this.panel.update(dataObject);
       }
     }
   };
@@ -132,7 +133,7 @@ class RangeSlider {
     /* дожидаемся, когда вернется объект data из модели, иначе update вызывается
     с некорректными данными */
     const data = await this.rangeSlider.getData();
-    if (this.panel) this.panel.update(data);
+    if (this.panel && data) this.panel.update(data);
   }
 
   private destroySlider(isDestroyed = false, slider = this.slider) {

@@ -20,9 +20,10 @@ class Toggle {
   }
 
   private addEventListeners() {
-    if (!this.checkMark) return false;
+    if (!this.checkMark) {
+      return;
+    }
     this.checkMark.addEventListener('keydown', this.handleCheckMarkKeydown);
-    return true;
   }
 
   private handleCheckMarkKeydown = (event: KeyboardEvent) => {
