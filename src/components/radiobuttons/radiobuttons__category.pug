@@ -1,0 +1,19 @@
+mixin radiobuttons__category(options = {})
+  -
+    const {
+      radioGroupName = '',
+      name = '',
+      usage = '',
+      checked = false
+    } = options;
+
+    const blockName = 'radiobuttons';
+    const elementName = 'category';
+
+  li(class=`${blockName}__${elementName} js-${blockName}__${elementName}`)
+    label(class=`${blockName}__${elementName}-label`)
+      input(class=`${blockName}__${elementName}-checkbox js-${blockName}__${elementName}-checkbox 
+      ${blockName}__${elementName}-checkbox_usage_${usage} js-${blockName}__${elementName}-checkbox_usage_${usage}`
+        type="radio" name=radioGroupName value=name checked=checked tabindex="-1")
+      span(class=`${blockName}__${elementName}-radiomark js-${blockName}__${elementName}-radiomark` tabindex="0")
+      span(class=`${blockName}__${elementName}-name`)= name

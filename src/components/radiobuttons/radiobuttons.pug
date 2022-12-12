@@ -1,4 +1,4 @@
-include ../category/category.pug
+include ./radiobuttons__category.pug
 
 mixin radiobuttons(options = {})
   -
@@ -14,4 +14,4 @@ mixin radiobuttons(options = {})
     ul(class=`${elementName}__list`)
       if Array.isArray(categories) && categories.length
         each value in categories
-          +category({...value, radioGroupName})
+          +radiobuttons__category({...value, radioGroupName})
