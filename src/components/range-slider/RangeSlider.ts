@@ -47,7 +47,7 @@ class RangeSlider {
   private createSlider(element: HTMLElement) {
     const rangeSlider = $(element).SliderMetaLamp({
       onStart: (data: IConf) => {
-        this.displayData(data);
+        this.changeData(data);
       },
       onUpdate: (data: IConf) => {
         this.updateData(data);
@@ -57,10 +57,6 @@ class RangeSlider {
       },
     }).data('SliderMetaLamp');
     return rangeSlider;
-  }
-
-  private displayData(data: IConf) {
-    if (this.panel) this.panel.update(data);
   }
 
   private updateData = (data: IConf) => {

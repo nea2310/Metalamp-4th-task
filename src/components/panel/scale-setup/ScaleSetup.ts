@@ -3,51 +3,42 @@ import PanelObserver from '../PanelObserver';
 
 type AllowedTypes = 'input' | 'toggle' | 'radiobuttons';
 
+const OPTIONS: Array<[string, AllowedTypes]> = [
+  ['scale', 'toggle'],
+  ['interval', 'input'],
+  ['step', 'input'],
+  ['scaleBaseStep', 'radiobuttons'],
+  ['scaleBaseInterval', 'radiobuttons'],
+];
+
 class ScaleSetup extends PanelObserver {
   private optionObjects: Array<HTMLInputElement> = [];
 
-  private options: Array<[string, AllowedTypes]>;
-
   private wrapper: HTMLElement;
 
-  private optionInterval: HTMLInputElement;
+  private optionInterval: HTMLInputElement | null = null;
 
-  private optionStep: HTMLInputElement;
+  private optionStep: HTMLInputElement | null = null;
 
-  private scaleBaseSteps: HTMLInputElement;
+  private scaleBaseSteps: HTMLInputElement | null = null;
 
-  private scaleBaseIntervals: HTMLInputElement;
+  private scaleBaseIntervals: HTMLInputElement | null = null;
 
   constructor(element: HTMLElement) {
     super();
     this.wrapper = element;
-    this.options = [
-      ['scale', 'toggle'],
-      ['interval', 'input'],
-      ['step', 'input'],
-      ['scaleBaseStep', 'radiobuttons'],
-      ['scaleBaseInterval', 'radiobuttons'],
-    ];
-
-    this.optionInterval = this.getElement('interval');
-    this.optionStep = this.getElement('step');
-    this.scaleBaseSteps = this.getElement('scaleBaseStep', 'radiobuttons');
-    this.scaleBaseIntervals = this.getElement('scaleBaseInterval', 'radiobuttons');
-
     this.render();
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.bindEventListeners();
     this.addEventListeners();
   }
 
   public update(data: { [key: string]: unknown } & IConf) {
     const switchOption = (option: 'step' | 'interval' = 'step') => {
-      if (option === 'step') {
-        this.optionStep.disabled = false;
-        this.optionInterval.disabled = true;
-      } else {
-        this.optionStep.disabled = true;
-        this.optionInterval.disabled = false;
+      if (!this.optionStep || !this.optionInterval) {
+        return;
       }
+      this.optionStep.disabled = (option === 'interval');
+      this.optionInterval.disabled = (option === 'step');
     };
 
     this.optionObjects.forEach((optionObject) => {
@@ -58,12 +49,12 @@ class ScaleSetup extends PanelObserver {
       item.value = String(data[type]);
     });
 
-    if (data.scaleBase === 'interval') {
+    if (data.scaleBase === 'interval' && this.scaleBaseIntervals) {
       this.scaleBaseIntervals.checked = true;
       switchOption('interval');
     }
 
-    if (data.scaleBase === 'step') {
+    if (data.scaleBase === 'step' && this.scaleBaseSteps) {
       this.scaleBaseSteps.checked = true;
       switchOption();
     }
@@ -81,10 +72,14 @@ class ScaleSetup extends PanelObserver {
     this.optionStep = this.getElement('step');
     this.scaleBaseSteps = this.getElement('scaleBaseStep', 'radiobuttons');
     this.scaleBaseIntervals = this.getElement('scaleBaseInterval', 'radiobuttons');
-    this.options.forEach((option) => {
+    OPTIONS.forEach((option) => {
       const [key, value] = option;
       this.prepareElement(key, value);
     });
+  }
+
+  private bindEventListeners() {
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   private addEventListeners() {
@@ -93,11 +88,13 @@ class ScaleSetup extends PanelObserver {
 
   private handleInputChange(event: Event) {
     const target = event.target as HTMLInputElement;
-    let notificationText = (target.type === 'text') ? target.value : target.checked;
     const usageType = target.className.match(/usage_\S*/);
+
+    let notificationText = (target.type === 'text') ? target.value : target.checked;
     let type = usageType ? usageType[0].replace('usage_', '') : '';
+
     if (type === 'scaleBaseInterval' || type === 'scaleBaseStep') {
-      notificationText = type.substr(9).toLowerCase();
+      notificationText = type.slice(9).toLowerCase();
       type = 'scaleBase';
     }
     this.notify(type, notificationText);

@@ -9,7 +9,7 @@ class ActionsSetup extends PanelObserver {
     super();
     this.wrapper = element;
     this.render();
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.bindEventListeners();
     this.addEventListeners();
   }
 
@@ -25,6 +25,10 @@ class ActionsSetup extends PanelObserver {
 
   private getElement(selector: string) {
     return this.wrapper.querySelector(`.js-toggle__checkbox_usage_${selector}`) as HTMLInputElement;
+  }
+
+  private bindEventListeners() {
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   private addEventListeners() {

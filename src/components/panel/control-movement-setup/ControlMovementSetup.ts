@@ -3,23 +3,22 @@ import PanelObserver from '../PanelObserver';
 
 type AllowedTypes = 'input' | 'toggle';
 
+const OPTIONS: Array<[string, AllowedTypes]> = [
+  ['shiftOnKeyDown', 'input'],
+  ['shiftOnKeyHold', 'input'],
+  ['sticky', 'toggle'],
+];
+
 class ControlMovementSetup extends PanelObserver {
   private optionObjects: Array<HTMLInputElement> = [];
-
-  private options: Array<[string, AllowedTypes]>;
 
   private wrapper: HTMLElement;
 
   constructor(element: HTMLElement) {
     super();
     this.wrapper = element;
-    this.options = [
-      ['shiftOnKeyDown', 'input'],
-      ['shiftOnKeyHold', 'input'],
-      ['sticky', 'toggle'],
-    ];
     this.render();
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.bindEventListeners();
     this.addEventListeners();
   }
 
@@ -41,10 +40,14 @@ class ControlMovementSetup extends PanelObserver {
   }
 
   private render() {
-    this.options.forEach((option) => {
+    OPTIONS.forEach((option) => {
       const [key, value] = option;
       this.prepareElement(key, value);
     });
+  }
+
+  private bindEventListeners() {
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   private addEventListeners() {

@@ -3,10 +3,19 @@ import PanelObserver from '../PanelObserver';
 
 type AllowedTypes = 'input' | 'toggle';
 
+const OPTIONS: Array<[string, AllowedTypes]> = [
+  ['min', 'input'],
+  ['max', 'input'],
+  ['from', 'input'],
+  ['to', 'input'],
+  ['vertical', 'toggle'],
+  ['range', 'toggle'],
+  ['bar', 'toggle'],
+  ['tip', 'toggle'],
+];
+
 class MainSetup extends PanelObserver {
   private optionObjects: Array<HTMLInputElement> = [];
-
-  private options: Array<[string, AllowedTypes]>;
 
   private wrapper: HTMLElement;
 
@@ -15,18 +24,8 @@ class MainSetup extends PanelObserver {
   constructor(element: HTMLElement) {
     super();
     this.wrapper = element;
-    this.options = [
-      ['min', 'input'],
-      ['max', 'input'],
-      ['from', 'input'],
-      ['to', 'input'],
-      ['vertical', 'toggle'],
-      ['range', 'toggle'],
-      ['bar', 'toggle'],
-      ['tip', 'toggle'],
-    ];
     this.render();
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.bindEventListeners();
     this.addEventListeners();
   }
 
@@ -53,10 +52,14 @@ class MainSetup extends PanelObserver {
 
   private render() {
     this.optionTo = this.getElement('to');
-    this.options.forEach((option) => {
+    OPTIONS.forEach((option) => {
       const [key, value] = option;
       this.prepareElement(key, value);
     });
+  }
+
+  private bindEventListeners() {
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   private addEventListeners() {
