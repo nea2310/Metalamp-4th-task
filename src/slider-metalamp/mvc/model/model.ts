@@ -573,11 +573,13 @@ class Model extends Observer {
     return this.methods;
   }
 
-  private async switchVertical() {
-    await this.notify('IsVertical', this.data, this.conf);
-    this.calcFromPosition();
-    this.calcToPosition();
-    this.calcScaleMarks();
+  private switchVertical() {
+    this.notify('IsVertical', this.data, this.conf);
+    setTimeout(() => {
+      this.calcFromPosition();
+      this.calcToPosition();
+      this.calcScaleMarks();
+    });
   }
 
   private switchRange() {

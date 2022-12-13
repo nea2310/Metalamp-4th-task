@@ -119,17 +119,13 @@ class RangeSlider {
     }
   }
 
-  private async disableSlider(isDisabled = false) {
+  private disableSlider(isDisabled = false) {
     if (!this.rangeSlider) return;
     if (isDisabled) {
       this.rangeSlider.disable();
       return;
     }
     this.rangeSlider.enable();
-    /* дожидаемся, когда вернется объект data из модели, иначе update вызывается
-    с некорректными данными */
-    const data = await this.rangeSlider.getData();
-    if (this.panel && data) this.panel.update(data);
   }
 
   private destroySlider(isDestroyed = false, slider = this.slider) {
