@@ -87,7 +87,7 @@ describe('ViewScale', () => {
     expect(viewControl.observers).toHaveLength(2);
   });
 
-  test('updateFromPos', async () => {
+  test('updateFromPos', () => {
     testView.updateFromPos(data, conf);
     expect(updatePosSpy).toBeCalledTimes(1);
     expect(updatePosSpy).toBeCalledWith(viewControl.controlMin, 10);
@@ -158,7 +158,7 @@ describe('ViewScale', () => {
     ], { ...conf, vertical: true });
   });
 
-  test('switchTip', async () => {
+  test('switchTip', () => {
     const switchTipSpy = jest.spyOn(testViewControl, 'switchTip');
     testView.switchTip({ ...conf, tip: false });
     expect(switchTipSpy).toBeCalledTimes(1);

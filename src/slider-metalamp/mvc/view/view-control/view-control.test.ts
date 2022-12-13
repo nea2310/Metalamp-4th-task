@@ -87,30 +87,30 @@ const tipMax = getElem('slider-metalamp__tip-max');
 const track = getElem('slider-metalamp__track');
 
 describe('apply styles on calling ViewControl method', () => {
-  test('updatePos', async () => {
+  test('updatePos', () => {
     expect(controlMax)
       .toHaveProperty('style.left', '66.66666666666667%');
     expect(controlMax)
       .toHaveProperty('style.bottom', '');
 
-    await testViewControl.updatePos(controlMax, 50);
+    testViewControl.updatePos(controlMax, 50);
 
     expect(controlMax).toHaveProperty('style.left', '50%');
     expect(controlMax).toHaveProperty('style.bottom', '');
   });
 
-  test('change tip inner text on calling updateVal method', async () => {
+  test('change tip inner text on calling updateVal method', () => {
     expect(tipMin.innerText).toBe('20');
     expect(tipMax.innerText).toBe('70');
-    await testViewControl.updateVal('25', true);
-    await testViewControl.updateVal('30', false);
+    testViewControl.updateVal('25', true);
+    testViewControl.updateVal('30', false);
     expect(tipMin.innerText).toBe('25');
     expect(tipMax.innerText).toBe('30');
   });
 
-  test('update input value on calling updateInput method', async () => {
+  test('update input value on calling updateInput method', () => {
     expect(parent.value).toBe('20, 70');
-    await testViewControl.updateInput({
+    testViewControl.updateInput({
       min: 10,
       max: 100,
       from: 25,

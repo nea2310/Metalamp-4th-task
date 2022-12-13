@@ -41,9 +41,9 @@ const TestController = prepareInstance(conf);
 describe('controller', () => {
   test(
     'gets data from model on calling API method "getData"',
-    async () => {
+    () => {
       const getDataSpy = jest.spyOn(TestController.model as Model, 'getData');
-      await expect(TestController.getData()).toEqual({
+      expect(TestController.getData()).toEqual({
         bar: true,
         from: 20,
         interval: 9,
@@ -77,12 +77,12 @@ describe('controller', () => {
 
   test(
     'removes Observer listeners on calling API method "disable"',
-    async () => {
+    () => {
       const model = TestController.model as Model;
       const view = TestController.view as View;
       expect(model.observers).toHaveLength(10);
       expect(view.observers).toHaveLength(2);
-      await TestController.disable();
+      TestController.disable();
       expect(model.observers).toHaveLength(0);
       expect(view.observers).toHaveLength(0);
     },
@@ -90,12 +90,12 @@ describe('controller', () => {
 
   test(
     're_orientation_verticals Observer listeners back on calling API method "enable"',
-    async () => {
+    () => {
       const model = TestController.model as Model;
       const view = TestController.view as View;
       expect(model.observers).toHaveLength(0);
       expect(view.observers).toHaveLength(0);
-      await TestController.enable();
+      TestController.enable();
       expect(model.observers).toHaveLength(10);
       expect(view.observers).toHaveLength(2);
     },
@@ -103,10 +103,10 @@ describe('controller', () => {
 
   test(
     'destroys slider instance on calling API method "destroy"',
-    async () => {
+    () => {
       expect(TestController.model).toBeDefined();
       expect(TestController.view).toBeDefined();
-      await TestController.destroy();
+      TestController.destroy();
       expect(TestController.model).toBeNull();
       expect(TestController.view).toBeNull();
     },

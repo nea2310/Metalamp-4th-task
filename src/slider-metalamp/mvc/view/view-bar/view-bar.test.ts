@@ -11,7 +11,7 @@ const progressBar = document
   .getElementsByClassName('slider-metalamp__progress-bar')[0] as HTMLElement;
 
 describe('ViewControl', () => {
-  test('apply styles on calling updateBar method', async () => {
+  test('apply styles on calling updateBar method', () => {
     expect(progressBar)
       .toHaveProperty('style.left', '');
     expect(progressBar)
@@ -21,7 +21,7 @@ describe('ViewControl', () => {
     expect(progressBar)
       .toHaveProperty('style.height', '');
 
-    await testBar.updateBar(50, 100, true, false);
+    testBar.updateBar(50, 100, true, false);
 
     expect(progressBar)
       .toHaveProperty('style.left', '50%');
@@ -31,7 +31,7 @@ describe('ViewControl', () => {
       .toHaveProperty('style.bottom', '');
     expect(progressBar)
       .toHaveProperty('style.height', '');
-    await testBar.updateBar(50, 100, true, true);
+    testBar.updateBar(50, 100, true, true);
 
     expect(progressBar)
       .toHaveProperty('style.left', '');

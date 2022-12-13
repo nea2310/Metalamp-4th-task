@@ -2,7 +2,7 @@ import { IConf } from '../interface';
 import Model from './model';
 
 describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () => {
-  test('calcPositionSetByPointer, no Sticky', async () => {
+  test('calcPositionSetByPointer, no Sticky', () => {
     const conf: IConf = {
       min: 10,
       max: 100,
@@ -107,7 +107,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
       .toBe('newPosition > toPosition');
   });
 
-  test('calcpos, sticky', async () => {
+  test('calcpos, sticky', () => {
     const conf: IConf = {
       min: 10,
       max: 100,
@@ -216,7 +216,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
   test(
     'calcPositionSetByKey, no Sticky',
 
-    async () => {
+    () => {
       const conf: IConf = {
         min: 10,
         max: 100,
@@ -228,8 +228,8 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         shiftOnKeyHold: 2,
       };
       const testModel = new Model(conf);
-      await testModel.getConf(conf);
-      await testModel.start();
+      testModel.getConf(conf);
+      testModel.start();
 
       expect(testModel.calcPositionSetByKey(
         {
@@ -267,7 +267,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
       ))
         .toBe(100);
 
-      await testModel.update({ from: 70, to: 70 });
+      testModel.update({ from: 70, to: 70 });
 
       expect(testModel.calcPositionSetByKey(
         {
@@ -325,7 +325,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 
   test(
     'calcPositionSetByKey, Sticky',
-    async () => {
+    () => {
       const conf: IConf = {
         min: 10,
         max: 100,
@@ -376,7 +376,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
       ))
         .toBe('newPosition>100');
 
-      await testModel.update({ from: 70, to: 70 });
+      testModel.update({ from: 70, to: 70 });
 
       expect(testModel.calcPositionSetByKey(
         {
@@ -456,21 +456,21 @@ describe('model, values correction on API method "update" processing', () => {
   const testModel = new Model(conf);
   testModel.getConf(conf);
   testModel.start();
-  test('shiftOnKeyDown <= 0', async () => {
+  test('shiftOnKeyDown <= 0', () => {
     expect(testModel.update({ shiftOnKeyDown: 0 }).shiftOnKeyDown)
       .toBe(1);
     expect(testModel.update({ shiftOnKeyDown: -10 }).shiftOnKeyDown)
       .toBe(1);
   });
 
-  test('shiftOnKeyHold <= 0', async () => {
+  test('shiftOnKeyHold <= 0', () => {
     expect(testModel.update({ shiftOnKeyHold: 0 }).shiftOnKeyHold)
       .toBe(1);
     expect(testModel.update({ shiftOnKeyHold: -10 }).shiftOnKeyHold)
       .toBe(1);
   });
 
-  test('conf.max <= conf.min', async () => {
+  test('conf.max <= conf.min', () => {
     expect(testModel.update({ min: 10, max: 0 }).from)
       .toBe(10);
     expect(testModel.update({ min: 10, max: 0 }).to)
@@ -479,14 +479,14 @@ describe('model, values correction on API method "update" processing', () => {
       .toBe(20);
   });
 
-  test('conf.from < conf.min', async () => {
+  test('conf.from < conf.min', () => {
     expect(testModel.update({ from: 10, min: 20 }).from)
       .toBe(20);
     expect(testModel.update({ from: 10, min: 20 }).min)
       .toBe(20);
   });
 
-  test('conf.to < conf.min', async () => {
+  test('conf.to < conf.min', () => {
     expect(testModel.update({ to: 10, min: 20 }).from)
       .toBe(20);
     expect(testModel.update({ to: 10, min: 20 }).to)
@@ -495,7 +495,7 @@ describe('model, values correction on API method "update" processing', () => {
       .toBe(20);
   });
 
-  test('!conf.range && conf.to > conf.max', async () => {
+  test('!conf.range && conf.to > conf.max', () => {
     expect(testModel.update({ to: 20, max: 10, range: false }).from)
       .toBe(20);
     expect(testModel.update({ to: 20, max: 10, range: false }).to)
@@ -504,7 +504,7 @@ describe('model, values correction on API method "update" processing', () => {
       .toBe(30);
   });
 
-  test('conf.range && conf.to > conf.max', async () => {
+  test('conf.range && conf.to > conf.max', () => {
     expect(testModel.update({ to: 20, max: 10, range: true }).from)
       .toBe(20);
     expect(testModel.update({ to: 20, max: 10, range: true }).to)
@@ -513,7 +513,7 @@ describe('model, values correction on API method "update" processing', () => {
       .toBe(30);
   });
 
-  test('conf.range && conf.from > conf.max', async () => {
+  test('conf.range && conf.from > conf.max', () => {
     expect(testModel.update({ from: 20, max: 10, range: true }).from)
       .toBe(20);
     expect(testModel.update({ from: 20, max: 10, range: true }).to)
@@ -522,7 +522,7 @@ describe('model, values correction on API method "update" processing', () => {
       .toBe(30);
   });
 
-  test('!conf.range && conf.from > conf.max', async () => {
+  test('!conf.range && conf.from > conf.max', () => {
     expect(testModel.update({ from: 20, max: 10, range: false }).from)
       .toBe(20);
     expect(testModel.update({ from: 20, max: 10, range: false }).to)
@@ -531,7 +531,7 @@ describe('model, values correction on API method "update" processing', () => {
       .toBe(30);
   });
 
-  test('conf.range && conf.from > conf.to', async () => {
+  test('conf.range && conf.from > conf.to', () => {
     expect(testModel.update({ from: 20, to: 10, range: true }).from)
       .toBe(20);
     expect(testModel.update({ from: 20, to: 10, range: true }).to)
@@ -540,14 +540,14 @@ describe('model, values correction on API method "update" processing', () => {
       .toBe(20);
   });
 
-  test('conf.step <= 0', async () => {
+  test('conf.step <= 0', () => {
     expect(testModel.update({ step: 0 }).step)
       .toBe(5);
     expect(testModel.update({ step: -10 }).step)
       .toBe(5);
   });
 
-  test('conf.interval <= 0', async () => {
+  test('conf.interval <= 0', () => {
     expect(testModel.update({ interval: 0 }).interval)
       .toBe(2);
     expect(testModel.update({ interval: -10 }).interval)
@@ -580,7 +580,7 @@ describe('model, API method "update" processing', () => {
     onUpdate,
   };
 
-  test('update min, max, from, to, step', async () => {
+  test('update min, max, from, to, step', () => {
     const dataEnd = {
       bar: true,
       from: -50,
@@ -628,9 +628,9 @@ describe('model, API method "update" processing', () => {
         width: 0,
       },
     };
-    const testModel = await new Model(conf);
-    await testModel.getConf(conf);
-    await testModel.start();
+    const testModel = new Model(conf);
+    testModel.getConf(conf);
+    testModel.start();
     expect(testModel.update({
       min: -100,
       max: 200,
@@ -640,50 +640,50 @@ describe('model, API method "update" processing', () => {
     })).toEqual(dataEnd);
   });
 
-  test('switch vertical', async () => {
-    const testModel = await new Model(conf);
-    await testModel.getConf(conf);
-    await testModel.start();
+  test('switch vertical', () => {
+    const testModel = new Model(conf);
+    testModel.getConf(conf);
+    testModel.start();
     expect(testModel.update({ vertical: true }).vertical)
       .toBe(true);
   });
 
-  test('switch range', async () => {
-    const testModel = await new Model(conf);
-    await testModel.getConf(conf);
-    await testModel.start();
+  test('switch range', () => {
+    const testModel = new Model(conf);
+    testModel.getConf(conf);
+    testModel.start();
     expect(testModel.update({ range: false }).range)
       .toBe(false);
   });
 
-  test('switch bar', async () => {
-    const testModel = await new Model(conf);
-    await testModel.getConf(conf);
-    await testModel.start();
+  test('switch bar', () => {
+    const testModel = new Model(conf);
+    testModel.getConf(conf);
+    testModel.start();
     expect(testModel.update({ bar: false }).bar)
       .toBe(false);
   });
 
-  test('switch tip', async () => {
-    const testModel = await new Model(conf);
-    await testModel.getConf(conf);
-    await testModel.start();
+  test('switch tip', () => {
+    const testModel = new Model(conf);
+    testModel.getConf(conf);
+    testModel.start();
     expect(testModel.update({ tip: false }).tip)
       .toBe(false);
   });
 
-  test('switch scale', async () => {
-    const testModel = await new Model(conf);
-    await testModel.getConf(conf);
-    await testModel.start();
+  test('switch scale', () => {
+    const testModel = new Model(conf);
+    testModel.getConf(conf);
+    testModel.start();
     expect(testModel.update({ scale: false }).scale)
       .toBe(false);
   });
 
-  test('update scaleBase and interval', async () => {
-    const testModel = await new Model(conf);
-    await testModel.getConf(conf);
-    await testModel.start();
+  test('update scaleBase and interval', () => {
+    const testModel = new Model(conf);
+    testModel.getConf(conf);
+    testModel.start();
     expect(testModel.update({ scaleBase: 'interval' })
       .scaleBase).toBe('interval');
     expect(testModel.update({ interval: 2 })
@@ -693,26 +693,26 @@ describe('model, API method "update" processing', () => {
       { value: 100, position: 100 }]);
   });
 
-  test('update isSticky', async () => {
-    const testModel = await new Model(conf);
-    await testModel.getConf(conf);
-    await testModel.start();
+  test('update isSticky', () => {
+    const testModel = new Model(conf);
+    testModel.getConf(conf);
+    testModel.start();
     expect(testModel.update({ sticky: true })
       .sticky).toBe(true);
   });
 
-  test('round interval value', async () => {
-    const testModel = await new Model(conf);
-    await testModel.getConf(conf);
-    await testModel.start();
+  test('round interval value', () => {
+    const testModel = new Model(conf);
+    testModel.getConf(conf);
+    testModel.start();
     expect(testModel.update({ step: 30 })
       .intervalValue).toBe('4');
   });
 
-  test('round step value', async () => {
-    const testModel = await new Model(conf);
-    await testModel.getConf(conf);
-    await testModel.start();
+  test('round step value', () => {
+    const testModel = new Model(conf);
+    testModel.getConf(conf);
+    testModel.start();
     expect(testModel.update({ scaleBase: 'interval', interval: 6 })
       .stepValue).toBe('16.67');
   });
