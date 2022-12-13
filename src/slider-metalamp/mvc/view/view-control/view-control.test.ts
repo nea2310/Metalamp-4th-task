@@ -76,7 +76,6 @@ const testView = new View(parent);
 
 // eslint-disable-next-line no-new
 new Controller(testModel, testView);
-const testViewControl = testView.viewControl as ViewControl;
 
 const calcPositionSpy = jest.spyOn(testModel, 'calcPositionSetByPointer');
 const calcPositionSetByKeySpy = jest.spyOn(testModel, 'calcPositionSetByKey');
@@ -87,13 +86,18 @@ const tipMax = getElem('slider-metalamp__tip-max');
 const track = getElem('slider-metalamp__track');
 
 describe('apply styles on calling ViewControl method', () => {
+  const { viewControl } = testView;
+  if (!(viewControl instanceof ViewControl)) {
+    return;
+  }
+
   test('updatePos', () => {
     expect(controlMax)
       .toHaveProperty('style.left', '66.66666666666667%');
     expect(controlMax)
       .toHaveProperty('style.bottom', '');
 
-    testViewControl.updatePos(controlMax, 50);
+    viewControl.updatePos(controlMax, 50);
 
     expect(controlMax).toHaveProperty('style.left', '50%');
     expect(controlMax).toHaveProperty('style.bottom', '');
@@ -102,15 +106,15 @@ describe('apply styles on calling ViewControl method', () => {
   test('change tip inner text on calling updateVal method', () => {
     expect(tipMin.innerText).toBe('20');
     expect(tipMax.innerText).toBe('70');
-    testViewControl.updateVal('25', true);
-    testViewControl.updateVal('30', false);
+    viewControl.updateVal('25', true);
+    viewControl.updateVal('30', false);
     expect(tipMin.innerText).toBe('25');
     expect(tipMax.innerText).toBe('30');
   });
 
   test('update input value on calling updateInput method', () => {
     expect(parent.value).toBe('20, 70');
-    testViewControl.updateInput({
+    viewControl.updateInput({
       min: 10,
       max: 100,
       from: 25,

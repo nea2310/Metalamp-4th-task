@@ -36,7 +36,10 @@ class ActionsSetup extends PanelObserver {
   }
 
   private handleInputChange(event: Event) {
-    const target = event.target as HTMLInputElement;
+    const { target } = event;
+    if (!(target instanceof HTMLInputElement)) {
+      return;
+    }
     const usageType = target.className.match(/usage_\S*/);
     const type = usageType ? usageType[0].replace('usage_', '') : '';
     this.notify(type, target.checked);

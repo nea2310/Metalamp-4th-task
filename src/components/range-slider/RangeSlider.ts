@@ -11,9 +11,9 @@ class RangeSlider {
 
   private panelWrapper: HTMLElement | null = null;
 
-  private slider: HTMLElement | undefined;
+  private slider: Element | null = null;
 
-  private sliderWrapper: HTMLElement | undefined;
+  private sliderWrapper: Element | null = null;
 
   private rangeSlider: Controller | undefined;
 
@@ -23,11 +23,11 @@ class RangeSlider {
 
   private isVerticalModifier: string;
 
-  constructor(element: Element) {
+  constructor(element: HTMLElement) {
     this.rootSelector = 'range-slider';
     this.sliderSelector = 'slider-metalamp';
     this.isVerticalModifier = 'orientation_vertical';
-    this.wrapper = element as HTMLElement;
+    this.wrapper = element;
     this.render();
     this.subscribeSlider();
   }
@@ -36,7 +36,7 @@ class RangeSlider {
     this.slider = RangeSlider.getElement(this.wrapper, `.js-${this.sliderSelector}`);
     this.sliderWrapper = RangeSlider.getElement(this.wrapper, `.js-${this.rootSelector}__${this.sliderSelector}`);
     this.panelWrapper = this.wrapper.querySelector(`.js-${this.rootSelector}__panel`);
-    if (!this.panelWrapper) {
+    if (!this.panelWrapper || !this.slider) {
       return;
     }
     this.panel = new Panel(this.panelWrapper);
@@ -44,7 +44,7 @@ class RangeSlider {
     this.rangeSlider = this.createSlider(this.slider);
   }
 
-  private createSlider(element: HTMLElement) {
+  private createSlider(element: Element) {
     const rangeSlider = $(element).SliderMetaLamp({
       onStart: (data: IConf) => {
         this.changeData(data);
@@ -153,7 +153,7 @@ class RangeSlider {
   }
 
   private static getElement(object: HTMLElement, selector: string) {
-    return object.querySelector(selector) as HTMLElement;
+    return object.querySelector(selector);
   }
 }
 

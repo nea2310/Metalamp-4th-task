@@ -19,17 +19,17 @@ class ViewControl extends Observer {
 
   public controlMax: HTMLElement | undefined;
 
-  public tipMin: HTMLInputElement | undefined;
+  public tipMin: HTMLInputElement | null = null;
 
-  public tipMax: HTMLInputElement | undefined;
+  public tipMax: HTMLInputElement | null = null;
 
-  public track: IElement | undefined;
+  public track: IElement | null = null;
 
   private conf: IConfFull;
 
   private slider: HTMLElement;
 
-  private root: IElement | undefined;
+  private root: IElement | null = null;
 
   private data: IdataFull;
 
@@ -54,15 +54,18 @@ class ViewControl extends Observer {
   }
 
   private render() {
-    this.root = this.slider.previousElementSibling as Element;
-    this.track = this.slider.firstElementChild as Element;
+    this.root = this.slider.previousElementSibling;
+    this.track = this.slider.firstElementChild;
+    if (!this.track) {
+      return;
+    }
 
     this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.conf.from);
-    this.tipMin = ViewControl.getElement(this.controlMin, '.slider-metalamp__tip') as HTMLInputElement;
+    this.tipMin = ViewControl.getElement(this.controlMin, '.slider-metalamp__tip');
     this.track.append(this.controlMin);
 
     this.controlMax = ViewControl.renderControl('slider-metalamp__control-max', 'slider-metalamp__tip-max', this.conf.to);
-    this.tipMax = ViewControl.getElement(this.controlMax, '.slider-metalamp__tip') as HTMLInputElement;
+    this.tipMax = ViewControl.getElement(this.controlMax, '.slider-metalamp__tip');
     this.track.append(this.controlMax);
   }
 
@@ -122,7 +125,7 @@ class ViewControl extends Observer {
     return `${(elem.offsetWidth / 2) * (-1)}px`;
   }
 
-  static getElement(object: HTMLElement, selector: string) {
+  static getElement(object: HTMLElement, selector: string): HTMLInputElement | null {
     return object.querySelector(selector);
   }
 
@@ -150,7 +153,10 @@ class ViewControl extends Observer {
   };
 
   private getMetrics(elem: ITarget) {
-    const scale = elem.parentElement as HTMLElement;
+    const scale = elem.parentElement;
+    if (!scale) {
+      return;
+    }
     const { thumb } = this.data;
     thumb.top = scale.getBoundingClientRect().top;
     thumb.left = scale.getBoundingClientRect().left;

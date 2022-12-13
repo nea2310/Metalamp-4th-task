@@ -70,20 +70,24 @@ const data: IdataFull = {
 const testView = new View(parent);
 const initSpy = jest.spyOn(testView, 'init');
 testView.init(conf);
-const testViewControl = testView.viewControl as ViewControl;
-const testViewScale = testView.viewScale as ViewScale;
-const testViewBar = testView.viewBar as ViewBar;
 
 describe('ViewScale', () => {
-  const updatePosSpy = jest.spyOn(testViewControl, 'updatePos');
-  const updateInputSpy = jest.spyOn(testViewControl, 'updateInput');
-  const updateValSpy = jest.spyOn(testViewControl, 'updateVal');
-  const viewControl = testView.viewControl as ViewControl;
+const { viewControl, viewScale, viewBar } = testView;
+const condition = !(viewControl instanceof ViewControl)
+|| !(viewScale instanceof ViewScale)
+|| !(viewBar instanceof ViewBar);
+if (condition) {
+  return;
+}
+  const updatePosSpy = jest.spyOn(viewControl, 'updatePos');
+  const updateInputSpy = jest.spyOn(viewControl, 'updateInput');
+  const updateValSpy = jest.spyOn(viewControl, 'updateVal');
+
   test('init', () => {
     expect(initSpy).toBeCalledTimes(1);
-    expect(testViewControl).toBeInstanceOf(ViewControl);
-    expect(testViewScale).toBeInstanceOf(ViewScale);
-    expect(testViewBar).toBeInstanceOf(ViewBar);
+    expect(viewControl).toBeInstanceOf(ViewControl);
+    expect(viewScale).toBeInstanceOf(ViewScale);
+    expect(viewBar).toBeInstanceOf(ViewBar);
     expect(viewControl.observers).toHaveLength(2);
   });
 
@@ -140,7 +144,7 @@ describe('ViewScale', () => {
   });
 
   test('updateScale', () => {
-    const createScaleSpy = jest.spyOn(testViewScale, 'createScale');
+    const createScaleSpy = jest.spyOn(viewScale, 'createScale');
     testView.updateScale({
       ...data,
       fromPosition: 0,
@@ -159,7 +163,7 @@ describe('ViewScale', () => {
   });
 
   test('switchTip', () => {
-    const switchTipSpy = jest.spyOn(testViewControl, 'switchTip');
+    const switchTipSpy = jest.spyOn(viewControl, 'switchTip');
     testView.switchTip({ ...conf, tip: false });
     expect(switchTipSpy).toBeCalledTimes(1);
     expect(switchTipSpy).toBeCalledWith({ ...conf, tip: false });

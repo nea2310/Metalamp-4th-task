@@ -60,6 +60,13 @@ class Model extends Observer {
     this.needCalcValue = true;
   }
 
+  /* метод Object.keys возвращает тип string[] (см. https://github.com/Microsoft/TypeScript/issues/12870),
+  поэтому элементы массива не могут использоваться в качестве индекса в записи вида
+  this.methods[key].   Чтобы преобразовать тип string[] к типу объединения значений
+  ключей объекта ('key1' | 'key2' | 'key3'... используем метод Model.getKeys) */
+
+  static getKeys = <T extends object>(obj: T): (keyof T)[] => Object.keys(obj) as (keyof T)[];
+
   static checkConf(config: IConfFull) {
     let conf = config;
 
@@ -190,10 +197,10 @@ class Model extends Observer {
 
     this.findChangedConf(this.conf, conf);
     this.conf = conf;
-    const keys = Object.keys(this.methods);
+    const keys = Model.getKeys(this.methods);
 
     keys.forEach((element) => {
-      const key = element as keyof Imethods;
+      const key = element;
       if (this.methods[key]) {
         this[key]();
       }
@@ -204,7 +211,7 @@ class Model extends Observer {
     }
 
     keys.forEach((element) => {
-      const key = element as keyof Imethods;
+      const key = element;
       if (this.methods[key]) {
         this.methods[key] = false;
       }
@@ -503,9 +510,9 @@ class Model extends Observer {
   }
 
   private findChangedConf(currentConf: IConfFull, newConf: IConf) {
-    const keys = Object.keys(newConf);
+    const keys = Model.getKeys(newConf);
     keys.forEach((element) => {
-      const key = element as keyof IConf;
+      const key = element;
       if (newConf[key] !== currentConf[key]) {
         switch (key) {
           case 'min':
@@ -575,6 +582,12 @@ class Model extends Observer {
 
   private switchVertical() {
     this.notify('IsVertical', this.data, this.conf);
+
+    /* Особый вариант использования: setTimeout(func, 0) или просто setTimeout(func).
+    Это планирует вызов func настолько быстро, насколько это возможно.
+    Но планировщик будет вызывать функцию только после завершения выполнения текущего кода.
+    https://learn.javascript.ru/settimeout-setinterval */
+
     setTimeout(() => {
       this.calcFromPosition();
       this.calcToPosition();
