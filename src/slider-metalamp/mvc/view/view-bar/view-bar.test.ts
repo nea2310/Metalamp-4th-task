@@ -1,4 +1,4 @@
-import ViewBar from './view-bar';
+import ViewBar from './ViewBar';
 
 const root = document.createElement('div');
 document.body.appendChild(root);

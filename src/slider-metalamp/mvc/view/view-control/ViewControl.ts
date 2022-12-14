@@ -1,5 +1,5 @@
 import { defaultData, defaultThumb } from '../../utils';
-import Observer from '../../observer';
+import Observer from '../../Observer';
 import {
   IConfFull,
   IdataFull,

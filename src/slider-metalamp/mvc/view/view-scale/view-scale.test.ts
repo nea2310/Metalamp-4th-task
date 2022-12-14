@@ -1,5 +1,5 @@
 import { IConfFull } from '../../interface';
-import ViewScale from './view-scale';
+import ViewScale from './ViewScale';
 
 interface IMockElement {
   width: number,

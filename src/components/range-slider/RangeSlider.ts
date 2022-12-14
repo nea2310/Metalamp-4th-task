@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-import { Controller } from '../../slider-metalamp/mvc/controller/controller';
+import { Controller } from '../../slider-metalamp/mvc/controller/Controller';
 import { IConf } from '../../slider-metalamp/mvc/interface';
 import Panel from '../panel/Panel';
 

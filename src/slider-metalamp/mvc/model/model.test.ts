@@ -1,5 +1,5 @@
 import { IConf } from '../interface';
-import Model from './model';
+import Model from './Model';
 
 describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () => {
   test('calcPositionSetByPointer, no Sticky', () => {

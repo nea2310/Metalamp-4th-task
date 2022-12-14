@@ -1,4 +1,4 @@
-import { Controller } from './mvc/controller/controller';
+import { Controller } from './mvc/controller/Controller';
 import { IConf } from './mvc/interface';
 import plugin from './slider-metalamp';
 

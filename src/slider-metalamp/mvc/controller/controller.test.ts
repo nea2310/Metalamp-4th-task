@@ -1,7 +1,7 @@
-import View from '../view/view';
-import Model from '../model/model';
+import View from '../view/View';
+import Model from '../model/Model';
 import { IConf } from '../interface';
-import { Controller } from './controller';
+import { Controller } from './Controller';
 
 function prepareInstance(conf: IConf) {
   const parent = document.createElement('input');
