@@ -3,11 +3,13 @@
   padding: 20px;
   border: 1px solid $color-border;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 
   &__component {
     margin-right: 10px;
     display: flex;
     align-items: flex-end;
+    min-width: 120px;
   }
 }
