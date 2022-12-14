@@ -435,7 +435,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
   );
 });
 
-describe('model, values correction on API method "update" processing', () => {
+describe('model, values correction on API method 'update' processing', () => {
   const conf: IConf = {
     min: 0,
     max: 100,
@@ -555,7 +555,7 @@ describe('model, values correction on API method "update" processing', () => {
   });
 });
 
-describe('model, API method "update" processing', () => {
+describe('model, API method 'update' processing', () => {
   const onStart = () => true;
   const onChange = () => true;
   const onUpdate = () => true;

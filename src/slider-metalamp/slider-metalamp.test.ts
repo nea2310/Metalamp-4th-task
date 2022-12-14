@@ -36,27 +36,27 @@ describe('slider-metalamp', () => {
     expect(slider).toBeInstanceOf(Controller);
   });
 
-  test(' Should call API method "update"', () => {
+  test(' Should call API method 'update'', () => {
     slider.update(conf);
     expect(updateSpy).toBeCalledTimes(1);
   });
 
-  test(' Should call API method "getData"', () => {
+  test(' Should call API method 'getData'', () => {
     slider.getData();
     expect(getDataSpy).toBeCalledTimes(1);
   });
 
-  test(' Should call API method "disable"', () => {
+  test(' Should call API method 'disable'', () => {
     slider.disable();
     expect(disableSpy).toBeCalledTimes(1);
   });
 
-  test(' Should call API method "enable"', () => {
+  test(' Should call API method 'enable'', () => {
     slider.enable();
     expect(enableSpy).toBeCalledTimes(1);
   });
 
-  test(' Should call API method "destroy"', () => {
+  test(' Should call API method 'destroy'', () => {
     slider.destroy();
     expect(destroySpy).toBeCalledTimes(1);
   });
