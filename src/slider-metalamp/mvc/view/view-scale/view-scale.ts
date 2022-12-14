@@ -72,8 +72,10 @@ class ViewScale {
   private checkScaleLength(markList: Element[]) {
     const hideLabels = (markListNew: Element[]) => {
       for (let i = 1; i < markListNew.length; i += 2) {
-        const child = markListNew[i].firstElementChild as Element;
-        child.classList.add('slider-metalamp__label_hidden');
+        const child = markListNew[i].firstElementChild;
+        if (child) {
+          child.classList.add('slider-metalamp__label_hidden');
+        }
         markListNew[i].classList.add('slider-metalamp__mark_no-label');
         markListNew[i].classList.add('js-slider-metalamp__mark_no-label');
       }
@@ -88,8 +90,10 @@ class ViewScale {
 
     let totalSize = 0;
     markList.forEach((node) => {
-      const child = node.firstElementChild as Element;
-      totalSize += child.getBoundingClientRect()[size];
+      const child = node.firstElementChild;
+      if (child) {
+        totalSize += child.getBoundingClientRect()[size];
+      }
     });
     if (totalSize > this.track[offsetSize]) {
       hideLabels(markList);
@@ -104,17 +108,24 @@ class ViewScale {
   private addLastLabel(isRemoved: boolean) {
     const markLabeledList = this.track.querySelectorAll('.js-slider-metalamp__mark:not(.js-slider-metalamp__mark_no-label)');
     const lastMarkLabeled = markLabeledList[markLabeledList.length - 1];
-    const lastMark = this.track.querySelector('.js-slider-metalamp__mark:last-child') as Element;
-    if (isRemoved) {
-      lastMarkLabeled.classList.add('slider-metalamp__mark_no-label');
-      lastMarkLabeled.classList.add('js-slider-metalamp__mark_no-label');
-      const lastMarkLabeledChild = lastMarkLabeled.firstElementChild as Element;
-      lastMarkLabeledChild.classList.add('slider-metalamp__label_hidden');
-      lastMark.classList.remove('slider-metalamp__mark_no-label');
-      lastMark.classList.remove('js-slider-metalamp__mark_no-label');
-      const lastMarkChild = lastMark.firstElementChild as Element;
-      lastMarkChild.classList.remove('slider-metalamp__label_hidden');
+    const lastMark = this.track.querySelector('.js-slider-metalamp__mark:last-child');
+    if (!isRemoved || !lastMark) {
+      return;
     }
+    lastMarkLabeled.classList.add('slider-metalamp__mark_no-label');
+    lastMarkLabeled.classList.add('js-slider-metalamp__mark_no-label');
+    const lastMarkLabeledChild = lastMarkLabeled.firstElementChild;
+    if (!lastMarkLabeledChild) {
+      return;
+    }
+    lastMarkLabeledChild.classList.add('slider-metalamp__label_hidden');
+    lastMark.classList.remove('slider-metalamp__mark_no-label');
+    lastMark.classList.remove('js-slider-metalamp__mark_no-label');
+    const lastMarkChild = lastMark.firstElementChild;
+    if (!lastMarkChild) {
+      return;
+    }
+    lastMarkChild.classList.remove('slider-metalamp__label_hidden');
   }
 
   private resize() {
