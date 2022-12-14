@@ -65,6 +65,8 @@ interface Imethods {
 
 type TDirections = 'ArrowLeft' | 'ArrowDown' | 'ArrowRight' | 'ArrowUp';
 
+type TDirectionsCortege = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
+
 type TMoveTypes = 'pointerdown' | 'pointermove' | '';
 
 interface IthumbFull {
@@ -133,5 +135,6 @@ export {
   IConfIndexed,
   IData,
   TStopType,
-  INewObject
+  INewObject,
+  TDirectionsCortege
 };

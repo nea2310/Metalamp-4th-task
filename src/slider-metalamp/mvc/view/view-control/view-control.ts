@@ -1,6 +1,8 @@
 import { defaultData, defaultThumb } from '../../utils';
 import Observer from '../../observer';
-import { IConfFull, IdataFull, TDirections } from '../../interface';
+import {
+  IConfFull, IdataFull, TDirections, TDirectionsCortege,
+} from '../../interface';
 
 interface IElement extends Element {
   value?: string;
@@ -212,22 +214,25 @@ class ViewControl extends Observer {
 
   private pressControl() {
     const handlePointerStart = (event: KeyboardEvent) => {
-      const directions = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
-      const result = directions.indexOf(event.code);
-      if (result === -1) {
-        return;
+      const directions: TDirectionsCortege = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
+      if ((event.code in directions)) {
+        event.preventDefault();
       }
-      event.preventDefault();
       const { target } = event;
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
       }
       const { thumb } = this.data;
+      const direction: TDirections | undefined = directions.find(
+        (element) => element === event.code,
+      );
+      if (!direction) {
+        return;
+      }
 
       if (target.classList.contains('slider-metalamp__control')) {
         thumb.moovingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
-
-        thumb.direction = event.code as TDirections;
+        thumb.direction = direction;
         thumb.repeat = event.repeat;
         this.notify('KeydownEvent', this.data);
       }

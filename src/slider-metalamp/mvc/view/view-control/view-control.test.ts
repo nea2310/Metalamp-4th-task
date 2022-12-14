@@ -65,7 +65,7 @@ const conf: IConfFull = {
   onChange: () => true,
   onUpdate: () => true,
 };
-const getElem = (selector: string) => document.getElementsByClassName(selector)[0] as HTMLElement;
+const getElem = (selector: string) => document.getElementsByClassName(selector)[0];
 
 const testModel = new Model(conf);
 const testView = new View(parent);
@@ -96,20 +96,24 @@ describe('apply styles on calling ViewControl method', () => {
       .toHaveProperty('style.left', '66.66666666666667%');
     expect(controlMax)
       .toHaveProperty('style.bottom', '');
-
-    viewControl.updatePos(controlMax, 50);
+    if (controlMax instanceof HTMLElement) {
+      viewControl.updatePos(controlMax, 50);
+    }
 
     expect(controlMax).toHaveProperty('style.left', '50%');
     expect(controlMax).toHaveProperty('style.bottom', '');
   });
 
   test('change tip inner text on calling updateVal method', () => {
-    expect(tipMin.innerText).toBe('20');
-    expect(tipMax.innerText).toBe('70');
-    viewControl.updateVal('25', true);
-    viewControl.updateVal('30', false);
-    expect(tipMin.innerText).toBe('25');
-    expect(tipMax.innerText).toBe('30');
+    if (tipMin instanceof HTMLElement && tipMax instanceof HTMLElement) {
+      expect(tipMin.innerText).toBe('20');
+      expect(tipMax.innerText).toBe('70');
+      viewControl.updateVal('25', true);
+      viewControl.updateVal('30', false);
+      expect(tipMin.innerText).toBe('25');
+      expect(tipMax.innerText).toBe('30');
+    }
+  
   });
 
   test('update input value on calling updateInput method', () => {
@@ -144,14 +148,16 @@ describe('ViewControl event listeners', () => {
   });
 
   test('notifies observer about control mooving made by mouse', () => {
-    mockPointerEvent(
-      controlMax,
-      { eventType: 'pointerdown', clientY: 100, clientX: 100 },
-    );
-    mockPointerEvent(
-      controlMax,
-      { eventType: 'pointermove', clientY: 100, clientX: 1000 },
-    );
+    if (controlMax instanceof HTMLElement) {
+      mockPointerEvent(
+        controlMax,
+        { eventType: 'pointerdown', clientY: 100, clientX: 100 },
+      );
+      mockPointerEvent(
+        controlMax,
+        { eventType: 'pointermove', clientY: 100, clientX: 1000 },
+      );
+    }
     expect(calcPositionSpy).toBeCalledTimes(1);
     expect(calcPositionSpy).toBeCalledWith(
       {
@@ -171,10 +177,12 @@ describe('ViewControl event listeners', () => {
   });
 
   test('notifies observer about clicking on the track', () => {
-    mockPointerEvent(
-      track,
-      { eventType: 'pointerdown', clientY: 100, clientX: 100 },
-    );
+    if (track instanceof HTMLElement) {
+      mockPointerEvent(
+        track,
+        { eventType: 'pointerdown', clientY: 100, clientX: 100 },
+      );
+    }
     expect(calcPositionSpy).toBeCalledTimes(1);
     expect(calcPositionSpy).toBeCalledWith(
       {
@@ -194,10 +202,13 @@ describe('ViewControl event listeners', () => {
   });
 
   test('notifies observer about pressing on a focused control', () => {
-    mockKeyboardEvent(
-      controlMax,
-      { eventType: 'keydown', direction: 'ArrowLeft', repeat: false },
-    );
+    if (controlMax instanceof HTMLElement) {
+      mockKeyboardEvent(
+        controlMax,
+        { eventType: 'keydown', direction: 'ArrowLeft', repeat: false },
+      );
+    }
+
     expect(calcPositionSetByKeySpy).toBeCalledTimes(1);
     expect(calcPositionSetByKeySpy).toBeCalledWith({
       clientX: 100,
