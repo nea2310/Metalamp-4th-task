@@ -289,7 +289,6 @@ class Model extends Observer {
     return newPosition;
   }
 
-  // Рассчитывает значение ползунка при нажатии кнопки стрелки на сфокусированном ползунке
   public calcPositionSetByKey(data:
   {
     direction: TDirections,
@@ -320,25 +319,21 @@ class Model extends Observer {
     const isMaxIncreasingSticky = isMax && isIncreasingSticky;
     const isMaxDecreasingSticky = isMax && isDecreasingSticky;
 
-    // ===================================не sticky====================
-
-    if (isMinIncreasingNoSticky) { // min, Увеличение значения, не sticky
+    if (isMinIncreasingNoSticky) {
       return this.getNewValueNoSticky('MinIncreasingNoSticky', repeat);
     }
 
-    // min, Уменьшение значения, не sticky
     if (isMinDecreasingNoSticky) {
       return this.getNewValueNoSticky('MinDecreasingNoSticky', repeat);
     }
 
-    if (isMaxIncreasingNoSticky) { // max, Увеличение значения, не sticky
+    if (isMaxIncreasingNoSticky) {
       return this.getNewValueNoSticky('MaxIncreasingNoSticky', repeat);
-    } // max, Уменьшение значения, не sticky
+    }
 
     if (isMaxDecreasingNoSticky) {
       return this.getNewValueNoSticky('MaxDecreasingNoSticky', repeat);
     }
-    // ====================================== sticky ========================
 
     const value = moovingControl === 'min' ? this.conf.from : this.conf.to;
     const index = this.data.marksArray.findIndex((elem) => elem.value === value);
@@ -346,19 +341,19 @@ class Model extends Observer {
     const indexToSearch = isIncreasing ? index + shift : index - shift;
     const item = this.data.marksArray[indexToSearch];
 
-    if (isMinIncreasingSticky) { // min, Увеличение значения, sticky
+    if (isMinIncreasingSticky) {
       return this.getNewValueSticky('MinIncreasingSticky', item);
     }
 
-    if (isMinDecreasingSticky) { // min, Уменьшение значения, sticky
+    if (isMinDecreasingSticky) {
       return this.getNewValueSticky('MinDecreasingSticky', item);
     }
 
-    if (isMaxIncreasingSticky) { // max, Увеличение значения, sticky
+    if (isMaxIncreasingSticky) {
       return this.getNewValueSticky('MaxIncreasingSticky', item);
     }
 
-    if (isMaxDecreasingSticky) { // max, Уменьшение значения, sticky
+    if (isMaxDecreasingSticky) {
       return this.getNewValueSticky('MaxDecreasingSticky', item);
     }
 
@@ -395,7 +390,6 @@ class Model extends Observer {
     const shift = this.getShift(isRepeating);
     switch (condition) {
       case 'MinIncreasingNoSticky':
-      /* проверяем, что FROM не стал больше TO или MAX */
       { const isBelowMax = (this.conf.range && this.conf.from < this.conf.to)
           || (!this.conf.range && this.conf.from < this.conf.max);
       const isAboveMaxRange = this.conf.range && this.conf.from >= this.conf.to;
@@ -428,18 +422,18 @@ class Model extends Observer {
 
       case 'MaxIncreasingNoSticky':
       { let newValue = 0;
-        if (this.conf.to < this.conf.max) { // если TO меньше MAX
+        if (this.conf.to < this.conf.max) {
           newValue = this.conf.to + shift;
           newValue = newValue > this.conf.max ? this.conf.max : newValue;
-        } else newValue = this.conf.max; // если TO стал больше или равен MAX
+        } else newValue = this.conf.max;
         return this.calcControlPosition(newValue, false); }
 
       case 'MaxDecreasingNoSticky':
       { let newValue = 0;
-        if (this.conf.to > this.conf.from) { // если TO больше FROM
+        if (this.conf.to > this.conf.from) {
           newValue = this.conf.to - shift;
           newValue = newValue < this.conf.from ? this.conf.from : newValue;
-        } else newValue = this.conf.from; // если TO меньше или равен FROM
+        } else newValue = this.conf.from;
         return this.calcControlPosition(newValue, false); }
 
       default: return 0;
@@ -447,7 +441,7 @@ class Model extends Observer {
   }
 
   private getNewValueSticky(condition: string, item: IObject) {
-    // поменять позицию и значение FROM
+
     const changeFrom = (values: IObject) => {
       this.conf.from = values.value;
       this.data.fromPosition = values.position;
@@ -457,7 +451,6 @@ class Model extends Observer {
       return { newValue: String(values.value), newPosition: values.position };
     };
 
-    // поменять позицию и значение TO
     const changeTo = (values: IObject) => {
       this.conf.to = values.value;
       this.data.toPosition = values.position;
@@ -469,7 +462,7 @@ class Model extends Observer {
 
     switch (condition) {
       case 'MinIncreasingSticky':
-      { // min, Увеличение значения, sticky
+      {
         if (item === undefined) return 'newPosition>100';
         const isValueAscending = item.value > this.conf.from
           && ((this.conf.range && item.value <= this.conf.to)
@@ -480,7 +473,7 @@ class Model extends Observer {
       }
 
       case 'MinDecreasingSticky':
-      { // min, Уменьшение значения, sticky
+      {
         if (item === undefined) return 'newPosition<0';
         const isValueDescending = (this.conf.range && item.value < this.conf.to)
           || !this.conf.range;
@@ -489,7 +482,7 @@ class Model extends Observer {
       }
 
       case 'MaxIncreasingSticky':
-      { // max, Увеличение значения, sticky
+      {
         if (item === undefined) return 'newPosition>100';
         const isValueAscending = item && item.value > this.conf.to
           && this.conf.to < this.conf.max;
@@ -498,7 +491,7 @@ class Model extends Observer {
       }
 
       case 'MaxDecreasingSticky':
-      { // max, Уменьшение значения, sticky
+      {
         if (item === undefined) return 'newPosition<0';
         const isValueDescending = item.value >= this.conf.from
         && this.conf.to > this.conf.from;
