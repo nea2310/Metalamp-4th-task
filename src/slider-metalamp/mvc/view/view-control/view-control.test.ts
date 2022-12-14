@@ -72,7 +72,7 @@ const testView = new View(parent);
 
 /* не присваиваем объект переменной, т.к. она нигде в коде не будет
 использоваться и будет другая ошибка линтера
-(''controller' is assigned a value but never used.eslint@typescript-eslint/no-unused-vars') */
+("'controller' is assigned a value but never used.eslint@typescript-eslint/no-unused-vars") */
 
 // eslint-disable-next-line no-new
 new Controller(testModel, testView);

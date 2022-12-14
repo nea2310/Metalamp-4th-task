@@ -40,7 +40,7 @@ const TestController = prepareInstance(conf);
 
 describe('controller', () => {
   test(
-    'gets data from model on calling API method 'getData'',
+    'gets data from model on calling API method "getData"',
     () => {
       const { model } = TestController;
       if (!(model instanceof Model)) {
@@ -72,7 +72,7 @@ describe('controller', () => {
     },
   );
 
-  test('calls update method in model on calling API method 'update'', () => {
+  test('calls update method in model on calling API method "update"', () => {
     const { model } = TestController;
     if (!(model instanceof Model)) {
       return;
@@ -84,7 +84,7 @@ describe('controller', () => {
   });
 
   test(
-    'removes Observer listeners on calling API method 'disable'',
+    'removes Observer listeners on calling API method "disable"',
     () => {
       const { model, view } = TestController;
       if (!(model instanceof Model) || !(view instanceof View)) {
@@ -99,7 +99,7 @@ describe('controller', () => {
   );
 
   test(
-    're_orientation_verticals Observer listeners back on calling API method 'enable'',
+    're_orientation_verticals Observer listeners back on calling API method "enable"',
     () => {
       const { model, view } = TestController;
       if (!(model instanceof Model) || !(view instanceof View)) {
@@ -114,7 +114,7 @@ describe('controller', () => {
   );
 
   test(
-    'destroys slider instance on calling API method 'destroy'',
+    'destroys slider instance on calling API method "destroy"',
     () => {
       expect(TestController.model).toBeDefined();
       expect(TestController.view).toBeDefined();
