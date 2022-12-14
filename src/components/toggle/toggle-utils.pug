@@ -11,7 +11,7 @@ include ../../shared/helpers/getValidValue.pug
       const usageChecked = getValidValue(validUsages, usage, '');
 
       return {
-        elementName: 'toggle',
+        blockName: 'toggle',
         usageChecked,
         valueChecked: value ? value : usageChecked,
         nameChecked: name ? name : usageChecked

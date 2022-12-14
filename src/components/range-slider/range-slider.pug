@@ -23,7 +23,7 @@ mixin range-slider(options = {})
       } = options
 
       const {
-        elementName,
+        blockName,
         verticalChecked,
         rangeChecked,
         barChecked,
@@ -58,9 +58,9 @@ mixin range-slider(options = {})
         shiftOnKeyHold
       });
 
-    div(class=`${elementName} ${elementName}${modifier} js-${elementName}`)
-      div(class=`${elementName}__slider-metalamp ${elementName}__slider-metalamp${modifier} 
-        js-${elementName}__slider-metalamp`)
+    div(class=`${blockName} ${blockName}${modifier} js-${blockName}`)
+      div(class=`${blockName}__slider-metalamp ${blockName}__slider-metalamp${modifier} 
+        js-${blockName}__slider-metalamp`)
         input(class='slider-metalamp js-slider-metalamp' 
         data-min=minChecked
         data-max=maxChecked
@@ -78,5 +78,5 @@ mixin range-slider(options = {})
         data-shiftonkeydown=shiftOnKeyDownChecked
         data-shiftonkeyhold=shiftOnKeyHoldChecked
         )
-      div(class=`${elementName}__panel js-${elementName}__panel`)
+      div(class=`${blockName}__panel js-${blockName}__panel`)
         +panel({radioGroupName})

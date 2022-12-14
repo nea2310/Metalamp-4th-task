@@ -2,11 +2,11 @@ include ../../toggle/toggle.pug
 
 mixin actions-setup()
   -
-    const elementName = 'actions-setup';
+    const blockName = 'actions-setup';
     const {elements} = require('@com/panel/actions-setup/actions-setup.json');
 
-  fieldset(class=`${elementName} js-${elementName}`)
+  fieldset(class=`${blockName} js-${blockName}`)
     legend Actions
     each element in elements
-      div(class=`${elementName}__component`)
+      div(class=`${blockName}__component`)
         +toggle(element)

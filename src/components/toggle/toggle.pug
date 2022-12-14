@@ -2,15 +2,15 @@ mixin toggle({name = '', value = '', usage = '', isChecked = false} = {})
   include toggle-utils.pug
     -
       const{
-        elementName,
+        blockName,
         usageChecked,
         valueChecked,
         nameChecked
       } = prepareOptions({usage, value, name});
 
-    label(class=`${elementName} js-${elementName}`)= valueChecked
-      input(class=`${elementName}__checkbox js-${elementName}__checkbox ${elementName}__checkbox_usage_${usageChecked}
-        js-${elementName}__checkbox_usage_${usageChecked}` type="checkbox" name=nameChecked value=valueChecked 
+    label(class=`${blockName} js-${blockName}`)= valueChecked
+      input(class=`${blockName}__checkbox js-${blockName}__checkbox ${blockName}__checkbox_usage_${usageChecked}
+        js-${blockName}__checkbox_usage_${usageChecked}` type="checkbox" name=nameChecked value=valueChecked 
         checked=isChecked)
-      span(class=`${elementName}__checkmark js-${elementName}__checkmark`)
-        span(class=`${elementName}__ball`)
+      span(class=`${blockName}__checkmark js-${blockName}__checkmark`)
+        span(class=`${blockName}__ball`)

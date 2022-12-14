@@ -23,7 +23,7 @@ include ../../shared/helpers/getValidValue.pug
       const validScaleBases = ['step', 'interval'];
 
       return {
-        elementName: 'range-slider',
+        blockName: 'range-slider',
         minChecked: Number.isFinite(Number(min)) ? min : '0',
         maxChecked: Number.isFinite(Number(max)) ? max : '0',
         fromChecked: Number.isFinite(Number(from)) ? from : '0',

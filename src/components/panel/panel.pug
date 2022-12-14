@@ -9,16 +9,16 @@ include ./actions-setup/actions-setup.pug
 
 mixin panel(options = {})
   -
-    const elementName = 'panel';
+    const blockName = 'panel';
     const {radioGroupName} = options;
 
-  div(class=`${elementName} js-${elementName}`)
-    div(class=`${elementName}__blocks`)
+  div(class=`${blockName} js-${blockName}`)
+    div(class=`${blockName}__blocks`)
       +main-setup()
       +scale-setup({radioGroupName})
       +control-movement-setup()
       +actions-setup()
-    div(class=`${elementName}__apply-button`)
+    div(class=`${blockName}__apply-button`)
       +button({text: 'Apply changes'})
 
 

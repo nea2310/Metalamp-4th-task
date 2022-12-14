@@ -3,14 +3,14 @@ include ../../input-field/input-field.pug
 
 mixin control-movement-setup()
   -
-    const elementName = 'control-movement-setup';
+    const blockName = 'control-movement-setup';
     const {elements} = require('@com/panel/control-movement-setup/control-movement-setup.json');
 
-  fieldset(class=`${elementName} js-${elementName}`)
+  fieldset(class=`${blockName} js-${blockName}`)
     legend Control movement
     each element in elements
       - const {type, parameters} = element
-        div(class=`${elementName}__component`)
+        div(class=`${blockName}__component`)
           if type === 'toggle'
             +toggle(parameters)
           else
