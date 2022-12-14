@@ -1,7 +1,10 @@
 import { defaultData, defaultThumb } from '../../utils';
 import Observer from '../../observer';
 import {
-  IConfFull, IdataFull, TDirections, TDirectionsCortege,
+  IConfFull,
+  IdataFull,
+  TDirections,
+  TDirectionsCortege,
 } from '../../interface';
 
 interface IElement extends Element {
@@ -33,21 +36,17 @@ class ViewControl extends Observer {
 
   private root: IElement | null = null;
 
-  private data: IdataFull;
+  private data: IdataFull = {
+    ...defaultData,
+    thumb: { ...defaultThumb },
+  };
 
   private initDone: boolean = false;
 
   constructor(sliderElement: HTMLElement, conf: IConfFull) {
     super();
     this.slider = sliderElement;
-
-    this.data = {
-      ...defaultData,
-      thumb: { ...defaultThumb },
-    };
-
     this.conf = conf;
-
     this.render();
     this.init(conf);
     this.dragControl();
@@ -55,20 +54,25 @@ class ViewControl extends Observer {
     this.clickTrack();
   }
 
-  private render() {
-    this.root = this.slider.previousElementSibling;
-    this.track = this.slider.firstElementChild;
-    if (!this.track) {
-      return;
-    }
+  static calcTipPos(isVertical: boolean, elem: HTMLElement) {
+    if (isVertical) { return `${elem.offsetWidth * (-1) - 20}px`; }
+    return `${(elem.offsetWidth / 2) * (-1)}px`;
+  }
 
-    this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.conf.from);
-    this.tipMin = ViewControl.getElement(this.controlMin, '.slider-metalamp__tip');
-    this.track.append(this.controlMin);
+  static getElement(object: HTMLElement, selector: string): HTMLInputElement | null {
+    return object.querySelector(selector);
+  }
 
-    this.controlMax = ViewControl.renderControl('slider-metalamp__control-max', 'slider-metalamp__tip-max', this.conf.to);
-    this.tipMax = ViewControl.getElement(this.controlMax, '.slider-metalamp__tip');
-    this.track.append(this.controlMax);
+  static renderControl(controlClassName: string, tipClassName: string, value: number) {
+    const control = document.createElement('button');
+    control.className = 'slider-metalamp__control';
+    control.classList.add(controlClassName);
+    const tip = document.createElement('span');
+    tip.className = 'slider-metalamp__tip';
+    tip.classList.add(tipClassName);
+    tip.innerText = String(value);
+    control.append(tip);
+    return control;
   }
 
   public updatePos(element: HTMLElement, newPosition: number) {
@@ -77,29 +81,25 @@ class ViewControl extends Observer {
       this.initDone = true;
     }
 
-    if (this.conf.vertical) {
-      elem.style.bottom = `${newPosition}%`;
-      elem.style.left = '';
-    } else {
-      elem.style.left = `${newPosition}%`;
-      elem.style.bottom = '';
-    }
+    const propertyToSet = this.conf.vertical ? 'bottom' : 'left';
+    const propertyToUnset = this.conf.vertical ? 'left' : 'bottom';
+    elem.style[propertyToSet] = `${newPosition}%`;
+    elem.style[propertyToUnset] = '';
 
     if (!this.tipMin || !this.tipMax) {
       return;
     }
-    if (this.defineControl(elem) === 'min') {
-      this.tipMin.style.left = ViewControl.calcTipPos(this.conf.vertical, this.tipMin);
-    } else {
-      this.tipMax.style.left = ViewControl.calcTipPos(this.conf.vertical, this.tipMax);
-    }
+
+    const tip = this.defineControl(elem) === 'min' ? this.tipMin : this.tipMax;
+    tip.style.left = ViewControl.calcTipPos(this.conf.vertical, tip);
   }
 
   public updateVal(value: string, isFrom: boolean) {
     if (!this.tipMin || !this.tipMax) {
       return;
     }
-    if (isFrom) { this.tipMin.innerText = value; } else { this.tipMax.innerText = value; }
+    const tip = isFrom ? this.tipMin : this.tipMax;
+    tip.innerText = value;
   }
 
   public updateInput(conf: IConfFull) {
@@ -122,25 +122,20 @@ class ViewControl extends Observer {
     }
   }
 
-  static calcTipPos(isVertical: boolean, elem: HTMLElement) {
-    if (isVertical) { return `${elem.offsetWidth * (-1) - 20}px`; }
-    return `${(elem.offsetWidth / 2) * (-1)}px`;
-  }
+  private render() {
+    this.root = this.slider.previousElementSibling;
+    this.track = this.slider.firstElementChild;
+    if (!this.track) {
+      return;
+    }
 
-  static getElement(object: HTMLElement, selector: string): HTMLInputElement | null {
-    return object.querySelector(selector);
-  }
+    this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.conf.from);
+    this.tipMin = ViewControl.getElement(this.controlMin, '.slider-metalamp__tip');
+    this.track.append(this.controlMin);
 
-  static renderControl(controlClassName: string, tipClassName: string, value: number) {
-    const control = document.createElement('button');
-    control.className = 'slider-metalamp__control';
-    control.classList.add(controlClassName);
-    const tip = document.createElement('span');
-    tip.className = 'slider-metalamp__tip';
-    tip.classList.add(tipClassName);
-    tip.innerText = String(value);
-    control.append(tip);
-    return control;
+    this.controlMax = ViewControl.renderControl('slider-metalamp__control-max', 'slider-metalamp__tip-max', this.conf.to);
+    this.tipMax = ViewControl.getElement(this.controlMax, '.slider-metalamp__tip');
+    this.track.append(this.controlMax);
   }
 
   private init(conf: IConfFull) {

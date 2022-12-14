@@ -18,7 +18,7 @@ import {
 } from '../interface';
 
 class Model extends Observer {
-  public conf: IConfFull;
+  public conf: IConfFull = defaultConf;
 
   private changeMode: boolean = false;
 
@@ -26,9 +26,21 @@ class Model extends Observer {
 
   private dataAttributesConf: IConf = {};
 
-  private methods: Imethods;
+  private methods: Imethods = {
+    calcFromPosition: false,
+    calcToPosition: false,
+    calcScaleMarks: false,
+    switchVertical: false,
+    switchRange: false,
+    switchScale: false,
+    switchBar: false,
+    switchTip: false,
+    updateControlPos: false,
+  };
 
-  private data: IdataFull;
+  private data: IdataFull = {
+    ...defaultData, thumb: { ...defaultThumb },
+  };
 
   private onStart?: (data: IConf) => unknown | null;
 
@@ -36,28 +48,11 @@ class Model extends Observer {
 
   private onChange?: (data: IConf) => unknown | null;
 
-  private needCalcValue: boolean;
+  private needCalcValue = true;
 
   constructor(conf: IConf) {
     super();
-    this.conf = defaultConf;
-    this.data = {
-      ...defaultData, thumb: { ...defaultThumb },
-    };
-
-    this.methods = {
-      calcFromPosition: false,
-      calcToPosition: false,
-      calcScaleMarks: false,
-      switchVertical: false,
-      switchRange: false,
-      switchScale: false,
-      switchBar: false,
-      switchTip: false,
-      updateControlPos: false,
-    };
     this.startConf = conf;
-    this.needCalcValue = true;
   }
 
   /* метод Object.keys возвращает тип string[] (см. https://github.com/Microsoft/TypeScript/issues/12870),
@@ -441,7 +436,6 @@ class Model extends Observer {
   }
 
   private getNewValueSticky(condition: string, item: IObject) {
-
     const changeFrom = (values: IObject) => {
       this.conf.from = values.value;
       this.data.fromPosition = values.position;

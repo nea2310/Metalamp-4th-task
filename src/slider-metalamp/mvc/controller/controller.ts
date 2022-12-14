@@ -4,11 +4,9 @@ import Observer from '../observer';
 import { IConf, INotifyParameters } from '../interface';
 
 class Controller extends Observer {
-  model: Model | null;
+  public model: Model | null;
 
-  view: View | null;
-
-  isEnabled: boolean;
+  public view: View | null;
 
   constructor(model: Model, view: View) {
     super();
@@ -16,7 +14,6 @@ class Controller extends Observer {
     this.view = view;
     this.createListeners();
     this.init();
-    this.isEnabled = true;
   }
 
   public update(conf: IConf) {
@@ -38,7 +35,6 @@ class Controller extends Observer {
       return;
     }
     this.removeListeners();
-    this.isEnabled = false;
     this.view.disable();
   }
 
@@ -48,7 +44,6 @@ class Controller extends Observer {
     }
     this.createListeners();
     this.view.enable();
-    this.isEnabled = true;
   }
 
   public destroy() {

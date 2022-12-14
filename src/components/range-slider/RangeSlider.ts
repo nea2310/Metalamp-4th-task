@@ -17,19 +17,20 @@ class RangeSlider {
 
   private rangeSlider: Controller | undefined;
 
-  private sliderSelector: string;
+  private sliderSelector = 'slider-metalamp';
 
-  private rootSelector: string;
+  private rootSelector = 'range-slider';;
 
-  private isVerticalModifier: string;
+  private isVerticalModifier = 'orientation_vertical';
 
   constructor(element: HTMLElement) {
-    this.rootSelector = 'range-slider';
-    this.sliderSelector = 'slider-metalamp';
-    this.isVerticalModifier = 'orientation_vertical';
     this.wrapper = element;
     this.render();
     this.subscribeSlider();
+  }
+
+  static getElement(object: HTMLElement, selector: string) {
+    return object.querySelector(selector);
   }
 
   private render() {
@@ -150,10 +151,6 @@ class RangeSlider {
       this.sliderWrapper.classList.toggle(`${this.rootSelector}__${this.sliderSelector}_${this.isVerticalModifier}`);
     }
     this.wrapper.classList.toggle(`${this.rootSelector}_${this.isVerticalModifier}`);
-  }
-
-  private static getElement(object: HTMLElement, selector: string) {
-    return object.querySelector(selector);
   }
 }
 

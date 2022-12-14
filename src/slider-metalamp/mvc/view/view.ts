@@ -43,21 +43,6 @@ class View extends Observer {
     this.collectParms();
   }
 
-  private render() {
-    this.slider = document.createElement('div');
-    this.slider.className = 'slider-metalamp__wrapper';
-
-    this.track = document.createElement('div');
-    this.track.className = 'slider-metalamp__track';
-    this.slider.append(this.track);
-
-    this.frame = document.createElement('div');
-    this.frame.className = 'slider-metalamp__frame';
-    this.slider.append(this.frame);
-
-    this.root.after(this.slider);
-  }
-
   public init(conf: IConfFull) {
     this.conf = conf;
     this.createSubViews();
@@ -165,6 +150,21 @@ class View extends Observer {
       return;
     }
     this.viewControl.switchTip(conf);
+  }
+
+  private render() {
+    this.slider = document.createElement('div');
+    this.slider.className = 'slider-metalamp__wrapper';
+
+    this.track = document.createElement('div');
+    this.track.className = 'slider-metalamp__track';
+    this.slider.append(this.track);
+
+    this.frame = document.createElement('div');
+    this.frame.className = 'slider-metalamp__frame';
+    this.slider.append(this.frame);
+
+    this.root.after(this.slider);
   }
 
   private changeMode(parameter: boolean, modifier: string) {

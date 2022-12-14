@@ -1,8 +1,7 @@
+import { TAllowedTypes } from '../../slider-metalamp/mvc/interface';
 import getElement from './getElement';
 
-type AllowedTypes = 'input' | 'toggle' | 'radiobuttons';
-
-const prepareElements = (options: Array<[string, AllowedTypes]>, wrapper: HTMLElement) => {
+const prepareElements = (options: Array<[string, TAllowedTypes]>, wrapper: HTMLElement) => {
   const optionObjects: Array<HTMLInputElement> = [];
   options.forEach((option) => {
     const [key, value] = option;

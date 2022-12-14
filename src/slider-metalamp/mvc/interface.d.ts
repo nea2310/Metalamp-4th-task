@@ -119,6 +119,8 @@ type TValueType = string | number | boolean | Function;
 
 type TStopType = 'normal' | 'min' | 'max' | 'meetMin' | 'meetMax';
 
+type TAllowedTypes = 'input' | 'toggle' | 'radiobuttons';
+
 export {
   IConf,
   IObject,
@@ -136,5 +138,6 @@ export {
   IData,
   TStopType,
   INewObject,
-  TDirectionsCortege
+  TDirectionsCortege,
+  TAllowedTypes,
 };

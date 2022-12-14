@@ -2,12 +2,10 @@ import updateObject from '../../../shared/utils/updateObject';
 import prepareElements from '../../../shared/utils/prepareElements';
 import getNotificationDetails from '../../../shared/utils/getNotificationDetails';
 import getElement from '../../../shared/utils/getElement';
-import { IConf } from '../../../slider-metalamp/mvc/interface';
+import { IConf, TAllowedTypes } from '../../../slider-metalamp/mvc/interface';
 import PanelObserver from '../PanelObserver';
 
-type AllowedTypes = 'input' | 'toggle';
-
-const OPTIONS: Array<[string, AllowedTypes]> = [
+const OPTIONS: Array<[string, TAllowedTypes]> = [
   ['min', 'input'],
   ['max', 'input'],
   ['from', 'input'],
