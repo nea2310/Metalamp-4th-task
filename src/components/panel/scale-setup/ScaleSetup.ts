@@ -1,4 +1,9 @@
+import updateObject from '../../../shared/utils/updateObject';
+import prepareElements from '../../../shared/utils/prepareElements';
+import getNotificationDetails from '../../../shared/utils/getNotificationDetails';
+import getElement from '../../../shared/utils/getElement';
 import { IConf } from '../../../slider-metalamp/mvc/interface';
+
 import PanelObserver from '../PanelObserver';
 
 type AllowedTypes = 'input' | 'toggle' | 'radiobuttons';
@@ -41,13 +46,7 @@ class ScaleSetup extends PanelObserver {
       this.optionInterval.disabled = (option === 'step');
     };
 
-    this.optionObjects.forEach((optionObject) => {
-      const usageType = optionObject.className.match(/usage_\S*/);
-      const type = usageType ? usageType[0].replace('usage_', '') : '';
-      const item = optionObject;
-      item.checked = /toggle/.test(optionObject.className) ? !!data[type] : false;
-      item.value = String(data[type]);
-    });
+    this.optionObjects = updateObject(this.optionObjects, data);
 
     if (data.scaleBase === 'interval' && this.scaleBaseIntervals) {
       this.scaleBaseIntervals.checked = true;
@@ -68,14 +67,11 @@ class ScaleSetup extends PanelObserver {
   }
 
   private render() {
-    this.optionInterval = this.getElement('interval');
-    this.optionStep = this.getElement('step');
-    this.scaleBaseSteps = this.getElement('scaleBaseStep', 'radiobuttons');
-    this.scaleBaseIntervals = this.getElement('scaleBaseInterval', 'radiobuttons');
-    OPTIONS.forEach((option) => {
-      const [key, value] = option;
-      this.prepareElement(key, value);
-    });
+    this.optionInterval = getElement(this.wrapper, 'interval');
+    this.optionStep = getElement(this.wrapper, 'step');
+    this.scaleBaseSteps = getElement(this.wrapper, 'scaleBaseStep', 'radiobuttons');
+    this.scaleBaseIntervals = getElement(this.wrapper, 'scaleBaseInterval', 'radiobuttons');
+    this.optionObjects = prepareElements(OPTIONS, this.wrapper);
   }
 
   private bindEventListeners() {
@@ -87,11 +83,8 @@ class ScaleSetup extends PanelObserver {
   }
 
   private handleInputChange(event: Event) {
-    const target = event.target as HTMLInputElement;
-    const usageType = target.className.match(/usage_\S*/);
-
-    let notificationText = (target.type === 'text') ? target.value : target.checked;
-    let type = usageType ? usageType[0].replace('usage_', '') : '';
+    const { target } = event;
+    let { type, notificationText } = getNotificationDetails(target);
 
     if (type === 'scaleBaseInterval' || type === 'scaleBaseStep') {
       notificationText = type.slice(9).toLowerCase();
@@ -99,21 +92,6 @@ class ScaleSetup extends PanelObserver {
     }
     this.notify(type, notificationText);
   }
-
-  private getElement(selector: string, type: AllowedTypes = 'input') {
-    if (type === 'input') {
-      return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
-    }
-    if (type === 'radiobuttons') {
-      return this.wrapper.querySelector(`.js-${type}__category-checkbox_usage_${selector}`) as HTMLInputElement;
-    }
-    return this.wrapper.querySelector(`.js-${type}__checkbox_usage_${selector}`) as HTMLInputElement;
-  }
-
-  private prepareElement = (selector: string, type: AllowedTypes = 'input') => {
-    const object = this.getElement(selector, type);
-    this.optionObjects.push(object);
-  };
 }
 
 export default ScaleSetup;

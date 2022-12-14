@@ -1,3 +1,6 @@
+import updateObject from '../../../shared/utils/updateObject';
+import prepareElements from '../../../shared/utils/prepareElements';
+import getNotificationDetails from '../../../shared/utils/getNotificationDetails';
 import { IConf } from '../../../slider-metalamp/mvc/interface';
 import PanelObserver from '../PanelObserver';
 
@@ -23,13 +26,7 @@ class ControlMovementSetup extends PanelObserver {
   }
 
   public update(data: { [key: string]: unknown } & IConf) {
-    this.optionObjects.forEach((optionObject) => {
-      const item = optionObject;
-      const usageType = optionObject.className.match(/usage_\S*/);
-      const type = usageType ? usageType[0].replace('usage_', '') : '';
-      item.checked = /toggle/.test(optionObject.className) ? !!data[type] : false;
-      item.value = String(data[type]);
-    });
+    this.optionObjects = updateObject(this.optionObjects, data);
   }
 
   public disable(isDisabled = false) {
@@ -40,10 +37,7 @@ class ControlMovementSetup extends PanelObserver {
   }
 
   private render() {
-    OPTIONS.forEach((option) => {
-      const [key, value] = option;
-      this.prepareElement(key, value);
-    });
+    this.optionObjects = prepareElements(OPTIONS, this.wrapper);
   }
 
   private bindEventListeners() {
@@ -55,25 +49,10 @@ class ControlMovementSetup extends PanelObserver {
   }
 
   private handleInputChange(event: Event) {
-    const target = event.target as HTMLInputElement;
-    const notificationText = (target.type === 'text') ? target.value : target.checked;
-    const usageType = target.className.match(/usage_\S*/);
-    const type = usageType ? usageType[0].replace('usage_', '') : '';
+    const { target } = event;
+    const { type, notificationText } = getNotificationDetails(target);
     this.notify(type, notificationText);
   }
-
-  private getElement(selector: string, type: AllowedTypes = 'input') {
-    if (type === 'input') {
-      return this.wrapper.querySelector(`.js-${type}-field__${type}_usage_${selector}`) as HTMLInputElement;
-    }
-    return this.wrapper.querySelector(`.js-${type}__checkbox_usage_${selector}`) as HTMLInputElement;
-  }
-
-  private prepareElement = (selector: string, type: AllowedTypes = 'input') => {
-    const object = this.getElement(selector, type);
-    this.optionObjects.push(object);
-    return object;
-  };
 }
 
 export default ControlMovementSetup;

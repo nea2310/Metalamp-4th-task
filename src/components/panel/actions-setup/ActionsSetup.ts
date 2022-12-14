@@ -1,3 +1,5 @@
+import getNotificationDetails from '../../../shared/utils/getNotificationDetails';
+import getElement from '../../../shared/utils/getElement';
 import PanelObserver from '../PanelObserver';
 
 class ActionsSetup extends PanelObserver {
@@ -20,11 +22,7 @@ class ActionsSetup extends PanelObserver {
   }
 
   private render() {
-    this.optionSubscribe = this.getElement('subscribe');
-  }
-
-  private getElement(selector: string) {
-    return this.wrapper.querySelector(`.js-toggle__checkbox_usage_${selector}`) as HTMLInputElement;
+    this.optionSubscribe = getElement(this.wrapper, 'subscribe');
   }
 
   private bindEventListeners() {
@@ -37,12 +35,8 @@ class ActionsSetup extends PanelObserver {
 
   private handleInputChange(event: Event) {
     const { target } = event;
-    if (!(target instanceof HTMLInputElement)) {
-      return;
-    }
-    const usageType = target.className.match(/usage_\S*/);
-    const type = usageType ? usageType[0].replace('usage_', '') : '';
-    this.notify(type, target.checked);
+    const { type, notificationText } = getNotificationDetails(target);
+    this.notify(type, notificationText);
   }
 }
 
