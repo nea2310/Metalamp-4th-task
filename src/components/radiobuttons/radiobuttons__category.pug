@@ -14,6 +14,6 @@ mixin radiobuttons__category(options = {})
     label(class=`${blockName}__${elementName}-label`)
       input(class=`${blockName}__${elementName}-checkbox js-${blockName}__${elementName}-checkbox 
       ${blockName}__${elementName}-checkbox_usage_${usage} js-${blockName}__${elementName}-checkbox_usage_${usage}`
-        type="radio" name=radioGroupName value=name checked=checked tabindex="-1")
-      span(class=`${blockName}__${elementName}-radiomark js-${blockName}__${elementName}-radiomark` tabindex="0")
+        type="radio" name=radioGroupName value=name checked=checked)
+      span(class=`${blockName}__${elementName}-radiomark js-${blockName}__${elementName}-radiomark`)
       span(class=`${blockName}__${elementName}-name`)= name

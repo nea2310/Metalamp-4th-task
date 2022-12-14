@@ -28,13 +28,12 @@
     padding: 0;
   }
 
-  &__checkmark {
-    margin: 5px;
-    border: 2px solid $color-border;
-  }
-
   &__checkbox:checked + &__checkmark {
     border: 2px solid $color-main;
+  }
+
+  &__checkbox:focus-visible + &__checkmark {
+    outline: 2px solid;
   }
 
   &__checkbox:checked + &__checkmark &__ball {
@@ -55,6 +54,7 @@
 
   &__checkmark {
     cursor: pointer;
+    margin: 5px;
     display: inline-block;
     position: relative;
     border: 1px solid $color-border;
