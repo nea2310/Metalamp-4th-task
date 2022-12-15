@@ -4,11 +4,8 @@ interface SliderFunction {
   (options: IConf): JQuery;
 }
 
-interface Slider extends
-  SliderFunction { }
-
 declare global {
   interface JQuery {
-    SliderMetaLamp: Slider;
+    SliderMetaLamp: SliderFunction;
   }
 }

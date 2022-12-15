@@ -1,6 +1,6 @@
-type AllowedTypes = 'input' | 'toggle' | 'radiobuttons';
+import { TAllowedTypes } from '../../slider-metalamp/mvc/interface';
 
-function getElement(wrapper: HTMLElement, selector: string, type: AllowedTypes = 'input') {
+function getElement(wrapper: HTMLElement, selector: string, type: TAllowedTypes = 'input') {
   let element: HTMLInputElement | null = null;
   switch (type) {
     case 'input':
