@@ -186,4 +186,4 @@ class Controller extends Observer {
   };
 }
 
-export { Model, View, Controller };
+export default Controller;

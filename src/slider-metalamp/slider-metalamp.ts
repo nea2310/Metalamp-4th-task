@@ -1,4 +1,6 @@
-import { Model, View, Controller } from './mvc/controller/Controller';
+import Model from './mvc/model/Model';
+import View from './mvc/view/View';
+import Controller from './mvc/controller/Controller';
 import { IConf } from './mvc/interface';
 
 function plugin(this: JQuery, options: IConf): JQuery {

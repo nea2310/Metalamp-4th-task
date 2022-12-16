@@ -1,5 +1,5 @@
 import Model from '../../model/Model';
-import { Controller } from '../../controller/Controller';
+import Controller from '../../controller/Controller';
 import { IConfFull } from '../../interface';
 import View from '../View';
 import ViewControl from './ViewControl';
