@@ -189,7 +189,7 @@ class Model extends Observer {
       width,
       height,
       shiftBase,
-      moovingControl,
+      movingControl,
     } = data;
 
     let newPosition = 0;
@@ -207,7 +207,7 @@ class Model extends Observer {
     let isStop = false;
     const updatePosition = (returnValue = '', needChange = false, stopType: TStopType = 'min') => {
       isStop = true;
-      this.calcValue(stopType, 0, moovingControl);
+      this.calcValue(stopType, 0, movingControl);
       if (needChange && typeof this.onChange === 'function') {
         this.onChange(this.conf);
       }
@@ -222,17 +222,17 @@ class Model extends Observer {
       return updatePosition('newPosition > 100', true, 'max');
     }
 
-    const isBeyondToPosition = this.conf.range && moovingControl === 'min' && newPosition > this.data.toPosition;
+    const isBeyondToPosition = this.conf.range && movingControl === 'min' && newPosition > this.data.toPosition;
     if (isBeyondToPosition) {
       return updatePosition('newPosition > toPosition', false, 'meetMax');
     }
 
-    const isBelowFromPosition = this.conf.range && moovingControl === 'max' && newPosition < this.data.fromPosition;
+    const isBelowFromPosition = this.conf.range && movingControl === 'max' && newPosition < this.data.fromPosition;
     if (isBelowFromPosition) {
       return updatePosition('newPosition < fromPosition', false, 'meetMin');
     }
 
-    if (moovingControl === 'min') {
+    if (movingControl === 'min') {
       this.data.fromPosition = newPosition;
       this.notify('FromPosition', this.data, this.conf);
     } else {
@@ -240,7 +240,7 @@ class Model extends Observer {
       this.notify('ToPosition', this.data, this.conf);
     }
     if (!isStop) {
-      this.calcValue('normal', newPosition, moovingControl);
+      this.calcValue('normal', newPosition, movingControl);
     }
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
@@ -252,15 +252,15 @@ class Model extends Observer {
   {
     direction: TDirections,
     repeat: boolean,
-    moovingControl: 'min' | 'max',
+    movingControl: 'min' | 'max',
   }) {
-    const { direction, repeat, moovingControl } = data;
+    const { direction, repeat, movingControl } = data;
 
     const isIncreasing = direction === 'ArrowRight' || direction === 'ArrowUp';
     const isDecreasing = direction === 'ArrowLeft' || direction === 'ArrowDown';
 
-    const isMin = moovingControl === 'min';
-    const isMax = moovingControl === 'max';
+    const isMin = movingControl === 'min';
+    const isMax = movingControl === 'max';
 
     const isIncreasingNoSticky = isIncreasing && !this.conf.sticky;
     const isDecreasingNoSticky = isDecreasing && !this.conf.sticky;
@@ -294,7 +294,7 @@ class Model extends Observer {
       return this.getNewValueNoSticky('MaxDecreasingNoSticky', repeat);
     }
 
-    const value = moovingControl === 'min' ? this.conf.from : this.conf.to;
+    const value = movingControl === 'min' ? this.conf.from : this.conf.to;
     const index = this.data.marksArray.findIndex((elem) => elem.value === value);
     const shift = this.getShift(repeat);
     const indexToSearch = isIncreasing ? index + shift : index - shift;
@@ -673,7 +673,7 @@ class Model extends Observer {
   private calcValue(
     stopType: TStopType,
     position: number,
-    moovingControl: 'min' | 'max',
+    movingControl: 'min' | 'max',
   ) {
     if (this.changeMode) {
       return;
@@ -690,7 +690,7 @@ class Model extends Observer {
 
     const newValue = stopTypes[stopType];
 
-    if (moovingControl === 'min') {
+    if (movingControl === 'min') {
       this.data.fromValue = newValue;
       this.conf.from = parseFloat(newValue);
       this.notify('FromValue', this.data);

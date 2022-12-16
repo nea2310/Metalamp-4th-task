@@ -9,7 +9,7 @@ interface IData {
   width: number;
   height: number;
   shiftBase: number;
-  moovingControl: 'min' | 'max';
+  movingControl: 'min' | 'max';
 }
 
 interface IConfFull {
@@ -68,7 +68,7 @@ interface IthumbFull {
   width: number;
   height: number;
   shiftBase: number;
-  moovingControl: 'min' | 'max';
+  movingControl: 'min' | 'max';
   direction: TDirections;
   repeat: boolean;
 }

@@ -26,7 +26,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         width: 10,
         height: 10,
         shiftBase: 0.5,
-        moovingControl: 'min',
+        movingControl: 'min',
       },
     ))
       .toBe('newPosition < 0');
@@ -41,7 +41,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         width: 10,
         height: 10,
         shiftBase: 0.5,
-        moovingControl: 'max',
+        movingControl: 'max',
       },
     ))
       .toBe('newPosition > 100');
@@ -56,7 +56,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         width: 200,
         height: 0,
         shiftBase: 0.5,
-        moovingControl: 'min',
+        movingControl: 'min',
       },
     ))
       .toBe(25);
@@ -71,7 +71,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         width: 200,
         height: 0,
         shiftBase: 0.5,
-        moovingControl: 'max',
+        movingControl: 'max',
       },
     ))
       .toBe(50);
@@ -86,7 +86,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         width: 200,
         height: 0,
         shiftBase: 0.5,
-        moovingControl: 'max',
+        movingControl: 'max',
       },
     ))
       .toBe('newPosition < fromPosition');
@@ -101,7 +101,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         width: 200,
         height: 0,
         shiftBase: 0.5,
-        moovingControl: 'min',
+        movingControl: 'min',
       },
     ))
       .toBe('newPosition > toPosition');
@@ -132,7 +132,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         width: 10,
         height: 10,
         shiftBase: 0.5,
-        moovingControl: 'min',
+        movingControl: 'min',
       },
     ))
       .toBe(0);
@@ -147,7 +147,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         width: 10,
         height: 10,
         shiftBase: 0.5,
-        moovingControl: 'max',
+        movingControl: 'max',
       },
     ))
       .toBe(100);
@@ -162,7 +162,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         width: 200,
         height: 0,
         shiftBase: 0.5,
-        moovingControl: 'min',
+        movingControl: 'min',
       },
     ))
       .toBe(30);
@@ -177,7 +177,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         width: 200,
         height: 0,
         shiftBase: 0.5,
-        moovingControl: 'max',
+        movingControl: 'max',
       },
     ))
       .toBe(50);
@@ -192,7 +192,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         width: 200,
         height: 0,
         shiftBase: 0.5,
-        moovingControl: 'max',
+        movingControl: 'max',
       },
     ))
       .toBe('newPosition < fromPosition');
@@ -207,7 +207,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         width: 200,
         height: 0,
         shiftBase: 0.5,
-        moovingControl: 'min',
+        movingControl: 'min',
       },
     ))
       .toBe('newPosition > toPosition');
@@ -235,7 +235,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowLeft',
           repeat: false,
-          moovingControl: 'min',
+          movingControl: 'min',
         },
       ))
         .toBe(10);
@@ -244,7 +244,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowLeft',
           repeat: true,
-          moovingControl: 'min',
+          movingControl: 'min',
         },
       ))
         .toBe(10);
@@ -253,7 +253,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowRight',
           repeat: false,
-          moovingControl: 'max',
+          movingControl: 'max',
         },
       ))
         .toBe(100);
@@ -262,7 +262,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowRight',
           repeat: true,
-          moovingControl: 'max',
+          movingControl: 'max',
         },
       ))
         .toBe(100);
@@ -273,7 +273,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowLeft',
           repeat: false,
-          moovingControl: 'max',
+          movingControl: 'max',
         },
       ))
         .toBe(70);
@@ -281,7 +281,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
       expect(testModel.calcPositionSetByKey({
         direction: 'ArrowRight',
         repeat: false,
-        moovingControl: 'min',
+        movingControl: 'min',
       }))
         .toBe(70);
 
@@ -289,7 +289,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowLeft',
           repeat: false,
-          moovingControl: 'min',
+          movingControl: 'min',
         },
       ))
         .toBe(69);
@@ -298,7 +298,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowLeft',
           repeat: true,
-          moovingControl: 'min',
+          movingControl: 'min',
         },
       ))
         .toBe(67);
@@ -307,7 +307,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowRight',
           repeat: false,
-          moovingControl: 'max',
+          movingControl: 'max',
         },
       ))
         .toBe(71);
@@ -316,7 +316,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowRight',
           repeat: true,
-          moovingControl: 'max',
+          movingControl: 'max',
         },
       ))
         .toBe(73);
@@ -344,7 +344,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowLeft',
           repeat: false,
-          moovingControl: 'min',
+          movingControl: 'min',
         },
       ))
         .toBe('newPosition<0');
@@ -353,7 +353,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowLeft',
           repeat: true,
-          moovingControl: 'min',
+          movingControl: 'min',
         },
       ))
         .toBe('newPosition<0');
@@ -362,7 +362,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowRight',
           repeat: false,
-          moovingControl: 'max',
+          movingControl: 'max',
         },
       ))
         .toBe('newPosition>100');
@@ -371,7 +371,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowRight',
           repeat: true,
-          moovingControl: 'max',
+          movingControl: 'max',
         },
       ))
         .toBe('newPosition>100');
@@ -382,7 +382,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowLeft',
           repeat: false,
-          moovingControl: 'max',
+          movingControl: 'max',
         },
       ))
         .toBe('too small newPosition');
@@ -391,7 +391,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowRight',
           repeat: false,
-          moovingControl: 'min',
+          movingControl: 'min',
         },
       ))
         .toBe('too big newPosition');
@@ -400,7 +400,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowLeft',
           repeat: false,
-          moovingControl: 'min',
+          movingControl: 'min',
         },
       ))
         .toEqual({ newPosition: 60, newValue: '64' });
@@ -409,7 +409,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowLeft',
           repeat: true,
-          moovingControl: 'min',
+          movingControl: 'min',
         },
       ))
         .toEqual({ newPosition: 40, newValue: '46' });
@@ -418,7 +418,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowRight',
           repeat: false,
-          moovingControl: 'max',
+          movingControl: 'max',
         },
       ))
         .toEqual({ newPosition: 80, newValue: '82' });
@@ -427,7 +427,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         {
           direction: 'ArrowRight',
           repeat: true,
-          moovingControl: 'max',
+          movingControl: 'max',
         },
       ))
         .toEqual({ newPosition: 100, newValue: '100' });
@@ -620,7 +620,7 @@ describe('model, API method "update" processing', () => {
         height: 0,
         direction: 'ArrowLeft',
         left: 0,
-        moovingControl: 'min',
+        movingControl: 'min',
         repeat: false,
         shiftBase: 0,
         top: 0,

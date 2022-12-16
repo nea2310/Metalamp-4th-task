@@ -171,7 +171,7 @@ describe('ViewControl event listeners', () => {
         width: 0,
         height: 0,
         shiftBase: 100,
-        moovingControl: 'max',
+        movingControl: 'max',
       },
     );
   });
@@ -194,7 +194,7 @@ describe('ViewControl event listeners', () => {
         width: 0,
         height: 0,
         shiftBase: 100,
-        moovingControl: 'min',
+        movingControl: 'min',
         direction: 'ArrowLeft',
         repeat: false,
       },
@@ -221,7 +221,7 @@ describe('ViewControl event listeners', () => {
       width: 0,
       direction: 'ArrowLeft',
       repeat: false,
-      moovingControl: 'max',
+      movingControl: 'max',
     });
   });
 });

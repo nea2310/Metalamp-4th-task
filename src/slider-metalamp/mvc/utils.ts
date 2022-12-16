@@ -34,7 +34,7 @@ export const defaultThumb: IthumbFull = {
   width: 0,
   height: 0,
   shiftBase: 0,
-  moovingControl: 'min',
+  movingControl: 'min',
   direction: 'ArrowLeft',
   repeat: false,
 };

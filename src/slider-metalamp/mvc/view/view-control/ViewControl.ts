@@ -172,9 +172,9 @@ class ViewControl extends Observer {
         target.classList.add('slider-metalamp__control_grabbing');
       }
       const { thumb } = this.data;
-      const moovingControl = this.defineControl(target);
-      if (target.classList.contains('slider-metalamp__control') && moovingControl) {
-        thumb.moovingControl = moovingControl;
+      const movingControl = this.defineControl(target);
+      if (target.classList.contains('slider-metalamp__control') && movingControl) {
+        thumb.movingControl = movingControl;
 
         thumb.shiftBase = this.conf.vertical ? 0
           : event.clientX - target.getBoundingClientRect().left;
@@ -226,7 +226,7 @@ class ViewControl extends Observer {
       }
 
       if (target.classList.contains('slider-metalamp__control')) {
-        thumb.moovingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
+        thumb.movingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
         thumb.direction = direction;
         thumb.repeat = event.repeat;
         this.notify('KeydownEvent', this.data);
@@ -276,9 +276,9 @@ class ViewControl extends Observer {
       }
 
       if (this.controlMax && this.controlMax.classList.contains('hidden')) {
-        thumb.moovingControl = 'min';
+        thumb.movingControl = 'min';
       } else {
-        thumb.moovingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
+        thumb.movingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
       }
       this.notify('MoveEvent', this.data);
     };
