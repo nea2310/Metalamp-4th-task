@@ -8,13 +8,13 @@ import {
   IConfFull,
   IConf,
   IObject,
-  Imethods,
   IdataFull,
   TDirections,
   TValueType,
   IData,
   TStopType,
   INewObject,
+  TConfItem,
 } from '../interface';
 
 class Model extends Observer {
@@ -25,18 +25,6 @@ class Model extends Observer {
   private startConf: IConf;
 
   private dataAttributesConf: IConf = {};
-
-  private methods: Imethods = {
-    calcFromPosition: false,
-    calcToPosition: false,
-    calcScaleMarks: false,
-    switchVertical: false,
-    switchRange: false,
-    switchScale: false,
-    switchBar: false,
-    switchTip: false,
-    updateControlPos: false,
-  };
 
   private data: IdataFull = {
     ...defaultData, thumb: { ...defaultThumb },
@@ -54,13 +42,6 @@ class Model extends Observer {
     super();
     this.startConf = conf;
   }
-
-  /* метод Object.keys возвращает тип string[] (см. https://github.com/Microsoft/TypeScript/issues/12870),
-  поэтому элементы массива не могут использоваться в качестве индекса в записи вида
-  this.methods[key].   Чтобы преобразовать тип string[] к типу объединения значений
-  ключей объекта ('key1' | 'key2' | 'key3'... используем метод Model.getKeys) */
-
-  static getKeys = <T extends object>(obj: T): (keyof T)[] => Object.keys(obj) as (keyof T)[];
 
   static checkConf(config: IConfFull) {
     let conf = config;
@@ -189,28 +170,14 @@ class Model extends Observer {
     let conf = { ...this.conf, ...newConf };
 
     conf = Model.checkConf(conf);
-
-    this.findChangedConf(this.conf, conf);
+    const oldConf = this.conf;
     this.conf = conf;
-    const keys = Model.getKeys(this.methods);
-
-    keys.forEach((element) => {
-      const key = element;
-      if (this.methods[key]) {
-        this[key]();
-      }
-    });
+    this.doCalculation(oldConf, this.conf);
 
     if (typeof this.onUpdate === 'function') {
       this.onUpdate(this.conf);
     }
 
-    keys.forEach((element) => {
-      const key = element;
-      if (this.methods[key]) {
-        this.methods[key] = false;
-      }
-    });
     this.needCalcValue = true;
     return { ...this.conf, ...this.data };
   }
@@ -496,75 +463,87 @@ class Model extends Observer {
     }
   }
 
-  private findChangedConf(currentConf: IConfFull, newConf: IConf) {
-    const keys = Model.getKeys(newConf);
-    keys.forEach((element) => {
-      const key = element;
-      if (newConf[key] !== currentConf[key]) {
-        switch (key) {
-          case 'min':
-          case 'max':
-            this.needCalcValue = true;
-            this.methods.calcScaleMarks = true;
-            this.methods.calcFromPosition = true;
-            this.methods.calcToPosition = true;
-            break;
-          case 'from':
-            this.methods.calcFromPosition = true;
-            break;
-          case 'to':
-            this.methods.calcToPosition = true;
-            break;
-          case 'step':
-          case 'interval':
-            this.methods.calcScaleMarks = true;
-            this.methods.updateControlPos = true;
-            break;
-          case 'scaleBase':
-            this.methods.calcScaleMarks = true;
-            break;
-          case 'vertical':
-            this.methods.switchVertical = true;
-            break;
-          case 'range':
-            this.methods.switchRange = true;
-            break;
-          case 'scale':
-            this.methods.switchScale = true;
-            break;
-          case 'bar':
-            this.methods.switchBar = true;
-            break;
-          case 'tip':
-            this.methods.switchTip = true;
-            break;
-          case 'sticky':
-            this.methods.updateControlPos = true;
-            break;
-          case 'onStart':
-            if (newConf.onStart) {
-              this.conf.onStart = newConf.onStart;
-              this.onStart = newConf.onStart;
-            }
-            break;
-          case 'onChange':
-            if (newConf.onChange || newConf.onChange === null) {
-              this.conf.onChange = newConf.onChange;
-              this.onChange = newConf.onChange;
-            }
-            break;
-          case 'onUpdate':
-            if (newConf.onUpdate) {
-              this.conf.onUpdate = newConf.onUpdate;
-              this.onUpdate = newConf.onUpdate;
-            }
-            break;
-          default: return null;
-        }
+  private doCalculation(oldConf: IConfFull, newConf: IConf) {
+    const sortArray = (object: IConf) => Object.entries(object).sort(
+      (a: TConfItem, b: TConfItem) => {
+        if (a[0] > b[0]) {
+          return 1;
+        } return -1;
+      },
+    );
+
+    const changedConfItems = sortArray(newConf).filter((newConfItem) => {
+      const confItem = sortArray(oldConf).find(
+        (oldConfItem) => oldConfItem[0] === newConfItem[0],
+      );
+      if (!confItem) {
+        return null;
       }
-      return null;
+      return confItem[1] !== newConfItem[1];
     });
-    return this.methods;
+
+    changedConfItems.forEach((item) => {
+      switch (item[0]) {
+        case 'min':
+        case 'max':
+          this.needCalcValue = true;
+          this.calcScaleMarks();
+          this.calcFromPosition();
+          this.calcToPosition();
+          break;
+        case 'from':
+          this.calcFromPosition();
+          break;
+        case 'to':
+          this.calcToPosition();
+          break;
+        case 'step':
+        case 'interval':
+          this.calcScaleMarks();
+          this.updateControlPos();
+          break;
+        case 'scaleBase':
+          this.calcScaleMarks();
+          break;
+        case 'vertical':
+          this.switchVertical();
+          break;
+        case 'range':
+          this.switchRange();
+          break;
+        case 'scale':
+          this.switchScale();
+          break;
+        case 'bar':
+          this.switchBar();
+          break;
+        case 'tip':
+          this.switchTip();
+          break;
+        case 'sticky':
+          this.updateControlPos();
+          break;
+        case 'onStart':
+          if (newConf.onStart) {
+            this.conf.onStart = newConf.onStart;
+            this.onStart = newConf.onStart;
+          }
+          break;
+        case 'onChange':
+          if (newConf.onChange || newConf.onChange === null) {
+            this.conf.onChange = newConf.onChange;
+            this.onChange = newConf.onChange;
+          }
+          break;
+        case 'onUpdate':
+          if (newConf.onUpdate) {
+            this.conf.onUpdate = newConf.onUpdate;
+            this.onUpdate = newConf.onUpdate;
+          }
+          break;
+        default: break;
+      }
+    });
   }
 
   private switchVertical() {

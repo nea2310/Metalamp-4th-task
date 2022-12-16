@@ -1,3 +1,5 @@
+import { type } from "jquery";
+
 interface IData {
   type: TMoveTypes;
   clientY: number;
@@ -49,18 +51,6 @@ interface IObject {
 interface INewObject {
   newValue: string;
   newPosition: number;
-}
-
-interface Imethods {
-  calcFromPosition: boolean;
-  calcToPosition: boolean;
-  calcScaleMarks: boolean;
-  switchVertical: boolean;
-  switchRange: boolean;
-  switchScale: boolean;
-  switchBar: boolean;
-  switchTip: boolean;
-  updateControlPos: boolean;
 }
 
 type TDirections = 'ArrowLeft' | 'ArrowDown' | 'ArrowRight' | 'ArrowUp';
@@ -121,10 +111,11 @@ type TStopType = 'normal' | 'min' | 'max' | 'meetMin' | 'meetMax';
 
 type TAllowedTypes = 'input' | 'toggle' | 'radiobuttons';
 
+type TConfItem = [string, unknown];
+
 export {
   IConf,
   IObject,
-  Imethods,
   INotifyParameters,
   IConfFull,
   IConfFullIndexed,
@@ -140,4 +131,5 @@ export {
   INewObject,
   TDirectionsCortege,
   TAllowedTypes,
+  TConfItem,
 };
