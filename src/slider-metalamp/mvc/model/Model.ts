@@ -36,8 +36,6 @@ class Model extends Observer {
 
   private onChange?: (data: IConf) => unknown | null;
 
-  private needCalcValue = true;
-
   constructor(conf: IConf) {
     super();
     this.startConf = conf;
@@ -178,7 +176,6 @@ class Model extends Observer {
       this.onUpdate(this.conf);
     }
 
-    this.needCalcValue = true;
     return { ...this.conf, ...this.data };
   }
 
@@ -486,7 +483,6 @@ class Model extends Observer {
       switch (item[0]) {
         case 'min':
         case 'max':
-          this.needCalcValue = true;
           this.calcScaleMarks();
           this.calcFromPosition();
           this.calcToPosition();
@@ -613,9 +609,7 @@ class Model extends Observer {
     if (this.conf.sticky) {
       this.data.fromPosition = this.setSticky(this.data.fromPosition);
     }
-    if (this.needCalcValue) {
-      this.calcValue('normal', this.data.fromPosition, 'min');
-    }
+    this.calcValue('normal', this.data.fromPosition, 'min');
     this.notify('FromPosition', this.data, this.conf);
   }
 
@@ -625,9 +619,7 @@ class Model extends Observer {
     if (this.conf.sticky) {
       this.data.toPosition = this.setSticky(this.data.toPosition);
     }
-    if (this.needCalcValue) {
-      this.calcValue('normal', this.data.toPosition, 'max');
-    }
+    this.calcValue('normal', this.data.toPosition, 'max');
     this.notify('ToPosition', this.data, this.conf);
   }
 
