@@ -1,9 +1,9 @@
-import { IConf } from '../interface';
+import { IPluginConfiguration } from '../interface';
 import Model from './Model';
 
 describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () => {
   test('calcPositionSetByPointer, no Sticky', () => {
-    const conf: IConf = {
+    const conf: IPluginConfiguration = {
       min: 10,
       max: 100,
       from: 20,
@@ -108,7 +108,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
   });
 
   test('calcpos, sticky', () => {
-    const conf: IConf = {
+    const conf: IPluginConfiguration = {
       min: 10,
       max: 100,
       from: 20,
@@ -217,7 +217,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
     'calcPositionSetByKey, no Sticky',
 
     () => {
-      const conf: IConf = {
+      const conf: IPluginConfiguration = {
         min: 10,
         max: 100,
         from: 10,
@@ -326,7 +326,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
   test(
     'calcPositionSetByKey, Sticky',
     () => {
-      const conf: IConf = {
+      const conf: IPluginConfiguration = {
         min: 10,
         max: 100,
         from: 10,
@@ -403,7 +403,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           movingControl: 'min',
         },
       ))
-        .toEqual({ newPosition: 60, newValue: '64' });
+        .toEqual({ position: 60, value: 64 });
 
       expect(testModel.calcPositionSetByKey(
         {
@@ -412,7 +412,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           movingControl: 'min',
         },
       ))
-        .toEqual({ newPosition: 40, newValue: '46' });
+        .toEqual({ position: 40, value: 46 });
 
       expect(testModel.calcPositionSetByKey(
         {
@@ -421,7 +421,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           movingControl: 'max',
         },
       ))
-        .toEqual({ newPosition: 80, newValue: '82' });
+        .toEqual({ position: 80, value: 82 });
 
       expect(testModel.calcPositionSetByKey(
         {
@@ -430,13 +430,13 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
           movingControl: 'max',
         },
       ))
-        .toEqual({ newPosition: 100, newValue: '100' });
+        .toEqual({ position: 100, value: 100 });
     },
   );
 });
 
 describe('model, values correction on API method "update" processing', () => {
-  const conf: IConf = {
+  const conf: IPluginConfiguration = {
     min: 0,
     max: 100,
     from: 10,
@@ -559,7 +559,7 @@ describe('model, API method "update" processing', () => {
   const onStart = () => true;
   const onChange = () => true;
   const onUpdate = () => true;
-  const conf: IConf = {
+  const conf: IPluginConfiguration = {
     min: 0,
     max: 100,
     from: 10,
@@ -614,7 +614,7 @@ describe('model, API method "update" processing', () => {
       toPosition: 50,
       toValue: '50',
       vertical: false,
-      thumb: {
+      slider: {
         clientX: 0,
         clientY: 0,
         height: 0,

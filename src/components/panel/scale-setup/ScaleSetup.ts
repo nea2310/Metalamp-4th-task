@@ -2,7 +2,7 @@ import updateObject from '../../../shared/utils/updateObject';
 import prepareElements from '../../../shared/utils/prepareElements';
 import getNotificationDetails from '../../../shared/utils/getNotificationDetails';
 import getElement from '../../../shared/utils/getElement';
-import { IConf, TAllowedTypes } from '../../../slider-metalamp/mvc/interface';
+import { IPluginConfiguration, TAllowedTypes } from '../../../slider-metalamp/mvc/interface';
 import PanelObserver from '../PanelObserver';
 
 const OPTIONS: Array<[string, TAllowedTypes]> = [
@@ -34,7 +34,7 @@ class ScaleSetup extends PanelObserver {
     this.addEventListeners();
   }
 
-  public update(data: { [key: string]: unknown } & IConf) {
+  public update(data: { [key: string]: unknown } & IPluginConfiguration) {
     const switchOption = (option: 'step' | 'interval' = 'step') => {
       if (!this.optionStep || !this.optionInterval) {
         return;

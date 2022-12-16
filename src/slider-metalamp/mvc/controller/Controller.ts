@@ -1,7 +1,7 @@
 import View from '../view/View';
 import Model from '../model/Model';
 import Observer from '../Observer';
-import { IConf, INotifyParameters } from '../interface';
+import { IPluginConfiguration, INotificationParameters } from '../interface';
 
 class Controller extends Observer {
   public model: Model | null;
@@ -16,7 +16,7 @@ class Controller extends Observer {
     this.init();
   }
 
-  public update(conf: IConf) {
+  public update(conf: IPluginConfiguration) {
     if (!this.model) {
       return;
     }
@@ -101,88 +101,88 @@ class Controller extends Observer {
   }
 
   private handleFromPosition =
-  (parms: INotifyParameters) => {
+  (parms: INotificationParameters) => {
     if (parms.key !== 'FromPosition' || !this.view) {
       return;
     }
     this.view.updateFromPos(parms.data, parms.conf);
   };
 
-  private handleToPosition = (parms: INotifyParameters) => {
+  private handleToPosition = (parms: INotificationParameters) => {
     if (parms.key !== 'ToPosition' || !this.view) {
       return;
     }
     this.view.updateToPos(parms.data, parms.conf);
   };
 
-  private handleFromValue = (parms: INotifyParameters) => {
+  private handleFromValue = (parms: INotificationParameters) => {
     if (parms.key !== 'FromValue' || !this.view) {
       return;
     }
     this.view.updateFromValue(parms.data);
   };
 
-  private handleToValue = (parms: INotifyParameters) => {
+  private handleToValue = (parms: INotificationParameters) => {
     if (parms.key !== 'ToValue' || !this.view) {
       return;
     }
     this.view.updateToValue(parms.data);
   };
 
-  private handleScale = (parms: INotifyParameters) => {
+  private handleScale = (parms: INotificationParameters) => {
     if (parms.key !== 'Scale' || !this.view) {
       return;
     }
     this.view.updateScale(parms.data, parms.conf);
   };
 
-  private handleIsVertical = (parms: INotifyParameters) => {
+  private handleIsVertical = (parms: INotificationParameters) => {
     if (parms.key !== 'IsVertical' || !this.view) {
       return;
     }
     this.view.switchVertical(parms.conf);
   };
 
-  private handleIsRange = (parms: INotifyParameters) => {
+  private handleIsRange = (parms: INotificationParameters) => {
     if (parms.key !== 'IsRange' || !this.view) {
       return;
     }
     this.view.switchRange(parms.conf, parms.data);
   };
 
-  private handleIsScale = (parms: INotifyParameters) => {
+  private handleIsScale = (parms: INotificationParameters) => {
     if (parms.key !== 'IsScale' || !this.view) {
       return;
     }
     this.view.switchScale(parms.conf);
   };
 
-  private handleIsBar = (parms: INotifyParameters) => {
+  private handleIsBar = (parms: INotificationParameters) => {
     if (parms.key !== 'IsBar' || !this.view) {
       return;
     }
     this.view.switchBar(parms.conf);
   };
 
-  private handleIsTip = (parms: INotifyParameters) => {
+  private handleIsTip = (parms: INotificationParameters) => {
     if (parms.key !== 'IsTip' || !this.view) {
       return;
     }
     this.view.switchTip(parms.conf);
   };
 
-  private handleMoveEvent = (parms: INotifyParameters) => {
+  private handleMoveEvent = (parms: INotificationParameters) => {
     if (parms.key !== 'MoveEvent' || !this.model) {
       return;
     }
-    this.model.calcPositionSetByPointer(parms.data.thumb);
+    this.model.calcPositionSetByPointer(parms.data.slider);
   };
 
-  private handleKeydownEvent = (parms: INotifyParameters) => {
+  private handleKeydownEvent = (parms: INotificationParameters) => {
     if (parms.key !== 'KeydownEvent' || !this.model) {
       return;
     }
-    this.model.calcPositionSetByKey(parms.data.thumb);
+    this.model.calcPositionSetByKey(parms.data.slider);
   };
 }
 

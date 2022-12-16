@@ -1,7 +1,5 @@
-import { type } from "jquery";
-
 interface IData {
-  type: TMoveTypes;
+  type: TSliderMovementTypes;
   clientY: number;
   clientX: number;
   top: number;
@@ -12,7 +10,33 @@ interface IData {
   movingControl: 'min' | 'max';
 }
 
-interface IConfFull {
+interface IPluginPrivateData {
+  fromPosition: number;
+  toPosition: number;
+  marksArray: { 'position': number, 'value': number }[];
+  intervalValue: string;
+  stepValue: string;
+  scaleBase: 'step' | 'interval';
+  fromValue: string;
+  toValue: string;
+  slider: ISliderFull;
+}
+
+interface ISliderFull {
+  type: TSliderMovementTypes;
+  clientY: number;
+  clientX: number;
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+  shiftBase: number;
+  movingControl: 'min' | 'max';
+  direction: TSliderKeydownTypes;
+  repeat: boolean;
+}
+
+interface IPluginConfigurationFull {
   min: number;
   max: number;
   from: number;
@@ -28,64 +52,28 @@ interface IConfFull {
   sticky: boolean;
   shiftOnKeyDown: number;
   shiftOnKeyHold: number;
-  onStart: (data: IConf) => unknown;
-  onChange: (data: IConf) => unknown;
-  onUpdate: (data: IConf) => unknown;
+  onStart: (data: IPluginConfiguration) => unknown;
+  onChange: (data: IPluginConfiguration) => unknown;
+  onUpdate: (data: IPluginConfiguration) => unknown;
 }
 
-interface IConfFullIndexed extends IConfFull {
+interface IPluginConfigurationFullIndexed extends IPluginConfigurationFull {
   [key: string]: boolean | number | string | Function
 }
 
-interface IConfIndexed extends IConf {
-  [key: string]: unknown
-}
+type IPluginConfiguration = Partial<IPluginConfigurationFull>;
 
-type IConf = Partial<IConfFull>;
-
-interface IObject {
+interface IPluginConfigurationItem {
   value: number;
   position: number;
 }
 
-interface INewObject {
-  newValue: string;
-  newPosition: number;
-}
+type TSliderKeydownTypes = 'ArrowLeft' | 'ArrowDown' | 'ArrowRight' | 'ArrowUp';
 
-type TDirections = 'ArrowLeft' | 'ArrowDown' | 'ArrowRight' | 'ArrowUp';
+type TSliderMovementTypes = 'pointerdown' | 'pointermove' | '';
 
-type TDirectionsCortege = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
-
-type TMoveTypes = 'pointerdown' | 'pointermove' | '';
-
-interface IthumbFull {
-  type: TMoveTypes;
-  clientY: number;
-  clientX: number;
-  top: number;
-  left: number;
-  width: number;
-  height: number;
-  shiftBase: number;
-  movingControl: 'min' | 'max';
-  direction: TDirections;
-  repeat: boolean;
-}
-
-interface IdataFull {
-  fromPosition: number;
-  toPosition: number;
-  marksArray: { 'position': number, 'value': number }[];
-  intervalValue: string;
-  stepValue: string;
-  scaleBase: 'step' | 'interval';
-  fromValue: string;
-  toValue: string;
-  thumb: IthumbFull;
-}
-
-type TKeys = 'FromPosition'
+type TNotificationKeys =
+| 'FromPosition'
 | 'ToPosition'
 | 'FromValue'
 | 'ToValue'
@@ -99,37 +87,46 @@ type TKeys = 'FromPosition'
 | 'MoveEvent'
 | 'KeydownEvent';
 
-interface INotifyParameters {
-  key: TKeys;
-  data: IdataFull;
-  conf: IConfFull;
+interface INotificationParameters {
+  key: TNotificationKeys;
+  data: IPluginPrivateData;
+  conf: IPluginConfigurationFull;
 }
 
-type TValueType = string | number | boolean | Function;
-
-type TStopType = 'normal' | 'min' | 'max' | 'meetMin' | 'meetMax';
+type TSliderStopTypes = 'normal' | 'min' | 'max' | 'meetMin' | 'meetMax';
 
 type TAllowedTypes = 'input' | 'toggle' | 'radiobuttons';
 
-type TConfItem = [string, unknown];
+type TPluginConfigurationItem = [string, unknown];
+
+interface IDOMElement extends Element {
+  value?: string;
+  readonly offsetHeight?: number;
+  readonly offsetWidth?: number;
+  clickOutsideEvent?(): void;
+}
+
+interface IMockedElement {
+  width: number,
+  height: number,
+  padding?: number,
+  x?: number,
+  y?: number,
+}
 
 export {
-  IConf,
-  IObject,
-  INotifyParameters,
-  IConfFull,
-  IConfFullIndexed,
-  IdataFull,
-  IthumbFull,
-  TKeys,
-  TDirections,
-  TMoveTypes,
-  TValueType,
-  IConfIndexed,
+  IPluginConfiguration,
+  IPluginConfigurationItem,
+  INotificationParameters,
+  IPluginConfigurationFull,
+  IPluginConfigurationFullIndexed,
+  IPluginPrivateData,
+  ISliderFull,
+  TSliderKeydownTypes,
   IData,
-  TStopType,
-  INewObject,
-  TDirectionsCortege,
+  TSliderStopTypes,
   TAllowedTypes,
-  TConfItem,
+  TPluginConfigurationItem,
+  IDOMElement,
+  IMockedElement
 };

@@ -1,4 +1,4 @@
-import { IConfFull, IdataFull } from '../interface';
+import { IPluginConfigurationFull, IPluginPrivateData } from '../interface';
 import ViewScale from './view-scale/ViewScale';
 import ViewControl from './view-control/ViewControl';
 import ViewBar from './view-bar/ViewBar';
@@ -22,7 +22,7 @@ parent.setAttribute('shiftOnKeyDown', '1');
 parent.setAttribute('shiftOnKeyHold', '1');
 
 document.body.appendChild(parent);
-const conf: IConfFull = {
+const conf: IPluginConfigurationFull = {
   min: 10,
   max: 100,
   from: 20,
@@ -43,7 +43,7 @@ const conf: IConfFull = {
   onUpdate: () => true,
 };
 
-const data: IdataFull = {
+const data: IPluginPrivateData = {
   fromPosition: 10,
   toPosition: 0,
   marksArray: [{ position: 0, value: 0 }],
@@ -52,7 +52,7 @@ const data: IdataFull = {
   scaleBase: 'step',
   fromValue: '',
   toValue: '',
-  thumb: {
+  slider: {
     type: '',
     clientY: 0,
     clientX: 0,

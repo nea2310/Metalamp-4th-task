@@ -1,17 +1,9 @@
-import { IConfFull } from '../../interface';
+import { IPluginConfigurationFull, IMockedElement } from '../../interface';
 import ViewScale from './ViewScale';
-
-interface IMockElement {
-  width: number,
-  height: number,
-  padding?: number,
-  x?: number,
-  y?: number,
-}
 
 function mockElementDimensions(element: HTMLElement, {
   width, height, padding = 0, x = 0, y = 0,
-}: IMockElement) {
+}: IMockedElement) {
   const targetElement = element;
 
   targetElement.getBoundingClientRect = jest.fn(() => {
@@ -58,7 +50,7 @@ const marksArray = [
   { position: 100, value: 10 },
 ];
 
-const conf: IConfFull = {
+const conf: IPluginConfigurationFull = {
   min: 10,
   max: 100,
   from: 20,
@@ -81,7 +73,7 @@ const conf: IConfFull = {
 
 function prepareInstance(
   scaleMarks: { 'position'?: number, 'value'?: number }[],
-  config: IConfFull,
+  config: IPluginConfigurationFull,
   mockDimensions: boolean,
 ) {
   const root = document.createElement('input');

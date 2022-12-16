@@ -1,10 +1,10 @@
 import {
-  IConfFull,
-  IthumbFull,
-  IdataFull,
+  IPluginConfigurationFull,
+  ISliderFull,
+  IPluginPrivateData,
 } from './interface';
 
-export const defaultConf: IConfFull = {
+export const defaultConf: IPluginConfigurationFull = {
   min: 0,
   max: 0,
   from: 0,
@@ -25,7 +25,7 @@ export const defaultConf: IConfFull = {
   onUpdate: () => true,
 };
 
-export const defaultThumb: IthumbFull = {
+export const defaultSlider: ISliderFull = {
   type: '',
   clientY: 0,
   clientX: 0,
@@ -39,7 +39,7 @@ export const defaultThumb: IthumbFull = {
   repeat: false,
 };
 
-export const defaultData: IdataFull = {
+export const defaultData: IPluginPrivateData = {
   fromPosition: 0,
   toPosition: 0,
   marksArray: [{ position: 0, value: 0 }],
@@ -48,5 +48,5 @@ export const defaultData: IdataFull = {
   scaleBase: 'step',
   fromValue: '',
   toValue: '',
-  thumb: defaultThumb,
+  slider: defaultSlider,
 };

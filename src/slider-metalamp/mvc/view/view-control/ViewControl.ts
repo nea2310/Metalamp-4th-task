@@ -1,18 +1,11 @@
-import { defaultData, defaultThumb } from '../../utils';
+import { defaultData, defaultSlider } from '../../utils';
 import Observer from '../../Observer';
 import {
-  IConfFull,
-  IdataFull,
-  TDirections,
-  TDirectionsCortege,
+  IPluginConfigurationFull,
+  IPluginPrivateData,
+  TSliderKeydownTypes,
+  IDOMElement,
 } from '../../interface';
-
-interface IElement extends Element {
-  value?: string;
-  readonly offsetHeight?: number;
-  readonly offsetWidth?: number;
-  clickOutsideEvent?(): void;
-}
 
 interface ITarget extends Omit<EventTarget, 'addEventListener'> {
   readonly classList?: DOMTokenList;
@@ -28,22 +21,22 @@ class ViewControl extends Observer {
 
   public tipMax: HTMLInputElement | null = null;
 
-  public track: IElement | null = null;
+  public track: IDOMElement | null = null;
 
-  private conf: IConfFull;
+  private conf: IPluginConfigurationFull;
 
   private slider: HTMLElement;
 
-  private root: IElement | null = null;
+  private root: IDOMElement | null = null;
 
-  private data: IdataFull = {
+  private data: IPluginPrivateData = {
     ...defaultData,
-    thumb: { ...defaultThumb },
+    slider: { ...defaultSlider },
   };
 
   private initDone: boolean = false;
 
-  constructor(sliderElement: HTMLElement, conf: IConfFull) {
+  constructor(sliderElement: HTMLElement, conf: IPluginConfigurationFull) {
     super();
     this.slider = sliderElement;
     this.conf = conf;
@@ -102,18 +95,18 @@ class ViewControl extends Observer {
     tip.innerText = value;
   }
 
-  public updateInput(conf: IConfFull) {
+  public updateInput(conf: IPluginConfigurationFull) {
     if (this.root && this.root.tagName === 'INPUT') {
       this.root.value = this.conf.range ? `${conf.from}, ${conf.to}`
         : String(conf.from);
     }
   }
 
-  public switchVertical(conf: IConfFull) {
+  public switchVertical(conf: IPluginConfigurationFull) {
     this.conf = conf;
   }
 
-  public switchTip(conf: IConfFull) {
+  public switchTip(conf: IPluginConfigurationFull) {
     if (this.tipMax && this.tipMin) {
       if (this.initDone) {
         this.tipMax.style.left = ViewControl.calcTipPos(conf.vertical, this.tipMax);
@@ -138,7 +131,7 @@ class ViewControl extends Observer {
     this.track.append(this.controlMax);
   }
 
-  private init(conf: IConfFull) {
+  private init(conf: IPluginConfigurationFull) {
     this.conf = conf;
   }
 
@@ -154,11 +147,11 @@ class ViewControl extends Observer {
     if (!scale) {
       return;
     }
-    const { thumb } = this.data;
-    thumb.top = scale.getBoundingClientRect().top;
-    thumb.left = scale.getBoundingClientRect().left;
-    thumb.width = scale.offsetWidth;
-    thumb.height = scale.offsetHeight;
+    const { slider } = this.data;
+    slider.top = scale.getBoundingClientRect().top;
+    slider.left = scale.getBoundingClientRect().left;
+    slider.width = scale.offsetWidth;
+    slider.height = scale.offsetHeight;
   }
 
   private dragControl() {
@@ -171,19 +164,19 @@ class ViewControl extends Observer {
       if (target.classList.contains('slider-metalamp__control')) {
         target.classList.add('slider-metalamp__control_grabbing');
       }
-      const { thumb } = this.data;
+      const { slider } = this.data;
       const movingControl = this.defineControl(target);
       if (target.classList.contains('slider-metalamp__control') && movingControl) {
-        thumb.movingControl = movingControl;
+        slider.movingControl = movingControl;
 
-        thumb.shiftBase = this.conf.vertical ? 0
+        slider.shiftBase = this.conf.vertical ? 0
           : event.clientX - target.getBoundingClientRect().left;
         this.getMetrics(target);
 
         const handlePointerMove = (innerEvent: PointerEvent) => {
-          thumb.type = 'pointermove';
-          thumb.clientX = innerEvent.clientX;
-          thumb.clientY = innerEvent.clientY;
+          slider.type = 'pointermove';
+          slider.clientX = innerEvent.clientX;
+          slider.clientY = innerEvent.clientY;
           this.notify('MoveEvent', this.data);
         };
 
@@ -209,7 +202,7 @@ class ViewControl extends Observer {
 
   private pressControl() {
     const handlePointerStart = (event: KeyboardEvent) => {
-      const directions: TDirectionsCortege = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
+      const directions: Array<TSliderKeydownTypes> = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
       if ((event.code in directions)) {
         event.preventDefault();
       }
@@ -217,8 +210,8 @@ class ViewControl extends Observer {
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
       }
-      const { thumb } = this.data;
-      const direction: TDirections | undefined = directions.find(
+      const { slider } = this.data;
+      const direction: TSliderKeydownTypes | undefined = directions.find(
         (element) => element === event.code,
       );
       if (!direction) {
@@ -226,9 +219,9 @@ class ViewControl extends Observer {
       }
 
       if (target.classList.contains('slider-metalamp__control')) {
-        thumb.movingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
-        thumb.direction = direction;
-        thumb.repeat = event.repeat;
+        slider.movingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
+        slider.direction = direction;
+        slider.repeat = event.repeat;
         this.notify('KeydownEvent', this.data);
       }
     };
@@ -242,7 +235,7 @@ class ViewControl extends Observer {
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
       }
-      const { thumb } = this.data;
+      const { slider } = this.data;
 
       const array = ['slider-metalamp__track',
         'slider-metalamp__progress-bar',
@@ -266,19 +259,19 @@ class ViewControl extends Observer {
       }
 
       if (this.track) {
-        thumb.top = this.track.getBoundingClientRect().top;
-        thumb.left = this.track.getBoundingClientRect().left;
-        thumb.width = Number(this.track.offsetWidth);
-        thumb.height = Number(this.track.offsetHeight);
-        thumb.type = 'pointerdown';
-        thumb.clientX = event.clientX;
-        thumb.clientY = event.clientY;
+        slider.top = this.track.getBoundingClientRect().top;
+        slider.left = this.track.getBoundingClientRect().left;
+        slider.width = Number(this.track.offsetWidth);
+        slider.height = Number(this.track.offsetHeight);
+        slider.type = 'pointerdown';
+        slider.clientX = event.clientX;
+        slider.clientY = event.clientY;
       }
 
       if (this.controlMax && this.controlMax.classList.contains('hidden')) {
-        thumb.movingControl = 'min';
+        slider.movingControl = 'min';
       } else {
-        thumb.movingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
+        slider.movingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
       }
       this.notify('MoveEvent', this.data);
     };

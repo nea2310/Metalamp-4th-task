@@ -1,4 +1,4 @@
-import { IConfFull } from '../../interface';
+import { IPluginConfigurationFull } from '../../interface';
 
 class ViewScale {
   private slider: HTMLElement;
@@ -9,7 +9,7 @@ class ViewScale {
 
   private markList: Element[] = [];
 
-  private conf: IConfFull;
+  private conf: IPluginConfigurationFull;
 
   private lastLabelRemoved: boolean = false;
 
@@ -20,7 +20,7 @@ class ViewScale {
   constructor(
     slider: HTMLElement,
     track: HTMLElement,
-    conf: IConfFull,
+    conf: IPluginConfigurationFull,
     markList: HTMLElement[] = [],
   ) {
     this.conf = conf;
@@ -35,7 +35,7 @@ class ViewScale {
 
   public createScale(
     scaleMarks: { 'position'?: number, 'value'?: number }[],
-    conf: IConfFull,
+    conf: IPluginConfigurationFull,
   ) {
     this.conf = conf;
     this.scaleMarks = scaleMarks;

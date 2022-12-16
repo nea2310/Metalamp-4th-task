@@ -1,9 +1,9 @@
 import View from '../view/View';
 import Model from '../model/Model';
-import { IConf } from '../interface';
+import { IPluginConfiguration } from '../interface';
 import Controller from './Controller';
 
-function prepareInstance(conf: IConf) {
+function prepareInstance(conf: IPluginConfiguration) {
   const parent = document.createElement('input');
   document.body.appendChild(parent);
   const testModel = new Model(conf);
@@ -15,7 +15,7 @@ const onChangeCB = () => true;
 const onStartCB = () => true;
 const onUpdateCB = () => true;
 
-const conf: IConf = {
+const conf: IPluginConfiguration = {
   min: 10,
   max: 100,
   from: 20,

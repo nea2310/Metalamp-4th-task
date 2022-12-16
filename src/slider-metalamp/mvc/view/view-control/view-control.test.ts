@@ -1,6 +1,6 @@
 import Model from '../../model/Model';
 import Controller from '../../controller/Controller';
-import { IConfFull } from '../../interface';
+import { IPluginConfigurationFull } from '../../interface';
 import View from '../View';
 import ViewControl from './ViewControl';
 
@@ -45,7 +45,7 @@ function mockKeyboardEvent(
 
 const parent = document.createElement('input');
 document.body.appendChild(parent);
-const conf: IConfFull = {
+const conf: IPluginConfigurationFull = {
   min: 10,
   max: 100,
   from: 20,

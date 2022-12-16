@@ -1,5 +1,5 @@
 import Controller from './mvc/controller/Controller';
-import { IConf } from './mvc/interface';
+import { IPluginConfiguration } from './mvc/interface';
 import plugin from './slider-metalamp';
 
 describe('slider-metalamp', () => {
@@ -14,7 +14,7 @@ describe('slider-metalamp', () => {
   const enableSpy = jest.spyOn(slider, 'enable');
   const destroySpy = jest.spyOn(slider, 'destroy');
 
-  const conf: IConf = {
+  const conf: IPluginConfiguration = {
     min: 10,
     max: 100,
     from: 20,

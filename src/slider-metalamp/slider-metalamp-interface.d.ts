@@ -1,7 +1,7 @@
-import { IConf } from './mvc/interface';
+import { IPluginConfiguration } from './mvc/interface';
 
 interface SliderFunction {
-  (options: IConf): JQuery;
+  (options: IPluginConfiguration): JQuery;
 }
 
 declare global {

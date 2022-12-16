@@ -1,51 +1,49 @@
 import {
   defaultConf,
   defaultData,
-  defaultThumb,
+  defaultSlider,
 } from '../utils';
 import Observer from '../Observer';
 import {
-  IConfFull,
-  IConf,
-  IObject,
-  IdataFull,
-  TDirections,
-  TValueType,
+  IPluginConfigurationFull,
+  IPluginConfiguration,
+  IPluginConfigurationItem,
+  IPluginPrivateData,
+  TSliderKeydownTypes,
   IData,
-  TStopType,
-  INewObject,
-  TConfItem,
+  TSliderStopTypes,
+  TPluginConfigurationItem,
 } from '../interface';
 
 class Model extends Observer {
-  public conf: IConfFull = defaultConf;
+  public conf: IPluginConfigurationFull = defaultConf;
 
   private changeMode: boolean = false;
 
-  private startConf: IConf;
+  private startConf: IPluginConfiguration;
 
-  private dataAttributesConf: IConf = {};
+  private dataAttributesConf: IPluginConfiguration = {};
 
-  private data: IdataFull = {
-    ...defaultData, thumb: { ...defaultThumb },
+  private data: IPluginPrivateData = {
+    ...defaultData, slider: { ...defaultSlider },
   };
 
-  private onStart?: (data: IConf) => unknown | null;
+  private onStart?: (data: IPluginConfiguration) => unknown | null;
 
-  private onUpdate?: (data: IConf) => unknown | null;
+  private onUpdate?: (data: IPluginConfiguration) => unknown | null;
 
-  private onChange?: (data: IConf) => unknown | null;
+  private onChange?: (data: IPluginConfiguration) => unknown | null;
 
-  constructor(conf: IConf) {
+  constructor(conf: IPluginConfiguration) {
     super();
     this.startConf = conf;
   }
 
-  static checkConf(config: IConfFull) {
+  static checkConf(config: IPluginConfigurationFull) {
     let conf = config;
 
-    const validateNumber = (value: TValueType) => (Number.isNaN(+value) ? 0 : +value);
-    const validateBoolean = (value: TValueType) => value === true || value === 'true';
+    const validateNumber = (value: unknown) => (Number.isNaN(Number(value)) ? 0 : Number(value));
+    const validateBoolean = (value: unknown) => value === true || value === 'true';
 
     const numbers = ['min', 'max', 'from', 'to', 'step', 'interval', 'shiftOnKeyDown', 'shiftOnKeyHold'];
     const booleans = ['vertical', 'range', 'sticky', 'scale', 'bar', 'tip'];
@@ -54,7 +52,7 @@ class Model extends Observer {
 
     const validatePropertyValue = (
       key: string,
-      value: TValueType,
+      value: unknown,
       validationFunction: typeof validateNumber | typeof validateBoolean,
     ) => {
       const checkedValue = validationFunction(value);
@@ -141,7 +139,7 @@ class Model extends Observer {
     return conf;
   }
 
-  public getConf(conf: IConf) {
+  public getConf(conf: IPluginConfiguration) {
     this.dataAttributesConf = conf;
     const joinedConf = { ...this.conf, ...this.startConf, ...this.dataAttributesConf };
     this.conf = Model.checkConf(joinedConf);
@@ -164,7 +162,7 @@ class Model extends Observer {
     return this.conf;
   }
 
-  public update(newConf: IConf) {
+  public update(newConf: IPluginConfiguration) {
     let conf = { ...this.conf, ...newConf };
 
     conf = Model.checkConf(conf);
@@ -205,7 +203,7 @@ class Model extends Observer {
     }
 
     let isStop = false;
-    const updatePosition = (returnValue = '', needChange = false, stopType: TStopType = 'min') => {
+    const updatePosition = (returnValue = '', needChange = false, stopType: TSliderStopTypes = 'min') => {
       isStop = true;
       this.calcValue(stopType, 0, movingControl);
       if (needChange && typeof this.onChange === 'function') {
@@ -250,7 +248,7 @@ class Model extends Observer {
 
   public calcPositionSetByKey(data:
   {
-    direction: TDirections,
+    direction: TSliderKeydownTypes,
     repeat: boolean,
     movingControl: 'min' | 'max',
   }) {
@@ -319,22 +317,22 @@ class Model extends Observer {
     return null;
   }
 
-  private calcControlPosition(res: number, isControlFrom = true) {
+  private calcControlPosition(result: number, isControlFrom = true) {
     if (isControlFrom) {
-      this.data.fromValue = String(res);
-      this.conf.from = res;
+      this.data.fromValue = String(result);
+      this.conf.from = result;
       this.calcFromPosition();
       this.notify('FromValue', this.data);
     } else {
-      this.data.toValue = String(res);
-      this.conf.to = res;
+      this.data.toValue = String(result);
+      this.conf.to = result;
       this.calcToPosition();
       this.notify('ToValue', this.data);
     }
-    return this.triggerControlPositionChange(res);
+    return this.triggerControlPositionChange(result);
   }
 
-  private triggerControlPositionChange = (result: number | string | INewObject) => {
+  private triggerControlPositionChange = (result: number | string | IPluginConfigurationItem) => {
     if (typeof this.onChange === 'function') {
       this.onChange(this.conf);
     }
@@ -399,23 +397,23 @@ class Model extends Observer {
     }
   }
 
-  private getNewValueSticky(condition: string, item: IObject) {
-    const changeFrom = (values: IObject) => {
+  private getNewValueSticky(condition: string, item: IPluginConfigurationItem) {
+    const changeFrom = (values: IPluginConfigurationItem) => {
       this.conf.from = values.value;
       this.data.fromPosition = values.position;
       this.data.fromValue = String(values.value);
       this.notify('FromPosition', this.data, this.conf);
       this.notify('FromValue', this.data);
-      return { newValue: String(values.value), newPosition: values.position };
+      return values;
     };
 
-    const changeTo = (values: IObject) => {
+    const changeTo = (values: IPluginConfigurationItem) => {
       this.conf.to = values.value;
       this.data.toPosition = values.position;
       this.data.toValue = String(values.value);
       this.notify('ToPosition', this.data, this.conf);
       this.notify('ToValue', this.data);
-      return { newValue: String(values.value), newPosition: values.position };
+      return values;
     };
 
     switch (condition) {
@@ -460,9 +458,9 @@ class Model extends Observer {
     }
   }
 
-  private doCalculation(oldConf: IConfFull, newConf: IConf) {
-    const sortArray = (object: IConf) => Object.entries(object).sort(
-      (a: TConfItem, b: TConfItem) => {
+  private doCalculation(oldConf: IPluginConfigurationFull, newConf: IPluginConfiguration) {
+    const sortArray = (object: IPluginConfiguration) => Object.entries(object).sort(
+      (a: TPluginConfigurationItem, b: TPluginConfigurationItem) => {
         if (a[0] > b[0]) {
           return 1;
         } return -1;
@@ -586,7 +584,11 @@ class Model extends Observer {
   }
 
   private setSticky(controlPosition: number) {
-    let goal = this.data.marksArray.find((element: IObject, item: number, array: IObject[]) => {
+    let goal = this.data.marksArray.find((
+      element: IPluginConfigurationItem,
+      item: number,
+      array: IPluginConfigurationItem[],
+    ) => {
       let temporaryPosition = 0;
       if (item < array.length - 1) {
         temporaryPosition = array[item + 1].position;
@@ -652,7 +654,7 @@ class Model extends Observer {
     let value = this.conf.min;
 
     for (let i = 0; i < interval; i += 1) {
-      const object: IObject = { value: 0, position: 0 };
+      const object: IPluginConfigurationItem = { value: 0, position: 0 };
       value += step;
       if (value <= this.conf.max) {
         const position = ((value - this.conf.min) * 100)
@@ -671,7 +673,7 @@ class Model extends Observer {
   }
 
   private calcValue(
-    stopType: TStopType,
+    stopType: TSliderStopTypes,
     position: number,
     movingControl: 'min' | 'max',
   ) {

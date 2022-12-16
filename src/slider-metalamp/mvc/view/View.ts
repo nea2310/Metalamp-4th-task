@@ -1,21 +1,15 @@
 import { defaultConf } from '../utils';
 import Observer from '../Observer';
 import {
-  IdataFull,
-  IConf,
-  INotifyParameters,
-  IConfFull,
+  IPluginPrivateData,
+  IPluginConfiguration,
+  INotificationParameters,
+  IPluginConfigurationFull,
+  IDOMElement,
 } from '../interface';
 import ViewScale from './view-scale/ViewScale';
 import ViewControl from './view-control/ViewControl';
 import ViewBar from './view-bar/ViewBar';
-
-interface IElement extends Element {
-  value?: string;
-  readonly offsetHeight?: number;
-  readonly offsetWidth?: number;
-  clickOutsideEvent?(): void;
-}
 
 class View extends Observer {
   public viewControl: ViewControl | undefined;
@@ -24,7 +18,7 @@ class View extends Observer {
 
   public viewBar: ViewBar | undefined;
 
-  public dataAttributesConf: IConf = {};
+  public dataAttributesConf: IPluginConfiguration = {};
 
   public slider: HTMLElement | undefined;
 
@@ -32,9 +26,9 @@ class View extends Observer {
 
   private frame: HTMLElement | undefined;
 
-  private conf: IConfFull = defaultConf;
+  private conf: IPluginConfigurationFull = defaultConf;
 
-  private root: IElement;
+  private root: IDOMElement;
 
   constructor(root: Element) {
     super();
@@ -43,7 +37,7 @@ class View extends Observer {
     this.collectParms();
   }
 
-  public init(conf: IConfFull) {
+  public init(conf: IPluginConfigurationFull) {
     this.conf = conf;
     this.createSubViews();
     this.createListeners();
@@ -68,7 +62,7 @@ class View extends Observer {
     this.slider.classList.remove('slider-metalamp__wrapper_disabled');
   }
 
-  public updateFromPos(data: IdataFull, conf: IConfFull) {
+  public updateFromPos(data: IPluginPrivateData, conf: IPluginConfigurationFull) {
     if (!this.viewControl || !this.viewControl.controlMin) {
       return;
     }
@@ -84,7 +78,7 @@ class View extends Observer {
       .updateBar(data.fromPosition, data.toPosition, conf.range, conf.vertical);
   }
 
-  public updateToPos(data: IdataFull, conf: IConfFull) {
+  public updateToPos(data: IPluginPrivateData, conf: IPluginConfigurationFull) {
     if (!this.viewControl || !this.viewControl.controlMax) {
       return;
     }
@@ -99,28 +93,28 @@ class View extends Observer {
     this.viewBar.updateBar(data.fromPosition, data.toPosition, conf.range, conf.vertical);
   }
 
-  public updateFromValue(data: IdataFull) {
+  public updateFromValue(data: IPluginPrivateData) {
     if (!this.viewControl) {
       return;
     }
     this.viewControl.updateVal(data.fromValue, true);
   }
 
-  public updateToValue(data: IdataFull) {
+  public updateToValue(data: IPluginPrivateData) {
     if (!this.viewControl) {
       return;
     }
     this.viewControl.updateVal(data.toValue, false);
   }
 
-  public updateScale(data: IdataFull, conf: IConfFull) {
+  public updateScale(data: IPluginPrivateData, conf: IPluginConfigurationFull) {
     if (!this.viewScale) {
       return;
     }
     this.viewScale.createScale(data.marksArray, conf);
   }
 
-  public switchVertical(conf: IConfFull) {
+  public switchVertical(conf: IPluginConfigurationFull) {
     this.changeMode(conf.vertical, 'orientation_vertical');
     if (!this.viewControl) {
       return;
@@ -128,7 +122,7 @@ class View extends Observer {
     this.viewControl.switchVertical(conf);
   }
 
-  public switchRange(conf: IConfFull, data: IdataFull | {} = {}) {
+  public switchRange(conf: IPluginConfigurationFull, data: IPluginPrivateData | {} = {}) {
     this.changeMode(!conf.range, 'range-mode_single');
     if (!('fromPosition' in data) || !this.viewBar) {
       return;
@@ -136,15 +130,15 @@ class View extends Observer {
     this.viewBar.updateBar(data.fromPosition, data.toPosition, conf.range, conf.vertical);
   }
 
-  public switchScale(conf: IConfFull) {
+  public switchScale(conf: IPluginConfigurationFull) {
     this.changeMode(!conf.scale, 'scale-mode_hidden');
   }
 
-  public switchBar(conf: IConfFull) {
+  public switchBar(conf: IPluginConfigurationFull) {
     this.changeMode(!conf.bar, 'bar-mode_hidden');
   }
 
-  public switchTip(conf: IConfFull) {
+  public switchTip(conf: IPluginConfigurationFull) {
     this.changeMode(!conf.tip, 'tip-mode_hidden');
     if (!this.viewControl) {
       return;
@@ -256,14 +250,14 @@ class View extends Observer {
     this.viewControl.subscribe(this.handleKeydownEvent);
   }
 
-  private handleMoveEvent = (parms: INotifyParameters) => {
+  private handleMoveEvent = (parms: INotificationParameters) => {
     if (parms.key !== 'MoveEvent') {
       return;
     }
     this.notify('MoveEvent', parms.data);
   };
 
-  private handleKeydownEvent = (parms: INotifyParameters) => {
+  private handleKeydownEvent = (parms: INotificationParameters) => {
     if (parms.key !== 'KeydownEvent') {
       return;
     }
