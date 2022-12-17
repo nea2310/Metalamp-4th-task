@@ -5,10 +5,10 @@ import ControlMovementSetup from './control-movement-setup/ControlMovementSetup'
 import ActionsSetup from './actions-setup/ActionsSetup';
 import PanelObserver from './PanelObserver';
 
-type IPanelComponents = MainSetup | ScaleSetup | ControlMovementSetup | ActionsSetup;
+type TPanelComponents = MainSetup | ScaleSetup | ControlMovementSetup | ActionsSetup;
 
 class Panel extends PanelObserver {
-  private optionObjects: Array<IPanelComponents> = [];
+  private optionObjects: Array<TPanelComponents> = [];
 
   private wrapper: HTMLElement;
 
@@ -72,10 +72,10 @@ class Panel extends PanelObserver {
     return this.wrapper.querySelector(`.js-${selector}-setup`);
   }
 
-  private prepareObject<Y extends IPanelComponents, T extends new(arg: HTMLElement) => Y>(
+  private prepareObject<Y extends TPanelComponents, T extends new(arg: HTMLElement) => Y>(
     selector: string, ClassName: T) {
     const DOMElement = this.getElement(selector);
-    let object: IPanelComponents | null = null;
+    let object: TPanelComponents | null = null;
 
     if (DOMElement instanceof HTMLElement) {
       object = new ClassName(DOMElement);

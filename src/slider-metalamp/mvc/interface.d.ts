@@ -58,7 +58,7 @@ interface IPluginConfigurationFull {
 }
 
 interface IPluginConfigurationFullIndexed extends IPluginConfigurationFull {
-  [key: string]: boolean | number | string | Function
+  [key: string]: boolean | number | string | Function;
 }
 
 type IPluginConfiguration = Partial<IPluginConfigurationFull>;
@@ -107,11 +107,11 @@ interface IDOMElement extends Element {
 }
 
 interface IMockedElement {
-  width: number,
-  height: number,
-  padding?: number,
-  x?: number,
-  y?: number,
+  width: number;
+  height: number;
+  padding?: number;
+  x?: number;
+  y?: number;
 }
 
 export {
