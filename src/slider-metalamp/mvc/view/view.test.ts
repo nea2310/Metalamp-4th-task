@@ -52,7 +52,7 @@ const data: IPluginPrivateData = {
   scaleBase: 'step',
   fromValue: '',
   toValue: '',
-  slider: {
+  control: {
     type: '',
     clientY: 0,
     clientX: 0,

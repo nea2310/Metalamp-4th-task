@@ -1,9 +1,9 @@
-import { IPluginConfiguration } from '../interface';
+import { TPluginConfiguration } from '../interface';
 import Model from './Model';
 
 describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () => {
   test('calcPositionSetByPointer, no Sticky', () => {
-    const conf: IPluginConfiguration = {
+    const conf: TPluginConfiguration = {
       min: 10,
       max: 100,
       from: 20,
@@ -108,7 +108,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
   });
 
   test('calcpos, sticky', () => {
-    const conf: IPluginConfiguration = {
+    const conf: TPluginConfiguration = {
       min: 10,
       max: 100,
       from: 20,
@@ -217,7 +217,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
     'calcPositionSetByKey, no Sticky',
 
     () => {
-      const conf: IPluginConfiguration = {
+      const conf: TPluginConfiguration = {
         min: 10,
         max: 100,
         from: 10,
@@ -326,7 +326,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
   test(
     'calcPositionSetByKey, Sticky',
     () => {
-      const conf: IPluginConfiguration = {
+      const conf: TPluginConfiguration = {
         min: 10,
         max: 100,
         from: 10,
@@ -436,7 +436,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
 });
 
 describe('model, values correction on API method "update" processing', () => {
-  const conf: IPluginConfiguration = {
+  const conf: TPluginConfiguration = {
     min: 0,
     max: 100,
     from: 10,
@@ -559,7 +559,7 @@ describe('model, API method "update" processing', () => {
   const onStart = () => true;
   const onChange = () => true;
   const onUpdate = () => true;
-  const conf: IPluginConfiguration = {
+  const conf: TPluginConfiguration = {
     min: 0,
     max: 100,
     from: 10,

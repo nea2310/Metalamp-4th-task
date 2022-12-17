@@ -2,10 +2,10 @@ import updateObject from '../../../shared/utils/updateObject';
 import prepareElements from '../../../shared/utils/prepareElements';
 import getNotificationDetails from '../../../shared/utils/getNotificationDetails';
 import getElement from '../../../shared/utils/getElement';
-import { IPluginConfiguration, TAllowedTypes } from '../../../slider-metalamp/mvc/interface';
+import { TPluginConfiguration, TInputTypes } from '../../../slider-metalamp/mvc/interface';
 import PanelObserver from '../PanelObserver';
 
-const OPTIONS: Array<[string, TAllowedTypes]> = [
+const OPTIONS: Array<[string, TInputTypes]> = [
   ['min', 'input'],
   ['max', 'input'],
   ['from', 'input'],
@@ -31,7 +31,7 @@ class MainSetup extends PanelObserver {
     this.addEventListeners();
   }
 
-  public update(data: { [key: string]: unknown } & IPluginConfiguration) {
+  public update(data: { [key: string]: unknown } & TPluginConfiguration) {
     this.optionObjects = updateObject(this.optionObjects, data);
 
     if (this.optionTo) {

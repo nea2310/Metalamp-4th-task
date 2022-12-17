@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
 import Controller from '../../slider-metalamp/mvc/controller/Controller';
-import { IPluginConfiguration } from '../../slider-metalamp/mvc/interface';
+import { TPluginConfiguration } from '../../slider-metalamp/mvc/interface';
 import Panel from '../panel/Panel';
 
 class RangeSlider {
@@ -47,27 +47,27 @@ class RangeSlider {
 
   private createSlider(element: Element) {
     const rangeSlider = $(element).SliderMetaLamp({
-      onStart: (data: IPluginConfiguration) => {
+      onStart: (data: TPluginConfiguration) => {
         this.changeData(data);
       },
-      onUpdate: (data: IPluginConfiguration) => {
+      onUpdate: (data: TPluginConfiguration) => {
         this.updateData(data);
       },
-      onChange: (data: IPluginConfiguration) => {
+      onChange: (data: TPluginConfiguration) => {
         this.changeData(data);
       },
     }).data('SliderMetaLamp');
     return rangeSlider;
   }
 
-  private updateData = (data: IPluginConfiguration) => {
+  private updateData = (data: TPluginConfiguration) => {
     if (data.vertical
       !== this.wrapper.classList.contains(`${this.rootSelector}_${this.isVerticalModifier}`)) {
       this.switchVertical();
     }
   };
 
-  private changeData(data: IPluginConfiguration) {
+  private changeData(data: TPluginConfiguration) {
     if (this.panel) this.panel.update(data);
   }
 
@@ -109,7 +109,7 @@ class RangeSlider {
     if (!this.rangeSlider) return;
     if (isSubscribed) {
       this.rangeSlider.update({
-        onChange: (data: IPluginConfiguration) => {
+        onChange: (data: TPluginConfiguration) => {
           this.changeData(data);
         },
       });

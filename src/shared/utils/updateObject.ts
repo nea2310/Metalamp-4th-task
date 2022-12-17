@@ -1,8 +1,8 @@
-import { IPluginConfiguration } from '../../slider-metalamp/mvc/interface';
+import { TPluginConfiguration } from '../../slider-metalamp/mvc/interface';
 
 const updateObject = (
   objects: Array<HTMLInputElement>,
-  data: { [key: string]: unknown } & IPluginConfiguration,
+  data: { [key: string]: unknown } & TPluginConfiguration,
 ) => {
   const updatedObject = objects.map((object) => {
     const usageType = object.className.match(/usage_\S*/);

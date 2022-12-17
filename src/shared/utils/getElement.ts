@@ -1,6 +1,6 @@
-import { TAllowedTypes } from '../../slider-metalamp/mvc/interface';
+import { TInputTypes } from '../../slider-metalamp/mvc/interface';
 
-function getElement(wrapper: HTMLElement, selector: string, type: TAllowedTypes = 'input') {
+function getElement(wrapper: HTMLElement, selector: string, type: TInputTypes = 'input') {
   let element: HTMLInputElement | null = null;
   switch (type) {
     case 'input':

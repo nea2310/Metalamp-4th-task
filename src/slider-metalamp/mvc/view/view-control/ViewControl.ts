@@ -1,9 +1,9 @@
-import { defaultData, defaultSlider } from '../../utils';
+import { defaultData, defaultControl } from '../../utils';
 import Observer from '../../Observer';
 import {
   IPluginConfigurationFull,
   IPluginPrivateData,
-  TSliderKeydownTypes,
+  TControlKeydownTypes,
   IDOMElement,
 } from '../../interface';
 
@@ -25,20 +25,20 @@ class ViewControl extends Observer {
 
   private conf: IPluginConfigurationFull;
 
-  private slider: HTMLElement;
+  private control: HTMLElement;
 
   private root: IDOMElement | null = null;
 
   private data: IPluginPrivateData = {
     ...defaultData,
-    slider: { ...defaultSlider },
+    control: { ...defaultControl },
   };
 
   private initDone: boolean = false;
 
-  constructor(sliderElement: HTMLElement, conf: IPluginConfigurationFull) {
+  constructor(controlElement: HTMLElement, conf: IPluginConfigurationFull) {
     super();
-    this.slider = sliderElement;
+    this.control = controlElement;
     this.conf = conf;
     this.render();
     this.init(conf);
@@ -116,8 +116,8 @@ class ViewControl extends Observer {
   }
 
   private render() {
-    this.root = this.slider.previousElementSibling;
-    this.track = this.slider.firstElementChild;
+    this.root = this.control.previousElementSibling;
+    this.track = this.control.firstElementChild;
     if (!this.track) {
       return;
     }
@@ -147,11 +147,11 @@ class ViewControl extends Observer {
     if (!scale) {
       return;
     }
-    const { slider } = this.data;
-    slider.top = scale.getBoundingClientRect().top;
-    slider.left = scale.getBoundingClientRect().left;
-    slider.width = scale.offsetWidth;
-    slider.height = scale.offsetHeight;
+    const { control } = this.data;
+    control.top = scale.getBoundingClientRect().top;
+    control.left = scale.getBoundingClientRect().left;
+    control.width = scale.offsetWidth;
+    control.height = scale.offsetHeight;
   }
 
   private dragControl() {
@@ -164,19 +164,19 @@ class ViewControl extends Observer {
       if (target.classList.contains('slider-metalamp__control')) {
         target.classList.add('slider-metalamp__control_grabbing');
       }
-      const { slider } = this.data;
+      const { control } = this.data;
       const movingControl = this.defineControl(target);
       if (target.classList.contains('slider-metalamp__control') && movingControl) {
-        slider.movingControl = movingControl;
+        control.movingControl = movingControl;
 
-        slider.shiftBase = this.conf.vertical ? 0
+        control.shiftBase = this.conf.vertical ? 0
           : event.clientX - target.getBoundingClientRect().left;
         this.getMetrics(target);
 
         const handlePointerMove = (innerEvent: PointerEvent) => {
-          slider.type = 'pointermove';
-          slider.clientX = innerEvent.clientX;
-          slider.clientY = innerEvent.clientY;
+          control.type = 'pointermove';
+          control.clientX = innerEvent.clientX;
+          control.clientY = innerEvent.clientY;
           this.notify('MoveEvent', this.data);
         };
 
@@ -195,14 +195,14 @@ class ViewControl extends Observer {
     };
     const handleDragSelectStart = () => false;
 
-    this.slider.addEventListener('pointerdown', handlePointerStart);
-    this.slider.addEventListener('dragstart', handleDragSelectStart);
-    this.slider.addEventListener('selectstart', handleDragSelectStart);
+    this.control.addEventListener('pointerdown', handlePointerStart);
+    this.control.addEventListener('dragstart', handleDragSelectStart);
+    this.control.addEventListener('selectstart', handleDragSelectStart);
   }
 
   private pressControl() {
     const handlePointerStart = (event: KeyboardEvent) => {
-      const directions: Array<TSliderKeydownTypes> = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
+      const directions: Array<TControlKeydownTypes> = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
       if ((event.code in directions)) {
         event.preventDefault();
       }
@@ -210,8 +210,8 @@ class ViewControl extends Observer {
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
       }
-      const { slider } = this.data;
-      const direction: TSliderKeydownTypes | undefined = directions.find(
+      const { control } = this.data;
+      const direction: TControlKeydownTypes | undefined = directions.find(
         (element) => element === event.code,
       );
       if (!direction) {
@@ -219,13 +219,13 @@ class ViewControl extends Observer {
       }
 
       if (target.classList.contains('slider-metalamp__control')) {
-        slider.movingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
-        slider.direction = direction;
-        slider.repeat = event.repeat;
+        control.movingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
+        control.direction = direction;
+        control.repeat = event.repeat;
         this.notify('KeydownEvent', this.data);
       }
     };
-    this.slider.addEventListener('keydown', handlePointerStart);
+    this.control.addEventListener('keydown', handlePointerStart);
   }
 
   private clickTrack() {
@@ -235,7 +235,7 @@ class ViewControl extends Observer {
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
       }
-      const { slider } = this.data;
+      const { control } = this.data;
 
       const array = ['slider-metalamp__track',
         'slider-metalamp__progress-bar',
@@ -259,23 +259,23 @@ class ViewControl extends Observer {
       }
 
       if (this.track) {
-        slider.top = this.track.getBoundingClientRect().top;
-        slider.left = this.track.getBoundingClientRect().left;
-        slider.width = Number(this.track.offsetWidth);
-        slider.height = Number(this.track.offsetHeight);
-        slider.type = 'pointerdown';
-        slider.clientX = event.clientX;
-        slider.clientY = event.clientY;
+        control.top = this.track.getBoundingClientRect().top;
+        control.left = this.track.getBoundingClientRect().left;
+        control.width = Number(this.track.offsetWidth);
+        control.height = Number(this.track.offsetHeight);
+        control.type = 'pointerdown';
+        control.clientX = event.clientX;
+        control.clientY = event.clientY;
       }
 
       if (this.controlMax && this.controlMax.classList.contains('hidden')) {
-        slider.movingControl = 'min';
+        control.movingControl = 'min';
       } else {
-        slider.movingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
+        control.movingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
       }
       this.notify('MoveEvent', this.data);
     };
-    this.slider.addEventListener('pointerdown', handlePointerStart);
+    this.control.addEventListener('pointerdown', handlePointerStart);
   }
 }
 

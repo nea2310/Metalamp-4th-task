@@ -2,7 +2,7 @@ import { defaultConf } from '../utils';
 import Observer from '../Observer';
 import {
   IPluginPrivateData,
-  IPluginConfiguration,
+  TPluginConfiguration,
   INotificationParameters,
   IPluginConfigurationFull,
   IDOMElement,
@@ -18,7 +18,7 @@ class View extends Observer {
 
   public viewBar: ViewBar | undefined;
 
-  public dataAttributesConf: IPluginConfiguration = {};
+  public dataAttributesConf: TPluginConfiguration = {};
 
   public slider: HTMLElement | undefined;
 

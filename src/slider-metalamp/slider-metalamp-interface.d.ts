@@ -1,7 +1,7 @@
-import { IPluginConfiguration } from './mvc/interface';
+import { TPluginConfiguration } from './mvc/interface';
 
 interface SliderFunction {
-  (options: IPluginConfiguration): JQuery;
+  (options: TPluginConfiguration): JQuery;
 }
 
 declare global {

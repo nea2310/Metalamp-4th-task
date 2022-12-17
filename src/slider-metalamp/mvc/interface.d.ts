@@ -1,5 +1,5 @@
-interface IData {
-  type: TSliderMovementTypes;
+interface IControlStateData {
+  type: TControlMovementTypes;
   clientY: number;
   clientX: number;
   top: number;
@@ -19,11 +19,11 @@ interface IPluginPrivateData {
   scaleBase: 'step' | 'interval';
   fromValue: string;
   toValue: string;
-  slider: ISliderFull;
+  control: IControlFull;
 }
 
-interface ISliderFull {
-  type: TSliderMovementTypes;
+interface IControlFull {
+  type: TControlMovementTypes;
   clientY: number;
   clientX: number;
   top: number;
@@ -32,7 +32,7 @@ interface ISliderFull {
   height: number;
   shiftBase: number;
   movingControl: 'min' | 'max';
-  direction: TSliderKeydownTypes;
+  direction: TControlKeydownTypes;
   repeat: boolean;
 }
 
@@ -52,25 +52,46 @@ interface IPluginConfigurationFull {
   sticky: boolean;
   shiftOnKeyDown: number;
   shiftOnKeyHold: number;
-  onStart: (data: IPluginConfiguration) => unknown;
-  onChange: (data: IPluginConfiguration) => unknown;
-  onUpdate: (data: IPluginConfiguration) => unknown;
+  onStart: (data: TPluginConfiguration) => unknown;
+  onChange: (data: TPluginConfiguration) => unknown;
+  onUpdate: (data: TPluginConfiguration) => unknown;
 }
 
 interface IPluginConfigurationFullIndexed extends IPluginConfigurationFull {
   [key: string]: boolean | number | string | Function;
 }
 
-type IPluginConfiguration = Partial<IPluginConfigurationFull>;
+interface INotificationParameters {
+  key: TNotificationKeys;
+  data: IPluginPrivateData;
+  conf: IPluginConfigurationFull;
+}
 
 interface IPluginConfigurationItem {
   value: number;
   position: number;
 }
 
-type TSliderKeydownTypes = 'ArrowLeft' | 'ArrowDown' | 'ArrowRight' | 'ArrowUp';
+interface IMockedElement {
+  width: number;
+  height: number;
+  padding?: number;
+  x?: number;
+  y?: number;
+}
 
-type TSliderMovementTypes = 'pointerdown' | 'pointermove' | '';
+interface IDOMElement extends Element {
+  value?: string;
+  readonly offsetHeight?: number;
+  readonly offsetWidth?: number;
+  clickOutsideEvent?(): void;
+}
+
+type TPluginConfiguration = Partial<IPluginConfigurationFull>;
+
+type TControlKeydownTypes = 'ArrowLeft' | 'ArrowDown' | 'ArrowRight' | 'ArrowUp';
+
+type TControlMovementTypes = 'pointerdown' | 'pointermove' | '';
 
 type TNotificationKeys =
 | 'FromPosition'
@@ -87,46 +108,27 @@ type TNotificationKeys =
 | 'MoveEvent'
 | 'KeydownEvent';
 
-interface INotificationParameters {
-  key: TNotificationKeys;
-  data: IPluginPrivateData;
-  conf: IPluginConfigurationFull;
-}
+type TControlStopTypes = 'normal' | 'min' | 'max' | 'meetMin' | 'meetMax';
 
-type TSliderStopTypes = 'normal' | 'min' | 'max' | 'meetMin' | 'meetMax';
-
-type TAllowedTypes = 'input' | 'toggle' | 'radiobuttons';
+type TInputTypes = 'input' | 'toggle' | 'radiobuttons';
 
 type TPluginConfigurationItem = [string, unknown];
 
-interface IDOMElement extends Element {
-  value?: string;
-  readonly offsetHeight?: number;
-  readonly offsetWidth?: number;
-  clickOutsideEvent?(): void;
-}
-
-interface IMockedElement {
-  width: number;
-  height: number;
-  padding?: number;
-  x?: number;
-  y?: number;
-}
-
 export {
-  IPluginConfiguration,
-  IPluginConfigurationItem,
-  INotificationParameters,
+  IControlStateData,
+  IPluginPrivateData,
+  IControlFull,
   IPluginConfigurationFull,
   IPluginConfigurationFullIndexed,
-  IPluginPrivateData,
-  ISliderFull,
-  TSliderKeydownTypes,
-  IData,
-  TSliderStopTypes,
-  TAllowedTypes,
-  TPluginConfigurationItem,
+  INotificationParameters,
+  IPluginConfigurationItem,
+  IMockedElement,
   IDOMElement,
-  IMockedElement
+  TPluginConfiguration,
+  TControlKeydownTypes,
+  TControlMovementTypes,
+  TNotificationKeys,
+  TControlStopTypes,
+  TInputTypes,
+  TPluginConfigurationItem,
 };

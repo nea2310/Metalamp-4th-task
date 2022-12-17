@@ -1,7 +1,7 @@
 import View from '../view/View';
 import Model from '../model/Model';
 import Observer from '../Observer';
-import { IPluginConfiguration, INotificationParameters } from '../interface';
+import { TPluginConfiguration, INotificationParameters } from '../interface';
 
 class Controller extends Observer {
   public model: Model | null;
@@ -16,7 +16,7 @@ class Controller extends Observer {
     this.init();
   }
 
-  public update(conf: IPluginConfiguration) {
+  public update(conf: TPluginConfiguration) {
     if (!this.model) {
       return;
     }
@@ -175,14 +175,14 @@ class Controller extends Observer {
     if (parms.key !== 'MoveEvent' || !this.model) {
       return;
     }
-    this.model.calcPositionSetByPointer(parms.data.slider);
+    this.model.calcPositionSetByPointer(parms.data.control);
   };
 
   private handleKeydownEvent = (parms: INotificationParameters) => {
     if (parms.key !== 'KeydownEvent' || !this.model) {
       return;
     }
-    this.model.calcPositionSetByKey(parms.data.slider);
+    this.model.calcPositionSetByKey(parms.data.control);
   };
 }
 

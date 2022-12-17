@@ -2,10 +2,10 @@ import updateObject from '../../../shared/utils/updateObject';
 import prepareElements from '../../../shared/utils/prepareElements';
 import getNotificationDetails from '../../../shared/utils/getNotificationDetails';
 import getElement from '../../../shared/utils/getElement';
-import { IPluginConfiguration, TAllowedTypes } from '../../../slider-metalamp/mvc/interface';
+import { TPluginConfiguration, TInputTypes } from '../../../slider-metalamp/mvc/interface';
 import PanelObserver from '../PanelObserver';
 
-const OPTIONS: Array<[string, TAllowedTypes]> = [
+const OPTIONS: Array<[string, TInputTypes]> = [
   ['scale', 'toggle'],
   ['interval', 'input'],
   ['step', 'input'],
@@ -34,7 +34,7 @@ class ScaleSetup extends PanelObserver {
     this.addEventListeners();
   }
 
-  public update(data: { [key: string]: unknown } & IPluginConfiguration) {
+  public update(data: { [key: string]: unknown } & TPluginConfiguration) {
     const switchOption = (option: 'step' | 'interval' = 'step') => {
       if (!this.optionStep || !this.optionInterval) {
         return;

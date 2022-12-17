@@ -1,7 +1,7 @@
-import { TAllowedTypes } from '../../slider-metalamp/mvc/interface';
+import { TInputTypes } from '../../slider-metalamp/mvc/interface';
 import getElement from './getElement';
 
-const prepareElements = (options: Array<[string, TAllowedTypes]>, wrapper: HTMLElement) => {
+const prepareElements = (options: Array<[string, TInputTypes]>, wrapper: HTMLElement) => {
   const optionObjects: Array<HTMLInputElement> = [];
   options.forEach((option) => {
     const [key, value] = option;

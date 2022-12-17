@@ -1,4 +1,4 @@
-import { IPluginConfiguration } from '../../slider-metalamp/mvc/interface';
+import { TPluginConfiguration } from '../../slider-metalamp/mvc/interface';
 import ScaleSetup from './scale-setup/ScaleSetup';
 import MainSetup from './main-setup/MainSetup';
 import ControlMovementSetup from './control-movement-setup/ControlMovementSetup';
@@ -22,7 +22,7 @@ class Panel extends PanelObserver {
     this.render();
   }
 
-  public update(data: IPluginConfiguration) {
+  public update(data: TPluginConfiguration) {
     if (!this.isSubscribed || this.isDestroyed) return;
     this.optionObjects.forEach((option) => {
       if (!(option instanceof ActionsSetup)) {

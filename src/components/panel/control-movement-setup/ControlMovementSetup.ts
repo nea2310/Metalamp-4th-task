@@ -1,10 +1,10 @@
 import updateObject from '../../../shared/utils/updateObject';
 import prepareElements from '../../../shared/utils/prepareElements';
 import getNotificationDetails from '../../../shared/utils/getNotificationDetails';
-import { IPluginConfiguration, TAllowedTypes } from '../../../slider-metalamp/mvc/interface';
+import { TPluginConfiguration, TInputTypes } from '../../../slider-metalamp/mvc/interface';
 import PanelObserver from '../PanelObserver';
 
-const OPTIONS: Array<[string, TAllowedTypes]> = [
+const OPTIONS: Array<[string, TInputTypes]> = [
   ['shiftOnKeyDown', 'input'],
   ['shiftOnKeyHold', 'input'],
   ['sticky', 'toggle'],
@@ -23,7 +23,7 @@ class ControlMovementSetup extends PanelObserver {
     this.addEventListeners();
   }
 
-  public update(data: { [key: string]: unknown } & IPluginConfiguration) {
+  public update(data: { [key: string]: unknown } & TPluginConfiguration) {
     this.optionObjects = updateObject(this.optionObjects, data);
   }
 

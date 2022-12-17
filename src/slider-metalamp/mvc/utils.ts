@@ -1,6 +1,6 @@
 import {
   IPluginConfigurationFull,
-  ISliderFull,
+  IControlFull,
   IPluginPrivateData,
 } from './interface';
 
@@ -25,7 +25,7 @@ export const defaultConf: IPluginConfigurationFull = {
   onUpdate: () => true,
 };
 
-export const defaultSlider: ISliderFull = {
+export const defaultControl: IControlFull = {
   type: '',
   clientY: 0,
   clientX: 0,
@@ -48,5 +48,5 @@ export const defaultData: IPluginPrivateData = {
   scaleBase: 'step',
   fromValue: '',
   toValue: '',
-  slider: defaultSlider,
+  control: defaultControl,
 };

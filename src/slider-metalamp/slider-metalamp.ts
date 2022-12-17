@@ -1,9 +1,9 @@
 import Model from './mvc/model/Model';
 import View from './mvc/view/View';
 import Controller from './mvc/controller/Controller';
-import { IPluginConfiguration } from './mvc/interface';
+import { TPluginConfiguration } from './mvc/interface';
 
-function plugin(this: JQuery, options: IPluginConfiguration): JQuery {
+function plugin(this: JQuery, options: TPluginConfiguration): JQuery {
   this.each((_, el: Element) => {
     const $element = $(el);
     if (!$element.data('SliderMetaLamp')) {

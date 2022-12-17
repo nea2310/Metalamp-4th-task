@@ -1,17 +1,17 @@
 import {
   defaultConf,
   defaultData,
-  defaultSlider,
+  defaultControl,
 } from '../utils';
 import Observer from '../Observer';
 import {
   IPluginConfigurationFull,
-  IPluginConfiguration,
+  TPluginConfiguration,
   IPluginConfigurationItem,
   IPluginPrivateData,
-  TSliderKeydownTypes,
-  IData,
-  TSliderStopTypes,
+  TControlKeydownTypes,
+  IControlStateData,
+  TControlStopTypes,
   TPluginConfigurationItem,
 } from '../interface';
 
@@ -20,21 +20,21 @@ class Model extends Observer {
 
   private changeMode: boolean = false;
 
-  private startConf: IPluginConfiguration;
+  private startConf: TPluginConfiguration;
 
-  private dataAttributesConf: IPluginConfiguration = {};
+  private dataAttributesConf: TPluginConfiguration = {};
 
   private data: IPluginPrivateData = {
-    ...defaultData, slider: { ...defaultSlider },
+    ...defaultData, control: { ...defaultControl },
   };
 
-  private onStart?: (data: IPluginConfiguration) => unknown | null;
+  private onStart?: (data: TPluginConfiguration) => unknown | null;
 
-  private onUpdate?: (data: IPluginConfiguration) => unknown | null;
+  private onUpdate?: (data: TPluginConfiguration) => unknown | null;
 
-  private onChange?: (data: IPluginConfiguration) => unknown | null;
+  private onChange?: (data: TPluginConfiguration) => unknown | null;
 
-  constructor(conf: IPluginConfiguration) {
+  constructor(conf: TPluginConfiguration) {
     super();
     this.startConf = conf;
   }
@@ -139,7 +139,7 @@ class Model extends Observer {
     return conf;
   }
 
-  public getConf(conf: IPluginConfiguration) {
+  public getConf(conf: TPluginConfiguration) {
     this.dataAttributesConf = conf;
     const joinedConf = { ...this.conf, ...this.startConf, ...this.dataAttributesConf };
     this.conf = Model.checkConf(joinedConf);
@@ -162,7 +162,7 @@ class Model extends Observer {
     return this.conf;
   }
 
-  public update(newConf: IPluginConfiguration) {
+  public update(newConf: TPluginConfiguration) {
     let conf = { ...this.conf, ...newConf };
 
     conf = Model.checkConf(conf);
@@ -177,7 +177,7 @@ class Model extends Observer {
     return { ...this.conf, ...this.data };
   }
 
-  public calcPositionSetByPointer(data: IData) {
+  public calcPositionSetByPointer(data: IControlStateData) {
     const {
       type,
       clientY,
@@ -203,7 +203,7 @@ class Model extends Observer {
     }
 
     let isStop = false;
-    const updatePosition = (returnValue = '', needChange = false, stopType: TSliderStopTypes = 'min') => {
+    const updatePosition = (returnValue = '', needChange = false, stopType: TControlStopTypes = 'min') => {
       isStop = true;
       this.calcValue(stopType, 0, movingControl);
       if (needChange && typeof this.onChange === 'function') {
@@ -248,7 +248,7 @@ class Model extends Observer {
 
   public calcPositionSetByKey(data:
   {
-    direction: TSliderKeydownTypes,
+    direction: TControlKeydownTypes,
     repeat: boolean,
     movingControl: 'min' | 'max',
   }) {
@@ -458,8 +458,8 @@ class Model extends Observer {
     }
   }
 
-  private doCalculation(oldConf: IPluginConfigurationFull, newConf: IPluginConfiguration) {
-    const sortArray = (object: IPluginConfiguration) => Object.entries(object).sort(
+  private doCalculation(oldConf: IPluginConfigurationFull, newConf: TPluginConfiguration) {
+    const sortArray = (object: TPluginConfiguration) => Object.entries(object).sort(
       (a: TPluginConfigurationItem, b: TPluginConfigurationItem) => {
         if (a[0] > b[0]) {
           return 1;
@@ -673,7 +673,7 @@ class Model extends Observer {
   }
 
   private calcValue(
-    stopType: TSliderStopTypes,
+    stopType: TControlStopTypes,
     position: number,
     movingControl: 'min' | 'max',
   ) {
