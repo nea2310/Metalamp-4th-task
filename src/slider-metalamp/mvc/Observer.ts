@@ -9,9 +9,7 @@ export default abstract class Observer {
   }
 
   public subscribe(observer: Function) {
-    if (this.observers.includes(observer)) {
-      return null;
-    }
+    if (this.observers.includes(observer)) return null;
     this.observers.push(observer);
     return this.observers;
   }

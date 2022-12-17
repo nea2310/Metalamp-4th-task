@@ -86,9 +86,7 @@ function prepareInstance(
     mockElementDimensions(track, { width: 100, height: 100 });
     const markList = createMarkList(scaleMarks, track, 100, 100);
     testViewScale = new ViewScale(slider, track, config, markList);
-  } else {
-    testViewScale = new ViewScale(slider, track, config);
-  }
+  } else testViewScale = new ViewScale(slider, track, config);
 
   return testViewScale;
 }

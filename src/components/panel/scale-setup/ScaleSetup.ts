@@ -36,9 +36,7 @@ class ScaleSetup extends PanelObserver {
 
   public update(data: { [key: string]: unknown } & TPluginConfiguration) {
     const switchOption = (option: 'step' | 'interval' = 'step') => {
-      if (!this.optionStep || !this.optionInterval) {
-        return;
-      }
+      if (!this.optionStep || !this.optionInterval) return;
       this.optionStep.disabled = (option === 'interval');
       this.optionInterval.disabled = (option === 'step');
     };

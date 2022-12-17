@@ -17,57 +17,43 @@ class Controller extends Observer {
   }
 
   public update(conf: TPluginConfiguration) {
-    if (!this.model) {
-      return;
-    }
+    if (!this.model) return;
     this.model.update(conf);
   }
 
   public getData() {
-    if (!this.model) {
-      return undefined;
-    }
+    if (!this.model) return undefined;
     return this.model.getData();
   }
 
   public disable() {
-    if (!this.view) {
-      return;
-    }
+    if (!this.view) return;
     this.removeListeners();
     this.view.disable();
   }
 
   public enable() {
-    if (!this.view) {
-      return;
-    }
+    if (!this.view) return;
     this.createListeners();
     this.view.enable();
   }
 
   public destroy() {
-    if (!this.view || !this.view.slider) {
-      return;
-    }
+    if (!this.view || !this.view.slider) return;
     this.view.slider.remove();
     this.view = null;
     this.model = null;
   }
 
   private init() {
-    if (!this.view || !this.model) {
-      return;
-    }
+    if (!this.view || !this.model) return;
     this.model.getConf(this.view.dataAttributesConf);
     this.view.init(this.model.conf);
     this.model.start();
   }
 
   private createListeners() {
-    if (!this.view || !this.model) {
-      return;
-    }
+    if (!this.view || !this.model) return;
     this.model.subscribe(this.handleFromPosition);
     this.model.subscribe(this.handleToPosition);
     this.model.subscribe(this.handleFromValue);
@@ -83,9 +69,7 @@ class Controller extends Observer {
   }
 
   private removeListeners() {
-    if (!this.view || !this.model) {
-      return;
-    }
+    if (!this.view || !this.model) return;
     this.model.unsubscribe(this.handleFromPosition);
     this.model.unsubscribe(this.handleToPosition);
     this.model.unsubscribe(this.handleFromValue);
@@ -102,86 +86,62 @@ class Controller extends Observer {
 
   private handleFromPosition =
   (parms: INotificationParameters) => {
-    if (parms.key !== 'FromPosition' || !this.view) {
-      return;
-    }
+    if (parms.key !== 'FromPosition' || !this.view) return;
     this.view.updateFromPos(parms.data, parms.conf);
   };
 
   private handleToPosition = (parms: INotificationParameters) => {
-    if (parms.key !== 'ToPosition' || !this.view) {
-      return;
-    }
+    if (parms.key !== 'ToPosition' || !this.view) return;
     this.view.updateToPos(parms.data, parms.conf);
   };
 
   private handleFromValue = (parms: INotificationParameters) => {
-    if (parms.key !== 'FromValue' || !this.view) {
-      return;
-    }
+    if (parms.key !== 'FromValue' || !this.view) return;
     this.view.updateFromValue(parms.data);
   };
 
   private handleToValue = (parms: INotificationParameters) => {
-    if (parms.key !== 'ToValue' || !this.view) {
-      return;
-    }
+    if (parms.key !== 'ToValue' || !this.view) return;
     this.view.updateToValue(parms.data);
   };
 
   private handleScale = (parms: INotificationParameters) => {
-    if (parms.key !== 'Scale' || !this.view) {
-      return;
-    }
+    if (parms.key !== 'Scale' || !this.view) return;
     this.view.updateScale(parms.data, parms.conf);
   };
 
   private handleIsVertical = (parms: INotificationParameters) => {
-    if (parms.key !== 'IsVertical' || !this.view) {
-      return;
-    }
+    if (parms.key !== 'IsVertical' || !this.view) return;
     this.view.switchVertical(parms.conf);
   };
 
   private handleIsRange = (parms: INotificationParameters) => {
-    if (parms.key !== 'IsRange' || !this.view) {
-      return;
-    }
+    if (parms.key !== 'IsRange' || !this.view) return;
     this.view.switchRange(parms.conf, parms.data);
   };
 
   private handleIsScale = (parms: INotificationParameters) => {
-    if (parms.key !== 'IsScale' || !this.view) {
-      return;
-    }
+    if (parms.key !== 'IsScale' || !this.view) return;
     this.view.switchScale(parms.conf);
   };
 
   private handleIsBar = (parms: INotificationParameters) => {
-    if (parms.key !== 'IsBar' || !this.view) {
-      return;
-    }
+    if (parms.key !== 'IsBar' || !this.view) return;
     this.view.switchBar(parms.conf);
   };
 
   private handleIsTip = (parms: INotificationParameters) => {
-    if (parms.key !== 'IsTip' || !this.view) {
-      return;
-    }
+    if (parms.key !== 'IsTip' || !this.view) return;
     this.view.switchTip(parms.conf);
   };
 
   private handleMoveEvent = (parms: INotificationParameters) => {
-    if (parms.key !== 'MoveEvent' || !this.model) {
-      return;
-    }
+    if (parms.key !== 'MoveEvent' || !this.model) return;
     this.model.calcPositionSetByPointer(parms.data.control);
   };
 
   private handleKeydownEvent = (parms: INotificationParameters) => {
-    if (parms.key !== 'KeydownEvent' || !this.model) {
-      return;
-    }
+    if (parms.key !== 'KeydownEvent' || !this.model) return;
     this.model.calcPositionSetByKey(parms.data.control);
   };
 }

@@ -48,7 +48,7 @@ class ViewControl extends Observer {
   }
 
   static calcTipPos(isVertical: boolean, elem: HTMLElement) {
-    if (isVertical) { return `${elem.offsetWidth * (-1) - 20}px`; }
+    if (isVertical) return `${elem.offsetWidth * (-1) - 20}px`;
     return `${(elem.offsetWidth / 2) * (-1)}px`;
   }
 
@@ -70,27 +70,21 @@ class ViewControl extends Observer {
 
   public updatePos(element: HTMLElement, newPosition: number) {
     const elem = element;
-    if (!this.initDone) {
-      this.initDone = true;
-    }
+    if (!this.initDone) this.initDone = true;
 
     const propertyToSet = this.conf.vertical ? 'bottom' : 'left';
     const propertyToUnset = this.conf.vertical ? 'left' : 'bottom';
     elem.style[propertyToSet] = `${newPosition}%`;
     elem.style[propertyToUnset] = '';
 
-    if (!this.tipMin || !this.tipMax) {
-      return;
-    }
+    if (!this.tipMin || !this.tipMax) return;
 
     const tip = this.defineControl(elem) === 'min' ? this.tipMin : this.tipMax;
     tip.style.left = ViewControl.calcTipPos(this.conf.vertical, tip);
   }
 
   public updateVal(value: string, isFrom: boolean) {
-    if (!this.tipMin || !this.tipMax) {
-      return;
-    }
+    if (!this.tipMin || !this.tipMax) return;
     const tip = isFrom ? this.tipMin : this.tipMax;
     tip.innerText = value;
   }
@@ -107,20 +101,17 @@ class ViewControl extends Observer {
   }
 
   public switchTip(conf: IPluginConfigurationFull) {
-    if (this.tipMax && this.tipMin) {
-      if (this.initDone) {
-        this.tipMax.style.left = ViewControl.calcTipPos(conf.vertical, this.tipMax);
-        this.tipMin.style.left = ViewControl.calcTipPos(conf.vertical, this.tipMin);
-      }
+    if (!this.tipMax || !this.tipMin) return;
+    if (this.initDone) {
+      this.tipMax.style.left = ViewControl.calcTipPos(conf.vertical, this.tipMax);
+      this.tipMin.style.left = ViewControl.calcTipPos(conf.vertical, this.tipMin);
     }
   }
 
   private render() {
     this.root = this.control.previousElementSibling;
     this.track = this.control.firstElementChild;
-    if (!this.track) {
-      return;
-    }
+    if (!this.track) return;
 
     this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.conf.from);
     this.tipMin = ViewControl.getElement(this.controlMin, '.slider-metalamp__tip');
@@ -136,17 +127,13 @@ class ViewControl extends Observer {
   }
 
   private defineControl = (elem: ITarget): 'min' | 'max' | null => {
-    if (!elem.classList) {
-      return null;
-    }
+    if (!elem.classList) return null;
     return elem.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
   };
 
   private getMetrics(elem: ITarget) {
     const scale = elem.parentElement;
-    if (!scale) {
-      return;
-    }
+    if (!scale) return;
     const { control } = this.data;
     control.top = scale.getBoundingClientRect().top;
     control.left = scale.getBoundingClientRect().left;
@@ -203,9 +190,7 @@ class ViewControl extends Observer {
   private pressControl() {
     const handlePointerStart = (event: KeyboardEvent) => {
       const directions: Array<TControlKeydownTypes> = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
-      if ((event.code in directions)) {
-        event.preventDefault();
-      }
+      if ((event.code in directions)) event.preventDefault();
       const { target } = event;
       if (!(target instanceof HTMLElement)) {
         throw new Error('Cannot handle move outside of DOM');
@@ -214,9 +199,7 @@ class ViewControl extends Observer {
       const direction: TControlKeydownTypes | undefined = directions.find(
         (element) => element === event.code,
       );
-      if (!direction) {
-        return;
-      }
+      if (!direction) return;
 
       if (target.classList.contains('slider-metalamp__control')) {
         control.movingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
@@ -243,9 +226,7 @@ class ViewControl extends Observer {
         'slider-metalamp__mark',
         'slider-metalamp__frame'];
       const result = [...target.classList].some((className) => array.indexOf(className) !== -1);
-      if (!result) {
-        return;
-      }
+      if (!result) return;
       let controlMinDist = 0;
       let controlMaxDist = 0;
       const property = this.conf.vertical ? 'bottom' : 'left';
@@ -268,11 +249,8 @@ class ViewControl extends Observer {
         control.clientY = event.clientY;
       }
 
-      if (this.controlMax && this.controlMax.classList.contains('hidden')) {
-        control.movingControl = 'min';
-      } else {
-        control.movingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
-      }
+      if (this.controlMax && this.controlMax.classList.contains('hidden')) control.movingControl = 'min';
+      else control.movingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
       this.notify('MoveEvent', this.data);
     };
     this.control.addEventListener('pointerdown', handlePointerStart);

@@ -54,9 +54,7 @@ class Model extends Observer {
     this.calcScaleMarks();
     this.calcFromPosition();
     this.calcToPosition();
-    if (typeof this.onStart === 'function') {
-      this.onStart(this.conf);
-    }
+    if (typeof this.onStart === 'function') this.onStart(this.conf);
   }
 
   public getData() {
@@ -71,10 +69,7 @@ class Model extends Observer {
     this.conf = conf;
     this.doCalculation(oldConf, this.conf);
 
-    if (typeof this.onUpdate === 'function') {
-      this.onUpdate(this.conf);
-    }
-
+    if (typeof this.onUpdate === 'function') this.onUpdate(this.conf);
     return { ...this.conf, ...this.data };
   }
 
@@ -92,44 +87,31 @@ class Model extends Observer {
     } = data;
 
     let newPosition = 0;
-    if (this.conf.vertical) {
-      newPosition = 100 - (((clientY - top) * 100) / height);
-    } else {
+    if (this.conf.vertical) newPosition = 100 - (((clientY - top) * 100) / height);
+    else {
       const shift = (type === 'pointermove') ? (shiftBase * 100) / width : 0;
       newPosition = (((clientX - left) * 100) / width) - shift;
     }
 
-    if (this.conf.sticky) {
-      newPosition = this.setSticky(newPosition);
-    }
+    if (this.conf.sticky) newPosition = this.setSticky(newPosition);
 
     let isStop = false;
     const updatePosition = (returnValue = '', needChange = false, stopType: TControlStopTypes = 'min') => {
       isStop = true;
       this.calcValue(stopType, 0, movingControl);
-      if (needChange && typeof this.onChange === 'function') {
-        this.onChange(this.conf);
-      }
+      if (needChange && typeof this.onChange === 'function') this.onChange(this.conf);
       return returnValue;
     };
 
-    if (newPosition < 0) {
-      return updatePosition('newPosition < 0', true);
-    }
+    if (newPosition < 0) return updatePosition('newPosition < 0', true);
 
-    if (newPosition > 100) {
-      return updatePosition('newPosition > 100', true, 'max');
-    }
+    if (newPosition > 100) return updatePosition('newPosition > 100', true, 'max');
 
     const isBeyondToPosition = this.conf.range && movingControl === 'min' && newPosition > this.data.toPosition;
-    if (isBeyondToPosition) {
-      return updatePosition('newPosition > toPosition', false, 'meetMax');
-    }
+    if (isBeyondToPosition) return updatePosition('newPosition > toPosition', false, 'meetMax');
 
     const isBelowFromPosition = this.conf.range && movingControl === 'max' && newPosition < this.data.fromPosition;
-    if (isBelowFromPosition) {
-      return updatePosition('newPosition < fromPosition', false, 'meetMin');
-    }
+    if (isBelowFromPosition) return updatePosition('newPosition < fromPosition', false, 'meetMin');
 
     if (movingControl === 'min') {
       this.data.fromPosition = newPosition;
@@ -138,12 +120,8 @@ class Model extends Observer {
       this.data.toPosition = newPosition;
       this.notify('ToPosition', this.data, this.conf);
     }
-    if (!isStop) {
-      this.calcValue('normal', newPosition, movingControl);
-    }
-    if (typeof this.onChange === 'function') {
-      this.onChange(this.conf);
-    }
+    if (!isStop) this.calcValue('normal', newPosition, movingControl);
+    if (typeof this.onChange === 'function') this.onChange(this.conf);
     return newPosition;
   }
 
@@ -177,21 +155,10 @@ class Model extends Observer {
     const isMaxIncreasingSticky = isMax && isIncreasingSticky;
     const isMaxDecreasingSticky = isMax && isDecreasingSticky;
 
-    if (isMinIncreasingNoSticky) {
-      return this.getNewValueNoSticky('MinIncreasingNoSticky', repeat);
-    }
-
-    if (isMinDecreasingNoSticky) {
-      return this.getNewValueNoSticky('MinDecreasingNoSticky', repeat);
-    }
-
-    if (isMaxIncreasingNoSticky) {
-      return this.getNewValueNoSticky('MaxIncreasingNoSticky', repeat);
-    }
-
-    if (isMaxDecreasingNoSticky) {
-      return this.getNewValueNoSticky('MaxDecreasingNoSticky', repeat);
-    }
+    if (isMinIncreasingNoSticky) return this.getNewValueNoSticky('MinIncreasingNoSticky', repeat);
+    if (isMinDecreasingNoSticky) return this.getNewValueNoSticky('MinDecreasingNoSticky', repeat);
+    if (isMaxIncreasingNoSticky) return this.getNewValueNoSticky('MaxIncreasingNoSticky', repeat);
+    if (isMaxDecreasingNoSticky) return this.getNewValueNoSticky('MaxDecreasingNoSticky', repeat);
 
     const value = movingControl === 'min' ? this.conf.from : this.conf.to;
     const index = this.data.marksArray.findIndex((elem) => elem.value === value);
@@ -199,44 +166,27 @@ class Model extends Observer {
     const indexToSearch = isIncreasing ? index + shift : index - shift;
     const item = this.data.marksArray[indexToSearch];
 
-    if (isMinIncreasingSticky) {
-      return this.getNewValueSticky('MinIncreasingSticky', item);
-    }
-
-    if (isMinDecreasingSticky) {
-      return this.getNewValueSticky('MinDecreasingSticky', item);
-    }
-
-    if (isMaxIncreasingSticky) {
-      return this.getNewValueSticky('MaxIncreasingSticky', item);
-    }
-
-    if (isMaxDecreasingSticky) {
-      return this.getNewValueSticky('MaxDecreasingSticky', item);
-    }
+    if (isMinIncreasingSticky) return this.getNewValueSticky('MinIncreasingSticky', item);
+    if (isMinDecreasingSticky) return this.getNewValueSticky('MinDecreasingSticky', item);
+    if (isMaxIncreasingSticky) return this.getNewValueSticky('MaxIncreasingSticky', item);
+    if (isMaxDecreasingSticky) return this.getNewValueSticky('MaxDecreasingSticky', item);
 
     return null;
   }
 
   private calcControlPosition(result: number, isControlFrom = true) {
-    if (isControlFrom) {
-      this.data.fromValue = String(result);
-      this.conf.from = result;
-      this.calcFromPosition();
-      this.notify('FromValue', this.data);
-    } else {
-      this.data.toValue = String(result);
-      this.conf.to = result;
-      this.calcToPosition();
-      this.notify('ToValue', this.data);
-    }
+    const configurationValue = isControlFrom ? 'from' : 'to';
+
+    this.data[`${configurationValue}Value`] = String(result);
+    this.conf[configurationValue] = result;
+    this[`${isControlFrom ? 'calcFromPosition' : 'calcToPosition'}`]();
+    this.notify(`${configurationValue.toUpperCase()}Value`, this.data);
+
     return this.triggerControlPositionChange(result);
   }
 
   private triggerControlPositionChange = (result: number | string | IPluginConfigurationItem) => {
-    if (typeof this.onChange === 'function') {
-      this.onChange(this.conf);
-    }
+    if (typeof this.onChange === 'function') this.onChange(this.conf);
     return result;
   };
 
@@ -259,12 +209,8 @@ class Model extends Observer {
         newValue = this.conf.from + shift;
         newValue = (newValue > limit) ? limit : newValue;
       }
-      if (isAboveMaxRange) {
-        newValue = this.conf.to;
-      }
-      if (isAboveMaxNoRange) {
-        newValue = this.conf.max;
-      }
+      if (isAboveMaxRange) newValue = this.conf.to;
+      if (isAboveMaxNoRange) newValue = this.conf.max;
       return this.calcControlPosition(newValue);
       }
 
@@ -273,9 +219,7 @@ class Model extends Observer {
         if (this.conf.from > this.conf.min) {
           newValue = this.conf.from - shift;
           newValue = newValue < this.conf.min ? this.conf.min : newValue;
-        } else {
-          newValue = this.conf.min;
-        }
+        } else newValue = this.conf.min;
         return this.calcControlPosition(newValue); }
 
       case 'MaxIncreasingNoSticky':
@@ -362,9 +306,8 @@ class Model extends Observer {
   private doCalculation(oldConf: IPluginConfigurationFull, newConf: TPluginConfiguration) {
     const sortArray = (object: TPluginConfiguration) => Object.entries(object).sort(
       (a: TPluginConfigurationItem, b: TPluginConfigurationItem) => {
-        if (a[0] > b[0]) {
-          return 1;
-        } return -1;
+        if (a[0] > b[0]) return 1;
+        return -1;
       },
     );
 
@@ -372,9 +315,7 @@ class Model extends Observer {
       const confItem = sortArray(oldConf).find(
         (oldConfItem) => oldConfItem[0] === newConfItem[0],
       );
-      if (!confItem) {
-        return null;
-      }
+      if (!confItem) return null;
       return confItem[1] !== newConfItem[1];
     });
 
@@ -458,17 +399,13 @@ class Model extends Observer {
 
   private switchRange() {
     this.notify('IsRange', this.data, this.conf);
-    if (typeof this.onChange === 'function') {
-      this.onChange(this.conf);
-    }
+    if (typeof this.onChange === 'function') this.onChange(this.conf);
   }
 
   private updateControlPos() {
     this.calcFromPosition();
     this.calcToPosition();
-    if (typeof this.onChange === 'function') {
-      this.onChange(this.conf);
-    }
+    if (typeof this.onChange === 'function') this.onChange(this.conf);
     this.notify('IsSticky', this.data, this.conf);
   }
 
@@ -491,27 +428,20 @@ class Model extends Observer {
       array: IPluginConfigurationItem[],
     ) => {
       let temporaryPosition = 0;
-      if (item < array.length - 1) {
-        temporaryPosition = array[item + 1].position;
-      }
+      if (item < array.length - 1) temporaryPosition = array[item + 1].position;
       return Math.abs(controlPosition - element.position)
         < Math.abs(controlPosition - temporaryPosition);
     });
 
-    if (!goal) {
-      goal = { value: 0, position: 0 };
-    }
+    if (!goal) goal = { value: 0, position: 0 };
     return goal.position;
   }
 
   private calcFromPosition() {
-    this.data.fromPosition = ((this.conf.from
-      - this.conf.min) * 100)
+    this.data.fromPosition = ((this.conf.from - this.conf.min) * 100)
       / (this.conf.max - this.conf.min);
 
-    if (this.conf.sticky) {
-      this.data.fromPosition = this.setSticky(this.data.fromPosition);
-    }
+    if (this.conf.sticky) this.data.fromPosition = this.setSticky(this.data.fromPosition);
     this.calcValue('normal', this.data.fromPosition, 'min');
     this.notify('FromPosition', this.data, this.conf);
   }
@@ -519,37 +449,27 @@ class Model extends Observer {
   private calcToPosition() {
     this.data.toPosition = ((this.conf.to - this.conf.min) * 100)
       / (this.conf.max - this.conf.min);
-    if (this.conf.sticky) {
-      this.data.toPosition = this.setSticky(this.data.toPosition);
-    }
+    if (this.conf.sticky) this.data.toPosition = this.setSticky(this.data.toPosition);
     this.calcValue('normal', this.data.toPosition, 'max');
     this.notify('ToPosition', this.data, this.conf);
   }
 
   private calcScaleMarks() {
-    let interval = 1;
-    let step = 1;
-    if (this.conf.scaleBase === 'step') {
-      step = this.conf.step;
-      interval = (this.conf.max - this.conf.min) / step;
-      const argument = interval % 1 === 0 ? String(interval)
-        : String(Math.trunc(interval + 1));
-      this.data.scaleBase = 'step';
-      this.data.intervalValue = argument;
-      this.data.stepValue = String(this.conf.step);
-      this.conf.interval = parseFloat(argument);
-    }
+    const { scaleBase } = this.conf;
+    const isStep = scaleBase === 'step';
+    const oppositeType = isStep ? 'interval' : 'step';
+    const step = isStep ? this.conf.step : (this.conf.max - this.conf.min) / this.conf.interval;
+    const interval = isStep ? (this.conf.max - this.conf.min) / this.conf.step : this.conf.interval;
 
-    if (this.conf.scaleBase === 'interval') {
-      interval = this.conf.interval;
-      step = (this.conf.max - this.conf.min) / interval;
-      const argument = step % 1 === 0 ? String(step)
-        : String(step.toFixed(2));
-      this.data.scaleBase = 'interval';
-      this.data.intervalValue = String(interval);
-      this.data.stepValue = argument;
-      this.conf.step = parseFloat(argument);
-    }
+    const stepArgument = interval % 1 === 0 ? String(interval) : String(Math.trunc(interval + 1));
+    const intervalArgument = step % 1 === 0 ? String(step) : String(step.toFixed(2));
+    const argument = isStep ? stepArgument : intervalArgument;
+
+    this.data.scaleBase = scaleBase;
+
+    this.data.intervalValue = isStep ? argument : String(interval);
+    this.data.stepValue = isStep ? String(this.conf.step) : argument;
+    this.conf[oppositeType] = parseFloat(argument);
 
     this.data.marksArray = [{ value: this.conf.min, position: 0 }];
     let value = this.conf.min;
@@ -567,9 +487,7 @@ class Model extends Observer {
       }
     }
     if (this.data.marksArray[this.data.marksArray.length - 1].value
-      < this.conf.max) {
-      this.data.marksArray.push({ value: this.conf.max, position: 100 });
-    }
+      < this.conf.max) this.data.marksArray.push({ value: this.conf.max, position: 100 });
     this.notify('Scale', this.data, this.conf);
   }
 
@@ -578,9 +496,7 @@ class Model extends Observer {
     position: number,
     movingControl: 'min' | 'max',
   ) {
-    if (this.changeMode) {
-      return;
-    }
+    if (this.changeMode) return;
 
     const stopTypes = {
       normal: (this.conf.min + ((this.conf.max

@@ -28,9 +28,7 @@ class ViewBar {
       length = toPosition - fromPosition;
     }
 
-    if (!this.progressBar) {
-      return;
-    }
+    if (!this.progressBar) return;
 
     const { style } = this.progressBar;
     style.left = isVertical ? '' : `${position}%`;
@@ -43,9 +41,7 @@ class ViewBar {
     this.track = ViewBar.getElement(this.slider, '.slider-metalamp__track');
     this.progressBar = document.createElement('div');
     this.progressBar.className = 'slider-metalamp__progress-bar';
-    if (!this.track) {
-      return;
-    }
+    if (!this.track) return;
     this.track.append(this.progressBar);
   }
 }

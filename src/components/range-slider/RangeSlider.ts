@@ -37,9 +37,7 @@ class RangeSlider {
     this.slider = RangeSlider.getElement(this.wrapper, `.js-${this.sliderSelector}`);
     this.sliderWrapper = RangeSlider.getElement(this.wrapper, `.js-${this.rootSelector}__${this.sliderSelector}`);
     this.panelWrapper = this.wrapper.querySelector(`.js-${this.rootSelector}__panel`);
-    if (!this.panelWrapper || !this.slider) {
-      return;
-    }
+    if (!this.panelWrapper || !this.slider) return;
     this.panel = new Panel(this.panelWrapper);
     this.panel.subscribe(this.handlePanelChange);
     this.rangeSlider = this.createSlider(this.slider);
@@ -62,9 +60,7 @@ class RangeSlider {
 
   private updateData = (data: TPluginConfiguration) => {
     if (data.vertical
-      !== this.wrapper.classList.contains(`${this.rootSelector}_${this.isVerticalModifier}`)) {
-      this.switchVertical();
-    }
+      !== this.wrapper.classList.contains(`${this.rootSelector}_${this.isVerticalModifier}`)) this.switchVertical();
   };
 
   private changeData(data: TPluginConfiguration) {
@@ -82,9 +78,7 @@ class RangeSlider {
       case 'disable': {
         if (typeof data !== 'boolean') return;
         this.disableSlider(data);
-        if (this.panel) {
-          this.panel.disable(data);
-        }
+        if (this.panel) this.panel.disable(data);
         break;
       }
       case 'destroy': {
@@ -93,9 +87,7 @@ class RangeSlider {
         break;
       }
       default: {
-        if (this.rangeSlider) {
-          this.rangeSlider.update({ [key]: data });
-        }
+        if (this.rangeSlider) this.rangeSlider.update({ [key]: data });
         /* после ввода данных в панель конфигурирования и обновления слайдера нужно получить данные
         из модели и обновить панель, т.к. в панель могли быть введены недопустимые данные, которые
          были затем изменены в модели при валидации. Их надо скорректировать и в панели */
@@ -113,11 +105,7 @@ class RangeSlider {
           this.changeData(data);
         },
       });
-    } else {
-      this.rangeSlider.update({
-        onChange: undefined,
-      });
-    }
+    } else this.rangeSlider.update({ onChange: undefined });
   }
 
   private disableSlider(isDisabled = false) {
@@ -131,15 +119,9 @@ class RangeSlider {
 
   private destroySlider(isDestroyed = false, slider = this.slider) {
     if (!isDestroyed) return;
-    if (this.rangeSlider) {
-      this.rangeSlider.destroy();
-    }
-    if (this.panel) {
-      this.panel.destroy();
-    }
-    if (slider) {
-      $.data(slider, 'SliderMetaLamp', null);
-    }
+    if (this.rangeSlider) this.rangeSlider.destroy();
+    if (this.panel) this.panel.destroy();
+    if (slider) $.data(slider, 'SliderMetaLamp', null);
     if (this.sliderWrapper) {
       this.sliderWrapper.classList.remove(`${this.rootSelector}__${this.sliderSelector}_${this.isVerticalModifier}`);
     }

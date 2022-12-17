@@ -25,9 +25,7 @@ class Panel extends PanelObserver {
   public update(data: TPluginConfiguration) {
     if (!this.isSubscribed || this.isDestroyed) return;
     this.optionObjects.forEach((option) => {
-      if (!(option instanceof ActionsSetup)) {
-        option.update(data);
-      }
+      if (!(option instanceof ActionsSetup)) option.update(data);
     });
   }
 
@@ -62,9 +60,7 @@ class Panel extends PanelObserver {
 
   private handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
     const { key, data } = parameters;
-    if (key === 'subscribe') {
-      this.isSubscribed = !!data;
-    }
+    if (key === 'subscribe') this.isSubscribed = !!data;
     this.notify(key, data);
   };
 
@@ -77,9 +73,7 @@ class Panel extends PanelObserver {
     const DOMElement = this.getElement(selector);
     let object: TPanelComponents | null = null;
 
-    if (DOMElement instanceof HTMLElement) {
-      object = new ClassName(DOMElement);
-    }
+    if (DOMElement instanceof HTMLElement) object = new ClassName(DOMElement);
 
     if (object) {
       object.subscribe(this.handlePanelChange);

@@ -16,9 +16,7 @@ class ActionsSetup extends PanelObserver {
   }
 
   public disable(isDisabled = false) {
-    if (this.optionSubscribe) {
-      this.optionSubscribe.disabled = isDisabled;
-    }
+    if (this.optionSubscribe) this.optionSubscribe.disabled = isDisabled;
   }
 
   private render() {

@@ -15,35 +15,23 @@ function checkValue(type: string, value: number, configuration: IPluginConfigura
 }
 
 function checkMax(configuration: IPluginConfigurationFull) {
-  if (configuration.max <= configuration.min) {
-    return configuration.min + 10;
-  }
+  if (configuration.max <= configuration.min) return configuration.min + 10;
   return configuration.max;
 }
 
 function checkFrom(configuration: IPluginConfigurationFull) {
-  if (configuration.max <= configuration.min) {
-    return configuration.min;
-  }
-  if (configuration.from < configuration.min) {
-    return configuration.min;
-  }
+  if (configuration.max <= configuration.min) return configuration.min;
+  if (configuration.from < configuration.min) return configuration.min;
   if (configuration.from > configuration.max) {
     return configuration.range ? configuration.to - 10 : configuration.max;
   }
-  if (configuration.range && configuration.from > configuration.to) {
-    return configuration.min;
-  }
+  if (configuration.range && configuration.from > configuration.to) return configuration.min;
   return configuration.from;
 }
 
 function checkTo(configuration: IPluginConfigurationFull) {
-  if (configuration.max <= configuration.min) {
-    return configuration.min + 10;
-  }
-  if (configuration.to < configuration.min) {
-    return configuration.from;
-  }
+  if (configuration.max <= configuration.min) return configuration.min + 10;
+  if (configuration.to < configuration.min) return configuration.from;
   if (configuration.to > configuration.max) {
     return configuration.range ? configuration.max : configuration.from;
   }
@@ -51,9 +39,7 @@ function checkTo(configuration: IPluginConfigurationFull) {
 }
 
 function checkScaleBase(configuration: IPluginConfigurationFull) {
-  if (configuration.scaleBase !== 'step' && configuration.scaleBase !== 'interval') {
-    return 'step';
-  }
+  if (configuration.scaleBase !== 'step' && configuration.scaleBase !== 'interval') return 'step';
   return configuration.scaleBase;
 }
 
@@ -72,9 +58,7 @@ function checkConfiguration(configuration: IPluginConfigurationFull) {
 
   Object.entries(checkedConfiguration).forEach((element) => {
     const [key, value] = element;
-    if (numbers.includes(key)) {
-      validatePropertyValue(key, value);
-    }
+    if (numbers.includes(key)) validatePropertyValue(key, value);
   });
 
   const {

@@ -76,9 +76,7 @@ const { viewControl, viewScale, viewBar } = testView;
 const condition = !(viewControl instanceof ViewControl)
 || !(viewScale instanceof ViewScale)
 || !(viewBar instanceof ViewBar);
-if (condition) {
-  return;
-}
+if (condition) return;
   const updatePosSpy = jest.spyOn(viewControl, 'updatePos');
   const updateInputSpy = jest.spyOn(viewControl, 'updateInput');
   const updateValSpy = jest.spyOn(viewControl, 'updateVal');

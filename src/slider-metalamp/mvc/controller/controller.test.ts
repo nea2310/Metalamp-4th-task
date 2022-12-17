@@ -43,9 +43,7 @@ describe('controller', () => {
     'gets data from model on calling API method "getData"',
     () => {
       const { model } = TestController;
-      if (!(model instanceof Model)) {
-        return;
-      }
+      if (!(model instanceof Model)) return;
       const getDataSpy = jest.spyOn(model, 'getData');
       expect(TestController.getData()).toEqual({
         bar: true,
@@ -74,9 +72,7 @@ describe('controller', () => {
 
   test('calls update method in model on calling API method "update"', () => {
     const { model } = TestController;
-    if (!(model instanceof Model)) {
-      return;
-    }
+    if (!(model instanceof Model)) return;
     const updateSpy = jest.spyOn(model, 'update');
     TestController.update(conf);
     expect(updateSpy).toBeCalledTimes(1);
@@ -87,9 +83,7 @@ describe('controller', () => {
     'removes Observer listeners on calling API method "disable"',
     () => {
       const { model, view } = TestController;
-      if (!(model instanceof Model) || !(view instanceof View)) {
-        return;
-      }
+      if (!(model instanceof Model) || !(view instanceof View)) return;
       expect(model.observers).toHaveLength(10);
       expect(view.observers).toHaveLength(2);
       TestController.disable();
@@ -102,9 +96,7 @@ describe('controller', () => {
     're_orientation_verticals Observer listeners back on calling API method "enable"',
     () => {
       const { model, view } = TestController;
-      if (!(model instanceof Model) || !(view instanceof View)) {
-        return;
-      }
+      if (!(model instanceof Model) || !(view instanceof View)) return;
       expect(model.observers).toHaveLength(0);
       expect(view.observers).toHaveLength(0);
       TestController.enable();

@@ -87,18 +87,14 @@ const track = getElem('slider-metalamp__track');
 
 describe('apply styles on calling ViewControl method', () => {
   const { viewControl } = testView;
-  if (!(viewControl instanceof ViewControl)) {
-    return;
-  }
+  if (!(viewControl instanceof ViewControl)) return;
 
   test('updatePos', () => {
     expect(controlMax)
       .toHaveProperty('style.left', '66.66666666666667%');
     expect(controlMax)
       .toHaveProperty('style.bottom', '');
-    if (controlMax instanceof HTMLElement) {
-      viewControl.updatePos(controlMax, 50);
-    }
+    if (controlMax instanceof HTMLElement) viewControl.updatePos(controlMax, 50);
 
     expect(controlMax).toHaveProperty('style.left', '50%');
     expect(controlMax).toHaveProperty('style.bottom', '');

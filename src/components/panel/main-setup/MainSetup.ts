@@ -34,9 +34,7 @@ class MainSetup extends PanelObserver {
   public update(data: { [key: string]: unknown } & TPluginConfiguration) {
     this.optionObjects = updateObject(this.optionObjects, data);
 
-    if (this.optionTo) {
-      this.optionTo.disabled = !data.range;
-    }
+    if (this.optionTo) this.optionTo.disabled = !data.range;
   }
 
   public disable(isDisabled = false) {

@@ -6,9 +6,7 @@ export default abstract class PanelObserver {
   }
 
   public subscribe(observer: Function) {
-    if (this.observers.includes(observer)) {
-      return undefined;
-    }
+    if (this.observers.includes(observer)) return undefined;
     this.observers.push(observer);
     return this.observers;
   }
