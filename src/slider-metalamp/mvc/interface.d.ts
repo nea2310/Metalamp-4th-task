@@ -58,7 +58,7 @@ interface IPluginConfigurationFull {
 }
 
 interface IPluginConfigurationFullIndexed extends IPluginConfigurationFull {
-  [key: string]: boolean | number | string | Function;
+  [key: string]: unknown;
 }
 
 interface INotificationParameters {
