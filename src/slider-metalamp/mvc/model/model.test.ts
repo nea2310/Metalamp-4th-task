@@ -614,7 +614,7 @@ describe('model, API method "update" processing', () => {
       toPosition: 50,
       toValue: '50',
       vertical: false,
-      slider: {
+      control: {
         clientX: 0,
         clientY: 0,
         height: 0,

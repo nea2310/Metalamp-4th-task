@@ -14,6 +14,7 @@ import {
   TControlStopTypes,
   TPluginConfigurationItem,
 } from '../interface';
+import checkConfiguration from './configurationChecker';
 
 class Model extends Observer {
   public conf: IPluginConfigurationFull = defaultConf;
@@ -39,110 +40,10 @@ class Model extends Observer {
     this.startConf = conf;
   }
 
-  static checkConf(config: IPluginConfigurationFull) {
-    let conf = config;
-
-    const validateNumber = (value: unknown) => (Number.isNaN(Number(value)) ? 0 : Number(value));
-    const validateBoolean = (value: unknown) => value === true || value === 'true';
-
-    const numbers = ['min', 'max', 'from', 'to', 'step', 'interval', 'shiftOnKeyDown', 'shiftOnKeyHold'];
-    const booleans = ['vertical', 'range', 'sticky', 'scale', 'bar', 'tip'];
-
-    const temporaryArray = Object.entries(conf);
-
-    const validatePropertyValue = (
-      key: string,
-      value: unknown,
-      validationFunction: typeof validateNumber | typeof validateBoolean,
-    ) => {
-      const checkedValue = validationFunction(value);
-      const obj = { [key]: checkedValue };
-      conf = {
-        ...conf, ...obj,
-      };
-    };
-
-    temporaryArray.forEach((element) => {
-      const [key, value] = element;
-      if (numbers.includes(key)) {
-        validatePropertyValue(key, value, validateNumber);
-      }
-      if (booleans.includes(key)) {
-        validatePropertyValue(key, value, validateBoolean);
-      }
-    });
-
-    const checkValue = (type: string, value: number) => {
-      if (value <= 0) {
-        switch (type) {
-          case 'step':
-            return (conf.max - conf.min) / 2;
-          case 'interval':
-            return 2;
-          default:
-            return 1;
-        }
-      }
-      return value;
-    };
-
-    const checkMax = () => {
-      if (conf.max <= conf.min) {
-        return conf.min + 10;
-      }
-      return conf.max;
-    };
-
-    const checkFrom = () => {
-      if (conf.max <= conf.min) {
-        return conf.min;
-      }
-      if (conf.from < conf.min) {
-        return conf.min;
-      }
-      if (conf.from > conf.max) {
-        return conf.range ? conf.to - 10 : conf.max;
-      }
-      if (conf.range && conf.from > conf.to) {
-        return conf.min;
-      }
-      return conf.from;
-    };
-
-    const checkTo = () => {
-      if (conf.max <= conf.min) {
-        return conf.min + 10;
-      }
-      if (conf.to < conf.min) {
-        return conf.from;
-      }
-      if (conf.to > conf.max) {
-        return conf.range ? conf.max : conf.from;
-      }
-      return conf.to;
-    };
-
-    const checkScaleBase = () => {
-      if (conf.scaleBase !== 'step' && conf.scaleBase !== 'interval') {
-        return 'step';
-      }
-      return conf.scaleBase;
-    };
-    conf.scaleBase = checkScaleBase();
-    conf.shiftOnKeyDown = checkValue('shiftOnKeyDown', conf.shiftOnKeyDown);
-    conf.shiftOnKeyHold = checkValue('shiftOnKeyHold', conf.shiftOnKeyHold);
-    conf.max = checkMax();
-    conf.to = checkTo();
-    conf.from = checkFrom();
-    conf.step = checkValue('step', conf.step);
-    conf.interval = checkValue('interval', conf.interval);
-    return conf;
-  }
-
   public getConf(conf: TPluginConfiguration) {
     this.dataAttributesConf = conf;
     const joinedConf = { ...this.conf, ...this.startConf, ...this.dataAttributesConf };
-    this.conf = Model.checkConf(joinedConf);
+    this.conf = checkConfiguration(joinedConf);
     return this.conf;
   }
 
@@ -165,7 +66,7 @@ class Model extends Observer {
   public update(newConf: TPluginConfiguration) {
     let conf = { ...this.conf, ...newConf };
 
-    conf = Model.checkConf(conf);
+    conf = checkConfiguration(conf);
     const oldConf = this.conf;
     this.conf = conf;
     this.doCalculation(oldConf, this.conf);
