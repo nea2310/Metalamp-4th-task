@@ -29,7 +29,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         movingControl: 'min',
       },
     ))
-      .toBe('newPosition < 0');
+      .toBe(-500);
 
     expect(testModel.calcPositionSetByPointer(
       {
@@ -44,7 +44,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         movingControl: 'max',
       },
     ))
-      .toBe('newPosition > 100');
+      .toBe(4000);
 
     expect(testModel.calcPositionSetByPointer(
       {
@@ -89,7 +89,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         movingControl: 'max',
       },
     ))
-      .toBe('newPosition < fromPosition');
+      .toBe(0);
 
     expect(testModel.calcPositionSetByPointer(
       {
@@ -104,7 +104,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         movingControl: 'min',
       },
     ))
-      .toBe('newPosition > toPosition');
+      .toBe(75);
   });
 
   test('calcpos, sticky', () => {
@@ -195,7 +195,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         movingControl: 'max',
       },
     ))
-      .toBe('newPosition < fromPosition');
+      .toBe(0);
 
     expect(testModel.calcPositionSetByPointer(
       {
@@ -210,7 +210,7 @@ describe('model, calcPositionSetByPointer and calcPositionSetByKey methods', () 
         movingControl: 'min',
       },
     ))
-      .toBe('newPosition > toPosition');
+      .toBe(80);
   });
 
   test(

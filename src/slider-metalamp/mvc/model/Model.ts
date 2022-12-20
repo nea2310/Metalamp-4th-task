@@ -95,32 +95,42 @@ class Model extends Observer {
 
     if (this.conf.sticky) newPosition = this.setSticky(newPosition);
 
-    let isStop = false;
-    const updatePosition = (returnValue = '', needChange = false, stopType: TControlStopTypes = 'min') => {
-      isStop = true;
+    const updatePosition = (needChange = false, stopType: TControlStopTypes = 'min') => {
       this.calcValue(stopType, 0, movingControl);
       if (needChange && typeof this.onChange === 'function') this.onChange(this.conf);
-      return returnValue;
     };
 
-    if (newPosition < 0) return updatePosition('newPosition < 0', true);
-
-    if (newPosition > 100) return updatePosition('newPosition > 100', true, 'max');
-
-    const isBeyondToPosition = this.conf.range && movingControl === 'min' && newPosition > this.data.toPosition;
-    if (isBeyondToPosition) return updatePosition('newPosition > toPosition', false, 'meetMax');
-
-    const isBelowFromPosition = this.conf.range && movingControl === 'max' && newPosition < this.data.fromPosition;
-    if (isBelowFromPosition) return updatePosition('newPosition < fromPosition', false, 'meetMin');
-
-    if (movingControl === 'min') {
-      this.data.fromPosition = newPosition;
-      this.notify('FromPosition', this.data, this.conf);
-    } else {
-      this.data.toPosition = newPosition;
-      this.notify('ToPosition', this.data, this.conf);
+    if (newPosition < 0) {
+      updatePosition(true);
+      return newPosition;
     }
-    if (!isStop) this.calcValue('normal', newPosition, movingControl);
+
+    if (newPosition > 100) {
+      updatePosition(true, 'max');
+      return newPosition;
+    }
+
+    const isMinControl = movingControl === 'min';
+    const isBeyondToPosition = this.conf.range && isMinControl
+      && newPosition > this.data.toPosition;
+    if (isBeyondToPosition) {
+      updatePosition(false, 'meetMax');
+      return newPosition;
+    }
+
+    const isBelowFromPosition = this.conf.range && !isMinControl
+      && newPosition < this.data.fromPosition;
+    if (isBelowFromPosition) {
+      updatePosition(false, 'meetMin');
+      return newPosition;
+    }
+
+    const controlType = isMinControl ? 'fromPosition' : 'toPosition';
+    const notificationType = isMinControl ? 'FromPosition' : 'ToPosition';
+    this.data[controlType] = newPosition;
+    this.notify(notificationType, this.data, this.conf);
+
+    this.calcValue('normal', newPosition, movingControl);
     if (typeof this.onChange === 'function') this.onChange(this.conf);
     return newPosition;
   }
