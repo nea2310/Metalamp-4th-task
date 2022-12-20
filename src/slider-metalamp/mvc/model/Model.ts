@@ -23,8 +23,6 @@ class Model extends Observer {
 
   private startConf: TPluginConfiguration;
 
-  private dataAttributesConf: TPluginConfiguration = {};
-
   private data: IPluginPrivateData = {
     ...defaultData, control: { ...defaultControl },
   };
@@ -41,8 +39,7 @@ class Model extends Observer {
   }
 
   public getConf(conf: TPluginConfiguration) {
-    this.dataAttributesConf = conf;
-    const joinedConf = { ...this.conf, ...this.startConf, ...this.dataAttributesConf };
+    const joinedConf = { ...this.conf, ...this.startConf, ...conf };
     this.conf = checkConfiguration(joinedConf);
     return this.conf;
   }
