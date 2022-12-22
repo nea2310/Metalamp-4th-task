@@ -3,15 +3,20 @@ import Model from '../model/Model';
 import Observer from '../Observer';
 import { TPluginConfiguration, INotificationParameters } from '../interface';
 
+import { defaultConf } from '../utils';
+
 class Controller extends Observer {
   public model: Model | null;
 
   public view: View | null;
 
-  constructor(model: Model, view: View) {
+  private startConfiguration: TPluginConfiguration = defaultConf;
+
+  constructor(model: Model, view: View, startConfiguration: TPluginConfiguration) {
     super();
     this.model = model;
     this.view = view;
+    this.startConfiguration = startConfiguration;
     this.createListeners();
     this.init();
   }
@@ -47,7 +52,11 @@ class Controller extends Observer {
 
   private init() {
     if (!this.view || !this.model) return;
-    this.model.getConf(this.view.dataAttributesConf);
+    this.model.init({
+      ...defaultConf,
+      ...this.startConfiguration,
+      ...this.view.dataAttributesConf,
+    });
     this.view.init(this.model.conf);
     this.model.start();
   }
@@ -64,8 +73,8 @@ class Controller extends Observer {
     this.model.subscribe(this.handleIsScale);
     this.model.subscribe(this.handleIsBar);
     this.model.subscribe(this.handleIsTip);
-    this.view.subscribe(this.handleMoveEvent);
-    this.view.subscribe(this.handleKeydownEvent);
+    // this.view.subscribe(this.handleMoveEvent);
+    // this.view.subscribe(this.handleKeydownEvent);
   }
 
   private removeListeners() {
@@ -80,8 +89,8 @@ class Controller extends Observer {
     this.model.unsubscribe(this.handleIsScale);
     this.model.unsubscribe(this.handleIsBar);
     this.model.unsubscribe(this.handleIsTip);
-    this.view.unsubscribe(this.handleMoveEvent);
-    this.view.unsubscribe(this.handleKeydownEvent);
+    // this.view.unsubscribe(this.handleMoveEvent);
+    // this.view.unsubscribe(this.handleKeydownEvent);
   }
 
   private handleFromPosition =
@@ -135,15 +144,15 @@ class Controller extends Observer {
     this.view.switchTip(parms.conf);
   };
 
-  private handleMoveEvent = (parms: INotificationParameters) => {
-    if (parms.key !== 'MoveEvent' || !this.model) return;
-    this.model.calcPositionSetByPointer(parms.data.control);
-  };
+  // private handleMoveEvent = (parms: INotificationParameters) => {
+  //   if (parms.key !== 'MoveEvent' || !this.model) return;
+  //   this.model.calcPositionSetByPointer(parms.data.control);
+  // };
 
-  private handleKeydownEvent = (parms: INotificationParameters) => {
-    if (parms.key !== 'KeydownEvent' || !this.model) return;
-    this.model.calcPositionSetByKey(parms.data.control);
-  };
+  // private handleKeydownEvent = (parms: INotificationParameters) => {
+  //   if (parms.key !== 'KeydownEvent' || !this.model) return;
+  //   this.model.calcPositionSetByKey(parms.data.control);
+  // };
 }
 
 export default Controller;

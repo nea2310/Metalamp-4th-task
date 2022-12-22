@@ -1,4 +1,7 @@
-import { IPluginConfigurationFull } from '../../interface';
+import {
+  IPluginConfigurationFull,
+  IPluginConfigurationItem,
+} from '../../interface';
 
 class ViewScale {
   private slider: HTMLElement;
@@ -13,7 +16,7 @@ class ViewScale {
 
   private lastLabelRemoved: boolean = false;
 
-  private scaleMarks: { 'position'?: number, 'value'?: number }[] = [];
+  public scaleMarks: IPluginConfigurationItem[] = [];
 
   private calcMarkList: boolean = false;
 
@@ -28,18 +31,14 @@ class ViewScale {
     this.track = track;
     if (!markList.length) this.calcMarkList = true;
     else this.markList = markList;
+    this.calcScaleMarks();
   }
 
-  public createScale(
-    scaleMarks: { 'position'?: number, 'value'?: number }[],
-    conf: IPluginConfigurationFull,
-  ) {
-    this.conf = conf;
-    this.scaleMarks = scaleMarks;
+  public createScale() {
     const steps = this.slider.querySelectorAll('.js-slider-metalamp__mark');
     if (this.calcMarkList) {
       steps.forEach((element) => element.remove());
-      scaleMarks.forEach((node) => {
+      this.scaleMarks.forEach((node) => {
         const element = document.createElement('div');
         element.classList.add('slider-metalamp__mark');
         element.classList.add('js-slider-metalamp__mark');
@@ -48,13 +47,13 @@ class ViewScale {
         label.classList.add('slider-metalamp__label');
         element.appendChild(label);
 
-        const modifier = !conf.scale ? 'slider-metalamp__mark_visually-hidden' : 'slider-metalamp__mark';
+        const modifier = !this.conf.scale ? 'slider-metalamp__mark_visually-hidden' : 'slider-metalamp__mark';
         element.classList.add(modifier);
 
         this.track.appendChild(element);
-        const elementProperty = conf.vertical ? 'bottom' : 'left';
-        const labelProperty = conf.vertical ? 'top' : 'left';
-        const value = conf.vertical ? label.offsetHeight : label.offsetWidth;
+        const elementProperty = this.conf.vertical ? 'bottom' : 'left';
+        const labelProperty = this.conf.vertical ? 'top' : 'left';
+        const value = this.conf.vertical ? label.offsetHeight : label.offsetWidth;
         element.style[elementProperty] = `${String(node.position)}%`;
         label.style[labelProperty] = `${(value / 2) * (-1)}px`;
       });
@@ -122,11 +121,50 @@ class ViewScale {
         this.startWidth = totalWidth;
       }
       if (totalWidth > this.startWidth) {
-        this.createScale(this.scaleMarks, this.conf);
+        this.createScale();
         this.startWidth = totalWidth;
       }
     };
     window.addEventListener('resize', handleResize);
+  }
+
+  private calcScaleMarks() {
+    const { scaleBase } = this.conf;
+    const isStep = scaleBase === 'step';
+    const oppositeType = isStep ? 'interval' : 'step';
+    const step = isStep ? this.conf.step : (this.conf.max - this.conf.min) / this.conf.interval;
+    const interval = isStep ? (this.conf.max - this.conf.min) / this.conf.step : this.conf.interval;
+
+    const stepArgument = interval % 1 === 0 ? String(interval) : String(Math.trunc(interval + 1));
+    const intervalArgument = step % 1 === 0 ? String(step) : String(step.toFixed(2));
+    const argument = isStep ? stepArgument : intervalArgument;
+
+    // this.data.scaleBase = scaleBase;
+
+    // this.data.intervalValue = isStep ? argument : String(interval);
+    // this.data.stepValue = isStep ? String(this.conf.step) : argument;
+    this.conf[oppositeType] = parseFloat(argument);
+
+    const marksArray = [{ value: this.conf.min, position: 0 }];
+    let value = this.conf.min;
+
+    for (let i = 0; i < interval; i += 1) {
+      const object: IPluginConfigurationItem = { value: 0, position: 0 };
+      value += step;
+      if (value <= this.conf.max) {
+        const position = ((value - this.conf.min) * 100)
+          / (this.conf.max - this.conf.min);
+
+        object.value = parseFloat(value.toFixed(2));
+        object.position = position;
+        marksArray.push(object);
+      }
+    }
+    if (marksArray[marksArray.length - 1].value
+      < this.conf.max) marksArray.push({ value: this.conf.max, position: 100 });
+    this.scaleMarks = marksArray;
+    this.createScale();
+    // this.notify('Scale', this.data, this.conf);
   }
 }
 

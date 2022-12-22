@@ -39,13 +39,14 @@ class View extends Observer {
 
   public init(conf: IPluginConfigurationFull) {
     this.conf = conf;
-    this.createSubViews();
+    // this.createSubViews();
     this.createListeners();
     this.switchVertical(conf);
     this.switchRange(conf);
     this.switchTip(conf);
     this.switchScale(conf);
     this.switchBar(conf);
+    this.createSubViews();
   }
 
   public disable() {
@@ -93,7 +94,7 @@ class View extends Observer {
 
   public updateScale(data: IPluginPrivateData, conf: IPluginConfigurationFull) {
     if (!this.viewScale) return;
-    this.viewScale.createScale(data.marksArray, conf);
+    console.log(data.marksArray, conf);
   }
 
   public switchVertical(conf: IPluginConfigurationFull) {
@@ -201,8 +202,8 @@ class View extends Observer {
 
   private createSubViews() {
     if (!this.slider || !this.track) return;
-    this.viewControl = new ViewControl(this.slider, this.conf);
     this.viewScale = new ViewScale(this.slider, this.track, this.conf);
+    this.viewControl = new ViewControl(this.slider, this.conf, this.viewScale.scaleMarks);
     this.viewBar = new ViewBar(this.slider);
   }
 

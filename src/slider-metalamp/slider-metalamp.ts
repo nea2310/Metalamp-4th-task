@@ -9,7 +9,7 @@ function plugin(this: JQuery, options: TPluginConfiguration): JQuery {
     if (!$element.data('SliderMetaLamp')) {
       $element.data(
         'SliderMetaLamp',
-        new Controller(new Model(options), new View(el)),
+        new Controller(new Model(), new View(el), options),
       );
     }
   });
