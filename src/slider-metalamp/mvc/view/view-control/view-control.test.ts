@@ -94,7 +94,7 @@ describe('apply styles on calling ViewControl method', () => {
       .toHaveProperty('style.left', '66.66666666666667%');
     expect(controlMax)
       .toHaveProperty('style.bottom', '');
-    if (controlMax instanceof HTMLElement) viewControl.updatePos(controlMax, 50);
+    if (controlMax instanceof HTMLElement) viewControl.setControlOnPosition(controlMax, 50);
 
     expect(controlMax).toHaveProperty('style.left', '50%');
     expect(controlMax).toHaveProperty('style.bottom', '');
@@ -104,8 +104,8 @@ describe('apply styles on calling ViewControl method', () => {
     if (tipMin instanceof HTMLElement && tipMax instanceof HTMLElement) {
       expect(tipMin.innerText).toBe('20');
       expect(tipMax.innerText).toBe('70');
-      viewControl.updateVal('25', true);
-      viewControl.updateVal('30', false);
+      viewControl.updateValue('25', true);
+      viewControl.updateValue('30', false);
       expect(tipMin.innerText).toBe('25');
       expect(tipMax.innerText).toBe('30');
     }

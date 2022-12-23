@@ -61,7 +61,7 @@ class View extends Observer {
 
   public updateFromPos(data: IPluginPrivateData, conf: IPluginConfigurationFull) {
     if (!this.viewControl || !this.viewControl.controlMin) return;
-    this.viewControl.updatePos(
+    this.viewControl.setControlOnPosition(
       this.viewControl.controlMin,
       data.fromPosition,
     );
@@ -73,7 +73,7 @@ class View extends Observer {
 
   public updateToPos(data: IPluginPrivateData, conf: IPluginConfigurationFull) {
     if (!this.viewControl || !this.viewControl.controlMax) return;
-    this.viewControl.updatePos(
+    this.viewControl.setControlOnPosition(
       this.viewControl.controlMax,
       data.toPosition,
     );
@@ -84,12 +84,12 @@ class View extends Observer {
 
   public updateFromValue(data: IPluginPrivateData) {
     if (!this.viewControl) return;
-    this.viewControl.updateVal(data.fromValue, true);
+    this.viewControl.updateValue(data.fromValue, true);
   }
 
   public updateToValue(data: IPluginPrivateData) {
     if (!this.viewControl) return;
-    this.viewControl.updateVal(data.toValue, false);
+    this.viewControl.updateValue(data.toValue, false);
   }
 
   public updateScale(data: IPluginPrivateData, conf: IPluginConfigurationFull) {
