@@ -25,7 +25,7 @@ export const defaultConf: IPluginConfigurationFull = {
   onUpdate: () => true,
 };
 
-export const defaultControl: IControlFull = {
+export const defaultControlData: IControlFull = {
   type: '',
   clientY: 0,
   clientX: 0,
@@ -48,5 +48,5 @@ export const defaultData: IPluginPrivateData = {
   scaleBase: 'step',
   fromValue: '',
   toValue: '',
-  control: defaultControl,
+  control: defaultControlData,
 };

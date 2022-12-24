@@ -10,18 +10,6 @@ interface IControlStateData {
   movingControl: 'min' | 'max';
 }
 
-interface IPluginPrivateData {
-  fromPosition: number;
-  toPosition: number;
-  marksArray: { 'position': number, 'value': number }[];
-  intervalValue: string;
-  stepValue: string;
-  scaleBase: 'step' | 'interval';
-  fromValue: string;
-  toValue: string;
-  control: IControlFull;
-}
-
 interface IControlFull {
   type: TControlMovementTypes;
   clientY: number;
@@ -34,6 +22,18 @@ interface IControlFull {
   movingControl: 'min' | 'max';
   direction: TControlKeydownTypes;
   repeat: boolean;
+}
+
+interface IPluginPrivateData {
+  fromPosition: number;
+  toPosition: number;
+  marksArray: { 'position': number, 'value': number }[];
+  intervalValue: string;
+  stepValue: string;
+  scaleBase: 'step' | 'interval';
+  fromValue: string;
+  toValue: string;
+  control: IControlFull;
 }
 
 interface IPluginConfigurationFull {

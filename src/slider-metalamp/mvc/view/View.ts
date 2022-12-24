@@ -6,6 +6,7 @@ import {
   INotificationParameters,
   IPluginConfigurationFull,
   IDOMElement,
+  IPluginConfigurationItem,
 } from '../interface';
 import ViewScale from './view-scale/ViewScale';
 import ViewControl from './view-control/ViewControl';
@@ -32,6 +33,7 @@ class View extends Observer {
 
   constructor(root: Element) {
     super();
+    this.handleScaleReady = this.handleScaleReady.bind(this);
     this.root = root;
     this.render();
     this.collectParms();
@@ -92,9 +94,19 @@ class View extends Observer {
     this.viewControl.updateValue(data.toValue, false);
   }
 
-  public updateScale(data: IPluginPrivateData, conf: IPluginConfigurationFull) {
+  // public updateScale(data: IPluginPrivateData, conf: IPluginConfigurationFull) {
+  //   if (!this.viewScale) return;
+  //   console.log(data.marksArray, conf);
+  // }
+
+  public updateStep(newValue: number) {
     if (!this.viewScale) return;
-    console.log(data.marksArray, conf);
+    this.viewScale.updateStep(newValue);
+  }
+
+  public updateInterval(newValue: number) {
+    if (!this.viewScale) return;
+    this.viewScale.updateInterval(newValue);
   }
 
   public switchVertical(conf: IPluginConfigurationFull) {
@@ -202,9 +214,13 @@ class View extends Observer {
 
   private createSubViews() {
     if (!this.slider || !this.track) return;
-    this.viewScale = new ViewScale(this.slider, this.track, this.conf);
+    this.viewScale = new ViewScale(this.slider, this.track, this.conf, this.handleScaleReady);
     this.viewControl = new ViewControl(this.slider, this.conf, this.viewScale.scaleMarks);
     this.viewBar = new ViewBar(this.slider);
+  }
+
+  handleScaleReady(scaleMarks: IPluginConfigurationItem[] = []) {
+    this.viewControl?.updateScaleMarks(scaleMarks);
   }
 
   private createListeners() {

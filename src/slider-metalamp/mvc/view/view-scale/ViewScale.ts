@@ -18,48 +18,60 @@ class ViewScale {
 
   public scaleMarks: IPluginConfigurationItem[] = [];
 
-  private calcMarkList: boolean = false;
+  private onScaleReady: Function = () => {};
 
   constructor(
     slider: HTMLElement,
     track: HTMLElement,
     conf: IPluginConfigurationFull,
-    markList: HTMLElement[] = [],
+    handleScaleReady: Function = () => {},
   ) {
     this.conf = conf;
     this.slider = slider;
     this.track = track;
-    if (!markList.length) this.calcMarkList = true;
-    else this.markList = markList;
+    this.onScaleReady = handleScaleReady;
     this.calcScaleMarks();
   }
 
-  public createScale() {
+  public updateStep(value: number) {
+    this.conf = { ...this.conf, step: value, scaleBase: 'step' };
+    this.calcScaleMarks();
+  }
+
+  public updateInterval(value: number) {
+    this.conf = { ...this.conf, interval: value, scaleBase: 'interval' };
+    this.calcScaleMarks();
+  }
+
+  public updateScale(value: boolean) {
+    this.conf = { ...this.conf, scale: value };
+    // переключение видимости шкалы
+  }
+
+  private createScale() {
     const steps = this.slider.querySelectorAll('.js-slider-metalamp__mark');
-    if (this.calcMarkList) {
-      steps.forEach((element) => element.remove());
-      this.scaleMarks.forEach((node) => {
-        const element = document.createElement('div');
-        element.classList.add('slider-metalamp__mark');
-        element.classList.add('js-slider-metalamp__mark');
-        const label = document.createElement('div');
-        label.innerText = String(node.value);
-        label.classList.add('slider-metalamp__label');
-        element.appendChild(label);
+    steps.forEach((element) => element.remove());
+    this.scaleMarks.forEach((node) => {
+      const element = document.createElement('div');
+      element.classList.add('slider-metalamp__mark');
+      element.classList.add('js-slider-metalamp__mark');
+      const label = document.createElement('div');
+      label.innerText = String(node.value);
+      label.classList.add('slider-metalamp__label');
+      element.appendChild(label);
 
-        const modifier = !this.conf.scale ? 'slider-metalamp__mark_visually-hidden' : 'slider-metalamp__mark';
-        element.classList.add(modifier);
+      const modifier = !this.conf.scale ? 'slider-metalamp__mark_visually-hidden' : 'slider-metalamp__mark';
+      element.classList.add(modifier);
 
-        this.track.appendChild(element);
-        const elementProperty = this.conf.vertical ? 'bottom' : 'left';
-        const labelProperty = this.conf.vertical ? 'top' : 'left';
-        const value = this.conf.vertical ? label.offsetHeight : label.offsetWidth;
-        element.style[elementProperty] = `${String(node.position)}%`;
-        label.style[labelProperty] = `${(value / 2) * (-1)}px`;
-      });
+      this.track.appendChild(element);
+      const elementProperty = this.conf.vertical ? 'bottom' : 'left';
+      const labelProperty = this.conf.vertical ? 'top' : 'left';
+      const value = this.conf.vertical ? label.offsetHeight : label.offsetWidth;
+      element.style[elementProperty] = `${String(node.position)}%`;
+      label.style[labelProperty] = `${(value / 2) * (-1)}px`;
+    });
 
-      this.markList = [...this.track.querySelectorAll('.js-slider-metalamp__mark')];
-    }
+    this.markList = [...this.track.querySelectorAll('.js-slider-metalamp__mark')];
 
     this.resize();
     return this.checkScaleLength(this.markList);
@@ -139,10 +151,6 @@ class ViewScale {
     const intervalArgument = step % 1 === 0 ? String(step) : String(step.toFixed(2));
     const argument = isStep ? stepArgument : intervalArgument;
 
-    // this.data.scaleBase = scaleBase;
-
-    // this.data.intervalValue = isStep ? argument : String(interval);
-    // this.data.stepValue = isStep ? String(this.conf.step) : argument;
     this.conf[oppositeType] = parseFloat(argument);
 
     const marksArray = [{ value: this.conf.min, position: 0 }];
@@ -163,8 +171,8 @@ class ViewScale {
     if (marksArray[marksArray.length - 1].value
       < this.conf.max) marksArray.push({ value: this.conf.max, position: 100 });
     this.scaleMarks = marksArray;
+    this.onScaleReady(this.scaleMarks);
     this.createScale();
-    // this.notify('Scale', this.data, this.conf);
   }
 }
 

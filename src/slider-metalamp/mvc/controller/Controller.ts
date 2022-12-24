@@ -67,7 +67,8 @@ class Controller extends Observer {
     this.model.subscribe(this.handleToPosition);
     this.model.subscribe(this.handleFromValue);
     this.model.subscribe(this.handleToValue);
-    this.model.subscribe(this.handleScale);
+    this.model.subscribe(this.handleStep);
+    this.model.subscribe(this.handleInterval);
     this.model.subscribe(this.handleIsVertical);
     this.model.subscribe(this.handleIsRange);
     this.model.subscribe(this.handleIsScale);
@@ -83,7 +84,8 @@ class Controller extends Observer {
     this.model.unsubscribe(this.handleToPosition);
     this.model.unsubscribe(this.handleFromValue);
     this.model.unsubscribe(this.handleToValue);
-    this.model.unsubscribe(this.handleScale);
+    this.model.unsubscribe(this.handleStep);
+    this.model.unsubscribe(this.handleInterval);
     this.model.unsubscribe(this.handleIsVertical);
     this.model.unsubscribe(this.handleIsRange);
     this.model.unsubscribe(this.handleIsScale);
@@ -114,9 +116,14 @@ class Controller extends Observer {
     this.view.updateToValue(parms.data);
   };
 
-  private handleScale = (parms: INotificationParameters) => {
-    if (parms.key !== 'Scale' || !this.view) return;
-    this.view.updateScale(parms.data, parms.conf);
+  private handleStep = (parms: { key: string, data: any }) => {
+    if (parms.key !== 'step' || !this.view) return;
+    this.view.updateStep(parms.data);
+  };
+
+  private handleInterval = (parms: { key: string, data: any }) => {
+    if (parms.key !== 'interval' || !this.view) return;
+    this.view.updateInterval(parms.data);
   };
 
   private handleIsVertical = (parms: INotificationParameters) => {

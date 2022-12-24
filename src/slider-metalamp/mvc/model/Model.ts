@@ -1,39 +1,35 @@
 import {
   defaultConf,
-  defaultData,
-  defaultControl,
+  // defaultData,
+  // defaultControlData,
 } from '../utils';
 import Observer from '../Observer';
 import {
   IPluginConfigurationFull,
   TPluginConfiguration,
   // IPluginConfigurationItem,
-  IPluginPrivateData,
+  // IPluginPrivateData,
   // TControlKeydownTypes,
   // IControlStateData,
   // TControlStopTypes,
-  // TPluginConfigurationItem,
+  TPluginConfigurationItem,
 } from '../interface';
 import checkConfiguration from './configurationChecker';
 
 class Model extends Observer {
   public conf: IPluginConfigurationFull = defaultConf;
 
-  private changeMode: boolean = false;
+  // private changeMode: boolean = false;
 
-  private data: IPluginPrivateData = {
-    ...defaultData, control: { ...defaultControl },
-  };
+  // private data: IPluginPrivateData = {
+  //   ...defaultData, control: { ...defaultControlData },
+  // };
 
   private onStart?: (data: TPluginConfiguration) => unknown | null;
 
   private onUpdate?: (data: TPluginConfiguration) => unknown | null;
 
   private onChange?: (data: TPluginConfiguration) => unknown | null;
-
-  // constructor() {
-  //   super();
-  // }
 
   public init(configuration: IPluginConfigurationFull) {
     this.conf = checkConfiguration(configuration);
@@ -43,9 +39,7 @@ class Model extends Observer {
     this.onStart = this.conf.onStart;
     this.onUpdate = this.conf.onUpdate;
     this.onChange = this.conf.onChange;
-    // this.calcScaleMarks();
-    // this.calcFromPosition();
-    // this.calcToPosition();
+
     if (typeof this.onStart === 'function') this.onStart(this.conf);
   }
 
@@ -56,12 +50,109 @@ class Model extends Observer {
   public update(newConf: TPluginConfiguration) {
     let conf = { ...this.conf, ...newConf };
     conf = checkConfiguration(conf);
-    // const oldConf = this.conf;
+    const oldConf = this.conf;
     this.conf = conf;
-    // this.doCalculation(oldConf, this.conf);
+    this.doCalculation(oldConf, this.conf);
 
     if (typeof this.onUpdate === 'function') this.onUpdate(this.conf);
-    return { ...this.conf, ...this.data };
+    return this.conf;
+  }
+
+  private doCalculation(oldConf: IPluginConfigurationFull, newConf: TPluginConfiguration) {
+    const sortArray = (object: TPluginConfiguration) => Object.entries(object).sort(
+      (a: TPluginConfigurationItem, b: TPluginConfigurationItem) => {
+        if (a[0] > b[0]) return 1;
+        return -1;
+      },
+    );
+
+    const changedConfItems = sortArray(newConf).filter((newConfItem) => {
+      const confItem = sortArray(oldConf).find(
+        (oldConfItem) => oldConfItem[0] === newConfItem[0],
+      );
+      if (!confItem) return null;
+      return confItem[1] !== newConfItem[1];
+    });
+
+    changedConfItems.forEach((item) => {
+      switch (item[0]) {
+        case 'min':
+          this.notify('min', this.conf.min);
+          break;
+        case 'max':
+          this.notify('max', this.conf.max);
+          // this.calcScaleMarks();
+          // this.calcFromPosition();
+          // this.calcToPosition();
+          break;
+        case 'from':
+          this.notify('from', this.conf.from);
+          // this.calcFromPosition();
+          break;
+        case 'to':
+          this.notify('to', this.conf.to);
+          // this.calcToPosition();
+          break;
+        case 'step':
+          this.notify('step', this.conf.step);
+          break;
+        case 'interval':
+          this.notify('interval', this.conf.interval);
+          // console.log('step/interval');
+          // this.calcScaleMarks();
+          // this.updateControlPos();
+          break;
+        // case 'scaleBase':
+          // this.notify('min', this.conf.min);
+          // console.log('scaleBase');
+          // this.calcScaleMarks();
+          // break;
+        // case 'vertical':
+          // console.log('vertical');
+          // this.switchVertical();
+          // break;
+        case 'range':
+          this.notify('range', this.conf.range);
+          // console.log('range');
+          // this.switchRange();
+          break;
+        // case 'scale':
+          // console.log('scale');
+          // this.switchScale();
+          // break;
+        // case 'bar':
+          // console.log('bar');
+          // this.switchBar();
+          // break;
+        // case 'tip':
+          // console.log('tip');
+          // this.switchTip();
+          // break;
+        // case 'sticky':
+          // // console.log('sticky');
+          // this.updateControlPos();
+          // break;
+        case 'onStart':
+          if (newConf.onStart) {
+            this.conf.onStart = newConf.onStart;
+            this.onStart = newConf.onStart;
+          }
+          break;
+        case 'onChange':
+          if (newConf.onChange || newConf.onChange === null) {
+            this.conf.onChange = newConf.onChange;
+            this.onChange = newConf.onChange;
+          }
+          break;
+        case 'onUpdate':
+          if (newConf.onUpdate) {
+            this.conf.onUpdate = newConf.onUpdate;
+            this.onUpdate = newConf.onUpdate;
+          }
+          break;
+        default: break;
+      }
+    });
   }
 
   // public calcPositionSetByPointer(data: IControlStateData) {
@@ -307,85 +398,6 @@ class Model extends Observer {
   //     }
   //     default: return 0;
   //   }
-  // }
-
-  // private doCalculation(oldConf: IPluginConfigurationFull, newConf: TPluginConfiguration) {
-  //   const sortArray = (object: TPluginConfiguration) => Object.entries(object).sort(
-  //     (a: TPluginConfigurationItem, b: TPluginConfigurationItem) => {
-  //       if (a[0] > b[0]) return 1;
-  //       return -1;
-  //     },
-  //   );
-
-  //   const changedConfItems = sortArray(newConf).filter((newConfItem) => {
-  //     const confItem = sortArray(oldConf).find(
-  //       (oldConfItem) => oldConfItem[0] === newConfItem[0],
-  //     );
-  //     if (!confItem) return null;
-  //     return confItem[1] !== newConfItem[1];
-  //   });
-
-  //   changedConfItems.forEach((item) => {
-  //     switch (item[0]) {
-  //       case 'min':
-  //       case 'max':
-  //         this.calcScaleMarks();
-  //         this.calcFromPosition();
-  //         this.calcToPosition();
-  //         break;
-  //       case 'from':
-  //         this.calcFromPosition();
-  //         break;
-  //       case 'to':
-  //         this.calcToPosition();
-  //         break;
-  //       case 'step':
-  //       case 'interval':
-  //         this.calcScaleMarks();
-  //         this.updateControlPos();
-  //         break;
-  //       case 'scaleBase':
-  //         this.calcScaleMarks();
-  //         break;
-  //       case 'vertical':
-  //         this.switchVertical();
-  //         break;
-  //       case 'range':
-  //         this.switchRange();
-  //         break;
-  //       case 'scale':
-  //         this.switchScale();
-  //         break;
-  //       case 'bar':
-  //         this.switchBar();
-  //         break;
-  //       case 'tip':
-  //         this.switchTip();
-  //         break;
-  //       case 'sticky':
-  //         this.updateControlPos();
-  //         break;
-  //       case 'onStart':
-  //         if (newConf.onStart) {
-  //           this.conf.onStart = newConf.onStart;
-  //           this.onStart = newConf.onStart;
-  //         }
-  //         break;
-  //       case 'onChange':
-  //         if (newConf.onChange || newConf.onChange === null) {
-  //           this.conf.onChange = newConf.onChange;
-  //           this.onChange = newConf.onChange;
-  //         }
-  //         break;
-  //       case 'onUpdate':
-  //         if (newConf.onUpdate) {
-  //           this.conf.onUpdate = newConf.onUpdate;
-  //           this.onUpdate = newConf.onUpdate;
-  //         }
-  //         break;
-  //       default: break;
-  //     }
-  //   });
   // }
 
   // private switchVertical() {
