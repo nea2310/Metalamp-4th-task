@@ -6,6 +6,12 @@ import { TPluginConfiguration, INotificationParameters } from '../interface';
 import { defaultConf } from '../utils';
 
 class Controller extends Observer {
+  private onStart: ((data: any) => unknown) | undefined = () => true;
+
+  private onUpdate: ((data: any) => unknown) | undefined = () => true;
+
+  private onChange: ((data: any) => unknown) | undefined = () => true;
+
   public model: Model | null;
 
   public view: View | null;
@@ -21,9 +27,33 @@ class Controller extends Observer {
     this.init();
   }
 
+  static selectData(data: TPluginConfiguration, isBusinessData = false) {
+    const businessDataTypes = [
+      'min',
+      'max',
+      'from',
+      'to',
+      'step',
+      'interval',
+      'range',
+      'onStart',
+      'onUpdate',
+      'onChange',
+      'shiftOnKeyDown',
+      'shiftOnKeyHold',
+    ];
+    const selectedData = Object.entries(data)
+      .filter((element) => businessDataTypes
+        .find((item) => {
+          if (isBusinessData) return item === element[0];
+          return item !== element[0];
+        }));
+    return Object.fromEntries(selectedData);
+  }
+
   public update(conf: TPluginConfiguration) {
-    if (!this.model) return;
-    this.model.update(conf);
+    if (this.model) this.model.update(Controller.selectData(conf, true));
+    if (this.view) this.view.update(Controller.selectData(conf));
   }
 
   public getData() {
@@ -52,23 +82,34 @@ class Controller extends Observer {
 
   private init() {
     if (!this.view || !this.model) return;
-    this.model.init({
+    const startConf = {
       ...defaultConf,
       ...this.startConfiguration,
       ...this.view.dataAttributesConf,
-    });
-    this.view.init(this.model.conf);
-    this.model.start();
+    };
+    const { onStart, onUpdate, onChange } = startConf;
+    this.onStart = onStart;
+    this.onUpdate = onUpdate;
+    this.onChange = onChange;
+    this.model.init(Controller.selectData(startConf, true));
+    this.view.init({ ...startConf, ...this.model.conf });
+    this.onStart({ ...startConf, ...this.model.conf });
+    // this.model.start();
   }
 
   private createListeners() {
     if (!this.view || !this.model) return;
+
+    this.model.subscribe(this.handleStep);
+    this.model.subscribe(this.handleInterval);
+    this.model.subscribe(this.handleMin);
+    this.model.subscribe(this.handleMax);
+
     this.model.subscribe(this.handleFromPosition);
     this.model.subscribe(this.handleToPosition);
     this.model.subscribe(this.handleFromValue);
     this.model.subscribe(this.handleToValue);
-    this.model.subscribe(this.handleStep);
-    this.model.subscribe(this.handleInterval);
+
     this.model.subscribe(this.handleIsVertical);
     this.model.subscribe(this.handleIsRange);
     this.model.subscribe(this.handleIsScale);
@@ -80,12 +121,16 @@ class Controller extends Observer {
 
   private removeListeners() {
     if (!this.view || !this.model) return;
+    this.model.unsubscribe(this.handleStep);
+    this.model.unsubscribe(this.handleInterval);
+    this.model.unsubscribe(this.handleMin);
+    this.model.unsubscribe(this.handleMax);
+
     this.model.unsubscribe(this.handleFromPosition);
     this.model.unsubscribe(this.handleToPosition);
     this.model.unsubscribe(this.handleFromValue);
     this.model.unsubscribe(this.handleToValue);
-    this.model.unsubscribe(this.handleStep);
-    this.model.unsubscribe(this.handleInterval);
+
     this.model.unsubscribe(this.handleIsVertical);
     this.model.unsubscribe(this.handleIsRange);
     this.model.unsubscribe(this.handleIsScale);
@@ -126,9 +171,20 @@ class Controller extends Observer {
     this.view.updateInterval(parms.data);
   };
 
+  private handleMin = (parms: { key: string, data: any }) => {
+    if (parms.key !== 'min' || !this.view) return;
+    this.view.updateMin(parms.data);
+  };
+
+  private handleMax = (parms: { key: string, data: any }) => {
+    if (parms.key !== 'max' || !this.view) return;
+    this.view.updateMax(parms.data);
+  };
+
   private handleIsVertical = (parms: INotificationParameters) => {
-    if (parms.key !== 'IsVertical' || !this.view) return;
-    this.view.switchVertical(parms.conf);
+    if (parms.key !== 'IsVertical' || !this.view) return 1;
+    // this.view.switchVertical(parms.conf);
+    return 2;
   };
 
   private handleIsRange = (parms: INotificationParameters) => {

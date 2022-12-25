@@ -43,9 +43,19 @@ class ViewScale {
     this.calcScaleMarks();
   }
 
-  public updateScale(value: boolean) {
-    this.conf = { ...this.conf, scale: value };
-    // переключение видимости шкалы
+  public switchScale(value: boolean) {
+    this.conf = { ...this.conf, vertical: value };
+    this.calcScaleMarks();
+  }
+
+  public updateMin(value: number) {
+    this.conf = { ...this.conf, min: value };
+    this.calcScaleMarks();
+  }
+
+  public updateMax(value: number) {
+    this.conf = { ...this.conf, max: value };
+    this.calcScaleMarks();
   }
 
   private createScale() {

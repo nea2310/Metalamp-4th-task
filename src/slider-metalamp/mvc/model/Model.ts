@@ -1,64 +1,64 @@
-import {
-  defaultConf,
-  // defaultData,
-  // defaultControlData,
-} from '../utils';
 import Observer from '../Observer';
 import {
-  IPluginConfigurationFull,
+  // IPluginConfigurationFull,
   TPluginConfiguration,
-  // IPluginConfigurationItem,
-  // IPluginPrivateData,
-  // TControlKeydownTypes,
-  // IControlStateData,
-  // TControlStopTypes,
   TPluginConfigurationItem,
+  // IPluginConfigurationFullIndexed,
+  IBusinessDataIndexed,
 } from '../interface';
 import checkConfiguration from './configurationChecker';
 
 class Model extends Observer {
-  public conf: IPluginConfigurationFull = defaultConf;
+  public conf: IBusinessDataIndexed = {
+    min: 0,
+    max: 0,
+    from: 0,
+    to: 0,
+    range: true,
+    step: 0,
+    interval: 0,
+    shiftOnKeyDown: 0,
+    shiftOnKeyHold: 0,
+    onStart: () => true,
+    onChange: () => true,
+    onUpdate: () => true,
+  };
 
-  // private changeMode: boolean = false;
+  private onStart: ((data: any) => unknown) | undefined = () => true;
 
-  // private data: IPluginPrivateData = {
-  //   ...defaultData, control: { ...defaultControlData },
-  // };
+  private onUpdate: ((data: any) => unknown) | undefined = () => true;
 
-  private onStart?: (data: TPluginConfiguration) => unknown | null;
+  private onChange: ((data: any) => unknown) | undefined = () => true;
 
-  private onUpdate?: (data: TPluginConfiguration) => unknown | null;
+  public init(configuration: IBusinessDataIndexed) {
+    // const { onStart, onUpdate, onChange } = configuration;
 
-  private onChange?: (data: TPluginConfiguration) => unknown | null;
-
-  public init(configuration: IPluginConfigurationFull) {
     this.conf = checkConfiguration(configuration);
+    // this.onStart = onStart;
+    // this.onUpdate = onUpdate;
+    // this.onChange = onChange;
+    // if (typeof this.onStart === 'function') this.onStart(this.conf);
   }
 
-  public start() {
-    this.onStart = this.conf.onStart;
-    this.onUpdate = this.conf.onUpdate;
-    this.onChange = this.conf.onChange;
-
-    if (typeof this.onStart === 'function') this.onStart(this.conf);
-  }
+  // public start() {
+  //   if (typeof this.onStart === 'function') this.onStart(this.conf);
+  // }
 
   public getData() {
     return this.conf;
   }
 
-  public update(newConf: TPluginConfiguration) {
+  public update(newConf: IBusinessDataIndexed) {
     let conf = { ...this.conf, ...newConf };
     conf = checkConfiguration(conf);
     const oldConf = this.conf;
     this.conf = conf;
     this.doCalculation(oldConf, this.conf);
-
-    if (typeof this.onUpdate === 'function') this.onUpdate(this.conf);
+    // if (typeof this.onUpdate === 'function') this.onUpdate(this.conf);
     return this.conf;
   }
 
-  private doCalculation(oldConf: IPluginConfigurationFull, newConf: TPluginConfiguration) {
+  private doCalculation(oldConf: IBusinessDataIndexed, newConf: IBusinessDataIndexed) {
     const sortArray = (object: TPluginConfiguration) => Object.entries(object).sort(
       (a: TPluginConfigurationItem, b: TPluginConfigurationItem) => {
         if (a[0] > b[0]) return 1;
@@ -81,57 +81,28 @@ class Model extends Observer {
           break;
         case 'max':
           this.notify('max', this.conf.max);
-          // this.calcScaleMarks();
-          // this.calcFromPosition();
-          // this.calcToPosition();
           break;
         case 'from':
           this.notify('from', this.conf.from);
-          // this.calcFromPosition();
           break;
         case 'to':
           this.notify('to', this.conf.to);
-          // this.calcToPosition();
           break;
         case 'step':
           this.notify('step', this.conf.step);
           break;
         case 'interval':
           this.notify('interval', this.conf.interval);
-          // console.log('step/interval');
-          // this.calcScaleMarks();
-          // this.updateControlPos();
           break;
-        // case 'scaleBase':
-          // this.notify('min', this.conf.min);
-          // console.log('scaleBase');
-          // this.calcScaleMarks();
-          // break;
-        // case 'vertical':
-          // console.log('vertical');
-          // this.switchVertical();
-          // break;
         case 'range':
           this.notify('range', this.conf.range);
-          // console.log('range');
-          // this.switchRange();
           break;
-        // case 'scale':
-          // console.log('scale');
-          // this.switchScale();
-          // break;
-        // case 'bar':
-          // console.log('bar');
-          // this.switchBar();
-          // break;
-        // case 'tip':
-          // console.log('tip');
-          // this.switchTip();
-          // break;
-        // case 'sticky':
-          // // console.log('sticky');
-          // this.updateControlPos();
-          // break;
+        case 'shiftOnKeyDown':
+          this.notify('shiftOnKeyDown', this.conf.shiftOnKeyDown);
+          break;
+        case 'shiftOnKeyHold':
+          this.notify('shiftOnKeyHold', this.conf.shiftOnKeyHold);
+          break;
         case 'onStart':
           if (newConf.onStart) {
             this.conf.onStart = newConf.onStart;
@@ -141,7 +112,7 @@ class Model extends Observer {
         case 'onChange':
           if (newConf.onChange || newConf.onChange === null) {
             this.conf.onChange = newConf.onChange;
-            this.onChange = newConf.onChange;
+            // this.onChange = newConf.onChange;
           }
           break;
         case 'onUpdate':

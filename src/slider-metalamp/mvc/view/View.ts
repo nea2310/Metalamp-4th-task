@@ -7,6 +7,7 @@ import {
   IPluginConfigurationFull,
   IDOMElement,
   IPluginConfigurationItem,
+  TPluginConfigurationItem,
 } from '../interface';
 import ViewScale from './view-scale/ViewScale';
 import ViewControl from './view-control/ViewControl';
@@ -31,6 +32,10 @@ class View extends Observer {
 
   private root: IDOMElement;
 
+  // private min = 0;
+
+  // private max = 0;
+
   constructor(root: Element) {
     super();
     this.handleScaleReady = this.handleScaleReady.bind(this);
@@ -41,14 +46,46 @@ class View extends Observer {
 
   public init(conf: IPluginConfigurationFull) {
     this.conf = conf;
-    // this.createSubViews();
     this.createListeners();
-    this.switchVertical(conf);
+    this.switchVertical(this.conf.vertical);
     this.switchRange(conf);
     this.switchTip(conf);
     this.switchScale(conf);
     this.switchBar(conf);
     this.createSubViews();
+  }
+
+  public update(newConf: any) {
+    const conf = { ...this.conf, ...newConf };
+    const oldConf = this.conf;
+    this.conf = conf;
+    this.doCalculation(oldConf, this.conf);
+  }
+
+  private doCalculation(oldConf: IPluginConfigurationFull, newConf: IPluginConfigurationFull) {
+    const sortArray = (object: TPluginConfiguration) => Object.entries(object).sort(
+      (a: TPluginConfigurationItem, b: TPluginConfigurationItem) => {
+        if (a[0] > b[0]) return 1;
+        return -1;
+      },
+    );
+
+    const changedConfItems = sortArray(newConf).filter((newConfItem) => {
+      const confItem = sortArray(oldConf).find(
+        (oldConfItem) => oldConfItem[0] === newConfItem[0],
+      );
+      if (!confItem) return null;
+      return confItem[1] !== newConfItem[1];
+    });
+
+    changedConfItems.forEach((item) => {
+      switch (item[0]) {
+        case 'vertical':
+          this.switchVertical(this.conf.vertical);
+          break;
+        default: break;
+      }
+    });
   }
 
   public disable() {
@@ -109,11 +146,36 @@ class View extends Observer {
     this.viewScale.updateInterval(newValue);
   }
 
-  public switchVertical(conf: IPluginConfigurationFull) {
-    this.changeMode(conf.vertical, 'orientation_vertical');
-    if (!this.viewControl) return;
-    this.viewControl.switchVertical(conf);
+  public updateMin(newValue: number) {
+    if (!this.viewScale) return;
+    this.conf.min = newValue;
+    this.viewScale.updateMin(newValue);
   }
+
+  public updateMax(newValue: number) {
+    if (!this.viewScale) return;
+    this.conf.max = newValue;
+    this.viewScale.updateMax(newValue);
+  }
+
+  handleScaleReady(scaleMarks: IPluginConfigurationItem[] = []) {
+    if (!this.viewControl) return;
+    this.viewControl.updateScaleMarks(scaleMarks, this.conf.min, this.conf.max, this.conf.vertical);
+  }
+
+  public switchVertical(newState: boolean) {
+    this.conf = { ...this.conf, vertical: newState };
+    this.changeMode(newState, 'orientation_vertical');
+    if (!this.viewScale) return;
+    this.viewScale.switchScale(newState);
+    // if (!this.viewControl) return;
+    // this.viewControl.switchVertical(conf);
+  }
+
+  // public updateScale(newValue: boolean) {
+  //   if (!this.viewScale) return;
+  //   this.viewScale.updateScale(newValue);
+  // }
 
   public switchRange(conf: IPluginConfigurationFull, data: IPluginPrivateData | {} = {}) {
     this.changeMode(!conf.range, 'range-mode_single');
@@ -217,10 +279,6 @@ class View extends Observer {
     this.viewScale = new ViewScale(this.slider, this.track, this.conf, this.handleScaleReady);
     this.viewControl = new ViewControl(this.slider, this.conf, this.viewScale.scaleMarks);
     this.viewBar = new ViewBar(this.slider);
-  }
-
-  handleScaleReady(scaleMarks: IPluginConfigurationItem[] = []) {
-    this.viewControl?.updateScaleMarks(scaleMarks);
   }
 
   private createListeners() {

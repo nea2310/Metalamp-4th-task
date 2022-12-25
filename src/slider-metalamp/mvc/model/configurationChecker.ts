@@ -1,10 +1,12 @@
-import { IPluginConfigurationFull } from '../interface';
+import { IBusinessDataIndexed } from '../interface';
 
-function checkValue(type: string, value: number, configuration: IPluginConfigurationFull) {
+function checkValue(type: string, value: number | undefined, configuration: IBusinessDataIndexed) {
+  if (value === undefined) return 11;
+  if (configuration.max === undefined || configuration.min === undefined) return 22;
   if (value <= 0) {
     switch (type) {
       case 'step':
-        return (configuration.max - configuration.min) / 2;
+        return Math.abs((configuration.max - configuration.min) / 2);
       case 'interval':
         return 2;
       default:
@@ -14,12 +16,18 @@ function checkValue(type: string, value: number, configuration: IPluginConfigura
   return value;
 }
 
-function checkMax(configuration: IPluginConfigurationFull) {
+function checkMax(configuration: IBusinessDataIndexed) {
+  if (configuration.max === undefined) return 0;
+  if (configuration.min === undefined) return 0;
   if (configuration.max <= configuration.min) return configuration.min + 10;
   return configuration.max;
 }
 
-function checkFrom(configuration: IPluginConfigurationFull) {
+function checkFrom(configuration: IBusinessDataIndexed) {
+  if (configuration.max === undefined) return 0;
+  if (configuration.min === undefined) return 0;
+  if (configuration.from === undefined) return 0;
+  if (configuration.to === undefined) return 0;
   if (configuration.max <= configuration.min) return configuration.min;
   if (configuration.from < configuration.min) return configuration.min;
   if (configuration.from > configuration.max) {
@@ -29,7 +37,11 @@ function checkFrom(configuration: IPluginConfigurationFull) {
   return configuration.from;
 }
 
-function checkTo(configuration: IPluginConfigurationFull) {
+function checkTo(configuration: IBusinessDataIndexed) {
+  if (configuration.max === undefined) return 0;
+  if (configuration.min === undefined) return 0;
+  if (configuration.from === undefined) return 0;
+  if (configuration.to === undefined) return 0;
   if (configuration.max <= configuration.min) return configuration.min + 10;
   if (configuration.to < configuration.min) return configuration.from;
   if (configuration.to > configuration.max) {
@@ -38,12 +50,12 @@ function checkTo(configuration: IPluginConfigurationFull) {
   return configuration.to;
 }
 
-function checkScaleBase(configuration: IPluginConfigurationFull) {
+function checkScaleBase(configuration: IBusinessDataIndexed) {
   if (configuration.scaleBase !== 'step' && configuration.scaleBase !== 'interval') return 'step';
   return configuration.scaleBase;
 }
 
-function checkConfiguration(configuration: IPluginConfigurationFull) {
+function checkConfiguration(configuration: IBusinessDataIndexed) {
   let checkedConfiguration = configuration;
 
   const numbers = ['min', 'max', 'from', 'to', 'step', 'interval', 'shiftOnKeyDown', 'shiftOnKeyHold'];

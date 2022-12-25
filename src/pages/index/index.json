@@ -12,7 +12,7 @@
     "min": "-150",
     "max": "300",
     "from": "0",
-    "to": "150",
+    "to": "151",
     "vertical": "true",
     "step": "10",
     "shiftOnKeyHold": "5",

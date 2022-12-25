@@ -36,6 +36,26 @@ interface IPluginPrivateData {
   control: IControlFull;
 }
 
+interface IBusinessData {
+  min: number;
+  max: number;
+  from: number;
+  to: number;
+  range: boolean;
+  step: number;
+  interval: number;
+  scaleBase: 'step' | 'interval';
+  shiftOnKeyDown: number;
+  shiftOnKeyHold: number,
+  onStart: (data: TPluginConfiguration) => unknown;
+  onChange: (data: TPluginConfiguration) => unknown;
+  onUpdate: (data: TPluginConfiguration) => unknown;
+}
+
+interface IBusinessDataIndexed extends Partial<IBusinessData> {
+  [key: string]: unknown;
+}
+
 interface IPluginConfigurationFull {
   min: number;
   max: number;
@@ -131,4 +151,6 @@ export {
   TControlStopTypes,
   TInputTypes,
   TPluginConfigurationItem,
+  IBusinessData,
+  IBusinessDataIndexed
 };

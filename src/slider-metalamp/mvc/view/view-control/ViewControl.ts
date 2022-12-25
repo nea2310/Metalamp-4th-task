@@ -59,12 +59,18 @@ class ViewControl extends Observer {
     this.calcPositionSetByKey();
   }
 
-  public updateScaleMarks(scaleMarks: IPluginConfigurationItem[] = []) {
+  public updateScaleMarks(
+    scaleMarks: IPluginConfigurationItem[] = [],
+    min = this.conf.min,
+    max = this.conf.max,
+    vertical = this.conf.vertical,
+  ) {
     this.scaleMarks = scaleMarks;
-    if (this.conf.sticky) {
-      this.calcPositionSetByKey(true);
-      this.calcPositionSetByKey();
-    }
+    this.conf.min = min;
+    this.conf.max = max;
+    this.conf.vertical = vertical;
+    this.calcPositionSetByKey(true);
+    this.calcPositionSetByKey();
   }
 
   // === 1 ===

@@ -49,7 +49,7 @@ class RangeSlider {
         this.changeData(data);
       },
       onUpdate: (data: TPluginConfiguration) => {
-        this.updateData(data);
+        this.changeData(data);
       },
       onChange: (data: TPluginConfiguration) => {
         this.changeData(data);
@@ -58,16 +58,12 @@ class RangeSlider {
     return rangeSlider;
   }
 
-  private updateData = (data: TPluginConfiguration) => {
-    if (data.vertical
-      !== this.wrapper.classList.contains(`${this.rootSelector}_${this.isVerticalModifier}`)) this.switchVertical();
-  };
-
   private changeData(data: TPluginConfiguration) {
     if (this.panel) this.panel.update(data);
   }
 
   private handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
+    console.log('handlePanelChange');
     const { key, data } = parameters;
     switch (key) {
       case 'subscribe': {
@@ -87,13 +83,23 @@ class RangeSlider {
         break;
       }
       default: {
-        if (this.rangeSlider) this.rangeSlider.update({ [key]: data });
+        if (this.rangeSlider) {
+          this.switchOrientation({ [key]: data });
+          this.rangeSlider.update({ [key]: data });
+        }
+        console.log('UPDATE PANEL');
         /* после ввода данных в панель конфигурирования и обновления слайдера нужно получить данные
         из модели и обновить панель, т.к. в панель могли быть введены недопустимые данные, которые
          были затем изменены в модели при валидации. Их надо скорректировать и в панели */
-        const dataObject = this.rangeSlider ? this.rangeSlider.getData() : {};
-        if (this.panel && dataObject) this.panel.update(dataObject);
+        // const dataObject = this.rangeSlider ? this.rangeSlider.getData() : {};
+        // if (this.panel && dataObject) this.panel.update(dataObject);
       }
+    }
+  };
+
+  private switchOrientation = (data: TPluginConfiguration) => {
+    if (data.vertical !== this.wrapper.classList.contains(`${this.rootSelector}_${this.isVerticalModifier}`)) {
+      this.switchVertical();
     }
   };
 
@@ -101,7 +107,7 @@ class RangeSlider {
     if (!this.rangeSlider) return;
     if (isSubscribed) {
       this.rangeSlider.update({
-        onChange: (data: TPluginConfiguration) => {
+        onChange: (data: any) => {
           this.changeData(data);
         },
       });
@@ -129,6 +135,7 @@ class RangeSlider {
   }
 
   private switchVertical() {
+    console.log('switchVertical');
     if (this.sliderWrapper) {
       this.sliderWrapper.classList.toggle(`${this.rootSelector}__${this.sliderSelector}_${this.isVerticalModifier}`);
     }
