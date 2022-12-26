@@ -1,12 +1,31 @@
+import { IPluginConfigurationFull } from '../../interface';
+
 class ViewBar {
   private slider: HTMLElement;
 
   private track: Element | null = null;
 
-  private progressBar: HTMLElement | undefined;;
+  private progressBar: HTMLElement | undefined;
 
-  constructor(root: HTMLElement) {
+  private fromPosition = 0;
+
+  private toPosition = 0;
+
+  private isRange = false;
+
+  private isVertical = false;
+
+  constructor(
+    root: HTMLElement,
+    initialConfiguration: IPluginConfigurationFull,
+    fromPosition: number,
+    toPosition: number,
+  ) {
     this.slider = root;
+    this.fromPosition = fromPosition;
+    this.toPosition = toPosition;
+    this.isRange = initialConfiguration.range;
+    this.isVertical = initialConfiguration.vertical;
     this.render();
   }
 
@@ -14,12 +33,19 @@ class ViewBar {
     return object.querySelector(selector);
   }
 
-  public updateBar(
+  public updateBar(data: {
     fromPosition: number,
     toPosition: number,
     isRange: boolean,
     isVertical: boolean,
-  ) {
+  }) {
+    const {
+      fromPosition,
+      toPosition,
+      isRange,
+      isVertical,
+    } = data;
+
     let position = 0;
     let length = fromPosition;
 
@@ -43,6 +69,12 @@ class ViewBar {
     this.progressBar.className = 'slider-metalamp__progress-bar';
     if (!this.track) return;
     this.track.append(this.progressBar);
+    this.updateBar({
+      fromPosition: this.fromPosition,
+      toPosition: this.toPosition,
+      isRange: this.isRange,
+      isVertical: this.isVertical,
+    });
   }
 }
 

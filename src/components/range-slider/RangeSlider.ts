@@ -82,9 +82,15 @@ class RangeSlider {
         this.destroySlider(data);
         break;
       }
+      case 'vertical':
+        if (typeof data !== 'boolean') return;
+        if (this.rangeSlider) {
+          this.switchOrientation(data);
+          this.rangeSlider.update({ [key]: data });
+        }
+        break;
       default: {
         if (this.rangeSlider) {
-          this.switchOrientation({ [key]: data });
           this.rangeSlider.update({ [key]: data });
         }
         console.log('UPDATE PANEL');
@@ -97,8 +103,8 @@ class RangeSlider {
     }
   };
 
-  private switchOrientation = (data: TPluginConfiguration) => {
-    if (data.vertical !== this.wrapper.classList.contains(`${this.rootSelector}_${this.isVerticalModifier}`)) {
+  private switchOrientation = (isVertical: boolean) => {
+    if (isVertical !== this.wrapper.classList.contains(`${this.rootSelector}_${this.isVerticalModifier}`)) {
       this.switchVertical();
     }
   };
@@ -135,7 +141,6 @@ class RangeSlider {
   }
 
   private switchVertical() {
-    console.log('switchVertical');
     if (this.sliderWrapper) {
       this.sliderWrapper.classList.toggle(`${this.rootSelector}__${this.sliderSelector}_${this.isVerticalModifier}`);
     }

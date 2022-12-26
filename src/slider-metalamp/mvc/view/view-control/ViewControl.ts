@@ -29,27 +29,29 @@ class ViewControl extends Observer {
 
   public track: IDOMElement | null = null;
 
-  private conf: IPluginConfigurationFull;
+  private configuration: IPluginConfigurationFull;
 
-  private control: HTMLElement;
+  private slider: HTMLElement;
 
   private root: IDOMElement | null = null;
-
-  private initDone: boolean = false;
 
   private scaleMarks: IPluginConfigurationItem[];
 
   private controlData: IControlFull = defaultControlData;
 
+  private onControlSet: Function = () => {};
+
   constructor(
-    controlElement: HTMLElement,
-    conf: IPluginConfigurationFull,
+    sliderElement: HTMLElement,
+    configuration: IPluginConfigurationFull,
     scaleMarks: IPluginConfigurationItem[],
+    onControlSet: Function = () => {},
   ) {
     super();
-    this.control = controlElement;
-    this.conf = conf;
+    this.slider = sliderElement;
+    this.configuration = configuration;
     this.scaleMarks = scaleMarks;
+    this.onControlSet = onControlSet;
     this.render();
     this.dragControl();
     this.pressControl();
@@ -61,14 +63,14 @@ class ViewControl extends Observer {
 
   public updateScaleMarks(
     scaleMarks: IPluginConfigurationItem[] = [],
-    min = this.conf.min,
-    max = this.conf.max,
-    vertical = this.conf.vertical,
+    min = this.configuration.min,
+    max = this.configuration.max,
+    vertical = this.configuration.vertical,
   ) {
     this.scaleMarks = scaleMarks;
-    this.conf.min = min;
-    this.conf.max = max;
-    this.conf.vertical = vertical;
+    this.configuration.min = min;
+    this.configuration.max = max;
+    this.configuration.vertical = vertical;
     this.calcPositionSetByKey(true);
     this.calcPositionSetByKey();
   }
@@ -88,7 +90,7 @@ class ViewControl extends Observer {
       if (target.classList.contains('slider-metalamp__control') && movingControl) {
         this.controlData.movingControl = movingControl;
 
-        this.controlData.shiftBase = this.conf.vertical ? 0
+        this.controlData.shiftBase = this.configuration.vertical ? 0
           : event.clientX - target.getBoundingClientRect().left;
         this.getMetrics(target);
 
@@ -114,9 +116,9 @@ class ViewControl extends Observer {
     };
     const handleDragSelectStart = () => false;
 
-    this.control.addEventListener('pointerdown', handlePointerStart);
-    this.control.addEventListener('dragstart', handleDragSelectStart);
-    this.control.addEventListener('selectstart', handleDragSelectStart);
+    this.slider.addEventListener('pointerdown', handlePointerStart);
+    this.slider.addEventListener('dragstart', handleDragSelectStart);
+    this.slider.addEventListener('selectstart', handleDragSelectStart);
   }
 
   // === 2 ===
@@ -134,13 +136,13 @@ class ViewControl extends Observer {
     } = this.controlData;
 
     let newPosition = 0;
-    if (this.conf.vertical) newPosition = 100 - (((clientY - top) * 100) / height);
+    if (this.configuration.vertical) newPosition = 100 - (((clientY - top) * 100) / height);
     else {
       const shift = (type === 'pointermove') ? (shiftBase * 100) / width : 0;
       newPosition = (((clientX - left) * 100) / width) - shift;
     }
 
-    if (this.conf.sticky) newPosition = this.setSticky(newPosition);
+    if (this.configuration.sticky) newPosition = this.setSticky(newPosition);
 
     if (newPosition < 0) {
       this.calcValueSetByPointer('min', 0, movingControl);
@@ -152,14 +154,14 @@ class ViewControl extends Observer {
       return newPosition;
     }
     const isMinControl = movingControl === 'min';
-    const isBeyondToPosition = this.conf.range && isMinControl
+    const isBeyondToPosition = this.configuration.range && isMinControl
       && newPosition > this.toPosition;
     if (isBeyondToPosition) {
       this.calcValueSetByPointer('meetMax', 0, movingControl);
       return newPosition;
     }
 
-    const isBelowFromPosition = this.conf.range && !isMinControl
+    const isBelowFromPosition = this.configuration.range && !isMinControl
       && newPosition < this.fromPosition;
     if (isBelowFromPosition) {
       this.calcValueSetByPointer('meetMin', 0, movingControl);
@@ -186,7 +188,7 @@ class ViewControl extends Observer {
       max,
       from,
       to,
-    } = this.conf;
+    } = this.configuration;
 
     const stopTypes = {
       normal: Math.round(min + ((max - min) * position) / 100),
@@ -202,15 +204,24 @@ class ViewControl extends Observer {
 
   // ===4===
 
-  private updateConfiguration(
+  public updateConfiguration(
     newValue: number,
     valueType: 'fromValue' | 'toValue' | 'fromPosition' | 'toPosition',
   ) {
-    if (valueType === 'fromPosition' || valueType === 'toPosition') this[valueType] = newValue;
+    console.log('updateConfiguration', valueType, newValue);
+    if (valueType === 'fromPosition' || valueType === 'toPosition') {
+      this[valueType] = newValue;
+      this.onControlSet({
+        fromPosition: this.fromPosition,
+        toPosition: this.toPosition,
+        isRange: this.configuration.range,
+        isVertical: this.configuration.vertical,
+      });
+    }
     if (valueType.match(/Value/)) {
       const isMinControl = valueType === 'fromValue';
       const configurationValue = isMinControl ? 'from' : 'to';
-      this.conf[configurationValue] = newValue;
+      this.configuration[configurationValue] = newValue;
       this.updateValue(String(newValue), isMinControl);
     }
   }
@@ -227,15 +238,15 @@ class ViewControl extends Observer {
   public setControlOnPosition(element: HTMLElement | undefined, newPosition: number) {
     if (!element) return;
     const item = element;
-    const propertyToSet = this.conf.vertical ? 'bottom' : 'left';
-    const propertyToUnset = this.conf.vertical ? 'left' : 'bottom';
+    const propertyToSet = this.configuration.vertical ? 'bottom' : 'left';
+    const propertyToUnset = this.configuration.vertical ? 'left' : 'bottom';
     item.style[propertyToSet] = `${newPosition}%`;
     item.style[propertyToUnset] = '';
 
     if (!this.tipMin || !this.tipMax) return;
 
     const tip = this.defineControl(item) === 'min' ? this.tipMin : this.tipMax;
-    tip.style.left = ViewControl.getTipPosition(this.conf.vertical, tip);
+    tip.style.left = ViewControl.getTipPosition(this.configuration.vertical, tip);
   }
 
   // ===================
@@ -263,13 +274,13 @@ class ViewControl extends Observer {
 
   public updateInput(conf: IPluginConfigurationFull) {
     if (this.root && this.root.tagName === 'INPUT') {
-      this.root.value = this.conf.range ? `${conf.from}, ${conf.to}`
+      this.root.value = this.configuration.range ? `${conf.from}, ${conf.to}`
         : String(conf.from);
     }
   }
 
   public switchVertical(conf: IPluginConfigurationFull) {
-    this.conf = conf;
+    this.configuration = conf;
   }
 
   public switchTip(conf: IPluginConfigurationFull) {
@@ -279,15 +290,15 @@ class ViewControl extends Observer {
   }
 
   private render() {
-    this.root = this.control.previousElementSibling;
-    this.track = this.control.firstElementChild;
+    this.root = this.slider.previousElementSibling;
+    this.track = this.slider.firstElementChild;
     if (!this.track) return;
 
-    this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.conf.from);
+    this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.configuration.from);
     this.tipMin = ViewControl.getElement(this.controlMin, '.slider-metalamp__tip');
     this.track.append(this.controlMin);
 
-    this.controlMax = ViewControl.renderControl('slider-metalamp__control-max', 'slider-metalamp__tip-max', this.conf.to);
+    this.controlMax = ViewControl.renderControl('slider-metalamp__control-max', 'slider-metalamp__tip-max', this.configuration.to);
     this.tipMax = ViewControl.getElement(this.controlMax, '.slider-metalamp__tip');
     this.track.append(this.controlMax);
   }
@@ -326,7 +337,7 @@ class ViewControl extends Observer {
         this.defineMoveType(this.controlData);
       }
     };
-    this.control.addEventListener('keydown', handlePointerStart);
+    this.slider.addEventListener('keydown', handlePointerStart);
   }
 
   public defineMoveType(data: IControlFull) {
@@ -338,16 +349,16 @@ class ViewControl extends Observer {
     const isMin = movingControl === 'min';
     const isMax = movingControl === 'max';
 
-    const isIncreasingNoSticky = isIncreasing && !this.conf.sticky;
-    const isDecreasingNoSticky = isDecreasing && !this.conf.sticky;
+    const isIncreasingNoSticky = isIncreasing && !this.configuration.sticky;
+    const isDecreasingNoSticky = isDecreasing && !this.configuration.sticky;
 
     const isMinIncreasingNoSticky = isMin && isIncreasingNoSticky;
     const isMinDecreasingNoSticky = isMin && isDecreasingNoSticky;
     const isMaxIncreasingNoSticky = isMax && isIncreasingNoSticky;
     const isMaxDecreasingNoSticky = isMax && isDecreasingNoSticky;
 
-    const isIncreasingSticky = isIncreasing && this.conf.sticky;
-    const isDecreasingSticky = isDecreasing && this.conf.sticky;
+    const isIncreasingSticky = isIncreasing && this.configuration.sticky;
+    const isDecreasingSticky = isDecreasing && this.configuration.sticky;
 
     const isMinIncreasingSticky = isMin && isIncreasingSticky;
     const isMinDecreasingSticky = isMin && isDecreasingSticky;
@@ -359,7 +370,7 @@ class ViewControl extends Observer {
     if (isMaxIncreasingNoSticky) return this.calcValueSetByKeyNoSticky('MaxIncreasingNoSticky', repeat);
     if (isMaxDecreasingNoSticky) return this.calcValueSetByKeyNoSticky('MaxDecreasingNoSticky', repeat);
 
-    const value = movingControl === 'min' ? this.conf.from : this.conf.to;
+    const value = movingControl === 'min' ? this.configuration.from : this.configuration.to;
     const index = this.scaleMarks.findIndex((elem) => elem.value === value);
     const shift = this.getShift(repeat);
     const indexToSearch = isIncreasing ? index + shift : index - shift;
@@ -381,7 +392,7 @@ class ViewControl extends Observer {
       to,
       min,
       max,
-    } = this.conf;
+    } = this.configuration;
 
     switch (condition) {
       case 'MinIncreasingNoSticky':
@@ -429,7 +440,7 @@ class ViewControl extends Observer {
   }
 
   private getShift(isRepeating: boolean) {
-    return isRepeating ? this.conf.shiftOnKeyHold : this.conf.shiftOnKeyDown;
+    return isRepeating ? this.configuration.shiftOnKeyHold : this.configuration.shiftOnKeyDown;
   }
 
   private calcValueSetByKeySticky(condition: string, item: IPluginConfigurationItem) {
@@ -438,7 +449,7 @@ class ViewControl extends Observer {
       from,
       to,
       max,
-    } = this.conf;
+    } = this.configuration;
     const { value } = item;
     switch (condition) {
       case 'MinIncreasingSticky':
@@ -481,7 +492,7 @@ class ViewControl extends Observer {
   private calcPositionAndUpdateConfiguration(value: number, valueType: 'fromValue' | 'toValue' = 'fromValue') {
     const isMinControl = valueType === 'fromValue';
     if (isMinControl) this.calcPositionSetByKey(isMinControl, value);
-    else this.calcPositionSetByKey(isMinControl, this.conf.from, value);
+    else this.calcPositionSetByKey(isMinControl, this.configuration.from, value);
     this.updateConfiguration(value, valueType);
   }
 
@@ -502,8 +513,8 @@ class ViewControl extends Observer {
       if (!result) return;
       let controlMinDist = 0;
       let controlMaxDist = 0;
-      const property = this.conf.vertical ? 'bottom' : 'left';
-      const parameter = this.conf.vertical ? 'clientY' : 'clientX';
+      const property = this.configuration.vertical ? 'bottom' : 'left';
+      const parameter = this.configuration.vertical ? 'clientY' : 'clientX';
 
       if (this.controlMin && this.controlMax) {
         controlMinDist = Math.abs(this.controlMin
@@ -526,15 +537,19 @@ class ViewControl extends Observer {
       else this.controlData.movingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
       this.calcPositionSetByPointer();
     };
-    this.control.addEventListener('pointerdown', handlePointerStart);
+    this.slider.addEventListener('pointerdown', handlePointerStart);
   }
 
-  private calcPositionSetByKey(isMinControl = false, from = this.conf.from, to = this.conf.to) {
+  public calcPositionSetByKey(
+    isMinControl = false,
+    from = this.configuration.from,
+    to = this.configuration.to,
+  ) {
     const {
       min,
       max,
       sticky,
-    } = this.conf;
+    } = this.configuration;
     const positionType = isMinControl ? 'fromPosition' : 'toPosition';
     const controlType = isMinControl ? 'controlMin' : 'controlMax';
     let positonValue = isMinControl ? ((from - min) * 100) / (max - min)

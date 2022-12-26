@@ -49,6 +49,7 @@ class Model extends Observer {
   }
 
   public update(newConf: IBusinessDataIndexed) {
+    console.log('UPDATE');
     let conf = { ...this.conf, ...newConf };
     conf = checkConfiguration(conf);
     const oldConf = this.conf;
