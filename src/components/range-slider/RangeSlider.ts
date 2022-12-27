@@ -63,7 +63,6 @@ class RangeSlider {
   }
 
   private handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
-    console.log('handlePanelChange');
     const { key, data } = parameters;
     switch (key) {
       case 'subscribe': {
@@ -93,7 +92,6 @@ class RangeSlider {
         if (this.rangeSlider) {
           this.rangeSlider.update({ [key]: data });
         }
-        console.log('UPDATE PANEL');
         /* после ввода данных в панель конфигурирования и обновления слайдера нужно получить данные
         из модели и обновить панель, т.к. в панель могли быть введены недопустимые данные, которые
          были затем изменены в модели при валидации. Их надо скорректировать и в панели */

@@ -53,7 +53,8 @@ class View extends Observer {
   }
 
   public update(newConf: any) {
-    const configuration = { ...this.configuration, ...newConf };
+    const test = this.configuration.scaleBase === 'step' ? 'interval' : 'step';
+    const configuration = { ...this.configuration, ...newConf, [test]: this.configuration[test] };
     const oldConfiguration = this.configuration;
     this.configuration = configuration;
     this.doCalculation(oldConfiguration, this.configuration);
@@ -77,18 +78,54 @@ class View extends Observer {
       if (!confItem) return null;
       return confItem[1] !== newConfigurationItem[1];
     });
-    const { from, to, vertical } = this.configuration;
+    const {
+      from,
+      to,
+      vertical,
+      step,
+      interval,
+      min,
+      max,
+      scaleBase,
+    } = newConfiguration;
     changedConfigurationItems.forEach((item) => {
       switch (item[0]) {
+        case 'step':
+          console.log('step: ', step);
+          console.log('scaleBase: ', scaleBase);
+          if (!this.viewScale) return;
+          this.viewScale.updateStep(step, scaleBase);
+          break;
+        case 'interval':
+          console.log('interval: ', interval);
+          if (!this.viewScale) return;
+          this.viewScale.updateInterval(interval, scaleBase);
+          break;
+        case 'min':
+          console.log('min');
+          if (!this.viewScale) return;
+          this.configuration.min = min;
+          this.viewScale.updateMin(min);
+          break;
+        case 'max':
+          console.log('max');
+          if (!this.viewScale) return;
+          this.configuration.max = max;
+          this.viewScale.updateMax(max);
+          break;
         case 'vertical':
+          console.log('vertical');
+          if (!vertical) return;
           this.switchVertical(vertical);
           break;
         case 'from':
+          console.log('from');
           if (!this.viewControl) return;
           this.viewControl.updateConfiguration(from, 'fromValue');
           this.viewControl.calcPositionSetByKey(true, from, to);
           break;
         case 'to':
+          console.log('to');
           if (!this.viewControl) return;
           this.viewControl.updateConfiguration(to, 'toValue');
           this.viewControl.calcPositionSetByKey(false, from, to);
@@ -146,15 +183,15 @@ class View extends Observer {
   //   console.log(data.marksArray, conf);
   // }
 
-  public updateStep(newValue: number) {
-    if (!this.viewScale) return;
-    this.viewScale.updateStep(newValue);
-  }
+  // public updateStep(newValue: number) {
+  //   if (!this.viewScale) return;
+  //   this.viewScale.updateStep(newValue);
+  // }
 
-  public updateInterval(newValue: number) {
-    if (!this.viewScale) return;
-    this.viewScale.updateInterval(newValue);
-  }
+  // public updateInterval(newValue: number) {
+  //   if (!this.viewScale) return;
+  //   this.viewScale.updateInterval(newValue);
+  // }
 
   public updateMin(newValue: number) {
     if (!this.viewScale) return;
@@ -168,10 +205,18 @@ class View extends Observer {
     this.viewScale.updateMax(newValue);
   }
 
-  handleScaleReady(scaleMarks: IPluginConfigurationItem[] = []) {
+  handleScaleReady(data: {
+    scaleMarks: IPluginConfigurationItem[],
+    step: number,
+    interval: number,
+  }) {
     if (!this.viewControl) return;
+    const { scaleMarks, step, interval } = data;
     const { min, max, vertical } = this.configuration;
     this.viewControl.updateScaleMarks(scaleMarks, min, max, vertical);
+    this.configuration.step = step;
+    this.configuration.interval = interval;
+    console.log('this.configuration>>>', this.configuration);
   }
 
   handleControlSet(data: {
@@ -296,6 +341,7 @@ class View extends Observer {
 
   private createSubViews() {
     if (!this.slider || !this.track) return;
+    // console.log('conf.interval>>>', this.configuration.interval);
     this.viewScale = new ViewScale(
       this.slider,
       this.track,

@@ -208,7 +208,6 @@ class ViewControl extends Observer {
     newValue: number,
     valueType: 'fromValue' | 'toValue' | 'fromPosition' | 'toPosition',
   ) {
-    console.log('updateConfiguration', valueType, newValue);
     if (valueType === 'fromPosition' || valueType === 'toPosition') {
       this[valueType] = newValue;
       this.onControlSet({

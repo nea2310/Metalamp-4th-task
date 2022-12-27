@@ -1,7 +1,10 @@
 import View from '../view/View';
 import Model from '../model/Model';
 import Observer from '../Observer';
-import { TPluginConfiguration } from '../interface';
+import {
+  TPluginConfiguration,
+  IPluginConfigurationFull,
+} from '../interface';
 
 import { defaultConf } from '../utils';
 
@@ -16,14 +19,14 @@ class Controller extends Observer {
 
   public view: View | null;
 
-  private startConfiguration: TPluginConfiguration = defaultConf;
+  private startConfiguration: IPluginConfigurationFull = defaultConf;
 
   constructor(model: Model, view: View, startConfiguration: TPluginConfiguration) {
     super();
     this.model = model;
     this.view = view;
-    this.startConfiguration = startConfiguration;
-    this.createListeners();
+    this.startConfiguration = { ...defaultConf, ...startConfiguration };
+    // this.createListeners();
     this.init();
   }
 
@@ -33,14 +36,15 @@ class Controller extends Observer {
       'max',
       'from',
       'to',
-      'step',
-      'interval',
+      // 'step',
+      // 'interval',
       'range',
       'onStart',
       'onUpdate',
       'onChange',
       'shiftOnKeyDown',
       'shiftOnKeyHold',
+      // 'scaleBase',
     ];
     const selectedData = Object.entries(data)
       .filter((element) => businessDataTypes
@@ -51,12 +55,40 @@ class Controller extends Observer {
     return Object.fromEntries(selectedData);
   }
 
+  private init() {
+    if (!this.view || !this.model) return;
+    this.startConfiguration = {
+      ...defaultConf,
+      ...this.startConfiguration,
+      ...this.view.dataAttributesConf,
+    };
+    const { onStart, onUpdate, onChange } = this.startConfiguration;
+    this.onStart = onStart;
+    this.onUpdate = onUpdate;
+    this.onChange = onChange;
+    this.model.init(Controller.selectData(this.startConfiguration, true));
+    this.startConfiguration = {
+      ...this.startConfiguration,
+      ...this.model.conf,
+    };
+    this.view.init(this.startConfiguration);
+    this.startConfiguration = { ...this.startConfiguration, ...this.view.configuration };
+    if (!this.onStart) return;
+    this.onStart(this.startConfiguration);
+  }
+
   public update(conf: TPluginConfiguration) {
     if (!this.model || !this.view) return;
     this.model.update(Controller.selectData(conf, true));
-    this.view.update({ ...Controller.selectData(conf), ...this.model.conf });
+    this.startConfiguration = {
+      ...this.startConfiguration,
+      ...Controller.selectData(conf),
+      ...this.model.conf,
+    };
+    // console.log('newConf>>>', this.startConfiguration);
+    this.view.update(this.startConfiguration);
     if (!this.onUpdate) return;
-    this.onUpdate({ ...this.view.configuration, ...this.model.conf });
+    this.onUpdate({ ...this.startConfiguration, ...this.view.configuration });
   }
 
   public getData() {
@@ -66,13 +98,13 @@ class Controller extends Observer {
 
   public disable() {
     if (!this.view) return;
-    this.removeListeners();
+    // this.removeListeners();
     this.view.disable();
   }
 
   public enable() {
     if (!this.view) return;
-    this.createListeners();
+    // this.createListeners();
     this.view.enable();
   }
 
@@ -83,65 +115,48 @@ class Controller extends Observer {
     this.model = null;
   }
 
-  private init() {
-    if (!this.view || !this.model) return;
-    const startConf = {
-      ...defaultConf,
-      ...this.startConfiguration,
-      ...this.view.dataAttributesConf,
-    };
-    const { onStart, onUpdate, onChange } = startConf;
-    this.onStart = onStart;
-    this.onUpdate = onUpdate;
-    this.onChange = onChange;
-    this.model.init(Controller.selectData(startConf, true));
-    this.view.init({ ...startConf, ...this.model.conf });
-    this.onStart({ ...startConf, ...this.model.conf });
-    // this.model.start();
-  }
+  // private createListeners() {
+  //   if (!this.view || !this.model) return;
 
-  private createListeners() {
-    if (!this.view || !this.model) return;
+  // this.model.subscribe(this.handleStep);
+  // this.model.subscribe(this.handleInterval);
+  // this.model.subscribe(this.handleMin);
+  // this.model.subscribe(this.handleMax);
 
-    this.model.subscribe(this.handleStep);
-    this.model.subscribe(this.handleInterval);
-    this.model.subscribe(this.handleMin);
-    this.model.subscribe(this.handleMax);
+  // this.model.subscribe(this.handleFromPosition);
+  // this.model.subscribe(this.handleToPosition);
+  // this.model.subscribe(this.handleFromValue);
+  // this.model.subscribe(this.handleToValue);
 
-    // this.model.subscribe(this.handleFromPosition);
-    // this.model.subscribe(this.handleToPosition);
-    // this.model.subscribe(this.handleFromValue);
-    // this.model.subscribe(this.handleToValue);
+  // this.model.subscribe(this.handleIsVertical);
+  // this.model.subscribe(this.handleIsRange);
+  // this.model.subscribe(this.handleIsScale);
+  // this.model.subscribe(this.handleIsBar);
+  // this.model.subscribe(this.handleIsTip);
+  // this.view.subscribe(this.handleMoveEvent);
+  // this.view.subscribe(this.handleKeydownEvent);
+  // }
 
-    // this.model.subscribe(this.handleIsVertical);
-    // this.model.subscribe(this.handleIsRange);
-    // this.model.subscribe(this.handleIsScale);
-    // this.model.subscribe(this.handleIsBar);
-    // this.model.subscribe(this.handleIsTip);
-    // this.view.subscribe(this.handleMoveEvent);
-    // this.view.subscribe(this.handleKeydownEvent);
-  }
+  // private removeListeners() {
+  //   if (!this.view || !this.model) return;
+  // this.model.unsubscribe(this.handleStep);
+  // this.model.unsubscribe(this.handleInterval);
+  // this.model.unsubscribe(this.handleMin);
+  // this.model.unsubscribe(this.handleMax);
 
-  private removeListeners() {
-    if (!this.view || !this.model) return;
-    this.model.unsubscribe(this.handleStep);
-    this.model.unsubscribe(this.handleInterval);
-    this.model.unsubscribe(this.handleMin);
-    this.model.unsubscribe(this.handleMax);
+  // this.model.unsubscribe(this.handleFromPosition);
+  // this.model.unsubscribe(this.handleToPosition);
+  // this.model.unsubscribe(this.handleFromValue);
+  // this.model.unsubscribe(this.handleToValue);
 
-    // this.model.unsubscribe(this.handleFromPosition);
-    // this.model.unsubscribe(this.handleToPosition);
-    // this.model.unsubscribe(this.handleFromValue);
-    // this.model.unsubscribe(this.handleToValue);
-
-    // this.model.unsubscribe(this.handleIsVertical);
-    // this.model.unsubscribe(this.handleIsRange);
-    // this.model.unsubscribe(this.handleIsScale);
-    // this.model.unsubscribe(this.handleIsBar);
-    // this.model.unsubscribe(this.handleIsTip);
-    // this.view.unsubscribe(this.handleMoveEvent);
-    // this.view.unsubscribe(this.handleKeydownEvent);
-  }
+  // this.model.unsubscribe(this.handleIsVertical);
+  // this.model.unsubscribe(this.handleIsRange);
+  // this.model.unsubscribe(this.handleIsScale);
+  // this.model.unsubscribe(this.handleIsBar);
+  // this.model.unsubscribe(this.handleIsTip);
+  // this.view.unsubscribe(this.handleMoveEvent);
+  // this.view.unsubscribe(this.handleKeydownEvent);
+  // }
 
   // private handleFromPosition =
   // (parms: INotificationParameters) => {
@@ -164,25 +179,25 @@ class Controller extends Observer {
   //   this.view.updateToValue(parms.data);
   // };
 
-  private handleStep = (parms: { key: string, data: any }) => {
-    if (parms.key !== 'step' || !this.view) return;
-    this.view.updateStep(parms.data);
-  };
+  // private handleStep = (parms: { key: string, data: any }) => {
+  //   if (parms.key !== 'step' || !this.view) return;
+  //   this.view.updateStep(parms.data);
+  // };
 
-  private handleInterval = (parms: { key: string, data: any }) => {
-    if (parms.key !== 'interval' || !this.view) return;
-    this.view.updateInterval(parms.data);
-  };
+  // private handleInterval = (parms: { key: string, data: any }) => {
+  //   if (parms.key !== 'interval' || !this.view) return;
+  //   this.view.updateInterval(parms.data);
+  // };
 
-  private handleMin = (parms: { key: string, data: any }) => {
-    if (parms.key !== 'min' || !this.view) return;
-    this.view.updateMin(parms.data);
-  };
+  // private handleMin = (parms: { key: string, data: any }) => {
+  //   if (parms.key !== 'min' || !this.view) return;
+  //   this.view.updateMin(parms.data);
+  // };
 
-  private handleMax = (parms: { key: string, data: any }) => {
-    if (parms.key !== 'max' || !this.view) return;
-    this.view.updateMax(parms.data);
-  };
+  // private handleMax = (parms: { key: string, data: any }) => {
+  //   if (parms.key !== 'max' || !this.view) return;
+  //   this.view.updateMax(parms.data);
+  // };
 
   // private handleIsVertical = (parms: INotificationParameters) => {
   //   if (parms.key !== 'IsVertical' || !this.view) return 1;

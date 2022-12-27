@@ -49,14 +49,13 @@ class Model extends Observer {
   }
 
   public update(newConf: IBusinessDataIndexed) {
-    console.log('UPDATE');
-    let conf = { ...this.conf, ...newConf };
-    conf = checkConfiguration(conf);
-    const oldConf = this.conf;
-    this.conf = conf;
-    this.doCalculation(oldConf, this.conf);
+    // let conf = { ...this.conf, ...newConf };
+    this.conf = checkConfiguration({ ...this.conf, ...newConf });
+    // const oldConf = this.conf;
+    // this.conf = conf;
+    // this.doCalculation(oldConf, this.conf);
     // if (typeof this.onUpdate === 'function') this.onUpdate(this.conf);
-    return this.conf;
+    // return this.conf;
   }
 
   private doCalculation(oldConf: IBusinessDataIndexed, newConf: IBusinessDataIndexed) {
