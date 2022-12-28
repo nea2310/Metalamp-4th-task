@@ -20,8 +20,6 @@ export const defaultConf: IPluginConfigurationFull = {
   sticky: false,
   shiftOnKeyDown: 0,
   shiftOnKeyHold: 0,
-  onStart: () => true,
-  onChange: () => true,
   onUpdate: () => true,
 };
 

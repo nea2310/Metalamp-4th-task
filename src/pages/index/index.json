@@ -5,6 +5,7 @@
     "from": "-50",
     "to": "50",
     "step": "10",
+    "shiftOnKeyDown": "1",
     "shiftOnKeyHold": "2",
     "radioGroupName": "demoHorizontal"
   },

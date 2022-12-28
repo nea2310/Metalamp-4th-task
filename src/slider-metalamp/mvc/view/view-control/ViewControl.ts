@@ -29,7 +29,7 @@ class ViewControl extends Observer {
 
   public track: IDOMElement | null = null;
 
-  private configuration: IPluginConfigurationFull;
+  public configuration: IPluginConfigurationFull;
 
   private slider: HTMLElement;
 
@@ -205,19 +205,22 @@ class ViewControl extends Observer {
   // ===4===
 
   public updateConfiguration(
-    newValue: number,
+    newValue: number | boolean,
     valueType: 'fromValue' | 'toValue' | 'fromPosition' | 'toPosition',
   ) {
-    if (valueType === 'fromPosition' || valueType === 'toPosition') {
+    const condition = (valueType === 'fromPosition' || valueType === 'toPosition') && typeof newValue === 'number';
+    if (condition) {
       this[valueType] = newValue;
       this.onControlSet({
         fromPosition: this.fromPosition,
         toPosition: this.toPosition,
+        from: this.configuration.from,
+        to: this.configuration.to,
         isRange: this.configuration.range,
         isVertical: this.configuration.vertical,
       });
     }
-    if (valueType.match(/Value/)) {
+    if (valueType.match(/Value/) && typeof newValue === 'number') {
       const isMinControl = valueType === 'fromValue';
       const configurationValue = isMinControl ? 'from' : 'to';
       this.configuration[configurationValue] = newValue;
@@ -549,11 +552,12 @@ class ViewControl extends Observer {
       max,
       sticky,
     } = this.configuration;
+    console.log(min, max, from, to);
+    console.log(this.configuration);
     const positionType = isMinControl ? 'fromPosition' : 'toPosition';
     const controlType = isMinControl ? 'controlMin' : 'controlMax';
     let positonValue = isMinControl ? ((from - min) * 100) / (max - min)
       : ((to - min) * 100) / (max - min);
-
     if (sticky) positonValue = this.setSticky(positonValue);
     this.updateConfiguration(positonValue, positionType);
     if (this[controlType]) this.setControlOnPosition(this[controlType], this[positionType]);

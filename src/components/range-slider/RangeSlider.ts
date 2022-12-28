@@ -45,20 +45,14 @@ class RangeSlider {
 
   private createSlider(element: Element) {
     const rangeSlider = $(element).SliderMetaLamp({
-      onStart: (data: TPluginConfiguration) => {
-        this.changeData(data);
-      },
       onUpdate: (data: TPluginConfiguration) => {
-        this.changeData(data);
-      },
-      onChange: (data: TPluginConfiguration) => {
-        this.changeData(data);
+        this.updateData(data);
       },
     }).data('SliderMetaLamp');
     return rangeSlider;
   }
 
-  private changeData(data: TPluginConfiguration) {
+  private updateData(data: TPluginConfiguration) {
     if (this.panel) this.panel.update(data);
   }
 
@@ -92,11 +86,6 @@ class RangeSlider {
         if (this.rangeSlider) {
           this.rangeSlider.update({ [key]: data });
         }
-        /* после ввода данных в панель конфигурирования и обновления слайдера нужно получить данные
-        из модели и обновить панель, т.к. в панель могли быть введены недопустимые данные, которые
-         были затем изменены в модели при валидации. Их надо скорректировать и в панели */
-        // const dataObject = this.rangeSlider ? this.rangeSlider.getData() : {};
-        // if (this.panel && dataObject) this.panel.update(dataObject);
       }
     }
   };
@@ -111,11 +100,11 @@ class RangeSlider {
     if (!this.rangeSlider) return;
     if (isSubscribed) {
       this.rangeSlider.update({
-        onChange: (data: any) => {
-          this.changeData(data);
+        onUpdate: (data: any) => {
+          this.updateData(data);
         },
       });
-    } else this.rangeSlider.update({ onChange: undefined });
+    } else this.rangeSlider.update({ onUpdate: undefined });
   }
 
   private disableSlider(isDisabled = false) {

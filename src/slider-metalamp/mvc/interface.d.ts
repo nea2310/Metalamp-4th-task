@@ -42,14 +42,6 @@ interface IBusinessData {
   from: number;
   to: number;
   range: boolean;
-  step: number;
-  interval: number;
-  scaleBase: 'step' | 'interval';
-  shiftOnKeyDown: number;
-  shiftOnKeyHold: number,
-  onStart: (data: TPluginConfiguration) => unknown;
-  onChange: (data: TPluginConfiguration) => unknown;
-  onUpdate: (data: TPluginConfiguration) => unknown;
 }
 
 interface IBusinessDataIndexed extends Partial<IBusinessData> {
@@ -72,8 +64,6 @@ interface IPluginConfigurationFull {
   sticky: boolean;
   shiftOnKeyDown: number;
   shiftOnKeyHold: number;
-  onStart: (data: TPluginConfiguration) => unknown;
-  onChange: (data: TPluginConfiguration) => unknown;
   onUpdate: (data: TPluginConfiguration) => unknown;
 }
 

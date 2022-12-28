@@ -3,7 +3,6 @@ import Observer from '../Observer';
 import {
   IPluginPrivateData,
   TPluginConfiguration,
-  // INotificationParameters,
   IPluginConfigurationFull,
   IDOMElement,
   IPluginConfigurationItem,
@@ -32,6 +31,8 @@ class View extends Observer {
 
   private root: IDOMElement;
 
+  private controlSetHandler: Function = () => {};
+
   constructor(root: Element) {
     super();
     this.handleScaleReady = this.handleScaleReady.bind(this);
@@ -43,12 +44,11 @@ class View extends Observer {
 
   public init(conf: IPluginConfigurationFull) {
     this.configuration = conf;
-    // this.createListeners();
     this.switchVertical(this.configuration.vertical);
-    // this.switchRange(conf);
-    // this.switchTip(conf);
-    // this.switchScale(conf);
-    // this.switchBar(conf);
+    this.switchRange(conf.range, conf.vertical);
+    this.switchTip(conf);
+    this.switchScale(conf);
+    this.switchBar(conf);
     this.createSubViews();
   }
 
@@ -87,17 +87,24 @@ class View extends Observer {
       min,
       max,
       scaleBase,
+      range,
+      sticky,
+      tip,
+      shiftOnKeyDown,
+      shiftOnKeyHold,
+      bar,
+      scale,
     } = newConfiguration;
+
     changedConfigurationItems.forEach((item) => {
       switch (item[0]) {
         case 'step':
-          console.log('step: ', step);
-          console.log('scaleBase: ', scaleBase);
+          console.log('step');
           if (!this.viewScale) return;
           this.viewScale.updateStep(step, scaleBase);
           break;
         case 'interval':
-          console.log('interval: ', interval);
+          console.log('interval');
           if (!this.viewScale) return;
           this.viewScale.updateInterval(interval, scaleBase);
           break;
@@ -115,20 +122,53 @@ class View extends Observer {
           break;
         case 'vertical':
           console.log('vertical');
-          if (!vertical) return;
           this.switchVertical(vertical);
           break;
         case 'from':
-          console.log('from');
+          console.log('from>>>', from);
           if (!this.viewControl) return;
           this.viewControl.updateConfiguration(from, 'fromValue');
           this.viewControl.calcPositionSetByKey(true, from, to);
           break;
         case 'to':
-          console.log('to');
+          console.log('to>>>', to);
           if (!this.viewControl) return;
           this.viewControl.updateConfiguration(to, 'toValue');
           this.viewControl.calcPositionSetByKey(false, from, to);
+          break;
+        case 'range':
+          console.log('range');
+          this.switchRange(range, vertical);
+          break;
+        case 'sticky':
+          console.log('sticky');
+          if (!this.viewControl) return;
+          this.viewControl.configuration = { ...this.viewControl.configuration, sticky };
+          break;
+        case 'tip':
+          console.log('tip');
+          if (!this.viewControl) return;
+          this.switchTip({ ...this.viewControl.configuration, tip });
+          break;
+        case 'shiftOnKeyDown':
+          console.log('shiftOnKeyDown');
+          if (!this.viewControl) return;
+          this.viewControl.configuration = { ...this.viewControl.configuration, shiftOnKeyDown };
+          break;
+        case 'shiftOnKeyHold':
+          console.log('shiftOnKeyHold');
+          if (!this.viewControl) return;
+          this.viewControl.configuration = { ...this.viewControl.configuration, shiftOnKeyHold };
+          break;
+        case 'bar':
+          console.log('bar');
+          if (!this.viewControl) return;
+          this.switchBar({ ...this.viewControl.configuration, bar });
+          break;
+        case 'scale':
+          console.log('scale');
+          if (!this.viewControl) return;
+          this.switchScale({ ...this.configuration, scale });
           break;
         default: break;
       }
@@ -216,24 +256,32 @@ class View extends Observer {
     this.viewControl.updateScaleMarks(scaleMarks, min, max, vertical);
     this.configuration.step = step;
     this.configuration.interval = interval;
-    console.log('this.configuration>>>', this.configuration);
   }
 
   handleControlSet(data: {
     fromPosition: number,
     toPosition: number,
+    from: number,
+    to: number,
     isRange: boolean,
     isVertical: boolean,
   }) {
+    const { from, to } = data;
+    this.configuration = { ...this.configuration, from, to };
+    this.controlSetHandler({ from, to });
     if (!this.viewBar) return;
     this.viewBar.updateBar(data);
+  }
+
+  subscribeDateSelect(handler: Function) {
+    this.controlSetHandler = handler;
   }
 
   public switchVertical(newState: boolean) {
     this.configuration = { ...this.configuration, vertical: newState };
     this.changeMode(newState, 'orientation_vertical');
     if (!this.viewScale) return;
-    this.viewScale.switchScale(newState);
+    this.viewScale.switchVerticalMode(newState);
   }
 
   // public updateScale(newValue: boolean) {
@@ -241,26 +289,32 @@ class View extends Observer {
   //   this.viewScale.updateScale(newValue);
   // }
 
-  // public switchRange(conf: IPluginConfigurationFull, data: IPluginPrivateData | {} = {}) {
-  //   console.log(data);
-  //   this.changeMode(!conf.range, 'range-mode_single');
-  //   // if (!('fromPosition' in data) || !this.viewBar) return;
-  //   // this.viewBar.updateBar(data.fromPosition, data.toPosition, conf.range, conf.vertical);
-  // }
+  public switchRange(isRange: boolean, isVertical = false) {
+    this.changeMode(!isRange, 'range-mode_single');
+    if (!this.viewBar || !this.viewControl) return;
 
-  // public switchScale(conf: IPluginConfigurationFull) {
-  //   this.changeMode(!conf.scale, 'scale-mode_hidden');
-  // }
+    this.viewBar.updateBar({
+      fromPosition: this.viewControl.fromPosition,
+      toPosition: this.viewControl.toPosition,
+      isRange,
+      isVertical,
+    });
+    this.viewControl.configuration = { ...this.viewControl.configuration, range: isRange };
+  }
 
-  // public switchBar(conf: IPluginConfigurationFull) {
-  //   this.changeMode(!conf.bar, 'bar-mode_hidden');
-  // }
+  public switchScale(conf: IPluginConfigurationFull) {
+    this.changeMode(!conf.scale, 'scale-mode_hidden');
+  }
 
-  // public switchTip(conf: IPluginConfigurationFull) {
-  //   this.changeMode(!conf.tip, 'tip-mode_hidden');
-  //   if (!this.viewControl) return;
-  //   this.viewControl.switchTip(conf);
-  // }
+  public switchBar(conf: IPluginConfigurationFull) {
+    this.changeMode(!conf.bar, 'bar-mode_hidden');
+  }
+
+  public switchTip(conf: IPluginConfigurationFull) {
+    this.changeMode(!conf.tip, 'tip-mode_hidden');
+    if (!this.viewControl) return;
+    this.viewControl.switchTip(conf);
+  }
 
   private render() {
     this.slider = document.createElement('div');
@@ -341,7 +395,6 @@ class View extends Observer {
 
   private createSubViews() {
     if (!this.slider || !this.track) return;
-    // console.log('conf.interval>>>', this.configuration.interval);
     this.viewScale = new ViewScale(
       this.slider,
       this.track,

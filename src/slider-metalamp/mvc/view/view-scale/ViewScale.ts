@@ -43,7 +43,7 @@ class ViewScale {
     this.calcScaleMarks();
   }
 
-  public switchScale(value: boolean) {
+  public switchVerticalMode(value: boolean) {
     this.conf = { ...this.conf, vertical: value };
     this.calcScaleMarks();
   }
@@ -154,21 +154,15 @@ class ViewScale {
     const { scaleBase } = this.conf;
     console.log(scaleBase);
 
-    // if (!this.conf.step) this.conf.step = Math.abs((this.conf.max - this.conf.min) / 2);
     this.conf.step = this.conf.step ? Number(this.conf.step)
       : Math.abs((this.conf.max - this.conf.min) / 2);
-    // if (!this.conf.interval) this.conf.interval = 2;
+
     this.conf.interval = this.conf.interval ? Number(this.conf.interval) : 2;
     const isStep = scaleBase === 'step';
-    // const oppositeType = isStep ? 'interval' : 'step';
+
     const step = isStep ? this.conf.step : (this.conf.max - this.conf.min) / this.conf.interval;
     const interval = isStep ? (this.conf.max - this.conf.min) / this.conf.step : this.conf.interval;
-    // console.log('step>>>', step);
-    // console.log('interval>>>', interval);
-    // const stepArgument = interval % 1 === 0 ? interval : Math.trunc(interval + 1);
-    // const intervalArgument = step % 1 === 0 ? step : step.toFixed(2);
-    // const argument = isStep ? stepArgument : intervalArgument;
-    // this.conf[oppositeType] = parseFloat(argument);
+
     this.conf.step = step % 1 === 0 ? step : Math.trunc(step);
     this.conf.interval = interval % 1 === 0 ? interval : Math.trunc(interval + 1);
     const marksArray = [{ value: this.conf.min, position: 0 }];
@@ -179,7 +173,6 @@ class ViewScale {
       if (value <= this.conf.max) {
         const position = ((value - this.conf.min) * 100)
           / (this.conf.max - this.conf.min);
-        // console.log('value>>>', value);
 
         object.value = parseFloat(value.toFixed(2));
         object.position = position;
