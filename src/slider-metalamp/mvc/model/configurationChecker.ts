@@ -37,7 +37,7 @@ function checkConfiguration(configuration: IBusinessDataIndexed) {
 
   if (to > max) checkedConfiguration.to = max;
 
-  if (to < from) {
+  if (range && to < from) {
     const temporaryValue = to;
     checkedConfiguration.to = from;
     checkedConfiguration.from = temporaryValue;
