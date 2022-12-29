@@ -19,7 +19,7 @@ class ViewScale {
 
   private scaleMarks: IPluginConfigurationItem[] = [];
 
-  private onScaleReady: Function = () => {};
+  private scaleReadyCallback: Function = () => {};
 
   constructor(
     slider: HTMLElement,
@@ -30,7 +30,7 @@ class ViewScale {
     this.configuration = configuration;
     this.slider = slider;
     this.track = track;
-    this.onScaleReady = handleScaleReady;
+    this.scaleReadyCallback = handleScaleReady;
     this.calcScaleMarks();
   }
 
@@ -165,7 +165,7 @@ class ViewScale {
     if (marksArray[marksArray.length - 1].value
       < max) marksArray.push({ value: max, position: 100 });
     this.scaleMarks = marksArray;
-    this.onScaleReady({
+    this.scaleReadyCallback({
       scaleMarks: this.scaleMarks,
       step: this.configuration.step,
       interval: this.configuration.interval,

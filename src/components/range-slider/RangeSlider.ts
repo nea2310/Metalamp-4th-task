@@ -26,7 +26,6 @@ class RangeSlider {
   constructor(element: HTMLElement) {
     this.wrapper = element;
     this.render();
-    this.subscribeSlider();
   }
 
   static getElement(object: HTMLElement, selector: string) {
