@@ -100,7 +100,7 @@ class RangeSlider {
     if (!this.rangeSlider) return;
     if (isSubscribed) {
       this.rangeSlider.update({
-        onUpdate: (data: any) => {
+        onUpdate: (data: TPluginConfiguration) => {
           this.updateData(data);
         },
       });

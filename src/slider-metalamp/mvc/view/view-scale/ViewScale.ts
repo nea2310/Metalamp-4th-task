@@ -1,6 +1,7 @@
 import {
   IPluginConfigurationFull,
   IPluginConfigurationItem,
+  TPluginConfiguration,
 } from '../../interface';
 
 class ViewScale {
@@ -12,49 +13,33 @@ class ViewScale {
 
   private markList: Element[] = [];
 
-  private conf: IPluginConfigurationFull;
+  private configuration: IPluginConfigurationFull;
 
   private lastLabelRemoved: boolean = false;
 
-  public scaleMarks: IPluginConfigurationItem[] = [];
+  private scaleMarks: IPluginConfigurationItem[] = [];
 
   private onScaleReady: Function = () => {};
 
   constructor(
     slider: HTMLElement,
     track: HTMLElement,
-    conf: IPluginConfigurationFull,
+    configuration: IPluginConfigurationFull,
     handleScaleReady: Function = () => {},
   ) {
-    this.conf = conf;
+    this.configuration = configuration;
     this.slider = slider;
     this.track = track;
     this.onScaleReady = handleScaleReady;
     this.calcScaleMarks();
   }
 
-  public updateStep(value: number, scaleBase: 'step' | 'interval') {
-    this.conf = { ...this.conf, step: value, scaleBase };
-    this.calcScaleMarks();
+  get marks() {
+    return this.scaleMarks;
   }
 
-  public updateInterval(value: number, scaleBase: 'step' | 'interval') {
-    this.conf = { ...this.conf, interval: value, scaleBase };
-    this.calcScaleMarks();
-  }
-
-  public switchVerticalMode(value: boolean) {
-    this.conf = { ...this.conf, vertical: value };
-    this.calcScaleMarks();
-  }
-
-  public updateMin(value: number) {
-    this.conf = { ...this.conf, min: value };
-    this.calcScaleMarks();
-  }
-
-  public updateMax(value: number) {
-    this.conf = { ...this.conf, max: value };
+  public update(data: TPluginConfiguration) {
+    this.configuration = { ...this.configuration, ...data };
     this.calcScaleMarks();
   }
 
@@ -70,13 +55,13 @@ class ViewScale {
       label.classList.add('slider-metalamp__label');
       element.appendChild(label);
 
-      const modifier = !this.conf.scale ? 'slider-metalamp__mark_visually-hidden' : 'slider-metalamp__mark';
+      const modifier = !this.configuration.scale ? 'slider-metalamp__mark_visually-hidden' : 'slider-metalamp__mark';
       element.classList.add(modifier);
 
       this.track.appendChild(element);
-      const elementProperty = this.conf.vertical ? 'bottom' : 'left';
-      const labelProperty = this.conf.vertical ? 'top' : 'left';
-      const value = this.conf.vertical ? label.offsetHeight : label.offsetWidth;
+      const elementProperty = this.configuration.vertical ? 'bottom' : 'left';
+      const labelProperty = this.configuration.vertical ? 'top' : 'left';
+      const value = this.configuration.vertical ? label.offsetHeight : label.offsetWidth;
       element.style[elementProperty] = `${String(node.position)}%`;
       label.style[labelProperty] = `${(value / 2) * (-1)}px`;
     });
@@ -101,8 +86,8 @@ class ViewScale {
       this.checkScaleLength(this.markList);
     };
 
-    const size = this.conf.vertical ? 'height' : 'width';
-    const offsetSize = this.conf.vertical ? 'offsetHeight' : 'offsetWidth';
+    const size = this.configuration.vertical ? 'height' : 'width';
+    const offsetSize = this.configuration.vertical ? 'offsetHeight' : 'offsetWidth';
 
     let totalSize = 0;
     markList.forEach((node) => {
@@ -151,41 +136,39 @@ class ViewScale {
   }
 
   private calcScaleMarks() {
-    const { scaleBase } = this.conf;
-    console.log(scaleBase);
+    const { scaleBase, min, max } = this.configuration;
+    let { step, interval } = this.configuration;
 
-    this.conf.step = this.conf.step ? Number(this.conf.step)
-      : Math.abs((this.conf.max - this.conf.min) / 2);
-
-    this.conf.interval = this.conf.interval ? Number(this.conf.interval) : 2;
+    step = step ? Number(step) : Math.abs((max - min) / 2);
+    interval = interval ? Number(interval) : 2;
     const isStep = scaleBase === 'step';
 
-    const step = isStep ? this.conf.step : (this.conf.max - this.conf.min) / this.conf.interval;
-    const interval = isStep ? (this.conf.max - this.conf.min) / this.conf.step : this.conf.interval;
+    const stepValue = isStep ? step : (max - min) / interval;
+    const intervalValue = isStep ? (max - min) / step : interval;
 
-    this.conf.step = step % 1 === 0 ? step : Math.trunc(step);
-    this.conf.interval = interval % 1 === 0 ? interval : Math.trunc(interval + 1);
-    const marksArray = [{ value: this.conf.min, position: 0 }];
-    let value = this.conf.min;
-    for (let i = 0; i < interval; i += 1) {
+    this.configuration.step = stepValue % 1 === 0 ? stepValue : Math.trunc(stepValue);
+    this.configuration.interval = intervalValue % 1 === 0 ? intervalValue
+      : Math.trunc(intervalValue + 1);
+    const marksArray = [{ value: min, position: 0 }];
+
+    let value = min;
+    for (let i = 0; i < intervalValue; i += 1) {
       const object: IPluginConfigurationItem = { value: 0, position: 0 };
-      value += step;
-      if (value <= this.conf.max) {
-        const position = ((value - this.conf.min) * 100)
-          / (this.conf.max - this.conf.min);
-
+      value += stepValue;
+      if (value <= max) {
+        const position = ((value - min) * 100) / (max - min);
         object.value = parseFloat(value.toFixed(2));
         object.position = position;
         marksArray.push(object);
       }
     }
     if (marksArray[marksArray.length - 1].value
-      < this.conf.max) marksArray.push({ value: this.conf.max, position: 100 });
+      < max) marksArray.push({ value: max, position: 100 });
     this.scaleMarks = marksArray;
     this.onScaleReady({
       scaleMarks: this.scaleMarks,
-      step: this.conf.step,
-      interval: this.conf.interval,
+      step: this.configuration.step,
+      interval: this.configuration.interval,
     });
     this.createScale();
   }

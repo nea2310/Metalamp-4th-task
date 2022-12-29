@@ -15,50 +15,99 @@ interface ITarget extends Omit<EventTarget, 'addEventListener'> {
 }
 
 class ViewControl extends Observer {
-  public fromPosition = 0;
+  private fromPosition = 0;
 
-  public toPosition = 0;
+  private toPosition = 0;
 
-  public controlMin: HTMLElement | undefined;
+  private controlMin: HTMLElement | undefined;
 
-  public controlMax: HTMLElement | undefined;
+  private controlMax: HTMLElement | undefined;
 
-  public tipMin: HTMLInputElement | null = null;
+  private tipMin: HTMLInputElement | null = null;
 
-  public tipMax: HTMLInputElement | null = null;
+  private tipMax: HTMLInputElement | null = null;
 
-  public track: IDOMElement | null = null;
+  private track: IDOMElement | null = null;
 
-  public configuration: IPluginConfigurationFull;
+  private configuration: IPluginConfigurationFull;
 
   private slider: HTMLElement;
-
-  private root: IDOMElement | null = null;
 
   private scaleMarks: IPluginConfigurationItem[];
 
   private controlData: IControlFull = defaultControlData;
 
-  private onControlSet: Function = () => {};
+  private controlSetCallback: Function = () => {};
 
   constructor(
     sliderElement: HTMLElement,
     configuration: IPluginConfigurationFull,
     scaleMarks: IPluginConfigurationItem[],
-    onControlSet: Function = () => {},
+    callback: Function = () => {},
   ) {
     super();
     this.slider = sliderElement;
     this.configuration = configuration;
     this.scaleMarks = scaleMarks;
-    this.onControlSet = onControlSet;
+    this.controlSetCallback = callback;
     this.render();
-    this.dragControl();
-    this.pressControl();
-    this.clickTrack();
+  }
 
-    this.calcPositionSetByKey(true);
-    this.calcPositionSetByKey();
+  static getTipPosition(isVertical: boolean, elem: HTMLElement) {
+    if (isVertical) return `${elem.offsetWidth * (-1) - 20}px`;
+    return `${(elem.offsetWidth / 2) * (-1)}px`;
+  }
+
+  static getElement(object: HTMLElement, selector: string): HTMLInputElement | null {
+    return object.querySelector(selector);
+  }
+
+  static renderControl(controlClassName: string, tipClassName: string, value: number) {
+    const control = document.createElement('button');
+    control.className = 'slider-metalamp__control';
+    control.classList.add(controlClassName);
+    const tip = document.createElement('span');
+    tip.className = 'slider-metalamp__tip';
+    tip.classList.add(tipClassName);
+    tip.innerText = String(value);
+    control.append(tip);
+    return control;
+  }
+
+  set controlConfiguration(data: { parameter: 'range' | 'sticky' | 'shiftOnKeyDown' | 'shiftOnKeyHold', value: boolean | number }) {
+    this.configuration = { ...this.configuration, [data.parameter]: data.value };
+  }
+
+  get positionFrom() {
+    return this.fromPosition;
+  }
+
+  get positionTo() {
+    return this.toPosition;
+  }
+
+  public updateConfiguration(
+    newValue: number | boolean,
+    valueType: 'fromValue' | 'toValue' | 'fromPosition' | 'toPosition',
+  ) {
+    const condition = (valueType === 'fromPosition' || valueType === 'toPosition') && typeof newValue === 'number';
+    if (condition) {
+      this[valueType] = newValue;
+      this.controlSetCallback({
+        fromPosition: this.fromPosition,
+        toPosition: this.toPosition,
+        from: this.configuration.from,
+        to: this.configuration.to,
+        isRange: this.configuration.range,
+        isVertical: this.configuration.vertical,
+      });
+    }
+    if (valueType.match(/Value/) && typeof newValue === 'number') {
+      const isMinControl = valueType === 'fromValue';
+      const configurationValue = isMinControl ? 'from' : 'to';
+      this.configuration[configurationValue] = newValue;
+      this.updateValue(String(newValue), isMinControl);
+    }
   }
 
   public updateScaleMarks(
@@ -75,7 +124,51 @@ class ViewControl extends Observer {
     this.calcPositionSetByKey();
   }
 
-  // === 1 ===
+  public calcPositionSetByKey(
+    isMinControl = false,
+    from = this.configuration.from,
+    to = this.configuration.to,
+  ) {
+    const {
+      min,
+      max,
+      sticky,
+    } = this.configuration;
+    const positionType = isMinControl ? 'fromPosition' : 'toPosition';
+    const controlType = isMinControl ? 'controlMin' : 'controlMax';
+    let positonValue = isMinControl ? ((from - min) * 100) / (max - min)
+      : ((to - min) * 100) / (max - min);
+    if (sticky) positonValue = this.setSticky(positonValue);
+    this.updateConfiguration(positonValue, positionType);
+    if (this[controlType]) this.setControlOnPosition(this[controlType], this[positionType]);
+  }
+
+  public switchTip(vertical: boolean) {
+    if (!this.tipMax || !this.tipMin) return;
+    this.tipMax.style.left = ViewControl.getTipPosition(vertical, this.tipMax);
+    this.tipMin.style.left = ViewControl.getTipPosition(vertical, this.tipMin);
+  }
+
+  private render() {
+    this.track = this.slider.firstElementChild;
+    if (!this.track) return;
+
+    this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.configuration.from);
+    this.tipMin = ViewControl.getElement(this.controlMin, '.slider-metalamp__tip');
+    this.track.append(this.controlMin);
+
+    this.controlMax = ViewControl.renderControl('slider-metalamp__control-max', 'slider-metalamp__tip-max', this.configuration.to);
+    this.tipMax = ViewControl.getElement(this.controlMax, '.slider-metalamp__tip');
+    this.track.append(this.controlMax);
+
+    this.dragControl();
+    this.pressControl();
+    this.clickTrack();
+
+    this.calcPositionSetByKey(true);
+    this.calcPositionSetByKey();
+  }
+
   private dragControl() {
     const handlePointerStart = (event: PointerEvent) => {
       event.preventDefault();
@@ -121,8 +214,74 @@ class ViewControl extends Observer {
     this.slider.addEventListener('selectstart', handleDragSelectStart);
   }
 
-  // === 2 ===
-  public calcPositionSetByPointer() {
+  private pressControl() {
+    const handlePointerStart = (event: KeyboardEvent) => {
+      const directions: Array<TControlKeydownTypes> = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
+      const direction: TControlKeydownTypes | undefined = directions.find(
+        (element) => element === event.code,
+      );
+      if (direction) event.preventDefault();
+      const { target } = event;
+      if (!(target instanceof HTMLElement)) {
+        throw new Error('Cannot handle move outside of DOM');
+      }
+      if (!direction) return;
+
+      if (target.classList.contains('slider-metalamp__control')) {
+        this.controlData.movingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
+        this.controlData.direction = direction;
+        this.controlData.repeat = event.repeat;
+        this.defineMoveType(this.controlData);
+      }
+    };
+    this.slider.addEventListener('keydown', handlePointerStart);
+  }
+
+  private clickTrack() {
+    const handlePointerStart = (event: PointerEvent) => {
+      event.preventDefault();
+      const { target } = event;
+      if (!(target instanceof HTMLElement)) {
+        throw new Error('Cannot handle move outside of DOM');
+      }
+
+      const array = ['slider-metalamp__track',
+        'slider-metalamp__progress-bar',
+        'slider-metalamp__label',
+        'slider-metalamp__mark',
+        'slider-metalamp__frame'];
+      const result = [...target.classList].some((className) => array.indexOf(className) !== -1);
+      if (!result) return;
+      let controlMinDist = 0;
+      let controlMaxDist = 0;
+      const property = this.configuration.vertical ? 'bottom' : 'left';
+      const parameter = this.configuration.vertical ? 'clientY' : 'clientX';
+
+      if (this.controlMin && this.controlMax) {
+        controlMinDist = Math.abs(this.controlMin
+          .getBoundingClientRect()[property] - event[parameter]);
+        controlMaxDist = Math.abs(this.controlMax
+          .getBoundingClientRect()[property] - event[parameter]);
+      }
+
+      if (this.track) {
+        this.controlData.top = this.track.getBoundingClientRect().top;
+        this.controlData.left = this.track.getBoundingClientRect().left;
+        this.controlData.width = Number(this.track.offsetWidth);
+        this.controlData.height = Number(this.track.offsetHeight);
+        this.controlData.type = 'pointerdown';
+        this.controlData.clientX = event.clientX;
+        this.controlData.clientY = event.clientY;
+      }
+
+      if (this.controlMax && this.controlMax.classList.contains('hidden')) this.controlData.movingControl = 'min';
+      else this.controlData.movingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
+      this.calcPositionSetByPointer();
+    };
+    this.slider.addEventListener('pointerdown', handlePointerStart);
+  }
+
+  private calcPositionSetByPointer() {
     const {
       type,
       clientY,
@@ -177,7 +336,6 @@ class ViewControl extends Observer {
     return newPosition;
   }
 
-  // ===3===
   private calcValueSetByPointer(
     stopType: TControlStopTypes,
     position: number,
@@ -200,190 +358,6 @@ class ViewControl extends Observer {
     const isMinControl = movingControl === 'min';
     const valueType = isMinControl ? 'fromValue' : 'toValue';
     this.updateConfiguration(stopTypes[stopType], valueType);
-  }
-
-  // ===4===
-
-  public updateConfiguration(
-    newValue: number | boolean,
-    valueType: 'fromValue' | 'toValue' | 'fromPosition' | 'toPosition',
-  ) {
-    const condition = (valueType === 'fromPosition' || valueType === 'toPosition') && typeof newValue === 'number';
-    if (condition) {
-      this[valueType] = newValue;
-      this.onControlSet({
-        fromPosition: this.fromPosition,
-        toPosition: this.toPosition,
-        from: this.configuration.from,
-        to: this.configuration.to,
-        isRange: this.configuration.range,
-        isVertical: this.configuration.vertical,
-      });
-    }
-    if (valueType.match(/Value/) && typeof newValue === 'number') {
-      const isMinControl = valueType === 'fromValue';
-      const configurationValue = isMinControl ? 'from' : 'to';
-      this.configuration[configurationValue] = newValue;
-      this.updateValue(String(newValue), isMinControl);
-    }
-  }
-
-  // ===5===
-  public updateValue(value: string, isFrom: boolean) {
-    const { tipMin, tipMax } = this;
-    if (!tipMin || !tipMax) return;
-    const tip = isFrom ? tipMin : tipMax;
-    tip.innerText = value;
-  }
-
-  // ===6===
-  public setControlOnPosition(element: HTMLElement | undefined, newPosition: number) {
-    if (!element) return;
-    const item = element;
-    const propertyToSet = this.configuration.vertical ? 'bottom' : 'left';
-    const propertyToUnset = this.configuration.vertical ? 'left' : 'bottom';
-    item.style[propertyToSet] = `${newPosition}%`;
-    item.style[propertyToUnset] = '';
-
-    if (!this.tipMin || !this.tipMax) return;
-
-    const tip = this.defineControl(item) === 'min' ? this.tipMin : this.tipMax;
-    tip.style.left = ViewControl.getTipPosition(this.configuration.vertical, tip);
-  }
-
-  // ===================
-
-  static getTipPosition(isVertical: boolean, elem: HTMLElement) {
-    if (isVertical) return `${elem.offsetWidth * (-1) - 20}px`;
-    return `${(elem.offsetWidth / 2) * (-1)}px`;
-  }
-
-  static getElement(object: HTMLElement, selector: string): HTMLInputElement | null {
-    return object.querySelector(selector);
-  }
-
-  static renderControl(controlClassName: string, tipClassName: string, value: number) {
-    const control = document.createElement('button');
-    control.className = 'slider-metalamp__control';
-    control.classList.add(controlClassName);
-    const tip = document.createElement('span');
-    tip.className = 'slider-metalamp__tip';
-    tip.classList.add(tipClassName);
-    tip.innerText = String(value);
-    control.append(tip);
-    return control;
-  }
-
-  public updateInput(conf: IPluginConfigurationFull) {
-    if (this.root && this.root.tagName === 'INPUT') {
-      this.root.value = this.configuration.range ? `${conf.from}, ${conf.to}`
-        : String(conf.from);
-    }
-  }
-
-  public switchVertical(conf: IPluginConfigurationFull) {
-    this.configuration = conf;
-  }
-
-  public switchTip(conf: IPluginConfigurationFull) {
-    if (!this.tipMax || !this.tipMin) return;
-    this.tipMax.style.left = ViewControl.getTipPosition(conf.vertical, this.tipMax);
-    this.tipMin.style.left = ViewControl.getTipPosition(conf.vertical, this.tipMin);
-  }
-
-  private render() {
-    this.root = this.slider.previousElementSibling;
-    this.track = this.slider.firstElementChild;
-    if (!this.track) return;
-
-    this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.configuration.from);
-    this.tipMin = ViewControl.getElement(this.controlMin, '.slider-metalamp__tip');
-    this.track.append(this.controlMin);
-
-    this.controlMax = ViewControl.renderControl('slider-metalamp__control-max', 'slider-metalamp__tip-max', this.configuration.to);
-    this.tipMax = ViewControl.getElement(this.controlMax, '.slider-metalamp__tip');
-    this.track.append(this.controlMax);
-  }
-
-  private defineControl = (elem: ITarget): 'min' | 'max' | null => {
-    if (!elem.classList) return null;
-    return elem.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
-  };
-
-  private getMetrics(elem: ITarget) {
-    const scale = elem.parentElement;
-    if (!scale) return;
-    this.controlData.top = scale.getBoundingClientRect().top;
-    this.controlData.left = scale.getBoundingClientRect().left;
-    this.controlData.width = scale.offsetWidth;
-    this.controlData.height = scale.offsetHeight;
-  }
-
-  private pressControl() {
-    const handlePointerStart = (event: KeyboardEvent) => {
-      const directions: Array<TControlKeydownTypes> = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
-      const direction: TControlKeydownTypes | undefined = directions.find(
-        (element) => element === event.code,
-      );
-      if (direction) event.preventDefault();
-      const { target } = event;
-      if (!(target instanceof HTMLElement)) {
-        throw new Error('Cannot handle move outside of DOM');
-      }
-      if (!direction) return;
-
-      if (target.classList.contains('slider-metalamp__control')) {
-        this.controlData.movingControl = target.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
-        this.controlData.direction = direction;
-        this.controlData.repeat = event.repeat;
-        this.defineMoveType(this.controlData);
-      }
-    };
-    this.slider.addEventListener('keydown', handlePointerStart);
-  }
-
-  public defineMoveType(data: IControlFull) {
-    const { direction, repeat, movingControl } = data;
-
-    const isIncreasing = direction === 'ArrowRight' || direction === 'ArrowUp';
-    const isDecreasing = direction === 'ArrowLeft' || direction === 'ArrowDown';
-
-    const isMin = movingControl === 'min';
-    const isMax = movingControl === 'max';
-
-    const isIncreasingNoSticky = isIncreasing && !this.configuration.sticky;
-    const isDecreasingNoSticky = isDecreasing && !this.configuration.sticky;
-
-    const isMinIncreasingNoSticky = isMin && isIncreasingNoSticky;
-    const isMinDecreasingNoSticky = isMin && isDecreasingNoSticky;
-    const isMaxIncreasingNoSticky = isMax && isIncreasingNoSticky;
-    const isMaxDecreasingNoSticky = isMax && isDecreasingNoSticky;
-
-    const isIncreasingSticky = isIncreasing && this.configuration.sticky;
-    const isDecreasingSticky = isDecreasing && this.configuration.sticky;
-
-    const isMinIncreasingSticky = isMin && isIncreasingSticky;
-    const isMinDecreasingSticky = isMin && isDecreasingSticky;
-    const isMaxIncreasingSticky = isMax && isIncreasingSticky;
-    const isMaxDecreasingSticky = isMax && isDecreasingSticky;
-
-    if (isMinIncreasingNoSticky) return this.calcValueSetByKeyNoSticky('MinIncreasingNoSticky', repeat);
-    if (isMinDecreasingNoSticky) return this.calcValueSetByKeyNoSticky('MinDecreasingNoSticky', repeat);
-    if (isMaxIncreasingNoSticky) return this.calcValueSetByKeyNoSticky('MaxIncreasingNoSticky', repeat);
-    if (isMaxDecreasingNoSticky) return this.calcValueSetByKeyNoSticky('MaxDecreasingNoSticky', repeat);
-
-    const value = movingControl === 'min' ? this.configuration.from : this.configuration.to;
-    const index = this.scaleMarks.findIndex((elem) => elem.value === value);
-    const shift = this.getShift(repeat);
-    const indexToSearch = isIncreasing ? index + shift : index - shift;
-    const item = this.scaleMarks[indexToSearch];
-
-    if (isMinIncreasingSticky) return this.calcValueSetByKeySticky('MinIncreasingSticky', item);
-    if (isMinDecreasingSticky) return this.calcValueSetByKeySticky('MinDecreasingSticky', item);
-    if (isMaxIncreasingSticky) return this.calcValueSetByKeySticky('MaxIncreasingSticky', item);
-    if (isMaxDecreasingSticky) return this.calcValueSetByKeySticky('MaxDecreasingSticky', item);
-
-    return null;
   }
 
   private calcValueSetByKeyNoSticky(condition: string, isRepeating: boolean) {
@@ -441,10 +415,6 @@ class ViewControl extends Observer {
     }
   }
 
-  private getShift(isRepeating: boolean) {
-    return isRepeating ? this.configuration.shiftOnKeyHold : this.configuration.shiftOnKeyDown;
-  }
-
   private calcValueSetByKeySticky(condition: string, item: IPluginConfigurationItem) {
     const {
       range,
@@ -491,76 +461,94 @@ class ViewControl extends Observer {
     }
   }
 
+  private updateValue(value: string, isFrom: boolean) {
+    const { tipMin, tipMax } = this;
+    if (!tipMin || !tipMax) return;
+    const tip = isFrom ? tipMin : tipMax;
+    tip.innerText = value;
+  }
+
+  private setControlOnPosition(element: HTMLElement | undefined, newPosition: number) {
+    if (!element) return;
+    const item = element;
+    const propertyToSet = this.configuration.vertical ? 'bottom' : 'left';
+    const propertyToUnset = this.configuration.vertical ? 'left' : 'bottom';
+    item.style[propertyToSet] = `${newPosition}%`;
+    item.style[propertyToUnset] = '';
+
+    if (!this.tipMin || !this.tipMax) return;
+
+    const tip = this.defineControl(item) === 'min' ? this.tipMin : this.tipMax;
+    tip.style.left = ViewControl.getTipPosition(this.configuration.vertical, tip);
+  }
+
+  private defineControl = (elem: ITarget): 'min' | 'max' | null => {
+    if (!elem.classList) return null;
+    return elem.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
+  };
+
+  private getMetrics(elem: ITarget) {
+    const scale = elem.parentElement;
+    if (!scale) return;
+    this.controlData.top = scale.getBoundingClientRect().top;
+    this.controlData.left = scale.getBoundingClientRect().left;
+    this.controlData.width = scale.offsetWidth;
+    this.controlData.height = scale.offsetHeight;
+  }
+
+  private defineMoveType(data: IControlFull) {
+    const { direction, repeat, movingControl } = data;
+
+    const isIncreasing = direction === 'ArrowRight' || direction === 'ArrowUp';
+    const isDecreasing = direction === 'ArrowLeft' || direction === 'ArrowDown';
+
+    const isMin = movingControl === 'min';
+    const isMax = movingControl === 'max';
+
+    const isIncreasingNoSticky = isIncreasing && !this.configuration.sticky;
+    const isDecreasingNoSticky = isDecreasing && !this.configuration.sticky;
+
+    const isMinIncreasingNoSticky = isMin && isIncreasingNoSticky;
+    const isMinDecreasingNoSticky = isMin && isDecreasingNoSticky;
+    const isMaxIncreasingNoSticky = isMax && isIncreasingNoSticky;
+    const isMaxDecreasingNoSticky = isMax && isDecreasingNoSticky;
+
+    const isIncreasingSticky = isIncreasing && this.configuration.sticky;
+    const isDecreasingSticky = isDecreasing && this.configuration.sticky;
+
+    const isMinIncreasingSticky = isMin && isIncreasingSticky;
+    const isMinDecreasingSticky = isMin && isDecreasingSticky;
+    const isMaxIncreasingSticky = isMax && isIncreasingSticky;
+    const isMaxDecreasingSticky = isMax && isDecreasingSticky;
+
+    if (isMinIncreasingNoSticky) return this.calcValueSetByKeyNoSticky('MinIncreasingNoSticky', repeat);
+    if (isMinDecreasingNoSticky) return this.calcValueSetByKeyNoSticky('MinDecreasingNoSticky', repeat);
+    if (isMaxIncreasingNoSticky) return this.calcValueSetByKeyNoSticky('MaxIncreasingNoSticky', repeat);
+    if (isMaxDecreasingNoSticky) return this.calcValueSetByKeyNoSticky('MaxDecreasingNoSticky', repeat);
+
+    const value = movingControl === 'min' ? this.configuration.from : this.configuration.to;
+    const index = this.scaleMarks.findIndex((elem) => elem.value === value);
+    const shift = this.getShift(repeat);
+    const indexToSearch = isIncreasing ? index + shift : index - shift;
+    const item = this.scaleMarks[indexToSearch];
+
+    if (isMinIncreasingSticky) return this.calcValueSetByKeySticky('MinIncreasingSticky', item);
+    if (isMinDecreasingSticky) return this.calcValueSetByKeySticky('MinDecreasingSticky', item);
+    if (isMaxIncreasingSticky) return this.calcValueSetByKeySticky('MaxIncreasingSticky', item);
+    if (isMaxDecreasingSticky) return this.calcValueSetByKeySticky('MaxDecreasingSticky', item);
+
+    return null;
+  }
+
+  private getShift(isRepeating: boolean) {
+    return isRepeating ? this.configuration.shiftOnKeyHold : this.configuration.shiftOnKeyDown;
+  }
+
   private calcPositionAndUpdateConfiguration(value: number, valueType: 'fromValue' | 'toValue' = 'fromValue') {
     const isMinControl = valueType === 'fromValue';
     if (isMinControl) this.calcPositionSetByKey(isMinControl, value);
     else this.calcPositionSetByKey(isMinControl, this.configuration.from, value);
     this.updateConfiguration(value, valueType);
-  }
-
-  private clickTrack() {
-    const handlePointerStart = (event: PointerEvent) => {
-      event.preventDefault();
-      const { target } = event;
-      if (!(target instanceof HTMLElement)) {
-        throw new Error('Cannot handle move outside of DOM');
-      }
-
-      const array = ['slider-metalamp__track',
-        'slider-metalamp__progress-bar',
-        'slider-metalamp__label',
-        'slider-metalamp__mark',
-        'slider-metalamp__frame'];
-      const result = [...target.classList].some((className) => array.indexOf(className) !== -1);
-      if (!result) return;
-      let controlMinDist = 0;
-      let controlMaxDist = 0;
-      const property = this.configuration.vertical ? 'bottom' : 'left';
-      const parameter = this.configuration.vertical ? 'clientY' : 'clientX';
-
-      if (this.controlMin && this.controlMax) {
-        controlMinDist = Math.abs(this.controlMin
-          .getBoundingClientRect()[property] - event[parameter]);
-        controlMaxDist = Math.abs(this.controlMax
-          .getBoundingClientRect()[property] - event[parameter]);
-      }
-
-      if (this.track) {
-        this.controlData.top = this.track.getBoundingClientRect().top;
-        this.controlData.left = this.track.getBoundingClientRect().left;
-        this.controlData.width = Number(this.track.offsetWidth);
-        this.controlData.height = Number(this.track.offsetHeight);
-        this.controlData.type = 'pointerdown';
-        this.controlData.clientX = event.clientX;
-        this.controlData.clientY = event.clientY;
-      }
-
-      if (this.controlMax && this.controlMax.classList.contains('hidden')) this.controlData.movingControl = 'min';
-      else this.controlData.movingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
-      this.calcPositionSetByPointer();
-    };
-    this.slider.addEventListener('pointerdown', handlePointerStart);
-  }
-
-  public calcPositionSetByKey(
-    isMinControl = false,
-    from = this.configuration.from,
-    to = this.configuration.to,
-  ) {
-    const {
-      min,
-      max,
-      sticky,
-    } = this.configuration;
-    console.log(min, max, from, to);
-    console.log(this.configuration);
-    const positionType = isMinControl ? 'fromPosition' : 'toPosition';
-    const controlType = isMinControl ? 'controlMin' : 'controlMax';
-    let positonValue = isMinControl ? ((from - min) * 100) / (max - min)
-      : ((to - min) * 100) / (max - min);
-    if (sticky) positonValue = this.setSticky(positonValue);
-    this.updateConfiguration(positonValue, positionType);
-    if (this[controlType]) this.setControlOnPosition(this[controlType], this[positionType]);
   }
 
   private setSticky(controlPosition: number) {

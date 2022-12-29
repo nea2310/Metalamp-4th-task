@@ -21,7 +21,7 @@ export default abstract class Observer {
 
   protected notify(
     key: string,
-    data: any,
+    data: IPluginConfigurationFull,
     conf: IPluginConfigurationFull = defaultConf,
   ) {
     this.observers.forEach((item) => item({ key, data, conf }));

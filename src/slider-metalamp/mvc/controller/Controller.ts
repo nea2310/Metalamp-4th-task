@@ -30,13 +30,13 @@ const NUMBER_DATA_TYPES = [
 ];
 
 class Controller extends Observer {
-  private onUpdate: ((data: any) => unknown) | undefined = () => true;
-
   public model: Model | null;
 
   public view: View | null;
 
   private startConfiguration: IPluginConfigurationFull = defaultConf;
+
+  private onUpdate: ((data: TPluginConfiguration) => unknown) | undefined = () => true;
 
   constructor(model: Model, view: View, startConfiguration: TPluginConfiguration) {
     super();
@@ -54,28 +54,6 @@ class Controller extends Observer {
           return item !== element[0];
         }));
     return Object.fromEntries(selectedData);
-  }
-
-  private init() {
-    if (!this.view || !this.model) return;
-    this.handleControlSet = this.handleControlSet.bind(this);
-    this.view.subscribeDateSelect(this.handleControlSet);
-    this.startConfiguration = {
-      ...defaultConf,
-      ...this.startConfiguration,
-      ...this.view.dataAttributesConf,
-    };
-    const { onUpdate } = this.startConfiguration;
-    this.onUpdate = onUpdate;
-    this.model.init(Controller.selectData(this.startConfiguration, true));
-    this.startConfiguration = {
-      ...this.startConfiguration,
-      ...this.model.conf,
-    };
-    this.view.init(this.startConfiguration);
-    this.startConfiguration = { ...this.startConfiguration, ...this.view.configuration };
-    if (!this.onUpdate) return;
-    this.onUpdate(this.startConfiguration);
   }
 
   public update(configuration: TPluginConfiguration) {
@@ -104,17 +82,7 @@ class Controller extends Observer {
     };
     this.view.update(this.startConfiguration);
     if (!this.onUpdate) return;
-    this.onUpdate({ ...this.startConfiguration, ...this.view.configuration });
-  }
-
-  handleControlSet(data: {
-    from: number,
-    to: number,
-  }) {
-    this.startConfiguration = { ...this.startConfiguration, ...data };
-    if (!this.model) return;
-    this.model.update(Controller.selectData(this.startConfiguration, true));
-    if (this.onUpdate) this.onUpdate(this.startConfiguration);
+    this.onUpdate({ ...this.startConfiguration, ...this.view.viewConfiguration });
   }
 
   public disable() {
@@ -128,10 +96,43 @@ class Controller extends Observer {
   }
 
   public destroy() {
-    if (!this.view || !this.view.slider) return;
-    this.view.slider.remove();
+    if (!this.view) return;
+    this.view.destroy();
     this.view = null;
     this.model = null;
+  }
+
+  private init() {
+    if (!this.view || !this.model) return;
+    this.handleControlSet = this.handleControlSet.bind(this);
+
+    this.view.subscribeControlSet(this.handleControlSet);
+    this.startConfiguration = {
+      ...defaultConf,
+      ...this.startConfiguration,
+      ...this.view.dataAttributesConfiguration,
+    };
+    const { onUpdate } = this.startConfiguration;
+    this.onUpdate = onUpdate;
+    this.model.init(Controller.selectData(this.startConfiguration, true));
+    this.startConfiguration = {
+      ...this.startConfiguration,
+      ...this.model.conf,
+    };
+    this.view.init(this.startConfiguration);
+    this.startConfiguration = { ...this.startConfiguration, ...this.view.viewConfiguration };
+    if (!this.onUpdate) return;
+    this.onUpdate(this.startConfiguration);
+  }
+
+  private handleControlSet(data: {
+    from: number,
+    to: number,
+  }) {
+    this.startConfiguration = { ...this.startConfiguration, ...data };
+    if (!this.model) return;
+    this.model.update(Controller.selectData(this.startConfiguration, true));
+    if (this.onUpdate) this.onUpdate(this.startConfiguration);
   }
 }
 
