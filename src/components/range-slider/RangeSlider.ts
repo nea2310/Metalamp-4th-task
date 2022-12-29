@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
 import Controller from '../../slider-metalamp/mvc/controller/Controller';
-import { TPluginConfiguration } from '../../slider-metalamp/mvc/interface';
+import { TPluginConfiguration, IRange } from '../../slider-metalamp/mvc/interface';
 import Panel from '../panel/Panel';
 
 class RangeSlider {
@@ -47,12 +47,19 @@ class RangeSlider {
       onUpdate: (data: TPluginConfiguration) => {
         this.updateData(data);
       },
+      onChange: (data: IRange) => {
+        this.changeData(data);
+      },
     }).data('SliderMetaLamp');
     return rangeSlider;
   }
 
   private updateData(data: TPluginConfiguration) {
     if (this.panel) this.panel.update(data);
+  }
+
+  private changeData(data: IRange) {
+    if (this.panel) this.panel.change(data);
   }
 
   private handlePanelChange = (parameters: { key: string, data: string | boolean }) => {

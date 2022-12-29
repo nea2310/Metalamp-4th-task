@@ -1,4 +1,4 @@
-import { TPluginConfiguration } from '../../slider-metalamp/mvc/interface';
+import { TPluginConfiguration, IRange } from '../../slider-metalamp/mvc/interface';
 import ScaleSetup from './scale-setup/ScaleSetup';
 import MainSetup from './main-setup/MainSetup';
 import ControlMovementSetup from './control-movement-setup/ControlMovementSetup';
@@ -16,6 +16,8 @@ class Panel extends PanelObserver {
 
   private isDestroyed: boolean = false;
 
+  private mainSetup: MainSetup | null = null;
+
   constructor(element: HTMLElement) {
     super();
     this.wrapper = element;
@@ -27,6 +29,11 @@ class Panel extends PanelObserver {
     this.optionObjects.forEach((option) => {
       if (!(option instanceof ActionsSetup)) option.update(data);
     });
+  }
+
+  public change(data: IRange) {
+    if (!this.mainSetup) return;
+    this.mainSetup.change(data);
   }
 
   public disable(isDisabled = false) {
@@ -75,10 +82,14 @@ class Panel extends PanelObserver {
 
     if (DOMElement instanceof HTMLElement) object = new ClassName(DOMElement);
 
-    if (object) {
-      object.subscribe(this.handlePanelChange);
-      this.optionObjects.push(object);
+    if (!object) return undefined;
+
+    object.subscribe(this.handlePanelChange);
+    if (object instanceof MainSetup) {
+      this.mainSetup = object;
     }
+    this.optionObjects.push(object);
+
     return object;
   }
 }

@@ -2,7 +2,7 @@ import updateObject from '../../../shared/utils/updateObject';
 import prepareElements from '../../../shared/utils/prepareElements';
 import getNotificationDetails from '../../../shared/utils/getNotificationDetails';
 import getElement from '../../../shared/utils/getElement';
-import { TPluginConfiguration, TInputTypes } from '../../../slider-metalamp/mvc/interface';
+import { TPluginConfiguration, TInputTypes, IRange } from '../../../slider-metalamp/mvc/interface';
 import PanelObserver from '../PanelObserver';
 
 const OPTIONS: Array<[string, TInputTypes]> = [
@@ -21,6 +21,8 @@ class MainSetup extends PanelObserver {
 
   private wrapper: HTMLElement;
 
+  private optionFrom: HTMLInputElement | null = null;
+
   private optionTo: HTMLInputElement | null = null;
 
   constructor(element: HTMLElement) {
@@ -37,6 +39,13 @@ class MainSetup extends PanelObserver {
     if (this.optionTo) this.optionTo.disabled = !data.range;
   }
 
+  public change(data: IRange) {
+    if (!this.optionTo || !this.optionFrom) return;
+    const { from, to } = data;
+    this.optionFrom.value = String(from);
+    this.optionTo.value = String(to);
+  }
+
   public disable(isDisabled = false) {
     this.optionObjects.forEach((optionObject) => {
       const item = optionObject;
@@ -46,6 +55,7 @@ class MainSetup extends PanelObserver {
 
   private render() {
     this.optionTo = getElement(this.wrapper, 'to');
+    this.optionFrom = getElement(this.wrapper, 'from');
     this.optionObjects = prepareElements(OPTIONS, this.wrapper);
   }
 

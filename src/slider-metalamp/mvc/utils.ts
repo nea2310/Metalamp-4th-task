@@ -21,6 +21,7 @@ export const defaultConf: IPluginConfigurationFull = {
   shiftOnKeyDown: 0,
   shiftOnKeyHold: 0,
   onUpdate: () => true,
+  onChange: () => true,
 };
 
 export const defaultControlData: IControlFull = {

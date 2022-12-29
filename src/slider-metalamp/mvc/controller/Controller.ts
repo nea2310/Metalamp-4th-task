@@ -4,6 +4,7 @@ import Observer from '../Observer';
 import {
   TPluginConfiguration,
   IPluginConfigurationFull,
+  IRange,
 } from '../interface';
 
 import { defaultConf } from '../utils';
@@ -37,6 +38,8 @@ class Controller extends Observer {
   private startConfiguration: IPluginConfigurationFull = defaultConf;
 
   private onUpdate: ((data: TPluginConfiguration) => unknown) | undefined = () => true;
+
+  private onChange: ((data: IRange) => unknown) | undefined = () => true;
 
   constructor(model: Model, view: View, startConfiguration: TPluginConfiguration) {
     super();
@@ -112,8 +115,9 @@ class Controller extends Observer {
       ...this.startConfiguration,
       ...this.view.dataAttributesConfiguration,
     };
-    const { onUpdate } = this.startConfiguration;
+    const { onUpdate, onChange } = this.startConfiguration;
     this.onUpdate = onUpdate;
+    this.onChange = onChange;
     this.model.init(Controller.selectData(this.startConfiguration, true));
     this.startConfiguration = {
       ...this.startConfiguration,
@@ -125,14 +129,11 @@ class Controller extends Observer {
     this.onUpdate(this.startConfiguration);
   }
 
-  private handleControlSet(data: {
-    from: number,
-    to: number,
-  }) {
+  private handleControlSet(data: IRange) {
     this.startConfiguration = { ...this.startConfiguration, ...data };
     if (!this.model) return;
     this.model.update(Controller.selectData(this.startConfiguration, true));
-    if (this.onUpdate) this.onUpdate(this.startConfiguration);
+    if (this.onChange) this.onChange(data);
   }
 }
 

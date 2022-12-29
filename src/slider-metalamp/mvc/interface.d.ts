@@ -44,6 +44,11 @@ interface IBusinessData {
   range: boolean;
 }
 
+interface IRange {
+  from: number,
+  to: number,
+}
+
 interface IBusinessDataIndexed extends Partial<IBusinessData> {
   [key: string]: unknown;
 }
@@ -65,6 +70,7 @@ interface IPluginConfigurationFull {
   shiftOnKeyDown: number;
   shiftOnKeyHold: number;
   onUpdate: (data: TPluginConfiguration) => unknown;
+  onChange: (data: { from: number, to: number }) => unknown;
 }
 
 interface IPluginConfigurationFullIndexed extends IPluginConfigurationFull {
@@ -142,5 +148,6 @@ export {
   TInputTypes,
   TPluginConfigurationItem,
   IBusinessData,
-  IBusinessDataIndexed
+  IBusinessDataIndexed,
+  IRange,
 };
