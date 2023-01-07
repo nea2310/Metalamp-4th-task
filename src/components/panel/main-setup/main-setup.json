@@ -21,6 +21,11 @@
       }
     },
     {
+      "parameters": {
+        "usage": "round"
+      }
+    },
+    {
       "type": "toggle",
       "parameters": {
         "usage": "vertical"

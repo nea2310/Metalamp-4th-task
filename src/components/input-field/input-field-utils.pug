@@ -6,7 +6,7 @@ include ../../shared/helpers/getValidValue.pug
         labelText
       } = options;
 
-      const validUsages = ['min', 'max', 'from', 'to', 'step', 'interval', 'shiftOnKeyDown', 'shiftOnKeyHold'];
+      const validUsages = ['min', 'max', 'from', 'to', 'step', 'round', 'interval', 'shiftOnKeyDown', 'shiftOnKeyHold'];
       const usageChecked = getValidValue(validUsages, usage, '');
 
       return {

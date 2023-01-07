@@ -8,6 +8,7 @@ mixin range-slider(options = {})
         max,
         from,
         to,
+        round,
         vertical = 'false',
         range,
         bar,
@@ -19,7 +20,7 @@ mixin range-slider(options = {})
         sticky,
         shiftOnKeyDown,
         shiftOnKeyHold,
-        radioGroupName
+        radioGroupName,
       } = options
 
       const {
@@ -34,6 +35,7 @@ mixin range-slider(options = {})
         maxChecked,
         fromChecked,
         toChecked,
+        roundChecked,
         stepChecked,
         intervalChecked,
         shiftOnKeyDownChecked,
@@ -45,6 +47,7 @@ mixin range-slider(options = {})
         max,
         from,
         to,
+        round,
         vertical,
         range,
         bar,
@@ -66,6 +69,7 @@ mixin range-slider(options = {})
         data-max=maxChecked
         data-from=fromChecked
         data-to=toChecked
+        data-round=roundChecked
         data-vertical=verticalChecked
         data-range=rangeChecked
         data-bar=barChecked

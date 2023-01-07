@@ -1,4 +1,4 @@
-import { defaultConf } from '../utils';
+import { defaultConfiguration } from '../utils';
 import Observer from '../Observer';
 import {
   TPluginConfiguration,
@@ -26,11 +26,13 @@ class View extends Observer {
 
   private frame: HTMLElement | undefined;
 
-  private configuration: IPluginConfigurationFull = defaultConf;
+  private configuration: IPluginConfigurationFull = defaultConfiguration;
 
   private root: IDOMElement;
 
   private controlSetCallback: Function = () => {};
+
+  private roundValueSetCallback: Function = () => {};
 
   constructor(root: Element) {
     super();
@@ -55,6 +57,10 @@ class View extends Observer {
 
   public subscribeControlSet(callback: Function) {
     this.controlSetCallback = callback;
+  }
+
+  public subscribeRoundValueSet(callback: Function) {
+    this.roundValueSetCallback = callback;
   }
 
   public init(configuration: IPluginConfigurationFull) {
@@ -109,6 +115,7 @@ class View extends Observer {
       bar,
       scale,
       scaleBase,
+      round,
     } = newConfiguration;
 
     changedConfigurationItems.forEach((item) => {
@@ -136,6 +143,7 @@ class View extends Observer {
           break;
         case 'sticky':
           this.viewControl.controlConfiguration = { parameter: 'sticky', value: sticky };
+          this.viewControl.switchSticky();
           break;
         case 'shiftOnKeyDown':
           this.viewControl.controlConfiguration = { parameter: 'shiftOnKeyDown', value: shiftOnKeyDown };
@@ -143,6 +151,10 @@ class View extends Observer {
         case 'shiftOnKeyHold':
           this.viewControl.controlConfiguration = { parameter: 'shiftOnKeyHold', value: shiftOnKeyHold };
           break;
+        case 'round': {
+          this.setRoundValue(round);
+          break;
+        }
         case 'vertical':
           this.switchVertical(vertical);
           break;
@@ -217,6 +229,16 @@ class View extends Observer {
       this.viewControl.positionFrom,
       this.viewControl.positionTo,
     );
+  }
+
+  private setRoundValue(roundValue: number) {
+    let newRoundValue = Math.round(Number(roundValue));
+    const isNewRoundValueValid = newRoundValue >= 0 && newRoundValue <= 100;
+    if (!isNewRoundValueValid) newRoundValue = 0;
+    this.configuration = { ...this.configuration, round: newRoundValue };
+    this.roundValueSetCallback({ round: newRoundValue });
+    if (!this.viewControl) return;
+    this.viewControl.controlConfiguration = { parameter: 'round', value: newRoundValue };
   }
 
   private handleScaleReady(data: {
@@ -297,6 +319,7 @@ class View extends Observer {
       'max',
       'from',
       'to',
+      'round',
       'step',
       'interval',
       'shiftonkeydown',

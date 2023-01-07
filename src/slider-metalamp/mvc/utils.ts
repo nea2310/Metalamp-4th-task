@@ -4,7 +4,7 @@ import {
   IPluginPrivateData,
 } from './interface';
 
-export const defaultConf: IPluginConfigurationFull = {
+export const defaultConfiguration: IPluginConfigurationFull = {
   min: 0,
   max: 0,
   from: 0,
@@ -20,6 +20,7 @@ export const defaultConf: IPluginConfigurationFull = {
   sticky: false,
   shiftOnKeyDown: 0,
   shiftOnKeyHold: 0,
+  round: 0,
   onUpdate: () => true,
   onChange: () => true,
 };

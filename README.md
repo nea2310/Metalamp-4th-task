@@ -181,6 +181,16 @@ Setting via configuration object: {to: 10}
 Setting via data-attribute: data-to="10"  
 
 
+* **round** - the number of digits after the point to round from/to value
+Type: number  
+Can be negative: no  
+Can be zero: yes  
+Can be fractional: no  
+Default: equals to 0  
+Setting via configuration object: {round: 2}  
+Setting via data-attribute: data-round="2"  
+
+
 * **scalebase** - the approach of scale breaking into gaps  
 Type: string  
 Possible values:  

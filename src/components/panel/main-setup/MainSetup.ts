@@ -10,6 +10,7 @@ const OPTIONS: Array<[string, TInputTypes]> = [
   ['max', 'input'],
   ['from', 'input'],
   ['to', 'input'],
+  ['round', 'input'],
   ['vertical', 'toggle'],
   ['range', 'toggle'],
   ['bar', 'toggle'],
@@ -24,6 +25,8 @@ class MainSetup extends PanelObserver {
   private optionFrom: HTMLInputElement | null = null;
 
   private optionTo: HTMLInputElement | null = null;
+
+  private optionRound: HTMLInputElement | null = null;
 
   constructor(element: HTMLElement) {
     super();
@@ -40,10 +43,19 @@ class MainSetup extends PanelObserver {
   }
 
   public change(data: IRange) {
-    if (!this.optionTo || !this.optionFrom) return;
-    const { from, to } = data;
-    this.optionFrom.value = String(from);
-    this.optionTo.value = String(to);
+    const { from, to, round } = data;
+
+    if ('from' in data && this.optionFrom) {
+      this.optionFrom.value = String(from);
+    }
+
+    if ('to' in data && this.optionTo) {
+      this.optionTo.value = String(to);
+    }
+
+    if ('round' in data && this.optionRound) {
+      this.optionRound.value = String(round);
+    }
   }
 
   public disable(isDisabled = false) {
@@ -56,6 +68,7 @@ class MainSetup extends PanelObserver {
   private render() {
     this.optionTo = getElement(this.wrapper, 'to');
     this.optionFrom = getElement(this.wrapper, 'from');
+    this.optionRound = getElement(this.wrapper, 'round');
     this.optionObjects = prepareElements(OPTIONS, this.wrapper);
   }
 

@@ -7,7 +7,7 @@ import {
   IRange,
 } from '../interface';
 
-import { defaultConf } from '../utils';
+import { defaultConfiguration } from '../utils';
 
 const BUSINESS_DATA_TYPES = [
   'min',
@@ -31,11 +31,11 @@ const NUMBER_DATA_TYPES = [
 ];
 
 class Controller extends Observer {
-  public model: Model | null;
+  private model: Model | null;
 
-  public view: View | null;
+  private view: View | null;
 
-  private startConfiguration: IPluginConfigurationFull = defaultConf;
+  private startConfiguration: IPluginConfigurationFull = defaultConfiguration;
 
   private onUpdate: ((data: TPluginConfiguration) => unknown) | undefined = () => true;
 
@@ -45,7 +45,7 @@ class Controller extends Observer {
     super();
     this.model = model;
     this.view = view;
-    this.startConfiguration = { ...defaultConf, ...startConfiguration };
+    this.startConfiguration = { ...defaultConfiguration, ...startConfiguration };
     this.init();
   }
 
@@ -81,9 +81,10 @@ class Controller extends Observer {
     this.startConfiguration = {
       ...this.startConfiguration,
       ...Controller.selectData(checkedConfiguration),
-      ...this.model.conf,
+      ...this.model.modelConfiguration,
     };
     this.view.update(this.startConfiguration);
+
     if (!this.onUpdate) return;
     this.onUpdate({ ...this.startConfiguration, ...this.view.viewConfiguration });
   }
@@ -108,10 +109,13 @@ class Controller extends Observer {
   private init() {
     if (!this.view || !this.model) return;
     this.handleControlSet = this.handleControlSet.bind(this);
+    this.handleRoundValueSet = this.handleRoundValueSet.bind(this);
 
     this.view.subscribeControlSet(this.handleControlSet);
+    this.view.subscribeRoundValueSet(this.handleRoundValueSet);
+
     this.startConfiguration = {
-      ...defaultConf,
+      ...defaultConfiguration,
       ...this.startConfiguration,
       ...this.view.dataAttributesConfiguration,
     };
@@ -119,10 +123,12 @@ class Controller extends Observer {
     this.onUpdate = onUpdate;
     this.onChange = onChange;
     this.model.init(Controller.selectData(this.startConfiguration, true));
+
     this.startConfiguration = {
       ...this.startConfiguration,
-      ...this.model.conf,
+      ...this.model.modelConfiguration,
     };
+
     this.view.init(this.startConfiguration);
     this.startConfiguration = { ...this.startConfiguration, ...this.view.viewConfiguration };
     if (!this.onUpdate) return;
@@ -133,6 +139,11 @@ class Controller extends Observer {
     this.startConfiguration = { ...this.startConfiguration, ...data };
     if (!this.model) return;
     this.model.update(Controller.selectData(this.startConfiguration, true));
+    if (this.onChange) this.onChange(data);
+  }
+
+  private handleRoundValueSet(data: IRange) {
+    this.startConfiguration = { ...this.startConfiguration, ...data };
     if (this.onChange) this.onChange(data);
   }
 }

@@ -1,4 +1,4 @@
-import { defaultConf } from './utils';
+import { defaultConfiguration } from './utils';
 import { IPluginConfigurationFull } from './interface';
 
 export default abstract class Observer {
@@ -22,7 +22,7 @@ export default abstract class Observer {
   protected notify(
     key: string,
     data: IPluginConfigurationFull,
-    conf: IPluginConfigurationFull = defaultConf,
+    conf: IPluginConfigurationFull = defaultConfiguration,
   ) {
     this.observers.forEach((item) => item({ key, data, conf }));
   }

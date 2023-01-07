@@ -3,7 +3,7 @@ import { IBusinessDataIndexed } from '../interface';
 import checkConfiguration from './configurationChecker';
 
 class Model extends Observer {
-  public conf: IBusinessDataIndexed = {
+  private configuration: IBusinessDataIndexed = {
     min: 0,
     max: 0,
     from: 0,
@@ -12,11 +12,15 @@ class Model extends Observer {
   };
 
   public init(configuration: IBusinessDataIndexed) {
-    this.conf = checkConfiguration(configuration);
+    this.configuration = checkConfiguration(configuration);
   }
 
   public update(newConf: IBusinessDataIndexed) {
-    this.conf = checkConfiguration({ ...this.conf, ...newConf });
+    this.configuration = checkConfiguration({ ...this.configuration, ...newConf });
+  }
+
+  get modelConfiguration() {
+    return this.configuration;
   }
 }
 

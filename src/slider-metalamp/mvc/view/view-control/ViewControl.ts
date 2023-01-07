@@ -14,6 +14,8 @@ interface ITarget extends Omit<EventTarget, 'addEventListener'> {
   readonly parentElement?: HTMLElement | null;
 }
 
+const TIP_SHIFT = 20;
+
 class ViewControl extends Observer {
   private fromPosition = 0;
 
@@ -54,8 +56,8 @@ class ViewControl extends Observer {
   }
 
   static getTipPosition(isVertical: boolean, elem: HTMLElement) {
-    if (isVertical) return `${elem.offsetWidth * (-1) - 20}px`;
-    return `${(elem.offsetWidth / 2) * (-1)}px`;
+    if (isVertical) return `-${elem.offsetWidth + TIP_SHIFT}px`;
+    return `-${(elem.offsetWidth / 2)}px`;
   }
 
   static getElement(object: HTMLElement, selector: string): HTMLInputElement | null {
@@ -74,7 +76,7 @@ class ViewControl extends Observer {
     return control;
   }
 
-  set controlConfiguration(data: { parameter: 'range' | 'sticky' | 'shiftOnKeyDown' | 'shiftOnKeyHold', value: boolean | number }) {
+  set controlConfiguration(data: { parameter: 'range' | 'sticky' | 'shiftOnKeyDown' | 'shiftOnKeyHold' | 'round', value: boolean | number }) {
     this.configuration = { ...this.configuration, [data.parameter]: data.value };
   }
 
@@ -122,6 +124,30 @@ class ViewControl extends Observer {
     this.configuration.vertical = vertical;
     this.calcPositionSetByKey(true);
     this.calcPositionSetByKey();
+  }
+
+  public switchSticky() {
+    const { from, to, step } = this.configuration;
+
+    const getNewValue = (value: number) => {
+      const remainder = value % step;
+      if (!remainder) return undefined;
+      const condition = Math.abs(remainder) > step / 2;
+      if (!condition) return value - remainder;
+      return remainder > 0 ? value + (step - remainder) : value - (step + remainder);
+    };
+
+    const newFromValue = getNewValue(from);
+    if (newFromValue) {
+      this.configuration.from = newFromValue;
+      this.calcPositionAndUpdateConfiguration(newFromValue);
+    }
+
+    const newToValue = getNewValue(to);
+    if (newToValue) {
+      this.configuration.to = newToValue;
+      this.calcPositionAndUpdateConfiguration(newToValue, 'toValue');
+    }
   }
 
   public calcPositionSetByKey(
@@ -346,10 +372,11 @@ class ViewControl extends Observer {
       max,
       from,
       to,
+      round,
     } = this.configuration;
 
     const stopTypes = {
-      normal: Math.round(min + ((max - min) * position) / 100),
+      normal: Number((min + ((max - min) * position) / 100).toFixed(round)),
       min,
       max,
       meetMax: to,
@@ -426,7 +453,7 @@ class ViewControl extends Observer {
     switch (condition) {
       case 'MinIncreasingSticky':
       {
-        if (item === undefined) return 'newPosition>100';
+        if (item === undefined) return null;
         const isValueAscending = value > from
           && ((range && value <= to)
           || (!range && value <= max));
@@ -436,7 +463,7 @@ class ViewControl extends Observer {
 
       case 'MinDecreasingSticky':
       {
-        if (item === undefined) return 'newPosition<0';
+        if (item === undefined) return null;
         const isValueDescending = (range && value < to) || !range;
         if (!isValueDescending) return null;
         return this.calcPositionAndUpdateConfiguration(value);
@@ -444,7 +471,7 @@ class ViewControl extends Observer {
 
       case 'MaxIncreasingSticky':
       {
-        if (item === undefined) return 'newPosition>100';
+        if (item === undefined) return null;
         const isValueAscending = item && value > to && to < max;
         if (!isValueAscending) return null;
         return this.calcPositionAndUpdateConfiguration(value, 'toValue');
@@ -452,7 +479,7 @@ class ViewControl extends Observer {
 
       case 'MaxDecreasingSticky':
       {
-        if (item === undefined) return 'newPosition<0';
+        if (item === undefined) return null;
         const isValueDescending = value >= from && to > from;
         if (!isValueDescending) return null;
         return this.calcPositionAndUpdateConfiguration(value, 'toValue');

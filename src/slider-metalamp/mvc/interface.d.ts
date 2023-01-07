@@ -45,8 +45,9 @@ interface IBusinessData {
 }
 
 interface IRange {
-  from: number,
-  to: number,
+  from?: number,
+  to?: number,
+  round?: number,
 }
 
 interface IBusinessDataIndexed extends Partial<IBusinessData> {
@@ -69,8 +70,9 @@ interface IPluginConfigurationFull {
   sticky: boolean;
   shiftOnKeyDown: number;
   shiftOnKeyHold: number;
+  round: number;
   onUpdate: (data: TPluginConfiguration) => unknown;
-  onChange: (data: { from: number, to: number }) => unknown;
+  onChange: (data: IRange) => unknown;
 }
 
 interface IPluginConfigurationFullIndexed extends IPluginConfigurationFull {
