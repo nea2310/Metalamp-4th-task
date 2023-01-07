@@ -1,6 +1,30 @@
 {
   "elements": [
     {
+      "type": "toggle",
+      "parameters": {
+        "usage": "vertical"
+      }
+    },
+    {
+      "type": "toggle",
+      "parameters": {
+        "usage": "range"
+      }
+    },
+    {
+      "type": "toggle",
+      "parameters": {
+        "usage": "bar"
+      }
+    },
+    {
+      "type": "toggle",
+      "parameters": {
+        "usage": "tip"
+      }
+    },
+    {
       "parameters": {
         "usage": "min"
       }
@@ -23,30 +47,6 @@
     {
       "parameters": {
         "usage": "round"
-      }
-    },
-    {
-      "type": "toggle",
-      "parameters": {
-        "usage": "vertical"
-      }
-    },
-    {
-      "type": "toggle",
-      "parameters": {
-        "usage": "range"
-      }
-    },
-    {
-      "type": "toggle",
-      "parameters": {
-        "usage": "bar"
-      }
-    },
-    {
-      "type": "toggle",
-      "parameters": {
-        "usage": "tip"
       }
     }
   ]

@@ -7,7 +7,7 @@
   border: 1px solid $color-border;
 
   &__component_type {
-    &_scale {
+    &_scale, &_scale-base {
       margin-bottom: 20px;
     }
 
