@@ -65,22 +65,19 @@ class RangeSlider {
   private handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
     const { key, data } = parameters;
     switch (key) {
-      case 'subscribe': {
+      case 'subscribe':
         if (typeof data !== 'boolean') return;
         this.subscribeSlider(data);
         break;
-      }
-      case 'disable': {
+      case 'disable':
         if (typeof data !== 'boolean') return;
         this.disableSlider(data);
         if (this.panel) this.panel.disable(data);
         break;
-      }
-      case 'destroy': {
+      case 'destroy':
         if (typeof data !== 'boolean') return;
         this.destroySlider(data);
         break;
-      }
       case 'vertical':
         if (typeof data !== 'boolean') return;
         if (this.rangeSlider) {
@@ -88,11 +85,10 @@ class RangeSlider {
           this.rangeSlider.update({ [key]: data });
         }
         break;
-      default: {
+      default:
         if (this.rangeSlider) {
           this.rangeSlider.update({ [key]: data });
         }
-      }
     }
   };
 

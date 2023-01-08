@@ -398,45 +398,49 @@ class ViewControl extends Observer {
     } = this.configuration;
 
     switch (condition) {
-      case 'MinIncreasingNoSticky':
-      { const isBelowMax = (range && from < to)
-          || (!range && from < max);
-      const isAboveMaxRange = range && from >= to;
-      const isAboveMaxNoRange = !range && from >= max;
+      case 'MinIncreasingNoSticky': {
+        const isBelowMax = (range && from < to)
+            || (!range && from < max);
+        const isAboveMaxRange = range && from >= to;
+        const isAboveMaxNoRange = !range && from >= max;
 
-      let value = 0;
-      if (isBelowMax) {
-        const limit = range ? to : max;
-        value = from + shift;
-        value = (value > limit) ? limit : value;
+        let value = 0;
+        if (isBelowMax) {
+          const limit = range ? to : max;
+          value = from + shift;
+          value = (value > limit) ? limit : value;
+        }
+        if (isAboveMaxRange) value = to;
+        if (isAboveMaxNoRange) value = max;
+        return this.calcPositionAndUpdateConfiguration(value);
       }
-      if (isAboveMaxRange) value = to;
-      if (isAboveMaxNoRange) value = max;
-      return this.calcPositionAndUpdateConfiguration(value); }
 
-      case 'MinDecreasingNoSticky':
-      { let value = 0;
+      case 'MinDecreasingNoSticky': {
+        let value = 0;
         if (from > min) {
           value = from - shift;
           value = value < min ? min : value;
         } else value = min;
-        return this.calcPositionAndUpdateConfiguration(value); }
+        return this.calcPositionAndUpdateConfiguration(value);
+      }
 
-      case 'MaxIncreasingNoSticky':
-      { let value = 0;
+      case 'MaxIncreasingNoSticky': {
+        let value = 0;
         if (to < max) {
           value = to + shift;
           value = value > max ? max : value;
         } else value = max;
-        return this.calcPositionAndUpdateConfiguration(value, 'toValue'); }
+        return this.calcPositionAndUpdateConfiguration(value, 'toValue');
+      }
 
-      case 'MaxDecreasingNoSticky':
-      { let value = 0;
+      case 'MaxDecreasingNoSticky': {
+        let value = 0;
         if (to > from) {
           value = to - shift;
           value = value < from ? from : value;
         } else value = from;
-        return this.calcPositionAndUpdateConfiguration(value, 'toValue'); }
+        return this.calcPositionAndUpdateConfiguration(value, 'toValue');
+      }
 
       default: return 0;
     }
@@ -450,9 +454,9 @@ class ViewControl extends Observer {
       max,
     } = this.configuration;
     const { value } = item;
+
     switch (condition) {
-      case 'MinIncreasingSticky':
-      {
+      case 'MinIncreasingSticky': {
         if (item === undefined) return null;
         const isValueAscending = value > from
           && ((range && value <= to)
@@ -461,29 +465,27 @@ class ViewControl extends Observer {
         return this.calcPositionAndUpdateConfiguration(value);
       }
 
-      case 'MinDecreasingSticky':
-      {
+      case 'MinDecreasingSticky': {
         if (item === undefined) return null;
         const isValueDescending = (range && value < to) || !range;
         if (!isValueDescending) return null;
         return this.calcPositionAndUpdateConfiguration(value);
       }
 
-      case 'MaxIncreasingSticky':
-      {
+      case 'MaxIncreasingSticky': {
         if (item === undefined) return null;
         const isValueAscending = item && value > to && to < max;
         if (!isValueAscending) return null;
         return this.calcPositionAndUpdateConfiguration(value, 'toValue');
       }
 
-      case 'MaxDecreasingSticky':
-      {
+      case 'MaxDecreasingSticky': {
         if (item === undefined) return null;
         const isValueDescending = value >= from && to > from;
         if (!isValueDescending) return null;
         return this.calcPositionAndUpdateConfiguration(value, 'toValue');
       }
+
       default: return null;
     }
   }
