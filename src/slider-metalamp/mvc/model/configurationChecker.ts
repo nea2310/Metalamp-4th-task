@@ -2,6 +2,8 @@ import { IBusinessDataIndexed } from '../interface';
 
 function checkConfiguration(configuration: IBusinessDataIndexed) {
   const checkedConfiguration = configuration;
+  const DEFAULT_VALUE = 0;
+  const DEFAULT_SHIFT = 1;
 
   let {
     min,
@@ -16,12 +18,12 @@ function checkConfiguration(configuration: IBusinessDataIndexed) {
     shiftOnKeyHold,
   } = checkedConfiguration;
 
-  if (!min) min = 0;
-  if (!max) max = 0;
-  if (!from) from = 0;
-  if (!to) to = 0;
-  if (!shiftOnKeyDown) checkedConfiguration.shiftOnKeyDown = 1;
-  if (!shiftOnKeyHold) checkedConfiguration.shiftOnKeyHold = 1;
+  if (!min) min = DEFAULT_VALUE;
+  if (!max) max = DEFAULT_VALUE;
+  if (!from) from = DEFAULT_VALUE;
+  if (!to) to = DEFAULT_VALUE;
+  if (!shiftOnKeyDown) checkedConfiguration.shiftOnKeyDown = DEFAULT_SHIFT;
+  if (!shiftOnKeyHold) checkedConfiguration.shiftOnKeyHold = DEFAULT_SHIFT;
 
   if (min > max) {
     const temporaryValue = max;

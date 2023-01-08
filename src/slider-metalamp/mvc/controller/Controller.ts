@@ -119,10 +119,12 @@ class Controller extends Observer {
       ...this.startConfiguration,
       ...this.view.dataAttributesConfiguration,
     };
+
     const { onUpdate, onChange } = this.startConfiguration;
     this.onUpdate = onUpdate;
     this.onChange = onChange;
-    this.model.init(Controller.selectData(this.startConfiguration, true));
+
+    this.model.update(Controller.selectData(this.startConfiguration, true));
 
     this.startConfiguration = {
       ...this.startConfiguration,

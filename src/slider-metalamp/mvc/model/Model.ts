@@ -2,21 +2,22 @@ import Observer from '../Observer';
 import { IBusinessDataIndexed } from '../interface';
 import checkConfiguration from './configurationChecker';
 
+const DEFAULT_VALUE = 0;
+const DEFAULT_SHIFT = 1;
+
 class Model extends Observer {
   private configuration: IBusinessDataIndexed = {
-    min: 0,
-    max: 0,
-    from: 0,
-    to: 0,
+    min: DEFAULT_VALUE,
+    max: DEFAULT_VALUE,
+    from: DEFAULT_VALUE,
+    to: DEFAULT_VALUE,
     range: true,
+    shiftOnKeyDown: DEFAULT_SHIFT,
+    shiftOnKeyHold: DEFAULT_SHIFT,
   };
 
-  public init(configuration: IBusinessDataIndexed) {
-    this.configuration = checkConfiguration(configuration);
-  }
-
-  public update(newConf: IBusinessDataIndexed) {
-    this.configuration = checkConfiguration({ ...this.configuration, ...newConf });
+  public update(configuration: IBusinessDataIndexed) {
+    this.configuration = checkConfiguration({ ...this.configuration, ...configuration });
   }
 
   get modelConfiguration() {
