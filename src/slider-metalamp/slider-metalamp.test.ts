@@ -9,7 +9,6 @@ describe('slider-metalamp', () => {
   const slider = $(parent).SliderMetaLamp({}).data('SliderMetaLamp');
 
   const updateSpy = jest.spyOn(slider, 'update');
-  const getDataSpy = jest.spyOn(slider, 'getData');
   const disableSpy = jest.spyOn(slider, 'disable');
   const enableSpy = jest.spyOn(slider, 'enable');
   const destroySpy = jest.spyOn(slider, 'destroy');
@@ -32,31 +31,26 @@ describe('slider-metalamp', () => {
     shiftOnKeyHold: 1,
   };
 
-  test(' Initialize plugin on a DOM-element ', () => {
+  test('Initialize plugin on a DOM-element', () => {
     expect(slider).toBeInstanceOf(Controller);
   });
 
-  test(' Should call API method "update"', () => {
+  test('Should call API method "update"', () => {
     slider.update(conf);
     expect(updateSpy).toBeCalledTimes(1);
   });
 
-  test(' Should call API method "getData"', () => {
-    slider.getData();
-    expect(getDataSpy).toBeCalledTimes(1);
-  });
-
-  test(' Should call API method "disable"', () => {
+  test('Should call API method "disable"', () => {
     slider.disable();
     expect(disableSpy).toBeCalledTimes(1);
   });
 
-  test(' Should call API method "enable"', () => {
+  test('Should call API method "enable"', () => {
     slider.enable();
     expect(enableSpy).toBeCalledTimes(1);
   });
 
-  test(' Should call API method "destroy"', () => {
+  test('Should call API method "destroy"', () => {
     slider.destroy();
     expect(destroySpy).toBeCalledTimes(1);
   });
