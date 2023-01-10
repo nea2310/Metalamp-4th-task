@@ -1,10 +1,10 @@
 import Model from './Model';
 
-describe('init Model', () => {
+describe('Model behavior', () => {
   const testModel = new Model();
   let configuration = testModel.modelConfiguration;
 
-  test('create Model', () => {
+  test('Should create Model', () => {
     expect(configuration).toEqual({
       min: 0,
       max: 0,
@@ -16,7 +16,7 @@ describe('init Model', () => {
     });
   });
 
-  test('Update Model with consistent configuration', () => {
+  test('Should update Model with consistent configuration', () => {
     testModel.update({
       min: 10,
       max: 100,
@@ -38,7 +38,7 @@ describe('init Model', () => {
     });
   });
 
-  test('Update Model with inconsistent configuration', () => {
+  test('Should fix inconsistent configuration and update Model', () => {
     testModel.update({ min: 1000 });
     configuration = testModel.modelConfiguration;
     expect(configuration).toEqual({
