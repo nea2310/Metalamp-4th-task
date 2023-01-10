@@ -151,10 +151,9 @@ class View extends Observer {
         case 'shiftOnKeyHold':
           this.viewControl.controlConfiguration = { parameter: 'shiftOnKeyHold', value: shiftOnKeyHold };
           break;
-        case 'round': {
+        case 'round':
           this.setRoundValue(round);
           break;
-        }
         case 'vertical':
           this.switchVertical(vertical);
           break;
