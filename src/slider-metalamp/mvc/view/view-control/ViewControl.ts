@@ -72,7 +72,10 @@ class ViewControl extends Observer {
     return control;
   }
 
-  set controlConfiguration(data: { parameter: 'range' | 'sticky' | 'shiftOnKeyDown' | 'shiftOnKeyHold' | 'round', value: boolean | number }) {
+  set controlConfiguration(data: {
+    parameter: 'range' | 'sticky' | 'shiftOnKeyDown' | 'shiftOnKeyHold' | 'round',
+    value: boolean | number,
+  }) {
     this.configuration = { ...this.configuration, [data.parameter]: data.value };
   }
 

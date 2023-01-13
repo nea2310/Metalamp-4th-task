@@ -52,6 +52,12 @@ interface IViewData {
   round?: number,
 }
 
+interface IViewScaleState {
+  scaleMarks: IScaleMark[],
+  step: number,
+  interval: number,
+}
+
 interface IBusinessDataIndexed extends Partial<IBusinessData> {
   [key: string]: unknown;
 }
@@ -87,9 +93,18 @@ interface INotificationParameters {
   conf: IPluginConfigurationFull;
 }
 
-interface IPluginConfigurationItem {
+interface IScaleMark {
   value: number;
   position: number;
+}
+
+interface IViewControlState {
+  fromPosition: number,
+  toPosition: number,
+  from: number,
+  to: number,
+  isRange: boolean,
+  isVertical: boolean,
 }
 
 interface IMockedElement {
@@ -141,7 +156,7 @@ export {
   IPluginConfigurationFull,
   IPluginConfigurationFullIndexed,
   INotificationParameters,
-  IPluginConfigurationItem,
+  IScaleMark,
   IMockedElement,
   IDOMElement,
   TPluginConfiguration,
@@ -154,4 +169,6 @@ export {
   IBusinessData,
   IBusinessDataIndexed,
   IViewData,
+  IViewScaleState,
+  IViewControlState,
 };
