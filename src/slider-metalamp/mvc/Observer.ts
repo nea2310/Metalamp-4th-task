@@ -23,10 +23,12 @@ export default abstract class Observer {
     }
   }
 
-  // public unsubscribe(observer: Function) {
-  //   this.observers = this.observers.filter((obs) => obs !== observer);
-  //   return this.observers;
-  // }
+  public unsubscribe(observer: Function, type: string) {
+
+    const observersArray = this.observers.get(type);
+    if (!observersArray) return;
+    this.observers.set(type, observersArray.filter((item) => item !== observer));
+  }
 
   protected notify(
     type: string,
