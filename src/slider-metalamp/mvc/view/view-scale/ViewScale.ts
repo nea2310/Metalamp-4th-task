@@ -1,10 +1,11 @@
+import Observer from '../../Observer';
 import {
   IPluginConfigurationFull,
-  IPluginConfigurationItem,
+  IScaleMark,
   TPluginConfiguration,
 } from '../../interface';
 
-class ViewScale {
+class ViewScale extends Observer {
   private slider: HTMLElement;
 
   private startWidth: number = 0;
@@ -17,20 +18,17 @@ class ViewScale {
 
   private lastLabelRemoved: boolean = false;
 
-  private scaleMarks: IPluginConfigurationItem[] = [];
-
-  private scaleReadyCallback: Function = () => {};
+  private scaleMarks: IScaleMark[] = [];
 
   constructor(
     slider: HTMLElement,
     track: HTMLElement,
     configuration: IPluginConfigurationFull,
-    handleScaleReady: Function = () => {},
   ) {
+    super();
     this.configuration = configuration;
     this.slider = slider;
     this.track = track;
-    this.scaleReadyCallback = handleScaleReady;
     this.calcScaleMarks();
   }
 
@@ -153,7 +151,7 @@ class ViewScale {
 
     let value = min;
     for (let i = 0; i < intervalValue; i += 1) {
-      const object: IPluginConfigurationItem = { value: 0, position: 0 };
+      const object: IScaleMark = { value: 0, position: 0 };
       value += stepValue;
       if (value <= max) {
         const position = ((value - min) * 100) / (max - min);
@@ -165,7 +163,7 @@ class ViewScale {
     if (marksArray[marksArray.length - 1].value
       < max) marksArray.push({ value: max, position: 100 });
     this.scaleMarks = marksArray;
-    this.scaleReadyCallback({
+    this.notify('viewScale', {
       scaleMarks: this.scaleMarks,
       step: this.configuration.step,
       interval: this.configuration.interval,

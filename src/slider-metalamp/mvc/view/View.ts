@@ -5,7 +5,7 @@ import {
   TPluginConfiguration,
   IPluginConfigurationFull,
   IDOMElement,
-  IPluginConfigurationItem,
+  IScaleMark,
 } from '../interface';
 import ViewScale from './view-scale/ViewScale';
 import ViewControl from './view-control/ViewControl';
@@ -195,13 +195,11 @@ class View extends Observer {
       this.slider,
       this.track,
       this.configuration,
-      this.handleScaleReady,
     );
     this.viewControl = new ViewControl(
       this.slider,
       this.configuration,
       this.viewScale.marks,
-      this.handleControlSet,
     );
     this.viewBar = new ViewBar(
       this.slider,
@@ -209,6 +207,14 @@ class View extends Observer {
       this.viewControl.positionFrom,
       this.viewControl.positionTo,
     );
+
+    this.createListeners();
+  }
+
+  private createListeners() {
+    if (!this.viewScale || !this.viewControl) return;
+    this.viewScale.subscribe(this.handleScaleReady, 'viewScale');
+    this.viewControl.subscribe(this.handleControlSet, 'viewControl');
   }
 
   private setRoundValue(roundValue: number) {
@@ -222,7 +228,7 @@ class View extends Observer {
   }
 
   private handleScaleReady(data: {
-    scaleMarks: IPluginConfigurationItem[],
+    scaleMarks: IScaleMark[],
     step: number,
     interval: number,
   }) {

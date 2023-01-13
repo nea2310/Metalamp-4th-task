@@ -5,7 +5,7 @@ import {
   TControlKeydownTypes,
   IDOMElement,
   TControlStopTypes,
-  IPluginConfigurationItem,
+  IScaleMark,
   IControlFull,
 } from '../../interface';
 
@@ -35,23 +35,19 @@ class ViewControl extends Observer {
 
   private slider: HTMLElement;
 
-  private scaleMarks: IPluginConfigurationItem[];
+  private scaleMarks: IScaleMark[];
 
   private controlData: IControlFull = defaultControlData;
-
-  private controlSetCallback: Function = () => {};
 
   constructor(
     sliderElement: HTMLElement,
     configuration: IPluginConfigurationFull,
-    scaleMarks: IPluginConfigurationItem[],
-    callback: Function = () => {},
+    scaleMarks: IScaleMark[],
   ) {
     super();
     this.slider = sliderElement;
     this.configuration = configuration;
     this.scaleMarks = scaleMarks;
-    this.controlSetCallback = callback;
     this.render();
   }
 
@@ -95,7 +91,7 @@ class ViewControl extends Observer {
     const condition = (valueType === 'fromPosition' || valueType === 'toPosition') && typeof newValue === 'number';
     if (condition) {
       this[valueType] = newValue;
-      this.controlSetCallback({
+      this.notify('viewControl', {
         fromPosition: this.fromPosition,
         toPosition: this.toPosition,
         from: this.configuration.from,
@@ -113,7 +109,7 @@ class ViewControl extends Observer {
   }
 
   public updateScaleMarks(
-    scaleMarks: IPluginConfigurationItem[] = [],
+    scaleMarks: IScaleMark[] = [],
     min = this.configuration.min,
     max = this.configuration.max,
     vertical = this.configuration.vertical,
@@ -446,7 +442,7 @@ class ViewControl extends Observer {
     }
   }
 
-  private calcValueSetByKeySticky(condition: string, item: IPluginConfigurationItem) {
+  private calcValueSetByKeySticky(condition: string, item: IScaleMark) {
     const {
       range,
       from,
@@ -582,9 +578,9 @@ class ViewControl extends Observer {
 
   private setSticky(controlPosition: number) {
     let goal = this.scaleMarks.find((
-      element: IPluginConfigurationItem,
+      element: IScaleMark,
       item: number,
-      array: IPluginConfigurationItem[],
+      array: IScaleMark[],
     ) => {
       let temporaryPosition = 0;
       if (item < array.length - 1) temporaryPosition = array[item + 1].position;
