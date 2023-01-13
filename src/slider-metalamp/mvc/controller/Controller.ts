@@ -4,7 +4,8 @@ import Observer from '../Observer';
 import {
   TPluginConfiguration,
   IPluginConfigurationFull,
-  IRange,
+  IViewData,
+  IBusinessData,
 } from '../interface';
 
 import { defaultConfiguration } from '../utils';
@@ -39,7 +40,7 @@ class Controller extends Observer {
 
   private onUpdate: ((data: TPluginConfiguration) => unknown) | undefined = () => true;
 
-  private onChange: ((data: IRange) => unknown) | undefined = () => true;
+  private onChange: ((data: IViewData) => unknown) | undefined = () => true;
 
   constructor(model: Model, view: View, startConfiguration: TPluginConfiguration) {
     super();
@@ -47,14 +48,7 @@ class Controller extends Observer {
     this.view = view;
     this.startConfiguration = { ...defaultConfiguration, ...startConfiguration };
     this.createListeners();
-    // this.removeListeners();
     this.init();
-  }
-
-  private createListeners() {
-    if (this.view) {
-      this.view.subscribe(this.handleViewChange, 'view');
-    }
   }
 
   static selectData(data: TPluginConfiguration, isBusinessData = false) {
@@ -85,16 +79,12 @@ class Controller extends Observer {
       if (NUMBER_DATA_TYPES.includes(key)) convertToNumber(key, value);
     });
 
-    this.model.update(Controller.selectData(checkedConfiguration, true));
     this.startConfiguration = {
       ...this.startConfiguration,
       ...Controller.selectData(checkedConfiguration),
-      ...this.model.modelConfiguration,
     };
     this.view.update(this.startConfiguration);
-
-    if (!this.onUpdate) return;
-    this.onUpdate({ ...this.startConfiguration, ...this.view.viewConfiguration });
+    this.model.update(Controller.selectData(this.startConfiguration, true));
   }
 
   public disable() {
@@ -114,6 +104,13 @@ class Controller extends Observer {
     this.model = null;
   }
 
+  private createListeners() {
+    if (this.view && this.model) {
+      this.view.subscribe(this.handleViewChange, 'view');
+      this.model.subscribe(this.handleModelUpdate, 'model');
+    }
+  }
+
   private init() {
     if (!this.view || !this.model) return;
 
@@ -127,20 +124,18 @@ class Controller extends Observer {
     this.onUpdate = onUpdate;
     this.onChange = onChange;
 
-    this.model.update(Controller.selectData(this.startConfiguration, true));
-
-    this.startConfiguration = {
-      ...this.startConfiguration,
-      ...this.model.modelConfiguration,
-    };
-
     this.view.init(this.startConfiguration);
-    this.startConfiguration = { ...this.startConfiguration, ...this.view.viewConfiguration };
-    if (!this.onUpdate) return;
-    this.onUpdate(this.startConfiguration);
+    this.model.update(Controller.selectData(this.startConfiguration, true));
   }
 
-  private handleViewChange = (data: IRange) => {
+  private handleModelUpdate = (data: IBusinessData) => {
+    this.startConfiguration = { ...this.startConfiguration, ...data };
+    if (!this.view) return;
+    this.view.update(this.startConfiguration);
+    if (this.onUpdate) this.onUpdate(this.startConfiguration);
+  };
+
+  private handleViewChange = (data: IViewData) => {
     this.startConfiguration = { ...this.startConfiguration, ...data };
     if (!this.model) return;
     this.model.update(Controller.selectData(this.startConfiguration, true));

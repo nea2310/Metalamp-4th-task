@@ -2,7 +2,7 @@ import updateObject from '../../../shared/utils/updateObject';
 import prepareElements from '../../../shared/utils/prepareElements';
 import getNotificationDetails from '../../../shared/utils/getNotificationDetails';
 import getElement from '../../../shared/utils/getElement';
-import { TPluginConfiguration, TInputTypes, IRange } from '../../../slider-metalamp/mvc/interface';
+import { TPluginConfiguration, TInputTypes, IViewData } from '../../../slider-metalamp/mvc/interface';
 import PanelObserver from '../PanelObserver';
 
 const OPTIONS: Array<[string, TInputTypes]> = [
@@ -42,7 +42,7 @@ class MainSetup extends PanelObserver {
     if (this.optionTo) this.optionTo.disabled = !data.range;
   }
 
-  public change(data: IRange) {
+  public change(data: IViewData) {
     const { from, to, round } = data;
 
     if ('from' in data && this.optionFrom) {

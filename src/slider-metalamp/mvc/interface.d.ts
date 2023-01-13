@@ -42,9 +42,11 @@ interface IBusinessData {
   from: number;
   to: number;
   range: boolean;
+  shiftOnKeyDown: number;
+  shiftOnKeyHold: number;
 }
 
-interface IRange {
+interface IViewData {
   from?: number,
   to?: number,
   round?: number,
@@ -72,7 +74,7 @@ interface IPluginConfigurationFull {
   shiftOnKeyHold: number;
   round: number;
   onUpdate: (data: TPluginConfiguration) => unknown;
-  onChange: (data: IRange) => unknown;
+  onChange: (data: IViewData) => unknown;
 }
 
 interface IPluginConfigurationFullIndexed extends IPluginConfigurationFull {
@@ -151,5 +153,5 @@ export {
   TPluginConfigurationItem,
   IBusinessData,
   IBusinessDataIndexed,
-  IRange,
+  IViewData,
 };

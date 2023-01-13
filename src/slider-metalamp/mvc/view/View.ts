@@ -1,3 +1,4 @@
+import sortArray from '../../../shared/utils/sortArray';
 import { defaultConfiguration } from '../utils';
 import Observer from '../Observer';
 import {
@@ -5,7 +6,6 @@ import {
   IPluginConfigurationFull,
   IDOMElement,
   IPluginConfigurationItem,
-  TPluginConfigurationItem,
 } from '../interface';
 import ViewScale from './view-scale/ViewScale';
 import ViewControl from './view-control/ViewControl';
@@ -35,13 +35,6 @@ class View extends Observer {
     this.root = root;
     this.render();
   }
-
-  static sortArray = (object: TPluginConfiguration) => Object.entries(object).sort(
-    (a: TPluginConfigurationItem, b: TPluginConfigurationItem) => {
-      if (a[0] > b[0]) return 1;
-      return -1;
-    },
-  );
 
   get dataAttributesConfiguration() {
     return this.dataAttributes;
@@ -78,9 +71,9 @@ class View extends Observer {
     const oldConfiguration = this.configuration;
     this.configuration = newConfiguration;
 
-    const changedConfigurationItems = View.sortArray(newConfiguration)
+    const changedConfigurationItems = sortArray(newConfiguration)
       .filter((newConfigurationItem) => {
-        const confItem = View.sortArray(oldConfiguration).find(
+        const confItem = sortArray(oldConfiguration).find(
           (oldConfigurationItem) => oldConfigurationItem[0] === newConfigurationItem[0],
         );
         if (!confItem) return null;

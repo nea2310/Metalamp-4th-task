@@ -1,4 +1,4 @@
-import { TPluginConfiguration, IRange } from '../../slider-metalamp/mvc/interface';
+import { TPluginConfiguration, IViewData } from '../../slider-metalamp/mvc/interface';
 import ScaleSetup from './scale-setup/ScaleSetup';
 import MainSetup from './main-setup/MainSetup';
 import ControlMovementSetup from './control-movement-setup/ControlMovementSetup';
@@ -31,7 +31,7 @@ class Panel extends PanelObserver {
     });
   }
 
-  public change(data: IRange) {
+  public change(data: IViewData) {
     if (!this.mainSetup) return;
     this.mainSetup.change(data);
   }

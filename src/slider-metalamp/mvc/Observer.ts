@@ -1,5 +1,5 @@
 // import { defaultConfiguration } from './utils';
-// import { IPluginConfigurationFull } from './interface';
+import { IBusinessData, IViewData } from './interface';
 
 export default abstract class Observer {
   observers: Map<string, Function[]>;
@@ -26,7 +26,7 @@ export default abstract class Observer {
 
   protected notify(
     type: string,
-    data: any,
+    data: IViewData | IBusinessData,
   ) {
     const observersArray = this.observers.get(type);
     if (observersArray) {
