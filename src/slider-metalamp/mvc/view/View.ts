@@ -30,10 +30,6 @@ class View extends Observer {
 
   private root: IDOMElement;
 
-  private controlSetCallback: Function = () => {};
-
-  private roundValueSetCallback: Function = () => {};
-
   constructor(root: Element) {
     super();
     this.root = root;
@@ -53,14 +49,6 @@ class View extends Observer {
 
   get viewConfiguration() {
     return this.configuration;
-  }
-
-  public subscribeControlSet(callback: Function) {
-    this.controlSetCallback = callback;
-  }
-
-  public subscribeRoundValueSet(callback: Function) {
-    this.roundValueSetCallback = callback;
   }
 
   public init(configuration: IPluginConfigurationFull) {
@@ -235,7 +223,7 @@ class View extends Observer {
     const isNewRoundValueValid = newRoundValue >= 0 && newRoundValue <= 100;
     if (!isNewRoundValueValid) newRoundValue = 0;
     this.configuration = { ...this.configuration, round: newRoundValue };
-    this.roundValueSetCallback({ round: newRoundValue });
+    this.notify('view', { round: newRoundValue });
     if (!this.viewControl) return;
     this.viewControl.controlConfiguration = { parameter: 'round', value: newRoundValue };
   }
@@ -262,7 +250,7 @@ class View extends Observer {
   }) {
     const { from, to } = data;
     this.configuration = { ...this.configuration, from, to };
-    this.controlSetCallback({ from, to });
+    this.notify('view', { from, to });
     if (!this.viewBar) return;
     this.viewBar.updateBar(data);
   }

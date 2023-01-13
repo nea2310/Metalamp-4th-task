@@ -46,7 +46,15 @@ class Controller extends Observer {
     this.model = model;
     this.view = view;
     this.startConfiguration = { ...defaultConfiguration, ...startConfiguration };
+    this.createListeners();
+    // this.removeListeners();
     this.init();
+  }
+
+  private createListeners() {
+    if (this.view) {
+      this.view.subscribe(this.handleViewChange, 'view');
+    }
   }
 
   static selectData(data: TPluginConfiguration, isBusinessData = false) {
@@ -108,11 +116,6 @@ class Controller extends Observer {
 
   private init() {
     if (!this.view || !this.model) return;
-    this.handleControlSet = this.handleControlSet.bind(this);
-    this.handleRoundValueSet = this.handleRoundValueSet.bind(this);
-
-    this.view.subscribeControlSet(this.handleControlSet);
-    this.view.subscribeRoundValueSet(this.handleRoundValueSet);
 
     this.startConfiguration = {
       ...defaultConfiguration,
@@ -137,17 +140,12 @@ class Controller extends Observer {
     this.onUpdate(this.startConfiguration);
   }
 
-  private handleControlSet(data: IRange) {
+  private handleViewChange = (data: IRange) => {
     this.startConfiguration = { ...this.startConfiguration, ...data };
     if (!this.model) return;
     this.model.update(Controller.selectData(this.startConfiguration, true));
     if (this.onChange) this.onChange(data);
-  }
-
-  private handleRoundValueSet(data: IRange) {
-    this.startConfiguration = { ...this.startConfiguration, ...data };
-    if (this.onChange) this.onChange(data);
-  }
+  };
 }
 
 export default Controller;

@@ -1,29 +1,36 @@
-import { defaultConfiguration } from './utils';
-import { IPluginConfigurationFull } from './interface';
+// import { defaultConfiguration } from './utils';
+// import { IPluginConfigurationFull } from './interface';
 
 export default abstract class Observer {
-  observers: Function[];
+  observers: Map<string, Function[]>;
 
   constructor() {
-    this.observers = [];
+    this.observers = new Map();
   }
 
-  public subscribe(observer: Function) {
-    if (this.observers.includes(observer)) return null;
-    this.observers.push(observer);
-    return this.observers;
+  public subscribe(observer: Function, type: string) {
+    const observersArray = this.observers.get(type);
+    if (!observersArray) {
+      this.observers.set(type, [observer]);
+      return;
+    }
+    if (!observersArray.includes(observer)) {
+      this.observers.set(type, observersArray.concat(observer));
+    }
   }
 
-  public unsubscribe(observer: Function) {
-    this.observers = this.observers.filter((obs) => obs !== observer);
-    return this.observers;
-  }
+  // public unsubscribe(observer: Function) {
+  //   this.observers = this.observers.filter((obs) => obs !== observer);
+  //   return this.observers;
+  // }
 
   protected notify(
-    key: string,
-    data: IPluginConfigurationFull,
-    conf: IPluginConfigurationFull = defaultConfiguration,
+    type: string,
+    data: any,
   ) {
-    this.observers.forEach((item) => item({ key, data, conf }));
+    const observersArray = this.observers.get(type);
+    if (observersArray) {
+      observersArray.forEach((item) => item(data));
+    }
   }
 }
