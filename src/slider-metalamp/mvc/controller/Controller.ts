@@ -38,10 +38,6 @@ class Controller extends Observer {
 
   private startConfiguration: IPluginConfigurationFull = defaultConfiguration;
 
-  private onUpdate: ((data: TPluginConfiguration) => unknown) | undefined = () => true;
-
-  private onChange: ((data: IViewData) => unknown) | undefined = () => true;
-
   constructor(model: Model, view: View, startConfiguration: TPluginConfiguration) {
     super();
     this.model = model;
@@ -126,10 +122,6 @@ class Controller extends Observer {
       ...this.view.dataAttributesConfiguration,
     };
 
-    const { onUpdate, onChange } = this.startConfiguration;
-    this.onUpdate = onUpdate;
-    this.onChange = onChange;
-
     this.view.init(this.startConfiguration);
     this.model.update(Controller.selectData(this.startConfiguration, true));
   }
@@ -138,14 +130,16 @@ class Controller extends Observer {
     this.startConfiguration = { ...this.startConfiguration, ...data };
     if (!this.view) return;
     this.view.update(this.startConfiguration);
-    if (this.onUpdate) this.onUpdate(this.startConfiguration);
+    const { onUpdate } = this.startConfiguration;
+    if (onUpdate) onUpdate(this.startConfiguration);
   }
 
   private handleViewChange(data: IViewData) {
     this.startConfiguration = { ...this.startConfiguration, ...data };
     if (!this.model) return;
     this.model.update(Controller.selectData(this.startConfiguration, true));
-    if (this.onChange) this.onChange(data);
+    const { onChange } = this.startConfiguration;
+    if (onChange) onChange(data);
   }
 }
 

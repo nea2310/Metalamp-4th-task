@@ -102,11 +102,11 @@ class RangeSlider {
     if (!this.rangeSlider) return;
     if (isSubscribed) {
       this.rangeSlider.update({
-        onUpdate: (data: TPluginConfiguration) => {
-          this.updateData(data);
+        onChange: (data: TPluginConfiguration) => {
+          this.changeData(data);
         },
       });
-    } else this.rangeSlider.update({ onUpdate: undefined });
+    } else this.rangeSlider.update({ onChange: undefined });
   }
 
   private disableSlider(isDisabled = false) {
