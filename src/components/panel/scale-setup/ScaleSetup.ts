@@ -36,6 +36,9 @@ class ScaleSetup extends PanelObserver {
 
   public update(data: { [key: string]: unknown } & TPluginConfiguration) {
     this.optionObjects = updateObject(this.optionObjects, data);
+
+    const type = data.scaleBase === 'interval' ? 'scaleBaseInterval' : 'scaleBaseStep';
+    this.switchOption(type);
   }
 
   public disable(isDisabled = false) {
@@ -61,24 +64,24 @@ class ScaleSetup extends PanelObserver {
     this.wrapper.addEventListener('change', this.handleInputChange);
   }
 
+  private switchOption(option: 'scaleBaseStep' | 'scaleBaseInterval' = 'scaleBaseStep') {
+    const isStep = option === 'scaleBaseStep';
+
+    if (!this.optionStep || !this.optionInterval) return;
+    this.optionStep.disabled = (!isStep);
+    this.optionInterval.disabled = (isStep);
+
+    if (!this.scaleBaseIntervals || !this.scaleBaseSteps) return;
+    this.scaleBaseSteps.checked = (isStep);
+    this.scaleBaseIntervals.checked = (!isStep);
+  }
+
   private handleInputChange(event: Event) {
     const { target } = event;
     let { type, notificationText } = getNotificationDetails(target);
 
-    const switchOption = (option: 'scaleBaseStep' | 'scaleBaseInterval' = 'scaleBaseStep') => {
-      const isStep = option === 'scaleBaseStep';
-
-      if (!this.optionStep || !this.optionInterval) return;
-      this.optionStep.disabled = (!isStep);
-      this.optionInterval.disabled = (isStep);
-
-      if (!this.scaleBaseIntervals || !this.scaleBaseSteps) return;
-      this.scaleBaseSteps.checked = (isStep);
-      this.scaleBaseIntervals.checked = (!isStep);
-    };
-
     if (type === 'scaleBaseInterval' || type === 'scaleBaseStep') {
-      switchOption(type);
+      this.switchOption(type);
       notificationText = type.slice(9).toLowerCase();
       type = 'scaleBase';
     }
