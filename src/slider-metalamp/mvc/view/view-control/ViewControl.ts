@@ -7,12 +7,8 @@ import {
   TControlStopTypes,
   IScaleMark,
   IControlFull,
+  IEventTarget,
 } from '../../interface';
-
-interface ITarget extends Omit<EventTarget, 'addEventListener'> {
-  readonly classList?: DOMTokenList;
-  readonly parentElement?: HTMLElement | null;
-}
 
 const TIP_SHIFT = 20;
 
@@ -51,9 +47,9 @@ class ViewControl extends Observer {
     this.render();
   }
 
-  static getTipPosition(isVertical: boolean, elem: HTMLElement) {
-    if (isVertical) return `-${elem.offsetWidth + TIP_SHIFT}px`;
-    return `-${(elem.offsetWidth / 2)}px`;
+  static getTipPosition(isVertical: boolean, element: HTMLElement) {
+    if (isVertical) return `-${element.offsetWidth + TIP_SHIFT}px`;
+    return `-${(element.offsetWidth / 2)}px`;
   }
 
   static getElement(object: HTMLElement, selector: string): HTMLInputElement | null {
@@ -512,13 +508,13 @@ class ViewControl extends Observer {
     tip.style.left = ViewControl.getTipPosition(this.configuration.vertical, tip);
   }
 
-  private defineControl = (elem: ITarget): 'min' | 'max' | null => {
-    if (!elem.classList) return null;
-    return elem.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
+  private defineControl = (element: IEventTarget): 'min' | 'max' | null => {
+    if (!element.classList) return null;
+    return element.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
   };
 
-  private getMetrics(elem: ITarget) {
-    const scale = elem.parentElement;
+  private getMetrics(element: IEventTarget) {
+    const scale = element.parentElement;
     if (!scale) return;
     this.controlData.top = scale.getBoundingClientRect().top;
     this.controlData.left = scale.getBoundingClientRect().left;

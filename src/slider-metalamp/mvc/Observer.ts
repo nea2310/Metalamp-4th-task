@@ -1,8 +1,8 @@
 import {
   IBusinessData,
   IViewData,
-  IViewScaleState,
-  IViewControlState,
+  IScaleState,
+  IControlState,
 } from './interface';
 
 export default abstract class Observer {
@@ -31,7 +31,7 @@ export default abstract class Observer {
 
   protected notify(
     type: string,
-    data: IViewData | IBusinessData | IViewScaleState | IViewControlState,
+    data: IViewData | IBusinessData | IScaleState | IControlState,
   ) {
     const observersArray = this.observers.get(type);
     if (observersArray) {
