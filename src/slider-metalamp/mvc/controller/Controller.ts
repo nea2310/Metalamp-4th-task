@@ -95,6 +95,7 @@ class Controller extends Observer {
   }
 
   public destroy() {
+    this.removeListeners();
     if (!this.view) return;
     this.view.destroy();
     this.view = null;
@@ -110,6 +111,13 @@ class Controller extends Observer {
     if (this.view && this.model) {
       this.view.subscribe(this.handleViewChange, 'view');
       this.model.subscribe(this.handleModelChange, 'model');
+    }
+  }
+
+  private removeListeners() {
+    if (this.view && this.model) {
+      this.view.unsubscribe(this.handleViewChange, 'view');
+      this.model.unsubscribe(this.handleModelChange, 'model');
     }
   }
 
