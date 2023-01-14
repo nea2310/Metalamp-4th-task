@@ -29,10 +29,6 @@ class Model extends Observer {
       this.notify('model', newConfiguration);
     }
   }
-
-  get modelConfiguration() {
-    return this.configuration;
-  }
 }
 
 export default Model;

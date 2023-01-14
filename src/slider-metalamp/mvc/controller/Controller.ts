@@ -47,6 +47,7 @@ class Controller extends Observer {
     this.model = model;
     this.view = view;
     this.startConfiguration = { ...defaultConfiguration, ...startConfiguration };
+    this.bindListeners();
     this.createListeners();
     this.init();
   }
@@ -104,10 +105,15 @@ class Controller extends Observer {
     this.model = null;
   }
 
+  private bindListeners() {
+    this.handleModelChange = this.handleModelChange.bind(this);
+    this.handleViewChange = this.handleViewChange.bind(this);
+  }
+
   private createListeners() {
     if (this.view && this.model) {
       this.view.subscribe(this.handleViewChange, 'view');
-      this.model.subscribe(this.handleModelUpdate, 'model');
+      this.model.subscribe(this.handleModelChange, 'model');
     }
   }
 
@@ -128,19 +134,19 @@ class Controller extends Observer {
     this.model.update(Controller.selectData(this.startConfiguration, true));
   }
 
-  private handleModelUpdate = (data: IBusinessData) => {
+  private handleModelChange(data: IBusinessData) {
     this.startConfiguration = { ...this.startConfiguration, ...data };
     if (!this.view) return;
     this.view.update(this.startConfiguration);
     if (this.onUpdate) this.onUpdate(this.startConfiguration);
-  };
+  }
 
-  private handleViewChange = (data: IViewData) => {
+  private handleViewChange(data: IViewData) {
     this.startConfiguration = { ...this.startConfiguration, ...data };
     if (!this.model) return;
     this.model.update(Controller.selectData(this.startConfiguration, true));
     if (this.onChange) this.onChange(data);
-  };
+  }
 }
 
 export default Controller;

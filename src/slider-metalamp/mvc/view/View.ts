@@ -184,8 +184,6 @@ class View extends Observer {
 
     this.root.after(this.slider);
 
-    this.handleScaleReady = this.handleScaleReady.bind(this);
-    this.handleControlSet = this.handleControlSet.bind(this);
     this.collectParms();
   }
 
@@ -207,14 +205,19 @@ class View extends Observer {
       this.viewControl.positionFrom,
       this.viewControl.positionTo,
     );
-
+    this.bindListeners();
     this.createListeners();
+  }
+
+  private bindListeners() {
+    this.handleScaleChange = this.handleScaleChange.bind(this);
+    this.handleControlChange = this.handleControlChange.bind(this);
   }
 
   private createListeners() {
     if (!this.viewScale || !this.viewControl) return;
-    this.viewScale.subscribe(this.handleScaleReady, 'viewScale');
-    this.viewControl.subscribe(this.handleControlSet, 'viewControl');
+    this.viewScale.subscribe(this.handleScaleChange, 'viewScale');
+    this.viewControl.subscribe(this.handleControlChange, 'viewControl');
   }
 
   private setRoundValue(roundValue: number) {
@@ -227,7 +230,7 @@ class View extends Observer {
     this.viewControl.controlConfiguration = { parameter: 'round', value: newRoundValue };
   }
 
-  private handleScaleReady(data: {
+  private handleScaleChange(data: {
     scaleMarks: IScaleMark[],
     step: number,
     interval: number,
@@ -239,7 +242,7 @@ class View extends Observer {
     this.configuration = { ...this.configuration, step, interval };
   }
 
-  private handleControlSet(data: {
+  private handleControlChange(data: {
     fromPosition: number,
     toPosition: number,
     from: number,
