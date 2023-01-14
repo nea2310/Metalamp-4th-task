@@ -378,6 +378,7 @@ class ViewControl extends Observer {
       meetMax: to,
       meetMin: from,
     };
+
     const isMinControl = movingControl === 'min';
     const valueType = isMinControl ? 'fromValue' : 'toValue';
     this.updateConfiguration(stopTypes[stopType], valueType);
@@ -391,6 +392,7 @@ class ViewControl extends Observer {
       to,
       min,
       max,
+      round,
     } = this.configuration;
 
     switch (condition) {
@@ -403,7 +405,7 @@ class ViewControl extends Observer {
         let value = 0;
         if (isBelowMax) {
           const limit = range ? to : max;
-          value = from + shift;
+          value = Number((from + shift).toFixed(round));
           value = (value > limit) ? limit : value;
         }
         if (isAboveMaxRange) value = to;
@@ -414,7 +416,7 @@ class ViewControl extends Observer {
       case 'MinDecreasingNoSticky': {
         let value = 0;
         if (from > min) {
-          value = from - shift;
+          value = Number((from - shift).toFixed(round));
           value = value < min ? min : value;
         } else value = min;
 
@@ -424,7 +426,7 @@ class ViewControl extends Observer {
       case 'MaxIncreasingNoSticky': {
         let value = 0;
         if (to < max) {
-          value = to + shift;
+          value = Number((to + shift).toFixed(round));
           value = value > max ? max : value;
         } else value = max;
         return this.calcPositionAndUpdateConfiguration(value, 'toValue');
@@ -433,7 +435,7 @@ class ViewControl extends Observer {
       case 'MaxDecreasingNoSticky': {
         let value = 0;
         if (to > from) {
-          value = to - shift;
+          value = Number((to - shift).toFixed(round));
           value = value < from ? from : value;
         } else value = from;
         return this.calcPositionAndUpdateConfiguration(value, 'toValue');
