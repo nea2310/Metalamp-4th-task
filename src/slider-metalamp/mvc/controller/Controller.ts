@@ -36,13 +36,13 @@ class Controller extends Observer {
 
   private view: View | null;
 
-  private startConfiguration: IPluginConfigurationFull = defaultConfiguration;
+  private configuration: IPluginConfigurationFull = defaultConfiguration;
 
-  constructor(model: Model, view: View, startConfiguration: TPluginConfiguration) {
+  constructor(model: Model, view: View, configuration: TPluginConfiguration) {
     super();
     this.model = model;
     this.view = view;
-    this.startConfiguration = { ...defaultConfiguration, ...startConfiguration };
+    this.configuration = { ...defaultConfiguration, ...configuration };
     this.bindListeners();
     this.createListeners();
     this.init();
@@ -58,16 +58,16 @@ class Controller extends Observer {
     return Object.fromEntries(selectedData);
   }
 
-  public update(configuration: TPluginConfiguration) {
+  public update(newConfiguration: TPluginConfiguration) {
     if (!this.model || !this.view) return;
 
-    let checkedConfiguration = configuration;
+    let checkedConfiguration = newConfiguration;
 
     const convertToNumber = (key: string, value: unknown) => {
       const convertedValue = Number.isNaN(Number(value)) ? 0 : Number(value);
       const object = { [key]: convertedValue };
       checkedConfiguration = {
-        ...configuration, ...object,
+        ...newConfiguration, ...object,
       };
     };
 
@@ -76,12 +76,12 @@ class Controller extends Observer {
       if (NUMBER_DATA_TYPES.includes(key)) convertToNumber(key, value);
     });
 
-    this.startConfiguration = {
-      ...this.startConfiguration,
+    this.configuration = {
+      ...this.configuration,
       ...Controller.selectData(checkedConfiguration),
     };
-    this.view.update(this.startConfiguration);
-    this.model.update(Controller.selectData(this.startConfiguration, true));
+    this.view.update(this.configuration);
+    this.model.update(Controller.selectData(this.configuration, true));
   }
 
   public disable() {
@@ -124,29 +124,29 @@ class Controller extends Observer {
   private init() {
     if (!this.view || !this.model) return;
 
-    this.startConfiguration = {
+    this.configuration = {
       ...defaultConfiguration,
-      ...this.startConfiguration,
+      ...this.configuration,
       ...this.view.dataAttributesConfiguration,
     };
 
-    this.view.init(this.startConfiguration);
-    this.model.update(Controller.selectData(this.startConfiguration, true));
+    this.view.init(this.configuration);
+    this.model.update(Controller.selectData(this.configuration, true));
   }
 
   private handleModelChange(data: IBusinessData) {
-    this.startConfiguration = { ...this.startConfiguration, ...data };
+    this.configuration = { ...this.configuration, ...data };
     if (!this.view) return;
-    this.view.update(this.startConfiguration);
-    const { onUpdate } = this.startConfiguration;
-    if (onUpdate) onUpdate(this.startConfiguration);
+    this.view.update(this.configuration);
+    const { onUpdate } = this.configuration;
+    if (onUpdate) onUpdate(this.configuration);
   }
 
   private handleViewChange(data: IViewData) {
-    this.startConfiguration = { ...this.startConfiguration, ...data };
+    this.configuration = { ...this.configuration, ...data };
     if (!this.model) return;
-    this.model.update(Controller.selectData(this.startConfiguration, true));
-    const { onChange } = this.startConfiguration;
+    this.model.update(Controller.selectData(this.configuration, true));
+    const { onChange } = this.configuration;
     if (onChange) onChange(data);
   }
 }

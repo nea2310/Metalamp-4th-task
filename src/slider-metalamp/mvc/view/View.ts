@@ -40,10 +40,6 @@ class View extends Observer {
     return this.dataAttributes;
   }
 
-  get viewConfiguration() {
-    return this.configuration;
-  }
-
   public init(configuration: IPluginConfigurationFull) {
     this.configuration = configuration;
     const {
