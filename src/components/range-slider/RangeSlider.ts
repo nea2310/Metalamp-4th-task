@@ -38,7 +38,7 @@ class RangeSlider {
     this.panelWrapper = this.wrapper.querySelector(`.js-${this.rootSelector}__panel`);
     if (!this.panelWrapper || !this.slider) return;
     this.panel = new Panel(this.panelWrapper);
-    this.panel.subscribe(this.handlePanelChange);
+    this.panel.subscribe('panelUpdate', this.handlePanelChange);
     this.rangeSlider = this.createSlider(this.slider);
   }
 
@@ -62,32 +62,32 @@ class RangeSlider {
     if (this.panel) this.panel.change(data);
   }
 
-  private handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
-    const { key, data } = parameters;
+  private handlePanelChange = (parameters: { key: string, value: string | boolean }) => {
+    const { key, value } = parameters;
     switch (key) {
       case 'subscribe':
-        if (typeof data !== 'boolean') return;
-        this.subscribeSlider(data);
+        if (typeof value !== 'boolean') return;
+        this.subscribeSlider(value);
         break;
       case 'disable':
-        if (typeof data !== 'boolean') return;
-        this.disableSlider(data);
-        if (this.panel) this.panel.disable(data);
+        if (typeof value !== 'boolean') return;
+        this.disableSlider(value);
+        if (this.panel) this.panel.disable(value);
         break;
       case 'destroy':
-        if (typeof data !== 'boolean') return;
-        this.destroySlider(data);
+        if (typeof value !== 'boolean') return;
+        this.destroySlider(value);
         break;
       case 'vertical':
-        if (typeof data !== 'boolean') return;
+        if (typeof value !== 'boolean') return;
         if (this.rangeSlider) {
-          this.switchOrientation(data);
-          this.rangeSlider.update({ [key]: data });
+          this.switchOrientation(value);
+          this.rangeSlider.update({ [key]: value });
         }
         break;
       default:
         if (this.rangeSlider) {
-          this.rangeSlider.update({ [key]: data });
+          this.rangeSlider.update({ [key]: value });
         }
     }
   };

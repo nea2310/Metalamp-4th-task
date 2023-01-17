@@ -85,7 +85,7 @@ class ScaleSetup extends PanelObserver {
       notificationText = type.slice(9).toLowerCase();
       type = 'scaleBase';
     }
-    this.notify(type, notificationText);
+    this.notify('scaleSetupUpdate', { key: type, value: notificationText });
   }
 }
 

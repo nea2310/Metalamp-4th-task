@@ -212,8 +212,8 @@ class View extends Observer {
 
   private createListeners() {
     if (!this.viewScale || !this.viewControl) return;
-    this.viewScale.subscribe(this.handleScaleChange, 'viewScale');
-    this.viewControl.subscribe(this.handleControlChange, 'viewControl');
+    this.viewScale.subscribe('viewScaleUpdate', this.handleScaleChange);
+    this.viewControl.subscribe('viewControlUpdate', this.handleControlChange);
   }
 
   private setRoundValue(roundValue: number) {
@@ -221,7 +221,7 @@ class View extends Observer {
     const isNewRoundValueValid = newRoundValue >= 0 && newRoundValue <= 100;
     if (!isNewRoundValueValid) newRoundValue = 0;
     this.configuration = { ...this.configuration, round: newRoundValue };
-    this.notify('view', { round: newRoundValue });
+    this.notify('viewUpdate', { round: newRoundValue });
     if (!this.viewControl) return;
     this.viewControl.controlConfiguration = { parameter: 'round', value: newRoundValue };
   }
@@ -248,7 +248,7 @@ class View extends Observer {
   }) {
     const { from, to } = data;
     this.configuration = { ...this.configuration, from, to };
-    this.notify('view', { from, to });
+    this.notify('viewUpdate', { from, to });
     if (!this.viewBar) return;
     this.viewBar.updateBar(data);
   }

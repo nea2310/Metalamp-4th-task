@@ -12,18 +12,18 @@ export default abstract class Observer {
     this.observers = new Map();
   }
 
-  public subscribe(observer: Function, type: string) {
+  public subscribe(type: string, observer: Function) {
     const observersArray = this.observers.get(type);
     if (!observersArray) {
       this.observers.set(type, [observer]);
       return;
     }
     if (!observersArray.includes(observer)) {
-      this.observers.set(type, observersArray.concat(observer));
+      observersArray.push(observer);
     }
   }
 
-  public unsubscribe(observer: Function, type: string) {
+  public unsubscribe(type: string, observer: Function) {
     const observersArray = this.observers.get(type);
     if (!observersArray) return;
     this.observers.set(type, observersArray.filter((item) => item !== observer));

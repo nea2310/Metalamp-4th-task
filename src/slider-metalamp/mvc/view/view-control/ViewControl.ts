@@ -90,7 +90,7 @@ class ViewControl extends Observer {
     const condition = (valueType === 'fromPosition' || valueType === 'toPosition') && typeof newValue === 'number';
     if (condition) {
       this[valueType] = newValue;
-      this.notify('viewControl', {
+      this.notify('viewControlUpdate', {
         fromPosition: this.fromPosition,
         toPosition: this.toPosition,
         from: this.configuration.from,

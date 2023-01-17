@@ -163,7 +163,7 @@ class ViewScale extends Observer {
     if (marksArray[marksArray.length - 1].value
       < max) marksArray.push({ value: max, position: 100 });
     this.scaleMarks = marksArray;
-    this.notify('viewScale', {
+    this.notify('viewScaleUpdate', {
       scaleMarks: this.scaleMarks,
       step: this.configuration.step,
       interval: this.configuration.interval,

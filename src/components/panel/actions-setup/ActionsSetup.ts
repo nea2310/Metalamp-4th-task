@@ -34,7 +34,7 @@ class ActionsSetup extends PanelObserver {
   private handleInputChange(event: Event) {
     const { target } = event;
     const { type, notificationText } = getNotificationDetails(target);
-    this.notify(type, notificationText);
+    this.notify('actionSetupUpdate', { key: type, value: notificationText });
   }
 }
 

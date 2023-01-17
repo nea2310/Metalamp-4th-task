@@ -109,15 +109,15 @@ class Controller extends Observer {
 
   private createListeners() {
     if (this.view && this.model) {
-      this.view.subscribe(this.handleViewChange, 'view');
-      this.model.subscribe(this.handleModelChange, 'model');
+      this.view.subscribe('viewUpdate', this.handleViewChange);
+      this.model.subscribe('modelUpdate', this.handleModelChange);
     }
   }
 
   private removeListeners() {
     if (this.view && this.model) {
-      this.view.unsubscribe(this.handleViewChange, 'view');
-      this.model.unsubscribe(this.handleModelChange, 'model');
+      this.view.unsubscribe('viewUpdate', this.handleViewChange);
+      this.model.unsubscribe('modelUpdate', this.handleModelChange);
     }
   }
 

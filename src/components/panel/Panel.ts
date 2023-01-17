@@ -65,10 +65,10 @@ class Panel extends PanelObserver {
     });
   }
 
-  private handlePanelChange = (parameters: { key: string, data: string | boolean }) => {
-    const { key, data } = parameters;
-    if (key === 'subscribe') this.isSubscribed = !!data;
-    this.notify(key, data);
+  private handlePanelChange = (data: { key: string, value: string | boolean }) => {
+    const { key, value } = data;
+    if (key === 'subscribe') this.isSubscribed = !!value;
+    this.notify('panelUpdate', data);
   };
 
   private getElement(selector: string) {
@@ -84,12 +84,16 @@ class Panel extends PanelObserver {
 
     if (!object) return undefined;
 
-    object.subscribe(this.handlePanelChange);
+    const nameMatch = String(ClassName).match(/^class (\w+)/);
+    if (nameMatch) {
+      const evenType = `${nameMatch[1][0].toLowerCase()}${nameMatch[1].slice(1)}Update`;
+      object.subscribe(evenType, this.handlePanelChange);
+    }
+
     if (object instanceof MainSetup) {
       this.mainSetup = object;
     }
     this.optionObjects.push(object);
-
     return object;
   }
 }

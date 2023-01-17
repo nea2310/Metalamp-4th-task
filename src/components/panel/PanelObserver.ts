@@ -1,22 +1,31 @@
 export default abstract class PanelObserver {
   observers: Function[];
 
+  observersTest: Map<string, Function[]>;
+
   constructor() {
     this.observers = [];
+    this.observersTest = new Map();
   }
 
-  public subscribe(observer: Function) {
-    if (this.observers.includes(observer)) return undefined;
-    this.observers.push(observer);
-    return this.observers;
+  public subscribe(type: string, observer: Function) {
+    const observersArray = this.observersTest.get(type);
+    if (!observersArray) {
+      this.observersTest.set(type, [observer]);
+      return;
+    }
+    if (!observersArray.includes(observer)) {
+      observersArray.push(observer);
+    }
   }
 
-  public unsubscribe(observer: Function) {
-    this.observers = this.observers.filter((obs) => obs !== observer);
-    return this.observers;
-  }
-
-  protected notify(key: string, data: string | boolean) {
-    this.observers.forEach((item) => item({ key, data }));
+  protected notify(
+    type: string,
+    data: { key: string, value: string | boolean },
+  ) {
+    const observersArray = this.observersTest.get(type);
+    if (observersArray) {
+      observersArray.forEach((item) => item(data));
+    }
   }
 }
