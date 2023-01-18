@@ -5,54 +5,51 @@ function checkConfiguration(configuration: IBusinessDataIndexed) {
   const DEFAULT_VALUE = 0;
   const DEFAULT_SHIFT = 1;
 
-  let {
-    min,
-    max,
-    from,
-    to,
-  } = checkedConfiguration;
+  if (!checkedConfiguration.min && checkedConfiguration.min !== 0) {
+    checkedConfiguration.min = DEFAULT_VALUE;
+  }
+  if (!checkedConfiguration.max && checkedConfiguration.max !== 0) {
+    checkedConfiguration.max = DEFAULT_SHIFT;
+  }
+  if (!checkedConfiguration.from && checkedConfiguration.from !== 0) {
+    checkedConfiguration.from = DEFAULT_VALUE;
+  }
+  if (!checkedConfiguration.to && checkedConfiguration.to !== 0) {
+    checkedConfiguration.to = DEFAULT_SHIFT;
+  }
+  if (!checkedConfiguration.shiftOnKeyDown) checkedConfiguration.shiftOnKeyDown = DEFAULT_SHIFT;
+  if (!checkedConfiguration.shiftOnKeyHold) checkedConfiguration.shiftOnKeyHold = DEFAULT_SHIFT;
 
-  const {
-    range,
-    shiftOnKeyDown,
-    shiftOnKeyHold,
-  } = checkedConfiguration;
-
-  if (!min && min !== 0) min = DEFAULT_VALUE;
-  if (!max && max !== 0) max = DEFAULT_SHIFT;
-  if (!from && from !== 0) from = DEFAULT_VALUE;
-  if (!to && to !== 0) to = DEFAULT_SHIFT;
-  if (!shiftOnKeyDown) checkedConfiguration.shiftOnKeyDown = DEFAULT_SHIFT;
-  if (!shiftOnKeyHold) checkedConfiguration.shiftOnKeyHold = DEFAULT_SHIFT;
-
-  if (min === max) {
-    checkedConfiguration.max = min + DEFAULT_SHIFT;
+  if (checkedConfiguration.min === checkedConfiguration.max) {
+    checkedConfiguration.max = checkedConfiguration.min + DEFAULT_SHIFT;
   }
 
-  if (from === to) {
+  if (checkedConfiguration.from === checkedConfiguration.to) {
     checkedConfiguration.from = checkedConfiguration.min;
     checkedConfiguration.to = checkedConfiguration.max;
   }
 
-  if (min > max) {
-    const temporaryValue = max;
-    checkedConfiguration.max = min;
+  if (checkedConfiguration.min > checkedConfiguration.max) {
+    const temporaryValue = checkedConfiguration.max;
+    checkedConfiguration.max = checkedConfiguration.min;
     checkedConfiguration.min = temporaryValue;
   }
 
-  if (from < min) checkedConfiguration.from = min;
+  if (checkedConfiguration.from < checkedConfiguration.min) {
+    checkedConfiguration.from = checkedConfiguration.min;
+  }
 
-  if (from > max) checkedConfiguration.from = range ? to : max;
+  if (checkedConfiguration.from > checkedConfiguration.max) {
+    checkedConfiguration.from = checkedConfiguration.range
+      ? checkedConfiguration.to : checkedConfiguration.max;
+  }
 
-  if (to <= min) checkedConfiguration.to = from;
+  if (checkedConfiguration.to <= checkedConfiguration.min) {
+    checkedConfiguration.to = checkedConfiguration.from;
+  }
 
-  if (to > max) checkedConfiguration.to = max;
-
-  if (to < from) {
-    const temporaryValue = to;
-    checkedConfiguration.to = from;
-    checkedConfiguration.from = temporaryValue >= Number(checkedConfiguration.min)
-      ? temporaryValue : checkedConfiguration.min;
+  if (checkedConfiguration.to > checkedConfiguration.max) {
+    checkedConfiguration.to = checkedConfiguration.max;
   }
 
   return checkedConfiguration;

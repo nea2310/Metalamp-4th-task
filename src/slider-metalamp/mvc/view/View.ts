@@ -248,7 +248,7 @@ class View extends Observer {
     isVertical: boolean,
   }) {
     const { from, to } = data;
-    const condition = from !== this.configuration.from || to !== this.configuration.to
+    const condition = from !== this.configuration.from || to !== this.configuration.to;
     if (condition && this.viewBar) {
       this.configuration = { ...this.configuration, from, to };
       this.notify('viewUpdate', { from, to });

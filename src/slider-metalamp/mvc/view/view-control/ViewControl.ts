@@ -289,8 +289,8 @@ class ViewControl extends Observer {
       if (this.track) {
         this.controlData.top = this.track.getBoundingClientRect().top;
         this.controlData.left = this.track.getBoundingClientRect().left;
-        this.controlData.width = Number(this.track.offsetWidth);
-        this.controlData.height = Number(this.track.offsetHeight);
+        this.controlData.width = this.track.getBoundingClientRect().width;
+        this.controlData.height = this.track.getBoundingClientRect().height;
         this.controlData.type = 'pointerdown';
         this.controlData.clientX = event.clientX;
         this.controlData.clientY = event.clientY;
@@ -520,8 +520,8 @@ class ViewControl extends Observer {
     if (!scale) return;
     this.controlData.top = scale.getBoundingClientRect().top;
     this.controlData.left = scale.getBoundingClientRect().left;
-    this.controlData.width = scale.offsetWidth;
-    this.controlData.height = scale.offsetHeight;
+    this.controlData.width = scale.getBoundingClientRect().width;
+    this.controlData.height = scale.getBoundingClientRect().height;
   }
 
   private defineMoveType(data: IControlFull) {
