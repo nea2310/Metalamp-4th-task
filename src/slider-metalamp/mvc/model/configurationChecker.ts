@@ -18,12 +18,21 @@ function checkConfiguration(configuration: IBusinessDataIndexed) {
     shiftOnKeyHold,
   } = checkedConfiguration;
 
-  if (!min) min = DEFAULT_VALUE;
-  if (!max) max = DEFAULT_SHIFT;
-  if (!from) from = DEFAULT_VALUE;
-  if (!to) to = DEFAULT_SHIFT;
+  if (!min && min !== 0) min = DEFAULT_VALUE;
+  if (!max && max !== 0) max = DEFAULT_SHIFT;
+  if (!from && from !== 0) from = DEFAULT_VALUE;
+  if (!to && to !== 0) to = DEFAULT_SHIFT;
   if (!shiftOnKeyDown) checkedConfiguration.shiftOnKeyDown = DEFAULT_SHIFT;
   if (!shiftOnKeyHold) checkedConfiguration.shiftOnKeyHold = DEFAULT_SHIFT;
+
+  if (min === max) {
+    checkedConfiguration.max = min + DEFAULT_SHIFT;
+  }
+
+  if (from === to) {
+    checkedConfiguration.from = checkedConfiguration.min;
+    checkedConfiguration.to = checkedConfiguration.max;
+  }
 
   if (min > max) {
     const temporaryValue = max;
@@ -42,8 +51,8 @@ function checkConfiguration(configuration: IBusinessDataIndexed) {
   if (to < from) {
     const temporaryValue = to;
     checkedConfiguration.to = from;
-    checkedConfiguration.from = temporaryValue >= Number(checkedConfiguration.min) ? temporaryValue
-      : checkedConfiguration.min;
+    checkedConfiguration.from = temporaryValue >= Number(checkedConfiguration.min)
+      ? temporaryValue : checkedConfiguration.min;
   }
 
   return checkedConfiguration;

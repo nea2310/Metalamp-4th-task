@@ -220,10 +220,11 @@ class View extends Observer {
     let newRoundValue = Math.round(Number(roundValue));
     const isNewRoundValueValid = newRoundValue >= 0 && newRoundValue <= 100;
     if (!isNewRoundValueValid) newRoundValue = 0;
-    this.configuration = { ...this.configuration, round: newRoundValue };
-    this.notify('viewUpdate', { round: newRoundValue });
-    if (!this.viewControl) return;
-    this.viewControl.controlConfiguration = { parameter: 'round', value: newRoundValue };
+    if (newRoundValue !== this.configuration.round && this.viewControl) {
+      this.configuration = { ...this.configuration, round: newRoundValue };
+      this.notify('viewUpdate', { round: newRoundValue });
+      this.viewControl.controlConfiguration = { parameter: 'round', value: newRoundValue };
+    }
   }
 
   private handleScaleChange(data: {
@@ -247,10 +248,12 @@ class View extends Observer {
     isVertical: boolean,
   }) {
     const { from, to } = data;
-    this.configuration = { ...this.configuration, from, to };
-    this.notify('viewUpdate', { from, to });
-    if (!this.viewBar) return;
-    this.viewBar.updateBar(data);
+    const condition = from !== this.configuration.from || to !== this.configuration.to
+    if (condition && this.viewBar) {
+      this.configuration = { ...this.configuration, from, to };
+      this.notify('viewUpdate', { from, to });
+      this.viewBar.updateBar(data);
+    }
   }
 
   private switchVertical(isVertical: boolean) {

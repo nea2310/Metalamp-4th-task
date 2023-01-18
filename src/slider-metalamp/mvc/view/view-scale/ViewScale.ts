@@ -136,13 +136,14 @@ class ViewScale extends Observer {
   private calcScaleMarks() {
     const { scaleBase, min, max } = this.configuration;
     let { step, interval } = this.configuration;
-
     step = step ? Number(step) : Math.abs((max - min) / 2);
     interval = interval ? Number(interval) : 2;
     const isStep = scaleBase === 'step';
 
-    const stepValue = isStep ? step : (max - min) / interval;
-    const intervalValue = isStep ? (max - min) / step : interval;
+    let stepValue = isStep ? step : (max - min) / interval;
+    if (!stepValue) stepValue = 1;
+    let intervalValue = isStep ? (max - min) / step : interval;
+    if (!intervalValue) intervalValue = 1;
 
     this.configuration.step = stepValue % 1 === 0 ? stepValue : Math.trunc(stepValue);
     this.configuration.interval = intervalValue % 1 === 0 ? intervalValue
