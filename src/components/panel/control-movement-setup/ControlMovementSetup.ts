@@ -49,7 +49,7 @@ class ControlMovementSetup extends PanelObserver {
   private handleInputChange(event: Event) {
     const { target } = event;
     const { type, notificationText } = getNotificationDetails(target);
-    this.notify('controlSetupUpdate', { key: type, value: notificationText });
+    this.notify('controlMovementSetupUpdate', { key: type, value: notificationText });
   }
 }
 

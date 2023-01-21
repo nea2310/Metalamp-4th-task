@@ -86,8 +86,8 @@ class Panel extends PanelObserver {
 
     const nameMatch = String(ClassName).match(/^class (\w+)/);
     if (nameMatch) {
-      const evenType = `${nameMatch[1][0].toLowerCase()}${nameMatch[1].slice(1)}Update`;
-      object.subscribe(evenType, this.handlePanelChange);
+      const eventType = `${nameMatch[1][0].toLowerCase()}${nameMatch[1].slice(1)}Update`;
+      object.subscribe(eventType, this.handlePanelChange);
     }
 
     if (object instanceof MainSetup) {
