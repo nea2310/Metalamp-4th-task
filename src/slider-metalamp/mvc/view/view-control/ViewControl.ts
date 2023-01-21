@@ -446,6 +446,7 @@ class ViewControl extends Observer {
   }
 
   private calcValueSetByKeySticky(condition: string, item: IScaleMark) {
+    if (!item) return null;
     const {
       range,
       from,
