@@ -52,6 +52,12 @@ function checkConfiguration(configuration: IBusinessDataIndexed) {
     checkedConfiguration.to = checkedConfiguration.max;
   }
 
+  if (checkedConfiguration.from > checkedConfiguration.to && checkedConfiguration.range) {
+    const temporaryValue = checkedConfiguration.to;
+    checkedConfiguration.to = checkedConfiguration.from;
+    checkedConfiguration.from = temporaryValue;
+  }
+
   return checkedConfiguration;
 }
 

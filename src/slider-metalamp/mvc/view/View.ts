@@ -83,9 +83,6 @@ class View extends Observer {
       interval,
       from,
       to,
-      sticky,
-      shiftOnKeyDown,
-      shiftOnKeyHold,
       vertical,
       range,
       tip,
@@ -111,22 +108,20 @@ class View extends Observer {
           this.viewScale.update({ interval, scaleBase });
           break;
         case 'from':
-          this.viewControl.updateConfiguration(from, 'fromValue');
+          this.viewControl.controlConfiguration = this.configuration;
           this.viewControl.calcPositionSetByKey(true, from, to);
           break;
         case 'to':
-          this.viewControl.updateConfiguration(to, 'toValue');
+          this.viewControl.controlConfiguration = this.configuration;
           this.viewControl.calcPositionSetByKey(false, from, to);
           break;
         case 'sticky':
-          this.viewControl.controlConfiguration = { parameter: 'sticky', value: sticky };
+          this.viewControl.controlConfiguration = this.configuration;
           this.viewControl.switchSticky();
           break;
         case 'shiftOnKeyDown':
-          this.viewControl.controlConfiguration = { parameter: 'shiftOnKeyDown', value: shiftOnKeyDown };
-          break;
         case 'shiftOnKeyHold':
-          this.viewControl.controlConfiguration = { parameter: 'shiftOnKeyHold', value: shiftOnKeyHold };
+          this.viewControl.controlConfiguration = this.configuration;
           break;
         case 'round':
           this.setRoundValue(round);
@@ -223,7 +218,7 @@ class View extends Observer {
     if (newRoundValue !== this.configuration.round && this.viewControl) {
       this.configuration = { ...this.configuration, round: newRoundValue };
       this.notify('viewUpdate', { round: newRoundValue });
-      this.viewControl.controlConfiguration = { parameter: 'round', value: newRoundValue };
+      this.viewControl.controlConfigurationItem = { item: 'round', value: newRoundValue };
     }
   }
 
@@ -252,8 +247,8 @@ class View extends Observer {
     if (condition && this.viewBar) {
       this.configuration = { ...this.configuration, from, to };
       this.notify('viewUpdate', { from, to });
-      this.viewBar.updateBar(data);
     }
+    if (this.viewBar) this.viewBar.updateBar(data);
   }
 
   private switchVertical(isVertical: boolean) {
@@ -272,7 +267,7 @@ class View extends Observer {
       isRange,
       isVertical,
     });
-    this.viewControl.controlConfiguration = { parameter: 'range', value: isRange };
+    this.viewControl.controlConfigurationItem = { item: 'range', value: isRange };
   }
 
   private switchScale(isScale: boolean) {

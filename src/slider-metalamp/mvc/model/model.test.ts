@@ -54,7 +54,7 @@ describe('Model behavior', () => {
       to: 100,
     }));
 
-    testModel.update({ from: 2000  });
+    testModel.update({ from: 2000 });
     expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
       min: 100,
       max: 1000,

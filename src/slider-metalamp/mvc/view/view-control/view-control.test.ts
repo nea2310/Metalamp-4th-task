@@ -477,7 +477,7 @@ describe('ViewControl event listeners', () => {
 
     expect(updateModel).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        from: 47,
+        from: 49,
         to: 49,
       })
     );
