@@ -3,7 +3,7 @@ import prepareElements from '../../../shared/utils/prepareElements';
 import getNotificationDetails from '../../../shared/utils/getNotificationDetails';
 import getElement from '../../../shared/utils/getElement';
 import { TPluginConfiguration, TInputTypes, IViewData } from '../../../slider-metalamp/mvc/interface';
-import PanelObserver from '../PanelObserver';
+import Observer from '../../../slider-metalamp/mvc/Observer';
 
 const OPTIONS: Array<[string, TInputTypes]> = [
   ['min', 'input'],
@@ -17,7 +17,7 @@ const OPTIONS: Array<[string, TInputTypes]> = [
   ['tip', 'toggle'],
 ];
 
-class MainSetup extends PanelObserver {
+class MainSetup extends Observer {
   private optionObjects: Array<HTMLInputElement> = [];
 
   private wrapper: HTMLElement;

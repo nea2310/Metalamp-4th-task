@@ -1,8 +1,8 @@
 import getNotificationDetails from '../../../shared/utils/getNotificationDetails';
 import getElement from '../../../shared/utils/getElement';
-import PanelObserver from '../PanelObserver';
+import Observer from '../../../slider-metalamp/mvc/Observer';
 
-class ActionsSetup extends PanelObserver {
+class ActionsSetup extends Observer {
   private wrapper: HTMLElement;
 
   private optionSubscribe: HTMLInputElement | null = null;

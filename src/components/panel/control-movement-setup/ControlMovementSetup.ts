@@ -2,7 +2,7 @@ import updateObject from '../../../shared/utils/updateObject';
 import prepareElements from '../../../shared/utils/prepareElements';
 import getNotificationDetails from '../../../shared/utils/getNotificationDetails';
 import { TPluginConfiguration, TInputTypes } from '../../../slider-metalamp/mvc/interface';
-import PanelObserver from '../PanelObserver';
+import Observer from '../../../slider-metalamp/mvc/Observer';
 
 const OPTIONS: Array<[string, TInputTypes]> = [
   ['shiftOnKeyDown', 'input'],
@@ -10,7 +10,7 @@ const OPTIONS: Array<[string, TInputTypes]> = [
   ['sticky', 'toggle'],
 ];
 
-class ControlMovementSetup extends PanelObserver {
+class ControlMovementSetup extends Observer {
   private optionObjects: Array<HTMLInputElement> = [];
 
   private wrapper: HTMLElement;
@@ -49,7 +49,10 @@ class ControlMovementSetup extends PanelObserver {
   private handleInputChange(event: Event) {
     const { target } = event;
     const { type, notificationText } = getNotificationDetails(target);
-    this.notify('controlMovementSetupUpdate', { key: type, value: notificationText });
+    this.notify('controlMovementSetupUpdate', {
+      key: type,
+      value: notificationText,
+    });
   }
 }
 

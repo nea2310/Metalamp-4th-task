@@ -26,12 +26,20 @@ export default abstract class Observer {
   public unsubscribe(type: string, observer: Function) {
     const observersArray = this.observers.get(type);
     if (!observersArray) return;
-    this.observers.set(type, observersArray.filter((item) => item !== observer));
+    this.observers.set(
+      type,
+      observersArray.filter((item) => item !== observer),
+    );
   }
 
   protected notify(
     type: string,
-    data: IViewData | IBusinessData | IScaleState | IControlState,
+    data:
+    | IViewData
+    | IBusinessData
+    | IScaleState
+    | IControlState
+    | { key: string; value: string | boolean },
   ) {
     const observersArray = this.observers.get(type);
     if (observersArray) {

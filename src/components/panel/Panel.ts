@@ -1,13 +1,13 @@
 import { TPluginConfiguration, IViewData } from '../../slider-metalamp/mvc/interface';
+import Observer from '../../slider-metalamp/mvc/Observer';
 import ScaleSetup from './scale-setup/ScaleSetup';
 import MainSetup from './main-setup/MainSetup';
 import ControlMovementSetup from './control-movement-setup/ControlMovementSetup';
 import ActionsSetup from './actions-setup/ActionsSetup';
-import PanelObserver from './PanelObserver';
 
 type TPanelComponents = MainSetup | ScaleSetup | ControlMovementSetup | ActionsSetup;
 
-class Panel extends PanelObserver {
+class Panel extends Observer {
   private optionObjects: Array<TPanelComponents> = [];
 
   private wrapper: HTMLElement;

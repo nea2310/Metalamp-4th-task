@@ -3,7 +3,7 @@ import prepareElements from '../../../shared/utils/prepareElements';
 import getNotificationDetails from '../../../shared/utils/getNotificationDetails';
 import getElement from '../../../shared/utils/getElement';
 import { TPluginConfiguration, TInputTypes } from '../../../slider-metalamp/mvc/interface';
-import PanelObserver from '../PanelObserver';
+import Observer from '../../../slider-metalamp/mvc/Observer';
 
 const OPTIONS: Array<[string, TInputTypes]> = [
   ['scale', 'toggle'],
@@ -13,7 +13,7 @@ const OPTIONS: Array<[string, TInputTypes]> = [
   ['scaleBaseInterval', 'radiobuttons'],
 ];
 
-class ScaleSetup extends PanelObserver {
+class ScaleSetup extends Observer {
   private optionObjects: Array<HTMLInputElement> = [];
 
   private wrapper: HTMLElement;
@@ -51,8 +51,16 @@ class ScaleSetup extends PanelObserver {
   private render() {
     this.optionInterval = getElement(this.wrapper, 'interval');
     this.optionStep = getElement(this.wrapper, 'step');
-    this.scaleBaseSteps = getElement(this.wrapper, 'scaleBaseStep', 'radiobuttons');
-    this.scaleBaseIntervals = getElement(this.wrapper, 'scaleBaseInterval', 'radiobuttons');
+    this.scaleBaseSteps = getElement(
+      this.wrapper,
+      'scaleBaseStep',
+      'radiobuttons',
+    );
+    this.scaleBaseIntervals = getElement(
+      this.wrapper,
+      'scaleBaseInterval',
+      'radiobuttons',
+    );
     this.optionObjects = prepareElements(OPTIONS, this.wrapper);
   }
 
@@ -68,12 +76,12 @@ class ScaleSetup extends PanelObserver {
     const isStep = option === 'scaleBaseStep';
 
     if (!this.optionStep || !this.optionInterval) return;
-    this.optionStep.disabled = (!isStep);
-    this.optionInterval.disabled = (isStep);
+    this.optionStep.disabled = !isStep;
+    this.optionInterval.disabled = isStep;
 
     if (!this.scaleBaseIntervals || !this.scaleBaseSteps) return;
-    this.scaleBaseSteps.checked = (isStep);
-    this.scaleBaseIntervals.checked = (!isStep);
+    this.scaleBaseSteps.checked = isStep;
+    this.scaleBaseIntervals.checked = !isStep;
   }
 
   private handleInputChange(event: Event) {
