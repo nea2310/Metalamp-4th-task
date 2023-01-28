@@ -8,10 +8,11 @@ describe('Model behavior', () => {
     document.body.appendChild(parent);
     const testModel = new Model();
     const testView = new View(parent);
+    // eslint-disable-next-line no-new
     new Controller(testModel, testView, {});
     const updateView = jest.spyOn(testView, 'update');
 
-      testModel.update({
+    testModel.update({
       min: 0,
       max: 100,
       from: 10,
@@ -23,13 +24,14 @@ describe('Model behavior', () => {
       from: 10,
       to: 90,
     }));
-  })
+  });
 
   test('Should fix inconsistent configuration and update Model', () => {
     const parent = document.createElement('input');
     document.body.appendChild(parent);
     const testModel = new Model();
     const testView = new View(parent);
+    // eslint-disable-next-line no-new
     new Controller(testModel, testView, {});
     const updateView = jest.spyOn(testView, 'update');
 
@@ -139,6 +141,5 @@ describe('Model behavior', () => {
       shiftOnKeyDown: 1,
       shiftOnKeyHold: 1,
     }));
-  })
-})
-
+  });
+});

@@ -1,9 +1,10 @@
-import { mockKeyboardEvent, createInstance } from '../test-utils';
+import { createInstance } from '../test-utils';
 
 describe('', () => {
   test('', () => {
-    const { testController, controlMax, updateModel, scale } =
-      createInstance();
+    const {
+      testController,
+    } = createInstance();
 
     testController.update({
       min: -100,
@@ -15,7 +16,7 @@ describe('', () => {
       bar: false,
       tip: false,
       scale: false,
-      scaleBase:  'interval',
+      scaleBase: 'interval',
       step: 1,
       interval: 20,
       sticky: true,

@@ -2,8 +2,9 @@ import { mockKeyboardEvent, createInstance } from '../../test-utils';
 
 describe('Scale marks are created', () => {
   test('Scale marks are created correctly', () => {
-    const { testController, controlMax, updateModel, scale } =
-      createInstance();
+    const {
+      testController, controlMax, updateModel, scale,
+    } = createInstance();
 
     testController.update({
       min: 0,
@@ -15,6 +16,8 @@ describe('Scale marks are created', () => {
       shiftOnKeyDown: 1,
     });
 
+    if (!(controlMax instanceof HTMLElement)) return;
+
     mockKeyboardEvent(controlMax, {
       eventType: 'keydown',
       direction: 'ArrowLeft',
@@ -25,7 +28,7 @@ describe('Scale marks are created', () => {
       expect.objectContaining({
         from: 0,
         to: 90,
-      })
+      }),
     );
 
     testController.update({ step: 1 });
@@ -40,23 +43,21 @@ describe('Scale marks are created', () => {
       expect.objectContaining({
         from: 0,
         to: 89,
-      })
+      }),
     );
 
     if (scale) {
-      scale.getBoundingClientRect = jest.fn(() => {
-        return {
-          width: 300,
-          height: 50,
-          top: 30,
-          left: 30,
-          bottom: 50,
-          right: 50,
-          x: 0,
-          y: 0,
-          toJSON: () => undefined,
-        };
-      });
+      scale.getBoundingClientRect = jest.fn(() => ({
+        width: 300,
+        height: 50,
+        top: 30,
+        left: 30,
+        bottom: 50,
+        right: 50,
+        x: 0,
+        y: 0,
+        toJSON: () => undefined,
+      }));
     }
 
     global.innerWidth = 300;
@@ -71,7 +72,7 @@ describe('Scale marks are created', () => {
       expect.objectContaining({
         from: 0,
         to: 88,
-      })
+      }),
     );
   });
 });
