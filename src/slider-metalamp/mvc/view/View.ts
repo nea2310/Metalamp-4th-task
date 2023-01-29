@@ -1,4 +1,4 @@
-import sortArray from '../../../shared/utils/sortArray';
+import sortObject from '../../../shared/utils/sortObject';
 import { defaultConfiguration } from '../utils';
 import Observer from '../Observer';
 import {
@@ -67,9 +67,9 @@ class View extends Observer {
     const oldConfiguration = this.configuration;
     this.configuration = newConfiguration;
 
-    const changedConfigurationItems = sortArray(newConfiguration)
+    const changedConfigurationItems = sortObject(newConfiguration)
       .filter((newConfigurationItem) => {
-        const confItem = sortArray(oldConfiguration).find(
+        const confItem = sortObject(oldConfiguration).find(
           (oldConfigurationItem) => oldConfigurationItem[0] === newConfigurationItem[0],
         );
         if (!confItem) return null;
@@ -92,7 +92,7 @@ class View extends Observer {
       round,
     } = newConfiguration;
 
-    changedConfigurationItems.forEach((item) => {
+    changedConfigurationItems.forEach((item: any[]) => {
       if (!this.viewScale || !this.viewControl) return;
       switch (item[0]) {
         case 'min':
