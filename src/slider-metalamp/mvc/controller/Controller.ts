@@ -20,16 +20,16 @@ const BUSINESS_DATA_TYPES = [
   'shiftOnKeyHold',
 ];
 
-const NUMBER_DATA_TYPES = [
-  'min',
-  'max',
-  'from',
-  'to',
-  'step',
-  'interval',
-  'shiftOnKeyDown',
-  'shiftOnKeyHold',
-];
+// const NUMBER_DATA_TYPES = [
+//   'min',
+//   'max',
+//   'from',
+//   'to',
+//   'step',
+//   'interval',
+//   'shiftOnKeyDown',
+//   'shiftOnKeyHold',
+// ];
 
 class Controller extends Observer {
   private model: Model | null;
@@ -62,18 +62,14 @@ class Controller extends Observer {
     if (!this.model || !this.view) return;
 
     let checkedConfiguration = newConfiguration;
-
-    const convertToNumber = (key: string, value: unknown) => {
-      const convertedValue = Number.isNaN(Number(value)) ? 0 : Number(value);
-      const object = { [key]: convertedValue };
-      checkedConfiguration = {
-        ...newConfiguration, ...object,
-      };
-    };
-
     Object.entries(checkedConfiguration).forEach((element) => {
       const [key, value] = element;
-      if (NUMBER_DATA_TYPES.includes(key)) convertToNumber(key, value);
+      const condition = key !== 'scaleBase' && typeof value !== 'boolean';
+      if (condition) {
+        checkedConfiguration = {
+          ...newConfiguration, [key]: Number(value) ?? 0,
+        };
+      }
     });
 
     this.configuration = {
