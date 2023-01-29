@@ -17,10 +17,6 @@ class ViewControl extends Observer {
 
   private toPosition = 0;
 
-  private controlMin: HTMLElement | undefined;
-
-  private controlMax: HTMLElement | undefined;
-
   private tipMin: HTMLInputElement | null = null;
 
   private tipMax: HTMLInputElement | null = null;
@@ -34,6 +30,10 @@ class ViewControl extends Observer {
   private scaleMarks: IScaleMark[];
 
   private controlData: IControlFull = defaultControlData;
+
+  private controlMin?: HTMLElement;
+
+  private controlMax?: HTMLElement;
 
   constructor(
     sliderElement: HTMLElement,

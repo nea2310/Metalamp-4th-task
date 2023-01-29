@@ -8,7 +8,7 @@ import {
 class ViewScale extends Observer {
   private slider: HTMLElement;
 
-  private startWidth: number = 0;
+  private startWidth = 0;
 
   private track: HTMLElement;
 
@@ -16,7 +16,7 @@ class ViewScale extends Observer {
 
   private configuration: IPluginConfigurationFull;
 
-  private lastLabelRemoved: boolean = false;
+  private lastLabelRemoved = false;
 
   private scaleMarks: IScaleMark[] = [];
 

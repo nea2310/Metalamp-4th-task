@@ -12,19 +12,19 @@ import ViewControl from './view-control/ViewControl';
 import ViewBar from './view-bar/ViewBar';
 
 class View extends Observer {
-  private viewControl: ViewControl | undefined | null;
-
-  private viewScale: ViewScale | undefined | null;
-
-  private viewBar: ViewBar | undefined | null;
-
   private dataAttributes: TPluginConfiguration = {};
 
-  private slider: HTMLElement | undefined;
+  private viewControl?: ViewControl | null;
 
-  private track: HTMLElement | undefined;
+  private viewScale?: ViewScale | null;
 
-  private frame: HTMLElement | undefined;
+  private viewBar?: ViewBar | null;
+
+  private slider?: HTMLElement;
+
+  private track?: HTMLElement;
+
+  private frame?: HTMLElement;
 
   private configuration: IPluginConfigurationFull = defaultConfiguration;
 

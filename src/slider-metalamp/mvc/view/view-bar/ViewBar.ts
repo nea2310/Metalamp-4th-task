@@ -5,8 +5,6 @@ class ViewBar {
 
   private track: Element | null = null;
 
-  private progressBar: HTMLElement | undefined;
-
   private fromPosition = 0;
 
   private toPosition = 0;
@@ -14,6 +12,8 @@ class ViewBar {
   private isRange = false;
 
   private isVertical = false;
+
+  private progressBar?: HTMLElement;
 
   constructor(
     root: HTMLElement,
