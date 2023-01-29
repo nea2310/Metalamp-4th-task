@@ -199,9 +199,7 @@ class ViewControl extends Observer {
     const handlePointerStart = (event: PointerEvent) => {
       event.preventDefault();
       const { target } = event;
-      if (!(target instanceof HTMLElement)) {
-        throw new Error('Cannot handle move outside of DOM');
-      }
+      if (!(target instanceof HTMLElement)) return;
       if (target.classList.contains('slider-metalamp__control')) {
         target.classList.add('slider-metalamp__control_grabbing');
       }
@@ -248,9 +246,7 @@ class ViewControl extends Observer {
       );
       if (direction) event.preventDefault();
       const { target } = event;
-      if (!(target instanceof HTMLElement)) {
-        throw new Error('Cannot handle move outside of DOM');
-      }
+      if (!(target instanceof HTMLElement)) return;
       if (!direction) return;
 
       if (target.classList.contains('slider-metalamp__control')) {
@@ -267,9 +263,7 @@ class ViewControl extends Observer {
     const handlePointerStart = (event: PointerEvent) => {
       event.preventDefault();
       const { target } = event;
-      if (!(target instanceof HTMLElement)) {
-        throw new Error('Cannot handle move outside of DOM');
-      }
+      if (!(target instanceof HTMLElement)) return;
 
       const array = ['slider-metalamp__track',
         'slider-metalamp__progress-bar',
