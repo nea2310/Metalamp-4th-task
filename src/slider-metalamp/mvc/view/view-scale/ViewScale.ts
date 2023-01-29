@@ -70,20 +70,20 @@ class ViewScale extends Observer {
     return this.checkScaleLength(this.markList);
   }
 
+  private hideLabels(markListNew: Element[]) {
+    for (let i = 1; i < markListNew.length; i += 2) {
+      const child = markListNew[i].firstElementChild;
+      if (child) child.classList.add('slider-metalamp__label_hidden');
+      markListNew[i].classList.add('slider-metalamp__mark_no-label');
+      markListNew[i].classList.add('js-slider-metalamp__mark_no-label');
+    }
+    this.markList = [...this.track.querySelectorAll('.js-slider-metalamp__mark:not(.js-slider-metalamp__mark_no-label)')];
+
+    this.lastLabelRemoved = true;
+    this.checkScaleLength(this.markList);
+  }
+
   private checkScaleLength(markList: Element[]) {
-    const hideLabels = (markListNew: Element[]) => {
-      for (let i = 1; i < markListNew.length; i += 2) {
-        const child = markListNew[i].firstElementChild;
-        if (child) child.classList.add('slider-metalamp__label_hidden');
-        markListNew[i].classList.add('slider-metalamp__mark_no-label');
-        markListNew[i].classList.add('js-slider-metalamp__mark_no-label');
-      }
-      this.markList = [...this.track.querySelectorAll('.js-slider-metalamp__mark:not(.js-slider-metalamp__mark_no-label)')];
-
-      this.lastLabelRemoved = true;
-      this.checkScaleLength(this.markList);
-    };
-
     const size = this.configuration.vertical ? 'height' : 'width';
     const offsetSize = this.configuration.vertical ? 'offsetHeight' : 'offsetWidth';
 
@@ -93,7 +93,7 @@ class ViewScale extends Observer {
       if (child) totalSize += child.getBoundingClientRect()[size];
     });
     if (totalSize > this.track[offsetSize]) {
-      hideLabels(markList);
+      this.hideLabels(markList);
       return this.markList;
     }
     if (this.lastLabelRemoved) this.addLastLabel(this.lastLabelRemoved);
