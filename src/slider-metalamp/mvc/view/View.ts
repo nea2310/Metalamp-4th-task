@@ -175,7 +175,7 @@ class View extends Observer {
 
     this.root.after(this.slider);
 
-    this.collectParms();
+    this.collectParameters();
   }
 
   private createSubViews() {
@@ -294,56 +294,24 @@ class View extends Observer {
     this.slider.classList.remove(className);
   }
 
-  private collectParms() {
-    this.dataAttributes = {};
+  private collectParameters() {
+    const booleanValues = ['vertical', 'range', 'sticky', 'scale', 'bar', 'tip'];
+    const numberValues = ['min', 'max', 'from', 'to', 'round', 'step', 'interval', 'shiftonkeydown', 'shiftonkeyhold'];
+    const stringValues = ['scalebase'];
+
+    if (!(this.root instanceof HTMLElement)) return;
+    const attributesArray = JSON.parse(JSON.stringify(this.root.dataset));
     const map = new Map();
-    const properties = [
-      'min',
-      'max',
-      'from',
-      'to',
-      'round',
-      'step',
-      'interval',
-      'shiftonkeydown',
-      'shiftonkeyhold',
-      'scalebase',
-      'vertical',
-      'range',
-      'sticky',
-      'scale',
-      'bar',
-      'tip',
-    ];
 
-    const attributesArray = Array.from(this.root.attributes);
-
-    attributesArray.forEach((element: Attr) => {
-      const name = element.name.replace(/^data-/, '');
-      if (properties.indexOf(name) === -1) return;
-      map.set(name, element.value);
+    Object.entries(attributesArray).forEach((item) => {
+      const [key, value] = item;
+      if (typeof value !== 'string') return;
+      if (booleanValues.includes(key) && value === 'true') map.set(key, true);
+      if (booleanValues.includes(key) && value === 'false') map.set(key, false);
+      if (numberValues.includes(key)) map.set(key, parseFloat(value));
+      if (stringValues.includes(key)) map.set(key, value);
     });
 
-    map.forEach((value, key) => {
-      if (/^-?\d+\.?\d*$/.test(value)) map.set(key, parseFloat(value));
-
-      if (value === 'true') map.set(key, true);
-
-      if (value === 'false') map.set(key, false);
-
-      if (key === 'shiftonkeydown') {
-        map.set('shiftOnKeyDown', value);
-        map.delete(key);
-      }
-      if (key === 'shiftonkeyhold') {
-        map.set('shiftOnKeyHold', value);
-        map.delete(key);
-      }
-      if (key === 'scalebase') {
-        map.set('scaleBase', value);
-        map.delete(key);
-      }
-    });
     this.dataAttributes = Object.fromEntries(map.entries());
   }
 }
