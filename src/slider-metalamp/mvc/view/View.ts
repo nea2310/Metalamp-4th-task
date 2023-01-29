@@ -12,11 +12,11 @@ import ViewControl from './view-control/ViewControl';
 import ViewBar from './view-bar/ViewBar';
 
 class View extends Observer {
-  private viewControl: ViewControl | undefined;
+  private viewControl: ViewControl | undefined | null;
 
-  private viewScale: ViewScale | undefined;
+  private viewScale: ViewScale | undefined | null;
 
-  private viewBar: ViewBar | undefined;
+  private viewBar: ViewBar | undefined | null;
 
   private dataAttributes: TPluginConfiguration = {};
 
@@ -157,6 +157,13 @@ class View extends Observer {
   }
 
   public destroy() {
+    if (!this.viewScale) return;
+    this.viewScale.unsubscribe('viewScaleUpdate', this.handleScaleChange);
+    this.viewScale = null;
+    if (!this.viewControl) return;
+    this.viewControl.unsubscribe('viewControlUpdate', this.handleControlChange);
+    this.viewControl = null;
+    this.viewBar = null;
     if (!this.slider) return;
     this.slider.remove();
   }
