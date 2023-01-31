@@ -10,27 +10,6 @@ import {
 
 import { defaultConfiguration } from '../utils';
 
-const BUSINESS_DATA_TYPES = [
-  'min',
-  'max',
-  'from',
-  'to',
-  'range',
-  'shiftOnKeyDown',
-  'shiftOnKeyHold',
-];
-
-// const NUMBER_DATA_TYPES = [
-//   'min',
-//   'max',
-//   'from',
-//   'to',
-//   'step',
-//   'interval',
-//   'shiftOnKeyDown',
-//   'shiftOnKeyHold',
-// ];
-
 class Controller extends Observer {
   private model: Model | null;
 
@@ -46,16 +25,6 @@ class Controller extends Observer {
     this.bindListeners();
     this.createListeners();
     this.init();
-  }
-
-  static selectData(data: TPluginConfiguration, isBusinessData = false) {
-    const selectedData = Object.entries(data)
-      .filter((element) => BUSINESS_DATA_TYPES
-        .find((item) => {
-          if (isBusinessData) return item === element[0];
-          return item !== element[0];
-        }));
-    return Object.fromEntries(selectedData);
   }
 
   public update(newConfiguration: TPluginConfiguration) {
@@ -74,10 +43,10 @@ class Controller extends Observer {
 
     this.configuration = {
       ...this.configuration,
-      ...Controller.selectData(checkedConfiguration),
+      ...checkedConfiguration,
     };
     this.view.update(this.configuration);
-    this.model.update(Controller.selectData(this.configuration, true));
+    this.model.update(this.configuration);
   }
 
   public disable() {
@@ -127,7 +96,7 @@ class Controller extends Observer {
     };
 
     this.view.init(this.configuration);
-    this.model.update(Controller.selectData(this.configuration, true));
+    this.model.update(this.configuration);
   }
 
   private handleModelChange(data: IBusinessData) {
@@ -141,7 +110,7 @@ class Controller extends Observer {
   private handleViewChange(data: IViewData) {
     this.configuration = { ...this.configuration, ...data };
     if (!this.model) return;
-    this.model.update(Controller.selectData(this.configuration, true));
+    this.model.update(this.configuration);
     const { onChange } = this.configuration;
     if (onChange) onChange(data);
   }

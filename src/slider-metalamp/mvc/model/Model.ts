@@ -1,12 +1,12 @@
 import Observer from '../Observer';
-import { IBusinessDataIndexed } from '../interface';
+import { TPluginConfiguration } from '../interface';
 import checkConfiguration from './configurationChecker';
 
 const DEFAULT_VALUE = 0;
 const DEFAULT_SHIFT = 1;
 
 class Model extends Observer {
-  private configuration: IBusinessDataIndexed = {
+  private configuration: TPluginConfiguration = {
     min: DEFAULT_VALUE,
     max: DEFAULT_SHIFT,
     from: DEFAULT_VALUE,
@@ -16,7 +16,7 @@ class Model extends Observer {
     shiftOnKeyHold: DEFAULT_SHIFT,
   };
 
-  public update(configuration: IBusinessDataIndexed) {
+  public update(configuration: TPluginConfiguration) {
     this.configuration = checkConfiguration({ ...this.configuration, ...configuration });
     this.notify('modelUpdate', this.configuration);
   }

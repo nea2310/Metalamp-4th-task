@@ -1,6 +1,6 @@
-import { IBusinessDataIndexed } from '../interface';
+import { TPluginConfiguration } from '../interface';
 
-function checkConfiguration(configuration: IBusinessDataIndexed) {
+function checkConfiguration(configuration: TPluginConfiguration) {
   const checkedConfiguration = configuration;
   const DEFAULT_VALUE = 0;
   const DEFAULT_SHIFT = 1;
