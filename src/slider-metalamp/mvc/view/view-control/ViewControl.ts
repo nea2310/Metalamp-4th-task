@@ -121,6 +121,7 @@ class ViewControl extends Observer {
     this.configuration.min = min;
     this.configuration.max = max;
     this.configuration.vertical = vertical;
+
     this.calcPositionSetByKey(true);
     this.calcPositionSetByKey();
   }
@@ -159,7 +160,6 @@ class ViewControl extends Observer {
       max,
       sticky,
     } = this.configuration;
-
     const positionType = isMinControl ? 'fromPosition' : 'toPosition';
     const controlType = isMinControl ? 'controlMin' : 'controlMax';
     let positonValue = isMinControl ? ((from - min) * 100) / (max - min)
@@ -167,6 +167,8 @@ class ViewControl extends Observer {
     if (sticky) positonValue = this.setSticky(positonValue);
     this.updateConfiguration(positonValue, positionType);
     if (this[controlType]) this.setControlOnPosition(this[controlType], this[positionType]);
+    const value = isMinControl ? from : to;
+    this.updateValue(String(value), isMinControl);
   }
 
   public switchTip(vertical: boolean) {
@@ -175,24 +177,38 @@ class ViewControl extends Observer {
     this.tipMin.style.left = ViewControl.getTipPosition(vertical, this.tipMin);
   }
 
+  public switchRange(isRange = true) {
+    this.controlConfigurationItem = { item: 'range', value: isRange };
+    if (!this.track) return;
+    if (!isRange) this.controlMax?.remove();
+    else this.createControl(false, false);
+  }
+
   private render() {
     this.track = this.slider.firstElementChild;
-    if (!this.track) return;
-
-    this.controlMin = ViewControl.renderControl('slider-metalamp__control-min', 'slider-metalamp__tip-min', this.configuration.from);
-    this.tipMin = ViewControl.getElement(this.controlMin, '.slider-metalamp__tip');
-    this.track.append(this.controlMin);
-
-    this.controlMax = ViewControl.renderControl('slider-metalamp__control-max', 'slider-metalamp__tip-max', this.configuration.to);
-    this.tipMax = ViewControl.getElement(this.controlMax, '.slider-metalamp__tip');
-    this.track.append(this.controlMax);
+    this.createControl();
+    if (this.configuration.range) this.createControl(true);
 
     this.dragControl();
     this.pressControl();
     this.clickTrack();
+  }
 
-    this.calcPositionSetByKey(true);
-    this.calcPositionSetByKey();
+  private createControl(isMinControl = false, isRendering = true) {
+    const controlType = isMinControl ? 'Min' : 'Max';
+    const type = isMinControl ? 'from' : 'to';
+    const control = ViewControl.renderControl(
+      `slider-metalamp__control-${controlType.toLowerCase()}`,
+      `slider-metalamp__tip-${controlType.toLowerCase()}`,
+      this.configuration[type],
+    );
+
+    if (!control) return;
+
+    this[`control${controlType}`] = control;
+    this[`tip${controlType}`] = ViewControl.getElement(control, '.slider-metalamp__tip');
+    this.track?.append(control);
+    if (isRendering) this.calcPositionSetByKey(isMinControl);
   }
 
   private dragControl() {
@@ -490,9 +506,8 @@ class ViewControl extends Observer {
 
   private updateValue(value: string, isFrom: boolean) {
     const { tipMin, tipMax } = this;
-    if (!tipMin || !tipMax) return;
     const tip = isFrom ? tipMin : tipMax;
-    tip.innerText = value;
+    if (tip) tip.innerText = value;
   }
 
   private setControlOnPosition(element: HTMLElement | undefined, newPosition: number) {
@@ -503,10 +518,8 @@ class ViewControl extends Observer {
     item.style[propertyToSet] = `${newPosition}%`;
     item.style[propertyToUnset] = '';
 
-    if (!this.tipMin || !this.tipMax) return;
-
     const tip = this.defineControl(item) === 'min' ? this.tipMin : this.tipMax;
-    tip.style.left = ViewControl.getTipPosition(this.configuration.vertical, tip);
+    if (tip) tip.style.left = ViewControl.getTipPosition(this.configuration.vertical, tip);
   }
 
   private defineControl = (element: IEventTarget): 'min' | 'max' | null => {

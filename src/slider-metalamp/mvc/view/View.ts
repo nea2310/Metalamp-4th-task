@@ -249,13 +249,11 @@ class View extends Observer {
     isRange: boolean,
     isVertical: boolean,
   }) {
+    if (!this.viewBar) return;
     const { from, to } = data;
-    const condition = from !== this.configuration.from || to !== this.configuration.to;
-    if (condition && this.viewBar) {
-      this.configuration = { ...this.configuration, from, to };
-      this.notify('viewUpdate', { from, to });
-    }
-    if (this.viewBar) this.viewBar.updateBar(data);
+    this.configuration = { ...this.configuration, from, to };
+    this.notify('viewUpdate', { from, to });
+    this.viewBar.updateBar(data);
   }
 
   private switchVertical(isVertical: boolean) {
@@ -274,7 +272,7 @@ class View extends Observer {
       isRange,
       isVertical,
     });
-    this.viewControl.controlConfigurationItem = { item: 'range', value: isRange };
+    this.viewControl.switchRange(isRange);
   }
 
   private switchScale(isScale: boolean) {

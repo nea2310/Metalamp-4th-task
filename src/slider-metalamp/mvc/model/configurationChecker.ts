@@ -24,7 +24,7 @@ function checkConfiguration(configuration: TPluginConfiguration) {
     checkedConfiguration.max = checkedConfiguration.min + DEFAULT_SHIFT;
   }
 
-  if (checkedConfiguration.from === checkedConfiguration.to) {
+  if (checkedConfiguration.from === checkedConfiguration.to && checkedConfiguration.range) {
     checkedConfiguration.from = checkedConfiguration.min;
     checkedConfiguration.to = checkedConfiguration.max;
   }
