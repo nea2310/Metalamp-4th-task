@@ -5,6 +5,9 @@ import {
   TPluginConfiguration,
 } from '../../interface';
 
+const MIN_SCALE_LIMIT = 2;
+const MAX_SCALE_LIMIT = 1000;
+
 class ViewScale extends Observer {
   private slider: HTMLElement;
 
@@ -136,14 +139,14 @@ class ViewScale extends Observer {
   private calcScaleMarks() {
     const { scaleBase, min, max } = this.configuration;
     let { step, interval } = this.configuration;
-    step = step ? Number(step) : Math.abs((max - min) / 2);
-    interval = interval ? Number(interval) : 2;
+    step = step ? Number(step) : Math.abs((max - min) / MIN_SCALE_LIMIT);
+    interval = interval ? Number(interval) : MIN_SCALE_LIMIT;
     const isStep = scaleBase === 'step';
 
     let stepValue = isStep ? step : (max - min) / interval;
     if (!stepValue) stepValue = 1;
     let intervalValue = isStep ? (max - min) / step : interval;
-    if (!intervalValue) intervalValue = 1;
+    if (!intervalValue || intervalValue > MAX_SCALE_LIMIT) intervalValue = 1;
 
     this.configuration.step = stepValue % 1 === 0 ? stepValue : Math.trunc(stepValue);
     this.configuration.interval = intervalValue % 1 === 0 ? intervalValue

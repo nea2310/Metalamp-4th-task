@@ -45,8 +45,8 @@ class Controller extends Observer {
       ...this.configuration,
       ...checkedConfiguration,
     };
-    this.view.update(this.configuration);
     this.model.update(this.configuration);
+    this.view.update(this.configuration);
   }
 
   public disable() {
