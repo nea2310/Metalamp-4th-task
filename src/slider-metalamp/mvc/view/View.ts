@@ -222,7 +222,7 @@ class View extends Observer {
     let newRoundValue = Math.round(Number(roundValue));
     const isNewRoundValueValid = newRoundValue >= 0 && newRoundValue <= 100;
     if (!isNewRoundValueValid) newRoundValue = 0;
-    if (newRoundValue !== this.configuration.round && this.viewControl) {
+    if (this.viewControl) {
       this.configuration = { ...this.configuration, round: newRoundValue };
       this.notify('viewUpdate', { round: newRoundValue });
       this.viewControl.controlConfigurationItem = { item: 'round', value: newRoundValue };

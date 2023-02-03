@@ -1,6 +1,10 @@
 .slider-metalamp {
   display: none;
 
+  &__wrapper_tip-mode_hidden &__tip {
+    display: none;
+  }
+
   &__wrapper_scale-mode_hidden &__mark {
     opacity: 0;
   }
