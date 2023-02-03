@@ -424,7 +424,8 @@ class ViewControl extends Observer {
         }
         if (isAboveMaxRange) value = to;
         if (isAboveMaxNoRange) value = max;
-        return this.calcPositionAndUpdateConfiguration(value);
+        this.calcPositionAndUpdateConfiguration(value);
+        return;
       }
 
       case 'MinDecreasingNoSticky': {
@@ -434,7 +435,8 @@ class ViewControl extends Observer {
           value = value < min ? min : value;
         } else value = min;
 
-        return this.calcPositionAndUpdateConfiguration(value);
+        this.calcPositionAndUpdateConfiguration(value);
+        return;
       }
 
       case 'MaxIncreasingNoSticky': {
@@ -443,7 +445,8 @@ class ViewControl extends Observer {
           value = Number((to + shift).toFixed(round));
           value = value > max ? max : value;
         } else value = max;
-        return this.calcPositionAndUpdateConfiguration(value, 'toValue');
+        this.calcPositionAndUpdateConfiguration(value, 'toValue');
+        return;
       }
 
       case 'MaxDecreasingNoSticky': {
@@ -452,15 +455,16 @@ class ViewControl extends Observer {
           value = Number((to - shift).toFixed(round));
           value = value < from ? from : value;
         } else value = from;
-        return this.calcPositionAndUpdateConfiguration(value, 'toValue');
+        this.calcPositionAndUpdateConfiguration(value, 'toValue');
+        break;
       }
 
-      default: return 0;
+      default: break;
     }
   }
 
   private calcValueSetByKeySticky(condition: string, item: IScaleMark) {
-    if (!item) return null;
+    if (!item) return;
     const {
       range,
       from,
@@ -471,36 +475,40 @@ class ViewControl extends Observer {
 
     switch (condition) {
       case 'MinIncreasingSticky': {
-        if (item === undefined) return null;
+        if (item === undefined) return;
         const isValueAscending = value > from
           && ((range && value <= to)
           || (!range && value <= max));
-        if (!isValueAscending) return null;
-        return this.calcPositionAndUpdateConfiguration(value);
+        if (!isValueAscending) return;
+        this.calcPositionAndUpdateConfiguration(value);
+        return;
       }
 
       case 'MinDecreasingSticky': {
-        if (item === undefined) return null;
+        if (item === undefined) return;
         const isValueDescending = (range && value < to) || !range;
-        if (!isValueDescending) return null;
-        return this.calcPositionAndUpdateConfiguration(value);
+        if (!isValueDescending) return;
+        this.calcPositionAndUpdateConfiguration(value);
+        return;
       }
 
       case 'MaxIncreasingSticky': {
-        if (item === undefined) return null;
+        if (item === undefined) return;
         const isValueAscending = item && value > to && to < max;
-        if (!isValueAscending) return null;
-        return this.calcPositionAndUpdateConfiguration(value, 'toValue');
+        if (!isValueAscending) return;
+        this.calcPositionAndUpdateConfiguration(value, 'toValue');
+        return;
       }
 
       case 'MaxDecreasingSticky': {
-        if (item === undefined) return null;
+        if (item === undefined) return;
         const isValueDescending = value >= from && to > from;
-        if (!isValueDescending) return null;
-        return this.calcPositionAndUpdateConfiguration(value, 'toValue');
+        if (!isValueDescending) return;
+        this.calcPositionAndUpdateConfiguration(value, 'toValue');
+        break;
       }
 
-      default: return null;
+      default: break;
     }
   }
 
@@ -561,10 +569,22 @@ class ViewControl extends Observer {
     const isMaxIncreasingSticky = isMax && isIncreasingSticky;
     const isMaxDecreasingSticky = isMax && isDecreasingSticky;
 
-    if (isMinIncreasingNoSticky) return this.calcValueSetByKeyNoSticky('MinIncreasingNoSticky', repeat);
-    if (isMinDecreasingNoSticky) return this.calcValueSetByKeyNoSticky('MinDecreasingNoSticky', repeat);
-    if (isMaxIncreasingNoSticky) return this.calcValueSetByKeyNoSticky('MaxIncreasingNoSticky', repeat);
-    if (isMaxDecreasingNoSticky) return this.calcValueSetByKeyNoSticky('MaxDecreasingNoSticky', repeat);
+    if (isMinIncreasingNoSticky) {
+      this.calcValueSetByKeyNoSticky('MinIncreasingNoSticky', repeat);
+      return;
+    }
+    if (isMinDecreasingNoSticky) {
+      this.calcValueSetByKeyNoSticky('MinDecreasingNoSticky', repeat);
+      return;
+    }
+    if (isMaxIncreasingNoSticky) {
+      this.calcValueSetByKeyNoSticky('MaxIncreasingNoSticky', repeat);
+      return;
+    }
+    if (isMaxDecreasingNoSticky) {
+      this.calcValueSetByKeyNoSticky('MaxDecreasingNoSticky', repeat);
+      return;
+    }
 
     const value = movingControl === 'min' ? this.configuration.from : this.configuration.to;
     const index = this.scaleMarks.findIndex((elem) => elem.value === value);
@@ -572,12 +592,21 @@ class ViewControl extends Observer {
     const indexToSearch = isIncreasing ? index + shift : index - shift;
     const item = this.scaleMarks[indexToSearch];
 
-    if (isMinIncreasingSticky) return this.calcValueSetByKeySticky('MinIncreasingSticky', item);
-    if (isMinDecreasingSticky) return this.calcValueSetByKeySticky('MinDecreasingSticky', item);
-    if (isMaxIncreasingSticky) return this.calcValueSetByKeySticky('MaxIncreasingSticky', item);
-    if (isMaxDecreasingSticky) return this.calcValueSetByKeySticky('MaxDecreasingSticky', item);
-
-    return null;
+    if (isMinIncreasingSticky) {
+      this.calcValueSetByKeySticky('MinIncreasingSticky', item);
+      return;
+    }
+    if (isMinDecreasingSticky) {
+      this.calcValueSetByKeySticky('MinDecreasingSticky', item);
+      return;
+    }
+    if (isMaxIncreasingSticky) {
+      this.calcValueSetByKeySticky('MaxIncreasingSticky', item);
+      return;
+    }
+    if (isMaxDecreasingSticky) {
+      this.calcValueSetByKeySticky('MaxDecreasingSticky', item);
+    }
   }
 
   private getShift(isRepeating: boolean) {
