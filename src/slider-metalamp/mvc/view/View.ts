@@ -92,7 +92,7 @@ class View extends Observer {
       round,
     } = newConfiguration;
 
-    changedConfigurationItems.forEach((item: any[]) => {
+    changedConfigurationItems.forEach((item) => {
       if (!this.viewScale || !this.viewControl) return;
       switch (item[0]) {
         case 'min':
