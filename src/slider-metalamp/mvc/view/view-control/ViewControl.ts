@@ -181,7 +181,7 @@ class ViewControl extends Observer {
     this.controlConfigurationItem = { item: 'range', value: isRange };
     if (!this.track) return;
     if (!isRange) this.controlMax?.remove();
-    else this.createControl(false, false);
+    else this.createControl(false);
   }
 
   private render() {
@@ -194,7 +194,7 @@ class ViewControl extends Observer {
     this.clickTrack();
   }
 
-  private createControl(isMinControl = false, isRendering = true) {
+  private createControl(isMinControl = false) {
     const controlType = isMinControl ? 'Min' : 'Max';
     const type = isMinControl ? 'from' : 'to';
     const control = ViewControl.renderControl(
@@ -208,7 +208,7 @@ class ViewControl extends Observer {
     this[`control${controlType}`] = control;
     this[`tip${controlType}`] = ViewControl.getElement(control, '.slider-metalamp__tip');
     this.track?.append(control);
-    if (isRendering) this.calcPositionSetByKey(isMinControl);
+    this.calcPositionSetByKey(isMinControl);
   }
 
   private dragControl() {
