@@ -32,6 +32,7 @@ class ViewScale extends Observer {
     this.configuration = configuration;
     this.slider = slider;
     this.track = track;
+    this.bindEventListeners();
     this.calcScaleMarks();
   }
 
@@ -42,6 +43,14 @@ class ViewScale extends Observer {
   public update(data: TPluginConfiguration) {
     this.configuration = { ...this.configuration, ...data };
     this.calcScaleMarks();
+  }
+
+  public destroy() {
+    window.removeEventListener('resize', this.handleWindowResize);
+  }
+
+  private bindEventListeners() {
+    this.handleWindowResize = this.handleWindowResize.bind(this);
   }
 
   private createScale() {
@@ -122,18 +131,19 @@ class ViewScale extends Observer {
 
   private resize() {
     this.startWidth = this.slider.offsetWidth;
-    const handleResize = () => {
-      const totalWidth = this.slider.offsetWidth;
-      if (totalWidth < this.startWidth) {
-        this.checkScaleLength(this.markList);
-        this.startWidth = totalWidth;
-      }
-      if (totalWidth > this.startWidth) {
-        this.createScale();
-        this.startWidth = totalWidth;
-      }
-    };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', this.handleWindowResize);
+  }
+
+  private handleWindowResize() {
+    const totalWidth = this.slider.offsetWidth;
+    if (totalWidth < this.startWidth) {
+      this.checkScaleLength(this.markList);
+      this.startWidth = totalWidth;
+    }
+    if (totalWidth > this.startWidth) {
+      this.createScale();
+      this.startWidth = totalWidth;
+    }
   }
 
   private calcScaleMarks() {

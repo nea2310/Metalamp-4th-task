@@ -158,10 +158,8 @@ class View extends Observer {
 
   public destroy() {
     if (!this.viewScale) return;
-    this.viewScale.unsubscribe('viewScaleUpdate', this.handleScaleChange);
+    this.viewScale.destroy();
     this.viewScale = null;
-    if (!this.viewControl) return;
-    this.viewControl.unsubscribe('viewControlUpdate', this.handleControlChange);
     this.viewControl = null;
     this.viewBar = null;
     if (!this.slider) return;
