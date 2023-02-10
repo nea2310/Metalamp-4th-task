@@ -305,10 +305,9 @@ class View extends Observer {
     const stringValues = ['scalebase'];
 
     if (!(this.root instanceof HTMLElement)) return;
-    const attributesArray = JSON.parse(JSON.stringify(this.root.dataset));
     const map = new Map();
 
-    Object.entries(attributesArray).forEach((item) => {
+    Object.entries(this.root.dataset).forEach((item) => {
       const [key, value] = item;
       if (typeof value !== 'string') return;
       if (booleanValues.includes(key) && value === 'true') map.set(key, true);
