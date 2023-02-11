@@ -348,15 +348,6 @@ class ViewControl extends Observer {
 
     if (this.configuration.sticky) newPosition = this.setSticky(newPosition);
 
-    if (newPosition < 0) {
-      this.calcValueSetByPointer('min', 0, movingControl);
-      return newPosition;
-    }
-
-    if (newPosition > 100) {
-      this.calcValueSetByPointer('max', 0, movingControl);
-      return newPosition;
-    }
     const isMinControl = movingControl === 'min';
     const isBeyondToPosition = this.configuration.range && isMinControl
       && newPosition > this.toPosition;
@@ -369,6 +360,16 @@ class ViewControl extends Observer {
       && newPosition < this.fromPosition;
     if (isBelowFromPosition) {
       this.calcValueSetByPointer('meetMin', 0, movingControl);
+      return newPosition;
+    }
+
+    if (newPosition < 0) {
+      this.calcValueSetByPointer('min', 0, movingControl);
+      return newPosition;
+    }
+
+    if (newPosition > 100) {
+      this.calcValueSetByPointer('max', 0, movingControl);
       return newPosition;
     }
 
