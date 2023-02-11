@@ -198,6 +198,7 @@ class ViewControl extends Observer {
     this.dragControl();
     this.pressControl();
     this.clickTrack();
+    this.clickScaleMark();
   }
 
   private createControl(isMinControl = false) {
@@ -284,7 +285,7 @@ class ViewControl extends Observer {
   }
 
   private clickTrack() {
-    const handlePointerStart = (event: PointerEvent) => {
+    const handlePointerDown = (event: PointerEvent) => {
       if (!this.isControlActive) return;
       event.preventDefault();
       const { target } = event;
@@ -320,7 +321,25 @@ class ViewControl extends Observer {
       else this.controlData.movingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
       this.calcPositionSetByPointer();
     };
-    this.slider.addEventListener('pointerdown', handlePointerStart);
+    this.slider.addEventListener('pointerdown', handlePointerDown);
+  }
+
+  private clickScaleMark() {
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!this.isControlActive) return;
+      event.preventDefault();
+      const { target } = event;
+
+      if (!(target instanceof HTMLElement) || !target.classList.contains('slider-metalamp__label')) return;
+
+      const value = Number(target.innerText);
+      const { from, to } = this.configuration;
+      const isFrom = Math.abs(from - value) < Math.abs(to - value);
+      const type = isFrom ? 'from' : 'to';
+      this.configuration[type] = value;
+      this.calcPositionSetByKey(isFrom);
+    };
+    this.slider.addEventListener('pointerdown', handlePointerDown);
   }
 
   private calcPositionSetByPointer() {

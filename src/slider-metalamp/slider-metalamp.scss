@@ -141,9 +141,11 @@
     position: absolute;
     margin-top: 15px;
     width: 1px;
+    cursor: auto;
 
     &_no-label {
       background-color: $color-label;
+      cursor: auto;
     }
   }
 
