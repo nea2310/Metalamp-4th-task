@@ -333,8 +333,8 @@ class ViewControl extends Observer {
       if (!(target instanceof HTMLElement) || !target.classList.contains('slider-metalamp__label')) return;
 
       const value = Number(target.innerText);
-      const { from, to } = this.configuration;
-      const isFrom = Math.abs(from - value) < Math.abs(to - value);
+      const { from, to, range } = this.configuration;
+      const isFrom = (Math.abs(from - value) < Math.abs(to - value) && range) || !range;
       const type = isFrom ? 'from' : 'to';
       this.configuration[type] = value;
       this.calcPositionSetByKey(isFrom);
