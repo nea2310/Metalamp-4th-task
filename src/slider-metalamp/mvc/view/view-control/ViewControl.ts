@@ -10,8 +10,6 @@ import {
   IEventTarget,
 } from '../../interface';
 
-const TIP_SHIFT = 20;
-
 class ViewControl extends Observer {
   private isControlActive = true;
 
@@ -47,11 +45,6 @@ class ViewControl extends Observer {
     this.configuration = configuration;
     this.scaleMarks = scaleMarks;
     this.render();
-  }
-
-  static getTipPosition(isVertical: boolean, element: HTMLElement) {
-    if (isVertical) return `-${element.offsetWidth + TIP_SHIFT}px`;
-    return `-${(element.offsetWidth / 2)}px`;
   }
 
   static getElement(object: HTMLElement, selector: string): HTMLInputElement | null {
@@ -175,12 +168,6 @@ class ViewControl extends Observer {
     if (this[controlType]) this.setControlOnPosition(this[controlType], this[positionType]);
     const value = isMinControl ? from : to;
     this.updateValue(String(value), isMinControl);
-  }
-
-  public switchTip(vertical: boolean) {
-    if (!this.tipMax || !this.tipMin) return;
-    this.tipMax.style.left = ViewControl.getTipPosition(vertical, this.tipMax);
-    this.tipMin.style.left = ViewControl.getTipPosition(vertical, this.tipMin);
   }
 
   public switchRange(isRange = true) {

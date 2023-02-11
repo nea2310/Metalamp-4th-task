@@ -51,7 +51,7 @@ class View extends Observer {
     } = this.configuration;
     this.switchVertical(vertical);
     this.switchRange(range, vertical);
-    this.switchTip(tip, vertical);
+    this.switchTip(tip);
     this.switchScale(scale);
     this.switchBar(bar);
     this.createSubViews();
@@ -133,7 +133,7 @@ class View extends Observer {
           this.switchRange(range, vertical);
           break;
         case 'tip':
-          this.switchTip(tip, vertical);
+          this.switchTip(tip);
           break;
         case 'bar':
           this.switchBar(bar);
@@ -173,17 +173,10 @@ class View extends Observer {
   private render() {
     this.slider = document.createElement('div');
     this.slider.className = 'slider-metalamp__wrapper';
-
     this.track = document.createElement('div');
     this.track.className = 'slider-metalamp__track';
     this.slider.append(this.track);
-
-    // this.frame = document.createElement('div');
-    // this.frame.className = 'slider-metalamp__frame';
-    // this.slider.append(this.frame);
-
     this.root.after(this.slider);
-
     this.collectParameters();
   }
 
@@ -285,10 +278,10 @@ class View extends Observer {
     this.changeMode(!isBar, 'bar-mode_hidden');
   }
 
-  private switchTip(isTip: boolean, isVertical: boolean) {
+  private switchTip(isTip: boolean) {
     this.changeMode(!isTip, 'tip-mode_hidden');
-    if (!this.viewControl) return;
-    this.viewControl.switchTip(isVertical);
+    // if (!this.viewControl) return;
+    // this.viewControl.switchTip(isVertical);
   }
 
   private changeMode(parameter: boolean, modifier: string) {
