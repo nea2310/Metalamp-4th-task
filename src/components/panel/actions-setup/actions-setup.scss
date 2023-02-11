@@ -1,18 +1,24 @@
 .actions-setup {
+  margin: 0;
+  padding: 10px;
   min-width: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 5px;
-  padding: 5px;
   border: 1px solid $color-border;
-
-  &__component {
-    margin-top: 10px;
-  }
 
   @include media-breakpoint-down($lg) {
     flex-direction: row;
     justify-content: space-between;
+  }
+
+  @include media-breakpoint-down($xs) {
+    padding: 10px 20px 20px;
+    min-width: initial;
+    flex-direction: column;
+  }
+
+  &__component {
+    margin-top: 10px;
   }
 }

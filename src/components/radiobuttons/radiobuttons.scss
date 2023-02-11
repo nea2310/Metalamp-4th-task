@@ -3,7 +3,7 @@
   margin: 0;
   border: none;
   user-select: none;
-  width: 220px;
+  max-width: 220px;
 
   &__label {
     @include font-header;
@@ -16,5 +16,10 @@
     margin: 0;
     display: flex;
     justify-content: space-between;
+
+    @include media-breakpoint-down($xs) {
+      flex-direction: column;
+      gap: 20px;
+    }
   }
 }

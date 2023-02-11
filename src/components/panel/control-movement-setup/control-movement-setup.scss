@@ -1,13 +1,18 @@
 .control-movement-setup {
-  margin: 5px;
-  padding: 20px;
+  margin: 0;
+  padding: 10px;
   border: 1px solid $color-border;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
 
+  @include media-breakpoint-down($xs) {
+    padding: 10px 20px 20px;
+    flex-direction: column;
+    align-items: initial;
+  }
+
   &__component {
-    margin-right: 10px;
     display: flex;
     align-items: flex-end;
     min-width: 120px;

@@ -7,14 +7,12 @@
   align-items: center;
   cursor: pointer;
   position: relative;
+  gap: 5px;
 
   &__ball {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    top: 3px;
-    left: 3px;
-    position: absolute;
     background-color: $color-border;
   }
 
@@ -36,10 +34,12 @@
     outline: 2px solid;
   }
 
+  &__checkbox:checked + &__checkmark {
+    justify-content: end;
+  }
+
   &__checkbox:checked + &__checkmark &__ball {
     background-color: $color-main;
-    right: 3px;
-    left: auto;
   }
 
   &__checkbox:disabled + &__checkmark {
@@ -48,15 +48,14 @@
 
   &__checkbox:disabled + &__checkmark &__ball {
     background-color: $color-border;
-    right: 3px;
-    left: auto;
   }
 
   &__checkmark {
     cursor: pointer;
-    margin: 5px;
-    display: inline-block;
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 3px;
     border: 1px solid $color-border;
     width: 38px;
     height: 20px;

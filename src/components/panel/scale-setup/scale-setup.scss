@@ -1,10 +1,14 @@
 .scale-setup {
-  padding: 0;
   margin: 0;
   border: none;
-  margin: 5px;
-  padding: 5px;
+  padding: 10px;
   border: 1px solid $color-border;
+
+  @include media-breakpoint-down($xs) {
+    padding: 10px 20px 20px;
+    display: flex;
+    flex-direction: column;
+  }
 
   &__component_type {
     &_scale, &_scale-base {
@@ -17,10 +21,13 @@
 
     &_interval-step {
       display: flex;
-    }
+      gap: 20px;
 
-    &_step {
-      margin-right: 10px;
+      @include media-breakpoint-down($xs) {
+        flex-direction: column;
+        gap: 20px;
+        padding: 0;
+      }
     }
   }
 }

@@ -1,6 +1,9 @@
 .radiobuttons__category {
-  display: inline-flex;
-  position: relative;
+  &-label{
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
 
   &-text {
     margin-left: 9px;
@@ -34,8 +37,8 @@
     display: inline-block;
     position: relative;
     border: 2px solid $color-background;
-    width: 19px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background-color: $color-background-light;
   }

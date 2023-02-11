@@ -28,8 +28,6 @@ class View extends Observer {
 
   private track?: HTMLElement;
 
-  // private frame?: HTMLElement;
-
   constructor(root: Element) {
     super();
     this.root = root;
@@ -280,8 +278,6 @@ class View extends Observer {
 
   private switchTip(isTip: boolean) {
     this.changeMode(!isTip, 'tip-mode_hidden');
-    // if (!this.viewControl) return;
-    // this.viewControl.switchTip(isVertical);
   }
 
   private changeMode(parameter: boolean, modifier: string) {

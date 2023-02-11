@@ -1,21 +1,27 @@
 .main-setup {
-  margin: 5px;
-  padding: 5px;
+  margin: 0;
+  padding: 10px;
   border: 1px solid $color-border;
   display: grid;
-  grid-template-columns: repeat(4, 110px);
+  gap: 5px;
+  grid-template-columns: repeat(4, minmax(20%, 110px));
   grid-template-rows: repeat(3, 70px);
 
   @include media-breakpoint-down($xs) {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, 70px);
-    justify-items: center;
+    padding: 10px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: initial;
   }
 
   &__component {
     @include media-breakpoint-down($xs) {
       width: 100%;
       padding-left: 23%;
+    }
+
+    @include media-breakpoint-down($xs) {
+      padding: 0;
     }
   }
 }
