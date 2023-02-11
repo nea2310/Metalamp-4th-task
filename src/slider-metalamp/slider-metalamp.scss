@@ -43,6 +43,7 @@
 
     &__tip {
       bottom: initial;
+      right: 25px;
     }
 
     &__mark {
@@ -76,15 +77,6 @@
       opacity: 0.5;
     }
   }
-
-  // &__frame {
-  //   position: absolute;
-  //   top: 8px;
-  //   height: 15px;
-  //   bottom: 0;
-  //   width: 100%;
-  //   opacity: 0.5;
-  // }
 
   &__track {
     cursor: pointer;

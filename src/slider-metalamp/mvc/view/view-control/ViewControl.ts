@@ -192,8 +192,8 @@ class ViewControl extends Observer {
 
   private render() {
     this.track = this.slider.firstElementChild;
-    this.createControl();
-    if (this.configuration.range) this.createControl(true);
+    this.createControl(true);
+    if (this.configuration.range) this.createControl();
 
     this.dragControl();
     this.pressControl();
@@ -536,9 +536,6 @@ class ViewControl extends Observer {
     const propertyToUnset = this.configuration.vertical ? 'left' : 'bottom';
     item.style[propertyToSet] = `${newPosition}%`;
     item.style[propertyToUnset] = '';
-
-    const tip = this.defineControl(item) === 'min' ? this.tipMin : this.tipMax;
-    if (tip) tip.style.left = ViewControl.getTipPosition(this.configuration.vertical, tip);
   }
 
   private defineControl = (element: IEventTarget): 'min' | 'max' | null => {
