@@ -291,10 +291,7 @@ class ViewControl extends Observer {
       if (!(target instanceof HTMLElement)) return;
 
       const array = ['slider-metalamp__track',
-        'slider-metalamp__progress-bar',
-        'slider-metalamp__label',
-        'slider-metalamp__mark',
-        'slider-metalamp__frame'];
+        'slider-metalamp__progress-bar'];
       const result = [...target.classList].some((className) => array.indexOf(className) !== -1);
       if (!result) return;
       let controlMinDist = 0;

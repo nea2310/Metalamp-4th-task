@@ -28,7 +28,7 @@ class View extends Observer {
 
   private track?: HTMLElement;
 
-  private frame?: HTMLElement;
+  // private frame?: HTMLElement;
 
   constructor(root: Element) {
     super();
@@ -178,9 +178,9 @@ class View extends Observer {
     this.track.className = 'slider-metalamp__track';
     this.slider.append(this.track);
 
-    this.frame = document.createElement('div');
-    this.frame.className = 'slider-metalamp__frame';
-    this.slider.append(this.frame);
+    // this.frame = document.createElement('div');
+    // this.frame.className = 'slider-metalamp__frame';
+    // this.slider.append(this.frame);
 
     this.root.after(this.slider);
 
