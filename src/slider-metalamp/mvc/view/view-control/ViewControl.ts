@@ -13,6 +13,8 @@ import {
 const TIP_SHIFT = 20;
 
 class ViewControl extends Observer {
+  private isControlActive = true;
+
   private fromPosition = 0;
 
   private toPosition = 0;
@@ -77,6 +79,10 @@ class ViewControl extends Observer {
 
   set controlConfiguration(configuration: IPluginConfigurationFull) {
     this.configuration = configuration;
+  }
+
+  set isSliderActive(isActive: boolean) {
+    this.isControlActive = isActive;
   }
 
   get positionFrom() {
@@ -213,6 +219,7 @@ class ViewControl extends Observer {
 
   private dragControl() {
     const handlePointerStart = (event: PointerEvent) => {
+      if (!this.isControlActive) return;
       event.preventDefault();
       const { target } = event;
       if (!(target instanceof HTMLElement)) return;
@@ -256,6 +263,7 @@ class ViewControl extends Observer {
 
   private pressControl() {
     const handlePointerStart = (event: KeyboardEvent) => {
+      if (!this.isControlActive) return;
       const directions: Array<TControlKeydownTypes> = ['ArrowLeft', 'ArrowDown', 'ArrowRight', 'ArrowUp'];
       const direction: TControlKeydownTypes | undefined = directions.find(
         (element) => element === event.code,
@@ -277,6 +285,7 @@ class ViewControl extends Observer {
 
   private clickTrack() {
     const handlePointerStart = (event: PointerEvent) => {
+      if (!this.isControlActive) return;
       event.preventDefault();
       const { target } = event;
       if (!(target instanceof HTMLElement)) return;

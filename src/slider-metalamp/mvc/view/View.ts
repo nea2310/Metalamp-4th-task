@@ -14,6 +14,10 @@ import ViewBar from './view-bar/ViewBar';
 class View extends Observer {
   private dataAttributes: TPluginConfiguration = {};
 
+  private configuration: IPluginConfigurationFull = defaultConfiguration;
+
+  private root: IDOMElement;
+
   private viewControl?: ViewControl | null;
 
   private viewScale?: ViewScale | null;
@@ -25,10 +29,6 @@ class View extends Observer {
   private track?: HTMLElement;
 
   private frame?: HTMLElement;
-
-  private configuration: IPluginConfigurationFull = defaultConfiguration;
-
-  private root: IDOMElement;
 
   constructor(root: Element) {
     super();
@@ -149,11 +149,15 @@ class View extends Observer {
   public disable() {
     if (!this.slider) return;
     this.slider.classList.add('slider-metalamp__wrapper_disabled');
+    if (!this.viewControl) return;
+    this.viewControl.isSliderActive = false;
   }
 
   public enable() {
     if (!this.slider) return;
     this.slider.classList.remove('slider-metalamp__wrapper_disabled');
+    if (!this.viewControl) return;
+    this.viewControl.isSliderActive = true;
   }
 
   public destroy() {
