@@ -342,6 +342,23 @@ class ViewControl extends Observer {
       movingControl,
     } = this.controlData;
 
+    const updateControl = (data: {
+      stopType: TControlStopTypes,
+      newPosition: number,
+      controlPosition: number,
+      positionType: 'fromPosition' | 'toPosition',
+      control: HTMLElement | undefined
+
+    }) => {
+      const {
+        stopType, newPosition, controlPosition, positionType, control,
+      } = data;
+
+      this.calcValueSetByPointer(stopType, newPosition, movingControl);
+      this.updateConfiguration(controlPosition, positionType);
+      this.setControlOnPosition(control, controlPosition);
+    };
+
     let newPosition = 0;
     if (this.configuration.vertical) newPosition = 100 - (((clientY - top) * 100) / height);
     else {
@@ -355,38 +372,61 @@ class ViewControl extends Observer {
     const isBeyondToPosition = this.configuration.range && isMinControl
       && newPosition > this.toPosition;
     if (isBeyondToPosition) {
-      this.calcValueSetByPointer('meetMax', 0, movingControl);
-      this.updateConfiguration(this.toPosition, 'fromPosition');
-      return newPosition;
+      updateControl({
+        stopType: 'meetMax',
+        newPosition: 0,
+        controlPosition: this.toPosition,
+        positionType: 'fromPosition',
+        control: this.controlMin,
+      });
+      return;
     }
 
     const isBelowFromPosition = this.configuration.range && !isMinControl
       && newPosition < this.fromPosition;
     if (isBelowFromPosition) {
-      this.calcValueSetByPointer('meetMin', 0, movingControl);
-      this.updateConfiguration(this.fromPosition, 'toPosition');
-      return newPosition;
+      updateControl({
+        stopType: 'meetMin',
+        newPosition: 0,
+        controlPosition: this.fromPosition,
+        positionType: 'toPosition',
+        control: this.controlMax,
+      });
+      return;
     }
 
     if (newPosition < 0) {
-      this.calcValueSetByPointer('min', 0, movingControl);
-      this.updateConfiguration(0, 'fromPosition');
-      return newPosition;
+      updateControl({
+        stopType: 'min',
+        newPosition: 0,
+        controlPosition: 0,
+        positionType: 'fromPosition',
+        control: this.controlMin,
+      });
+      return;
     }
 
     if (newPosition > 100) {
-      this.calcValueSetByPointer('max', 0, movingControl);
-      this.updateConfiguration(100, 'toPosition');
-      return newPosition;
+      const control = this.configuration.range ? this.controlMax : this.controlMin;
+      updateControl({
+        stopType: 'max',
+        newPosition: 0,
+        controlPosition: 100,
+        positionType: 'toPosition',
+        control,
+      });
+      return;
     }
 
     const controlType = isMinControl ? 'controlMin' : 'controlMax';
     const positionType = isMinControl ? 'fromPosition' : 'toPosition';
-
-    if (this[controlType]) this.setControlOnPosition(this[controlType], newPosition);
-    this.calcValueSetByPointer('normal', newPosition, movingControl);
-    this.updateConfiguration(newPosition, positionType);
-    return newPosition;
+    updateControl({
+      stopType: 'normal',
+      newPosition,
+      controlPosition: newPosition,
+      positionType,
+      control: this[controlType],
+    });
   }
 
   private calcValueSetByPointer(
