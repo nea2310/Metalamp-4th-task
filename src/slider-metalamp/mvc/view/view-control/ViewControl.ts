@@ -31,6 +31,8 @@ class ViewControl extends Observer {
 
   private controlData: IControlFull = defaultControlData;
 
+  private movingControl:'min' | 'max' | null = null;
+
   private controlMin?: HTMLElement;
 
   private controlMax?: HTMLElement;
@@ -214,9 +216,9 @@ class ViewControl extends Observer {
       if (target.classList.contains('slider-metalamp__control')) {
         target.classList.add('slider-metalamp__control_grabbing');
       }
-      const movingControl = this.defineControl(target);
-      if (target.classList.contains('slider-metalamp__control') && movingControl) {
-        this.controlData.movingControl = movingControl;
+
+      if (target.classList.contains('slider-metalamp__control') && this.movingControl) {
+        this.controlData.movingControl = this.movingControl;
 
         this.controlData.shiftBase = this.configuration.vertical ? 0
           : event.clientX - target.getBoundingClientRect().left;
@@ -243,7 +245,15 @@ class ViewControl extends Observer {
       }
     };
     const handleDragSelectStart = () => false;
-
+    const handlePointerMove = (event: PointerEvent) => {
+      const { target } = event;
+      if (!(target instanceof HTMLButtonElement)) return;
+      if (target.classList.contains('slider-metalamp__control-min')) this.movingControl = 'min';
+      if (target.classList.contains('slider-metalamp__control-max')) this.movingControl = 'max';
+      if (this.configuration.from === this.configuration.to && event.movementX <= 0) this.movingControl = 'min';
+      if (this.configuration.from === this.configuration.to && event.movementX > 0) this.movingControl = 'max';
+    };
+    this.slider.addEventListener('pointermove', handlePointerMove);
     this.slider.addEventListener('pointerdown', handlePointerStart);
     this.slider.addEventListener('dragstart', handleDragSelectStart);
     this.slider.addEventListener('selectstart', handleDragSelectStart);
@@ -583,11 +593,6 @@ class ViewControl extends Observer {
     item.style[propertyToSet] = `${newPosition}%`;
     item.style[propertyToUnset] = '';
   }
-
-  private defineControl = (element: IEventTarget): 'min' | 'max' | null => {
-    if (!element.classList) return null;
-    return element.classList.contains('slider-metalamp__control-min') ? 'min' : 'max';
-  };
 
   private getMetrics(element: IEventTarget) {
     const scale = element.parentElement;
