@@ -58,6 +58,11 @@ function checkConfiguration(configuration: TPluginConfiguration) {
     checkedConfiguration.from = temporaryValue;
   }
 
+  const minStep = (checkedConfiguration.max - checkedConfiguration.min) / 2;
+  if (Number(checkedConfiguration.step) > minStep) {
+    checkedConfiguration.step = minStep;
+  }
+
   return checkedConfiguration;
 }
 

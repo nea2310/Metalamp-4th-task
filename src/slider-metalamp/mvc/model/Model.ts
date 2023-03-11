@@ -14,6 +14,7 @@ class Model extends Observer {
     range: true,
     shiftOnKeyDown: DEFAULT_SHIFT,
     shiftOnKeyHold: DEFAULT_SHIFT,
+    step: (DEFAULT_SHIFT - DEFAULT_VALUE) / 2,
   };
 
   public update(configuration: TPluginConfiguration) {
