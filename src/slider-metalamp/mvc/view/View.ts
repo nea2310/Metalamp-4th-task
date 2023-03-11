@@ -232,6 +232,7 @@ class View extends Observer {
     const { min, max, vertical } = this.configuration;
     this.viewControl.updateScaleMarks(scaleMarks, min, max, vertical);
     this.configuration = { ...this.configuration, step, interval };
+    this.notify('viewUpdate', { step, interval });
   }
 
   private handleControlChange(data: {

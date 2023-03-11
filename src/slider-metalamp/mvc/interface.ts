@@ -74,6 +74,8 @@ interface IViewData {
   from?: number,
   to?: number,
   round?: number,
+  step?: number,
+  interval?: number
 }
 
 interface IScaleState {
