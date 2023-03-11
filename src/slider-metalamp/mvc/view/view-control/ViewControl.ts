@@ -304,7 +304,7 @@ class ViewControl extends Observer {
         this.controlData.clientY = event.clientY;
       }
 
-      if (this.controlMax && this.controlMax.classList.contains('hidden')) this.controlData.movingControl = 'min';
+      if (this.controlMax && !this.configuration.range) this.controlData.movingControl = 'min';
       else this.controlData.movingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
       this.calcPositionSetByPointer();
     };
