@@ -421,11 +421,12 @@ class ViewControl extends Observer {
 
     if (newPosition > 100) {
       const control = this.configuration.range ? this.controlMax : this.controlMin;
+      const positionType = this.configuration.range ? 'toPosition' : 'fromPosition';
       updateControl({
         stopType: 'max',
         newPosition: 0,
         controlPosition: 100,
-        positionType: 'toPosition',
+        positionType,
         control,
       });
       return;
