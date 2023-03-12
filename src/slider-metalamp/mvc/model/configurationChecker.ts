@@ -17,8 +17,14 @@ function checkConfiguration(configuration: TPluginConfiguration) {
   if (!checkedConfiguration.to && checkedConfiguration.to !== 0) {
     checkedConfiguration.to = DEFAULT_SHIFT;
   }
-  if (!checkedConfiguration.shiftOnKeyDown) checkedConfiguration.shiftOnKeyDown = DEFAULT_SHIFT;
-  if (!checkedConfiguration.shiftOnKeyHold) checkedConfiguration.shiftOnKeyHold = DEFAULT_SHIFT;
+  if (!checkedConfiguration.shiftOnKeyDown
+    || checkedConfiguration.shiftOnKeyDown < 0) {
+    checkedConfiguration.shiftOnKeyDown = DEFAULT_SHIFT;
+  }
+  if (!checkedConfiguration.shiftOnKeyHold
+    || checkedConfiguration.shiftOnKeyHold < 0) {
+    checkedConfiguration.shiftOnKeyHold = DEFAULT_SHIFT;
+  }
 
   if (checkedConfiguration.min === checkedConfiguration.max) {
     checkedConfiguration.max = checkedConfiguration.min + DEFAULT_SHIFT;
@@ -59,8 +65,20 @@ function checkConfiguration(configuration: TPluginConfiguration) {
   }
 
   const minStep = (checkedConfiguration.max - checkedConfiguration.min) / 2;
-  if (Number(checkedConfiguration.step) > minStep) {
+  const stepCondition = Number(checkedConfiguration.step) < minStep
+    && !Number.isNaN(checkedConfiguration.step)
+    && Number(checkedConfiguration.step) > 0;
+
+  if (!stepCondition) {
     checkedConfiguration.step = minStep;
+  }
+
+  const intervalCondition = Number(checkedConfiguration.interval) > DEFAULT_SHIFT
+  && !Number.isNaN(checkedConfiguration.interval)
+  && Number(checkedConfiguration.interval) > 0;
+
+  if (!intervalCondition) {
+    checkedConfiguration.interval = DEFAULT_SHIFT * 2;
   }
 
   return checkedConfiguration;

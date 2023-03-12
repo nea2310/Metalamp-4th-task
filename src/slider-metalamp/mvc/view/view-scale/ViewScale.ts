@@ -6,7 +6,7 @@ import {
 } from '../../interface';
 
 const MIN_SCALE_LIMIT = 2;
-const MAX_SCALE_LIMIT = 1000;
+const MAX_SCALE_LIMIT = 100;
 
 class ViewScale extends Observer {
   private slider: HTMLElement;
@@ -160,8 +160,6 @@ class ViewScale extends Observer {
       intervalValue = MIN_SCALE_LIMIT;
       stepValue = (max - min) / MIN_SCALE_LIMIT;
     }
-
-    this.configuration.step = stepValue % 1 === 0 ? stepValue : Math.trunc(stepValue);
     this.configuration.interval = intervalValue % 1 === 0 ? intervalValue
       : Math.trunc(intervalValue + 1);
     const marksArray = [{ value: min, position: 0 }];
