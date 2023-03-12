@@ -248,10 +248,13 @@ class ViewControl extends Observer {
     const handlePointerMove = (event: PointerEvent) => {
       const { target } = event;
       if (!(target instanceof HTMLButtonElement)) return;
+
+      const movementDirection = this.configuration.vertical ? event.movementY : event.movementX;
+
       if (target.classList.contains('slider-metalamp__control-min')) this.movingControl = 'min';
       if (target.classList.contains('slider-metalamp__control-max')) this.movingControl = 'max';
-      if (this.configuration.from === this.configuration.to && event.movementX <= 0) this.movingControl = 'min';
-      if (this.configuration.from === this.configuration.to && event.movementX > 0) this.movingControl = 'max';
+      if (this.configuration.from === this.configuration.to && movementDirection <= 0) this.movingControl = 'min';
+      if (this.configuration.from === this.configuration.to && movementDirection > 0) this.movingControl = 'max';
     };
     this.slider.addEventListener('pointermove', handlePointerMove);
     this.slider.addEventListener('pointerdown', handlePointerStart);
