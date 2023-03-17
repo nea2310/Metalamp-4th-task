@@ -3,14 +3,30 @@
   border: none;
   padding: 10px;
   border: 1px solid $color-border;
+  padding: 10px 20px 20px;
+
+
+
+ 
 
   @include media-breakpoint-down($xs) {
-    padding: 10px 20px 20px;
-    display: flex;
-    flex-direction: column;
+
+
+    align-items: center;
   }
 
-  &__component_type {
+&__wrapper {
+
+
+  @include media-breakpoint-down($sm) {
+      margin: auto;
+
+  }
+}
+
+  &__component{
+
+  &_type {
     &_scale, &_scale-base {
       margin-bottom: 20px;
     }
@@ -21,7 +37,12 @@
 
     &_interval-step {
       display: flex;
-      gap: 20px;
+        gap: 20px;
+
+      @include media-breakpoint-down($sm) {
+     
+        gap: 40px;
+      }
 
       @include media-breakpoint-down($xs) {
         flex-direction: column;
@@ -30,4 +51,18 @@
       }
     }
   }
+
+
+
+  @include media-breakpoint-down($xs) {
+    width: 100%;
+    max-width: 100px;
+  }
+}
+
+@include media-breakpoint-down($sm) {
+  display: flex;
+  flex-direction: column;
+
+ }
 }

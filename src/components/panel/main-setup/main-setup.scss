@@ -5,23 +5,34 @@
   display: grid;
   gap: 5px;
   grid-template-columns: repeat(4, minmax(20%, 110px));
-  grid-template-rows: repeat(3, 70px);
+
+
+  @include media-breakpoint-down($sm) {
+        grid-template-columns: repeat(2, minmax(20%, 110px));
+        justify-content: center;
+    padding: 20px;
+    column-gap: 40px;
+  }
 
   @include media-breakpoint-down($xs) {
+
+    align-items: center;
     padding: 10px 20px 20px;
     display: flex;
     flex-direction: column;
-    align-items: initial;
+
   }
 
   &__component {
     @include media-breakpoint-down($xs) {
       width: 100%;
-      padding-left: 23%;
+      max-width: 100px;
+      padding-left: unset;
+      
+
+    
     }
 
-    @include media-breakpoint-down($xs) {
-      padding: 0;
-    }
+
   }
 }
