@@ -1,68 +1,55 @@
 .scale-setup {
   margin: 0;
-  border: none;
   padding: 10px;
-  border: 1px solid $color-border;
   padding: 10px 20px 20px;
-
-
-
- 
+  border: none;
+  border: 1px solid $color-border;
 
   @include media-breakpoint-down($xs) {
-
-
     align-items: center;
   }
 
-&__wrapper {
+  &__wrapper {
+    @include media-breakpoint-down($sm) {
+      margin: auto;
+    }
+  }
 
+  &__component {
+    &_type {
+      &_scale,
+      &_scale-base {
+        margin-bottom: 20px;
+      }
+
+      &_radiobuttons {
+        margin-top: 5px;
+      }
+
+      &_interval-step {
+        display: flex;
+        gap: 20px;
+
+        @include media-breakpoint-down($sm) {
+          gap: 40px;
+        }
+
+        @include media-breakpoint-down($xs) {
+          flex-direction: column;
+          gap: 20px;
+          padding: 0;
+        }
+      }
+    }
+
+    @include media-breakpoint-down($xs) {
+      width: 100%;
+      max-width: 100px;
+    }
+  }
 
   @include media-breakpoint-down($sm) {
-      margin: auto;
-
+    display: flex;
+    flex-direction: column;
   }
-}
-
-  &__component{
-
-  &_type {
-    &_scale, &_scale-base {
-      margin-bottom: 20px;
-    }
-
-    &_radiobuttons {
-      margin-top: 5px;
-    }
-
-    &_interval-step {
-      display: flex;
-        gap: 20px;
-
-      @include media-breakpoint-down($sm) {
-     
-        gap: 40px;
-      }
-
-      @include media-breakpoint-down($xs) {
-        flex-direction: column;
-        gap: 20px;
-        padding: 0;
-      }
-    }
-  }
-
-
-
-  @include media-breakpoint-down($xs) {
-    width: 100%;
-    max-width: 100px;
-  }
-}
-
-@include media-breakpoint-down($sm) {
-  display: flex;
-  flex-direction: column;
-
- }
 }

@@ -1,21 +1,21 @@
 .control-movement-setup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
   margin: 0;
   padding: 10px;
   border: 1px solid $color-border;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 20px;
 
   @include media-breakpoint-down($sm) {
-    padding: 20px;
-    justify-content: center;
     gap: 40px;
+    justify-content: center;
+    padding: 20px;
   }
 
   @include media-breakpoint-down($xs) {
-    padding: 10px 20px 20px;
     flex-direction: column;
+    padding: 10px 20px 20px;
   }
 
   &__component {
@@ -27,10 +27,9 @@
       min-width: unset;
     }
 
-
     @include media-breakpoint-down($xs) {
       width: 100%;
       max-width: 100px;
-         }
+    }
   }
 }

@@ -1,41 +1,52 @@
 .toggle {
   @include font-body;
-  user-select: none;
+
+  position: relative;
   display: inline-flex;
   flex-direction: row-reverse;
-  justify-content: flex-end;
-  align-items: center;
-  cursor: pointer;
-  position: relative;
   gap: 5px;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+  user-select: none;
 
   &__ball {
     width: 10px;
     height: 10px;
-    border-radius: 50%;
     background-color: $color-border;
+    border-radius: 50%;
   }
 
   &__checkbox {
     position: absolute;
     left: 10px;
+    z-index: 0;
     width: 25px;
     height: 1px;
-    z-index: 0;
-    border: 0;
     padding: 0;
+    border: 0;
+  }
+
+  &__checkmark {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 38px;
+    height: 20px;
+    padding: 3px;
+    background-color: $color-background-light;
+    border: 1px solid $color-border;
+    border-radius: 22px;
+    cursor: pointer;
   }
 
   &__checkbox:checked + &__checkmark {
+    justify-content: end;
     border: 2px solid $color-main;
   }
 
   &__checkbox:focus-visible + &__checkmark {
     outline: 2px solid;
-  }
-
-  &__checkbox:checked + &__checkmark {
-    justify-content: end;
   }
 
   &__checkbox:checked + &__checkmark &__ball {
@@ -48,18 +59,5 @@
 
   &__checkbox:disabled + &__checkmark &__ball {
     background-color: $color-border;
-  }
-
-  &__checkmark {
-    cursor: pointer;
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    padding: 3px;
-    border: 1px solid $color-border;
-    width: 38px;
-    height: 20px;
-    border-radius: 22px;
-    background-color: $color-background-light;
   }
 }

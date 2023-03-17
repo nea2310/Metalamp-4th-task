@@ -1,21 +1,22 @@
 .radiobuttons {
-  padding: 0;
+  max-width: 220px;
   margin: 0;
+  padding: 0;
   border: none;
   user-select: none;
-  max-width: 220px;
 
   &__label {
     @include font-header;
+
     position: relative;
   }
 
   &__list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
     justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 
     @include media-breakpoint-down($xs) {
       flex-direction: column;

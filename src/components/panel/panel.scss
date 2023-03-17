@@ -1,9 +1,9 @@
 .panel {
   display: flex;
   flex-direction: column;
+  gap: 20px;
   align-items: center;
   padding: 20px;
-  gap: 20px;
 
   @include media-breakpoint-down($xs) {
     padding: 10px;
@@ -11,15 +11,16 @@
 
   &__blocks {
     @include font-body;
+
     display: inline-flex;
-    border-radius: 2px;
-    text-align: left;
     gap: 20px;
+    text-align: left;
+    border-radius: 2px;
 
     @include media-breakpoint-down($lg) {
-      height: auto;
       display: block;
       width: 100%;
+      height: auto;
     }
   }
 

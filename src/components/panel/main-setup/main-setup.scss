@@ -1,26 +1,23 @@
 .main-setup {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(20%, 110px));
+  gap: 5px;
   margin: 0;
   padding: 10px;
   border: 1px solid $color-border;
-  display: grid;
-  gap: 5px;
-  grid-template-columns: repeat(4, minmax(20%, 110px));
-
 
   @include media-breakpoint-down($sm) {
-        grid-template-columns: repeat(2, minmax(20%, 110px));
-        justify-content: center;
+    grid-template-columns: repeat(2, minmax(20%, 110px));
+    justify-content: center;
     padding: 20px;
     column-gap: 40px;
   }
 
   @include media-breakpoint-down($xs) {
-
-    align-items: center;
-    padding: 10px 20px 20px;
     display: flex;
     flex-direction: column;
-
+    align-items: center;
+    padding: 10px 20px 20px;
   }
 
   &__component {
@@ -28,11 +25,6 @@
       width: 100%;
       max-width: 100px;
       padding-left: unset;
-      
-
-    
     }
-
-
   }
 }

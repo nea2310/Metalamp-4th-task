@@ -6,31 +6,31 @@ $lg: 1400px;
 $xl: 1920px;
 
 $color-text-header: #1f2041;
-$color-text-main: rgba(31, 32, 65, 0.75);
-$color-label: rgba(31, 32, 65, 0.5);
+$color-text-main: rgb(31 32 65 / 75%);
+$color-label: rgb(31 32 65 / 50%);
 $color-border: rgb(222 222 227);
-$color-background: rgba(31, 32, 65, 0.15);
+$color-background: rgb(31 32 65 / 15%);
 $color-main: #75b7ec;
 $color-main-active: #4caeff;
-$color-background-light: #ffffff;
+$color-background-light: #fff;
 
-$fontMain: 'Montserrat', Arial, Helvetica, sans-serif;
+$fontMain: 'Montserrat', arial, helvetica, sans-serif;
 
 @mixin font-header() {
-  font-family: $fontMain;
+  color: $color-text-header;
   font-weight: bold;
   font-size: 12px;
+  font-family: $fontMain;
   line-height: 15px;
-  color: $color-text-header;
   text-transform: uppercase;
 }
 
 @mixin font-body() {
-  font-family: $fontMain;
+  color: $color-text-main;
   font-weight: normal;
   font-size: 14px;
+  font-family: $fontMain;
   line-height: 24px;
-  color: $color-text-main;
 }
 
 @mixin media-breakpoint-up($width) {

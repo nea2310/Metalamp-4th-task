@@ -11,7 +11,9 @@
     "buildDemo": "cross-env NODE_ENV=productionDemo webpack --config config/webpack.config.prod.js",
     "test": "jest",
     "eslint": "eslint . --ext ts",
-    "eslint:fix": "eslint . --ext ts --fix"
+    "eslint:fix": "eslint . --ext ts --fix",
+    "stylelint": "stylelint \"src/**/*.scss\"",
+    "stylelint:fix": "stylelint \"src/**/*.scss\" --fix"
   },
   "repository": {
     "type": "git",
@@ -54,6 +56,13 @@
     "sass": "^1.49.9",
     "sass-loader": "^12.6.0",
     "sass-resources-loader": "^2.2.5",
+    "stylelint": "^14.16.1",
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^31.0.0",
+    "stylelint-order": "^6.0.3",
+    "stylelint-prettier": "^3.0.0",
+    "stylelint-scss": "^4.5.0",
     "terser-webpack-plugin": "^5.3.3",
     "ts-jest": "^27.1.4",
     "ts-loader": "^9.2.8",

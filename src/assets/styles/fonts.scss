@@ -3,19 +3,15 @@ $bold: 'montserrat-bold';
 $normal: 'montserrat-regular';
 
 @font-face {
-  font-family: Montserrat;
-  src:
-  local(Montserrat),
-  url('#{$path}#{$normal}.woff2') format('woff2'),
-  url('#{$path}#{$normal}.woff') format('woff');
   font-weight: normal;
+  font-family: Montserrat;
+  src: local(Montserrat), url('#{$path}#{$normal}.woff2') format('woff2'),
+    url('#{$path}#{$normal}.woff') format('woff');
 }
 
 @font-face {
-  font-family: Montserrat;
-  src:
-  local(Montserrat),
-  url('#{$path}#{$bold}.woff2') format('woff2'), 
-  url('#{$path}#{$bold}.woff') format('woff');
   font-weight: bold;
+  font-family: Montserrat;
+  src: local(Montserrat), url('#{$path}#{$bold}.woff2') format('woff2'),
+    url('#{$path}#{$bold}.woff') format('woff');
 }
