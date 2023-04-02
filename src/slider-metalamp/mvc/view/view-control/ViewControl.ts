@@ -10,6 +10,9 @@ import {
   IEventTarget,
 } from '../../interface';
 
+const CONTROL_Z_INDEX_DEFAULT = '30';
+const CONTROL_Z_INDEX_ACTIVE = '40';
+
 class ViewControl extends Observer {
   private isControlActive = true;
 
@@ -212,51 +215,49 @@ class ViewControl extends Observer {
       if (!this.isControlActive) return;
       event.preventDefault();
       const { target } = event;
+
       if (!(target instanceof HTMLElement)) return;
-      if (target.classList.contains('slider-metalamp__control')) {
-        target.classList.add('slider-metalamp__control_grabbing');
-      }
+      if (!target.classList.contains('slider-metalamp__control')) return;
 
-      if (target.classList.contains('slider-metalamp__control') && this.movingControl) {
+      target.classList.add('slider-metalamp__control_grabbing');
+      if (this.controlMin) this.controlMin.style.zIndex = CONTROL_Z_INDEX_DEFAULT;
+      if (this.controlMax) this.controlMax.style.zIndex = CONTROL_Z_INDEX_DEFAULT;
+
+      const isMinControlActive = target.classList.contains('slider-metalamp__control-min');
+      const activeControlElement = isMinControlActive ? this.controlMin : this.controlMax;
+
+      const controlType = isMinControlActive ? 'min' : 'max';
+      if (target.classList.contains(`slider-metalamp__control-${controlType}`) && activeControlElement) {
+        this.movingControl = controlType;
+        activeControlElement.style.zIndex = CONTROL_Z_INDEX_ACTIVE;
         this.controlData.movingControl = this.movingControl;
-
-        this.controlData.shiftBase = this.configuration.vertical ? 0
-          : event.clientX - target.getBoundingClientRect().left;
-        this.getMetrics(target);
-
-        const handlePointerMove = (innerEvent: PointerEvent) => {
-          this.controlData.type = 'pointermove';
-          this.controlData.clientX = innerEvent.clientX;
-          this.controlData.clientY = innerEvent.clientY;
-          this.calcPositionSetByPointer();
-        };
-
-        const handlePointerUp = () => {
-          target.classList.remove('slider-metalamp__control_grabbing');
-          target
-            .removeEventListener('pointermove', handlePointerMove);
-          target
-            .removeEventListener('pointerup', handlePointerUp);
-        };
-
-        target.setPointerCapture(event.pointerId);
-        target.addEventListener('pointermove', handlePointerMove);
-        target.addEventListener('pointerup', handlePointerUp);
       }
+
+      this.controlData.shiftBase = this.configuration.vertical ? 0
+        : event.clientX - target.getBoundingClientRect().left;
+      this.getMetrics(target);
+
+      const handlePointerMove = (innerEvent: PointerEvent) => {
+        this.controlData.type = 'pointermove';
+        this.controlData.clientX = innerEvent.clientX;
+        this.controlData.clientY = innerEvent.clientY;
+        this.calcPositionSetByPointer();
+      };
+
+      const handlePointerUp = () => {
+        target.classList.remove('slider-metalamp__control_grabbing');
+        target
+          .removeEventListener('pointermove', handlePointerMove);
+        target
+          .removeEventListener('pointerup', handlePointerUp);
+      };
+
+      target.setPointerCapture(event.pointerId);
+      target.addEventListener('pointermove', handlePointerMove);
+      target.addEventListener('pointerup', handlePointerUp);
+      // }
     };
     const handleDragSelectStart = () => false;
-    const handlePointerMove = (event: PointerEvent) => {
-      const { target } = event;
-      if (!(target instanceof HTMLButtonElement)) return;
-
-      const movementDirection = this.configuration.vertical ? event.movementY : event.movementX;
-
-      if (target.classList.contains('slider-metalamp__control-min')) this.movingControl = 'min';
-      if (target.classList.contains('slider-metalamp__control-max')) this.movingControl = 'max';
-      if (this.configuration.from === this.configuration.to && movementDirection <= 0) this.movingControl = 'min';
-      if (this.configuration.from === this.configuration.to && movementDirection > 0) this.movingControl = 'max';
-    };
-    this.slider.addEventListener('pointermove', handlePointerMove);
     this.slider.addEventListener('pointerdown', handlePointerStart);
     this.slider.addEventListener('dragstart', handleDragSelectStart);
     this.slider.addEventListener('selectstart', handleDragSelectStart);
