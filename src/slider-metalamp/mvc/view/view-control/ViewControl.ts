@@ -126,8 +126,8 @@ class ViewControl extends Observer {
     this.configuration.max = max;
     this.configuration.vertical = vertical;
 
-    this.calcPositionSetByKey(true);
-    this.calcPositionSetByKey();
+    this.calcPositionSetByKey(true, this.configuration.from, this.configuration.to, true);
+    this.calcPositionSetByKey(false, this.configuration.from, this.configuration.to, true);
   }
 
   public switchSticky() {
@@ -158,6 +158,7 @@ class ViewControl extends Observer {
     isMinControl = false,
     from = this.configuration.from,
     to = this.configuration.to,
+    isScaleChange = false,
   ) {
     const {
       min,
@@ -171,7 +172,13 @@ class ViewControl extends Observer {
     if (sticky) positonValue = this.setSticky(positonValue);
     this.updateConfiguration(positonValue, positionType);
     if (this[controlType]) this.setControlOnPosition(this[controlType], this[positionType]);
-    const value = isMinControl ? from : to;
+    let value = isMinControl ? from : to;
+
+    if (isScaleChange) {
+      const targetScaleMark = this.scaleMarks.find((item) => item.position === this[positionType]);
+      value = targetScaleMark ? targetScaleMark.value : value;
+    }
+
     this.updateValue(String(value), isMinControl);
   }
 
