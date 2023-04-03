@@ -301,10 +301,10 @@ class ViewControl extends Observer {
       const parameter = this.configuration.vertical ? 'clientY' : 'clientX';
 
       if (this.controlMin && this.controlMax) {
-        controlMinDist = Math.abs(this.controlMin
-          .getBoundingClientRect()[property] - event[parameter]);
-        controlMaxDist = Math.abs(this.controlMax
-          .getBoundingClientRect()[property] - event[parameter]);
+        controlMinDist = this.controlMin
+          .getBoundingClientRect()[property] - event[parameter];
+        controlMaxDist = this.controlMax
+          .getBoundingClientRect()[property] - event[parameter];
       }
 
       if (this.track) {
@@ -317,8 +317,14 @@ class ViewControl extends Observer {
         this.controlData.clientY = event.clientY;
       }
 
-      if (this.controlMax && !this.configuration.range) this.controlData.movingControl = 'min';
-      else this.controlData.movingControl = controlMinDist < controlMaxDist ? 'min' : 'max';
+      if (!this.configuration.range || Math.abs(controlMinDist) < Math.abs(controlMaxDist)) {
+        this.controlData.movingControl = 'min';
+      } else if (Math.abs(controlMinDist) > Math.abs(controlMaxDist)) {
+        this.controlData.movingControl = 'max';
+      } else if (Math.abs(controlMinDist) === Math.abs(controlMaxDist) && controlMinDist < 0) {
+        this.toPosition = 0;
+        this.controlData.movingControl = 'max';
+      }
 
       this.calcPositionSetByPointer();
     };
