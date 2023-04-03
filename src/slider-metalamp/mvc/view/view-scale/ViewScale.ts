@@ -151,14 +151,19 @@ class ViewScale extends Observer {
     let { step, interval } = this.configuration;
     step = step ? Number(step) : Math.abs((max - min) / MIN_SCALE_LIMIT);
     interval = interval ? Number(interval) : MIN_SCALE_LIMIT;
+    const minStep = (max - min) / MAX_SCALE_LIMIT;
     const isStep = scaleBase === 'step';
 
     let stepValue = isStep ? step : (max - min) / interval;
     if (!stepValue) stepValue = 1;
+    if (stepValue < minStep) {
+      stepValue = minStep;
+    }
+    this.configuration.step = stepValue;
     let intervalValue = isStep ? (max - min) / step : interval;
     if (!intervalValue || intervalValue > MAX_SCALE_LIMIT) {
-      intervalValue = MIN_SCALE_LIMIT;
-      stepValue = (max - min) / MIN_SCALE_LIMIT;
+      intervalValue = MAX_SCALE_LIMIT;
+      stepValue = minStep;
     }
     this.configuration.interval = intervalValue % 1 === 0 ? intervalValue
       : Math.trunc(intervalValue + 1);
