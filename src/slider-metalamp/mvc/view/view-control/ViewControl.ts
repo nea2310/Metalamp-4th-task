@@ -255,7 +255,6 @@ class ViewControl extends Observer {
       target.setPointerCapture(event.pointerId);
       target.addEventListener('pointermove', handlePointerMove);
       target.addEventListener('pointerup', handlePointerUp);
-      // }
     };
     const handleDragSelectStart = () => false;
     this.slider.addEventListener('pointerdown', handlePointerStart);
@@ -319,7 +318,8 @@ class ViewControl extends Observer {
       }
 
       if (this.controlMax && !this.configuration.range) this.controlData.movingControl = 'min';
-      else this.controlData.movingControl = controlMinDist <= controlMaxDist ? 'min' : 'max';
+      else this.controlData.movingControl = controlMinDist < controlMaxDist ? 'min' : 'max';
+
       this.calcPositionSetByPointer();
     };
     this.slider.addEventListener('pointerdown', handlePointerDown);
