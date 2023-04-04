@@ -142,13 +142,14 @@ class ViewControl extends Observer {
     };
 
     const newFromValue = getNewValue(from);
-    if (newFromValue) {
+
+    if (newFromValue !== undefined) {
       this.configuration.from = newFromValue;
       this.calcPositionAndUpdateConfiguration(newFromValue);
     }
 
     const newToValue = getNewValue(to);
-    if (newToValue) {
+    if (newToValue !== undefined) {
       this.configuration.to = newToValue;
       this.calcPositionAndUpdateConfiguration(newToValue, 'toValue');
     }
