@@ -1,13 +1,15 @@
 .main-setup {
   display: grid;
-  grid-template-columns: repeat(4, minmax(20%, 110px));
-  gap: 5px;
+  grid-template-columns: repeat(3, minmax(30%, 140px));
+  column-gap: 15px;
+  row-gap: 15px;
   margin: 0;
   padding: 10px;
   border: 1px solid $color-border;
+  align-items: end;
 
   @include media-breakpoint-down($sm) {
-    grid-template-columns: repeat(2, minmax(20%, 110px));
+    grid-template-columns: repeat(2, minmax(20%, 140px));
     justify-content: center;
     padding: 20px;
     column-gap: 40px;
