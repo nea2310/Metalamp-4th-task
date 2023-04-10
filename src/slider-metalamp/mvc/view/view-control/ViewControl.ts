@@ -34,7 +34,13 @@ class ViewControl extends Observer {
 
   private controlData: IControlFull = defaultControlData;
 
-  private movingControl:'min' | 'max' | null = null;
+  private movingControl:'min' | 'max' = 'min';
+
+  private isMeetMin = true;
+
+  private isMeetMax = false;
+
+  private isDraggingStopped = false;
 
   private controlMin?: HTMLElement;
 
@@ -238,7 +244,6 @@ class ViewControl extends Observer {
       if (target.classList.contains(`slider-metalamp__control-${controlType}`) && activeControlElement) {
         this.movingControl = controlType;
         activeControlElement.style.zIndex = CONTROL_Z_INDEX_ACTIVE;
-        this.controlData.movingControl = this.movingControl;
       }
 
       this.controlData.shiftBase = this.configuration.vertical ? 0
@@ -246,6 +251,12 @@ class ViewControl extends Observer {
       this.getMetrics(target);
 
       const handlePointerMove = (innerEvent: PointerEvent) => {
+        const isMaxMooving = this.isDraggingStopped && this.isMeetMin && this.movingControl === 'max';
+        if (isMaxMooving) this.movingControl = 'min';
+        const isMinMooving = this.isDraggingStopped && this.isMeetMax && this.movingControl === 'min';
+        if (isMinMooving) this.movingControl = 'max';
+        this.isDraggingStopped = false;
+        this.controlData.movingControl = this.movingControl;
         this.controlData.type = 'pointermove';
         this.controlData.clientX = innerEvent.clientX;
         this.controlData.clientY = innerEvent.clientY;
@@ -253,6 +264,7 @@ class ViewControl extends Observer {
       };
 
       const handlePointerUp = () => {
+        this.isDraggingStopped = true;
         target.classList.remove('slider-metalamp__control_grabbing');
         target
           .removeEventListener('pointermove', handlePointerMove);
@@ -400,6 +412,8 @@ class ViewControl extends Observer {
     const isBeyondToPosition = this.configuration.range && isMinControl
       && newPosition > this.toPosition;
     if (isBeyondToPosition) {
+      this.isMeetMax = true;
+      this.resetMeetControls(false, true);
       updateControl({
         stopType: 'meetMax',
         newPosition: 0,
@@ -413,6 +427,7 @@ class ViewControl extends Observer {
     const isBelowFromPosition = this.configuration.range && !isMinControl
       && newPosition < this.fromPosition;
     if (isBelowFromPosition) {
+      this.resetMeetControls(true);
       updateControl({
         stopType: 'meetMin',
         newPosition: 0,
@@ -424,6 +439,7 @@ class ViewControl extends Observer {
     }
 
     if (newPosition < 0) {
+      this.resetMeetControls();
       updateControl({
         stopType: 'min',
         newPosition: 0,
@@ -435,6 +451,7 @@ class ViewControl extends Observer {
     }
 
     if (newPosition > 100) {
+      this.resetMeetControls();
       const control = this.configuration.range ? this.controlMax : this.controlMin;
       const positionType = this.configuration.range ? 'toPosition' : 'fromPosition';
       updateControl({
@@ -449,6 +466,7 @@ class ViewControl extends Observer {
 
     const controlType = isMinControl ? 'controlMin' : 'controlMax';
     const positionType = isMinControl ? 'fromPosition' : 'toPosition';
+    this.resetMeetControls();
     updateControl({
       stopType: 'normal',
       newPosition,
@@ -718,6 +736,11 @@ class ViewControl extends Observer {
 
     if (!goal) goal = { value: 0, position: 0 };
     return goal.position;
+  }
+
+  private resetMeetControls(isMeetMin = false, isMeetMax = false) {
+    this.isMeetMin = isMeetMin;
+    this.isMeetMax = isMeetMax;
   }
 }
 
