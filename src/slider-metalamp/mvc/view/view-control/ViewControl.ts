@@ -167,10 +167,10 @@ class ViewControl extends Observer {
     } = this.configuration;
     const positionType = isMinControl ? 'fromPosition' : 'toPosition';
     const controlType = isMinControl ? 'controlMin' : 'controlMax';
-    let positonValue = isMinControl ? ((from - min) * 100) / (max - min)
+    let positionValue = isMinControl ? ((from - min) * 100) / (max - min)
       : ((to - min) * 100) / (max - min);
-    if (sticky) positonValue = this.setSticky(positonValue);
-    this.updateConfiguration(positonValue, positionType);
+    if (sticky) positionValue = this.setSticky(positionValue);
+    this.updateConfiguration(positionValue, positionType);
     if (this[controlType]) this.setControlOnPosition(this[controlType], this[positionType]);
     let value = isMinControl ? from : to;
 
@@ -354,7 +354,10 @@ class ViewControl extends Observer {
 
       const value = Number(target.innerText);
       const { from, to, range } = this.configuration;
-      const isFrom = (Math.abs(from - value) < Math.abs(to - value) && range) || !range;
+      let isFrom: boolean;
+      if (from !== to) {
+        isFrom = (Math.abs(from - value) < Math.abs(to - value) && range) || !range;
+      } else isFrom = value < from;
       const type = isFrom ? 'from' : 'to';
       this.configuration[type] = value;
       this.calcPositionSetByKey(isFrom);
