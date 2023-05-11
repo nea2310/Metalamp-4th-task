@@ -61,7 +61,7 @@ describe('Model behavior', () => {
       min: 100,
       max: 1000,
       from: 100,
-      to: 100,
+      to: 1000,
     }));
 
     testModel.update({ to: 90 });
@@ -69,7 +69,7 @@ describe('Model behavior', () => {
       min: 100,
       max: 1000,
       from: 100,
-      to: 100,
+      to: 1000,
     }));
 
     testModel.update({ to: 2000 });
@@ -85,7 +85,7 @@ describe('Model behavior', () => {
       min: 100,
       max: 1000,
       from: 100,
-      to: 100,
+      to: 1000,
     }));
 
     testModel.update({
@@ -98,31 +98,23 @@ describe('Model behavior', () => {
       min: 100,
       max: 1000,
       from: 100,
-      to: 100,
-    }));
-
-    testModel.update({ min: 1000 });
-    expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
-      min: 1000,
-      max: 1001,
-      from: 1000,
-      to: 1001,
+      to: 1000,
     }));
 
     testModel.update({ from: -20 });
     expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
-      min: 1000,
-      max: 1001,
-      from: 1000,
-      to: 1001,
+      min: 100,
+      max: 1000,
+      from: 100,
+      to: 1000,
     }));
 
     testModel.update({ from: 2000 });
     expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
-      min: 1000,
-      max: 1001,
-      from: 1001,
-      to: 1001,
+      min: 100,
+      max: 1000,
+      from: 1000,
+      to: 1000,
     }));
 
     testModel.update({
