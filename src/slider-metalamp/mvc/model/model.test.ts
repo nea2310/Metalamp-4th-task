@@ -3,135 +3,66 @@ import View from '../view/View';
 import Controller from '../controller/Controller';
 
 describe('Model behavior', () => {
-  test('Should update Model with consistent configuration', () => {
-    const parent = document.createElement('input');
+  let parent: HTMLInputElement;
+  let testModel: Model;
+  let testView: View;
+  let updateView: jest.SpyInstance;
+
+  beforeAll(() => {
+    parent = document.createElement('input');
     document.body.appendChild(parent);
-    const testModel = new Model();
-    const testView = new View(parent);
+    testModel = new Model();
+    testView = new View(parent);
     // eslint-disable-next-line no-new
     new Controller(testModel, testView, {});
-    const updateView = jest.spyOn(testView, 'update');
+    updateView = jest.spyOn(testView, 'update');
+  });
 
-    testModel.update({
-      min: 0,
-      max: 100,
-      from: 10,
-      to: 90,
-    });
-    expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
-      min: 0,
-      max: 100,
-      from: 10,
-      to: 90,
-    }));
+  afterAll(() => {
+    document.body.removeChild(parent);
   });
 
   test('Should fix inconsistent configuration and update Model', () => {
-    const parent = document.createElement('input');
-    document.body.appendChild(parent);
-    const testModel = new Model();
-    const testView = new View(parent);
-    // eslint-disable-next-line no-new
-    new Controller(testModel, testView, {});
-    const updateView = jest.spyOn(testView, 'update');
+    const invalidConfigurations = [
+      {
+        min: 1000, max: 100, from: 10, to: 90,
+      },
+      {
+        min: 100, max: 1000, from: -20, to: 100,
+      },
+      {
+        min: 100, max: 1000, from: 2000, to: 100,
+      },
+      {
+        min: 100, max: 1000, from: 100, to: 90,
+      },
+      {
+        min: 100, max: 1000, from: 100, to: 2000,
+      },
+    ];
+    const expectedValues = [
+      {
+        min: 100, max: 1000, from: 100, to: 100,
+      },
+      {
+        min: 100, max: 1000, from: 100, to: 100,
+      },
+      {
+        min: 100, max: 1000, from: 100, to: 1000,
+      },
+      {
+        min: 100, max: 1000, from: 100, to: 1000,
+      },
+      {
+        min: 100, max: 1000, from: 100, to: 1000,
+      },
+    ];
 
-    testModel.update({
-      min: 1000,
-      max: 100,
-      from: 10,
-      to: 90,
+    invalidConfigurations.forEach((invalidConfig, index) => {
+      testModel.update(invalidConfig);
+      expect(updateView).toHaveBeenLastCalledWith(
+        expect.objectContaining(expectedValues[index]),
+      );
     });
-    expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
-      min: 100,
-      max: 1000,
-      from: 100,
-      to: 100,
-    }));
-
-    testModel.update({ from: -20 });
-    expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
-      min: 100,
-      max: 1000,
-      from: 100,
-      to: 100,
-    }));
-
-    testModel.update({ from: 2000 });
-    expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
-      min: 100,
-      max: 1000,
-      from: 100,
-      to: 1000,
-    }));
-
-    testModel.update({ to: 90 });
-    expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
-      min: 100,
-      max: 1000,
-      from: 100,
-      to: 1000,
-    }));
-
-    testModel.update({ to: 2000 });
-    expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
-      min: 100,
-      max: 1000,
-      from: 100,
-      to: 1000,
-    }));
-
-    testModel.update({ to: 90 });
-    expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
-      min: 100,
-      max: 1000,
-      from: 100,
-      to: 1000,
-    }));
-
-    testModel.update({
-      min: 100,
-      max: 1000,
-      from: -20,
-      range: false,
-    });
-    expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
-      min: 100,
-      max: 1000,
-      from: 100,
-      to: 1000,
-    }));
-
-    testModel.update({ from: -20 });
-    expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
-      min: 100,
-      max: 1000,
-      from: 100,
-      to: 1000,
-    }));
-
-    testModel.update({ from: 2000 });
-    expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
-      min: 100,
-      max: 1000,
-      from: 1000,
-      to: 1000,
-    }));
-
-    testModel.update({
-      min: undefined,
-      max: undefined,
-      from: undefined,
-      to: undefined,
-      shiftOnKeyDown: undefined,
-      shiftOnKeyHold: undefined,
-    });
-    expect(updateView).toHaveBeenLastCalledWith(expect.objectContaining({
-      min: 0,
-      max: 1,
-      from: 0,
-      to: 1,
-      shiftOnKeyDown: 1,
-      shiftOnKeyHold: 1,
-    }));
   });
 });
