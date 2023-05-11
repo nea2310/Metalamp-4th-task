@@ -39,6 +39,15 @@ describe('Model behavior', () => {
       {
         min: 100, max: 1000, from: 100, to: 2000,
       },
+      {
+        min: 100, max: 1000, from: 2000, to: 100, range: false,
+      },
+      {
+        min: 100, max: 1000, from: 2000, to: 500,
+      },
+      {
+        min: undefined, max: undefined, from: undefined, to: undefined,
+      },
     ];
     const expectedValues = [
       {
@@ -55,6 +64,15 @@ describe('Model behavior', () => {
       },
       {
         min: 100, max: 1000, from: 100, to: 1000,
+      },
+      {
+        min: 100, max: 1000, from: 1000, to: 1000,
+      },
+      {
+        min: 100, max: 1000, from: 1000, to: 500,
+      },
+      {
+        min: 0, max: 1, from: 0, to: 1,
       },
     ];
 
