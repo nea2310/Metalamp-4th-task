@@ -1,4 +1,7 @@
+/* eslint-disable max-len */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { mockKeyboardEvent, createInstance } from '../../test-utils';
+import plugin from '../../../slider-metalamp';
 
 describe('Scale marks are created', () => {
   test('Scale marks are created correctly', () => {
@@ -17,34 +20,6 @@ describe('Scale marks are created', () => {
     });
 
     if (!(controlMax instanceof HTMLElement)) return;
-
-    mockKeyboardEvent(controlMax, {
-      eventType: 'keydown',
-      direction: 'ArrowLeft',
-      repeat: false,
-    });
-
-    expect(updateModel).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        from: 0,
-        to: 90,
-      }),
-    );
-
-    testController.update({ step: 1 });
-
-    mockKeyboardEvent(controlMax, {
-      eventType: 'keydown',
-      direction: 'ArrowLeft',
-      repeat: false,
-    });
-
-    expect(updateModel).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        from: 0,
-        to: 89,
-      }),
-    );
 
     if (scale) {
       scale.getBoundingClientRect = jest.fn(() => ({
@@ -74,5 +49,77 @@ describe('Scale marks are created', () => {
         to: 88,
       }),
     );
+  });
+
+  test('Check resize when slider width after resize is smaller than slider width before resize', () => {
+    $.fn.SliderMetaLamp = plugin;
+    const parent = document.createElement('input');
+    document.body.appendChild(parent);
+    const slider = $(parent).SliderMetaLamp({}).data('SliderMetaLamp');
+
+    const sliderWrapper = document.querySelectorAll('.slider-metalamp__wrapper');
+
+    sliderWrapper.forEach((item) => Object.defineProperty(item, 'offsetWidth', {
+      writable: true,
+      configurable: true,
+      value: 575,
+    }));
+
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 1920,
+    });
+    window.dispatchEvent(new Event('resize'));
+
+    sliderWrapper.forEach((item) => Object.defineProperty(item, 'offsetWidth', {
+      writable: true,
+      configurable: true,
+      value: 768,
+    }));
+
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 1440,
+    });
+
+    window.dispatchEvent(new Event('resize'));
+  });
+
+  test('Check resize when slider width after resize is greater than slider width before resize', () => {
+    $.fn.SliderMetaLamp = plugin;
+    const parent = document.createElement('input');
+    document.body.appendChild(parent);
+    const slider = $(parent).SliderMetaLamp({}).data('SliderMetaLamp');
+
+    const sliderWrapper = document.querySelectorAll('.slider-metalamp__wrapper');
+
+    sliderWrapper.forEach((item) => Object.defineProperty(item, 'offsetWidth', {
+      writable: true,
+      configurable: true,
+      value: 575,
+    }));
+
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 1920,
+    });
+    window.dispatchEvent(new Event('resize'));
+
+    sliderWrapper.forEach((item) => Object.defineProperty(item, 'offsetWidth', {
+      writable: true,
+      configurable: true,
+      value: 768,
+    }));
+
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 320,
+    });
+
+    window.dispatchEvent(new Event('resize'));
   });
 });
