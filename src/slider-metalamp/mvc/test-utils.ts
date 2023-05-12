@@ -62,9 +62,15 @@ const createInstance = (
     from: 10,
     to: 90,
   },
+  dataAttributes: { name: string, value: string }[] = [],
+
 ) => {
   const wrapper = document.createElement('div');
   const parent = document.createElement('input');
+  dataAttributes.forEach((item) => {
+    const { name, value } = item;
+    parent.setAttribute(`data-${name}`, value);
+  });
   document.body.appendChild(wrapper);
   wrapper.appendChild(parent);
   const testModel = new Model();
@@ -121,6 +127,7 @@ const createInstance = (
     updateModel,
     tipMin,
     tipMax,
+    testModel,
   };
 };
 
