@@ -63,6 +63,8 @@ const createInstance = (
     to: 90,
   },
   dataAttributes: { name: string, value: string }[] = [],
+  minControlPosition = 0,
+  maxControlPosition = 0,
 
 ) => {
   const wrapper = document.createElement('div');
@@ -85,6 +87,32 @@ const createInstance = (
   const tipMax = getElement('.slider-metalamp__tip-max', wrapper);
   const track = getElement('.slider-metalamp__track', wrapper);
   const bar = getElement('.slider-metalamp__progress-bar', wrapper);
+  if (controlMin) {
+    controlMin.getBoundingClientRect = jest.fn(() => ({
+      width: 0,
+      height: 0,
+      top: 0,
+      left: minControlPosition,
+      bottom: minControlPosition,
+      right: 0,
+      x: 0,
+      y: 0,
+      toJSON: () => undefined,
+    }));
+  }
+  if (controlMax) {
+    controlMax.getBoundingClientRect = jest.fn(() => ({
+      width: 0,
+      height: 0,
+      top: 0,
+      left: maxControlPosition,
+      bottom: maxControlPosition,
+      right: 0,
+      x: 0,
+      y: 0,
+      toJSON: () => undefined,
+    }));
+  }
   if (track) {
     track.getBoundingClientRect = jest.fn(() => ({
       width: 500,
