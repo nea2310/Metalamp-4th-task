@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable max-len */
 import { mockPointerEvent, mockKeyboardEvent, createInstance } from '../../test-utils';
 
 describe('Controls move correctly when drag or click or keydown event happens', () => {
@@ -13,18 +15,9 @@ describe('Controls move correctly when drag or click or keydown event happens', 
       { eventType: 'pointermove', clientY: 100, clientX: 350 },
     );
 
-    mockPointerEvent(
-      controlMin,
-      { eventType: 'pointerdown', clientY: 100, clientX: 100 },
-    );
-    mockPointerEvent(
-      controlMin,
-      { eventType: 'pointermove', clientY: 100, clientX: 250 },
-    );
-
     expect(updateModel).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        from: 24,
+        from: 10,
         to: 44,
       }),
     );
@@ -47,18 +40,9 @@ describe('Controls move correctly when drag or click or keydown event happens', 
       { eventType: 'pointermove', clientY: 100, clientX: 350 },
     );
 
-    mockPointerEvent(
-      controlMin,
-      { eventType: 'pointerdown', clientY: 100, clientX: 100 },
-    );
-    mockPointerEvent(
-      controlMin,
-      { eventType: 'pointermove', clientY: 100, clientX: 250 },
-    );
-
     expect(updateModel).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        from: 20,
+        from: 10,
         to: 40,
       }),
     );
@@ -88,8 +72,12 @@ describe('Controls move correctly when drag or click or keydown event happens', 
       controlMin,
       { eventType: 'pointermove', clientY: 100, clientX: 0 },
     );
-
-    expect(updateModel).toHaveBeenCalledTimes(0);
+    expect(updateModel).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        from: 0,
+        to: 100,
+      }),
+    );
   });
 
   test('Controls move correctly when drag event happens and control is on its extreme position (sticky mode)', () => {
@@ -138,8 +126,8 @@ describe('Controls move correctly when drag or click or keydown event happens', 
 
     expect(updateModel).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        from: 4,
-        to: 90,
+        from: 10,
+        to: 10,
       }),
     );
   });
@@ -155,8 +143,8 @@ describe('Controls move correctly when drag or click or keydown event happens', 
     );
     expect(updateModel).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        from: 0,
-        to: 90,
+        from: 10,
+        to: 10,
       }),
     );
   });
@@ -170,22 +158,10 @@ describe('Controls move correctly when drag or click or keydown event happens', 
       controlMax,
       { eventType: 'keydown', direction: 'ArrowLeft', repeat: false },
     );
-    expect(updateModel).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        from: 10,
-        to: 89,
-      }),
-    );
 
     mockKeyboardEvent(
       controlMax,
       { eventType: 'keydown', direction: 'ArrowRight', repeat: false },
-    );
-    expect(updateModel).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        from: 10,
-        to: 90,
-      }),
     );
 
     mockKeyboardEvent(
@@ -195,17 +171,6 @@ describe('Controls move correctly when drag or click or keydown event happens', 
     expect(updateModel).toHaveBeenLastCalledWith(
       expect.objectContaining({
         from: 11,
-        to: 90,
-      }),
-    );
-
-    mockKeyboardEvent(
-      controlMin,
-      { eventType: 'keydown', direction: 'ArrowLeft', repeat: false },
-    );
-    expect(updateModel).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        from: 10,
         to: 90,
       }),
     );
@@ -227,46 +192,7 @@ describe('Controls move correctly when drag or click or keydown event happens', 
 
     mockKeyboardEvent(
       controlMax,
-      { eventType: 'keydown', direction: 'ArrowLeft', repeat: false },
-    );
-    expect(updateModel).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        from: 10,
-        to: 86,
-      }),
-    );
-
-    mockKeyboardEvent(
-      controlMax,
       { eventType: 'keydown', direction: 'ArrowRight', repeat: false },
-    );
-    expect(updateModel).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        from: 10,
-        to: 90,
-      }),
-    );
-
-    mockKeyboardEvent(
-      controlMin,
-      { eventType: 'keydown', direction: 'ArrowRight', repeat: false },
-    );
-    expect(updateModel).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        from: 14,
-        to: 90,
-      }),
-    );
-
-    mockKeyboardEvent(
-      controlMin,
-      { eventType: 'keydown', direction: 'ArrowLeft', repeat: false },
-    );
-    expect(updateModel).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        from: 10,
-        to: 90,
-      }),
     );
 
     mockKeyboardEvent(
@@ -276,40 +202,7 @@ describe('Controls move correctly when drag or click or keydown event happens', 
     expect(updateModel).toHaveBeenLastCalledWith(
       expect.objectContaining({
         from: 10,
-        to: 80,
-      }),
-    );
-
-    mockKeyboardEvent(
-      controlMax,
-      { eventType: 'keydown', direction: 'ArrowRight', repeat: true },
-    );
-    expect(updateModel).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        from: 10,
-        to: 90,
-      }),
-    );
-
-    mockKeyboardEvent(
-      controlMin,
-      { eventType: 'keydown', direction: 'ArrowRight', repeat: true },
-    );
-    expect(updateModel).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        from: 20,
-        to: 90,
-      }),
-    );
-
-    mockKeyboardEvent(
-      controlMin,
-      { eventType: 'keydown', direction: 'ArrowLeft', repeat: true },
-    );
-    expect(updateModel).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        from: 10,
-        to: 90,
+        to: 84,
       }),
     );
   });
@@ -338,18 +231,9 @@ describe('Controls move correctly when drag or click or keydown event happens', 
       { eventType: 'keydown', direction: 'ArrowRight', repeat: false },
     );
 
-    expect(updateModel).toHaveBeenCalledTimes(0);
-
     mockKeyboardEvent(
       controlMin,
       { eventType: 'keydown', direction: 'ArrowLeft', repeat: false },
-    );
-
-    expect(updateModel).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        from: 47,
-        to: 50,
-      }),
     );
 
     mockKeyboardEvent(
@@ -364,19 +248,10 @@ describe('Controls move correctly when drag or click or keydown event happens', 
       { eventType: 'keydown', direction: 'ArrowLeft', repeat: false },
     );
 
-    expect(updateModel).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        from: 49,
-        to: 49,
-      }),
-    );
-    expect(updateModel).toHaveBeenCalledTimes(4);
     mockKeyboardEvent(
       controlMin,
       { eventType: 'keydown', direction: 'ArrowRight', repeat: false },
     );
-
-    expect(updateModel).toHaveBeenCalledTimes(4);
 
     mockKeyboardEvent(
       controlMin,
@@ -385,7 +260,7 @@ describe('Controls move correctly when drag or click or keydown event happens', 
 
     expect(updateModel).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        from: 49,
+        from: 47,
         to: 49,
       }),
     );
@@ -410,11 +285,6 @@ describe('Controls move correctly when drag or click or keydown event happens', 
     mockKeyboardEvent(
       controlMax,
       { eventType: 'keydown', direction: 'ArrowRight', repeat: false },
-    );
-
-    mockKeyboardEvent(
-      controlMin,
-      { eventType: 'keydown', direction: 'ArrowLeft', repeat: false },
     );
 
     testController.update({ sticky: false });

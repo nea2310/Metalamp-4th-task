@@ -79,12 +79,12 @@ const createInstance = (
 
   testController.update(configuration);
 
-  const controlMax = getElement('slider-metalamp__control-max', wrapper);
-  const controlMin = getElement('slider-metalamp__control-min', wrapper);
-  const tipMin = getElement('slider-metalamp__tip-min', wrapper);
-  const tipMax = getElement('slider-metalamp__tip-max', wrapper);
-  const track = getElement('slider-metalamp__track', wrapper);
-  const bar = getElement('slider-metalamp__progress-bar', wrapper);
+  const controlMax = getElement('.slider-metalamp__control-max', wrapper);
+  const controlMin = getElement('.slider-metalamp__control-min', wrapper);
+  const tipMin = getElement('.slider-metalamp__tip-min', wrapper);
+  const tipMax = getElement('.slider-metalamp__tip-max', wrapper);
+  const track = getElement('.slider-metalamp__track', wrapper);
+  const bar = getElement('.slider-metalamp__progress-bar', wrapper);
   if (track) {
     track.getBoundingClientRect = jest.fn(() => ({
       width: 500,
