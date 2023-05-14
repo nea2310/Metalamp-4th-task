@@ -69,6 +69,7 @@ const createInstance = (
   minControlPosition = 0,
   maxControlPosition = 0,
   scalemarkSize = 10,
+  sliderWidth = 575,
 
 ) => {
   const wrapper = document.createElement('div');
@@ -85,42 +86,63 @@ const createInstance = (
 
   testController.update(configuration);
 
+  const slider = getElement('.slider-metalamp__wrapper', wrapper);
   const controlMax = getElement('.slider-metalamp__control-max', wrapper);
   const controlMin = getElement('.slider-metalamp__control-min', wrapper);
   const tipMin = getElement('.slider-metalamp__tip-min', wrapper);
   const tipMax = getElement('.slider-metalamp__tip-max', wrapper);
   const track = getElement('.slider-metalamp__track', wrapper);
   const bar = getElement('.slider-metalamp__progress-bar', wrapper);
-  const scaleMarks = wrapper.querySelectorAll('.slider-metalamp__mark') as NodeListOf<HTMLElement>;
+  const scaleMarks = wrapper.querySelectorAll('.slider-metalamp__mark');
 
-  if (scaleMarks) {
-    scaleMarks.forEach((item, index) => {
-      const label = item.firstElementChild as HTMLElement;
-      label.innerText = String(index);
-      item.getBoundingClientRect = jest.fn(() => ({
-        width: scalemarkSize,
-        height: scalemarkSize,
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        x: index * scalemarkSize,
-        y: 60,
-        toJSON: () => undefined,
-      }));
-      label.getBoundingClientRect = jest.fn(() => ({
-        width: scalemarkSize - 1,
-        height: scalemarkSize - 1,
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        x: index * scalemarkSize + 1,
-        y: 61,
-        toJSON: () => undefined,
-      }));
+  if (slider) {
+    slider.getBoundingClientRect = jest.fn(() => ({
+      width: 575,
+      height: 60,
+      top: 30,
+      left: 30,
+      bottom: 50,
+      right: 50,
+      x: 0,
+      y: 0,
+      toJSON: () => undefined,
+    }));
+
+    Object.defineProperty(slider, 'offsetWidth', {
+      writable: true,
+      configurable: true,
+      value: sliderWidth,
     });
   }
+
+  scaleMarks.forEach((item, index) => {
+    const label = item.firstElementChild as HTMLElement;
+    label.innerText = String(index);
+    item.getBoundingClientRect = jest.fn(() => ({
+      width: scalemarkSize,
+      height: scalemarkSize,
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      x: index * scalemarkSize,
+      y: 60,
+      toJSON: () => undefined,
+    }));
+
+    label.getBoundingClientRect = jest.fn(() => ({
+      width: scalemarkSize,
+      height: scalemarkSize,
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      x: index * scalemarkSize,
+      y: 61,
+      toJSON: () => undefined,
+    }));
+  });
+
   if (controlMin) {
     controlMin.getBoundingClientRect = jest.fn(() => ({
       width: 0,
@@ -190,6 +212,8 @@ const createInstance = (
     tipMin,
     tipMax,
     testModel,
+    scaleMarks,
+    slider,
   };
 };
 

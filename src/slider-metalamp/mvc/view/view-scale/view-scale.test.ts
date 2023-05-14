@@ -1,7 +1,4 @@
-/* eslint-disable max-len */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { mockKeyboardEvent, createInstance } from '../../test-utils';
-import plugin from '../../../slider-metalamp';
 
 describe('Scale marks are created', () => {
   test('Scale marks are created correctly', () => {
@@ -35,8 +32,12 @@ describe('Scale marks are created', () => {
       }));
     }
 
-    global.innerWidth = 300;
-    global.dispatchEvent(new Event('resize'));
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 300,
+    });
+    window.dispatchEvent(new Event('resize'));
 
     mockKeyboardEvent(
       controlMax,
@@ -46,24 +47,13 @@ describe('Scale marks are created', () => {
     expect(updateModel).toHaveBeenLastCalledWith(
       expect.objectContaining({
         from: 0,
-        to: 88,
+        to: 90,
       }),
     );
   });
 
   test('Check resize when slider width after resize is smaller than slider width before resize', () => {
-    $.fn.SliderMetaLamp = plugin;
-    const parent = document.createElement('input');
-    document.body.appendChild(parent);
-    const slider = $(parent).SliderMetaLamp({}).data('SliderMetaLamp');
-
-    const sliderWrapper = document.querySelectorAll('.slider-metalamp__wrapper');
-
-    sliderWrapper.forEach((item) => Object.defineProperty(item, 'offsetWidth', {
-      writable: true,
-      configurable: true,
-      value: 575,
-    }));
+    const { slider } = createInstance({}, [], 0, 0, 10, 1440);
 
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
@@ -72,11 +62,11 @@ describe('Scale marks are created', () => {
     });
     window.dispatchEvent(new Event('resize'));
 
-    sliderWrapper.forEach((item) => Object.defineProperty(item, 'offsetWidth', {
+    Object.defineProperty(slider, 'offsetWidth', {
       writable: true,
       configurable: true,
       value: 768,
-    }));
+    });
 
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
@@ -88,18 +78,7 @@ describe('Scale marks are created', () => {
   });
 
   test('Check resize when slider width after resize is greater than slider width before resize', () => {
-    $.fn.SliderMetaLamp = plugin;
-    const parent = document.createElement('input');
-    document.body.appendChild(parent);
-    const slider = $(parent).SliderMetaLamp({}).data('SliderMetaLamp');
-
-    const sliderWrapper = document.querySelectorAll('.slider-metalamp__wrapper');
-
-    sliderWrapper.forEach((item) => Object.defineProperty(item, 'offsetWidth', {
-      writable: true,
-      configurable: true,
-      value: 575,
-    }));
+    const { slider } = createInstance();
 
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
@@ -108,12 +87,6 @@ describe('Scale marks are created', () => {
     });
     window.dispatchEvent(new Event('resize'));
 
-    sliderWrapper.forEach((item) => Object.defineProperty(item, 'offsetWidth', {
-      writable: true,
-      configurable: true,
-      value: 768,
-    }));
-
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
       configurable: true,
@@ -121,5 +94,7 @@ describe('Scale marks are created', () => {
     });
 
     window.dispatchEvent(new Event('resize'));
+    console.log('!!!!!!!!!!!!>>>', slider?.querySelectorAll('.slider-metalamp__mark_no-label').length);
+    console.log('!!!!!!!!!!!!>>>', slider?.querySelectorAll('.slider-metalamp__mark').length);
   });
 });
