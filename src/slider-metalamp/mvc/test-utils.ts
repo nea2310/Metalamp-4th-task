@@ -1,3 +1,6 @@
+/* eslint-disable no-return-assign */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-param-reassign */
 import { TPluginConfiguration } from './interface';
 import Model from './model/Model';
 import View from './view/View';
@@ -65,6 +68,7 @@ const createInstance = (
   dataAttributes: { name: string, value: string }[] = [],
   minControlPosition = 0,
   maxControlPosition = 0,
+  scalemarkSize = 10,
 
 ) => {
   const wrapper = document.createElement('div');
@@ -87,6 +91,36 @@ const createInstance = (
   const tipMax = getElement('.slider-metalamp__tip-max', wrapper);
   const track = getElement('.slider-metalamp__track', wrapper);
   const bar = getElement('.slider-metalamp__progress-bar', wrapper);
+  const scaleMarks = wrapper.querySelectorAll('.slider-metalamp__mark') as NodeListOf<HTMLElement>;
+
+  if (scaleMarks) {
+    scaleMarks.forEach((item, index) => {
+      const label = item.firstElementChild as HTMLElement;
+      label.innerText = String(index);
+      item.getBoundingClientRect = jest.fn(() => ({
+        width: scalemarkSize,
+        height: scalemarkSize,
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        x: index * scalemarkSize,
+        y: 60,
+        toJSON: () => undefined,
+      }));
+      label.getBoundingClientRect = jest.fn(() => ({
+        width: scalemarkSize - 1,
+        height: scalemarkSize - 1,
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        x: index * scalemarkSize + 1,
+        y: 61,
+        toJSON: () => undefined,
+      }));
+    });
+  }
   if (controlMin) {
     controlMin.getBoundingClientRect = jest.fn(() => ({
       width: 0,

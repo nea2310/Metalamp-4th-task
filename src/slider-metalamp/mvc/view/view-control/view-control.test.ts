@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
 import { mockPointerEvent, mockKeyboardEvent, createInstance } from '../../test-utils';
+import { defaultConfiguration } from '../../utils';
+
+import ViewControl from './ViewControl';
 
 describe('Controls move correctly when drag or click or keydown event happens', () => {
   test('Controls move correctly when drag event happens (no sticky mode)', () => {
@@ -144,6 +147,46 @@ describe('Controls move correctly when drag or click or keydown event happens', 
     const { track, updateModel } = createInstance();
 
     if (!(track instanceof HTMLElement)) return;
+
+    mockPointerEvent(
+      track,
+      { eventType: 'pointerdown', clientY: 100, clientX: 50 },
+    );
+
+    expect(updateModel).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        from: 10,
+        to: 10,
+      }),
+    );
+  });
+
+  test('Controls move correctly when click event happens (no sticky mode, single, newPosition > 100)', () => {
+    const { track, updateModel, testController } = createInstance();
+
+    if (!(track instanceof HTMLElement)) return;
+
+    testController.update({ range: false });
+
+    mockPointerEvent(
+      track,
+      { eventType: 'pointerdown', clientY: 100, clientX: 600 },
+    );
+
+    expect(updateModel).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        from: 100,
+        to: 90,
+      }),
+    );
+  });
+
+  test('Controls move correctly when click event happens (no sticky , vertical)', () => {
+    const { track, updateModel, testController } = createInstance();
+
+    if (!(track instanceof HTMLElement)) return;
+
+    testController.update({ vertical: true });
 
     mockPointerEvent(
       track,
@@ -339,6 +382,98 @@ describe('Controls move correctly when drag or click or keydown event happens', 
     );
   });
 
+  test('Controls move correctly when keydown event happens (no sticky mode), to > max, from < min', () => {
+    const {
+      controlMin, controlMax, updateModel, testController,
+    } = createInstance();
+
+    if (!(controlMax instanceof HTMLElement) || !(controlMin instanceof HTMLElement)) return;
+
+    testController.update({ from: 1, to: 99, shiftOnKeyHold: 3 });
+
+    mockKeyboardEvent(
+      controlMax,
+      { eventType: 'keydown', direction: 'ArrowRight', repeat: true },
+    );
+
+    mockKeyboardEvent(
+      controlMin,
+      { eventType: 'keydown', direction: 'ArrowLeft', repeat: true },
+    );
+
+    expect(updateModel).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        from: 0,
+        to: 100,
+      }),
+    );
+  });
+
+  test('Controls move correctly when keydown event happens (no sticky mode), from > to', () => {
+    const {
+      controlMin, controlMax, updateModel, testController,
+    } = createInstance();
+
+    if (!(controlMax instanceof HTMLElement) || !(controlMin instanceof HTMLElement)) return;
+
+    testController.update({ from: 90, to: 99, shiftOnKeyHold: 10 });
+
+    mockKeyboardEvent(
+      controlMin,
+      { eventType: 'keydown', direction: 'ArrowRight', repeat: true },
+    );
+
+    expect(updateModel).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        from: 99,
+        to: 99,
+      }),
+    );
+  });
+
+  test('Controls move correctly when keydown event happens (no sticky mode, single)', () => {
+    const { controlMin, updateModel, testController } = createInstance();
+
+    if (!(controlMin instanceof HTMLElement)) return;
+
+    testController.update({ range: false });
+
+    mockKeyboardEvent(
+      controlMin,
+      { eventType: 'keydown', direction: 'ArrowRight', repeat: false },
+    );
+    expect(updateModel).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        from: 11,
+        to: 90,
+      }),
+    );
+  });
+
+  test('Controls move correctly when keydown event happens (sticky mode, single)', () => {
+    const { controlMin, updateModel, testController } = createInstance();
+
+    if (!(controlMin instanceof HTMLElement)) return;
+
+    testController.update({ range: false, sticky: true });
+
+    mockKeyboardEvent(
+      controlMin,
+      { eventType: 'keydown', direction: 'ArrowRight', repeat: true },
+    );
+
+    mockKeyboardEvent(
+      controlMin,
+      { eventType: 'keydown', direction: 'ArrowLeft', repeat: false },
+    );
+    expect(updateModel).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        from: 10,
+        to: 90,
+      }),
+    );
+  });
+
   test('Controls move correctly when keydown event happens (no sticky mode, single mode, isAboveMaxNoRange is true)', () => {
     const { controlMin, controlMax, updateModel } = createInstance({
       min: 0,
@@ -509,6 +644,140 @@ describe('Controls move correctly when drag or click or keydown event happens', 
       expect.objectContaining({
         from: 0,
         to: 100,
+      }),
+    );
+  });
+
+  test('Correct from and to values when switch sticky, remainder > 0', () => {
+    const {
+      testController, controlMin, controlMax, updateModel,
+    } = createInstance();
+
+    testController.update({
+      from: 4,
+      to: 17,
+      sticky: true,
+      step: 5,
+    });
+
+    expect(updateModel).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        from: 5,
+        to: 15,
+      }),
+    );
+  });
+
+  test('Correct from and to values when switch sticky, remainder < 0', () => {
+    const {
+      testController, controlMin, controlMax, updateModel,
+    } = createInstance();
+
+    testController.update({
+      min: -30,
+      max: 0,
+      from: -27,
+      to: -4,
+      sticky: true,
+      step: 5,
+    });
+
+    expect(updateModel).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        from: -25,
+        to: -5,
+      }),
+    );
+  });
+
+  test('Controls move correctly when click event  on scalemark happens', () => {
+    const { track, updateModel } = createInstance();
+
+    if (!(track instanceof HTMLElement)) return;
+    const scaleMarks = track.querySelectorAll('.slider-metalamp__mark');
+    if (!(scaleMarks[0] instanceof HTMLElement)) return;
+    const firstLabel = scaleMarks[0].firstElementChild;
+    if (!(firstLabel instanceof HTMLElement)) return;
+    mockPointerEvent(
+      firstLabel,
+      { eventType: 'pointerdown', clientY: 61, clientX: 71 },
+    );
+
+    expect(updateModel).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        from: 0,
+        to: 90,
+      }),
+    );
+  });
+
+  test('Controls move correctly when click event  on scalemark happens (from === to)', () => {
+    const { track, updateModel } = createInstance({
+      min: 0,
+      max: 100,
+      from: 0,
+      to: 0,
+    });
+
+    if (!(track instanceof HTMLElement)) return;
+    const scaleMarks = track.querySelectorAll('.slider-metalamp__mark');
+    if (!(scaleMarks[0] instanceof HTMLElement)) return;
+    const firstLabel = scaleMarks[0].firstElementChild;
+    if (!(firstLabel instanceof HTMLElement)) return;
+    mockPointerEvent(
+      firstLabel,
+      { eventType: 'pointerdown', clientY: 61, clientX: 71 },
+    );
+
+    expect(updateModel).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        from: 0,
+        to: 0,
+      }),
+    );
+  });
+
+  test('Controls move correctly when click event  on scalemark happens (single mode)', () => {
+    const { track, updateModel } = createInstance({
+      min: 0,
+      max: 100,
+      from: 10,
+      to: 90,
+      range: false,
+    });
+
+    if (!(track instanceof HTMLElement)) return;
+    const scaleMarks = track.querySelectorAll('.slider-metalamp__mark');
+    if (!(scaleMarks[0] instanceof HTMLElement)) return;
+    const firstLabel = scaleMarks[0].firstElementChild;
+    if (!(firstLabel instanceof HTMLElement)) return;
+    mockPointerEvent(
+      firstLabel,
+      { eventType: 'pointerdown', clientY: 61, clientX: 71 },
+    );
+
+    expect(updateModel).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        from: 0,
+        to: 90,
+      }),
+    );
+  });
+
+  test('Switch range', () => {
+    const { track, updateModel, testController } = createInstance({
+      min: 0,
+      max: 100,
+      from: 10,
+      range: false,
+    });
+
+    testController.update({ range: true });
+
+    expect(updateModel).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        from: 10,
+        to: 10,
       }),
     );
   });
