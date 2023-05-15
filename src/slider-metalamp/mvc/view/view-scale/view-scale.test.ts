@@ -50,10 +50,12 @@ describe('Scale marks are created', () => {
         to: 90,
       }),
     );
+
+    testController.destroy();
   });
 
   test('Check resize when slider width after resize is smaller than slider width before resize', () => {
-    const { slider } = createInstance({ sliderWidth: 1440 });
+    const { slider, testController } = createInstance({ sliderWidth: 1440 });
 
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
@@ -75,10 +77,12 @@ describe('Scale marks are created', () => {
     });
 
     window.dispatchEvent(new Event('resize'));
+
+    testController.destroy();
   });
 
   test('Check resize when slider width after resize is greater than slider width before resize', () => {
-    const { slider } = createInstance();
+    const { testController } = createInstance();
 
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
@@ -94,7 +98,7 @@ describe('Scale marks are created', () => {
     });
 
     window.dispatchEvent(new Event('resize'));
-    console.log('!!!!!!!!!!!!>>>', slider?.querySelectorAll('.slider-metalamp__mark_no-label').length);
-    console.log('!!!!!!!!!!!!>>>', slider?.querySelectorAll('.slider-metalamp__mark').length);
+
+    testController.destroy();
   });
 });

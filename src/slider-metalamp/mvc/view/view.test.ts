@@ -34,6 +34,8 @@ describe('Should initialize slider instance with correct parameters', () => {
     expect(updateModel).toHaveBeenLastCalledWith(
       expect.objectContaining({ ...configuration, step: 10, round: 0 }),
     );
+
+    testController.destroy();
   });
 
   test('Should initialize slider instance with parameters taken from data attributes', () => {
@@ -59,5 +61,7 @@ describe('Should initialize slider instance with correct parameters', () => {
         step: 20,
       }),
     );
+
+    testController.destroy();
   });
 });
