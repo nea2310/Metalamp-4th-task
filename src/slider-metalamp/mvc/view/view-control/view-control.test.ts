@@ -1,9 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable max-len */
 import { mockPointerEvent, mockKeyboardEvent, createInstance } from '../../test-utils';
-import { defaultConfiguration } from '../../utils';
-
-import ViewControl from './ViewControl';
 
 describe('Controls move correctly when drag or click or keydown event happens', () => {
   test('Controls move correctly when drag event happens (no sticky mode)', () => {
@@ -28,11 +23,13 @@ describe('Controls move correctly when drag or click or keydown event happens', 
 
   test('Controls move correctly when drag event happens (no sticky mode, vertical)', () => {
     const { controlMin, controlMax, updateModel } = createInstance({
-      min: 0,
-      max: 100,
-      from: 10,
-      to: 90,
-      vertical: true,
+      configuration: {
+        min: 0,
+        max: 100,
+        from: 10,
+        to: 90,
+        vertical: true,
+      },
     });
     if (!(controlMax instanceof HTMLElement) || !(controlMin instanceof HTMLElement)) return;
     mockPointerEvent(
@@ -202,12 +199,16 @@ describe('Controls move correctly when drag or click or keydown event happens', 
   });
 
   test('Controls move correctly when drag event happens (controlMinDist < controlMaxDist)', () => {
-    const { testController, track, updateModel } = createInstance({
-      min: 0,
-      max: 100,
-      from: 30,
-      to: 60,
-    }, [], 30, 70);
+    const { track, updateModel } = createInstance({
+      configuration: {
+        min: 0,
+        max: 100,
+        from: 30,
+        to: 60,
+      },
+      minControlPosition: 30,
+      maxControlPosition: 70,
+    });
 
     if (!(track instanceof HTMLElement)) return;
     mockPointerEvent(
@@ -224,12 +225,16 @@ describe('Controls move correctly when drag or click or keydown event happens', 
   });
 
   test('Controls move correctly when drag event happens (controlMinDist > controlMaxDist)', () => {
-    const { testController, track, updateModel } = createInstance({
-      min: 0,
-      max: 100,
-      from: 30,
-      to: 60,
-    }, [], 30, 70);
+    const { track, updateModel } = createInstance({
+      configuration: {
+        min: 0,
+        max: 100,
+        from: 30,
+        to: 60,
+      },
+      minControlPosition: 30,
+      maxControlPosition: 70,
+    });
 
     if (!(track instanceof HTMLElement)) return;
     mockPointerEvent(
@@ -247,13 +252,17 @@ describe('Controls move correctly when drag or click or keydown event happens', 
 
   test('Controls move correctly when drag event happens (isBeyondToPosition === true)', () => {
     const {
-      testController, track, updateModel, controlMin,
+      track, updateModel, controlMin,
     } = createInstance({
-      min: 0,
-      max: 100,
-      from: 5,
-      to: 5,
-    }, [], 70, 70);
+      configuration: {
+        min: 0,
+        max: 100,
+        from: 5,
+        to: 5,
+      },
+      minControlPosition: 70,
+      maxControlPosition: 70,
+    });
 
     if (!(track instanceof HTMLElement) || !(controlMin instanceof HTMLElement)) return;
 
@@ -275,12 +284,16 @@ describe('Controls move correctly when drag or click or keydown event happens', 
   });
 
   test('Controls move correctly when drag event happens, (controlMinDist === controlMaxDist)', () => {
-    const { testController, track, updateModel } = createInstance({
-      min: 0,
-      max: 100,
-      from: 30,
-      to: 60,
-    }, [], 30, 70);
+    const { track, updateModel } = createInstance({
+      configuration: {
+        min: 0,
+        max: 100,
+        from: 30,
+        to: 60,
+      },
+      minControlPosition: 30,
+      maxControlPosition: 70,
+    });
 
     if (!(track instanceof HTMLElement)) return;
 
@@ -299,13 +312,17 @@ describe('Controls move correctly when drag or click or keydown event happens', 
 
   test('Controls move correctly when drag event happens (event.clientX - innerEvent.clientX > 0 && this.areControlsMet)', () => {
     const {
-      testController, track, updateModel, controlMax,
+      track, updateModel, controlMax,
     } = createInstance({
-      min: 0,
-      max: 100,
-      from: 50,
-      to: 50,
-    }, [], 50, 50);
+      configuration: {
+        min: 0,
+        max: 100,
+        from: 50,
+        to: 50,
+      },
+      minControlPosition: 50,
+      maxControlPosition: 50,
+    });
 
     if (!(track instanceof HTMLElement) || !(controlMax instanceof HTMLElement)) return;
 
@@ -328,13 +345,17 @@ describe('Controls move correctly when drag or click or keydown event happens', 
 
   test('Controls move correctly when drag event happens (innerEvent.clientX - event.clientX > 0 && this.areControlsMet)', () => {
     const {
-      testController, track, updateModel, controlMax,
+      track, updateModel, controlMax,
     } = createInstance({
-      min: 0,
-      max: 100,
-      from: 50,
-      to: 50,
-    }, [], 50, 50);
+      configuration: {
+        min: 0,
+        max: 100,
+        from: 50,
+        to: 50,
+      },
+      minControlPosition: 50,
+      maxControlPosition: 50,
+    });
 
     if (!(track instanceof HTMLElement) || !(controlMax instanceof HTMLElement)) return;
 
@@ -475,11 +496,13 @@ describe('Controls move correctly when drag or click or keydown event happens', 
   });
 
   test('Controls move correctly when keydown event happens (no sticky mode, single mode, isAboveMaxNoRange is true)', () => {
-    const { controlMin, controlMax, updateModel } = createInstance({
-      min: 0,
-      max: 100,
-      from: 100,
-      range: false,
+    const { controlMin, updateModel } = createInstance({
+      configuration: {
+        min: 0,
+        max: 100,
+        from: 100,
+        range: false,
+      },
     });
 
     if (!(controlMin instanceof HTMLElement)) return;
@@ -496,11 +519,13 @@ describe('Controls move correctly when drag or click or keydown event happens', 
   });
 
   test('Controls move correctly when keydown event happens (no sticky mode, double mode, to < from)', () => {
-    const { controlMin, controlMax, updateModel } = createInstance({
-      min: 0,
-      max: 100,
-      from: 0,
-      to: 0,
+    const { controlMax, updateModel } = createInstance({
+      configuration: {
+        min: 0,
+        max: 100,
+        from: 0,
+        to: 0,
+      },
     });
 
     if (!(controlMax instanceof HTMLElement)) return;
@@ -519,14 +544,16 @@ describe('Controls move correctly when drag or click or keydown event happens', 
 
   test('Controls move correctly when keydown event happens (sticky mode)', () => {
     const { controlMin, controlMax, updateModel } = createInstance({
-      min: 0,
-      max: 100,
-      from: 10,
-      to: 90,
-      step: 2,
-      sticky: true,
-      shiftOnKeyDown: 2,
-      shiftOnKeyHold: 5,
+      configuration: {
+        min: 0,
+        max: 100,
+        from: 10,
+        to: 90,
+        step: 2,
+        sticky: true,
+        shiftOnKeyDown: 2,
+        shiftOnKeyHold: 5,
+      },
     });
 
     if (!(controlMax instanceof HTMLElement) || !(controlMin instanceof HTMLElement)) return;
@@ -552,14 +579,16 @@ describe('Controls move correctly when drag or click or keydown event happens', 
     const {
       testController, controlMin, controlMax, updateModel,
     } = createInstance({
-      min: 0,
-      max: 100,
-      from: 49,
-      to: 50,
-      step: 1,
-      sticky: true,
-      shiftOnKeyDown: 2,
-      shiftOnKeyHold: 3,
+      configuration: {
+        min: 0,
+        max: 100,
+        from: 49,
+        to: 50,
+        step: 1,
+        sticky: true,
+        shiftOnKeyDown: 2,
+        shiftOnKeyHold: 3,
+      },
     });
     if (!(controlMax instanceof HTMLElement) || !(controlMin instanceof HTMLElement)) return;
     mockKeyboardEvent(
@@ -650,7 +679,7 @@ describe('Controls move correctly when drag or click or keydown event happens', 
 
   test('Correct from and to values when switch sticky, remainder > 0', () => {
     const {
-      testController, controlMin, controlMax, updateModel,
+      testController, updateModel,
     } = createInstance();
 
     testController.update({
@@ -670,7 +699,7 @@ describe('Controls move correctly when drag or click or keydown event happens', 
 
   test('Correct from and to values when switch sticky, remainder < 0', () => {
     const {
-      testController, controlMin, controlMax, updateModel,
+      testController, updateModel,
     } = createInstance();
 
     testController.update({
@@ -713,10 +742,12 @@ describe('Controls move correctly when drag or click or keydown event happens', 
 
   test('Controls move correctly when click event  on scalemark happens (from === to)', () => {
     const { track, updateModel } = createInstance({
-      min: 0,
-      max: 100,
-      from: 0,
-      to: 0,
+      configuration: {
+        min: 0,
+        max: 100,
+        from: 0,
+        to: 0,
+      },
     });
 
     if (!(track instanceof HTMLElement)) return;
@@ -739,11 +770,13 @@ describe('Controls move correctly when drag or click or keydown event happens', 
 
   test('Controls move correctly when click event  on scalemark happens (single mode)', () => {
     const { track, updateModel } = createInstance({
-      min: 0,
-      max: 100,
-      from: 10,
-      to: 90,
-      range: false,
+      configuration: {
+        min: 0,
+        max: 100,
+        from: 10,
+        to: 90,
+        range: false,
+      },
     });
 
     if (!(track instanceof HTMLElement)) return;
@@ -765,11 +798,13 @@ describe('Controls move correctly when drag or click or keydown event happens', 
   });
 
   test('Switch range', () => {
-    const { track, updateModel, testController } = createInstance({
-      min: 0,
-      max: 100,
-      from: 10,
-      range: false,
+    const { updateModel, testController } = createInstance({
+      configuration: {
+        min: 0,
+        max: 100,
+        from: 10,
+        range: false,
+      },
     });
 
     testController.update({ range: true });

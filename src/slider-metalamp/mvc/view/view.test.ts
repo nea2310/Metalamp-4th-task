@@ -17,7 +17,7 @@ const configuration: Partial<IPluginConfigurationFull> = {
   sticky: true,
   shiftOnKeyDown: 2,
   shiftOnKeyHold: 2,
-  round: 1000000000000000,
+  round: 1000000,
 };
 
 describe('Should initialize slider instance with correct parameters', () => {
@@ -40,10 +40,13 @@ describe('Should initialize slider instance with correct parameters', () => {
     const {
       testModel,
       testController,
-    } = createInstance({}, [
-      { name: 'min', value: '-200' },
-      { name: 'max', value: '200' },
-    ]);
+    } = createInstance({
+      configuration: {},
+      dataAttributes: [
+        { name: 'min', value: '-200' },
+        { name: 'max', value: '200' },
+      ],
+    });
 
     const updateModel = jest.spyOn(testModel, 'update');
 

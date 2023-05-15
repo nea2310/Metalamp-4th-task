@@ -53,7 +53,7 @@ describe('Scale marks are created', () => {
   });
 
   test('Check resize when slider width after resize is smaller than slider width before resize', () => {
-    const { slider } = createInstance({}, [], 0, 0, 10, 1440);
+    const { slider } = createInstance({ sliderWidth: 1440 });
 
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
