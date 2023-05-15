@@ -170,9 +170,9 @@ class View extends Observer {
 
   private render() {
     this.slider = document.createElement('div');
-    this.slider.className = 'slider-metalamp__wrapper';
+    this.slider.className = 'slider-metalamp__wrapper js-slider-metalamp__wrapper';
     this.track = document.createElement('div');
-    this.track.className = 'slider-metalamp__track';
+    this.track.className = 'slider-metalamp__track js-slider-metalamp__track';
     this.slider.append(this.track);
     this.root.after(this.slider);
     this.collectParameters();

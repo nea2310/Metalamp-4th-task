@@ -55,13 +55,13 @@ class ViewControl extends Observer {
     return object.querySelector(selector);
   }
 
-  static renderControl(controlClassName: string, tipClassName: string, value: number) {
+  static renderControl(controlClassName: string[], tipClassName: string[], value: number) {
     const control = document.createElement('button');
     control.className = 'slider-metalamp__control';
-    control.classList.add(controlClassName);
+    controlClassName.forEach((item) => control.classList.add(item));
     const tip = document.createElement('span');
     tip.className = 'slider-metalamp__tip';
-    tip.classList.add(tipClassName);
+    tipClassName.forEach((item) => tip.classList.add(item));
     tip.innerText = String(value);
     control.append(tip);
     return control;
@@ -204,8 +204,8 @@ class ViewControl extends Observer {
     const controlType = isMinControl ? 'Min' : 'Max';
     const type = isMinControl ? 'from' : 'to';
     const control = ViewControl.renderControl(
-      `slider-metalamp__control-${controlType.toLowerCase()}`,
-      `slider-metalamp__tip-${controlType.toLowerCase()}`,
+      [`slider-metalamp__control-${controlType.toLowerCase()}`, `js-slider-metalamp__control-${controlType.toLowerCase()}`],
+      [`slider-metalamp__tip-${controlType.toLowerCase()}`, `js-slider-metalamp__tip-${controlType.toLowerCase()}`],
       this.configuration[type],
     );
 
