@@ -1,6 +1,3 @@
-/* eslint-disable no-return-assign */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-param-reassign */
 import { TPluginConfiguration } from './interface';
 import Model from './model/Model';
 import View from './view/View';
@@ -56,8 +53,6 @@ function mockKeyboardEvent(
   targetElement.dispatchEvent(keyboardEvent);
 }
 
-const getElement = (selector: string, wrapper: HTMLElement) => wrapper.querySelector(selector);
-
 const createInstance = (
   configuration: TPluginConfiguration = {
     min: 0,
@@ -80,20 +75,23 @@ const createInstance = (
   });
   document.body.appendChild(wrapper);
   wrapper.appendChild(parent);
+
+  const getElement = (selector: string) => wrapper.querySelector(`.js-slider-metalamp__${selector}`);
+
   const testModel = new Model();
   const testView = new View(parent);
   const testController = new Controller(testModel, testView, {});
 
   testController.update(configuration);
 
-  const slider = getElement('.slider-metalamp__wrapper', wrapper);
-  const controlMax = getElement('.slider-metalamp__control-max', wrapper);
-  const controlMin = getElement('.slider-metalamp__control-min', wrapper);
-  const tipMin = getElement('.slider-metalamp__tip-min', wrapper);
-  const tipMax = getElement('.slider-metalamp__tip-max', wrapper);
-  const track = getElement('.slider-metalamp__track', wrapper);
-  const bar = getElement('.slider-metalamp__progress-bar', wrapper);
-  const scaleMarks = wrapper.querySelectorAll('.slider-metalamp__mark');
+  const slider = getElement('wrapper');
+  const controlMax = getElement('control-max');
+  const controlMin = getElement('control-min');
+  const tipMin = getElement('tip-min');
+  const tipMax = getElement('tip-max');
+  const track = getElement('track');
+  const bar = getElement('progress-bar');
+  const scaleMarks = wrapper.querySelectorAll('.js-slider-metalamp__mark');
 
   if (slider) {
     slider.getBoundingClientRect = jest.fn(() => ({
@@ -118,6 +116,7 @@ const createInstance = (
   scaleMarks.forEach((item, index) => {
     const label = item.firstElementChild as HTMLElement;
     label.innerText = String(index);
+    // eslint-disable-next-line no-param-reassign
     item.getBoundingClientRect = jest.fn(() => ({
       width: scalemarkSize,
       height: scalemarkSize,
