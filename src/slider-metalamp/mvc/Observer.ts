@@ -16,20 +16,17 @@ export default abstract class Observer {
     const observersArray = this.observers.get(type);
     if (!observersArray) {
       this.observers.set(type, [observer]);
-      return;
-    }
-    if (!observersArray.includes(observer)) {
-      observersArray.push(observer);
     }
   }
 
   public unsubscribe(type: string, observer: Function) {
     const observersArray = this.observers.get(type);
-    if (!observersArray) return;
-    this.observers.set(
-      type,
-      observersArray.filter((item) => item !== observer),
-    );
+    if (observersArray) {
+      this.observers.set(
+        type,
+        observersArray.filter((item) => item !== observer),
+      );
+    }
   }
 
   protected notify(
